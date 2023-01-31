@@ -65,7 +65,6 @@ private:
 	int width;
 	int height;
 	HWND hWnd;
-	std::unique_ptr<Renderer> renderer;
 };
 
 

@@ -1,6 +1,18 @@
 #include "RenderApplication.h"
+#include <iostream>
 
-RenderApplication::RenderApplication() :wnd(800, 600, "Test") {}
+RenderApplication::RenderApplication(RendererOptions renderType) : wnd(1080, 600, "Render Application") {
+    switch (renderType) {
+        case RendererOptions::DirectX:
+            std::cout << "Making DirectX Renderer" << std::endl;
+            renderer = std::make_unique<DirectXRenderer>();
+            break;
+    }
+
+    renderer->Initialize(wnd.GetWindowHandle());
+
+}
+
 
 RenderApplication::~RenderApplication() {
 

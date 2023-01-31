@@ -137,6 +137,8 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="RenderApplication.h" />
     <ClInclude Include="Renderer.h" />
+    <ClInclude Include="Renderers.h" />
+    <ClInclude Include="DirectXMacros.h" />
     <ClInclude Include="Resource.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Window.h" />

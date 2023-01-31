@@ -48,7 +48,7 @@ Window::Window(int width, int height, const char* name) : width(width), height(h
 	hWnd = CreateWindow(
 		WindowClass::GetName(),
 		name,
-		WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU,
+		WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU | WS_THICKFRAME,
 		CW_USEDEFAULT, CW_USEDEFAULT,
 		wr.right - wr.left,
 		wr.bottom - wr.top,
