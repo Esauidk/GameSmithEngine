@@ -9,6 +9,8 @@ public:
 	// Returns a bool for successful initialization
 	virtual bool Initialize(HWND hWnd) = 0;
 
-	// Render: This is called to render a frame in the application
-	virtual void Render() = 0;
+	// StartFrame: This is called to start the render of a frame in the application
+	// EndFrame: This is called to end the rendering of a frame and usual present it to the screen
+	virtual void StartFrame() = 0;
+	virtual void EndFrame() = 0;
 };

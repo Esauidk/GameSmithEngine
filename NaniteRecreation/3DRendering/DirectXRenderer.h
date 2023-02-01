@@ -31,10 +31,11 @@ public:
 		std::string info;
 	};
 public:
-	DirectXRenderer();
+	DirectXRenderer(HWND hWnd);
 	~DirectXRenderer();
 	bool Initialize(HWND hWnd) override;
-	void Render() override;
+	void StartFrame() override;
+	void EndFrame() override;
 private:
 	// Debug Resources
 	Microsoft::WRL::ComPtr<ID3D12Debug> pDebug;
@@ -42,7 +43,24 @@ private:
 
 	// Core Resources
 	Microsoft::WRL::ComPtr<ID3D12Device> pDevice;
+	// This holds the two buffers we use for rendering (Presenting Buffer & Preparing Buffer)
+	Microsoft::WRL::ComPtr<IDXGISwapChain4> pSwapChain;
+
+	// Graphics Handlers
+	Microsoft::WRL::ComPtr<ID3D12Resource2> pBackBuffer;
+	D3D12_CPU_DESCRIPTOR_HANDLE targetHandler;
+	Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> pRTVHeapD;
+
+	// Command System
+	// 
+	// GPU Side
+	// This is the GPU side storage of the queues to execute, all commands planned to be execute wil be on this queue on the GPU
 	Microsoft::WRL::ComPtr<ID3D12CommandQueue> pCommandQueue;
-	Microsoft::WRL::ComPtr< IDXGISwapChain4> pSwapChain;
+	Microsoft::WRL::ComPtr<ID3D12Fence1> pFence;
+	// CPU Side
+	// This can be understood as the interface/API for command lists, it interaces with the memory backing command allocator
+	Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList2> pCommandList;
+	// This handles the allocation of space for commands in the command list, this is the real storage of commands
+	Microsoft::WRL::ComPtr<ID3D12CommandAllocator> pCommandAlloc;
 };
 

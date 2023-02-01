@@ -1,3 +1,4 @@
+#include "d3dx12.h"
 #include "DirectXRenderer.h"
 #include "DirectXMacros.h"
 #include <sstream>
@@ -7,7 +8,7 @@
 
 using namespace Microsoft::WRL;
 
-DirectXRenderer::DirectXRenderer() {
+DirectXRenderer::DirectXRenderer(HWND hWnd) {
 	// Create the Debug Layer (Allows debuging on the device)
 #if defined(_DEBUG)
 	RENDER_THROW(D3D12GetDebugInterface(IID_PPV_ARGS(&pDebug)));
@@ -31,24 +32,19 @@ DirectXRenderer::DirectXRenderer() {
 	pInfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING, TRUE);
 #endif
 
-	// Gets our command queue, is used to send commands to GPU (draw calls, copy call, compute calls)
-	D3D12_COMMAND_QUEUE_DESC desc = {};
-	desc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
-	desc.Priority = D3D12_COMMAND_QUEUE_PRIORITY_NORMAL;
-	desc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
-	desc.NodeMask = 0;
+	// Gets our command queue, is used to send commands to GPU (draw calls, copy call, compute calls) [Lives on GPU]
+	D3D12_COMMAND_QUEUE_DESC commandDesc = {};
+	commandDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
+	commandDesc.Priority = D3D12_COMMAND_QUEUE_PRIORITY_NORMAL;
+	commandDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
+	commandDesc.NodeMask = 0;
 
-	RENDER_THROW(pDevice->CreateCommandQueue(&desc, IID_PPV_ARGS(&pCommandQueue)));
+	RENDER_THROW(pDevice->CreateCommandQueue(&commandDesc, IID_PPV_ARGS(&pCommandQueue)));
 	
-};
-DirectXRenderer::~DirectXRenderer() {};
-
-bool DirectXRenderer::Initialize(HWND hWnd) {
 	/**********************************************/
 	// SWAP-CHAIN CREATION
 	/*********************************************/
 
-	ComPtr<IDXGISwapChain4> dxgiSwapChain4;
 	ComPtr<IDXGIFactory5> dxgiFactory5;
 
 	UINT createFactoryFlags = 0;
@@ -101,13 +97,88 @@ bool DirectXRenderer::Initialize(HWND hWnd) {
 		nullptr,
 		&dxgiSwapChain1));
 
+	// Disables auto-fullscreen (Alt-Enter)
 	RENDER_THROW(dxgiFactory5->MakeWindowAssociation(hWnd, DXGI_MWA_NO_ALT_ENTER));
+	// Upgrades swap chan to SwapChain4
 	RENDER_THROW(dxgiSwapChain1.As(&pSwapChain));
 
+	// Creates a heap of descriptors (going to be used to create the descriptor of the render target view)
+	D3D12_DESCRIPTOR_HEAP_DESC heapDesc = {};
+	heapDesc.NumDescriptors = 1;
+	heapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
+
+	RENDER_THROW(pDevice->CreateDescriptorHeap(&heapDesc, IID_PPV_ARGS(&pRTVHeapD)));
+
+	// Need size if you have more than one back buffer
+	//rtvSize = pDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+
+	// Gets descriptor for render target view
+	targetHandler = D3D12_CPU_DESCRIPTOR_HANDLE(pRTVHeapD->GetCPUDescriptorHandleForHeapStart());
+	
+	RENDER_THROW(pSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer)));
+
+	pDevice->CreateRenderTargetView(pBackBuffer.Get(), nullptr, targetHandler);
+
+	// Creates the command list, where commands live on the CPU side
+	RENDER_THROW(pDevice->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&pCommandAlloc)));
+
+	// Creates the command list for CPU
+	RENDER_THROW(pDevice->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, pCommandAlloc.Get(), nullptr, IID_PPV_ARGS(&pCommandList)));
+
+	RENDER_THROW(pCommandList->Close());
+
+	// Create Fence for the GPU to ensure synchronization
+	RENDER_THROW(pDevice->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&pFence)));
+
+	HANDLE fenceEvent;
+
+	fenceEvent = ::CreateEvent(NULL, FALSE, FALSE, NULL);
+	if (!fenceEvent) {
+		throw std::exception("Failed to create fence event");
+	}
+
+};
+DirectXRenderer::~DirectXRenderer() {};
+
+bool DirectXRenderer::Initialize(HWND hWnd) {
+	
 	return true;
 }
 
-void DirectXRenderer::Render() {
+void DirectXRenderer::StartFrame() {
+	// Resetting Command List and Allocator
+	pCommandAlloc->Reset();
+	pCommandList->Reset(pCommandAlloc.Get(), nullptr);
+
+	// Reseting Render Target
+	CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
+		pBackBuffer.Get(),
+		D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET
+	);
+
+	// Add command to transition the render target
+	pCommandList->ResourceBarrier(1, &barrier);
+
+	const float color[] = { 0.07f, 0.0f, 0.12f, 1 };
+	pCommandList->ClearRenderTargetView(targetHandler, color, 0, nullptr);
+}
+
+void DirectXRenderer::EndFrame() {
+	// Present Render Target
+	CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
+		pBackBuffer.Get(),
+		D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT
+	);
+
+	// Add command to transition the render target
+	pCommandList->ResourceBarrier(1, &barrier);
+
+	RENDER_THROW(pCommandList->Close());
+
+	ID3D12CommandList* const commandLists[] = { pCommandList.Get() };
+	pCommandQueue->ExecuteCommandLists(_countof(commandLists), commandLists);
+
+	RENDER_THROW(pSwapChain->Present(0, 0));
 }
 
 DirectXRenderer::HrException::HrException(int line, const char* file, HRESULT hr, std::vector<std::string> infoMsgs) noexcept : Exception(line, file), hr(hr) {

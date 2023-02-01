@@ -1,11 +1,11 @@
 #include "RenderApplication.h"
 #include <iostream>
 
-RenderApplication::RenderApplication(RendererOptions renderType) : wnd(1080, 600, "Render Application") {
+RenderApplication::RenderApplication(RendererOptions renderType) : wnd(1080, 600, "Render Application"), timer() {
     switch (renderType) {
         case RendererOptions::DirectX:
             std::cout << "Making DirectX Renderer" << std::endl;
-            renderer = std::make_unique<DirectXRenderer>();
+            renderer = std::make_unique<DirectXRenderer>(wnd.GetWindowHandle());
             break;
     }
 
@@ -23,5 +23,14 @@ int RenderApplication::Execute() {
         if (const auto ecode = Window::ProcessMessages()) {
             return *ecode;
         }
+
+        Tick();
     }
+}
+
+void RenderApplication::Tick() {
+    auto dt = timer.Mark();
+    renderer->StartFrame();
+    renderer->EndFrame();
+    throw std::exception("Ran one loop, synchronization issues");
 }

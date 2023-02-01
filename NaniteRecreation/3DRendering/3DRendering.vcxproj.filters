@@ -31,6 +31,18 @@
     <Filter Include="Source Files\Application\GUI">
       <UniqueIdentifier>{f2a36d28-1a98-4fab-bbff-5f28b0a8e7f1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Rendering\DirectX">
+      <UniqueIdentifier>{8f946aed-175f-4b90-ac0a-b274785590d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Rendering\DirectX">
+      <UniqueIdentifier>{b3c68d67-0b3b-4f7f-85ac-956685ddb86a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Util">
+      <UniqueIdentifier>{c00e1205-0c82-446f-a78c-1a121f462603}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Util\DirectXUtils">
+      <UniqueIdentifier>{e7b82390-8f8a-47dc-8b3f-1341e6fcae62}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -47,9 +59,6 @@
     </ClInclude>
     <ClInclude Include="MainException.h">
       <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="DirectXRenderer.h">
-      <Filter>Header Files\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="Renderer.h">
       <Filter>Header Files\Rendering</Filter>
@@ -72,8 +81,17 @@
     <ClInclude Include="RenderApplication.h">
       <Filter>Header Files\Application</Filter>
     </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Header Files\Application\GUI</Filter>
+    </ClInclude>
     <ClInclude Include="DirectXMacros.h">
-      <Filter>Header Files\Rendering</Filter>
+      <Filter>Header Files\Rendering\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="DirectXRenderer.h">
+      <Filter>Header Files\Rendering\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="d3dx12.h">
+      <Filter>Header Files\Util\DirectXUtils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -82,9 +100,6 @@
     </ClCompile>
     <ClCompile Include="MainException.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="DirectXRenderer.cpp">
-      <Filter>Source Files\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="Keyboard.cpp">
       <Filter>Source Files\Application\GUI</Filter>
@@ -97,6 +112,12 @@
     </ClCompile>
     <ClCompile Include="RenderApplication.cpp">
       <Filter>Source Files\Application</Filter>
+    </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Source Files\Application\GUI</Filter>
+    </ClCompile>
+    <ClCompile Include="DirectXRenderer.cpp">
+      <Filter>Source Files\Rendering\DirectX</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
