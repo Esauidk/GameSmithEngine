@@ -32,5 +32,4 @@ void RenderApplication::Tick() {
     auto dt = timer.Mark();
     renderer->StartFrame();
     renderer->EndFrame();
-    throw std::exception("Ran one loop, synchronization issues");
 }

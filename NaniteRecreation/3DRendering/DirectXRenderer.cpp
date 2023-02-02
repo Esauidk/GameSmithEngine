@@ -1,12 +1,14 @@
 #include "d3dx12.h"
 #include "DirectXRenderer.h"
 #include "DirectXMacros.h"
+#include <chrono>
 #include <sstream>
 
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxgi.lib")
 
 using namespace Microsoft::WRL;
+
 
 DirectXRenderer::DirectXRenderer(HWND hWnd) {
 	// Create the Debug Layer (Allows debuging on the device)
@@ -104,20 +106,23 @@ DirectXRenderer::DirectXRenderer(HWND hWnd) {
 
 	// Creates a heap of descriptors (going to be used to create the descriptor of the render target view)
 	D3D12_DESCRIPTOR_HEAP_DESC heapDesc = {};
-	heapDesc.NumDescriptors = 1;
+	heapDesc.NumDescriptors = 2;
 	heapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
 
 	RENDER_THROW(pDevice->CreateDescriptorHeap(&heapDesc, IID_PPV_ARGS(&pRTVHeapD)));
 
-	// Need size if you have more than one back buffer
-	//rtvSize = pDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+	UINT rtvSize = pDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 
 	// Gets descriptor for render target view
-	targetHandler = D3D12_CPU_DESCRIPTOR_HANDLE(pRTVHeapD->GetCPUDescriptorHandleForHeapStart());
+	CD3DX12_CPU_DESCRIPTOR_HANDLE targetHandler = CD3DX12_CPU_DESCRIPTOR_HANDLE(pRTVHeapD->GetCPUDescriptorHandleForHeapStart());
 	
-	RENDER_THROW(pSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer)));
+	for (int i = 0; i < 2; i++) {
+		RENDER_THROW(pSwapChain->GetBuffer(i, IID_PPV_ARGS(&pBackBuffer)));
+		pDevice->CreateRenderTargetView(pBackBuffer.Get(), nullptr, targetHandler);
+		targetHandler.Offset(rtvSize);
+	}
 
-	pDevice->CreateRenderTargetView(pBackBuffer.Get(), nullptr, targetHandler);
+	RENDER_THROW(pSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer)));
 
 	// Creates the command list, where commands live on the CPU side
 	RENDER_THROW(pDevice->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&pCommandAlloc)));
@@ -129,8 +134,7 @@ DirectXRenderer::DirectXRenderer(HWND hWnd) {
 
 	// Create Fence for the GPU to ensure synchronization
 	RENDER_THROW(pDevice->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&pFence)));
-
-	HANDLE fenceEvent;
+	fenceValue = 0;
 
 	fenceEvent = ::CreateEvent(NULL, FALSE, FALSE, NULL);
 	if (!fenceEvent) {
@@ -158,7 +162,8 @@ void DirectXRenderer::StartFrame() {
 
 	// Add command to transition the render target
 	pCommandList->ResourceBarrier(1, &barrier);
-
+	UINT index = pSwapChain->GetCurrentBackBufferIndex();
+	CD3DX12_CPU_DESCRIPTOR_HANDLE targetHandler(pRTVHeapD->GetCPUDescriptorHandleForHeapStart(), pSwapChain->GetCurrentBackBufferIndex(), pDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
 	const float color[] = { 0.07f, 0.0f, 0.12f, 1 };
 	pCommandList->ClearRenderTargetView(targetHandler, color, 0, nullptr);
 }
@@ -179,6 +184,22 @@ void DirectXRenderer::EndFrame() {
 	pCommandQueue->ExecuteCommandLists(_countof(commandLists), commandLists);
 
 	RENDER_THROW(pSwapChain->Present(0, 0));
+	SignalFence();
+	pSwapChain->GetBuffer(pSwapChain->GetCurrentBackBufferIndex(), IID_PPV_ARGS(&pBackBuffer));
+	WaitForFence();
+}
+
+void DirectXRenderer::SignalFence() {
+	fenceValue++;
+	RENDER_THROW(pCommandQueue->Signal(pFence.Get(), fenceValue));
+}
+
+void DirectXRenderer::WaitForFence() {
+
+	if (pFence->GetCompletedValue() < fenceValue) {
+		RENDER_THROW(pFence->SetEventOnCompletion(fenceValue, fenceEvent));
+		::WaitForSingleObject(fenceEvent, (std::chrono::milliseconds::max)().count());
+	}
 }
 
 DirectXRenderer::HrException::HrException(int line, const char* file, HRESULT hr, std::vector<std::string> infoMsgs) noexcept : Exception(line, file), hr(hr) {
