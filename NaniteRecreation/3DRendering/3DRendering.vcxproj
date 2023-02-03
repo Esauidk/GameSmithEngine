@@ -129,6 +129,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="DirectXCommandQueue.h" />
     <ClInclude Include="d3dx12.h" />
     <ClInclude Include="Keyboard.h" />
     <ClInclude Include="MainException.h" />
@@ -147,6 +148,7 @@
     <ClInclude Include="WindowMacros.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DirectXCommandQueue.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="MainException.cpp" />
     <ClCompile Include="Mouse.cpp" />

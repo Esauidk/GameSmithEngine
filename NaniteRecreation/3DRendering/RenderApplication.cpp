@@ -1,6 +1,8 @@
 #include "RenderApplication.h"
 #include <iostream>
 
+using namespace Render;
+
 RenderApplication::RenderApplication(RendererOptions renderType) : wnd(1080, 600, "Render Application"), timer() {
     switch (renderType) {
         case RendererOptions::DirectX:
@@ -31,5 +33,6 @@ int RenderApplication::Execute() {
 void RenderApplication::Tick() {
     auto dt = timer.Mark();
     renderer->StartFrame();
+    //renderer->DrawObject();
     renderer->EndFrame();
 }

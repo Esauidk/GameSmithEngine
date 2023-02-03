@@ -1,16 +1,19 @@
 #include "d3dx12.h"
 #include "DirectXRenderer.h"
 #include "DirectXMacros.h"
+#include <DirectXMath.h>
 #include <chrono>
 #include <sstream>
 
 #pragma comment(lib, "d3d12.lib")
+#pragma comment(lib, "dxguid.lib")
 #pragma comment(lib, "dxgi.lib")
 
 using namespace Microsoft::WRL;
+using namespace Render;
 
 
-DirectXRenderer::DirectXRenderer(HWND hWnd) {
+DirectXRenderer::DirectXRenderer(HWND hWnd){
 	// Create the Debug Layer (Allows debuging on the device)
 #if defined(_DEBUG)
 	RENDER_THROW(D3D12GetDebugInterface(IID_PPV_ARGS(&pDebug)));
@@ -34,14 +37,16 @@ DirectXRenderer::DirectXRenderer(HWND hWnd) {
 	pInfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING, TRUE);
 #endif
 
-	// Gets our command queue, is used to send commands to GPU (draw calls, copy call, compute calls) [Lives on GPU]
+	queue = DirectXCommandQueue(pDevice, D3D12_COMMAND_LIST_TYPE_DIRECT);
+
+	/*// Gets our command queue, is used to send commands to GPU (draw calls, copy call, compute calls) [Lives on GPU]
 	D3D12_COMMAND_QUEUE_DESC commandDesc = {};
 	commandDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
 	commandDesc.Priority = D3D12_COMMAND_QUEUE_PRIORITY_NORMAL;
 	commandDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
 	commandDesc.NodeMask = 0;
 
-	RENDER_THROW(pDevice->CreateCommandQueue(&commandDesc, IID_PPV_ARGS(&pCommandQueue)));
+	RENDER_THROW(pDevice->CreateCommandQueue(&commandDesc, IID_PPV_ARGS(&pCommandQueue)));*/
 	
 	/**********************************************/
 	// SWAP-CHAIN CREATION
@@ -92,7 +97,7 @@ DirectXRenderer::DirectXRenderer(HWND hWnd) {
 
 	// Create OS tied Swap-Chain
 	RENDER_THROW(dxgiFactory5->CreateSwapChainForHwnd(
-		pCommandQueue.Get(),
+		queue.GetCommandQueue().Get(),
 		hWnd,
 		&swapChainDesc,
 		nullptr,
@@ -104,7 +109,7 @@ DirectXRenderer::DirectXRenderer(HWND hWnd) {
 	// Upgrades swap chan to SwapChain4
 	RENDER_THROW(dxgiSwapChain1.As(&pSwapChain));
 
-	// Creates a heap of descriptors (going to be used to create the descriptor of the render target view)
+	// Describe a heap of descriptors (Need one for each back buffer since they will have their own target render views)
 	D3D12_DESCRIPTOR_HEAP_DESC heapDesc = {};
 	heapDesc.NumDescriptors = 2;
 	heapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
@@ -116,6 +121,7 @@ DirectXRenderer::DirectXRenderer(HWND hWnd) {
 	// Gets descriptor for render target view
 	CD3DX12_CPU_DESCRIPTOR_HANDLE targetHandler = CD3DX12_CPU_DESCRIPTOR_HANDLE(pRTVHeapD->GetCPUDescriptorHandleForHeapStart());
 	
+	// Assign target views to buffers and their place in the heap
 	for (int i = 0; i < 2; i++) {
 		RENDER_THROW(pSwapChain->GetBuffer(i, IID_PPV_ARGS(&pBackBuffer)));
 		pDevice->CreateRenderTargetView(pBackBuffer.Get(), nullptr, targetHandler);
@@ -123,23 +129,6 @@ DirectXRenderer::DirectXRenderer(HWND hWnd) {
 	}
 
 	RENDER_THROW(pSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer)));
-
-	// Creates the command list, where commands live on the CPU side
-	RENDER_THROW(pDevice->CreateCommandAllocator(D3D12_COMMAND_LIST_TYPE_DIRECT, IID_PPV_ARGS(&pCommandAlloc)));
-
-	// Creates the command list for CPU
-	RENDER_THROW(pDevice->CreateCommandList(0, D3D12_COMMAND_LIST_TYPE_DIRECT, pCommandAlloc.Get(), nullptr, IID_PPV_ARGS(&pCommandList)));
-
-	RENDER_THROW(pCommandList->Close());
-
-	// Create Fence for the GPU to ensure synchronization
-	RENDER_THROW(pDevice->CreateFence(0, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&pFence)));
-	fenceValue = 0;
-
-	fenceEvent = ::CreateEvent(NULL, FALSE, FALSE, NULL);
-	if (!fenceEvent) {
-		throw std::exception("Failed to create fence event");
-	}
 
 };
 DirectXRenderer::~DirectXRenderer() {};
@@ -150,22 +139,21 @@ bool DirectXRenderer::Initialize(HWND hWnd) {
 }
 
 void DirectXRenderer::StartFrame() {
-	// Resetting Command List and Allocator
-	pCommandAlloc->Reset();
-	pCommandList->Reset(pCommandAlloc.Get(), nullptr);
-
 	// Reseting Render Target
 	CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
 		pBackBuffer.Get(),
 		D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET
 	);
-
+	ComPtr<ID3D12GraphicsCommandList6> list = queue.GetCommandList();
 	// Add command to transition the render target
-	pCommandList->ResourceBarrier(1, &barrier);
+	list->ResourceBarrier(1, &barrier);
 	UINT index = pSwapChain->GetCurrentBackBufferIndex();
 	CD3DX12_CPU_DESCRIPTOR_HANDLE targetHandler(pRTVHeapD->GetCPUDescriptorHandleForHeapStart(), pSwapChain->GetCurrentBackBufferIndex(), pDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
 	const float color[] = { 0.07f, 0.0f, 0.12f, 1 };
-	pCommandList->ClearRenderTargetView(targetHandler, color, 0, nullptr);
+	list->ClearRenderTargetView(targetHandler, color, 0, nullptr);
+	UINT value = queue.ExecuteCommandList(list);
+	queue.WaitForFenceValue(value);
+
 }
 
 void DirectXRenderer::EndFrame() {
@@ -174,32 +162,63 @@ void DirectXRenderer::EndFrame() {
 		pBackBuffer.Get(),
 		D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT
 	);
-
+	ComPtr<ID3D12GraphicsCommandList6> list = queue.GetCommandList();
 	// Add command to transition the render target
-	pCommandList->ResourceBarrier(1, &barrier);
-
-	RENDER_THROW(pCommandList->Close());
-
-	ID3D12CommandList* const commandLists[] = { pCommandList.Get() };
-	pCommandQueue->ExecuteCommandLists(_countof(commandLists), commandLists);
+	list->ResourceBarrier(1, &barrier);
+	
+	UINT value = queue.ExecuteCommandList(list);
 
 	RENDER_THROW(pSwapChain->Present(0, 0));
-	SignalFence();
+	
 	pSwapChain->GetBuffer(pSwapChain->GetCurrentBackBufferIndex(), IID_PPV_ARGS(&pBackBuffer));
-	WaitForFence();
+	queue.WaitForFenceValue(value);
 }
 
-void DirectXRenderer::SignalFence() {
-	fenceValue++;
-	RENDER_THROW(pCommandQueue->Signal(pFence.Get(), fenceValue));
-}
+void DirectXRenderer::DrawObject() {
+	struct Vertex {
+		DirectX::XMFLOAT3 pos;
+		DirectX::XMFLOAT3 color;
+	};
 
-void DirectXRenderer::WaitForFence() {
+	Vertex cubeVertex[] = {
+		{DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f), DirectX::XMFLOAT3(1.0f, 1.0f, 1.0f)}
+	};
 
-	if (pFence->GetCompletedValue() < fenceValue) {
-		RENDER_THROW(pFence->SetEventOnCompletion(fenceValue, fenceEvent));
-		::WaitForSingleObject(fenceEvent, (std::chrono::milliseconds::max)().count());
-	}
+	const UINT vertexBufferSize = sizeof(cubeVertex);
+
+	CD3DX12_HEAP_PROPERTIES defaultHeapProperties(D3D12_HEAP_TYPE_DEFAULT);
+	CD3DX12_HEAP_PROPERTIES uploadHeapProperties(D3D12_HEAP_TYPE_UPLOAD);
+	CD3DX12_RESOURCE_DESC vertexBufferDesc = CD3DX12_RESOURCE_DESC::Buffer(vertexBufferSize);
+	ComPtr<ID3D12Resource2> pVertexBuffer;
+	ComPtr<ID3D12Resource2> pUploadVertexBuffer;
+
+	RENDER_THROW(pDevice->CreateCommittedResource(
+		&defaultHeapProperties,
+		D3D12_HEAP_FLAG_NONE,
+		&vertexBufferDesc,
+		D3D12_RESOURCE_STATE_COPY_DEST,
+		nullptr,
+		IID_PPV_ARGS(&pVertexBuffer)
+	));
+
+	RENDER_THROW(pDevice->CreateCommittedResource(
+		&uploadHeapProperties,
+		D3D12_HEAP_FLAG_NONE,
+		&vertexBufferDesc,
+		D3D12_RESOURCE_STATE_GENERIC_READ,
+		nullptr,
+		IID_PPV_ARGS(&pUploadVertexBuffer)
+	));
+
+	D3D12_SUBRESOURCE_DATA vertexData = {};
+	vertexData.pData = reinterpret_cast<BYTE*>(cubeVertex);
+	vertexData.RowPitch = vertexBufferSize;
+	vertexData.SlicePitch = vertexData.RowPitch;
+
+	UpdateSubresources(queue.GetCommandList().Get(), pVertexBuffer.Get(), pUploadVertexBuffer.Get(), 0, 0, 1, &vertexData);
+
+	resources.push_back(pVertexBuffer);
+	resources.push_back(pUploadVertexBuffer);
 }
 
 DirectXRenderer::HrException::HrException(int line, const char* file, HRESULT hr, std::vector<std::string> infoMsgs) noexcept : Exception(line, file), hr(hr) {

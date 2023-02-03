@@ -13,4 +13,7 @@ public:
 	// EndFrame: This is called to end the rendering of a frame and usual present it to the screen
 	virtual void StartFrame() = 0;
 	virtual void EndFrame() = 0;
+
+	// Draws an object to the screen (TODO: Add parameters to fully define)
+	virtual void DrawObject() = 0;
 };
