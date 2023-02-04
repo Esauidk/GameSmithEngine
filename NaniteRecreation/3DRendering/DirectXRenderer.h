@@ -54,27 +54,8 @@ namespace Render {
 		Microsoft::WRL::ComPtr<ID3D12Resource2> pBackBuffer;
 		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> pRTVHeapD;
 
-
+		// The command queue for the renderer
 		DirectXCommandQueue queue;
-		/*
-		// Command System
-		// 
-		// GPU Side
-		// This is the GPU side storage of the queues to execute, all commands planned to be execute wil be on this queue on the GPU
-		Microsoft::WRL::ComPtr<ID3D12CommandQueue> pCommandQueue;
-
-		// CPU Side
-		// This can be understood as the interface/API for command lists, it interaces with the memory backing command allocator
-		Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> pCommandList;
-		// This handles the allocation of space for commands in the command list, this is the real storage of commands
-		Microsoft::WRL::ComPtr<ID3D12CommandAllocator> pCommandAlloc;
-
-		// Synchronization Fields (Fence)
-		Microsoft::WRL::ComPtr<ID3D12Fence1> pFence;
-		UINT fenceValue;
-		HANDLE fenceEvent;*/
-
-		std::vector<Microsoft::WRL::ComPtr<ID3D12Resource2>> resources;
 	};
 };
 

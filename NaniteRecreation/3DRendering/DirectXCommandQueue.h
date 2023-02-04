@@ -4,6 +4,19 @@
 #include <queue>
 
 namespace Render {
+	/* 
+	DirectXCommandQueue: An abstraction of the command system from DirectX12, synchronize compatible
+	Description: Handles overhead involving command queue's and their respective commandlist and allocators
+
+	Command System 
+		GPU Side
+		Command Queue: This is the GPU side storage of the queues to execute, all commands planned to be execute wil be on this queue on the GPU
+
+		CPU Side
+		Command List: This can be understood as the interface/API for command lists, it interaces with the memory backing command allocator
+		Command Allocator: This handles the allocation of space for commands in the command list, this is the real storage of commands
+
+	*/ 
 	class DirectXCommandQueue
 	{
 	public:

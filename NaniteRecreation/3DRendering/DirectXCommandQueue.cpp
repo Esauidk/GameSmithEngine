@@ -102,6 +102,7 @@ UINT DirectXCommandQueue::ExecuteCommandList(ComPtr<ID3D12GraphicsCommandList6> 
 UINT DirectXCommandQueue::Signal() {
 	fenceValue++;
 	RENDER_THROW(pQueue->Signal(pFence.Get(), fenceValue));
+	return fenceValue;
 }
 
 bool DirectXCommandQueue::IsFenceComplete(UINT fenceValue) {

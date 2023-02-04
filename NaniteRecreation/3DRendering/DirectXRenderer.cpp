@@ -167,11 +167,12 @@ void DirectXRenderer::EndFrame() {
 	list->ResourceBarrier(1, &barrier);
 	
 	UINT value = queue.ExecuteCommandList(list);
+	queue.WaitForFenceValue(value);
 
 	RENDER_THROW(pSwapChain->Present(0, 0));
 	
 	pSwapChain->GetBuffer(pSwapChain->GetCurrentBackBufferIndex(), IID_PPV_ARGS(&pBackBuffer));
-	queue.WaitForFenceValue(value);
+	
 }
 
 void DirectXRenderer::DrawObject() {
