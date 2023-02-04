@@ -56,6 +56,8 @@ namespace Render {
 
 		// The command queue for the renderer
 		DirectXCommandQueue queue;
+		
+		std::vector<Microsoft::WRL::ComPtr<ID3D12Resource2>> resources;
 	};
 };
 
