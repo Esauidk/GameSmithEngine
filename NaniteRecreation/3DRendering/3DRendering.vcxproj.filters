@@ -142,4 +142,7 @@
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>
+  <ItemGroup>
+    <Text Include="Journal.txt" />
+  </ItemGroup>
 </Project>

@@ -1,0 +1,18 @@
+2/4/2023
+Need to setup a bindable system for different resources (like the system from Chilli). This needs to be renderer-agnostic
+
+Will be working with already made and formatted models (donut model for example)
+
+Idea:
+Every render is given a ModelImport function. It will take in the model in question and translate it for its specific framework
+
+DirectX Bindable System:
+Make classes for resources that can be binded:
+	- Vertex Buffer
+	- Index Buffer
+	- Vertex Shader
+	- Pixel Shader
+	- Topology
+	- Constant Buffer
+
+We also need a class to represent a translation of a model to hold all the bindables
