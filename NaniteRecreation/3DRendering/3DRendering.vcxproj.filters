@@ -43,6 +43,9 @@
     <Filter Include="Header Files\Util\DirectXUtils">
       <UniqueIdentifier>{e7b82390-8f8a-47dc-8b3f-1341e6fcae62}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Rendering\DirectX\Resources">
+      <UniqueIdentifier>{d583c8be-65d6-4a26-989b-d24f7b661056}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -95,6 +98,12 @@
     </ClInclude>
     <ClInclude Include="DirectXCommandQueue.h">
       <Filter>Header Files\Rendering\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="BindableResource.h">
+      <Filter>Header Files\Rendering\DirectX\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="VertexBuffer.h">
+      <Filter>Header Files\Rendering\DirectX\Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

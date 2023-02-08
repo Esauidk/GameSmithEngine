@@ -129,6 +129,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="BindableResource.h" />
+    <ClInclude Include="VertexBuffer.h" />
     <ClInclude Include="DirectXCommandQueue.h" />
     <ClInclude Include="d3dx12.h" />
     <ClInclude Include="Keyboard.h" />

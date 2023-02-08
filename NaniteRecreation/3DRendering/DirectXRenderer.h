@@ -6,8 +6,14 @@
 #include <d3d12.h>
 #include <dxgi1_6.h>
 #include <wrl.h>
+#include <DirectXMath.h>
+#include "BindableResource.h"
 
 namespace Render {
+	struct Vertex {
+		DirectX::XMFLOAT3 pos;
+		DirectX::XMFLOAT3 color;
+	};
 
 	class DirectXRenderer : public Renderer
 	{
@@ -35,7 +41,7 @@ namespace Render {
 		};
 	public:
 		DirectXRenderer(HWND hWnd);
-		~DirectXRenderer();
+		~DirectXRenderer() = default;
 		bool Initialize(HWND hWnd) override;
 		void StartFrame() override;
 		void EndFrame() override;
@@ -57,7 +63,8 @@ namespace Render {
 		// The command queue for the renderer
 		DirectXCommandQueue queue;
 		
-		std::vector<Microsoft::WRL::ComPtr<ID3D12Resource2>> resources;
+		// Test Buffer
+		BindableResource *buffer;
 	};
 };
 

@@ -23,7 +23,7 @@ namespace Render {
 		DirectXCommandQueue(Microsoft::WRL::ComPtr<ID3D12Device8> device, D3D12_COMMAND_LIST_TYPE type);
 		DirectXCommandQueue();
 
-		virtual ~DirectXCommandQueue();
+		virtual ~DirectXCommandQueue() = default;
 
 		Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> GetCommandList();
 

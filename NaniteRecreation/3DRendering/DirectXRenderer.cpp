@@ -1,7 +1,8 @@
 #include "d3dx12.h"
 #include "DirectXRenderer.h"
 #include "DirectXMacros.h"
-#include <DirectXMath.h>
+#include "VertexBuffer.h"
+
 #include <chrono>
 #include <sstream>
 
@@ -13,7 +14,7 @@ using namespace Microsoft::WRL;
 using namespace Render;
 
 
-DirectXRenderer::DirectXRenderer(HWND hWnd){
+DirectXRenderer::DirectXRenderer(HWND hWnd): buffer(nullptr){
 	// Create the Debug Layer (Allows debuging on the device)
 #if defined(_DEBUG)
 	RENDER_THROW(D3D12GetDebugInterface(IID_PPV_ARGS(&pDebug)));
@@ -131,7 +132,6 @@ DirectXRenderer::DirectXRenderer(HWND hWnd){
 	RENDER_THROW(pSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer)));
 
 };
-DirectXRenderer::~DirectXRenderer() {};
 
 bool DirectXRenderer::Initialize(HWND hWnd) {
 	
@@ -176,10 +176,6 @@ void DirectXRenderer::EndFrame() {
 }
 
 void DirectXRenderer::DrawObject() {
-	struct Vertex {
-		DirectX::XMFLOAT3 pos;
-		DirectX::XMFLOAT3 color;
-	};
 
 	Vertex cubeVertex[] = {
 		{DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f), DirectX::XMFLOAT3(1.0f, 1.0f, 1.0f)}
@@ -187,39 +183,9 @@ void DirectXRenderer::DrawObject() {
 
 	const UINT vertexBufferSize = sizeof(cubeVertex);
 
-	CD3DX12_HEAP_PROPERTIES defaultHeapProperties(D3D12_HEAP_TYPE_DEFAULT);
-	CD3DX12_HEAP_PROPERTIES uploadHeapProperties(D3D12_HEAP_TYPE_UPLOAD);
-	CD3DX12_RESOURCE_DESC vertexBufferDesc = CD3DX12_RESOURCE_DESC::Buffer(vertexBufferSize);
-	ComPtr<ID3D12Resource2> pVertexBuffer;
-	ComPtr<ID3D12Resource2> pUploadVertexBuffer;
-
-	RENDER_THROW(pDevice->CreateCommittedResource(
-		&defaultHeapProperties,
-		D3D12_HEAP_FLAG_NONE,
-		&vertexBufferDesc,
-		D3D12_RESOURCE_STATE_COPY_DEST,
-		nullptr,
-		IID_PPV_ARGS(&pVertexBuffer)
-	));
-
-	RENDER_THROW(pDevice->CreateCommittedResource(
-		&uploadHeapProperties,
-		D3D12_HEAP_FLAG_NONE,
-		&vertexBufferDesc,
-		D3D12_RESOURCE_STATE_GENERIC_READ,
-		nullptr,
-		IID_PPV_ARGS(&pUploadVertexBuffer)
-	));
-
-	D3D12_SUBRESOURCE_DATA vertexData = {};
-	vertexData.pData = reinterpret_cast<BYTE*>(cubeVertex);
-	vertexData.RowPitch = vertexBufferSize;
-	vertexData.SlicePitch = vertexData.RowPitch;
-
-	UpdateSubresources(queue.GetCommandList().Get(), pVertexBuffer.Get(), pUploadVertexBuffer.Get(), 0, 0, 1, &vertexData);
-
-	resources.push_back(pVertexBuffer);
-	resources.push_back(pUploadVertexBuffer);
+	// Test Code
+	//buffer = new VertexBuffer<Vertex>(pDevice, queue.GetCommandList(), cubeVertex, vertexBufferSize);
+	
 }
 
 DirectXRenderer::HrException::HrException(int line, const char* file, HRESULT hr, std::vector<std::string> infoMsgs) noexcept : Exception(line, file), hr(hr) {

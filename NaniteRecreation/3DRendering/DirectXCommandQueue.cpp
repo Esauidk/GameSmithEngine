@@ -28,7 +28,6 @@ DirectXCommandQueue::DirectXCommandQueue(ComPtr<ID3D12Device8> device, D3D12_COM
 }
 
 DirectXCommandQueue::DirectXCommandQueue() {}
-DirectXCommandQueue::~DirectXCommandQueue() {}
 
 ComPtr<ID3D12CommandAllocator> DirectXCommandQueue::CreateCommandAllocator() {
 	ComPtr<ID3D12CommandAllocator> commandAllocator;
