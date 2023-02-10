@@ -14,6 +14,9 @@ public:
 	virtual void StartFrame() = 0;
 	virtual void EndFrame() = 0;
 
+	// Create an object in the scene
+	virtual void CreateObject() = 0;
+
 	// Draws an object to the screen (TODO: Add parameters to fully define)
 	virtual void DrawObject() = 0;
 };

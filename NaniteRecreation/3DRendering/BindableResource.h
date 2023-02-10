@@ -1,5 +1,5 @@
 #pragma once
-#include "DirectXRenderer.h"
+
 class BindableResource {
 public:
 	virtual void Bind() = 0;

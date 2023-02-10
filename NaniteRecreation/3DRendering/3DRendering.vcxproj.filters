@@ -46,6 +46,9 @@
     <Filter Include="Header Files\Rendering\DirectX\Resources">
       <UniqueIdentifier>{d583c8be-65d6-4a26-989b-d24f7b661056}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Rendering\DirectX\Resources">
+      <UniqueIdentifier>{4f7d0c62-a8b5-44ff-a29d-148871792121}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -102,8 +105,17 @@
     <ClInclude Include="BindableResource.h">
       <Filter>Header Files\Rendering\DirectX\Resources</Filter>
     </ClInclude>
+    <ClInclude Include="Buffer.h">
+      <Filter>Header Files\Rendering\DirectX\Resources</Filter>
+    </ClInclude>
     <ClInclude Include="VertexBuffer.h">
       <Filter>Header Files\Rendering\DirectX\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="IndexBuffer.h">
+      <Filter>Header Files\Rendering\DirectX\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderExceptions.h">
+      <Filter>Header Files\Rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -122,9 +134,6 @@
     <ClCompile Include="Window.cpp">
       <Filter>Source Files\Application\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="RenderApplication.cpp">
-      <Filter>Source Files\Application</Filter>
-    </ClCompile>
     <ClCompile Include="Timer.cpp">
       <Filter>Source Files\Application\GUI</Filter>
     </ClCompile>
@@ -133,6 +142,15 @@
     </ClCompile>
     <ClCompile Include="DirectXCommandQueue.cpp">
       <Filter>Source Files\Rendering\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderApplication.cpp">
+      <Filter>Source Files\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="IndexBuffer.cpp">
+      <Filter>Source Files\Rendering\DirectX\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderExceptions.cpp">
+      <Filter>Source Files\Rendering</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

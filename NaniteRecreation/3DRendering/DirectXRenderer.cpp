@@ -1,10 +1,11 @@
 #include "d3dx12.h"
 #include "DirectXRenderer.h"
 #include "DirectXMacros.h"
+// Temporary Includes (Remove Vertex and Index)
 #include "VertexBuffer.h"
+#include "IndexBuffer.h"
 
 #include <chrono>
-#include <sstream>
 
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxguid.lib")
@@ -111,11 +112,11 @@ DirectXRenderer::DirectXRenderer(HWND hWnd): buffer(nullptr){
 	RENDER_THROW(dxgiSwapChain1.As(&pSwapChain));
 
 	// Describe a heap of descriptors (Need one for each back buffer since they will have their own target render views)
-	D3D12_DESCRIPTOR_HEAP_DESC heapDesc = {};
-	heapDesc.NumDescriptors = 2;
-	heapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
+	D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc = {};
+	rtvHeapDesc.NumDescriptors = 2;
+	rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
 
-	RENDER_THROW(pDevice->CreateDescriptorHeap(&heapDesc, IID_PPV_ARGS(&pRTVHeapD)));
+	RENDER_THROW(pDevice->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&pRTVHeapD)));
 
 	UINT rtvSize = pDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 
@@ -130,6 +131,12 @@ DirectXRenderer::DirectXRenderer(HWND hWnd): buffer(nullptr){
 	}
 
 	RENDER_THROW(pSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer)));
+
+	D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc = {};
+	dsvHeapDesc.NumDescriptors = 1;
+	dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
+	dsvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
+	RENDER_THROW(pDevice->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&pDSVHeapD)));
 
 };
 
@@ -175,58 +182,24 @@ void DirectXRenderer::EndFrame() {
 	
 }
 
-void DirectXRenderer::DrawObject() {
-
+void DirectXRenderer::CreateObject() {
 	Vertex cubeVertex[] = {
 		{DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f), DirectX::XMFLOAT3(1.0f, 1.0f, 1.0f)}
 	};
 
-	const UINT vertexBufferSize = sizeof(cubeVertex);
+	UINT indexCount[] = {
+		1, 2, 3
+	};
 
 	// Test Code
-	//buffer = new VertexBuffer<Vertex>(pDevice, queue.GetCommandList(), cubeVertex, vertexBufferSize);
-	
+	ComPtr<ID3D12GraphicsCommandList6> pCommandList = queue.GetCommandList();
+	buffer = new VertexBuffer<Vertex>(pDevice, pCommandList, cubeVertex, 1);
+	index = new IndexBuffer(pDevice, pCommandList, indexCount, 3);
+	UINT value = queue.ExecuteCommandList(pCommandList);
+	queue.WaitForFenceValue(value);
 }
 
-DirectXRenderer::HrException::HrException(int line, const char* file, HRESULT hr, std::vector<std::string> infoMsgs) noexcept : Exception(line, file), hr(hr) {
-	for (const auto& m : infoMsgs) {
-		info += m;
-		info.push_back('\n');
-	}
-
-	if (!info.empty()) {
-		info.pop_back();
-	}
-}
-
-const char* DirectXRenderer::HrException::what() const noexcept {
-	std::ostringstream oss;
-	oss << GetType() << std::endl
-		<< "[Error Code] 0x" << std::hex << std::uppercase << GetErrorCode()
-		<< std::dec << " (" << (unsigned long)GetErrorCode() << ")" << std::endl
-		<< "[Description] " << GetErrorDescription() << std::endl;
-	if (!info.empty()) {
-		oss << "\n[Error Info]\n" << GetErrorInfo() << std::endl << std::endl;
-	}
-	oss << GetOriginString();
-	whatBuffer = oss.str();
-	return whatBuffer.c_str();
-}
-
-std::string DirectXRenderer::HrException::GetErrorInfo() const noexcept {
-	return info;
-}
-const char* DirectXRenderer::HrException::GetType() const noexcept {
-	return "Graphics HResult Exception";
-}
-
-HRESULT DirectXRenderer::HrException::GetErrorCode() const noexcept { return hr; }
-
-std::string DirectXRenderer::HrException::GetErrorDescription() const noexcept {
-	return TranslateErrorCode(hr);
-}
-
-std::string DirectXRenderer::Exception::TranslateErrorCode(HRESULT hr) noexcept {
-	char* pMsgBuf = nullptr;
-	return std::system_category().message(hr);
+void DirectXRenderer::DrawObject() {
+	buffer->Bind();
+	index->Bind();
 }

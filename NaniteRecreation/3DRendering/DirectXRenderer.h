@@ -1,13 +1,12 @@
 #pragma once
 #include "Renderer.h"
-#include "MainException.h"
 #include "DirectXCommandQueue.h"
+#include "BindableResource.h"
 #include <vector>
 #include <d3d12.h>
 #include <dxgi1_6.h>
 #include <wrl.h>
 #include <DirectXMath.h>
-#include "BindableResource.h"
 
 namespace Render {
 	struct Vertex {
@@ -18,33 +17,12 @@ namespace Render {
 	class DirectXRenderer : public Renderer
 	{
 	public:
-		// Exceptions Possible for this class
-
-		// Normal Exception
-		class Exception : public MainException {
-			using MainException::MainException;
-		public:
-			static std::string TranslateErrorCode(HRESULT hr) noexcept;
-		};
-		// Exceptions relating to HRESULTs
-		class HrException : public Exception {
-		public:
-			HrException(int line, const char* file, HRESULT hr, std::vector<std::string> infoMsg = {}) noexcept;
-			const char* what() const noexcept override;
-			const char* GetType() const noexcept override;
-			HRESULT GetErrorCode() const noexcept;
-			std::string GetErrorDescription() const noexcept;
-			std::string GetErrorInfo() const noexcept;
-		private:
-			HRESULT hr;
-			std::string info;
-		};
-	public:
 		DirectXRenderer(HWND hWnd);
 		~DirectXRenderer() = default;
 		bool Initialize(HWND hWnd) override;
 		void StartFrame() override;
 		void EndFrame() override;
+		void CreateObject() override;
 		void DrawObject() override;
 	private:
 		// Debug Resources
@@ -58,13 +36,18 @@ namespace Render {
 
 		// Graphics Handlers
 		Microsoft::WRL::ComPtr<ID3D12Resource2> pBackBuffer;
+		// Render Target View
 		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> pRTVHeapD;
+		// Depth Stencil View
+		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> pDSVHeapD;
 
 		// The command queue for the renderer
 		DirectXCommandQueue queue;
+
 		
 		// Test Buffer
 		BindableResource *buffer;
+		BindableResource* index;
 	};
 };
 

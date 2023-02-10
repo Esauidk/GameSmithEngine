@@ -1,6 +1,5 @@
 #include "DirectXCommandQueue.h"
 #include "DirectXMacros.h"
-#include "DirectXRenderer.h"
 #include <chrono>
 
 using namespace Render;

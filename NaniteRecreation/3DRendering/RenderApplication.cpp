@@ -21,6 +21,7 @@ RenderApplication::~RenderApplication() {
 }
 
 int RenderApplication::Execute() {
+    renderer->CreateObject();
     while (true) {
         if (const auto ecode = Window::ProcessMessages()) {
             return *ecode;
@@ -33,6 +34,6 @@ int RenderApplication::Execute() {
 void RenderApplication::Tick() {
     auto dt = timer.Mark();
     renderer->StartFrame();
-    //renderer->DrawObject();
+    renderer->DrawObject();
     renderer->EndFrame();
 }

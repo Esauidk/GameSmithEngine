@@ -1,6 +1,7 @@
 #pragma once
 #include <exception>
 #include <string>
+
 class MainException : public std::exception
 {
 public:
