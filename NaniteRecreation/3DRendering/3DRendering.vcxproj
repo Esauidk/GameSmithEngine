@@ -133,6 +133,8 @@
     <ClInclude Include="Buffer.h" />
     <ClInclude Include="DirectXCommandQueue.h" />
     <ClInclude Include="d3dx12.h" />
+    <ClInclude Include="InputLayout.h" />
+    <ClInclude Include="PixelShader.h" />
     <ClInclude Include="RenderExceptions.h" />
     <ClInclude Include="IndexBuffer.h" />
     <ClInclude Include="Keyboard.h" />
@@ -146,22 +148,30 @@
     <ClInclude Include="Renderers.h" />
     <ClInclude Include="DirectXMacros.h" />
     <ClInclude Include="Resource.h" />
+    <ClInclude Include="RootSignature.h" />
+    <ClInclude Include="Shader.h" />
     <ClInclude Include="targetver.h" />
     <ClInclude Include="Timer.h" />
     <ClInclude Include="VertexBuffer.h" />
+    <ClInclude Include="VertexShader.h" />
     <ClInclude Include="Window.h" />
     <ClInclude Include="WindowMacros.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="DirectXCommandQueue.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
+    <ClCompile Include="InputLayout.cpp" />
     <ClCompile Include="Keyboard.cpp" />
     <ClCompile Include="MainException.cpp" />
     <ClCompile Include="Mouse.cpp" />
     <ClCompile Include="DirectXRenderer.cpp" />
+    <ClCompile Include="PixelShader.cpp" />
     <ClCompile Include="RenderApplication.cpp" />
     <ClCompile Include="RenderExceptions.cpp" />
+    <ClCompile Include="RootSignature.cpp" />
+    <ClCompile Include="Shader.cpp" />
     <ClCompile Include="Timer.cpp" />
+    <ClCompile Include="VertexShader.cpp" />
     <ClCompile Include="Window.cpp" />
     <ClCompile Include="WinMain.cpp" />
   </ItemGroup>

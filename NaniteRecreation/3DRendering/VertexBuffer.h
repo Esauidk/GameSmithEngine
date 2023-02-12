@@ -9,6 +9,7 @@ namespace Render {
 
 		VertexBuffer(Microsoft::WRL::ComPtr<ID3D12Device8> pDevice, Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> pCommandList, T* buffer, int count) : Buffer<T>(pDevice, pCommandList, buffer, count) {}
 
+		//TODO: IMplement Binding
 		void Bind() override {
 			D3D12_VERTEX_BUFFER_VIEW view;
 			view.BufferLocation = this->gpuBuffer->GetGPUVirtualAddress();
