@@ -1,6 +1,20 @@
-- name: Doxygen Action
-uses: mattnotmitt/doxygen-action@1.9.5
-with:
-  doxyfile-path: ./Doxyfile
-  working-directory:.
-  enable-latex: true
+name: Documentation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+  pull_request:
+
+jobs:
+  Doxygen:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Running Doxygen
+        uses: mattnotmitt/doxygen-action@1.9.5
+        with:
+          doxyfile-path: ./Doxyfile
+          working-directory: .
+          enable-latex: true
