@@ -26,16 +26,7 @@ namespace Render {
 				&defaultHeapProperties,
 				D3D12_HEAP_FLAG_NONE,
 				&bufferDesc,
-				D3D12_RESOURCE_STATE_COPY_DEST,
-				nullptr,
-				IID_PPV_ARGS(&gpuBuffer)
-			));
-
-			RENDER_THROW(pDevice->CreateCommittedResource(
-				&defaultHeapProperties,
-				D3D12_HEAP_FLAG_NONE,
-				&bufferDesc,
-				D3D12_RESOURCE_STATE_COPY_DEST,
+				D3D12_RESOURCE_STATE_COMMON,
 				nullptr,
 				IID_PPV_ARGS(&gpuBuffer)
 			));
