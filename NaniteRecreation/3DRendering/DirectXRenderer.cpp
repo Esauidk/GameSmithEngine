@@ -1,9 +1,11 @@
 #include "d3dx12.h"
 #include "DirectXRenderer.h"
 #include "DirectXMacros.h"
-// Temporary Includes (Remove Vertex and Index)
+
+// Temporary Includes
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
+#include "RootSignature.h"
 
 #include <chrono>
 
@@ -184,19 +186,41 @@ void DirectXRenderer::EndFrame() {
 
 void DirectXRenderer::CreateObject() {
 	Vertex cubeVertex[] = {
-		{DirectX::XMFLOAT3(0.0f, 0.0f, 0.0f), DirectX::XMFLOAT3(1.0f, 1.0f, 1.0f)}
+		{DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f), DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f)},
+		{DirectX::XMFLOAT3(-1.0f, 0.0f, 0.0f), DirectX::XMFLOAT3(0.0f, 1.0f, 0.0f)},
+		{DirectX::XMFLOAT3(0.0f, 1.0f, 0.0f), DirectX::XMFLOAT3(0.0f, 0.0f, 1.0f)}
 	};
 
 	UINT indexCount[] = {
 		1, 2, 3
 	};
 
-	// Test Code
+	/************************ Test Code ******************************************/
 	ComPtr<ID3D12GraphicsCommandList6> pCommandList = queue.GetCommandList();
-	buffer = new VertexBuffer<Vertex>(pDevice, pCommandList, cubeVertex, 1);
+	buffer = new VertexBuffer<Vertex>(pDevice, pCommandList, cubeVertex, sizeof(cubeVertex) / sizeof(Vertex));
 	index = new IndexBuffer(pDevice, pCommandList, indexCount, 3);
 	UINT value = queue.ExecuteCommandList(pCommandList);
 	queue.WaitForFenceValue(value);
+
+	// Create RootSignature
+	RootSignature root(pDevice, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT |
+		D3D12_ROOT_SIGNATURE_FLAG_DENY_HULL_SHADER_ROOT_ACCESS |
+		D3D12_ROOT_SIGNATURE_FLAG_DENY_DOMAIN_SHADER_ROOT_ACCESS |
+		D3D12_ROOT_SIGNATURE_FLAG_DENY_GEOMETRY_SHADER_ROOT_ACCESS |
+		D3D12_ROOT_SIGNATURE_FLAG_DENY_PIXEL_SHADER_ROOT_ACCESS);
+
+	CD3DX12_ROOT_PARAMETER1 rootParameter1;
+	rootParameter1.InitAsConstants(sizeof(DirectX::XMMATRIX) / 4, 0, 0, D3D12_SHADER_VISIBILITY_VERTEX);
+
+	CD3DX12_ROOT_PARAMETER1 rootParameter2;
+	rootParameter2.InitAsConstants(sizeof(DirectX::XMMATRIX) / 4, 1, 0, D3D12_SHADER_VISIBILITY_VERTEX);
+
+	CD3DX12_ROOT_PARAMETER1 parameters[] = { rootParameter1, rootParameter2 };
+	root.AddParameter(parameters, 2);
+	root.BuildRootSignature(pDevice);
+
+	
+
 }
 
 void DirectXRenderer::DrawObject() {

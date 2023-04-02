@@ -13,7 +13,7 @@ namespace Render {
 		Buffer() = default;
 		~Buffer() = default;
 
-		Buffer(Microsoft::WRL::ComPtr<ID3D12Device8> pDevice, Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> pCommandList, T* buffer, int count) {
+		Buffer(Microsoft::WRL::ComPtr<ID3D12Device8> pDevice, Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> pCommandList, T* buffer, UINT count) {
 
 			bufferSize = sizeof(T) * count;
 			// Define heap details
@@ -40,7 +40,7 @@ namespace Render {
 				IID_PPV_ARGS(&cpuBuffer)
 			));
 
-			// Store the verte data inside
+			// Store the data inside
 			D3D12_SUBRESOURCE_DATA data = {};
 			data.pData = reinterpret_cast<BYTE*>(buffer);
 			data.RowPitch = bufferSize;
@@ -55,6 +55,6 @@ namespace Render {
 	protected:
 		Microsoft::WRL::ComPtr<ID3D12Resource2> gpuBuffer;
 		Microsoft::WRL::ComPtr<ID3D12Resource2> cpuBuffer;
-		int bufferSize;
+		UINT bufferSize;
 	};
 };
