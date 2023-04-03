@@ -1,5 +1,5 @@
 #pragma once
-#include "BindableResource.h"
+#include "PipelineDefiner.h"
 #include <d3d12.h>
 #include "d3dx12.h"
 #include <wrl.h>
@@ -13,19 +13,20 @@ Job:
 	- Binds it to the pipeline
 */
 namespace Render {
-	class RootSignature : public BindableResource
+	class RootSignature : public PipelineDefiner
 	{
 	public: 
 			RootSignature(Microsoft::WRL::ComPtr<ID3D12Device8> pDevice, D3D12_ROOT_SIGNATURE_FLAGS flags);
 			void AddParameter(CD3DX12_ROOT_PARAMETER1 newParameter);
 			void AddParameter(CD3DX12_ROOT_PARAMETER1* newParameters, UINT size);
 			void BuildRootSignature(Microsoft::WRL::ComPtr<ID3D12Device8> pDevice);
+			void Setup(PipelineState pipeline) override;
 			void Bind() override;
 	private:
 		D3D12_FEATURE_DATA_ROOT_SIGNATURE rootSigFeat;
 		D3D12_ROOT_SIGNATURE_FLAGS flags;
 		std::vector<CD3DX12_ROOT_PARAMETER1> parameters;
-		Microsoft::WRL::ComPtr<ID3D12RootSignature> rootSig;
+		Microsoft::WRL::ComPtr<ID3D12RootSignature> pRoot;
 	};
 }
 

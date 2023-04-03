@@ -49,6 +49,18 @@
     <Filter Include="Source Files\Rendering\DirectX\Resources">
       <UniqueIdentifier>{4f7d0c62-a8b5-44ff-a29d-148871792121}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resource Files\Shaders">
+      <UniqueIdentifier>{6769287d-e8d7-424b-a80a-0a184f023c27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Shaders\VertexShaders">
+      <UniqueIdentifier>{4799b8d4-bc99-45cf-8075-b0f4449f3408}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Shaders\PixelShaders">
+      <UniqueIdentifier>{398e5f3d-acdd-4a18-9966-4718e05cc122}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Resource Files\Shaders\CompiledShaders">
+      <UniqueIdentifier>{e5495d38-080e-4677-b79e-c7b92d871106}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -130,7 +142,13 @@
       <Filter>Header Files\Rendering\DirectX\Resources</Filter>
     </ClInclude>
     <ClInclude Include="RootSignature.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Rendering\DirectX\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="PipelineState.h">
+      <Filter>Header Files\Rendering\DirectX</Filter>
+    </ClInclude>
+    <ClInclude Include="PipelineDefiner.h">
+      <Filter>Header Files\Rendering\DirectX\Resources</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -180,7 +198,10 @@
       <Filter>Source Files\Rendering\DirectX\Resources</Filter>
     </ClCompile>
     <ClCompile Include="RootSignature.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Rendering\DirectX\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="PipelineState.cpp">
+      <Filter>Source Files\Rendering\DirectX</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -201,5 +222,13 @@
   </ItemGroup>
   <ItemGroup>
     <Text Include="Journal.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="ExampleVertexShader.hlsl">
+      <Filter>Resource Files\Shaders\VertexShaders</Filter>
+    </FxCompile>
+    <FxCompile Include="PixelShader.hlsl">
+      <Filter>Resource Files\Shaders\PixelShaders</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

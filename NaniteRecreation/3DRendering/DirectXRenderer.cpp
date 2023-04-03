@@ -6,6 +6,12 @@
 #include "VertexBuffer.h"
 #include "IndexBuffer.h"
 #include "RootSignature.h"
+#include "VertexShader.h"
+#include "PixelShader.h"
+#include "RootSignature.h"
+#include "InputLayout.h"
+#include "PipelineState.h"
+// END
 
 #include <chrono>
 
@@ -143,7 +149,47 @@ DirectXRenderer::DirectXRenderer(HWND hWnd): buffer(nullptr){
 };
 
 bool DirectXRenderer::Initialize(HWND hWnd) {
+	// Shader Test!
+	VertexShader vs(L"ExampleVertexShader.cso");
+	PixelShader ps(L"PixelShader.cso");
 	
+	// Input Layout Test!
+	D3D12_INPUT_ELEMENT_DESC inputLayout[] = {
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+		{ "COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+	};
+
+	InputLayout layout(inputLayout, 2);
+
+	// Create RootSignature
+	RootSignature root(pDevice, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT |
+		D3D12_ROOT_SIGNATURE_FLAG_DENY_HULL_SHADER_ROOT_ACCESS |
+		D3D12_ROOT_SIGNATURE_FLAG_DENY_DOMAIN_SHADER_ROOT_ACCESS |
+		D3D12_ROOT_SIGNATURE_FLAG_DENY_GEOMETRY_SHADER_ROOT_ACCESS |
+		D3D12_ROOT_SIGNATURE_FLAG_DENY_PIXEL_SHADER_ROOT_ACCESS);
+
+	CD3DX12_ROOT_PARAMETER1 rootParameter1;
+	rootParameter1.InitAsConstants(sizeof(DirectX::XMMATRIX) / 4, 0, 0, D3D12_SHADER_VISIBILITY_VERTEX);
+
+	CD3DX12_ROOT_PARAMETER1 rootParameter2;
+	rootParameter2.InitAsConstants(sizeof(DirectX::XMMATRIX) / 4, 1, 0, D3D12_SHADER_VISIBILITY_VERTEX);
+
+	CD3DX12_ROOT_PARAMETER1 parameters[] = { rootParameter1, rootParameter2 };
+	root.AddParameter(parameters, 2);
+	root.BuildRootSignature(pDevice);
+
+	// Pipeline State Object Test
+
+	//Note: Should break since two parameters are missing
+
+	// ERROR: Resources being cleaned before building FIX THIS
+	PipelineState state;
+	vs.Setup(state);
+	ps.Setup(state);
+	layout.Setup(state);
+	root.Setup(state);
+	state.Attach(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE);
+	state.Build(pDevice);
 	return true;
 }
 
@@ -201,25 +247,6 @@ void DirectXRenderer::CreateObject() {
 	index = new IndexBuffer(pDevice, pCommandList, indexCount, 3);
 	UINT value = queue.ExecuteCommandList(pCommandList);
 	queue.WaitForFenceValue(value);
-
-	// Create RootSignature
-	RootSignature root(pDevice, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT |
-		D3D12_ROOT_SIGNATURE_FLAG_DENY_HULL_SHADER_ROOT_ACCESS |
-		D3D12_ROOT_SIGNATURE_FLAG_DENY_DOMAIN_SHADER_ROOT_ACCESS |
-		D3D12_ROOT_SIGNATURE_FLAG_DENY_GEOMETRY_SHADER_ROOT_ACCESS |
-		D3D12_ROOT_SIGNATURE_FLAG_DENY_PIXEL_SHADER_ROOT_ACCESS);
-
-	CD3DX12_ROOT_PARAMETER1 rootParameter1;
-	rootParameter1.InitAsConstants(sizeof(DirectX::XMMATRIX) / 4, 0, 0, D3D12_SHADER_VISIBILITY_VERTEX);
-
-	CD3DX12_ROOT_PARAMETER1 rootParameter2;
-	rootParameter2.InitAsConstants(sizeof(DirectX::XMMATRIX) / 4, 1, 0, D3D12_SHADER_VISIBILITY_VERTEX);
-
-	CD3DX12_ROOT_PARAMETER1 parameters[] = { rootParameter1, rootParameter2 };
-	root.AddParameter(parameters, 2);
-	root.BuildRootSignature(pDevice);
-
-	
 
 }
 

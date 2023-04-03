@@ -27,7 +27,11 @@ namespace Render {
 		Microsoft::WRL::ComPtr<ID3DBlob> errorBlob;
 		RENDER_THROW(D3DX12SerializeVersionedRootSignature(&rootSigDesc, rootSigFeat.HighestVersion, &rootSigBlob, &errorBlob)); \
 
-		RENDER_THROW(pDevice->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(), IID_PPV_ARGS(&rootSig)));
+		RENDER_THROW(pDevice->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(), IID_PPV_ARGS(&pRoot)));
+	}
+
+	void RootSignature::Setup(PipelineState pipeline) {
+		pipeline.Attach(pRoot.Get());
 	}
 
 	void RootSignature::Bind() {
