@@ -30,7 +30,7 @@ namespace Render {
 		RENDER_THROW(pDevice->CreateRootSignature(0, rootSigBlob->GetBufferPointer(), rootSigBlob->GetBufferSize(), IID_PPV_ARGS(&pRoot)));
 	}
 
-	void RootSignature::Setup(PipelineState pipeline) {
+	void RootSignature::Setup(PipelineState& pipeline) {
 		pipeline.Attach(pRoot.Get());
 	}
 

@@ -25,7 +25,7 @@ namespace Render {
 		void Attach(ID3D12RootSignature* rootSig);
 		void Attach(D3D12_INPUT_LAYOUT_DESC layout);
 		void Attach(D3D12_PRIMITIVE_TOPOLOGY_TYPE topology);
-		void Attach(CD3DX12_SHADER_BYTECODE shaderByte, ShaderType type);
+		void Attach(ID3DBlob* shaderByte, ShaderType type);
 		void Attach(DXGI_FORMAT format);
 		void Attach(D3D12_RT_FORMAT_ARRAY formats);
 		void Build(Microsoft::WRL::ComPtr<ID3D12Device8> pDevice);

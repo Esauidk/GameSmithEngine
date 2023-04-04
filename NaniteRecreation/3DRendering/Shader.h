@@ -10,7 +10,7 @@ namespace Render {
 	{
 	public:
 		Shader(const std::wstring shaderPath, const ShaderType shaderType);
-		void Setup(PipelineState pipeline) override;
+		void Setup(PipelineState& pipeline) override;
 	protected:
 		Microsoft::WRL::ComPtr<ID3DBlob> shaderBlob;
 		ShaderType type;

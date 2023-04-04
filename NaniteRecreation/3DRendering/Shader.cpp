@@ -10,7 +10,7 @@ namespace Render {
 		RENDER_THROW(D3DReadFileToBlob(shaderPath.c_str(), &shaderBlob));
 	}
 	
-	void Shader::Setup(PipelineState pipeline) {
-		pipeline.Attach(CD3DX12_SHADER_BYTECODE(shaderBlob.Get()), type);
+	void Shader::Setup(PipelineState& pipeline) {
+		pipeline.Attach(shaderBlob.Get(), type);
 	}
 };

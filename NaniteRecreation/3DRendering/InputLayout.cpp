@@ -5,7 +5,7 @@ namespace Render {
 		inputLayout = { elements, count };
 	}
 
-	void InputLayout::Setup(PipelineState pipeline) {
+	void InputLayout::Setup(PipelineState& pipeline) {
 		pipeline.Attach(inputLayout);
 	}
 

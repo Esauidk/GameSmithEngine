@@ -20,7 +20,7 @@ namespace Render {
 			void AddParameter(CD3DX12_ROOT_PARAMETER1 newParameter);
 			void AddParameter(CD3DX12_ROOT_PARAMETER1* newParameters, UINT size);
 			void BuildRootSignature(Microsoft::WRL::ComPtr<ID3D12Device8> pDevice);
-			void Setup(PipelineState pipeline) override;
+			void Setup(PipelineState& pipeline) override;
 			void Bind() override;
 	private:
 		D3D12_FEATURE_DATA_ROOT_SIGNATURE rootSigFeat;

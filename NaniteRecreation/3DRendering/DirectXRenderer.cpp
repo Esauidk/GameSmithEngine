@@ -181,8 +181,6 @@ bool DirectXRenderer::Initialize(HWND hWnd) {
 	// Pipeline State Object Test
 
 	//Note: Should break since two parameters are missing
-
-	// ERROR: Resources being cleaned before building FIX THIS
 	PipelineState state;
 	vs.Setup(state);
 	ps.Setup(state);
