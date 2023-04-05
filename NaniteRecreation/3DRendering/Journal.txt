@@ -16,3 +16,12 @@ Make classes for resources that can be binded:
 	- Constant Buffer
 
 We also need a class to represent a translation of a model to hold all the bindables
+
+4/5/2023
+Next Steps needed:
+- Finish up pipeline state object (DSVFormat, RTV Format)
+- Fill in bind methods
+- Test with sample object
+- Define Camera
+- Define object/model class 
+- Test with random test model (donut)

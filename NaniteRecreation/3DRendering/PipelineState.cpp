@@ -13,7 +13,6 @@ namespace Render {
 		stateStream.PrimitiveTopologyType = topology;
 	}
 	void PipelineState::Attach(ID3DBlob* shaderByte, ShaderType type) {
-		//CD3DX12_SHADER_BYTECODE shader = CD3DX12_SHADER_BYTECODE(shaderByte);
 		CD3DX12_SHADER_BYTECODE shader = CD3DX12_SHADER_BYTECODE(shaderByte);
 		switch (type) {
 		case VERTEX:
