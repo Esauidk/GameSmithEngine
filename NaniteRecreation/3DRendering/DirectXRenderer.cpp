@@ -178,6 +178,11 @@ bool DirectXRenderer::Initialize(HWND hWnd) {
 	root.AddParameter(parameters, 2);
 	root.BuildRootSignature(pDevice);
 
+	D3D12_RT_FORMAT_ARRAY rtvFormats = {};
+	rtvFormats.NumRenderTargets = 2;
+	rtvFormats.RTFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
+	rtvFormats.RTFormats[1] = DXGI_FORMAT_R8G8B8A8_UNORM;
+
 	// Pipeline State Object Test
 
 	//Note: Should break since two parameters are missing
@@ -187,6 +192,8 @@ bool DirectXRenderer::Initialize(HWND hWnd) {
 	layout.Setup(state);
 	root.Setup(state);
 	state.Attach(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE);
+	state.Attach(rtvFormats);
+	state.Attach(DXGI_FORMAT_D32_FLOAT);
 	state.Build(pDevice);
 	return true;
 }
