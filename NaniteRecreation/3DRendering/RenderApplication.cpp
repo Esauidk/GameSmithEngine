@@ -21,13 +21,13 @@ RenderApplication::~RenderApplication() {
 }
 
 int RenderApplication::Execute() {
-    renderer->CreateObject();
+    //renderer->CreateObject();
     while (true) {
         if (const auto ecode = Window::ProcessMessages()) {
             return *ecode;
         }
 
-        Tick();
+       // Tick();
     }
 }
 

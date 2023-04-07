@@ -10,7 +10,7 @@ namespace Render {
 	}
 
 	//TODO: IMplement Binding
-	void InputLayout::Bind() {
+	void InputLayout::Bind(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> cmdList) {
 	
 	}
 };

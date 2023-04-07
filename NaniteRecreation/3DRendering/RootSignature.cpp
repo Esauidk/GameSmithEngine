@@ -34,10 +34,8 @@ namespace Render {
 		pipeline.Attach(pRoot.Get());
 	}
 
-	void RootSignature::Bind() {
-		// Implementing Binding
-		throw std::exception("Ran");
-		return;
+	void RootSignature::Bind(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> cmdList) {
+		cmdList->SetGraphicsRootSignature(pRoot.Get());
 	}
 };
 

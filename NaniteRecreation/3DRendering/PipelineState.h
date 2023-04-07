@@ -1,5 +1,5 @@
 #pragma once
-#include <vector>
+#include "BindableResource.h"
 #include "d3dx12.h"
 
 namespace Render {
@@ -18,7 +18,7 @@ namespace Render {
 		PIXEL
 	};
 
-	class PipelineState
+	class PipelineState : public BindableResource
 	{
 	public:
 		PipelineState() = default;
@@ -29,6 +29,7 @@ namespace Render {
 		void Attach(DXGI_FORMAT format);
 		void Attach(D3D12_RT_FORMAT_ARRAY formats);
 		void Build(Microsoft::WRL::ComPtr<ID3D12Device8> pDevice);
+		void Bind(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> cmdList) override;
 	private:
 		PipelineStateStream stateStream;
 		Microsoft::WRL::ComPtr<ID3D12PipelineState> pPipelineState;

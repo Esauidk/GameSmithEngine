@@ -6,7 +6,7 @@ namespace Render {
 	{
 	public:
 		PixelShader(const std::wstring shaderPath);
-		void Bind() override;
+		void Bind(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> cmdList) override;
 	};
 
 };

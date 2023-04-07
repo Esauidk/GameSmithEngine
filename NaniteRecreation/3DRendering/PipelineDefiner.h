@@ -1,5 +1,4 @@
 #pragma once
-#include "BindableResource.h"
 #include "PipelineState.h"
 
 namespace Render {

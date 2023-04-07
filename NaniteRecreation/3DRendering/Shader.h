@@ -1,7 +1,6 @@
 #pragma once
 #include "PipelineDefiner.h"
 #include <string>
-#include <wrl.h>
 #include <d3dcompiler.h>
 
 

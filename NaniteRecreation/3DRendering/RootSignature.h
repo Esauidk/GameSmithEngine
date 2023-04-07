@@ -1,8 +1,6 @@
 #pragma once
 #include "PipelineDefiner.h"
-#include <d3d12.h>
 #include "d3dx12.h"
-#include <wrl.h>
 #include <vector>
 
 /* 
@@ -21,7 +19,7 @@ namespace Render {
 			void AddParameter(CD3DX12_ROOT_PARAMETER1* newParameters, UINT size);
 			void BuildRootSignature(Microsoft::WRL::ComPtr<ID3D12Device8> pDevice);
 			void Setup(PipelineState& pipeline) override;
-			void Bind() override;
+			void Bind(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> cmdList) override;
 	private:
 		D3D12_FEATURE_DATA_ROOT_SIGNATURE rootSigFeat;
 		D3D12_ROOT_SIGNATURE_FLAGS flags;

@@ -11,6 +11,7 @@
 #include "RootSignature.h"
 #include "InputLayout.h"
 #include "PipelineState.h"
+#include "TopologyResource.h"
 // END
 
 #include <chrono>
@@ -32,7 +33,7 @@ DirectXRenderer::DirectXRenderer(HWND hWnd): buffer(nullptr){
 #endif
 
 	// Create Device
-	RENDER_THROW(D3D12CreateDevice(NULL, D3D_FEATURE_LEVEL_12_0, IID_PPV_ARGS(&pDevice)));
+	RENDER_THROW(D3D12CreateDevice(nullptr, D3D_FEATURE_LEVEL_12_0, IID_PPV_ARGS(&pDevice)));
 	
 #if defined(_DEBUG)
 	// Create Info Queue, shows debug logs depending on severity and sets breaks
@@ -183,18 +184,45 @@ bool DirectXRenderer::Initialize(HWND hWnd) {
 	rtvFormats.RTFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
 	rtvFormats.RTFormats[1] = DXGI_FORMAT_R8G8B8A8_UNORM;
 
-	// Pipeline State Object Test
+	TopologyResource top(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
-	//Note: Should break since two parameters are missing
+	
+
+	// Pipeline State Object Test : Define Pipeline and bind some bindables
+
+	
 	PipelineState state;
 	vs.Setup(state);
 	ps.Setup(state);
 	layout.Setup(state);
 	root.Setup(state);
-	state.Attach(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE);
+	top.Setup(state);
 	state.Attach(rtvFormats);
 	state.Attach(DXGI_FORMAT_D32_FLOAT);
 	state.Build(pDevice);
+
+	ComPtr<ID3D12GraphicsCommandList6> list = queue.GetCommandList();
+	Vertex cubeVertex[] = {
+		{DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f), DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f)},
+		{DirectX::XMFLOAT3(-1.0f, 0.0f, 0.0f), DirectX::XMFLOAT3(0.0f, 1.0f, 0.0f)},
+		{DirectX::XMFLOAT3(0.0f, 1.0f, 0.0f), DirectX::XMFLOAT3(0.0f, 0.0f, 1.0f)}
+	};
+
+	VertexBuffer<Vertex> tempBuffer(pDevice, list, cubeVertex, sizeof(cubeVertex) / sizeof(Vertex));
+
+	UINT indexCount[] = {
+		1, 2, 3
+	};
+
+	IndexBuffer tempIndex = IndexBuffer(pDevice, list, indexCount, 3);
+
+	state.Bind(list);
+	root.Bind(list);
+	top.Bind(list);
+	tempBuffer.Bind(list);
+	tempIndex.Bind(list);
+	UINT value = queue.ExecuteCommandList(list);
+	queue.WaitForFenceValue(value);
 	return true;
 }
 
@@ -256,6 +284,4 @@ void DirectXRenderer::CreateObject() {
 }
 
 void DirectXRenderer::DrawObject() {
-	buffer->Bind();
-	index->Bind();
 }

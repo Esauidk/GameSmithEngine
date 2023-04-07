@@ -5,7 +5,7 @@ namespace Render {
 	PixelShader::PixelShader(const std::wstring shaderPath): Shader(shaderPath, PIXEL) {}
 
 	//TODO: IMplement Binding
-	void PixelShader::Bind() {
+	void PixelShader::Bind(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> cmdList) {
 		
 	}
 };

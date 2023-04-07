@@ -37,4 +37,8 @@ namespace Render {
 
 		RENDER_THROW(pDevice->CreatePipelineState(&stateStreamDesc, IID_PPV_ARGS(&pPipelineState)));
 	}
+
+	void PipelineState::Bind(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> cmdList) {
+		cmdList->SetPipelineState(pPipelineState.Get());
+	}
 };

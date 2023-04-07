@@ -1,7 +1,5 @@
 #pragma once
 #include "BindableResource.h"
-#include <wrl.h>
-#include <d3d12.h>
 #include "d3dx12.h"
 #include "DirectXMacros.h"
 
@@ -49,7 +47,7 @@ namespace Render {
 			UpdateSubresources(pCommandList.Get(), gpuBuffer.Get(), cpuBuffer.Get(), 0, 0, 1, &data);
 		}
 
-		void Bind() override {
+		void Bind(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> cmdList) override {
 			return;
 		}
 	protected:

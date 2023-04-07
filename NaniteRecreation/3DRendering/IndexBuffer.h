@@ -9,6 +9,6 @@ namespace Render {
 
 		IndexBuffer(Microsoft::WRL::ComPtr<ID3D12Device8> pDevice, Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> pCommandList, UINT* buffer, int count);
 
-		void Bind() override;
+		void Bind(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> cmdList) override;
 	};
 };
