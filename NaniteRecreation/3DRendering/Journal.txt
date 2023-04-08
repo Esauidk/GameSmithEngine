@@ -25,3 +25,8 @@ Next Steps needed:
 - Define Camera
 - Define object/model class 
 - Test with random test model (donut)
+
+4/8/2023
+- Pipeline Object Finished
+- Need to finish bind process
+- DO first 3d render
