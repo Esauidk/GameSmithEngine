@@ -150,79 +150,6 @@ DirectXRenderer::DirectXRenderer(HWND hWnd): buffer(nullptr){
 };
 
 bool DirectXRenderer::Initialize(HWND hWnd) {
-	// Shader Test!
-	VertexShader vs(L"ExampleVertexShader.cso");
-	PixelShader ps(L"PixelShader.cso");
-	
-	// Input Layout Test!
-	D3D12_INPUT_ELEMENT_DESC inputLayout[] = {
-		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
-		{ "COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
-	};
-
-	InputLayout layout(inputLayout, 2);
-
-	// Create RootSignature
-	RootSignature root(pDevice, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT |
-		D3D12_ROOT_SIGNATURE_FLAG_DENY_HULL_SHADER_ROOT_ACCESS |
-		D3D12_ROOT_SIGNATURE_FLAG_DENY_DOMAIN_SHADER_ROOT_ACCESS |
-		D3D12_ROOT_SIGNATURE_FLAG_DENY_GEOMETRY_SHADER_ROOT_ACCESS |
-		D3D12_ROOT_SIGNATURE_FLAG_DENY_PIXEL_SHADER_ROOT_ACCESS);
-
-	CD3DX12_ROOT_PARAMETER1 rootParameter1;
-	rootParameter1.InitAsConstants(sizeof(DirectX::XMMATRIX) / 4, 0, 0, D3D12_SHADER_VISIBILITY_VERTEX);
-
-	CD3DX12_ROOT_PARAMETER1 rootParameter2;
-	rootParameter2.InitAsConstants(sizeof(DirectX::XMMATRIX) / 4, 1, 0, D3D12_SHADER_VISIBILITY_VERTEX);
-
-	CD3DX12_ROOT_PARAMETER1 parameters[] = { rootParameter1, rootParameter2 };
-	root.AddParameter(parameters, 2);
-	root.BuildRootSignature(pDevice);
-
-	D3D12_RT_FORMAT_ARRAY rtvFormats = {};
-	rtvFormats.NumRenderTargets = 2;
-	rtvFormats.RTFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
-	rtvFormats.RTFormats[1] = DXGI_FORMAT_R8G8B8A8_UNORM;
-
-	TopologyResource top(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-	
-
-	// Pipeline State Object Test : Define Pipeline and bind some bindables
-
-	
-	PipelineState state;
-	vs.Setup(state);
-	ps.Setup(state);
-	layout.Setup(state);
-	root.Setup(state);
-	top.Setup(state);
-	state.Attach(rtvFormats);
-	state.Attach(DXGI_FORMAT_D32_FLOAT);
-	state.Build(pDevice);
-
-	ComPtr<ID3D12GraphicsCommandList6> list = queue.GetCommandList();
-	Vertex cubeVertex[] = {
-		{DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f), DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f)},
-		{DirectX::XMFLOAT3(-1.0f, 0.0f, 0.0f), DirectX::XMFLOAT3(0.0f, 1.0f, 0.0f)},
-		{DirectX::XMFLOAT3(0.0f, 1.0f, 0.0f), DirectX::XMFLOAT3(0.0f, 0.0f, 1.0f)}
-	};
-
-	VertexBuffer<Vertex> tempBuffer(pDevice, list, cubeVertex, sizeof(cubeVertex) / sizeof(Vertex));
-
-	UINT indexCount[] = {
-		1, 2, 3
-	};
-
-	IndexBuffer tempIndex = IndexBuffer(pDevice, list, indexCount, 3);
-
-	state.Bind(list);
-	root.Bind(list);
-	top.Bind(list);
-	tempBuffer.Bind(list);
-	tempIndex.Bind(list);
-	UINT value = queue.ExecuteCommandList(list);
-	queue.WaitForFenceValue(value);
 	return true;
 }
 
@@ -264,24 +191,95 @@ void DirectXRenderer::EndFrame() {
 }
 
 void DirectXRenderer::CreateObject() {
+	// Shader Test!
+	VertexShader vs(L"ExampleVertexShader.cso");
+	PixelShader ps(L"PixelShader.cso");
+
+	// Input Layout Test!
+	D3D12_INPUT_ELEMENT_DESC inputLayout[] = {
+		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+		{ "COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+	};
+
+	InputLayout layout(inputLayout, 2);
+
+	// Create RootSignature
+	RootSignature root(pDevice, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT |
+		D3D12_ROOT_SIGNATURE_FLAG_DENY_HULL_SHADER_ROOT_ACCESS |
+		D3D12_ROOT_SIGNATURE_FLAG_DENY_DOMAIN_SHADER_ROOT_ACCESS |
+		D3D12_ROOT_SIGNATURE_FLAG_DENY_GEOMETRY_SHADER_ROOT_ACCESS |
+		D3D12_ROOT_SIGNATURE_FLAG_DENY_PIXEL_SHADER_ROOT_ACCESS);
+
+	CD3DX12_ROOT_PARAMETER1 rootParameter1;
+	rootParameter1.InitAsConstants(sizeof(DirectX::XMMATRIX) / 4, 0, 0, D3D12_SHADER_VISIBILITY_VERTEX);
+
+	CD3DX12_ROOT_PARAMETER1 rootParameter2;
+	rootParameter2.InitAsConstants(sizeof(DirectX::XMMATRIX) / 4, 1, 0, D3D12_SHADER_VISIBILITY_VERTEX);
+
+	CD3DX12_ROOT_PARAMETER1 parameters[] = { rootParameter1, rootParameter2 };
+	root.AddParameter(parameters, 2);
+	root.BuildRootSignature(pDevice);
+
+	D3D12_RT_FORMAT_ARRAY rtvFormats = {};
+	rtvFormats.NumRenderTargets = 2;
+	rtvFormats.RTFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
+	rtvFormats.RTFormats[1] = DXGI_FORMAT_R8G8B8A8_UNORM;
+
+	TopologyResource top(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+
+
+
+	// Pipeline State Object Test : Define Pipeline and bind some bindables
+
+
+	PipelineState state;
+	vs.Setup(state);
+	ps.Setup(state);
+	layout.Setup(state);
+	root.Setup(state);
+	top.Setup(state);
+	state.Attach(rtvFormats);
+	state.Attach(DXGI_FORMAT_D32_FLOAT);
+	state.Build(pDevice);
+
+	ComPtr<ID3D12GraphicsCommandList6> list = queue.GetCommandList();
 	Vertex cubeVertex[] = {
 		{DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f), DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f)},
 		{DirectX::XMFLOAT3(-1.0f, 0.0f, 0.0f), DirectX::XMFLOAT3(0.0f, 1.0f, 0.0f)},
 		{DirectX::XMFLOAT3(0.0f, 1.0f, 0.0f), DirectX::XMFLOAT3(0.0f, 0.0f, 1.0f)}
 	};
 
+	VertexBuffer<Vertex> tempBuffer(pDevice, list, cubeVertex, sizeof(cubeVertex) / sizeof(Vertex));
+
 	UINT indexCount[] = {
 		1, 2, 3
 	};
 
-	/************************ Test Code ******************************************/
-	ComPtr<ID3D12GraphicsCommandList6> pCommandList = queue.GetCommandList();
-	buffer = new VertexBuffer<Vertex>(pDevice, pCommandList, cubeVertex, sizeof(cubeVertex) / sizeof(Vertex));
-	index = new IndexBuffer(pDevice, pCommandList, indexCount, 3);
-	UINT value = queue.ExecuteCommandList(pCommandList);
+	IndexBuffer tempIndex = IndexBuffer(pDevice, list, indexCount, 3);
+
+	UINT value = queue.ExecuteCommandList(list);
+	queue.WaitForFenceValue(value);
+
+	state.Bind(list);
+	root.Bind(list);
+	top.Bind(list);
+	tempBuffer.Bind(list);
+	tempIndex.Bind(list);
+
+	value = queue.ExecuteCommandList(list);
+	queue.WaitForFenceValue(value);
+	
+
+	CD3DX12_CPU_DESCRIPTOR_HANDLE targetHandler(pRTVHeapD->GetCPUDescriptorHandleForHeapStart(), pSwapChain->GetCurrentBackBufferIndex(), pDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
+	list->OMSetRenderTargets(1, &targetHandler, FALSE, NULL);
+	//list->DrawIndexedInstanced(3, 1, 0, 0, 0);
+
+	value = queue.ExecuteCommandList(list);
 	queue.WaitForFenceValue(value);
 
 }
 
 void DirectXRenderer::DrawObject() {
+	CreateObject();
 }

@@ -27,7 +27,8 @@ int RenderApplication::Execute() {
             return *ecode;
         }
 
-       // Tick();
+       Tick();
+       //throw std::exception("Done");
     }
 }
 
