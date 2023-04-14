@@ -240,14 +240,15 @@ void DirectXRenderer::CreateObject() {
 	root.Setup(state);
 	top.Setup(state);
 	state.Attach(rtvFormats);
-	state.Attach(DXGI_FORMAT_D32_FLOAT);
+	//state.Attach(DXGI_FORMAT_D32_FLOAT);
+	state.Attach(DXGI_FORMAT_UNKNOWN);
 	state.Build(pDevice);
 
 	ComPtr<ID3D12GraphicsCommandList6> list = queue.GetCommandList();
 	Vertex cubeVertex[] = {
-		{DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f), DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f)},
-		{DirectX::XMFLOAT3(-1.0f, 0.0f, 0.0f), DirectX::XMFLOAT3(0.0f, 1.0f, 0.0f)},
-		{DirectX::XMFLOAT3(0.0f, 1.0f, 0.0f), DirectX::XMFLOAT3(0.0f, 0.0f, 1.0f)}
+		{DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f), DirectX::XMFLOAT3(1.0f, 1.0f, 1.0f)},
+		{DirectX::XMFLOAT3(-1.0f, 0.0f, 0.0f), DirectX::XMFLOAT3(1.0f, 1.0f, 1.0f)},
+		{DirectX::XMFLOAT3(0.0f, 1.0f, 0.0f), DirectX::XMFLOAT3(1.0f, 1.0f, 1.0f)}
 	};
 
 	VertexBuffer<Vertex> tempBuffer(pDevice, list, cubeVertex, sizeof(cubeVertex) / sizeof(Vertex));
@@ -258,24 +259,22 @@ void DirectXRenderer::CreateObject() {
 
 	IndexBuffer tempIndex = IndexBuffer(pDevice, list, indexCount, 3);
 
-	UINT value = queue.ExecuteCommandList(list);
-	queue.WaitForFenceValue(value);
-
 	state.Bind(list);
 	root.Bind(list);
 	top.Bind(list);
 	tempBuffer.Bind(list);
 	tempIndex.Bind(list);
-
-	value = queue.ExecuteCommandList(list);
-	queue.WaitForFenceValue(value);
 	
+	CD3DX12_RECT rect = CD3DX12_RECT(0, 0, LONG_MAX, LONG_MAX);
+	CD3DX12_VIEWPORT viewport = CD3DX12_VIEWPORT(0.0f, 0.0f, 1080, 600);
 
+	list->RSSetScissorRects(1, &rect);
+	list->RSSetViewports(1, &viewport);
 	CD3DX12_CPU_DESCRIPTOR_HANDLE targetHandler(pRTVHeapD->GetCPUDescriptorHandleForHeapStart(), pSwapChain->GetCurrentBackBufferIndex(), pDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
 	list->OMSetRenderTargets(1, &targetHandler, FALSE, NULL);
-	//list->DrawIndexedInstanced(3, 1, 0, 0, 0);
+	list->DrawIndexedInstanced(3, 1, 0, 0, 0);
 
-	value = queue.ExecuteCommandList(list);
+	UINT value = queue.ExecuteCommandList(list);
 	queue.WaitForFenceValue(value);
 
 }

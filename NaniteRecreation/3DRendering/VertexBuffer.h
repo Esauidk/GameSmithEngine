@@ -11,6 +11,11 @@ namespace Render {
 
 		//TODO: IMplement Binding
 		void Bind(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> cmdList) override {
+			CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
+				this->gpuBuffer.Get(),
+				D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER
+			);
+			cmdList->ResourceBarrier(1, &barrier);
 			D3D12_VERTEX_BUFFER_VIEW view;
 			view.BufferLocation = this->gpuBuffer->GetGPUVirtualAddress();
 			view.SizeInBytes = this->bufferSize;
