@@ -8,7 +8,6 @@ namespace Render {
 	template <typename T>
 	class Buffer : public BindableResource {
 	public:
-		Buffer() = default;
 		~Buffer() = default;
 
 		Buffer(Microsoft::WRL::ComPtr<ID3D12Device8> pDevice, Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> pCommandList, T* buffer, UINT count) {

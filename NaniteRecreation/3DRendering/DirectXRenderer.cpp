@@ -141,11 +141,7 @@ DirectXRenderer::DirectXRenderer(HWND hWnd): buffer(nullptr){
 
 	RENDER_THROW(pSwapChain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer)));
 
-	D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc = {};
-	dsvHeapDesc.NumDescriptors = 1;
-	dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
-	dsvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
-	RENDER_THROW(pDevice->CreateDescriptorHeap(&dsvHeapDesc, IID_PPV_ARGS(&pDSVHeapD)));
+	dBuffer = new DepthBuffer(pDevice, 1080, 600);
 
 };
 
@@ -166,6 +162,7 @@ void DirectXRenderer::StartFrame() {
 	CD3DX12_CPU_DESCRIPTOR_HANDLE targetHandler(pRTVHeapD->GetCPUDescriptorHandleForHeapStart(), pSwapChain->GetCurrentBackBufferIndex(), pDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
 	const float color[] = { 0.07f, 0.0f, 0.12f, 1 };
 	list->ClearRenderTargetView(targetHandler, color, 0, nullptr);
+	dBuffer->Clear(list);
 	UINT value = queue.ExecuteCommandList(list);
 	queue.WaitForFenceValue(value);
 
@@ -231,8 +228,7 @@ void DirectXRenderer::CreateObject() {
 	root.Setup(state);
 	top.Setup(state);
 	state.Attach(rtvFormats);
-	//state.Attach(DXGI_FORMAT_D32_FLOAT);
-	state.Attach(DXGI_FORMAT_UNKNOWN);
+	state.Attach(DXGI_FORMAT_D32_FLOAT);
 	state.Build(pDevice);
 
 	ComPtr<ID3D12GraphicsCommandList6> list = queue.GetCommandList();
@@ -278,7 +274,8 @@ void DirectXRenderer::CreateObject() {
 	list->RSSetScissorRects(1, &rect);
 	list->RSSetViewports(1, &viewport);
 	CD3DX12_CPU_DESCRIPTOR_HANDLE targetHandler(pRTVHeapD->GetCPUDescriptorHandleForHeapStart(), pSwapChain->GetCurrentBackBufferIndex(), pDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
-	list->OMSetRenderTargets(1, &targetHandler, FALSE, NULL);
+	D3D12_CPU_DESCRIPTOR_HANDLE depthHandler = dBuffer->GetHandle();
+	list->OMSetRenderTargets(1, &targetHandler, FALSE, &depthHandler);
 	list->DrawIndexedInstanced(_countof(indexCount), 1, 0, 0, 0);
 
 	value = queue.ExecuteCommandList(list);

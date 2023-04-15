@@ -1,6 +1,7 @@
 #pragma once
 #include "Renderer.h"
 #include "DirectXCommandQueue.h"
+#include "DepthBuffer.h"
 #include "BindableResource.h"
 #include <vector>
 #include <d3d12.h>
@@ -36,15 +37,13 @@ namespace Render {
 
 		// Graphics Handlers
 		Microsoft::WRL::ComPtr<ID3D12Resource2> pBackBuffer;
-		// Render Target View
+		// Render Target Heap
 		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> pRTVHeapD;
-		// Depth Stencil View
-		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> pDSVHeapD;
-
+		// Depth Buffer
+		DepthBuffer* dBuffer;
 		// The command queue for the renderer
 		DirectXCommandQueue queue;
 
-		
 		// Test Buffer
 		BindableResource *buffer;
 		BindableResource* index;

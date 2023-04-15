@@ -131,6 +131,7 @@
   <ItemGroup>
     <ClInclude Include="BindableResource.h" />
     <ClInclude Include="Buffer.h" />
+    <ClInclude Include="DepthBuffer.h" />
     <ClInclude Include="DirectXCommandQueue.h" />
     <ClInclude Include="d3dx12.h" />
     <ClInclude Include="InputLayout.h" />
@@ -161,6 +162,7 @@
     <ClInclude Include="WindowMacros.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="DepthBuffer.cpp" />
     <ClCompile Include="DirectXCommandQueue.cpp" />
     <ClCompile Include="IndexBuffer.cpp" />
     <ClCompile Include="InputLayout.cpp" />

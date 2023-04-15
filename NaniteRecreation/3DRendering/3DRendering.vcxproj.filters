@@ -153,6 +153,9 @@
     <ClInclude Include="TopologyResource.h">
       <Filter>Header Files\Rendering\DirectX\Resources</Filter>
     </ClInclude>
+    <ClInclude Include="DepthBuffer.h">
+      <Filter>Header Files\Rendering\DirectX</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="WinMain.cpp">
@@ -208,6 +211,9 @@
     </ClCompile>
     <ClCompile Include="TopologyResource.cpp">
       <Filter>Source Files\Rendering\DirectX\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="DepthBuffer.cpp">
+      <Filter>Source Files\Rendering\DirectX</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

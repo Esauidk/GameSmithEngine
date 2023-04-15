@@ -1,9 +1,10 @@
-struct PixelShaderInput
+struct VertexShaderOutput
 {
     float4 Color : COLOR;
+    float4 Position : SV_POSITION;
 };
 
-float4 main(PixelShaderInput input) : SV_TARGET
+float4 main(VertexShaderOutput input) : SV_TARGET
 {
     return input.Color;
 }
