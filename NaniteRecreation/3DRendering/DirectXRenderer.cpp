@@ -210,20 +210,11 @@ void DirectXRenderer::CreateObject() {
 		D3D12_ROOT_SIGNATURE_FLAG_DENY_GEOMETRY_SHADER_ROOT_ACCESS |
 		D3D12_ROOT_SIGNATURE_FLAG_DENY_PIXEL_SHADER_ROOT_ACCESS);
 
-	CD3DX12_ROOT_PARAMETER1 rootParameter1;
-	rootParameter1.InitAsConstants(sizeof(DirectX::XMMATRIX) / 4, 0, 0, D3D12_SHADER_VISIBILITY_VERTEX);
-
-	CD3DX12_ROOT_PARAMETER1 rootParameter2;
-	rootParameter2.InitAsConstants(sizeof(DirectX::XMMATRIX) / 4, 1, 0, D3D12_SHADER_VISIBILITY_VERTEX);
-
-	CD3DX12_ROOT_PARAMETER1 parameters[] = { rootParameter1, rootParameter2 };
-	root.AddParameter(parameters, 2);
 	root.BuildRootSignature(pDevice);
 
 	D3D12_RT_FORMAT_ARRAY rtvFormats = {};
-	rtvFormats.NumRenderTargets = 2;
+	rtvFormats.NumRenderTargets = 1;
 	rtvFormats.RTFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
-	rtvFormats.RTFormats[1] = DXGI_FORMAT_R8G8B8A8_UNORM;
 
 	TopologyResource top(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
@@ -245,19 +236,35 @@ void DirectXRenderer::CreateObject() {
 	state.Build(pDevice);
 
 	ComPtr<ID3D12GraphicsCommandList6> list = queue.GetCommandList();
+	using DirectX::XMFLOAT3;
+	
 	Vertex cubeVertex[] = {
-		{DirectX::XMFLOAT3(1.0f, 0.0f, 0.0f), DirectX::XMFLOAT3(1.0f, 1.0f, 1.0f)},
-		{DirectX::XMFLOAT3(-1.0f, 0.0f, 0.0f), DirectX::XMFLOAT3(1.0f, 1.0f, 1.0f)},
-		{DirectX::XMFLOAT3(0.0f, 1.0f, 0.0f), DirectX::XMFLOAT3(1.0f, 1.0f, 1.0f)}
+		{ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(0.0f, 0.0f, 0.0f) }, // 0
+		{ XMFLOAT3(-1.0f,  1.0f, -1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) }, // 1
+		{ XMFLOAT3(1.0f,  1.0f, -1.0f), XMFLOAT3(1.0f, 1.0f, 0.0f) }, // 2
+		{ XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT3(1.0f, 0.0f, 0.0f) }, // 3
+		{ XMFLOAT3(-1.0f, -1.0f,  1.0f), XMFLOAT3(0.0f, 0.0f, 1.0f) }, // 4
+		{ XMFLOAT3(-1.0f,  1.0f,  1.0f), XMFLOAT3(0.0f, 1.0f, 1.0f) }, // 5
+		{ XMFLOAT3(1.0f,  1.0f,  1.0f), XMFLOAT3(1.0f, 1.0f, 1.0f) }, // 6
+		{ XMFLOAT3(1.0f, -1.0f,  1.0f), XMFLOAT3(1.0f, 0.0f, 1.0f) }
 	};
 
 	VertexBuffer<Vertex> tempBuffer(pDevice, list, cubeVertex, sizeof(cubeVertex) / sizeof(Vertex));
 
-	UINT indexCount[] = {
-		1, 2, 3
+	WORD indexCount[] = {
+		0, 1, 2, 0, 2, 3,
+		4, 6, 5, 4, 7, 6,
+		4, 5, 1, 4, 1, 0,
+		3, 2, 6, 3, 6, 7,
+		1, 5, 6, 1, 6, 2,
+		4, 0, 3, 4, 3, 7
 	};
 
-	IndexBuffer tempIndex = IndexBuffer(pDevice, list, indexCount, 3);
+	IndexBuffer tempIndex = IndexBuffer(pDevice, list, indexCount, _countof(indexCount));
+	UINT value = queue.ExecuteCommandList(list);
+	queue.WaitForFenceValue(value);
+
+	list = queue.GetCommandList();
 
 	state.Bind(list);
 	root.Bind(list);
@@ -272,9 +279,9 @@ void DirectXRenderer::CreateObject() {
 	list->RSSetViewports(1, &viewport);
 	CD3DX12_CPU_DESCRIPTOR_HANDLE targetHandler(pRTVHeapD->GetCPUDescriptorHandleForHeapStart(), pSwapChain->GetCurrentBackBufferIndex(), pDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
 	list->OMSetRenderTargets(1, &targetHandler, FALSE, NULL);
-	list->DrawIndexedInstanced(3, 1, 0, 0, 0);
+	list->DrawIndexedInstanced(_countof(indexCount), 1, 0, 0, 0);
 
-	UINT value = queue.ExecuteCommandList(list);
+	value = queue.ExecuteCommandList(list);
 	queue.WaitForFenceValue(value);
 
 }

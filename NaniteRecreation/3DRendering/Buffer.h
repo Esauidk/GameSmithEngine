@@ -28,6 +28,7 @@ namespace Render {
 				nullptr,
 				IID_PPV_ARGS(&gpuBuffer)
 			));
+			gpuBuffer->SetName(L"Personal Buffer");
 
 			RENDER_THROW(pDevice->CreateCommittedResource(
 				&uploadHeapProperties,

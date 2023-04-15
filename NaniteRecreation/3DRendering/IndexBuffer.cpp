@@ -1,7 +1,7 @@
 #include "IndexBuffer.h"
 
 namespace Render {
-	IndexBuffer::IndexBuffer(Microsoft::WRL::ComPtr<ID3D12Device8> pDevice, Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> pCommandList, UINT* buffer, int count) : Buffer<UINT>::Buffer(pDevice, pCommandList, buffer, count) {}
+	IndexBuffer::IndexBuffer(Microsoft::WRL::ComPtr<ID3D12Device8> pDevice, Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> pCommandList, WORD* buffer, int count) : Buffer<WORD>::Buffer(pDevice, pCommandList, buffer, count) {}
 
 	//TODO: IMplement Binding
 	void IndexBuffer::Bind(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> cmdList) {

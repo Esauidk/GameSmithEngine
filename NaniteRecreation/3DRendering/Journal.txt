@@ -30,3 +30,6 @@ Next Steps needed:
 - Pipeline Object Finished
 - Need to finish bind process
 - DO first 3d render
+
+4/15/2023
+- Need to add depth buffer, object being culled
