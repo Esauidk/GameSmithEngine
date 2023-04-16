@@ -182,7 +182,7 @@ void DirectXRenderer::EndFrame() {
 	queue.WaitForFenceValue(value);
 
 	RENDER_THROW(pSwapChain->Present(0, 0));
-	
+	//helloworld.
 	pSwapChain->GetBuffer(pSwapChain->GetCurrentBackBufferIndex(), IID_PPV_ARGS(&pBackBuffer));
 	
 }
@@ -206,6 +206,10 @@ void DirectXRenderer::CreateObject() {
 		D3D12_ROOT_SIGNATURE_FLAG_DENY_DOMAIN_SHADER_ROOT_ACCESS |
 		D3D12_ROOT_SIGNATURE_FLAG_DENY_GEOMETRY_SHADER_ROOT_ACCESS |
 		D3D12_ROOT_SIGNATURE_FLAG_DENY_PIXEL_SHADER_ROOT_ACCESS);
+
+	CD3DX12_ROOT_PARAMETER1 rootParameters;
+	rootParameters.InitAsConstants(sizeof(DirectX::XMMATRIX) / 4, 0, 0, D3D12_SHADER_VISIBILITY_VERTEX);
+	root.AddParameter(rootParameters);
 
 	root.BuildRootSignature(pDevice);
 
@@ -256,6 +260,8 @@ void DirectXRenderer::CreateObject() {
 		4, 0, 3, 4, 3, 7
 	};
 
+
+
 	IndexBuffer tempIndex = IndexBuffer(pDevice, list, indexCount, _countof(indexCount));
 	UINT value = queue.ExecuteCommandList(list);
 	queue.WaitForFenceValue(value);
@@ -276,6 +282,23 @@ void DirectXRenderer::CreateObject() {
 	CD3DX12_CPU_DESCRIPTOR_HANDLE targetHandler(pRTVHeapD->GetCPUDescriptorHandleForHeapStart(), pSwapChain->GetCurrentBackBufferIndex(), pDevice->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
 	D3D12_CPU_DESCRIPTOR_HANDLE depthHandler = dBuffer->GetHandle();
 	list->OMSetRenderTargets(1, &targetHandler, FALSE, &depthHandler);
+
+	float angle = static_cast<float>(90.0);
+	const DirectX::XMVECTOR rotationAxis = DirectX::XMVectorSet(0, 1, 1, 0);
+	DirectX::XMMATRIX m = DirectX::XMMatrixRotationAxis(rotationAxis, DirectX::XMConvertToRadians(angle));
+
+	const DirectX::XMVECTOR eyePosition = DirectX::XMVectorSet(0, 0, -10, 1);
+	const DirectX::XMVECTOR focusPoint = DirectX::XMVectorSet(0, 0, 0, 1);
+	const DirectX::XMVECTOR upDirection = DirectX::XMVectorSet(0, 1, 0, 0);
+	DirectX::XMMATRIX v = DirectX::XMMatrixLookAtLH(eyePosition, focusPoint, upDirection);
+
+	DirectX::XMMATRIX p = DirectX::XMMatrixPerspectiveFovLH(DirectX::XMConvertToRadians(45), 1080 / 600, 0.1f, 100.0f);
+
+	DirectX::XMMATRIX mvpMatrix = DirectX::XMMatrixMultiply(m, v);
+	mvpMatrix = XMMatrixMultiply(mvpMatrix, p);
+
+	list->SetGraphicsRoot32BitConstants(0, sizeof(DirectX::XMMATRIX) / 4, &mvpMatrix, 0);
+
 	list->DrawIndexedInstanced(_countof(indexCount), 1, 0, 0, 0);
 
 	value = queue.ExecuteCommandList(list);
