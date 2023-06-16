@@ -1,2 +1,2 @@
-# NaniteRendereringRecreation
-My attempt to recreate the Nanite Rendering Feature from UE5
+# ProjectGE
+A personal game engine 
