@@ -78,12 +78,6 @@
     <ClInclude Include="MainException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Renderer.h">
-      <Filter>Header Files\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="Renderers.h">
-      <Filter>Header Files\Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="Keyboard.h">
       <Filter>Header Files\Application\GUI</Filter>
     </ClInclude>
@@ -96,65 +90,68 @@
     <ClInclude Include="WindowMacros.h">
       <Filter>Header Files\Application\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="RenderApplication.h">
-      <Filter>Header Files\Application</Filter>
-    </ClInclude>
     <ClInclude Include="Timer.h">
       <Filter>Header Files\Application\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="DirectXMacros.h">
-      <Filter>Header Files\Rendering\DirectX</Filter>
+    <ClInclude Include="src\Rendering\DirectX12\BindableResources\VertexShader.h">
+      <Filter>Header Files\Rendering\DirectX\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="DirectXRenderer.h">
-      <Filter>Header Files\Rendering\DirectX</Filter>
+    <ClInclude Include="src\Rendering\DirectX12\BindableResources\TopologyResource.h">
+      <Filter>Header Files\Rendering\DirectX\Resources</Filter>
     </ClInclude>
-    <ClInclude Include="d3dx12.h">
+    <ClInclude Include="src\Rendering\DirectX12\BindableResources\VertexBuffer.h">
+      <Filter>Header Files\Rendering\DirectX\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rendering\DirectX12\BindableResources\Shader.h">
+      <Filter>Header Files\Rendering\DirectX\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rendering\DirectX12\BindableResources\PixelShader.h">
+      <Filter>Header Files\Rendering\DirectX\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rendering\DirectX12\BindableResources\PipelineDefiner.h">
+      <Filter>Header Files\Rendering\DirectX\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rendering\DirectX12\BindableResources\IndexBuffer.h">
+      <Filter>Header Files\Rendering\DirectX\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rendering\DirectX12\BindableResources\InputLayout.h">
+      <Filter>Header Files\Rendering\DirectX\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rendering\DirectX12\BindableResources\BindableResource.h">
+      <Filter>Header Files\Rendering\DirectX\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rendering\DirectX12\BindableResources\Buffer.h">
+      <Filter>Header Files\Rendering\DirectX\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Rendering\DirectX12\BindableResources\RootSignature.h">
+      <Filter>Header Files\Rendering\DirectX\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Util\DirectX12\d3dx12.h">
       <Filter>Header Files\Util\DirectXUtils</Filter>
     </ClInclude>
-    <ClInclude Include="DirectXCommandQueue.h">
+    <ClInclude Include="src\Rendering\DirectX12\DepthBuffer.h">
       <Filter>Header Files\Rendering\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="BindableResource.h">
-      <Filter>Header Files\Rendering\DirectX\Resources</Filter>
+    <ClInclude Include="src\Rendering\DirectX12\DirectXCommandQueue.h">
+      <Filter>Header Files\Rendering\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="Buffer.h">
-      <Filter>Header Files\Rendering\DirectX\Resources</Filter>
+    <ClInclude Include="src\Rendering\DirectX12\DirectXMacros.h">
+      <Filter>Header Files\Rendering\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="VertexBuffer.h">
-      <Filter>Header Files\Rendering\DirectX\Resources</Filter>
+    <ClInclude Include="src\Rendering\DirectX12\DirectXRenderer.h">
+      <Filter>Header Files\Rendering\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="IndexBuffer.h">
-      <Filter>Header Files\Rendering\DirectX\Resources</Filter>
+    <ClInclude Include="src\Rendering\DirectX12\PipelineState.h">
+      <Filter>Header Files\Rendering\DirectX</Filter>
     </ClInclude>
-    <ClInclude Include="RenderExceptions.h">
+    <ClInclude Include="src\Rendering\Renderer.h">
       <Filter>Header Files\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="Shader.h">
-      <Filter>Header Files\Rendering\DirectX\Resources</Filter>
+    <ClInclude Include="src\Rendering\RendererOptions.h">
+      <Filter>Header Files\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="PixelShader.h">
-      <Filter>Header Files\Rendering\DirectX\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="VertexShader.h">
-      <Filter>Header Files\Rendering\DirectX\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="InputLayout.h">
-      <Filter>Header Files\Rendering\DirectX\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="RootSignature.h">
-      <Filter>Header Files\Rendering\DirectX\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="PipelineState.h">
-      <Filter>Header Files\Rendering\DirectX</Filter>
-    </ClInclude>
-    <ClInclude Include="PipelineDefiner.h">
-      <Filter>Header Files\Rendering\DirectX\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="TopologyResource.h">
-      <Filter>Header Files\Rendering\DirectX\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="DepthBuffer.h">
-      <Filter>Header Files\Rendering\DirectX</Filter>
+    <ClInclude Include="src\Rendering\RenderExceptions.h">
+      <Filter>Header Files\Rendering</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -176,44 +173,41 @@
     <ClCompile Include="Timer.cpp">
       <Filter>Source Files\Application\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="DirectXRenderer.cpp">
+    <ClCompile Include="src\Rendering\DirectX12\DepthBuffer.cpp">
       <Filter>Source Files\Rendering\DirectX</Filter>
     </ClCompile>
-    <ClCompile Include="DirectXCommandQueue.cpp">
+    <ClCompile Include="src\Rendering\DirectX12\DirectXCommandQueue.cpp">
       <Filter>Source Files\Rendering\DirectX</Filter>
     </ClCompile>
-    <ClCompile Include="RenderApplication.cpp">
+    <ClCompile Include="src\Rendering\DirectX12\DirectXRenderer.cpp">
+      <Filter>Source Files\Rendering\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rendering\DirectX12\PipelineState.cpp">
+      <Filter>Source Files\Rendering\DirectX</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rendering\DirectX12\BindableResources\IndexBuffer.cpp">
+      <Filter>Source Files\Rendering\DirectX\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rendering\DirectX12\BindableResources\InputLayout.cpp">
+      <Filter>Source Files\Rendering\DirectX\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rendering\DirectX12\BindableResources\RootSignature.cpp">
+      <Filter>Source Files\Rendering\DirectX\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rendering\DirectX12\BindableResources\Shader.cpp">
+      <Filter>Source Files\Rendering\DirectX\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rendering\DirectX12\BindableResources\TopologyResource.cpp">
+      <Filter>Source Files\Rendering\DirectX\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rendering\DirectX12\BindableResources\VertexShader.cpp">
+      <Filter>Source Files\Rendering\DirectX\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rendering\DirectX12\BindableResources\PixelShader.cpp">
+      <Filter>Source Files\Rendering\DirectX\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Rendering\RenderExceptions.cpp">
       <Filter>Source Files\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="IndexBuffer.cpp">
-      <Filter>Source Files\Rendering\DirectX\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderExceptions.cpp">
-      <Filter>Source Files\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="Shader.cpp">
-      <Filter>Source Files\Rendering\DirectX\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="VertexShader.cpp">
-      <Filter>Source Files\Rendering\DirectX\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="PixelShader.cpp">
-      <Filter>Source Files\Rendering\DirectX\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="InputLayout.cpp">
-      <Filter>Source Files\Rendering\DirectX\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="RootSignature.cpp">
-      <Filter>Source Files\Rendering\DirectX\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="PipelineState.cpp">
-      <Filter>Source Files\Rendering\DirectX</Filter>
-    </ClCompile>
-    <ClCompile Include="TopologyResource.cpp">
-      <Filter>Source Files\Rendering\DirectX\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="DepthBuffer.cpp">
-      <Filter>Source Files\Rendering\DirectX</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -236,10 +230,10 @@
     <Text Include="Journal.txt" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="ExampleVertexShader.hlsl">
+    <FxCompile Include="src\Shaders\Vertex\ExampleVertexShader.hlsl">
       <Filter>Resource Files\Shaders\VertexShaders</Filter>
     </FxCompile>
-    <FxCompile Include="PixelShader.hlsl">
+    <FxCompile Include="src\Shaders\Pixel\PixelShader.hlsl">
       <Filter>Resource Files\Shaders\PixelShaders</Filter>
     </FxCompile>
   </ItemGroup>

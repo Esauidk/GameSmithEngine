@@ -1,5 +1,5 @@
 #include "VertexShader.h"
-#include "d3dx12.h"
+#include "../../../Util/DirectX12/d3dx12.h"
 
 namespace Render {
 	VertexShader::VertexShader(const std::wstring shaderPath): Shader(shaderPath, VERTEX){}

@@ -1,7 +1,7 @@
 #pragma once
 #include "BindableResource.h"
-#include "d3dx12.h"
-#include "DirectXMacros.h"
+#include "../../../Util/DirectX12/d3dx12.h"
+#include "../DirectXMacros.h"
 
 
 namespace Render {

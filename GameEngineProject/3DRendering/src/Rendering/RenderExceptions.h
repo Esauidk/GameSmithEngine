@@ -1,5 +1,5 @@
 #pragma once
-#include "MainException.h"
+#include "../../MainException.h"
 #include <vector>
 #include <wrl.h>
 

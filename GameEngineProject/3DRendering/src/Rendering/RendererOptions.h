@@ -1,5 +1,5 @@
 #pragma once
-#include "DirectXRenderer.h"
+#include "DirectX12/DirectXRenderer.h"
 #include "Renderer.h"
 
 enum class RendererOptions {

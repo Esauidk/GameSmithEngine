@@ -1,17 +1,17 @@
-#include "d3dx12.h"
+#include "../../Util/DirectX12/d3dx12.h"
 #include "DirectXRenderer.h"
 #include "DirectXMacros.h"
 
 // Temporary Includes
-#include "VertexBuffer.h"
-#include "IndexBuffer.h"
-#include "RootSignature.h"
-#include "VertexShader.h"
-#include "PixelShader.h"
-#include "RootSignature.h"
-#include "InputLayout.h"
+#include "BindableResources/VertexBuffer.h"
+#include "BindableResources/IndexBuffer.h"
+#include "BindableResources/RootSignature.h"
+#include "BindableResources/VertexShader.h"
+#include "BindableResources/PixelShader.h"
+#include "BindableResources/RootSignature.h"
+#include "BindableResources/InputLayout.h"
 #include "PipelineState.h"
-#include "TopologyResource.h"
+#include "BindableResources/TopologyResource.h"
 // END
 
 #include <chrono>

@@ -1,4 +1,6 @@
 #include "framework.h"
+
+/**
 #include "RenderApplication.h"
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
@@ -20,3 +22,4 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
     }
     return -1;
 }
+**/

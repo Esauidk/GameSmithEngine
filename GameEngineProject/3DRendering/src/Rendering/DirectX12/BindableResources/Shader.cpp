@@ -1,6 +1,6 @@
 #include "Shader.h"
-#include "DirectXMacros.h"
-#include "d3dx12.h"
+#include "../DirectXMacros.h"
+#include "../../../Util/DirectX12/d3dx12.h"
 
 
 #pragma comment(lib, "D3DCompiler.lib")

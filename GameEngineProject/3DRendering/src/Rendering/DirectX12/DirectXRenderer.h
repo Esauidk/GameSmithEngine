@@ -1,8 +1,8 @@
 #pragma once
-#include "Renderer.h"
+#include "../Renderer.h"
 #include "DirectXCommandQueue.h"
 #include "DepthBuffer.h"
-#include "BindableResource.h"
+#include "BindableResources/BindableResource.h"
 #include <vector>
 #include <d3d12.h>
 #include <dxgi1_6.h>

@@ -1,6 +1,6 @@
 #pragma once
-#include "BindableResource.h"
-#include "d3dx12.h"
+#include "BindableResources/BindableResource.h"
+#include "../../Util/DirectX12/d3dx12.h"
 
 namespace Render {
 	struct PipelineStateStream {

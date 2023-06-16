@@ -1,5 +1,5 @@
 #include "PixelShader.h"
-#include "d3dx12.h"
+#include "../../../Util/DirectX12/d3dx12.h"
 
 namespace Render {
 	PixelShader::PixelShader(const std::wstring shaderPath): Shader(shaderPath, PIXEL) {}

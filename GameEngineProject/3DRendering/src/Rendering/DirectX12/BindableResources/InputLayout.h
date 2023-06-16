@@ -1,5 +1,5 @@
 #pragma once
-#include "PipelineDefiner.h"
+#include "../BindableResources/PipelineDefiner.h"
 
 namespace Render {
 	class InputLayout : public PipelineDefiner
