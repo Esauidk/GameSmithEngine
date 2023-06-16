@@ -16,6 +16,7 @@
     <ProjectGuid>{6d8f6a94-5e9b-4ae9-8122-01ac4174fddf}</ProjectGuid>
     <RootNamespace>My3DRendering</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
+    <ProjectName>Rendering</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
