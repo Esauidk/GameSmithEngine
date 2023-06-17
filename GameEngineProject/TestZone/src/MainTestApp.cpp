@@ -10,6 +10,6 @@ public:
 	}
 };
 
-ProjectGE::Application * ProjectGE::CreateApplication() {
+ProjectGE::Application* ProjectGE::CreateApplication() {
 	return new TestZone();
 }

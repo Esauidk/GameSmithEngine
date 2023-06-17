@@ -27,9 +27,15 @@
     <ClInclude Include="src\ProjectGE\EntryPoint.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\ProjectGE\Log.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\Application.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\Log.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

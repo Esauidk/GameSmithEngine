@@ -1,0 +1,3 @@
+[submodule "GameEngineProject/ProjectGE/third-party/spdlog"]
+	path = GameEngineProject/ProjectGE/third-party/spdlog
+	url = https://github.com/gabime/spdlog
