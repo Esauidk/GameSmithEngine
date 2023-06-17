@@ -10,7 +10,7 @@ int main(int argc, char** argv) {
 
 	ProjectGE::Log::Init();
 	GE_CORE_WARN("Initialized Log!");
-	int a = 9;
+	int a = 255;
 	GE_APP_INFO("Hello! Var={0}", a);
 
 	ProjectGE::Application* app = ProjectGE::CreateApplication();
