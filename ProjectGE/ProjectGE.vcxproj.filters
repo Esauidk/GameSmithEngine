@@ -4,6 +4,9 @@
     <Filter Include="ProjectGE">
       <UniqueIdentifier>{C8BC6FED-3427-2464-7D65-D509E90E02B9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ProjectGE\Events">
+      <UniqueIdentifier>{AC37C851-9830-E7A3-C162-CC28ADBAC6AF}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ProjectGE.h" />
@@ -15,6 +18,15 @@
     </ClInclude>
     <ClInclude Include="src\ProjectGE\EntryPoint.h">
       <Filter>ProjectGE</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Events\Event.h">
+      <Filter>ProjectGE\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Events\KeyboardEvents.h">
+      <Filter>ProjectGE\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Events\MouseEvent.h">
+      <Filter>ProjectGE\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\ProjectGE\Log.h">
       <Filter>ProjectGE</Filter>

@@ -1,6 +1,8 @@
 #pragma once
 
 #include "Core.h"
+#include "Events/Event.h"
+
 namespace ProjectGE{
 	class GE_API Application
 	{

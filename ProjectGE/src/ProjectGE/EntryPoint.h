@@ -8,6 +8,7 @@ extern ProjectGE::Application* ProjectGE::CreateApplication();
 
 int main(int argc, char** argv) {
 
+	// Testing Logging
 	ProjectGE::Log::Init();
 	GE_CORE_WARN("Initialized Log!");
 	int a = 255;
@@ -17,7 +18,6 @@ int main(int argc, char** argv) {
 	app->Execute();
 	delete app;
 }
-
 #else
 	#error ONLY WINDOWS IS SUPPORTED!
 #endif

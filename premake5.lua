@@ -23,6 +23,7 @@ project "ProjectGE"
 	}
 
 	includedirs{
+		"%{prj.name}/src",
 		"%{prj.name}/third-party/spdlog/include"
 	}
 
