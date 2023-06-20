@@ -19,18 +19,22 @@
     <ClInclude Include="src\ProjectGE\EntryPoint.h">
       <Filter>ProjectGE</Filter>
     </ClInclude>
+    <ClInclude Include="src\ProjectGE\Events\ApplicationEvents.h">
+      <Filter>ProjectGE\Events</Filter>
+    </ClInclude>
     <ClInclude Include="src\ProjectGE\Events\Event.h">
       <Filter>ProjectGE\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\ProjectGE\Events\KeyboardEvents.h">
       <Filter>ProjectGE\Events</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\Events\MouseEvent.h">
+    <ClInclude Include="src\ProjectGE\Events\MouseEvents.h">
       <Filter>ProjectGE\Events</Filter>
     </ClInclude>
     <ClInclude Include="src\ProjectGE\Log.h">
       <Filter>ProjectGE</Filter>
     </ClInclude>
+    <ClInclude Include="src\gepch.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\Application.cpp">
@@ -39,5 +43,6 @@
     <ClCompile Include="src\ProjectGE\Log.cpp">
       <Filter>ProjectGE</Filter>
     </ClCompile>
+    <ClCompile Include="src\gepch.cpp" />
   </ItemGroup>
 </Project>

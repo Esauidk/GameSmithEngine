@@ -1,11 +1,8 @@
 #pragma once
 
+#include "gepch.h"
 #include "ProjectGE/Core.h"
-#include <string>
-#include <functional>
-#include <queue>
-#include <unordered_map>
-#include <type_traits>
+
 
 namespace ProjectGE {
 /*
@@ -82,21 +79,21 @@ namespace ProjectGE {
 			}
 		}
 		void AddListener(Eventfn func) {
-			m_listeners.push(func);
+			m_listeners.push_back(func);
 		}
 
 		void Dispatch(Event& evn) override {
-			// Copy of the listener queue
-			std::queue<Eventfn> copyQueue = m_listeners;
+			// Iterate through vector
 
-			while (!copyQueue.empty()) {
-				Eventfn fn = copyQueue.front();
+			auto iter = m_listeners.begin();
+
+			for (iter; iter < m_listeners.end(); iter++) {
+				Eventfn fn = *iter;
 				bool handled = fn(*(T*)&evn);
 				if (handled) {
 					handledEvent(evn);
 					break;
 				}
-				copyQueue.pop();
 			}
 		}
 
@@ -105,7 +102,7 @@ namespace ProjectGE {
 		}
 
 	private:
-		std::queue<Eventfn> m_listeners;
+		std::vector<Eventfn> m_listeners;
 	};
 
 	

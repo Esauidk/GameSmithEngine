@@ -1,6 +1,5 @@
 #pragma once
 #include "Event.h"
-#include <sstream>
 
 namespace ProjectGE {
 	class GE_API MouseMoveEvent : public Event {
