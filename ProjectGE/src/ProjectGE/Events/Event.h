@@ -4,6 +4,8 @@
 #include <string>
 #include <functional>
 #include <queue>
+#include <unordered_map>
+#include <type_traits>
 
 namespace ProjectGE {
 /*
@@ -74,6 +76,11 @@ namespace ProjectGE {
 		using Eventfn = std::function<bool(T&)>;
 
 	public:
+		EventDispatcher() {
+			if (!std::is_base_of<Event, T>::value) {
+				// Yell here
+			}
+		}
 		void AddListener(Eventfn func) {
 			m_listeners.push(func);
 		}
@@ -91,6 +98,10 @@ namespace ProjectGE {
 				}
 				copyQueue.pop();
 			}
+		}
+
+		void operator+=(Eventfn func) {
+			AddListener(func);
 		}
 
 	private:
