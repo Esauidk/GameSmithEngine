@@ -2,6 +2,7 @@
 
 #include "Core.h"
 #include "Events/Event.h"
+#include "Window.h"
 
 namespace ProjectGE{
 	class GE_API Application
@@ -11,6 +12,9 @@ namespace ProjectGE{
 		virtual ~Application();
 
 		void Execute();
+	private:
+		std::unique_ptr<Window> m_Window;
+		bool m_Running = true;
 	};
 
 	// Needs to be defined by CLIENT

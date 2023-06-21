@@ -7,6 +7,12 @@
     <Filter Include="ProjectGE\Events">
       <UniqueIdentifier>{AC37C851-9830-E7A3-C162-CC28ADBAC6AF}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ProjectGE\Platform">
+      <UniqueIdentifier>{1CDAD200-08BE-9356-711E-8EA95D217ED8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ProjectGE\Platform\Window">
+      <UniqueIdentifier>{83EF987B-EFB1-CC05-3862-5B92A463A5E3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\ProjectGE.h" />
@@ -34,6 +40,15 @@
     <ClInclude Include="src\ProjectGE\Log.h">
       <Filter>ProjectGE</Filter>
     </ClInclude>
+    <ClInclude Include="src\ProjectGE\Platform\Window\WindowsWindow.h">
+      <Filter>ProjectGE\Platform\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Platform\Window\resource.h">
+      <Filter>ProjectGE\Platform\Window</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Window.h">
+      <Filter>ProjectGE</Filter>
+    </ClInclude>
     <ClInclude Include="src\gepch.h" />
   </ItemGroup>
   <ItemGroup>
@@ -42,6 +57,9 @@
     </ClCompile>
     <ClCompile Include="src\ProjectGE\Log.cpp">
       <Filter>ProjectGE</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\Platform\Window\WindowsWindow.cpp">
+      <Filter>ProjectGE\Platform\Window</Filter>
     </ClCompile>
     <ClCompile Include="src\gepch.cpp" />
   </ItemGroup>

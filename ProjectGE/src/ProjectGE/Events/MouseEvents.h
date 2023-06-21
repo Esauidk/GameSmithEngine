@@ -48,16 +48,21 @@ namespace ProjectGE {
 
 	class GE_API MouseButtonEvent : public Event {
 	public:
+		enum MouseButton {
+			LEFT = 0,
+			RIGHT = 1
+		};
+
 		inline int GetButton() const { return m_Button; }
 	protected:
 		CATEGORY_TYPE(EventCategory::INPUT | EventCategory::MOUSE | EventCategory::MOUSE_BUTTON)
-			MouseButtonEvent(int button) : m_Button(button) {}
+			MouseButtonEvent(MouseButton button) : m_Button(button) {}
 		int m_Button;
 	};
 
 	class GE_API MouseButtonPressEvent : public MouseButtonEvent {
 	public:
-		MouseButtonPressEvent(int button) : MouseButtonEvent(button) {}
+		MouseButtonPressEvent(MouseButtonEvent::MouseButton button) : MouseButtonEvent(button) {}
 		virtual std::string ToString() const override {
 			std::stringstream oss;
 
@@ -70,7 +75,7 @@ namespace ProjectGE {
 
 	class GE_API MouseButtonReleaseEvent : public MouseButtonEvent {
 	public:
-		MouseButtonReleaseEvent(int button) : MouseButtonEvent(button) {}
+		MouseButtonReleaseEvent(MouseButtonEvent::MouseButton button) : MouseButtonEvent(button) {}
 		virtual std::string ToString() const override {
 			std::stringstream oss;
 
