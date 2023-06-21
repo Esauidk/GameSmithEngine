@@ -1,9 +1,8 @@
 #pragma once
+
 #include "ProjectGE/Window.h"
-#include <codecvt>
-#include <locale>
-#include <optional>
-#include <memory>
+
+#include "ProjectGE/Events/Event.h"
 
 namespace ProjectGE {
 	class GE_API WindowsWindow : public Window
@@ -19,6 +18,7 @@ namespace ProjectGE {
 
 		inline unsigned int GetWidth() const override { return m_Prop.Width; }
 		inline unsigned int GetHeight() const override { return m_Prop.Height; }
+		inline virtual Platform GetPlatform() const override { return Platform::WINDOW; };
 
 		void SetVSync(bool enabled) override;
 		bool IsVSync() const override;
@@ -57,7 +57,9 @@ namespace ProjectGE {
 	private:
 		WindowData m_Prop;
 		HWND hWnd;
+
 		bool m_CapturingInput;
+		int m_Repeat;
 	};
 };
 

@@ -26,14 +26,15 @@ namespace ProjectGE {
 
 	class GE_API MouseScrollEvent : public Event {
 	public:
-		MouseScrollEvent(float delta_x, float delta_y) : m_DeltaX(delta_x), m_DeltaY(delta_y) {}
-		inline float GetDeltaX() const { return m_DeltaX; }
-		inline float GetDeltaY() const { return m_DeltaY; }
+		MouseScrollEvent(float delta, float pos_x, float pos_y) : m_Delta(delta), m_PosX(pos_x), m_PosY(pos_y) {}
+		inline float GetDelta() const{ return m_Delta; }
+		inline float GetX() const { return m_PosX; }
+		inline float GetY() const { return m_PosY; }
 
 		virtual std::string ToString() const override {
 			std::stringstream oss;
 
-			oss << "MouseScrollEvent: " << "(" << m_DeltaX << "," << m_DeltaY << ")";
+			oss << "MouseScrollEvent: " << m_Delta << "(" << m_PosX << "," << m_PosY << ")";
 
 			return oss.str();
 		}
@@ -42,8 +43,9 @@ namespace ProjectGE {
 	protected:
 		CATEGORY_TYPE(EventCategory::INPUT | EventCategory::MOUSE)
 	private:
-		float m_DeltaX;
-		float m_DeltaY;
+		float m_Delta;
+		float m_PosX;
+		float m_PosY;
 	};
 
 	class GE_API MouseButtonEvent : public Event {

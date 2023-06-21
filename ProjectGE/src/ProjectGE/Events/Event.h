@@ -38,6 +38,12 @@ namespace ProjectGE {
 
 	};
 
+#define EVENT_TYPE(type) static EventType GetStaticType() {return EventType::##type; } \
+						virtual EventType GetEventType() const override {return GetStaticType();} \
+						virtual const char* GetName() const override {return #type;}
+
+#define CATEGORY_TYPE(category) virtual int GetCategoryFlags() const override {return category;}
+
 	class GE_API Event {
 		friend class EventDispatcherBase;
 	public:
@@ -74,27 +80,29 @@ namespace ProjectGE {
 
 	public:
 		EventDispatcher() {
-			if (!std::is_base_of<Event, T>::value) {
-				// Yell here
-			}
+			GE_CORE_ASSERT(!std::is_base_of<Event, T>::value);
 		}
 		void AddListener(Eventfn func) {
 			m_listeners.push_back(func);
 		}
 
 		void Dispatch(Event& evn) override {
-			// Iterate through vector
 
-			auto iter = m_listeners.begin();
+			if (evn.GetEventType() == T::GetStaticType()) {
+				// Iterate through vector
 
-			for (iter; iter < m_listeners.end(); iter++) {
-				Eventfn fn = *iter;
-				bool handled = fn(*(T*)&evn);
-				if (handled) {
-					handledEvent(evn);
-					break;
+				auto iter = m_listeners.begin();
+
+				for (iter; iter < m_listeners.end(); iter++) {
+					Eventfn fn = *iter;
+					bool handled = fn(*(T*)&evn);
+					if (handled) {
+						handledEvent(evn);
+						break;
+					}
 				}
 			}
+			
 		}
 
 		void operator+=(Eventfn func) {
@@ -104,14 +112,6 @@ namespace ProjectGE {
 	private:
 		std::vector<Eventfn> m_listeners;
 	};
-
-	
-
-#define EVENT_TYPE(type) static EventType GetStaticType() {return EventType::##type; } \
-						virtual EventType GetEventType() const override {return GetStaticType();} \
-						virtual const char* GetName() const override {return #type;}
-
-#define CATEGORY_TYPE(category) virtual int GetCategoryFlags() const override {return category;}
 
 	inline std::ostream& operator<<(std::ostream& os, const Event& e) {
 		return os << e.ToString();

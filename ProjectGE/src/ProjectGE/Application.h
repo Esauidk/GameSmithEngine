@@ -13,6 +13,8 @@ namespace ProjectGE{
 
 		void Execute();
 	private:
+		bool OnWindowClose(WindowCloseEvent& evn);
+
 		std::unique_ptr<Window> m_Window;
 		bool m_Running = true;
 	};

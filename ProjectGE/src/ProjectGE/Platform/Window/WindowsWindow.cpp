@@ -152,6 +152,8 @@ namespace ProjectGE {
 		case WM_CLOSE:
 		{
 			// TODO: Do WindowQuitEvent Here
+			WindowCloseEvent e;
+			m_Close.Dispatch(e);
 			PostQuitMessage(0);
 			return 0;
 		}
@@ -159,31 +161,53 @@ namespace ProjectGE {
 		{
 			//kbd.ClearState();
 			// TODO: Create FocusLostEvent Here
+			WindowLostFocusEvent e;
+			m_FocusLost.Dispatch(e);
+			break;
+		}
+		case WM_SETFOCUS:
+		{
+			WindowFocusEvent e;
+			m_Focus.Dispatch(e);
 			break;
 		}
 		case WM_SYSKEYDOWN:
 		case WM_KEYDOWN:
 		{
-
-			if (!(lParam & 0x40000000)) {
-				//kbd.OnKeyPressed(static_cast<unsigned char>(wParam));
-				// TODO: Create KeyPressedEvent Here
+			unsigned char keyCode = static_cast<unsigned char>(wParam);
+			if (lParam & 0x40000000) {
+				m_Repeat += LOWORD(lParam);
 			}
+			else {
+				m_Repeat = 0;
+			}
+
+			KeyPressedEvent e(keyCode, m_Repeat);
+			m_KeyPressed.Dispatch(e);
+
 			break;
 		}
 		case WM_SYSKEYUP:
 		case WM_KEYUP:
 		{
 
-
+			unsigned char keyCode = static_cast<unsigned char>(wParam);
+			KeyReleasedEvent e(keyCode);
+			m_KeyReleased.Dispatch(e);
 			//kbd.OnKeyReleased(static_cast<unsigned char>(wParam));
 			//TODO: Create KeyReleasedEvent Here
 			break;
 		}
 		case WM_CHAR:
 		{
-
-
+			
+			/*unsigned char keyCode = static_cast<unsigned char>(wParam);
+			GE_CORE_INFO("{0}", keyCode);
+			if (keyCode == m_LastKeyCode) {
+				m_Repeat++;
+				KeyPressedEvent e(keyCode, m_Repeat);
+				m_KeyPressed.Dispatch(e);
+			}*/
 			// kbd.OnChar(static_cast<unsigned char>(wParam));
 			// TODO: Create KeyPressedEvent with repeat on
 			break;
@@ -195,6 +219,9 @@ namespace ProjectGE {
 			const POINTS pt = MAKEPOINTS(lParam);
 			if (pt.x >= 0 && pt.x < m_Prop.Width && pt.y >= 0 && pt.y < m_Prop.Height) {
 				//mouse.OnMouseMove(pt.x, pt.y);
+				MouseMoveEvent e(pt.x, pt.y);
+				m_MouseMove.Dispatch(e);
+
 				// Initiate MouseMove Event
 				if (!m_CapturingInput) {
 					SetCapture(hWnd);
@@ -214,7 +241,8 @@ namespace ProjectGE {
 
 			const POINTS pt = MAKEPOINTS(lParam);
 			// mouse.OnLeftPressed(pt.x, pt.y);
-			// TODO: Create MouseButtonPressedEvent
+			MouseButtonPressEvent e(MouseButtonEvent::LEFT);
+			m_MousePressed.Dispatch(e);
 			break;
 		}
 		case WM_RBUTTONDOWN:
@@ -223,7 +251,8 @@ namespace ProjectGE {
 
 			const POINTS pt = MAKEPOINTS(lParam);
 			//mouse.OnRightPressed(pt.x, pt.y);
-			// TODO: Create MouseButtonPressedEvent
+			MouseButtonPressEvent e(MouseButtonEvent::RIGHT);
+			m_MousePressed.Dispatch(e);
 			break;
 		}
 		case WM_LBUTTONUP:
@@ -232,7 +261,8 @@ namespace ProjectGE {
 
 			const POINTS pt = MAKEPOINTS(lParam);
 			// mouse.OnLeftReleased(pt.x, pt.y);
-			// TODO: Create MouseButtonReleasedEvent
+			MouseButtonReleaseEvent e(MouseButtonEvent::LEFT);
+			m_MouseReleased.Dispatch(e);
 			if (pt.x < 0 || pt.x >= m_Prop.Width || pt.y < 0 || pt.y >= m_Prop.Height) {
 				ReleaseCapture();
 				//mouse.OnMouseLeave();
@@ -245,6 +275,8 @@ namespace ProjectGE {
 
 			const POINTS pt = MAKEPOINTS(lParam);
 			// mouse.OnRightReleased(pt.x, pt.y);
+			MouseButtonReleaseEvent e(MouseButtonEvent::RIGHT);
+			m_MouseReleased.Dispatch(e);
 			// TODO: Create MouseButtonReleasedEvent
 			if (pt.x < 0 || pt.x >= m_Prop.Width || pt.y < 0 || pt.y >= m_Prop.Height) {
 				ReleaseCapture();
@@ -258,10 +290,23 @@ namespace ProjectGE {
 
 			const POINTS pt = MAKEPOINTS(lParam);
 			const int delta = GET_WHEEL_DELTA_WPARAM(wParam);
+			const int xPos = LOWORD(lParam);
+			const int yPos = HIWORD(lParam);
+
+			MouseScrollEvent e(delta, xPos, yPos);
+			m_MouseScroll.Dispatch(e);
 
 			//mouse.OnWheelDelta(pt.x, pt.y, delta);
 			// TODO: Create MouseScrollEvent
 			break;
+		}
+		case WM_SIZE:
+		{
+			unsigned int width = LOWORD(lParam);
+			unsigned int height = HIWORD(lParam);
+
+			WindowResizeEvent e(width, height);
+			m_Resized.Dispatch(e);
 		}
 
 		}

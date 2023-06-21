@@ -25,6 +25,7 @@ namespace ProjectGE {
 
 	class GE_API WindowResizeEvent : public Event {
 	public:
+		WindowResizeEvent(unsigned int width, unsigned height) : m_Width(width), m_Height(height) {}
 		EVENT_TYPE(WND_RESIZE)
 		std::string ToString(){
 			std::stringstream oss;
