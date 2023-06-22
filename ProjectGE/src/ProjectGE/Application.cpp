@@ -6,29 +6,18 @@
 namespace ProjectGE {
 #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 
-
-	bool testPrint(Event& evn) {
-		GE_APP_INFO(evn);
-
-		return true;
-	}
-
-
 	Application::Application() {
 		m_Window = std::unique_ptr<Window>(Window::Create());
-		m_Window->GetDispatcherClose().AddListener(BIND_EVENT_FN(OnWindowClose));
 
-		// Testing
-		m_Window->GetDispatcherMouseMove() += testPrint;
-		m_Window->GetDispatcherMove() += testPrint;
-		m_Window->GetDispatcherKeyPress() += testPrint;
-		m_Window->GetDispatcherKeyRelease() += testPrint;
-		m_Window->GetDispatcherMousePress() += testPrint;
-		m_Window->GetDispatcherMouseRelease() += testPrint;
-		m_Window->GetDispatcherResize() += testPrint;
-		m_Window->GetDispatcherMouseScroll() += testPrint;
-		m_Window->GetDispatcherFocus() += testPrint;
-		m_Window->GetDispatcherFocusLost() += testPrint;
+		const std::vector<EventDispatcherBase*> dispatchers = m_Window->GetDistpachers();
+		for (auto dispatcher : dispatchers) {
+			EventDispatcher<WindowCloseEvent>* close_event;
+
+			if (EVENT_CAST(WindowCloseEvent, dispatcher, close_event)) {
+				close_event->AddListener(BIND_EVENT_FN(OnWindowClose));
+				continue;
+			}
+		}
 	}
 
 	Application::~Application() {
@@ -40,9 +29,22 @@ namespace ProjectGE {
 		return true;
 	}
 
+	void Application::PushLayer(Layer* layer) {
+		m_LayerStack.Push(layer);
+		layer->EventSubscribe(m_Window->GetDistpachers(), false);
+	}
+
+	void Application::PushOverlay(Layer* layer) {
+		m_LayerStack.PushSpecial(layer);
+		layer->EventSubscribe(m_Window->GetDistpachers(), true);
+	}
+
 	void Application::Execute() {
 
 		while (m_Running) {
+			for (Layer* layer : m_LayerStack) {
+				layer->OnUpdate();
+			}
 			m_Window->OnUpdate();
 		}
 	}

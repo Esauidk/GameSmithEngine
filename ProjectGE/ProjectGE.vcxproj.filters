@@ -37,7 +37,13 @@
     <ClInclude Include="src\ProjectGE\Events\MouseEvents.h">
       <Filter>ProjectGE\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\ProjectGE\Layer.h">
+      <Filter>ProjectGE</Filter>
+    </ClInclude>
     <ClInclude Include="src\ProjectGE\Log.h">
+      <Filter>ProjectGE</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\MixStack.h">
       <Filter>ProjectGE</Filter>
     </ClInclude>
     <ClInclude Include="src\ProjectGE\Platform\Window\WindowsWindow.h">
@@ -53,6 +59,9 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\Application.cpp">
+      <Filter>ProjectGE</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\Layer.cpp">
       <Filter>ProjectGE</Filter>
     </ClCompile>
     <ClCompile Include="src\ProjectGE\Log.cpp">

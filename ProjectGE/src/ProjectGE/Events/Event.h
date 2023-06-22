@@ -2,6 +2,7 @@
 
 #include "gepch.h"
 #include "ProjectGE/Core.h"
+#include "ProjectGE/MixStack.h"
 
 
 namespace ProjectGE {
@@ -68,6 +69,7 @@ namespace ProjectGE {
 	class GE_API EventDispatcherBase {
 	public:
 		virtual void Dispatch(Event& env) = 0;
+	protected:
 		void handledEvent(Event& env) {
 			env.m_Handled = true;
 		}
@@ -75,7 +77,7 @@ namespace ProjectGE {
 
 
 	template <typename T>
-	class GE_API EventDispatcher : public EventDispatcherBase {
+	class EventDispatcher : public EventDispatcherBase {
 		using Eventfn = std::function<bool(T&)>;
 
 	public:
@@ -83,7 +85,15 @@ namespace ProjectGE {
 			GE_CORE_ASSERT(!std::is_base_of<Event, T>::value);
 		}
 		void AddListener(Eventfn func) {
-			m_listeners.push_back(func);
+			Eventfn* fn = new Eventfn;
+			*fn = func;
+			m_listeners.Push(fn);
+		}
+
+		void AddOverlayListener(Eventfn func) {
+			Eventfn* fn = new Eventfn;
+			*fn = func;
+			m_listeners.PushSpecial(fn);
 		}
 
 		void Dispatch(Event& evn) override {
@@ -91,11 +101,12 @@ namespace ProjectGE {
 			if (evn.GetEventType() == T::GetStaticType()) {
 				// Iterate through vector
 
-				auto iter = m_listeners.begin();
+				auto test = m_listeners.begin();
+				auto iter = m_listeners.end();
 
-				for (iter; iter < m_listeners.end(); iter++) {
-					Eventfn fn = *iter;
-					bool handled = fn(*(T*)&evn);
+				for (iter; iter != m_listeners.begin();) {
+					Eventfn* fn = *(--iter);
+					bool handled = (*fn)(*(T*)&evn);
 					if (handled) {
 						handledEvent(evn);
 						break;
@@ -105,13 +116,11 @@ namespace ProjectGE {
 			
 		}
 
-		void operator+=(Eventfn func) {
-			AddListener(func);
-		}
-
 	private:
-		std::vector<Eventfn> m_listeners;
+		MixStack<Eventfn> m_listeners;
 	};
+
+#define EVENT_CAST(eventclass, dispatcher, result) (result = dynamic_cast<ProjectGE::EventDispatcher<ProjectGE::eventclass>*>(dispatcher)) != nullptr
 
 	inline std::ostream& operator<<(std::ostream& os, const Event& e) {
 		return os << e.ToString();

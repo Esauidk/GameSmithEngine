@@ -1,8 +1,11 @@
 #pragma once
 
 #include "Core.h"
-#include "Events/Event.h"
 #include "Window.h"
+
+#include "ProjectGE/Events/Event.h"
+#include "ProjectGE/MixStack.h"
+#include "ProjectGE/Layer.h"
 
 namespace ProjectGE{
 	class GE_API Application
@@ -11,12 +14,16 @@ namespace ProjectGE{
 		Application();
 		virtual ~Application();
 
+		void PushLayer(Layer* layer);
+		void PushOverlay(Layer* layer);
+
 		void Execute();
 	private:
 		bool OnWindowClose(WindowCloseEvent& evn);
 
 		std::unique_ptr<Window> m_Window;
 		bool m_Running = true;
+		MixStack<Layer> m_LayerStack;
 	};
 
 	// Needs to be defined by CLIENT

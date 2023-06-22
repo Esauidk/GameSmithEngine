@@ -157,6 +157,12 @@ namespace ProjectGE {
 			PostQuitMessage(0);
 			return 0;
 		}
+		case WM_MOVE: 
+		{
+			WindowMovedEvent e;
+			m_Moved.Dispatch(e);
+			break;
+		}
 		case WM_KILLFOCUS:
 		{
 			//kbd.ClearState();

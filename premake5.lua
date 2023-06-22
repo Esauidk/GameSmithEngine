@@ -46,14 +46,17 @@ project "ProjectGE"
 
 	filter "configurations:Debug"
 		defines "GE_DEBUG"
+		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "GE_Release"
+		buildoptions "/MD"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "GE_Dist"
+		buildoptions "/MD"
 		optimize "On"
 
 project "TestZone"
@@ -90,14 +93,17 @@ project "TestZone"
 
 	filter "configurations:Debug"
 		defines "GE_DEBUG"
+		buildoptions "/MDd"
 		symbols "On"
 
 	filter "configurations:Release"
 		defines "GE_Release"
+		buildoptions "/MD"
 		optimize "On"
 
 	filter "configurations:Dist"
 		defines "GE_Dist"
+		buildoptions "/MD"
 		optimize "On"
 
 project "Rendering"

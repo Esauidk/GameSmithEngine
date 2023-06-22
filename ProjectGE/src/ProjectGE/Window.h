@@ -41,20 +41,8 @@ namespace ProjectGE {
 
 		static Window* Create(const WindowProps& props = WindowProps());
 
-		// Defining dispatcher getters
-		inline EventDispatcher<WindowCloseEvent>& GetDispatcherClose() { return m_Close; };
-		inline EventDispatcher<WindowFocusEvent>& GetDispatcherFocus() { return m_Focus; };
-		inline EventDispatcher<WindowLostFocusEvent>& GetDispatcherFocusLost() { return m_FocusLost; };
-		inline EventDispatcher<WindowMovedEvent>& GetDispatcherMove() { return m_Moved; }
-		inline EventDispatcher<WindowResizeEvent>& GetDispatcherResize() { return m_Resized; }
-
-		inline EventDispatcher<KeyPressedEvent>& GetDispatcherKeyPress() { return m_KeyPressed; }
-		inline EventDispatcher<KeyReleasedEvent>& GetDispatcherKeyRelease() { return m_KeyReleased; }
-
-		inline EventDispatcher<MouseMoveEvent>& GetDispatcherMouseMove() { return m_MouseMove; }
-		inline EventDispatcher<MouseScrollEvent>& GetDispatcherMouseScroll() { return m_MouseScroll; }
-		inline EventDispatcher<MouseButtonPressEvent>& GetDispatcherMousePress() { return m_MousePressed; }
-		inline EventDispatcher<MouseButtonReleaseEvent>& GetDispatcherMouseRelease() { return m_MouseReleased; }
+		// Defining dispatcher getter
+		inline std::vector<EventDispatcherBase*> GetDistpachers() const { return m_Dispatchers; }
 
 	protected:
 		EventDispatcher<WindowCloseEvent> m_Close;
@@ -70,6 +58,12 @@ namespace ProjectGE {
 		EventDispatcher<MouseScrollEvent> m_MouseScroll;
 		EventDispatcher<MouseButtonPressEvent> m_MousePressed;
 		EventDispatcher<MouseButtonReleaseEvent> m_MouseReleased;
+
+		const std::vector<EventDispatcherBase*> m_Dispatchers = { &m_Close, 
+			&m_Focus, &m_FocusLost, 
+			&m_Moved, &m_Resized, 
+			&m_KeyPressed, &m_KeyReleased, 
+			&m_MouseMove, &m_MouseScroll, &m_MousePressed, &m_MouseReleased };
 	};
 
 

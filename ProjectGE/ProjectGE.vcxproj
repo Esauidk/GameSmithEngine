@@ -84,6 +84,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
+      <AdditionalOptions>/MDd %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -109,6 +110,7 @@
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalOptions>/MD %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -135,6 +137,7 @@
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
+      <AdditionalOptions>/MD %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -157,7 +160,9 @@
     <ClInclude Include="src\ProjectGE\Events\Event.h" />
     <ClInclude Include="src\ProjectGE\Events\KeyboardEvents.h" />
     <ClInclude Include="src\ProjectGE\Events\MouseEvents.h" />
+    <ClInclude Include="src\ProjectGE\Layer.h" />
     <ClInclude Include="src\ProjectGE\Log.h" />
+    <ClInclude Include="src\ProjectGE\MixStack.h" />
     <ClInclude Include="src\ProjectGE\Platform\Window\WindowsWindow.h" />
     <ClInclude Include="src\ProjectGE\Platform\Window\resource.h" />
     <ClInclude Include="src\ProjectGE\Window.h" />
@@ -165,6 +170,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\Application.cpp" />
+    <ClCompile Include="src\ProjectGE\Layer.cpp" />
     <ClCompile Include="src\ProjectGE\Log.cpp" />
     <ClCompile Include="src\ProjectGE\Platform\Window\WindowsWindow.cpp" />
     <ClCompile Include="src\gepch.cpp">
