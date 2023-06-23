@@ -3,6 +3,7 @@
 #include "ProjectGE/Events/ApplicationEvents.h"
 #include "ProjectGE/Events/MouseEvents.h"
 #include "ProjectGE/Events/KeyboardEvents.h"
+#include "ProjectGE/Rendering/Renderer.h"
 
 namespace ProjectGE {
 
@@ -16,12 +17,14 @@ namespace ProjectGE {
 		std::string Title;
 		unsigned int Width;
 		unsigned int Height;
+		RenderOptions renderOption;
 
 		WindowProps(
 			const std::string& title = "ProjectGE Engine", 
 			unsigned int width = 1280, 
-			unsigned int height = 720) 
-			: Title(title), Width(width), Height(height) {}
+			unsigned int height = 720,
+			RenderOptions option = RenderOptions::NONE) 
+			: Title(title), Width(width), Height(height), renderOption(option) {}
 	};
 
 	class GE_API Window
@@ -31,6 +34,7 @@ namespace ProjectGE {
 		virtual ~Window() {};
 		
 		virtual void OnUpdate() = 0;
+		virtual void SetTitle(const std::string& title) = 0;
 
 		virtual unsigned int GetWidth() const = 0;
 		virtual unsigned int GetHeight() const = 0;	

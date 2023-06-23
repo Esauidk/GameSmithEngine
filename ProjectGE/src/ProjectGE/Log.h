@@ -23,13 +23,13 @@ namespace ProjectGE {
 #define GE_CORE_ERROR(...) ProjectGE::Log::GetCoreLogger()->error(__VA_ARGS__)
 #define GE_CORE_WARN(...) ProjectGE::Log::GetCoreLogger()->warn(__VA_ARGS__)
 #define GE_CORE_TRACE(...) ProjectGE::Log::GetCoreLogger()->trace(__VA_ARGS__)
-#define GE_CORE_FATAL(...) ProjectGE::Log::GetCoreLogger()->fatal(__VA_ARGS__)
+#define GE_CORE_CRITICAL(...) ProjectGE::Log::GetCoreLogger()->critical(__VA_ARGS__)
 
 // Client Log Macros
 #define GE_APP_INFO(...) ProjectGE::Log::GetAppLogger()->info(__VA_ARGS__)
 #define GE_APP_ERROR(...) ProjectGE::Log::GetAppLogger()->error(__VA_ARGS__)
 #define GE_APP_WARN(...) ProjectGE::Log::GetAppLogger()->warn(__VA_ARGS__)
 #define GE_APP_TRACE(...) ProjectGE::Log::GetAppLogger()->trace(__VA_ARGS__)
-#define GE_APP_FATAL(...) ProjectGE::Log::GetAppLogger()->fatal(__VA_ARGS__)
+#define GE_APP_CRITICAL(...) ProjectGE::Log::GetAppLogger()->critical(__VA_ARGS__)
 
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ProjectGE/Window.h"
-
+#include "ProjectGE/Rendering/Renderer.h"
 #include "ProjectGE/Events/Event.h"
 
 namespace ProjectGE {
@@ -13,8 +13,7 @@ namespace ProjectGE {
 
 		void OnUpdate() override;
 
-		void SetTitle(const std::string& title);
-		HWND GetWindowHandle() const;
+		void SetTitle(const std::string& title) override;
 
 		inline unsigned int GetWidth() const override { return m_Prop.Width; }
 		inline unsigned int GetHeight() const override { return m_Prop.Height; }
@@ -30,6 +29,7 @@ namespace ProjectGE {
 			std::string Title;
 			unsigned int Width, Height;
 			bool VSync;
+			RenderOptions renderOption;
 
 		};
 
@@ -56,10 +56,12 @@ namespace ProjectGE {
 		virtual void Shutdown();
 	private:
 		WindowData m_Prop;
-		HWND hWnd;
+		HWND m_HWnd;
 
 		bool m_CapturingInput;
 		int m_Repeat;
+
+		Renderer* m_RenderContext;
 	};
 };
 

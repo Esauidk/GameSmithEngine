@@ -56,6 +56,23 @@
       <Filter>ProjectGE</Filter>
     </ClInclude>
     <ClInclude Include="src\gepch.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\BindableResource.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\Buffer.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\IndexBuffer.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\InputLayout.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\PipelineDefiner.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\PixelShader.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\RootSignature.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\Shader.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\TopologyResource.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\VertexBuffer.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\VertexShader.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DepthBuffer.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectXCommandQueue.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12Renderer.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\PipelineState.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\d3dx12.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\Renderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\Application.cpp">
@@ -71,5 +88,16 @@
       <Filter>ProjectGE\Platform\Window</Filter>
     </ClCompile>
     <ClCompile Include="src\gepch.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\IndexBuffer.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\InputLayout.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\PixelShader.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\RootSignature.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\Shader.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\TopologyResource.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\VertexShader.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DepthBuffer.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectXCommandQueue.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12Renderer.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\PipelineState.cpp" />
   </ItemGroup>
 </Project>

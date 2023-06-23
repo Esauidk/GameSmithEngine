@@ -7,7 +7,10 @@ namespace ProjectGE {
 #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 
 	Application::Application() {
-		m_Window = std::unique_ptr<Window>(Window::Create());
+		ProjectGE::WindowProps props;
+		props.renderOption = RenderOptions::DIRECTX12;
+
+		m_Window = std::unique_ptr<Window>(Window::Create(props));
 
 		const std::vector<EventDispatcherBase*> dispatchers = m_Window->GetDistpachers();
 		for (auto dispatcher : dispatchers) {

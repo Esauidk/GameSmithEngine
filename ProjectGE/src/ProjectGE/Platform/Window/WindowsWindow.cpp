@@ -2,6 +2,7 @@
 #include "WindowsWindow.h"
 #include "Resource.h"
 #include "ProjectGE/Log.h"
+#include "ProjectGE/Rendering/DirectX12/DirectX12Renderer.h"
 
 namespace ProjectGE {
 	WindowsWindow::WindowClass WindowsWindow::WindowClass::wndClass;
@@ -51,6 +52,7 @@ namespace ProjectGE {
 		m_Prop.Height = props.Height;
 		m_Prop.Width = props.Width;
 		m_Prop.Title = props.Title;
+		m_Prop.renderOption = props.renderOption;
 
 		GE_CORE_INFO("Creating window {0} ({1}, {2})", props.Title, props.Width, props.Height);
 
@@ -68,7 +70,7 @@ namespace ProjectGE {
 		std::wstring titleConvert = std::wstring(props.Title.begin(), props.Title.end());
 
 		//Creating Window
-		hWnd = CreateWindow(
+		m_HWnd = CreateWindow(
 			WindowClass::GetName(),
 			titleConvert.c_str(),
 			WS_CAPTION | WS_MINIMIZEBOX | WS_SYSMENU | WS_THICKFRAME,
@@ -80,29 +82,46 @@ namespace ProjectGE {
 			this
 		);
 
-		GE_CORE_ASSERT(hWnd == nullptr, "Could not react window {0}", props.Title);
+		GE_CORE_ASSERT(m_HWnd == nullptr, "Could not react window {0}", props.Title);
 
+		switch (props.renderOption) {
+		case RenderOptions::DIRECTX12:
+		{
+			m_RenderContext = (Renderer*)new DirectX12Renderer(m_HWnd);
+			break;
+		}
+		case RenderOptions::NONE:
+			GE_CORE_CRITICAL("No render type set");
+			m_RenderContext = nullptr;
+			break;
+		}
+
+		if (m_RenderContext != nullptr) {
+			m_RenderContext->Init();
+		}
+		
 		//Show window
-		ShowWindow(hWnd, SW_SHOWDEFAULT);
+		ShowWindow(m_HWnd, SW_SHOWDEFAULT);
 
 		SetVSync(true);
 	}
 
 	void WindowsWindow::OnUpdate() {
 		ProcessMessages();
+		if (m_RenderContext != nullptr) {
+			m_RenderContext->StartFrame();
+			m_RenderContext->EndFrame();
+		}
+		
 	}
 
 	void WindowsWindow::Shutdown() {
-		DestroyWindow(hWnd);
-	}
-
-	HWND WindowsWindow::GetWindowHandle() const {
-		return hWnd;
+		DestroyWindow(m_HWnd);
 	}
 
 	void WindowsWindow::SetTitle(const std::string& title) {
 		std::wstring titleConvert = std::wstring(title.begin(), title.end());
-		int res = SetWindowText(hWnd, titleConvert.c_str());
+		int res = SetWindowText(m_HWnd, titleConvert.c_str());
 		GE_CORE_ASSERT(res, "Could not change title of window {0}", title);
 	}
 
