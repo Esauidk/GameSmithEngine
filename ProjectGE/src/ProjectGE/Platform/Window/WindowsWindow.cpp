@@ -117,6 +117,10 @@ namespace ProjectGE {
 
 	void WindowsWindow::Shutdown() {
 		DestroyWindow(m_HWnd);
+		if (m_RenderContext != nullptr) {
+			delete m_RenderContext;
+		}
+		
 	}
 
 	void WindowsWindow::SetTitle(const std::string& title) {
