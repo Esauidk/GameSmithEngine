@@ -49,6 +49,7 @@ class TestZone : public ProjectGE::Application {
 public:
 	TestZone() {
 		PushLayer(new ExampleLayer());
+		PushLayer(new ProjectGE::ImGuiLayer());
 	}
 	~TestZone() {
 

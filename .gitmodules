@@ -2,3 +2,6 @@
 [submodule "ProjectGE/third-party/spdlog"]
 	path = ProjectGE/third-party/spdlog
 	url = https://github.com/gabime/spdlog
+[submodule "ProjectGE/third-party/imgui"]
+	path = ProjectGE/third-party/imgui
+	url = https://github.com/Esauidk/imgui

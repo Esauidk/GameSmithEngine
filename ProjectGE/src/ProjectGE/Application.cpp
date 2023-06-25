@@ -6,7 +6,12 @@
 namespace ProjectGE {
 #define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
 
+	Application* Application::s_Instance = nullptr;;
+
 	Application::Application() {
+		GE_CORE_ASSERT(!s_Instance, "Application already exists");
+		s_Instance = this;
+
 		ProjectGE::WindowProps props;
 		props.renderOption = RenderOptions::DIRECTX12;
 
@@ -45,6 +50,7 @@ namespace ProjectGE {
 	void Application::Execute() {
 
 		while (m_Running) {
+			m_Window->OnPreUpdate();
 			for (Layer* layer : m_LayerStack) {
 				layer->OnUpdate();
 			}

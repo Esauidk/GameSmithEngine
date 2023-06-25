@@ -106,10 +106,16 @@ namespace ProjectGE {
 		SetVSync(true);
 	}
 
+	void WindowsWindow::OnPreUpdate() {
+		if (m_RenderContext != nullptr) {
+			m_RenderContext->StartFrame();
+		}
+		
+	}
+
 	void WindowsWindow::OnUpdate() {
 		ProcessMessages();
 		if (m_RenderContext != nullptr) {
-			m_RenderContext->StartFrame();
 			m_RenderContext->EndFrame();
 		}
 		

@@ -33,12 +33,15 @@ namespace ProjectGE {
 		using EventFn = std::function<void(Event&)>;
 		virtual ~Window() {};
 		
+		virtual void OnPreUpdate() = 0;
 		virtual void OnUpdate() = 0;
 		virtual void SetTitle(const std::string& title) = 0;
 
 		virtual unsigned int GetWidth() const = 0;
 		virtual unsigned int GetHeight() const = 0;	
 		virtual Platform GetPlatform() const = 0;
+		
+		inline Renderer* GetRenderer() const { return m_RenderContext; }
 
 		virtual void SetVSync(bool enabled) = 0;
 		virtual bool IsVSync() const = 0;
@@ -49,6 +52,8 @@ namespace ProjectGE {
 		inline std::vector<EventDispatcherBase*> GetDistpachers() const { return m_Dispatchers; }
 
 	protected:
+		Renderer* m_RenderContext;
+
 		EventDispatcher<WindowCloseEvent> m_Close;
 		EventDispatcher<WindowFocusEvent> m_Focus;
 		EventDispatcher<WindowLostFocusEvent> m_FocusLost;

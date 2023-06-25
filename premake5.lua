@@ -9,6 +9,11 @@ workspace "GameEngineProject"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+IncludeDir = {}
+IncludeDir["ImGui"] = "ProjectGE/third-party/imgui"
+
+include "ProjectGE/third-party/imgui"
+
 project "ProjectGE"
 	location "ProjectGE"
 	kind "SharedLib"
@@ -27,7 +32,12 @@ project "ProjectGE"
 
 	includedirs{
 		"%{prj.name}/src",
-		"%{prj.name}/third-party/spdlog/include"
+		"%{prj.name}/third-party/spdlog/include",
+		"%{IncludeDir.ImGui}"
+	}
+
+	links{
+		"ImGui"
 	}
 
 	filter "system:windows"

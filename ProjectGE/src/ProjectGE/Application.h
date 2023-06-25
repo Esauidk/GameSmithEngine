@@ -18,12 +18,17 @@ namespace ProjectGE{
 		void PushOverlay(Layer* layer);
 
 		void Execute();
+
+		inline static Application& Get() { return *s_Instance; }
+		inline Window& GetWindow() { return *m_Window;}
 	private:
 		bool OnWindowClose(WindowCloseEvent& evn);
 
 		std::unique_ptr<Window> m_Window;
 		bool m_Running = true;
 		MixStack<Layer> m_LayerStack;
+	private:
+		static Application* s_Instance;
 	};
 
 	// Needs to be defined by CLIENT
