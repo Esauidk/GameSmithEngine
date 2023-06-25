@@ -7,11 +7,29 @@
     <Filter Include="ProjectGE\Events">
       <UniqueIdentifier>{AC37C851-9830-E7A3-C162-CC28ADBAC6AF}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ProjectGE\ImGui">
+      <UniqueIdentifier>{F2A7D45F-5E33-4224-6744-C518D34E9E24}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ProjectGE\ImGui\DirectX12">
+      <UniqueIdentifier>{3760FC94-A322-301F-ECD2-BEAB58D408FD}</UniqueIdentifier>
+    </Filter>
     <Filter Include="ProjectGE\Platform">
       <UniqueIdentifier>{1CDAD200-08BE-9356-711E-8EA95D217ED8}</UniqueIdentifier>
     </Filter>
     <Filter Include="ProjectGE\Platform\Window">
       <UniqueIdentifier>{83EF987B-EFB1-CC05-3862-5B92A463A5E3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ProjectGE\Rendering">
+      <UniqueIdentifier>{1520AC51-8181-895F-0AEF-CF11764FC01E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ProjectGE\Rendering\DirectX12">
+      <UniqueIdentifier>{1AA036B0-86B8-1DDA-4F65-AD73BB3CB273}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ProjectGE\Rendering\DirectX12\BindableResources">
+      <UniqueIdentifier>{D552C26A-418E-222E-4A83-9FBDB63DA75E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ProjectGE\Rendering\DirectX12\Util">
+      <UniqueIdentifier>{A7D783BB-9313-8725-FC25-9F1CE8802F40}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -37,6 +55,12 @@
     <ClInclude Include="src\ProjectGE\Events\MouseEvents.h">
       <Filter>ProjectGE\Events</Filter>
     </ClInclude>
+    <ClInclude Include="src\ProjectGE\ImGui\DirectX12\imgui_impl_dx12.h">
+      <Filter>ProjectGE\ImGui\DirectX12</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\ImGui\ImGuiLayer.h">
+      <Filter>ProjectGE\ImGui</Filter>
+    </ClInclude>
     <ClInclude Include="src\ProjectGE\Layer.h">
       <Filter>ProjectGE</Filter>
     </ClInclude>
@@ -52,31 +76,71 @@
     <ClInclude Include="src\ProjectGE\Platform\Window\resource.h">
       <Filter>ProjectGE\Platform\Window</Filter>
     </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\BindableResource.h">
+      <Filter>ProjectGE\Rendering\DirectX12\BindableResources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\Buffer.h">
+      <Filter>ProjectGE\Rendering\DirectX12\BindableResources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\IndexBuffer.h">
+      <Filter>ProjectGE\Rendering\DirectX12\BindableResources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\InputLayout.h">
+      <Filter>ProjectGE\Rendering\DirectX12\BindableResources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\PipelineDefiner.h">
+      <Filter>ProjectGE\Rendering\DirectX12\BindableResources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\PixelShader.h">
+      <Filter>ProjectGE\Rendering\DirectX12\BindableResources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\RootSignature.h">
+      <Filter>ProjectGE\Rendering\DirectX12\BindableResources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\Shader.h">
+      <Filter>ProjectGE\Rendering\DirectX12\BindableResources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\TopologyResource.h">
+      <Filter>ProjectGE\Rendering\DirectX12\BindableResources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\VertexBuffer.h">
+      <Filter>ProjectGE\Rendering\DirectX12\BindableResources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\VertexShader.h">
+      <Filter>ProjectGE\Rendering\DirectX12\BindableResources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DepthBuffer.h">
+      <Filter>ProjectGE\Rendering\DirectX12</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12Renderer.h">
+      <Filter>ProjectGE\Rendering\DirectX12</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectXCommandQueue.h">
+      <Filter>ProjectGE\Rendering\DirectX12</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\PipelineState.h">
+      <Filter>ProjectGE\Rendering\DirectX12</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\d3dx12.h">
+      <Filter>ProjectGE\Rendering\DirectX12\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\Renderer.h">
+      <Filter>ProjectGE\Rendering</Filter>
+    </ClInclude>
     <ClInclude Include="src\ProjectGE\Window.h">
       <Filter>ProjectGE</Filter>
     </ClInclude>
     <ClInclude Include="src\gepch.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\BindableResource.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\Buffer.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\IndexBuffer.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\InputLayout.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\PipelineDefiner.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\PixelShader.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\RootSignature.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\Shader.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\TopologyResource.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\VertexBuffer.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\VertexShader.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DepthBuffer.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectXCommandQueue.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12Renderer.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\PipelineState.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\d3dx12.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\Renderer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\Application.cpp">
       <Filter>ProjectGE</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\ImGui\DirectX12\imgui_impl_dx12.cpp">
+      <Filter>ProjectGE\ImGui\DirectX12</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\ImGui\ImGuiLayer.cpp">
+      <Filter>ProjectGE\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="src\ProjectGE\Layer.cpp">
       <Filter>ProjectGE</Filter>
@@ -87,17 +151,39 @@
     <ClCompile Include="src\ProjectGE\Platform\Window\WindowsWindow.cpp">
       <Filter>ProjectGE\Platform\Window</Filter>
     </ClCompile>
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\IndexBuffer.cpp">
+      <Filter>ProjectGE\Rendering\DirectX12\BindableResources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\InputLayout.cpp">
+      <Filter>ProjectGE\Rendering\DirectX12\BindableResources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\PixelShader.cpp">
+      <Filter>ProjectGE\Rendering\DirectX12\BindableResources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\RootSignature.cpp">
+      <Filter>ProjectGE\Rendering\DirectX12\BindableResources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\Shader.cpp">
+      <Filter>ProjectGE\Rendering\DirectX12\BindableResources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\TopologyResource.cpp">
+      <Filter>ProjectGE\Rendering\DirectX12\BindableResources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\VertexShader.cpp">
+      <Filter>ProjectGE\Rendering\DirectX12\BindableResources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DepthBuffer.cpp">
+      <Filter>ProjectGE\Rendering\DirectX12</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12Renderer.cpp">
+      <Filter>ProjectGE\Rendering\DirectX12</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectXCommandQueue.cpp">
+      <Filter>ProjectGE\Rendering\DirectX12</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\PipelineState.cpp">
+      <Filter>ProjectGE\Rendering\DirectX12</Filter>
+    </ClCompile>
     <ClCompile Include="src\gepch.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\IndexBuffer.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\InputLayout.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\PixelShader.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\RootSignature.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\Shader.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\TopologyResource.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\VertexShader.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DepthBuffer.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectXCommandQueue.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12Renderer.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\PipelineState.cpp" />
   </ItemGroup>
 </Project>

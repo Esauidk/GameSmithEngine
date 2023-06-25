@@ -80,7 +80,7 @@
       <PrecompiledHeaderFile>gepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>GE_PLATFORM_WINDOWS;GE_BUILD_DLL;GE_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;third-party\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;third-party\spdlog\include;third-party\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -103,7 +103,7 @@
       <PrecompiledHeaderFile>gepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>GE_PLATFORM_WINDOWS;GE_BUILD_DLL;GE_Release;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;third-party\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;third-party\spdlog\include;third-party\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -130,7 +130,7 @@
       <PrecompiledHeaderFile>gepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>GE_PLATFORM_WINDOWS;GE_BUILD_DLL;GE_Dist;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;third-party\spdlog\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;third-party\spdlog\include;third-party\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -160,6 +160,8 @@
     <ClInclude Include="src\ProjectGE\Events\Event.h" />
     <ClInclude Include="src\ProjectGE\Events\KeyboardEvents.h" />
     <ClInclude Include="src\ProjectGE\Events\MouseEvents.h" />
+    <ClInclude Include="src\ProjectGE\ImGui\DirectX12\imgui_impl_dx12.h" />
+    <ClInclude Include="src\ProjectGE\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\ProjectGE\Layer.h" />
     <ClInclude Include="src\ProjectGE\Log.h" />
     <ClInclude Include="src\ProjectGE\MixStack.h" />
@@ -177,8 +179,8 @@
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\VertexBuffer.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\VertexShader.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DepthBuffer.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectXCommandQueue.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12Renderer.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectXCommandQueue.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\PipelineState.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\d3dx12.h" />
     <ClInclude Include="src\ProjectGE\Rendering\Renderer.h" />
@@ -187,12 +189,11 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\Application.cpp" />
+    <ClCompile Include="src\ProjectGE\ImGui\DirectX12\imgui_impl_dx12.cpp" />
+    <ClCompile Include="src\ProjectGE\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\ProjectGE\Layer.cpp" />
     <ClCompile Include="src\ProjectGE\Log.cpp" />
     <ClCompile Include="src\ProjectGE\Platform\Window\WindowsWindow.cpp" />
-    <ClCompile Include="src\gepch.cpp">
-      <PrecompiledHeader>Create</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\IndexBuffer.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\InputLayout.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\PixelShader.cpp" />
@@ -201,9 +202,17 @@
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\TopologyResource.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\VertexShader.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DepthBuffer.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectXCommandQueue.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12Renderer.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectXCommandQueue.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\PipelineState.cpp" />
+    <ClCompile Include="src\gepch.cpp">
+      <PrecompiledHeader>Create</PrecompiledHeader>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="third-party\imgui\ImGui.vcxproj">
+      <Project>{C0FF640D-2C14-8DBE-F595-301E616989EF}</Project>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
