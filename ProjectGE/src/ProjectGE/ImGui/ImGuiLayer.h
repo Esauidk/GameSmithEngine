@@ -21,7 +21,7 @@ namespace ProjectGE {
 
 		bool OnKeyPressedEvent(KeyPressedEvent& e);
 		bool OnKeyReleasedEvent(KeyReleasedEvent& e);
-		//bool OnKeyTypedEvent(KeyTypedEvent& e);
+		bool OnCharEvent(CharEvent& e);
 		bool OnWindowResizeEvent(WindowResizeEvent& e);
 	};
 };

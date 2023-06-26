@@ -2,6 +2,7 @@
 
 #include "Core.h"
 #include "Window.h"
+#include "Timer.h"
 
 #include "ProjectGE/Events/Event.h"
 #include "ProjectGE/MixStack.h"
@@ -21,11 +22,13 @@ namespace ProjectGE{
 
 		inline static Application& Get() { return *s_Instance; }
 		inline Window& GetWindow() { return *m_Window;}
+		inline Timer& GetTimer() { return *m_Timer; }
 	private:
 		bool OnWindowClose(WindowCloseEvent& evn);
-
-		std::unique_ptr<Window> m_Window;
+		
 		bool m_Running = true;
+		std::unique_ptr<Window> m_Window;
+		std::unique_ptr<Timer> m_Timer;
 		MixStack<Layer> m_LayerStack;
 	private:
 		static Application* s_Instance;

@@ -22,7 +22,7 @@ namespace ProjectGE {
 		WND_CLOSE, WND_FOCUS, WND_LOST_FOCUS, WND_RESIZE, WND_MOVED,
 		APP_TICK, APP_UPDATE, APP_RENDER,
 		MOUSE_PRESSED, MOUSE_RELEASED, MOUSE_MOVE, MOUSE_SCROLL,
-		KEY_PRESSED, KEY_RELEASED
+		KEY_PRESSED, KEY_RELEASED, CHAR_TYPED
 
 	};
 
@@ -46,7 +46,6 @@ namespace ProjectGE {
 #define CATEGORY_TYPE(category) virtual int GetCategoryFlags() const override {return category;}
 
 #define EVENT_CAST(eventclass, dispatcher, result) (result = dynamic_cast<ProjectGE::EventDispatcher<eventclass>*>(dispatcher)) != nullptr
-#define BIND_EVENT_FN(classname, x) std::bind(&classname::x, this, std::placeholders::_1)
 
 	class GE_API Event {
 		friend class EventDispatcherBase;

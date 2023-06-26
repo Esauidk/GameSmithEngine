@@ -236,13 +236,9 @@ namespace ProjectGE {
 		case WM_CHAR:
 		{
 			
-			/*unsigned char keyCode = static_cast<unsigned char>(wParam);
-			GE_CORE_INFO("{0}", keyCode);
-			if (keyCode == m_LastKeyCode) {
-				m_Repeat++;
-				KeyPressedEvent e(keyCode, m_Repeat);
-				m_KeyPressed.Dispatch(e);
-			}*/
+			unsigned char keyCode = static_cast<unsigned char>(wParam);
+			CharEvent e(keyCode);
+			m_Char.Dispatch(e);
 			// kbd.OnChar(static_cast<unsigned char>(wParam));
 			// TODO: Create KeyPressedEvent with repeat on
 			break;
@@ -324,7 +320,7 @@ namespace ProjectGE {
 
 
 			const POINTS pt = MAKEPOINTS(lParam);
-			const int delta = GET_WHEEL_DELTA_WPARAM(wParam);
+			const int delta = GET_WHEEL_DELTA_WPARAM(wParam) / WHEEL_DELTA;
 			const int xPos = LOWORD(lParam);
 			const int yPos = HIWORD(lParam);
 
@@ -340,6 +336,9 @@ namespace ProjectGE {
 			unsigned int width = LOWORD(lParam);
 			unsigned int height = HIWORD(lParam);
 
+			m_Prop.Width = width;
+			m_Prop.Height = height;
+			m_RenderContext->Resize(width, height);
 			WindowResizeEvent e(width, height);
 			m_Resized.Dispatch(e);
 		}

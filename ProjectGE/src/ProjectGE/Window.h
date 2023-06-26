@@ -61,6 +61,7 @@ namespace ProjectGE {
 		EventDispatcher<WindowResizeEvent> m_Resized;
 
 		EventDispatcher<KeyPressedEvent> m_KeyPressed;
+		EventDispatcher<CharEvent> m_Char;
 		EventDispatcher<KeyReleasedEvent> m_KeyReleased;
 
 		EventDispatcher<MouseMoveEvent> m_MouseMove;
@@ -71,7 +72,7 @@ namespace ProjectGE {
 		const std::vector<EventDispatcherBase*> m_Dispatchers = { &m_Close, 
 			&m_Focus, &m_FocusLost, 
 			&m_Moved, &m_Resized, 
-			&m_KeyPressed, &m_KeyReleased, 
+			&m_KeyPressed, &m_Char, &m_KeyReleased, 
 			&m_MouseMove, &m_MouseScroll, &m_MousePressed, &m_MouseReleased };
 	};
 

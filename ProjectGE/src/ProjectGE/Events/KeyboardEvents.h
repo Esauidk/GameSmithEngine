@@ -29,6 +29,20 @@ namespace ProjectGE {
 		int m_RepeatCount;
 	};
 
+	class GE_API CharEvent : public KeyEvent {
+	public:
+		CharEvent(int keyCode) : KeyEvent(keyCode) {}
+
+		virtual std::string ToString() const override {
+			std::stringstream oss;
+			oss << "CharEvent: KeyCode" << m_KeyCode;
+
+			return oss.str();
+		}
+
+		EVENT_TYPE(CHAR_TYPED)
+	};
+
 	class GE_API KeyReleasedEvent : public KeyEvent {
 	public:
 		KeyReleasedEvent(int keyCode) : KeyEvent(keyCode) {}

@@ -33,6 +33,9 @@ namespace ProjectGE {
 
 			return oss.str();
 		}
+
+		inline unsigned int GetWidth() { return m_Width; }
+		inline unsigned int GetHeight() { return m_Height; }
 	protected:
 		CATEGORY_TYPE(EventCategory::APP_EVENT)
 	private:

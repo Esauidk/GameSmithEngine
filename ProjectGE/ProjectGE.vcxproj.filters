@@ -131,6 +131,7 @@
       <Filter>ProjectGE</Filter>
     </ClInclude>
     <ClInclude Include="src\gepch.h" />
+    <ClInclude Include="src\ProjectGE\Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\Application.cpp">
@@ -185,5 +186,6 @@
       <Filter>ProjectGE\Rendering\DirectX12</Filter>
     </ClCompile>
     <ClCompile Include="src\gepch.cpp" />
+    <ClCompile Include="src\ProjectGE\Timer.cpp" />
   </ItemGroup>
 </Project>

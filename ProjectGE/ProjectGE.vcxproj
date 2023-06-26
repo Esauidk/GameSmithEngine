@@ -184,6 +184,7 @@
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\PipelineState.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\d3dx12.h" />
     <ClInclude Include="src\ProjectGE\Rendering\Renderer.h" />
+    <ClInclude Include="src\ProjectGE\Timer.h" />
     <ClInclude Include="src\ProjectGE\Window.h" />
     <ClInclude Include="src\gepch.h" />
   </ItemGroup>
@@ -208,6 +209,7 @@
     <ClCompile Include="src\gepch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\ProjectGE\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="third-party\imgui\ImGui.vcxproj">
