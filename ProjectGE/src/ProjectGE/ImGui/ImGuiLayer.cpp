@@ -71,6 +71,78 @@ namespace ProjectGE {
 	}
 
 	void ImGuiLayer::EventSubscribe(std::vector<EventDispatcherBase*> dispatchers, bool overlay) {
-	
+		for (auto dispatcher : dispatchers) {
+			bool reg = RegisterEvent<MouseButtonPressEvent>(dispatcher, BIND_EVENT_FN(ImGuiLayer, OnMouseButtonPressedEvent), false);
+			if (reg) {
+				continue;
+			}
+
+			reg = RegisterEvent<MouseButtonReleaseEvent>(dispatcher, BIND_EVENT_FN(ImGuiLayer, OnMouseButtonReleasedEvent), false);
+			if (reg) {
+				continue;
+			}
+
+			reg = RegisterEvent<MouseMoveEvent>(dispatcher, BIND_EVENT_FN(ImGuiLayer, OnMouseMoveEvent), false);
+			if (reg) {
+				continue;
+			}
+
+			reg = RegisterEvent<MouseScrollEvent>(dispatcher, BIND_EVENT_FN(ImGuiLayer, OnMouseScrollEvent), false);
+			if (reg) {
+				continue;
+			}
+
+			reg = RegisterEvent<KeyPressedEvent>(dispatcher, BIND_EVENT_FN(ImGuiLayer, OnKeyPressedEvent), false);
+			if (reg) {
+				continue;
+			}
+
+			reg = RegisterEvent<KeyReleasedEvent>(dispatcher, BIND_EVENT_FN(ImGuiLayer, OnKeyReleasedEvent), false);
+			if (reg) {
+				continue;
+			}
+
+			reg = RegisterEvent<WindowResizeEvent>(dispatcher, BIND_EVENT_FN(ImGuiLayer, OnWindowResizeEvent), false);
+			if (reg) {
+				continue;
+			}
+		}
 	}
+
+	bool ImGuiLayer::OnMouseButtonPressedEvent(MouseButtonPressEvent& e)
+	{
+		return false;
+	}
+
+	bool ImGuiLayer::OnMouseButtonReleasedEvent(MouseButtonReleaseEvent& e)
+	{
+		return false;
+	}
+
+	bool ImGuiLayer::OnMouseMoveEvent(MouseMoveEvent& e)
+	{
+		GE_CORE_INFO(e);
+		return false;
+	}
+
+	bool ImGuiLayer::OnMouseScrollEvent(MouseScrollEvent& e)
+	{
+		return false;
+	}
+
+	bool ImGuiLayer::OnKeyPressedEvent(KeyPressedEvent& e)
+	{
+		return false;
+	}
+
+	bool ImGuiLayer::OnKeyReleasedEvent(KeyReleasedEvent& e)
+	{
+		return false;
+	}
+
+	bool ImGuiLayer::OnWindowResizeEvent(WindowResizeEvent& e)
+	{
+		return false;
+	}
+
 };

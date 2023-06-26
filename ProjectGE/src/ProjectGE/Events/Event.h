@@ -45,6 +45,9 @@ namespace ProjectGE {
 
 #define CATEGORY_TYPE(category) virtual int GetCategoryFlags() const override {return category;}
 
+#define EVENT_CAST(eventclass, dispatcher, result) (result = dynamic_cast<ProjectGE::EventDispatcher<eventclass>*>(dispatcher)) != nullptr
+#define BIND_EVENT_FN(classname, x) std::bind(&classname::x, this, std::placeholders::_1)
+
 	class GE_API Event {
 		friend class EventDispatcherBase;
 	public:
@@ -84,16 +87,16 @@ namespace ProjectGE {
 		EventDispatcher() {
 			GE_CORE_ASSERT(!std::is_base_of<Event, T>::value);
 		}
-		void AddListener(Eventfn func) {
+		void AddListener(Eventfn func, bool overlay) {
 			Eventfn* fn = new Eventfn;
 			*fn = func;
-			m_listeners.Push(fn);
-		}
-
-		void AddOverlayListener(Eventfn func) {
-			Eventfn* fn = new Eventfn;
-			*fn = func;
-			m_listeners.PushSpecial(fn);
+			if (overlay) {
+				m_listeners.PushSpecial(fn);
+			}
+			else {
+				m_listeners.Push(fn);
+			}
+			
 		}
 
 		void Dispatch(Event& evn) override {
@@ -120,7 +123,18 @@ namespace ProjectGE {
 		MixStack<Eventfn> m_listeners;
 	};
 
-#define EVENT_CAST(eventclass, dispatcher, result) (result = dynamic_cast<ProjectGE::EventDispatcher<ProjectGE::eventclass>*>(dispatcher)) != nullptr
+
+	template <typename EventType>
+	bool RegisterEvent(EventDispatcherBase* dispatch, std::function<bool(EventType&)> fnc, bool overlay) {
+		EventDispatcher<EventType>* eventDispatch;
+
+		if (EVENT_CAST(EventType, dispatch, eventDispatch)) {
+			eventDispatch->AddListener(fnc, overlay);
+			return true;
+		}
+
+		return false;
+	}
 
 	inline std::ostream& operator<<(std::ostream& os, const Event& e) {
 		return os << e.ToString();

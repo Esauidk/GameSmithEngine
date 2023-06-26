@@ -4,8 +4,6 @@
 #include "Log.h"
 
 namespace ProjectGE {
-#define BIND_EVENT_FN(x) std::bind(&Application::x, this, std::placeholders::_1)
-
 	Application* Application::s_Instance = nullptr;;
 
 	Application::Application() {
@@ -19,10 +17,10 @@ namespace ProjectGE {
 
 		const std::vector<EventDispatcherBase*> dispatchers = m_Window->GetDistpachers();
 		for (auto dispatcher : dispatchers) {
-			EventDispatcher<WindowCloseEvent>* close_event;
+			
+			bool reg = RegisterEvent<WindowCloseEvent>(dispatcher, BIND_EVENT_FN(Application, OnWindowClose), false);
 
-			if (EVENT_CAST(WindowCloseEvent, dispatcher, close_event)) {
-				close_event->AddListener(BIND_EVENT_FN(OnWindowClose));
+			if (reg) {
 				continue;
 			}
 		}
