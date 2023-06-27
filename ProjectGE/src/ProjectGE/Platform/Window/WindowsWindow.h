@@ -11,7 +11,6 @@ namespace ProjectGE {
 		WindowsWindow(const WindowProps& props);
 		virtual ~WindowsWindow();
 
-		void OnPreUpdate() override;
 		void OnUpdate() override;
 
 		void SetTitle(const std::string& title) override;

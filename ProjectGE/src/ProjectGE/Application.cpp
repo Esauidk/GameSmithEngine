@@ -50,7 +50,6 @@ namespace ProjectGE {
 	void Application::Execute() {
 
 		while (m_Running) {
-			m_Window->OnPreUpdate();
 			for (Layer* layer : m_LayerStack) {
 				layer->OnUpdate();
 			}

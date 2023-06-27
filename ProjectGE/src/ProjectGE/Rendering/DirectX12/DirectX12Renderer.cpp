@@ -96,7 +96,7 @@ namespace ProjectGE {
 		// Buffer used for rending to output (i.e. monitor/application)
 		swapChainDesc.BufferUsage = DXGI_USAGE_RENDER_TARGET_OUTPUT;
 		// The amount fo buffers in the swap chain
-		swapChainDesc.BufferCount = 2;
+		swapChainDesc.BufferCount = m_BufferCount;
 		// Stretch if buffer doesn't fit resolution
 		swapChainDesc.Scaling = DXGI_SCALING_STRETCH;
 		// Discard contents of back buffer after presentation call (Fresh new buffer after each presentation call)
@@ -104,14 +104,14 @@ namespace ProjectGE {
 		// Nothing really done with alphas
 		swapChainDesc.AlphaMode = DXGI_ALPHA_MODE_UNSPECIFIED;
 
-		BOOL tearingSupport = FALSE;
+		m_TearingSupport = FALSE;
 		if (FAILED(dxgiFactory5->CheckFeatureSupport(DXGI_FEATURE_PRESENT_ALLOW_TEARING,
-			&tearingSupport,
-			sizeof(tearingSupport)))) {
-			tearingSupport = FALSE;
+			&m_TearingSupport,
+			sizeof(m_TearingSupport)))) {
+			m_TearingSupport = FALSE;
 		}
 
-		swapChainDesc.Flags = (tearingSupport == TRUE) ? DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING : 0;
+		swapChainDesc.Flags = (m_TearingSupport == TRUE) ? DXGI_SWAP_CHAIN_FLAG_ALLOW_TEARING : 0;
 
 		ComPtr<IDXGISwapChain1> dxgiSwapChain1;
 
@@ -154,42 +154,23 @@ namespace ProjectGE {
 
 		// Gets descriptor for render target view
 		CD3DX12_CPU_DESCRIPTOR_HANDLE targetHandler = CD3DX12_CPU_DESCRIPTOR_HANDLE(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart());
+		Microsoft::WRL::ComPtr<ID3D12Resource2> buffer;
 
 		// Assign target views to buffers and their place in the heap
-		for (int i = 0; i < 2; i++) {
-			res = FAILED(m_SwapChain->GetBuffer(i, IID_PPV_ARGS(&m_BackBuffer)));
+		for (int i = 0; i < m_BufferCount; i++) {
+			res = FAILED(m_SwapChain->GetBuffer(i, IID_PPV_ARGS(&buffer)));
 			GE_CORE_ASSERT(!res, "Failed to create DirectX12 render target buffer");
-			m_Device->CreateRenderTargetView(m_BackBuffer.Get(), nullptr, targetHandler);
+			m_Device->CreateRenderTargetView(buffer.Get(), nullptr, targetHandler);
 			targetHandler.Offset(rtvSize);
 		}
 
-		res = FAILED(m_SwapChain->GetBuffer(0, IID_PPV_ARGS(&m_BackBuffer)));
-		GE_CORE_ASSERT(!res, "Failed to get DirectX12 buffer");
+		InitializeBackBuffer();
 
 		m_DBuffer = new DepthBuffer(m_Device, 1080, 600);
 	}
 
-	void DirectX12Renderer::StartFrame() {
-		// Reseting Render Target
-		CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
-			m_BackBuffer.Get(),
-			D3D12_RESOURCE_STATE_PRESENT, D3D12_RESOURCE_STATE_RENDER_TARGET
-		);
-		ComPtr<ID3D12GraphicsCommandList6> list = m_Queue.GetCommandList();
-		// Add command to transition the render target
-		list->ResourceBarrier(1, &barrier);
-		UINT index = m_SwapChain->GetCurrentBackBufferIndex();
-		CD3DX12_CPU_DESCRIPTOR_HANDLE targetHandler(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart(), m_SwapChain->GetCurrentBackBufferIndex(), m_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
-		const float color[] = { 0.07f, 0.0f, 0.12f, 1 };
-		list->ClearRenderTargetView(targetHandler, color, 0, nullptr);
-		m_DBuffer->Clear(list);
-		UINT value = m_Queue.ExecuteCommandList(list);
-		m_Queue.WaitForFenceValue(value);
-
-	}
-
-	void DirectX12Renderer::EndFrame() {
-		// Present Render Target
+	void DirectX12Renderer::Swap()
+	{
 		CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
 			m_BackBuffer.Get(),
 			D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT
@@ -203,16 +184,62 @@ namespace ProjectGE {
 		UINT value = m_Queue.ExecuteCommandList(list);
 		m_Queue.WaitForFenceValue(value);
 
-		
+
 		bool res = FAILED(m_SwapChain->Present(0, 0));
 		GE_CORE_ASSERT(!res, "Failed to present DirectX12 buffer");
-		//helloworld.
-		m_SwapChain->GetBuffer(m_SwapChain->GetCurrentBackBufferIndex(), IID_PPV_ARGS(&m_BackBuffer));
+		
+		InitializeBackBuffer();
+	}
 
+	void DirectX12Renderer::Resize(float width, float height)
+	{
+		m_Queue.Flush();
+		m_BackBuffer.Reset();
+
+		DXGI_SWAP_CHAIN_DESC1 swapChainDesc = {};
+		bool res = FAILED(m_SwapChain->GetDesc1(&swapChainDesc));
+		GE_CORE_ASSERT(!res, "Failed to acquire back buffer description");
+
+		res = FAILED(m_SwapChain->ResizeBuffers(swapChainDesc.BufferCount, width, height, swapChainDesc.Format, swapChainDesc.Flags));
+		GE_CORE_ASSERT(!res, "Failed to resize DirectX12 swap chain buffers");
+
+		CD3DX12_CPU_DESCRIPTOR_HANDLE rtv(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart());
+		UINT rtvSize = m_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+
+		for (int i = 0; i < m_BufferCount; i++) {
+			res = FAILED(m_SwapChain->GetBuffer(i, IID_PPV_ARGS(&m_BackBuffer)));
+			GE_CORE_ASSERT(!res, "Failed to create DirectX12 render target buffer");
+			m_Device->CreateRenderTargetView(m_BackBuffer.Get(), nullptr, rtv);
+			rtv.Offset(rtvSize);
+		}
+
+		m_DBuffer->Resize(m_Device, width, height);
+
+		InitializeBackBuffer();
 	}
 
 	CD3DX12_CPU_DESCRIPTOR_HANDLE DirectX12Renderer::GetRenderTarget() {
 		return CD3DX12_CPU_DESCRIPTOR_HANDLE(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart(), m_SwapChain->GetCurrentBackBufferIndex(), m_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
+	}
+
+	void DirectX12Renderer::InitializeBackBuffer()
+	{
+		bool res = FAILED(m_SwapChain->GetBuffer(m_SwapChain->GetCurrentBackBufferIndex(), IID_PPV_ARGS(&m_BackBuffer)));
+		GE_CORE_ASSERT(!res, "Failed to reacquire DirectX12 back buffer");
+
+		CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
+			m_BackBuffer.Get(),
+			D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_RENDER_TARGET
+		);
+
+		ComPtr<ID3D12GraphicsCommandList6> list = m_Queue.GetCommandList();
+		// Add command to transition the render target
+		list->ResourceBarrier(1, &barrier);
+		CD3DX12_CPU_DESCRIPTOR_HANDLE rtv(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart(), m_SwapChain->GetCurrentBackBufferIndex(), m_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
+		const float color[] = { 0.07f, 0.0f, 0.12f, 1 };
+		list->ClearRenderTargetView(rtv, color, 0, nullptr);
+		UINT value = m_Queue.ExecuteCommandList(list);
+		m_Queue.WaitForFenceValue(value);
 	}
 
 	void DirectX12Renderer::CreateObject() {

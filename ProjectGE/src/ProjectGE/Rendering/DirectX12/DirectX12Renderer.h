@@ -23,8 +23,8 @@ namespace ProjectGE {
 		DirectX12Renderer(HWND window);
 		~DirectX12Renderer() = default;
 		void Init() override;
-		void StartFrame() override;
-		void EndFrame() override;
+		void Swap() override;
+		void Resize(float width, float height) override;
 		void CreateObject() override;
 		void DrawObject() override;
 
@@ -33,6 +33,8 @@ namespace ProjectGE {
 
 		inline Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> GetSRVHeap() { return m_SRVHeapD; }
 		CD3DX12_CPU_DESCRIPTOR_HANDLE GetRenderTarget();
+	private:
+		void InitializeBackBuffer();
 	private:
 		// Debug Resources
 		Microsoft::WRL::ComPtr<ID3D12Debug> m_Debug;
@@ -52,6 +54,9 @@ namespace ProjectGE {
 		DepthBuffer* m_DBuffer;
 		// The command queue for the renderer
 		DirectXCommandQueue m_Queue;
+
+		BOOL m_TearingSupport;
+		static const int m_BufferCount = 2;
 
 		HWND m_Window;
 		// Test Buffer

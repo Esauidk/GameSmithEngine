@@ -9,6 +9,7 @@ namespace ProjectGE {
 		~DepthBuffer() = default;
 		DepthBuffer(Microsoft::WRL::ComPtr<ID3D12Device8> pDevice, UINT initialW, UINT initialH);
 		void Clear(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> cmdList, float newDepth = 1.0f);
+		void Resize(Microsoft::WRL::ComPtr<ID3D12Device8> pDevice, UINT newW, UINT newH);
 		D3D12_CPU_DESCRIPTOR_HANDLE GetHandle();
 	private:
 		// Depth Stencil Heap

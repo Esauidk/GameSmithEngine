@@ -92,8 +92,8 @@ namespace ProjectGE {
 		GE_CORE_ASSERT(!res, "Failed to find command allocator assign to this command list")
 
 
-			ID3D12CommandList* const commandLists[]{
-				commandList.Get()
+		ID3D12CommandList* const commandLists[]{
+			commandList.Get()
 		};
 
 		m_Queue->ExecuteCommandLists(1, commandLists);

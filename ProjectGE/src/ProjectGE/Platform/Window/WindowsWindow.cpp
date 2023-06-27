@@ -106,17 +106,11 @@ namespace ProjectGE {
 		SetVSync(true);
 	}
 
-	void WindowsWindow::OnPreUpdate() {
-		if (m_RenderContext != nullptr) {
-			m_RenderContext->StartFrame();
-		}
-		
-	}
-
 	void WindowsWindow::OnUpdate() {
 		ProcessMessages();
 		if (m_RenderContext != nullptr) {
-			m_RenderContext->EndFrame();
+			//m_RenderContext->EndFrame();
+			m_RenderContext->Swap();
 		}
 		
 	}
@@ -335,7 +329,6 @@ namespace ProjectGE {
 		{
 			unsigned int width = LOWORD(lParam);
 			unsigned int height = HIWORD(lParam);
-
 			m_Prop.Width = width;
 			m_Prop.Height = height;
 			m_RenderContext->Resize(width, height);
