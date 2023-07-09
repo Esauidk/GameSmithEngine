@@ -132,6 +132,8 @@
     </ClInclude>
     <ClInclude Include="src\gepch.h" />
     <ClInclude Include="src\ProjectGE\Timer.h" />
+    <ClInclude Include="src\ProjectGE\Input.h" />
+    <ClInclude Include="src\ProjectGE\Platform\Window\WindowsInput.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\Application.cpp">
@@ -187,5 +189,6 @@
     </ClCompile>
     <ClCompile Include="src\gepch.cpp" />
     <ClCompile Include="src\ProjectGE\Timer.cpp" />
+    <ClCompile Include="src\ProjectGE\Platform\Window\WindowsInput.cpp" />
   </ItemGroup>
 </Project>

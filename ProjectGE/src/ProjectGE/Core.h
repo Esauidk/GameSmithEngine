@@ -10,6 +10,10 @@
 	#error ONLY WINDOWS IS SUPPORTED!
 #endif
 
+#ifdef GE_DEBUG
+	#define GE_ENABLE_ASSERTS
+#endif
+
 #ifdef GE_ENABLE_ASSERTS
 	#define GE_APP_ASSERT(x, ...) {if(!(x)) {GE_APP_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }
 	#define GE_CORE_ASSERT(x, ...) {if(!(x)) {GE_CORE_ERROR("Assertion Failed: {0}", __VA_ARGS__); __debugbreak(); } }

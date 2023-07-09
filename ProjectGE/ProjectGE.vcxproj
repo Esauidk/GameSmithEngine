@@ -162,6 +162,7 @@
     <ClInclude Include="src\ProjectGE\Events\MouseEvents.h" />
     <ClInclude Include="src\ProjectGE\ImGui\DirectX12\imgui_impl_dx12.h" />
     <ClInclude Include="src\ProjectGE\ImGui\ImGuiLayer.h" />
+    <ClInclude Include="src\ProjectGE\Input.h" />
     <ClInclude Include="src\ProjectGE\Layer.h" />
     <ClInclude Include="src\ProjectGE\Log.h" />
     <ClInclude Include="src\ProjectGE\MixStack.h" />
@@ -187,6 +188,7 @@
     <ClInclude Include="src\ProjectGE\Timer.h" />
     <ClInclude Include="src\ProjectGE\Window.h" />
     <ClInclude Include="src\gepch.h" />
+    <ClInclude Include="src\ProjectGE\Platform\Window\WindowsInput.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\Application.cpp" />
@@ -210,6 +212,7 @@
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\ProjectGE\Timer.cpp" />
+    <ClCompile Include="src\ProjectGE\Platform\Window\WindowsInput.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="third-party\imgui\ImGui.vcxproj">

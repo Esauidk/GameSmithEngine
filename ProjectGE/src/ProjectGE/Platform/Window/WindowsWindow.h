@@ -19,6 +19,8 @@ namespace ProjectGE {
 		inline unsigned int GetHeight() const override { return m_Prop.Height; }
 		inline virtual Platform GetPlatform() const override { return Platform::WINDOW; };
 
+		inline void* GetNativeWindow() const override { return m_HWnd; }
+
 		void SetVSync(bool enabled) override;
 		bool IsVSync() const override;
 

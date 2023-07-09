@@ -25,7 +25,7 @@ namespace ProjectGE {
 
 		m_FenceEvent = ::CreateEvent(NULL, FALSE, FALSE, NULL);
 
-		GE_CORE_ASSERT(!m_FenceEvent, "Failed to create fence event");
+		GE_CORE_ASSERT(m_FenceEvent, "Failed to create fence event");
 	}
 
 	DirectXCommandQueue::DirectXCommandQueue() {}

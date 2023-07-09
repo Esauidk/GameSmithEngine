@@ -82,7 +82,7 @@ namespace ProjectGE {
 			this
 		);
 
-		GE_CORE_ASSERT(m_HWnd == nullptr, "Could not react window {0}", props.Title);
+		GE_CORE_ASSERT(m_HWnd != nullptr, "Could not react window {0}", props.Title);
 
 		switch (props.renderOption) {
 		case RenderOptions::DIRECTX12:

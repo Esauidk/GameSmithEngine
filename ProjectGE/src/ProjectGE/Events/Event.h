@@ -83,9 +83,7 @@ namespace ProjectGE {
 		using Eventfn = std::function<bool(T&)>;
 
 	public:
-		EventDispatcher() {
-			GE_CORE_ASSERT(!std::is_base_of<Event, T>::value);
-		}
+		EventDispatcher() {}
 		void AddListener(Eventfn func, bool overlay) {
 			Eventfn* fn = new Eventfn;
 			*fn = func;

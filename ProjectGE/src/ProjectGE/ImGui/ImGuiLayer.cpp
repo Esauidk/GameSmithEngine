@@ -134,7 +134,6 @@ namespace ProjectGE {
 
 	bool ImGuiLayer::OnMouseMoveEvent(MouseMoveEvent& e)
 	{
-		GE_CORE_INFO(e);
 		ImGuiIO& io = ImGui::GetIO();
 		io.MousePos = ImVec2(e.GetX(), e.GetY());
 
