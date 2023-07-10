@@ -134,6 +134,7 @@
     <ClInclude Include="src\ProjectGE\Timer.h" />
     <ClInclude Include="src\ProjectGE\Input.h" />
     <ClInclude Include="src\ProjectGE\Platform\Window\WindowsInput.h" />
+    <ClInclude Include="src\ProjectGE\KeyCodes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\Application.cpp">

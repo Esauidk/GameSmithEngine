@@ -15,6 +15,7 @@ namespace ProjectGE {
 
 		return false;
 	}
+
 	bool WindowsInput::IsMouseButtonPressedImpl(int button)
 	{
 		switch (button) {
@@ -31,16 +32,19 @@ namespace ProjectGE {
 		}
 		return false;
 	}
+
 	float WindowsInput::GetMouseXImpl()
 	{
 		auto [x, y] = GetMousePosImpl();
 		return x;
 	}
+
 	float WindowsInput::GetMouseYImpl()
 	{
 		auto [x, y] = GetMousePosImpl();
 		return y;
 	}
+
 	std::pair<float, float> WindowsInput::GetMousePosImpl()
 	{
 		POINT pt;

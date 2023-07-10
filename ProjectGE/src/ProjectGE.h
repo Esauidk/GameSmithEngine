@@ -3,6 +3,8 @@
 // FOR USE BY PROJECTGE CLIENTS
 
 #include "ProjectGE/Application.h"
+#include "ProjectGE/Input.h"
+#include "ProjectGE/KeyCodes.h"
 #include "ProjectGE/Layer.h"
 #include "ProjectGE/Log.h"
 

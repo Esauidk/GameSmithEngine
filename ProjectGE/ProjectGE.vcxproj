@@ -163,6 +163,7 @@
     <ClInclude Include="src\ProjectGE\ImGui\DirectX12\imgui_impl_dx12.h" />
     <ClInclude Include="src\ProjectGE\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\ProjectGE\Input.h" />
+    <ClInclude Include="src\ProjectGE\KeyCodes.h" />
     <ClInclude Include="src\ProjectGE\Layer.h" />
     <ClInclude Include="src\ProjectGE\Log.h" />
     <ClInclude Include="src\ProjectGE\MixStack.h" />
