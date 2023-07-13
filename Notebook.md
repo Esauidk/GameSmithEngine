@@ -1,4 +1,6 @@
-7/13/2023
+# 7/13/2023
 Looking into a math library. Still contemplating whether I create my own math library or use DirectXMath.
 It seems very powerful and well made. Looking into SIMD-friendly math library creation, it's pretty new for me. Compiler intrisics huh?
 I'll keep looking into what is generally used today by game studios.
+
+Looking at how performance and cross-platform is a desire, GLM is looking more intising than DirectXMath
