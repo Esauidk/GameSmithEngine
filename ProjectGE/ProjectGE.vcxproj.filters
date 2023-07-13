@@ -61,6 +61,12 @@
     <ClInclude Include="src\ProjectGE\ImGui\ImGuiLayer.h">
       <Filter>ProjectGE\ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="src\ProjectGE\Input.h">
+      <Filter>ProjectGE</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\KeyCodes.h">
+      <Filter>ProjectGE</Filter>
+    </ClInclude>
     <ClInclude Include="src\ProjectGE\Layer.h">
       <Filter>ProjectGE</Filter>
     </ClInclude>
@@ -69,6 +75,9 @@
     </ClInclude>
     <ClInclude Include="src\ProjectGE\MixStack.h">
       <Filter>ProjectGE</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Platform\Window\WindowsInput.h">
+      <Filter>ProjectGE\Platform\Window</Filter>
     </ClInclude>
     <ClInclude Include="src\ProjectGE\Platform\Window\WindowsWindow.h">
       <Filter>ProjectGE\Platform\Window</Filter>
@@ -127,14 +136,13 @@
     <ClInclude Include="src\ProjectGE\Rendering\Renderer.h">
       <Filter>ProjectGE\Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="src\ProjectGE\Timer.h">
+      <Filter>ProjectGE</Filter>
+    </ClInclude>
     <ClInclude Include="src\ProjectGE\Window.h">
       <Filter>ProjectGE</Filter>
     </ClInclude>
     <ClInclude Include="src\gepch.h" />
-    <ClInclude Include="src\ProjectGE\Timer.h" />
-    <ClInclude Include="src\ProjectGE\Input.h" />
-    <ClInclude Include="src\ProjectGE\Platform\Window\WindowsInput.h" />
-    <ClInclude Include="src\ProjectGE\KeyCodes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\Application.cpp">
@@ -151,6 +159,9 @@
     </ClCompile>
     <ClCompile Include="src\ProjectGE\Log.cpp">
       <Filter>ProjectGE</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\Platform\Window\WindowsInput.cpp">
+      <Filter>ProjectGE\Platform\Window</Filter>
     </ClCompile>
     <ClCompile Include="src\ProjectGE\Platform\Window\WindowsWindow.cpp">
       <Filter>ProjectGE\Platform\Window</Filter>
@@ -188,8 +199,9 @@
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\PipelineState.cpp">
       <Filter>ProjectGE\Rendering\DirectX12</Filter>
     </ClCompile>
+    <ClCompile Include="src\ProjectGE\Timer.cpp">
+      <Filter>ProjectGE</Filter>
+    </ClCompile>
     <ClCompile Include="src\gepch.cpp" />
-    <ClCompile Include="src\ProjectGE\Timer.cpp" />
-    <ClCompile Include="src\ProjectGE\Platform\Window\WindowsInput.cpp" />
   </ItemGroup>
 </Project>

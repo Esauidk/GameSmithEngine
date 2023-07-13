@@ -1,7 +1,9 @@
 #include <ProjectGE.h>
 
-bool printTest(ProjectGE::Event& test) {
-	GE_APP_ERROR(test);
+bool printTest(ProjectGE::KeyPressedEvent& test) {
+	if (test.GetKeyCode() == GE_KEY_TAB) {
+		GE_APP_TRACE("Tab key is pressed (event)");
+	}
 
 	return false;
 }
@@ -12,11 +14,21 @@ public:
 	ExampleLayer() : Layer("Example") {}
 
 	void OnUpdate() override {
-		//GE_APP_INFO("ExampleLayer::Update");
+		if (ProjectGE::Input::IsKeyPressed(GE_KEY_TAB)) {
+			GE_APP_TRACE("Tab Key is pressed (polled)");
+		}
+		
 	}
 
 	void EventSubscribe(std::vector<ProjectGE::EventDispatcherBase*> dispatchers, bool overlay) override {
-	
+		for (auto dispatcher : dispatchers) {
+
+			bool reg = RegisterEvent<ProjectGE::KeyPressedEvent>(dispatcher, printTest, false);
+
+			if (reg) {
+				continue;
+			}
+		}
 	}
 
 	

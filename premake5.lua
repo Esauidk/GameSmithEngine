@@ -11,6 +11,7 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 IncludeDir = {}
 IncludeDir["ImGui"] = "ProjectGE/third-party/imgui"
+IncludeDir["glm"] = "ProjectGE/third-party/glm"
 
 include "ProjectGE/third-party/imgui"
 
@@ -33,7 +34,8 @@ project "ProjectGE"
 	includedirs{
 		"%{prj.name}/src",
 		"%{prj.name}/third-party/spdlog/include",
-		"%{IncludeDir.ImGui}"
+		"%{IncludeDir.ImGui}",
+		"%{IncludeDir.glm}"
 	}
 
 	links{
@@ -85,7 +87,8 @@ project "TestZone"
 
 	includedirs{
 		"ProjectGE/third-party/spdlog/include",
-		"ProjectGE/src"
+		"ProjectGE/src",
+		"%{IncludeDir.glm}"
 	}
 
 	links{
