@@ -12,6 +12,7 @@ namespace ProjectGE {
 		virtual void OnAttach() {}
 		virtual void OnDetach() {}
 		virtual void OnUpdate() {}
+		virtual void OnImGuiRender() {}
 		virtual void EventSubscribe(std::vector<EventDispatcherBase*> dispatchers, bool overlay) {}
 		inline const std::string& GetName() const { return m_DebugName; }
 	protected:

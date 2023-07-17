@@ -8,6 +8,8 @@
 #include "ProjectGE/MixStack.h"
 #include "ProjectGE/Layer.h"
 
+#include "ProjectGE/ImGui/ImGuiLayer.h"
+
 namespace ProjectGE{
 	class GE_API Application
 	{
@@ -29,6 +31,7 @@ namespace ProjectGE{
 		bool m_Running = true;
 		std::unique_ptr<Window> m_Window;
 		std::unique_ptr<Timer> m_Timer;
+		ImGuiLayer* m_ImGuiLayer;
 		MixStack<Layer> m_LayerStack;
 	private:
 		static Application* s_Instance;

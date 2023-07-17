@@ -55,9 +55,6 @@
     <ClInclude Include="src\ProjectGE\Events\MouseEvents.h">
       <Filter>ProjectGE\Events</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\ImGui\DirectX12\imgui_impl_dx12.h">
-      <Filter>ProjectGE\ImGui\DirectX12</Filter>
-    </ClInclude>
     <ClInclude Include="src\ProjectGE\ImGui\ImGuiLayer.h">
       <Filter>ProjectGE\ImGui</Filter>
     </ClInclude>
@@ -148,8 +145,8 @@
     <ClCompile Include="src\ProjectGE\Application.cpp">
       <Filter>ProjectGE</Filter>
     </ClCompile>
-    <ClCompile Include="src\ProjectGE\ImGui\DirectX12\imgui_impl_dx12.cpp">
-      <Filter>ProjectGE\ImGui\DirectX12</Filter>
+    <ClCompile Include="src\ProjectGE\ImGui\ImGuiBuild.cpp">
+      <Filter>ProjectGE\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="src\ProjectGE\ImGui\ImGuiLayer.cpp">
       <Filter>ProjectGE\ImGui</Filter>

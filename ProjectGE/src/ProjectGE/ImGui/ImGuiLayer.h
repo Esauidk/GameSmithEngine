@@ -9,19 +9,11 @@ namespace ProjectGE {
 	public:
 		ImGuiLayer();
 		~ImGuiLayer();
-		void OnAttach() override;
-		void OnDetach() override;
-		void OnUpdate() override;
-		void EventSubscribe(std::vector<EventDispatcherBase*> dispatchers, bool overlay) override;
-	private:
-		bool OnMouseButtonPressedEvent(MouseButtonPressEvent& e);
-		bool OnMouseButtonReleasedEvent(MouseButtonReleaseEvent& e);
-		bool OnMouseMoveEvent(MouseMoveEvent& e);
-		bool OnMouseScrollEvent(MouseScrollEvent& e);
+		virtual void OnAttach() override;
+		virtual void OnDetach() override;
+		virtual void OnImGuiRender() override;
 
-		bool OnKeyPressedEvent(KeyPressedEvent& e);
-		bool OnKeyReleasedEvent(KeyReleasedEvent& e);
-		bool OnCharEvent(CharEvent& e);
-		bool OnWindowResizeEvent(WindowResizeEvent& e);
+		void Begin();
+		void End();
 	};
 };

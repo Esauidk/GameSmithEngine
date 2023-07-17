@@ -160,7 +160,6 @@
     <ClInclude Include="src\ProjectGE\Events\Event.h" />
     <ClInclude Include="src\ProjectGE\Events\KeyboardEvents.h" />
     <ClInclude Include="src\ProjectGE\Events\MouseEvents.h" />
-    <ClInclude Include="src\ProjectGE\ImGui\DirectX12\imgui_impl_dx12.h" />
     <ClInclude Include="src\ProjectGE\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\ProjectGE\Input.h" />
     <ClInclude Include="src\ProjectGE\KeyCodes.h" />
@@ -193,7 +192,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\Application.cpp" />
-    <ClCompile Include="src\ProjectGE\ImGui\DirectX12\imgui_impl_dx12.cpp" />
+    <ClCompile Include="src\ProjectGE\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\ProjectGE\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\ProjectGE\Layer.cpp" />
     <ClCompile Include="src\ProjectGE\Log.cpp" />

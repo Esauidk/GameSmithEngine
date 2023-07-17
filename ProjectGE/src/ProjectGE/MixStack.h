@@ -7,11 +7,12 @@ namespace ProjectGE {
 	class MixStack
 	{
 	public:
-		MixStack() { m_Insert = m_Items.begin(); };
+		MixStack() { };
 		~MixStack() { for (T* item : m_Items) { delete item; } };
 
 		void Push(T* item) {
-			m_Insert = m_Items.emplace(m_Insert, item);
+			m_Items.emplace(m_Items.begin() + m_Insert, item);
+			m_Insert++;
 		}
 
 		void PushSpecial(T* item) {
@@ -32,7 +33,6 @@ namespace ProjectGE {
 
 			if (it != m_Items.end()) {
 				m_Items.erase(it);
-				m_Insert--;
 			}
 		}
 
@@ -40,7 +40,7 @@ namespace ProjectGE {
 		std::vector<T*>::iterator end() { return m_Items.end(); }
 	private:
 		std::vector<T*> m_Items;
-		std::vector<T*>::iterator m_Insert;
+		unsigned int m_Insert = 0;
 	};
 };
 
