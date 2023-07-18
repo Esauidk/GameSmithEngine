@@ -3,7 +3,9 @@
 #include "Resource.h"
 #include "ProjectGE/Log.h"
 #include "ProjectGE/Rendering/DirectX12/DirectX12Renderer.h"
+#include "imgui.h"
 
+extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 namespace ProjectGE {
 	WindowsWindow::WindowClass WindowsWindow::WindowClass::wndClass;
 
@@ -169,8 +171,14 @@ namespace ProjectGE {
 		return pWnd->HandleMsg(hWnd, msg, wParam, lParam);
 	}
 
+	
+
 	LRESULT WindowsWindow::HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept {
-		
+		// Let IMGUI have a crack at it first
+		if (ImGui_ImplWin32_WndProcHandler(hWnd, msg, wParam, lParam))
+			return true;
+
+		// Moves on to the rest of our application
 		switch (msg) {
 		case WM_CLOSE:
 		{

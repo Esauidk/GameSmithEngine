@@ -1,16 +1,15 @@
 #include "gepch.h"
 #include "ImGuiLayer.h"
 
-
 #include "ProjectGE/Rendering/DirectX12/DirectX12Renderer.h"
+#include "ProjectGE/Rendering/DirectX12/Util/d3dx12.h"
 #include "Backends/imgui_impl_dx12.h"
 #include "backends/imgui_impl_win32.h"
-#include "ProjectGE/Rendering/DirectX12/Util/d3dx12.h"
+
 
 #include "ProjectGE/Application.h"
 #include "ProjectGE/Log.h"
 
-#define IMGUI_DISABLE_OBSOLETE_FUNCTIONS
 
 namespace ProjectGE {
 	ImGuiLayer::ImGuiLayer() : Layer("ImGui Layer") {
@@ -48,7 +47,7 @@ namespace ProjectGE {
 		DirectX12Renderer* dRender = (DirectX12Renderer*)renderer;
 		auto descriptor = dRender->GetSRVHeap();
 		ImGui_ImplDX12_Init(dRender->GetDevice().Get(),
-			1,
+			2,
 			DXGI_FORMAT_R8G8B8A8_UNORM,
 			descriptor.Get(),
 			descriptor->GetCPUDescriptorHandleForHeapStart(), descriptor->GetGPUDescriptorHandleForHeapStart());

@@ -29,7 +29,7 @@ namespace ProjectGE {
 
 		bool res;
 		// Create the Debug Layer (Allows debuging on the device)
-#if defined(_DEBUG)
+#if defined(GE_DEBUG)
 		res = FAILED(D3D12GetDebugInterface(IID_PPV_ARGS(&m_Debug)));
 
 		GE_CORE_ASSERT(!res, "Failed to create a DirectX12 debug interface");
@@ -42,7 +42,7 @@ namespace ProjectGE {
 
 		GE_CORE_ASSERT(!res, "Failed to create DirectX12 device");
 
-#if defined(_DEBUG)
+#if defined(GE_DEBUG)
 		// Create Info Queue, shows debug logs depending on severity and sets breaks
 		res = FAILED(m_Device.As(&m_InfoQueue));
 		GE_CORE_ASSERT(!res, "Failed to create DirectX12 info queue");
@@ -75,7 +75,7 @@ namespace ProjectGE {
 
 		UINT createFactoryFlags = 0;
 
-#if defined(_DEBUG)
+#if defined(GE_DEBUG)
 		createFactoryFlags = DXGI_CREATE_FACTORY_DEBUG;
 #endif
 		res = FAILED(CreateDXGIFactory2(createFactoryFlags, IID_PPV_ARGS(&dxgiFactory5)));
