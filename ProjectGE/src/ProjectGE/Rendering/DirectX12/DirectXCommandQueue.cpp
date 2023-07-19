@@ -7,9 +7,9 @@ using namespace std::chrono;
 
 namespace ProjectGE {
 	DirectXCommandQueue::DirectXCommandQueue(ComPtr<ID3D12Device8> device, D3D12_COMMAND_LIST_TYPE type) :
-		m_FenceValue(0),
 		m_CommandListType(type),
-		m_Device(device) {
+		m_Device(device),
+		m_FenceValue(0) {
 
 		D3D12_COMMAND_QUEUE_DESC commandDesc = {};
 		commandDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
@@ -23,7 +23,7 @@ namespace ProjectGE {
 		res = FAILED(m_Device->CreateFence(m_FenceValue, D3D12_FENCE_FLAG_NONE, IID_PPV_ARGS(&m_Fence)));
 		GE_CORE_ASSERT(!res, "Failed to create a fence");
 
-		m_FenceEvent = ::CreateEvent(NULL, FALSE, FALSE, NULL);
+		m_FenceEvent = ::CreateEvent(nullptr, FALSE, FALSE, nullptr);
 
 		GE_CORE_ASSERT(m_FenceEvent, "Failed to create fence event");
 	}

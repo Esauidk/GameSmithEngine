@@ -23,7 +23,7 @@ using namespace Microsoft::WRL;
 
 namespace ProjectGE {
 
-	DirectX12Renderer::DirectX12Renderer(HWND window) : m_Window(window), m_Buffer(), m_DBuffer(), m_Index(), m_TearingSupport() {}
+	DirectX12Renderer::DirectX12Renderer(HWND window) : m_DBuffer(), m_TearingSupport(), m_Window(window), m_Buffer(), m_Index() {}
 
 	void DirectX12Renderer::Init() {
 
@@ -58,14 +58,6 @@ namespace ProjectGE {
 
 		m_Queue = DirectXCommandQueue(m_Device, D3D12_COMMAND_LIST_TYPE_DIRECT);
 
-		/*// Gets our command queue, is used to send commands to GPU (draw calls, copy call, compute calls) [Lives on GPU]
-		D3D12_COMMAND_QUEUE_DESC commandDesc = {};
-		commandDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
-		commandDesc.Priority = D3D12_COMMAND_QUEUE_PRIORITY_NORMAL;
-		commandDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
-		commandDesc.NodeMask = 0;
-
-		RENDER_THROW(pDevice->CreateCommandQueue(&commandDesc, IID_PPV_ARGS(&pCommandQueue)));*/
 
 		/**********************************************/
 		// SWAP-CHAIN CREATION
@@ -218,7 +210,7 @@ namespace ProjectGE {
 		InitializeBackBuffer();
 	}
 
-	CD3DX12_CPU_DESCRIPTOR_HANDLE DirectX12Renderer::GetRenderTarget() {
+	CD3DX12_CPU_DESCRIPTOR_HANDLE DirectX12Renderer::GetRenderTarget() const {
 		return CD3DX12_CPU_DESCRIPTOR_HANDLE(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart(), m_SwapChain->GetCurrentBackBufferIndex(), m_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
 	}
 
@@ -329,8 +321,8 @@ namespace ProjectGE {
 		tempBuffer.Bind(list);
 		tempIndex.Bind(list);
 
-		CD3DX12_RECT rect = CD3DX12_RECT(0, 0, LONG_MAX, LONG_MAX);
-		CD3DX12_VIEWPORT viewport = CD3DX12_VIEWPORT(0.0f, 0.0f, 1080, 600);
+		auto rect = CD3DX12_RECT(0, 0, LONG_MAX, LONG_MAX);
+		auto viewport = CD3DX12_VIEWPORT(0.0f, 0.0f, 1080, 600);
 
 		list->RSSetScissorRects(1, &rect);
 		list->RSSetViewports(1, &viewport);

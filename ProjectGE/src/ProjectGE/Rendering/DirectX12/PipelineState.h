@@ -23,11 +23,11 @@ namespace ProjectGE {
 	public:
 		PipelineState() = default;
 		void Attach(ID3D12RootSignature* rootSig);
-		void Attach(D3D12_INPUT_LAYOUT_DESC layout);
-		void Attach(D3D12_PRIMITIVE_TOPOLOGY_TYPE topology);
-		void Attach(ID3DBlob* shaderByte, ShaderType type);
-		void Attach(DXGI_FORMAT format);
-		void Attach(D3D12_RT_FORMAT_ARRAY formats);
+		void Attach(const D3D12_INPUT_LAYOUT_DESC& layout);
+		void Attach(const D3D12_PRIMITIVE_TOPOLOGY_TYPE& topology);
+		void Attach(ID3DBlob* shaderByte, const ShaderType type);
+		void Attach(const DXGI_FORMAT& format);
+		void Attach(const D3D12_RT_FORMAT_ARRAY& formats);
 		void Build(Microsoft::WRL::ComPtr<ID3D12Device8> pDevice);
 		void Bind(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> cmdList) override;
 	private:

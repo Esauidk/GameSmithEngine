@@ -13,7 +13,9 @@ namespace ProjectGE {
 		return new WindowsWindow(props);
 	}
 
-	WindowsWindow::WindowClass::WindowClass() noexcept : hInst(GetModuleHandle(nullptr)) {
+	WindowsWindow::WindowClass::WindowClass() noexcept{
+		hInst = GetModuleHandle(nullptr);
+
 		WNDCLASSEX wc = { 0 };
 		wc.cbSize = sizeof(wc);
 		wc.style = CS_OWNDC;
@@ -111,7 +113,6 @@ namespace ProjectGE {
 	void WindowsWindow::OnUpdate() {
 		ProcessMessages();
 		if (m_RenderContext != nullptr) {
-			//m_RenderContext->EndFrame();
 			m_RenderContext->Swap();
 		}
 		
@@ -126,7 +127,7 @@ namespace ProjectGE {
 	}
 
 	void WindowsWindow::SetTitle(const std::string& title) {
-		std::wstring titleConvert = std::wstring(title.begin(), title.end());
+		auto titleConvert = std::wstring(title.begin(), title.end());
 		int res = SetWindowText(m_HWnd, titleConvert.c_str());
 		GE_CORE_ASSERT(res, "Could not change title of window {0}", title);
 	}
@@ -182,7 +183,6 @@ namespace ProjectGE {
 		switch (msg) {
 		case WM_CLOSE:
 		{
-			// TODO: Do WindowQuitEvent Here
 			WindowCloseEvent e;
 			m_Close.Dispatch(e);
 			PostQuitMessage(0);
@@ -196,8 +196,6 @@ namespace ProjectGE {
 		}
 		case WM_KILLFOCUS:
 		{
-			//kbd.ClearState();
-			// TODO: Create FocusLostEvent Here
 			WindowLostFocusEvent e;
 			m_FocusLost.Dispatch(e);
 			break;
@@ -211,7 +209,7 @@ namespace ProjectGE {
 		case WM_SYSKEYDOWN:
 		case WM_KEYDOWN:
 		{
-			unsigned char keyCode = static_cast<unsigned char>(wParam);
+			auto keyCode = static_cast<unsigned char>(wParam);
 			if (lParam & 0x40000000) {
 				m_Repeat += LOWORD(lParam);
 			}
@@ -228,21 +226,17 @@ namespace ProjectGE {
 		case WM_KEYUP:
 		{
 
-			unsigned char keyCode = static_cast<unsigned char>(wParam);
+			auto keyCode = static_cast<unsigned char>(wParam);
 			KeyReleasedEvent e(keyCode);
 			m_KeyReleased.Dispatch(e);
-			//kbd.OnKeyReleased(static_cast<unsigned char>(wParam));
-			//TODO: Create KeyReleasedEvent Here
 			break;
 		}
 		case WM_CHAR:
 		{
 			
-			unsigned char keyCode = static_cast<unsigned char>(wParam);
+			auto keyCode = static_cast<unsigned char>(wParam);
 			CharEvent e(keyCode);
 			m_Char.Dispatch(e);
-			// kbd.OnChar(static_cast<unsigned char>(wParam));
-			// TODO: Create KeyPressedEvent with repeat on
 			break;
 		}
 		case WM_MOUSEMOVE:
@@ -251,7 +245,6 @@ namespace ProjectGE {
 
 			const POINTS pt = MAKEPOINTS(lParam);
 			if (pt.x >= 0 && pt.x < (short)m_Prop.Width && pt.y >= 0 && pt.y < (short)m_Prop.Height) {
-				//mouse.OnMouseMove(pt.x, pt.y);
 				MouseMoveEvent e(pt.x, pt.y);
 				m_MouseMove.Dispatch(e);
 
@@ -276,8 +269,6 @@ namespace ProjectGE {
 
 
 			m_LButtonDown = true;
-			const POINTS pt = MAKEPOINTS(lParam);
-			// mouse.OnLeftPressed(pt.x, pt.y);
 			MouseButtonPressEvent e(MouseButtonEvent::LEFT);
 			m_MousePressed.Dispatch(e);
 			break;
@@ -286,8 +277,6 @@ namespace ProjectGE {
 		{
 
 			m_RButtonDown = true;
-			const POINTS pt = MAKEPOINTS(lParam);
-			//mouse.OnRightPressed(pt.x, pt.y);
 			MouseButtonPressEvent e(MouseButtonEvent::RIGHT);
 			m_MousePressed.Dispatch(e);
 			break;
@@ -297,12 +286,10 @@ namespace ProjectGE {
 
 			m_LButtonDown = false;
 			const POINTS pt = MAKEPOINTS(lParam);
-			// mouse.OnLeftReleased(pt.x, pt.y);
 			MouseButtonReleaseEvent e(MouseButtonEvent::LEFT);
 			m_MouseReleased.Dispatch(e);
 			if (pt.x < 0 || pt.x >= (short)m_Prop.Width || pt.y < 0 || pt.y >= (short)m_Prop.Height) {
 				ReleaseCapture();
-				//mouse.OnMouseLeave();
 			}
 			break;
 		}
@@ -311,13 +298,10 @@ namespace ProjectGE {
 
 			m_RButtonDown = false;
 			const POINTS pt = MAKEPOINTS(lParam);
-			// mouse.OnRightReleased(pt.x, pt.y);
 			MouseButtonReleaseEvent e(MouseButtonEvent::RIGHT);
 			m_MouseReleased.Dispatch(e);
-			// TODO: Create MouseButtonReleasedEvent
 			if (pt.x < 0 || pt.x >= (short)m_Prop.Width || pt.y < 0 || pt.y >= (short)m_Prop.Height) {
 				ReleaseCapture();
-				//mouse.OnMouseLeave();
 			}
 			break;
 		}
@@ -330,9 +314,6 @@ namespace ProjectGE {
 
 			MouseScrollEvent e(delta, pt.x, pt.y);
 			m_MouseScroll.Dispatch(e);
-
-			//mouse.OnWheelDelta(pt.x, pt.y, delta);
-			// TODO: Create MouseScrollEvent
 			break;
 		}
 		case WM_SIZE:
@@ -345,10 +326,9 @@ namespace ProjectGE {
 			WindowResizeEvent e(width, height);
 			m_Resized.Dispatch(e);
 		}
-
+		default:
+			return DefWindowProc(hWnd, msg, wParam, lParam);
 		}
-
-		return DefWindowProc(hWnd, msg, wParam, lParam);
 	}
 
 };

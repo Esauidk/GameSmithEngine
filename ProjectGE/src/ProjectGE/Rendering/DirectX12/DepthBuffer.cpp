@@ -82,7 +82,7 @@ namespace ProjectGE {
             m_DSVHeap->GetCPUDescriptorHandleForHeapStart());
     }
 
-    D3D12_CPU_DESCRIPTOR_HANDLE DepthBuffer::GetHandle() {
+    D3D12_CPU_DESCRIPTOR_HANDLE DepthBuffer::GetHandle() const {
         return m_DSVHeap->GetCPUDescriptorHandleForHeapStart();
     }
 };

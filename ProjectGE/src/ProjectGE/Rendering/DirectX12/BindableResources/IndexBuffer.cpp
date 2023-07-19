@@ -13,7 +13,7 @@ namespace ProjectGE {
 		D3D12_INDEX_BUFFER_VIEW view;
 		view.BufferLocation = this->m_GpuBuffer->GetGPUVirtualAddress();
 		view.Format = DXGI_FORMAT_R16_UINT;
-		view.SizeInBytes = this->bufferSize;
+		view.SizeInBytes = this->m_BufferSize;
 		
 		cmdList->IASetIndexBuffer(&view);
 	}

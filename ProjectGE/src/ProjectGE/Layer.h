@@ -7,13 +7,13 @@ namespace ProjectGE {
 	class GE_API Layer {
 	public:
 		Layer(const std::string& name = "Layer");
-		virtual ~Layer();
+		virtual ~Layer() = default;
 
-		virtual void OnAttach() {}
-		virtual void OnDetach() {}
-		virtual void OnUpdate() {}
-		virtual void OnImGuiRender() {}
-		virtual void EventSubscribe(std::vector<EventDispatcherBase*> dispatchers, bool overlay) {}
+		virtual void OnAttach() {/* To allow inheritor classes to not implement any logic */ }
+		virtual void OnDetach() {/* To allow inheritor classes to not implement any logic */ }
+		virtual void OnUpdate() {/* To allow inheritor classes to not implement any logic */ }
+		virtual void OnImGuiRender() {/* To allow inheritor classes to not implement any logic */ }
+		virtual void EventSubscribe(const std::vector<EventDispatcherBase*>& dispatchers, bool overlay) {/* To allow inheritor classes to not implement any logic */ }
 		inline const std::string& GetName() const { return m_DebugName; }
 	protected:
 		std::string m_DebugName;

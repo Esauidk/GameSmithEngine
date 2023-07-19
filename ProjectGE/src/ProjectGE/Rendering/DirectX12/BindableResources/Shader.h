@@ -8,7 +8,7 @@ namespace ProjectGE {
 	class Shader : public PipelineDefiner
 	{
 	public:
-		Shader(const std::string shaderPath, const ShaderType shaderType);
+		Shader(const std::string& shaderPath, const ShaderType shaderType);
 		void Setup(PipelineState& pipeline) override;
 	protected:
 		Microsoft::WRL::ComPtr<ID3DBlob> m_ShaderBlob;

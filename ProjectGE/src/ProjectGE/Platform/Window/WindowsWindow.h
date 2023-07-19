@@ -17,7 +17,7 @@ namespace ProjectGE {
 
 		inline unsigned int GetWidth() const override { return m_Prop.Width; }
 		inline unsigned int GetHeight() const override { return m_Prop.Height; }
-		inline virtual Platform GetPlatform() const override { return Platform::WINDOW; };
+		inline Platform GetPlatform() const override { return Platform::WINDOW; };
 
 		inline void* GetNativeWindow() const override { return m_HWnd; }
 
@@ -29,7 +29,8 @@ namespace ProjectGE {
 
 		struct WindowData {
 			std::string Title = "Sample Title";
-			unsigned int Width = 1920, Height = 1080;
+			unsigned int Width = 1920;
+			unsigned int Height = 1080;
 			bool VSync = true;
 			RenderOptions renderOption = RenderOptions::DIRECTX12;
 
@@ -53,10 +54,12 @@ namespace ProjectGE {
 		static LRESULT CALLBACK HandleMsgSetup(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 		static LRESULT CALLBACK HandleMsgThunk(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 		LRESULT HandleMsg(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam) noexcept;
-	private:
+
+
 		virtual void Init(const WindowProps& props);
 		virtual void Shutdown();
-	private:
+
+
 		WindowData m_Prop;
 		HWND m_HWnd;
 

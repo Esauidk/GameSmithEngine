@@ -31,7 +31,7 @@ namespace ProjectGE {
 	{
 	public:
 		using EventFn = std::function<void(Event&)>;
-		virtual ~Window() {};
+		virtual ~Window() = default;
 		
 		virtual void OnUpdate() = 0;
 		virtual void SetTitle(const std::string& title) = 0;

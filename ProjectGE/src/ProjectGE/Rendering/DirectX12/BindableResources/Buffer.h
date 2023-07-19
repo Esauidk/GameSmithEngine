@@ -8,15 +8,12 @@ namespace ProjectGE {
 	template <typename T>
 	class Buffer : public BindableResource {
 	public:
-		~Buffer() = default;
 
-		Buffer(Microsoft::WRL::ComPtr<ID3D12Device8> pDevice, Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> pCommandList, T* buffer, UINT count, std::string bufferName = "Personal Buffer") {
-
-			bufferSize = sizeof(T) * count;
+		Buffer(Microsoft::WRL::ComPtr<ID3D12Device8> pDevice, Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> pCommandList, T* buffer, UINT count, std::string bufferName = "Personal Buffer") : m_BufferSize(sizeof(T)* count) {
 			// Define heap details
 			CD3DX12_HEAP_PROPERTIES defaultHeapProperties(D3D12_HEAP_TYPE_DEFAULT);
 			CD3DX12_HEAP_PROPERTIES uploadHeapProperties(D3D12_HEAP_TYPE_UPLOAD);
-			CD3DX12_RESOURCE_DESC bufferDesc = CD3DX12_RESOURCE_DESC::Buffer(bufferSize);
+			CD3DX12_RESOURCE_DESC bufferDesc = CD3DX12_RESOURCE_DESC::Buffer(m_BufferSize);
 
 			// Create the GPU and CPU buffers
 			bool res = FAILED(pDevice->CreateCommittedResource(
@@ -30,7 +27,7 @@ namespace ProjectGE {
 
 			GE_CORE_ASSERT(!res, "Failed to create GPU Buffer {0}", bufferName);
 
-			std::wstring nameConvert = std::wstring(bufferName.begin(), bufferName.end());
+			auto nameConvert = std::wstring(bufferName.begin(), bufferName.end());
 			m_GpuBuffer->SetName(nameConvert.c_str());
 
 			res = FAILED(pDevice->CreateCommittedResource(
@@ -48,7 +45,7 @@ namespace ProjectGE {
 			// Store the data inside
 			D3D12_SUBRESOURCE_DATA data = {};
 			data.pData = reinterpret_cast<BYTE*>(buffer);
-			data.RowPitch = bufferSize;
+			data.RowPitch = m_BufferSize;
 			data.SlicePitch = data.RowPitch;
 
 			UpdateSubresources(pCommandList.Get(), m_GpuBuffer.Get(), m_CpuBuffer.Get(), 0, 0, 1, &data);
@@ -60,6 +57,6 @@ namespace ProjectGE {
 	protected:
 		Microsoft::WRL::ComPtr<ID3D12Resource2> m_GpuBuffer;
 		Microsoft::WRL::ComPtr<ID3D12Resource2> m_CpuBuffer;
-		UINT bufferSize;
+		UINT m_BufferSize;
 	};
 };

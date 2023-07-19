@@ -3,9 +3,8 @@
 using namespace std::chrono;
 
 namespace ProjectGE {
-	Timer::Timer() {
+	Timer::Timer() : m_TotalTime(0), m_DeltaTime(0) {
 		m_Last = steady_clock::now();
-		m_TotalTime = 0;
 	}
 
 	float Timer::Mark() {

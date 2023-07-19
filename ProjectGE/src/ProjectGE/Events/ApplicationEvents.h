@@ -27,7 +27,7 @@ namespace ProjectGE {
 	public:
 		WindowResizeEvent(unsigned int width, unsigned height) : m_Width(width), m_Height(height) {}
 		EVENT_TYPE(WND_RESIZE)
-		std::string ToString(){
+		std::string ToString() const override{
 			std::stringstream oss;
 			oss << "WindowResizeEvent: (" << m_Width << "," << m_Height << ")";
 
@@ -39,7 +39,8 @@ namespace ProjectGE {
 	protected:
 		CATEGORY_TYPE(EventCategory::APP_EVENT)
 	private:
-		unsigned int m_Width, m_Height;
+		unsigned int m_Width;
+		unsigned int m_Height;
 	};
 
 	class GE_API WindowMovedEvent : public Event {

@@ -16,17 +16,13 @@ public:
 
 	ExampleLayer() : Layer("Example") {}
 
-	void OnUpdate() override {
-		
-	}
-
-	virtual void OnImGuiRender() override {
+	void OnImGuiRender() override {
 		ImGui::Begin("Test");
 		ImGui::Text("Hello World");
 		ImGui::End();
 	}
 
-	void EventSubscribe(std::vector<ProjectGE::EventDispatcherBase*> dispatchers, bool overlay) override {
+	void EventSubscribe(const std::vector<ProjectGE::EventDispatcherBase*>& dispatchers, bool overlay) override {
 		for (auto dispatcher : dispatchers) {
 
 			bool reg = RegisterEvent<ProjectGE::KeyPressedEvent>(dispatcher, printTest, false);
@@ -43,9 +39,6 @@ class TestZone : public ProjectGE::Application {
 public:
 	TestZone() {
 		PushLayer(new ExampleLayer());
-	}
-	~TestZone() {
-
 	}
 };
 

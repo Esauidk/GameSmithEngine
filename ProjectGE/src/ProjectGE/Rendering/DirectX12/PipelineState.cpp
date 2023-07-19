@@ -7,14 +7,14 @@ namespace ProjectGE {
 	void PipelineState::Attach(ID3D12RootSignature* rootSig) {
 		stateStream.pRootSignature = rootSig;
 	}
-	void PipelineState::Attach(D3D12_INPUT_LAYOUT_DESC layout) {
+	void PipelineState::Attach(const D3D12_INPUT_LAYOUT_DESC& layout) {
 		stateStream.InputLayout = layout;
 	}
-	void PipelineState::Attach(D3D12_PRIMITIVE_TOPOLOGY_TYPE topology) {
+	void PipelineState::Attach(const D3D12_PRIMITIVE_TOPOLOGY_TYPE& topology) {
 		stateStream.PrimitiveTopologyType = topology;
 	}
-	void PipelineState::Attach(ID3DBlob* shaderByte, ShaderType type) {
-		CD3DX12_SHADER_BYTECODE shader = CD3DX12_SHADER_BYTECODE(shaderByte);
+	void PipelineState::Attach(ID3DBlob* shaderByte, const ShaderType type) {
+		auto shader = CD3DX12_SHADER_BYTECODE(shaderByte);
 		switch (type) {
 		case VERTEX:
 			stateStream.VS = shader;
@@ -24,10 +24,10 @@ namespace ProjectGE {
 			break;
 		}
 	}
-	void PipelineState::Attach(DXGI_FORMAT format) {
+	void PipelineState::Attach(const DXGI_FORMAT& format) {
 		stateStream.DSVFormat = format;
 	}
-	void PipelineState::Attach(D3D12_RT_FORMAT_ARRAY formats) {
+	void PipelineState::Attach(const D3D12_RT_FORMAT_ARRAY& formats) {
 		stateStream.RTVFormats = formats;
 	}
 

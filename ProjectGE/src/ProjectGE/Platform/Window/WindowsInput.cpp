@@ -29,6 +29,8 @@ namespace ProjectGE {
 				return true;
 			}
 			break;
+		default:
+			break;
 		}
 		return false;
 	}

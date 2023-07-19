@@ -17,7 +17,7 @@ namespace ProjectGE {
 		KeyPressedEvent(int keyCode, int repeatCount) : KeyEvent(keyCode), m_RepeatCount(repeatCount) {}
 		inline int GetRepeatCount() const { return m_RepeatCount; }
 
-		virtual std::string ToString() const override {
+		std::string ToString() const override {
 			std::stringstream oss;
 			oss << "KeyPressedEvent: KeyCode" << m_KeyCode << " (" << m_RepeatCount << " repeats)";
 
@@ -33,7 +33,7 @@ namespace ProjectGE {
 	public:
 		CharEvent(int keyCode) : KeyEvent(keyCode) {}
 
-		virtual std::string ToString() const override {
+		std::string ToString() const override {
 			std::stringstream oss;
 			oss << "CharEvent: KeyCode" << m_KeyCode;
 

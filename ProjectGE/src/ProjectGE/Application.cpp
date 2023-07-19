@@ -12,15 +12,14 @@ namespace ProjectGE {
 		GE_CORE_ASSERT(!s_Instance, "Application already exists");
 		s_Instance = this;
 
-		m_Timer = std::unique_ptr<Timer>(new Timer());
+		m_Timer = std::make_unique<Timer>();
 
 		ProjectGE::WindowProps props;
 		props.renderOption = RenderOptions::DIRECTX12;
 
 		m_Window = std::unique_ptr<Window>(Window::Create(props));
 
-		const std::vector<EventDispatcherBase*> dispatchers = m_Window->GetDistpachers();
-		for (auto dispatcher : dispatchers) {
+		for (const std::vector<EventDispatcherBase*> dispatchers = m_Window->GetDistpachers(); auto dispatcher : dispatchers) {
 			
 			bool reg = RegisterEvent<WindowCloseEvent>(dispatcher, GE_BIND_EVENT_FN(Application, OnWindowClose), false);
 
@@ -31,10 +30,6 @@ namespace ProjectGE {
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
-	}
-
-	Application::~Application() {
-	
 	}
 
 	bool Application::OnWindowClose(WindowCloseEvent& evn) {

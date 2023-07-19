@@ -10,7 +10,7 @@ namespace ProjectGE {
 
 		VertexBuffer(Microsoft::WRL::ComPtr<ID3D12Device8> pDevice, Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> pCommandList, T* buffer, int count) : Buffer<T>(pDevice, pCommandList, buffer, count) {}
 
-		//TODO: IMplement Binding
+
 		void Bind(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> cmdList) override {
 			CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
 				this->m_GpuBuffer.Get(),
@@ -19,7 +19,7 @@ namespace ProjectGE {
 			cmdList->ResourceBarrier(1, &barrier);
 			D3D12_VERTEX_BUFFER_VIEW view;
 			view.BufferLocation = this->m_GpuBuffer->GetGPUVirtualAddress();
-			view.SizeInBytes = this->bufferSize;
+			view.SizeInBytes = this->m_BufferSize;
 			view.StrideInBytes = sizeof(T);
 			
 			cmdList->IASetVertexBuffers(0, 1, &view);

@@ -15,7 +15,7 @@ namespace ProjectGE{
 	{
 	public:
 		Application();
-		virtual ~Application();
+		virtual ~Application() = default;
 
 		void PushLayer(Layer* layer);
 		void PushOverlay(Layer* layer);
@@ -33,7 +33,8 @@ namespace ProjectGE{
 		std::unique_ptr<Timer> m_Timer;
 		ImGuiLayer* m_ImGuiLayer;
 		MixStack<Layer> m_LayerStack;
-	private:
+
+
 		static Application* s_Instance;
 	};
 

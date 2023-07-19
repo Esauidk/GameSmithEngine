@@ -32,10 +32,10 @@ namespace ProjectGE {
 		inline DirectXCommandQueue& GetCommandQueue() { return m_Queue; }
 
 		inline Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> GetSRVHeap() { return m_SRVHeapD; }
-		CD3DX12_CPU_DESCRIPTOR_HANDLE GetRenderTarget();
+		CD3DX12_CPU_DESCRIPTOR_HANDLE GetRenderTarget() const;
 	private:
 		void InitializeBackBuffer();
-	private:
+	
 		// Debug Resources
 		Microsoft::WRL::ComPtr<ID3D12Debug> m_Debug;
 		Microsoft::WRL::ComPtr<ID3D12InfoQueue> m_InfoQueue;

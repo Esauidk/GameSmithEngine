@@ -15,7 +15,7 @@ namespace ProjectGE {
 	{
 	public: 
 			RootSignature(Microsoft::WRL::ComPtr<ID3D12Device8> pDevice, D3D12_ROOT_SIGNATURE_FLAGS flags);
-			void AddParameter(CD3DX12_ROOT_PARAMETER1 newParameter);
+			void AddParameter(const CD3DX12_ROOT_PARAMETER1& newParameter);
 			void AddParameter(CD3DX12_ROOT_PARAMETER1* newParameters, UINT size);
 			void BuildRootSignature(Microsoft::WRL::ComPtr<ID3D12Device8> pDevice);
 			void Setup(PipelineState& pipeline) override;

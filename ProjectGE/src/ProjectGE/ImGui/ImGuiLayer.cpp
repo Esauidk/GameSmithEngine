@@ -38,13 +38,13 @@ namespace ProjectGE {
 		}
 
 		Application& app = Application::Get();
-		Window& window = app.GetWindow();
+		const Window& window = app.GetWindow();
 		Renderer* renderer = window.GetRenderer();
 
-		HWND hwnd = static_cast<HWND>(window.GetNativeWindow());
+		auto hwnd = (HWND)(window.GetNativeWindow());
 		ImGui_ImplWin32_Init(hwnd);
 
-		DirectX12Renderer* dRender = (DirectX12Renderer*)renderer;
+		auto* dRender = (DirectX12Renderer*)renderer;
 		auto descriptor = dRender->GetSRVHeap();
 		ImGui_ImplDX12_Init(dRender->GetDevice().Get(),
 			2,
@@ -65,28 +65,28 @@ namespace ProjectGE {
 		ImGui::ShowDemoWindow(&show);
 	}
 
-	void ImGuiLayer::Begin()
+	void ImGuiLayer::Begin() const
 	{	
 		ImGui_ImplDX12_NewFrame();
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();
 	}
 
-	void ImGuiLayer::End()
+	void ImGuiLayer::End() const
 	{
 		ImGuiIO& io = ImGui::GetIO();
 		Application& app = Application::Get();
-		Window& window = app.GetWindow();
+		const Window& window = app.GetWindow();
 		io.DisplaySize = ImVec2((float)window.GetWidth(), (float)window.GetHeight());
 		ImGui::Render();
 
 		Renderer* renderer = window.GetRenderer();
-		DirectX12Renderer* dRender = (DirectX12Renderer*)renderer;
+		auto* dRender = (DirectX12Renderer*)renderer;
 		auto queue = dRender->GetCommandQueue();
 		auto commandList = queue.GetCommandList();
 		commandList->SetDescriptorHeaps(1, dRender->GetSRVHeap().GetAddressOf());
 		CD3DX12_CPU_DESCRIPTOR_HANDLE rtv = dRender->GetRenderTarget();
-		commandList->OMSetRenderTargets(1, &rtv, FALSE, NULL);
+		commandList->OMSetRenderTargets(1, &rtv, FALSE, nullptr);
 
 		ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), commandList.Get());
 		UINT value = queue.ExecuteCommandList(commandList);

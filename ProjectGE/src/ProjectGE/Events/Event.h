@@ -53,7 +53,7 @@ namespace ProjectGE {
 		virtual EventType GetEventType() const = 0;
 		virtual const char* GetName() const = 0;
 		virtual std::string ToString() const { return GetName(); }
-		inline bool IsInCategory(EventCategory category) {
+		inline bool IsInCategory(EventCategory category) const {
 			return GetCategoryFlags() & category;
 		}
 
@@ -72,7 +72,7 @@ namespace ProjectGE {
 	public:
 		virtual void Dispatch(Event& env) = 0;
 	protected:
-		void handledEvent(Event& env) {
+		void handledEvent(Event& env) const {
 			env.m_Handled = true;
 		}
 	};

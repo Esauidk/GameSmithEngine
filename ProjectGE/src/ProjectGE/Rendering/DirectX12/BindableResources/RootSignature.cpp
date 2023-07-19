@@ -4,14 +4,14 @@
 
 
 namespace ProjectGE {
-	RootSignature::RootSignature(Microsoft::WRL::ComPtr<ID3D12Device8> pDevice, D3D12_ROOT_SIGNATURE_FLAGS flags) : m_RootSigFeat({}), m_Flags(flags) {
+	RootSignature::RootSignature(Microsoft::WRL::ComPtr<ID3D12Device8> pDevice, D3D12_ROOT_SIGNATURE_FLAGS flags) : m_RootSigFeat(), m_Flags(flags) {
 		m_RootSigFeat.HighestVersion = D3D_ROOT_SIGNATURE_VERSION_1_1;
 		if (FAILED(pDevice->CheckFeatureSupport(D3D12_FEATURE_ROOT_SIGNATURE, &m_RootSigFeat, sizeof(m_RootSigFeat)))) {
 			m_RootSigFeat.HighestVersion = D3D_ROOT_SIGNATURE_VERSION_1_0;
 		}
 	}
 
-	void RootSignature::AddParameter(CD3DX12_ROOT_PARAMETER1 newParameter) {
+	void RootSignature::AddParameter(const CD3DX12_ROOT_PARAMETER1& newParameter) {
 		m_Parameters.push_back(newParameter);
 	}
 

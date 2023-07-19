@@ -6,6 +6,5 @@ namespace ProjectGE {
 	public:
 		// Binding the resource to the pipeline
 		virtual void Setup(PipelineState& pipeline) = 0;
-		virtual ~PipelineDefiner() = default;
 	};
 };

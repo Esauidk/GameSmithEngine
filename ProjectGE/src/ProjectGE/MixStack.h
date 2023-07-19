@@ -7,7 +7,7 @@ namespace ProjectGE {
 	class MixStack
 	{
 	public:
-		MixStack() { };
+		MixStack() = default;
 		~MixStack() { for (T* item : m_Items) { delete item; } };
 
 		void Push(T* item) {
@@ -20,7 +20,7 @@ namespace ProjectGE {
 		}
 
 		void Pop(T* item) {
-			auto it = std::find(m_Items.begin(), m_Items.end(), item);
+			auto it = std::ranges::find(m_Items.begin(), m_Items.end(), item);
 
 			if (it != m_Items.end()) {
 				m_Items.erase(it);
@@ -29,7 +29,7 @@ namespace ProjectGE {
 		}
 
 		void PopSpecial(T* item) {
-			auto it = std::find(m_Items.begin(), m_Items.end(), item);
+			auto it = std::ranges::find(m_Items.begin(), m_Items.end(), item);
 
 			if (it != m_Items.end()) {
 				m_Items.erase(it);

@@ -8,7 +8,7 @@ namespace ProjectGE {
 		inline float GetX() const { return m_X; }
 		inline float GetY() const { return m_Y; }
 
-		virtual std::string ToString() const override {
+		std::string ToString() const override {
 			std::stringstream oss;
 
 			oss << "MouseMoveEvent: " << "(" << m_X << "," << m_Y << ")";
@@ -31,7 +31,7 @@ namespace ProjectGE {
 		inline float GetX() const { return m_PosX; }
 		inline float GetY() const { return m_PosY; }
 
-		virtual std::string ToString() const override {
+		std::string ToString() const override {
 			std::stringstream oss;
 
 			oss << "MouseScrollEvent: " << m_Delta << "(" << m_PosX << "," << m_PosY << ")";
@@ -58,14 +58,14 @@ namespace ProjectGE {
 		inline int GetButton() const { return m_Button; }
 	protected:
 		CATEGORY_TYPE(EventCategory::INPUT | EventCategory::MOUSE | EventCategory::MOUSE_BUTTON)
-			MouseButtonEvent(MouseButton button) : m_Button(button) {}
+		MouseButtonEvent(MouseButton button) : m_Button(button) {}
 		int m_Button;
 	};
 
 	class GE_API MouseButtonPressEvent : public MouseButtonEvent {
 	public:
 		MouseButtonPressEvent(MouseButtonEvent::MouseButton button) : MouseButtonEvent(button) {}
-		virtual std::string ToString() const override {
+		std::string ToString() const override {
 			std::stringstream oss;
 
 			oss << "MouseButtonPressEvent: " << m_Button;
@@ -78,7 +78,7 @@ namespace ProjectGE {
 	class GE_API MouseButtonReleaseEvent : public MouseButtonEvent {
 	public:
 		MouseButtonReleaseEvent(MouseButtonEvent::MouseButton button) : MouseButtonEvent(button) {}
-		virtual std::string ToString() const override {
+		std::string ToString() const override {
 			std::stringstream oss;
 
 			oss << "MouseButtonReleaseEvent: " << m_Button;
