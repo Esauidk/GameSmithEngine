@@ -17,8 +17,10 @@ include "ProjectGE/third-party/imgui"
 
 project "ProjectGE"
 	location "ProjectGE"
-	kind "SharedLib"
+	kind "StaticLib"
 	language "C++"
+	staticruntime "on"
+	cppdialect "C++20"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -28,7 +30,9 @@ project "ProjectGE"
 
 	files{
 		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
+		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/third-party/glm/glm/**.hpp",
+		"%{prj.name}/third-party/glm/glm/**.inl"
 	}
 
 	includedirs{
@@ -43,39 +47,37 @@ project "ProjectGE"
 	}
 
 	filter "system:windows"
-		cppdialect "C++20"
-		staticruntime "On"
 		systemversion "latest"
 
 		defines{
 			"GE_PLATFORM_WINDOWS",
 			"GE_BUILD_DLL"
 		}
-
-		postbuildcommands{
-			("{COPY} %{cfg.buildtarget.relpath} ../bin/" ..outputdir .. "/TestZone")
-		}
+		
 
 	filter "configurations:Debug"
 		defines "GE_DEBUG"
-		buildoptions "/MDd"
-		symbols "On"
+		runtime "Debug"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "GE_Release"
-		buildoptions "/MD"
-		optimize "On"
+		runtime "Release"
+		optimize "on"
 
 	filter "configurations:Dist"
 		defines "GE_Dist"
-		buildoptions "/MD"
-		optimize "On"
+		runtime "Release"
+		optimize "on"
 
 project "TestZone"
 	location "TestZone"
 	kind "ConsoleApp"
 
 	language "C++"
+	cppdialect "C++20"
+
+	staticruntime "on"
 
 	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
@@ -88,7 +90,8 @@ project "TestZone"
 	includedirs{
 		"ProjectGE/third-party/spdlog/include",
 		"ProjectGE/src",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.ImGui}"
 	}
 
 	links{
@@ -96,8 +99,6 @@ project "TestZone"
 	}
 
 	filter "system:windows"
-		cppdialect "C++20"
-		staticruntime "On"
 		systemversion "latest"
 
 		defines{
@@ -106,59 +107,15 @@ project "TestZone"
 
 	filter "configurations:Debug"
 		defines "GE_DEBUG"
-		buildoptions "/MDd"
-		symbols "On"
+		runtime "Debug"
+		symbols "on"
 
 	filter "configurations:Release"
 		defines "GE_Release"
-		buildoptions "/MD"
-		optimize "On"
+		runtime "Release"
+		optimize "on"
 
 	filter "configurations:Dist"
 		defines "GE_Dist"
-		buildoptions "/MD"
-		optimize "On"
-
-project "Rendering"
-	location "Rendering"
-	kind "SharedLib"
-	language "C++"
-
-	language "C++"
-
-	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
-
-	files{
-		"%{prj.name}/src/**.h",
-		"%{prj.name}/src/**.cpp"
-	}
-
-	includedirs{
-	}
-
-	filter "system:windows"
-		cppdialect "C++20"
-		staticruntime "On"
-		systemversion "latest"
-
-		defines{
-			"GE_PLATFORM_WINDOWS",
-			"GE_BUILD_DLL"
-		}
-
-		postbuildcommands{
-			("{COPY} %{cfg.buildtarget.relpath} ../bin/" ..outputdir .. "/ProjectGE")
-		}
-
-	filter "configurations:Debug"
-		defines "GE_DEBUG"
-		symbols "On"
-
-	filter "configurations:Release"
-		defines "GE_Release"
-		optimize "On"
-
-	filter "configurations:Dist"
-		defines "GE_Dist"
-		optimize "On"
+		runtime "Release"
+		optimize "on"

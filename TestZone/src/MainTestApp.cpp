@@ -1,5 +1,8 @@
 #include <ProjectGE.h>
 
+#include "imgui.h"
+
+
 bool printTest(ProjectGE::KeyPressedEvent& test) {
 	if (test.GetKeyCode() == GE_KEY_TAB) {
 		GE_APP_TRACE("Tab key is pressed (event)");
@@ -14,10 +17,13 @@ public:
 	ExampleLayer() : Layer("Example") {}
 
 	void OnUpdate() override {
-		if (ProjectGE::Input::IsKeyPressed(GE_KEY_TAB)) {
-			GE_APP_TRACE("Tab Key is pressed (polled)");
-		}
 		
+	}
+
+	virtual void OnImGuiRender() override {
+		ImGui::Begin("Test");
+		ImGui::Text("Hello World");
+		ImGui::End();
 	}
 
 	void EventSubscribe(std::vector<ProjectGE::EventDispatcherBase*> dispatchers, bool overlay) override {
@@ -37,7 +43,6 @@ class TestZone : public ProjectGE::Application {
 public:
 	TestZone() {
 		PushLayer(new ExampleLayer());
-		PushLayer(new ProjectGE::ImGuiLayer());
 	}
 	~TestZone() {
 
