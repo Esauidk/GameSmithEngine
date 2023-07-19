@@ -53,6 +53,6 @@ namespace ProjectGE {
 		auto window = static_cast<HWND>(Application::Get().GetWindow().GetNativeWindow());
 		ScreenToClient(window, &pt);
 
-		return { pt.x, pt.y };
+		return { (float)pt.x, (float)pt.y };
 	}
 };

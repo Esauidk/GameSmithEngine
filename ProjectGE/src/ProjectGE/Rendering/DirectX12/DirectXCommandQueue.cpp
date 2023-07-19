@@ -122,7 +122,7 @@ namespace ProjectGE {
 		if (m_Fence->GetCompletedValue() < fenceValue) {
 			bool res = FAILED(m_Fence->SetEventOnCompletion(fenceValue, m_FenceEvent));
 			GE_CORE_ASSERT(!res, "Failed to assign fence completion event");
-			::WaitForSingleObject(m_FenceEvent, (milliseconds::max)().count());
+			::WaitForSingleObject(m_FenceEvent, (DWORD)((milliseconds::max)().count()));
 		}
 	}
 

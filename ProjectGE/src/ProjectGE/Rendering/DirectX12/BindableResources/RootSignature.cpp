@@ -22,7 +22,7 @@ namespace ProjectGE {
 	void RootSignature::BuildRootSignature(Microsoft::WRL::ComPtr<ID3D12Device8> pDevice) {
 		// Build root signature description
 		CD3DX12_VERSIONED_ROOT_SIGNATURE_DESC rootSigDesc;
-		rootSigDesc.Init_1_1(m_Parameters.size(), m_Parameters.data(), 0 /* Note: Check back on this */, nullptr, m_Flags);
+		rootSigDesc.Init_1_1((UINT)m_Parameters.size(), m_Parameters.data(), 0 /* Note: Check back on this */, nullptr, m_Flags);
 
 		Microsoft::WRL::ComPtr<ID3DBlob> rootSigBlob;
 		Microsoft::WRL::ComPtr<ID3DBlob> errorBlob;

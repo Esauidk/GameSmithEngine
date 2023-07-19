@@ -23,7 +23,7 @@ using namespace Microsoft::WRL;
 
 namespace ProjectGE {
 
-	DirectX12Renderer::DirectX12Renderer(HWND window) : m_Window(window) {}
+	DirectX12Renderer::DirectX12Renderer(HWND window) : m_Window(window), m_Buffer(), m_DBuffer(), m_Index(), m_TearingSupport() {}
 
 	void DirectX12Renderer::Init() {
 
@@ -200,7 +200,7 @@ namespace ProjectGE {
 		bool res = FAILED(m_SwapChain->GetDesc1(&swapChainDesc));
 		GE_CORE_ASSERT(!res, "Failed to acquire back buffer description");
 
-		res = FAILED(m_SwapChain->ResizeBuffers(swapChainDesc.BufferCount, width, height, swapChainDesc.Format, swapChainDesc.Flags));
+		res = FAILED(m_SwapChain->ResizeBuffers(swapChainDesc.BufferCount, (UINT)width, (UINT)height, swapChainDesc.Format, swapChainDesc.Flags));
 		GE_CORE_ASSERT(!res, "Failed to resize DirectX12 swap chain buffers");
 
 		CD3DX12_CPU_DESCRIPTOR_HANDLE rtv(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart());
@@ -213,7 +213,7 @@ namespace ProjectGE {
 			rtv.Offset(rtvSize);
 		}
 
-		m_DBuffer->Resize(m_Device, width, height);
+		m_DBuffer->Resize(m_Device, (UINT)width, (UINT)height);
 
 		InitializeBackBuffer();
 	}

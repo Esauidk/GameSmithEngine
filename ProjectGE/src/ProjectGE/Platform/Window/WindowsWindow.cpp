@@ -250,7 +250,7 @@ namespace ProjectGE {
 
 
 			const POINTS pt = MAKEPOINTS(lParam);
-			if (pt.x >= 0 && pt.x < m_Prop.Width && pt.y >= 0 && pt.y < m_Prop.Height) {
+			if (pt.x >= 0 && pt.x < (short)m_Prop.Width && pt.y >= 0 && pt.y < (short)m_Prop.Height) {
 				//mouse.OnMouseMove(pt.x, pt.y);
 				MouseMoveEvent e(pt.x, pt.y);
 				m_MouseMove.Dispatch(e);
@@ -262,7 +262,11 @@ namespace ProjectGE {
 				}
 			}
 			else {
-				ReleaseCapture();
+				if (!m_LButtonDown && !m_RButtonDown) {
+					ReleaseCapture();
+					m_CapturingInput = false;
+				}
+				
 			}
 			break;
 		}
@@ -271,7 +275,7 @@ namespace ProjectGE {
 			SetForegroundWindow(hWnd);
 
 
-
+			m_LButtonDown = true;
 			const POINTS pt = MAKEPOINTS(lParam);
 			// mouse.OnLeftPressed(pt.x, pt.y);
 			MouseButtonPressEvent e(MouseButtonEvent::LEFT);
@@ -281,7 +285,7 @@ namespace ProjectGE {
 		case WM_RBUTTONDOWN:
 		{
 
-
+			m_RButtonDown = true;
 			const POINTS pt = MAKEPOINTS(lParam);
 			//mouse.OnRightPressed(pt.x, pt.y);
 			MouseButtonPressEvent e(MouseButtonEvent::RIGHT);
@@ -291,12 +295,12 @@ namespace ProjectGE {
 		case WM_LBUTTONUP:
 		{
 
-
+			m_LButtonDown = false;
 			const POINTS pt = MAKEPOINTS(lParam);
 			// mouse.OnLeftReleased(pt.x, pt.y);
 			MouseButtonReleaseEvent e(MouseButtonEvent::LEFT);
 			m_MouseReleased.Dispatch(e);
-			if (pt.x < 0 || pt.x >= m_Prop.Width || pt.y < 0 || pt.y >= m_Prop.Height) {
+			if (pt.x < 0 || pt.x >= (short)m_Prop.Width || pt.y < 0 || pt.y >= (short)m_Prop.Height) {
 				ReleaseCapture();
 				//mouse.OnMouseLeave();
 			}
@@ -305,13 +309,13 @@ namespace ProjectGE {
 		case WM_RBUTTONUP:
 		{
 
-
+			m_RButtonDown = false;
 			const POINTS pt = MAKEPOINTS(lParam);
 			// mouse.OnRightReleased(pt.x, pt.y);
 			MouseButtonReleaseEvent e(MouseButtonEvent::RIGHT);
 			m_MouseReleased.Dispatch(e);
 			// TODO: Create MouseButtonReleasedEvent
-			if (pt.x < 0 || pt.x >= m_Prop.Width || pt.y < 0 || pt.y >= m_Prop.Height) {
+			if (pt.x < 0 || pt.x >= (short)m_Prop.Width || pt.y < 0 || pt.y >= (short)m_Prop.Height) {
 				ReleaseCapture();
 				//mouse.OnMouseLeave();
 			}
@@ -322,11 +326,9 @@ namespace ProjectGE {
 
 
 			const POINTS pt = MAKEPOINTS(lParam);
-			const int delta = GET_WHEEL_DELTA_WPARAM(wParam) / WHEEL_DELTA;
-			const int xPos = LOWORD(lParam);
-			const int yPos = HIWORD(lParam);
+			const float delta = ((float)GET_WHEEL_DELTA_WPARAM(wParam)) / WHEEL_DELTA;
 
-			MouseScrollEvent e(delta, xPos, yPos);
+			MouseScrollEvent e(delta, pt.x, pt.y);
 			m_MouseScroll.Dispatch(e);
 
 			//mouse.OnWheelDelta(pt.x, pt.y, delta);
@@ -339,7 +341,7 @@ namespace ProjectGE {
 			unsigned int height = HIWORD(lParam);
 			m_Prop.Width = width;
 			m_Prop.Height = height;
-			m_RenderContext->Resize(width, height);
+			m_RenderContext->Resize((float)width, (float)height);
 			WindowResizeEvent e(width, height);
 			m_Resized.Dispatch(e);
 		}

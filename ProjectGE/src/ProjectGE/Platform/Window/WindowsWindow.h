@@ -28,10 +28,10 @@ namespace ProjectGE {
 	private:
 
 		struct WindowData {
-			std::string Title;
-			unsigned int Width, Height;
-			bool VSync;
-			RenderOptions renderOption;
+			std::string Title = "Sample Title";
+			unsigned int Width = 1920, Height = 1080;
+			bool VSync = true;
+			RenderOptions renderOption = RenderOptions::DIRECTX12;
 
 		};
 
@@ -61,6 +61,8 @@ namespace ProjectGE {
 		HWND m_HWnd;
 
 		bool m_CapturingInput;
+		bool m_LButtonDown;
+		bool m_RButtonDown;
 		int m_Repeat;
 	};
 };
