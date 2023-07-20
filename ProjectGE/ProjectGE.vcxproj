@@ -88,6 +88,9 @@
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>IF EXIST ..\bin\Debug-windows-x86_64\ProjectGE\**.cso\ (xcopy /Q /E /Y /I ..\bin\Debug-windows-x86_64\ProjectGE\**.cso ..\bin\Debug-windows-x86_64\TestZone &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Debug-windows-x86_64\ProjectGE\**.cso ..\bin\Debug-windows-x86_64\TestZone &gt; nul)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -110,6 +113,9 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <PostBuildEvent>
+      <Command>IF EXIST ..\bin\Release-windows-x86_64\ProjectGE\**.cso\ (xcopy /Q /E /Y /I ..\bin\Release-windows-x86_64\ProjectGE\**.cso ..\bin\Release-windows-x86_64\TestZone &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Release-windows-x86_64\ProjectGE\**.cso ..\bin\Release-windows-x86_64\TestZone &gt; nul)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
     <ClCompile>
@@ -132,6 +138,9 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <PostBuildEvent>
+      <Command>IF EXIST ..\bin\Dist-windows-x86_64\ProjectGE\**.cso\ (xcopy /Q /E /Y /I ..\bin\Dist-windows-x86_64\ProjectGE\**.cso ..\bin\Dist-windows-x86_64\TestZone &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Dist-windows-x86_64\ProjectGE\**.cso ..\bin\Dist-windows-x86_64\TestZone &gt; nul)</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\ProjectGE.h" />
@@ -616,6 +625,14 @@
     <ProjectReference Include="third-party\imgui\ImGui.vcxproj">
       <Project>{C0FF640D-2C14-8DBE-F595-301E616989EF}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\SamplePixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+    </FxCompile>
+    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Vertex\SampleVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

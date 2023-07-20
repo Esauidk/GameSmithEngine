@@ -1476,4 +1476,8 @@
       <Filter>src</Filter>
     </ClCompile>
   </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\SamplePixelShader.hlsl" />
+    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Vertex\SampleVertexShader.hlsl" />
+  </ItemGroup>
 </Project>

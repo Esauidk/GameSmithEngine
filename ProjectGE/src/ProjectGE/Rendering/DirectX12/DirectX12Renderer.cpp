@@ -23,7 +23,7 @@ using namespace Microsoft::WRL;
 
 namespace ProjectGE {
 
-	DirectX12Renderer::DirectX12Renderer(HWND window) : m_DBuffer(), m_TearingSupport(), m_Window(window), m_Buffer(), m_Index() {}
+	DirectX12Renderer::DirectX12Renderer(HWND window) : m_DBuffer(), m_TearingSupport(), m_Window(window) {}
 
 	void DirectX12Renderer::Init() {
 
@@ -210,6 +210,17 @@ namespace ProjectGE {
 		InitializeBackBuffer();
 	}
 
+	void DirectX12Renderer::SetClearColor(float r, float g, float b, float a)
+	{
+		m_ClearColor[0] = r;
+		m_ClearColor[1] = g;
+		m_ClearColor[2] = b;
+		m_ClearColor[3] = a;
+	}
+
+
+	
+
 	CD3DX12_CPU_DESCRIPTOR_HANDLE DirectX12Renderer::GetRenderTarget() const {
 		return CD3DX12_CPU_DESCRIPTOR_HANDLE(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart(), m_SwapChain->GetCurrentBackBufferIndex(), m_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
 	}
@@ -228,13 +239,100 @@ namespace ProjectGE {
 		// Add command to transition the render target
 		list->ResourceBarrier(1, &barrier);
 		CD3DX12_CPU_DESCRIPTOR_HANDLE rtv(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart(), m_SwapChain->GetCurrentBackBufferIndex(), m_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
-		const float color[] = { 0.07f, 0.0f, 0.12f, 1 };
-		list->ClearRenderTargetView(rtv, color, 0, nullptr);
+		list->ClearRenderTargetView(rtv, m_ClearColor, 0, nullptr);
 		UINT value = m_Queue.ExecuteCommandList(list);
 		m_Queue.WaitForFenceValue(value);
 	}
 
-	void DirectX12Renderer::CreateObject() {
+	void DirectX12Renderer::DrawDemoTriangle()
+	{
+		struct Vertex {
+			float pos[3];
+			float color[3];
+		};
+		TCHAR buffer[MAX_PATH] = { 0 };
+		GetModuleFileName(NULL, buffer, MAX_PATH);
+		std::wstring::size_type pos = std::wstring(buffer).find_last_of(L"\\/");
+		auto vertex = std::wstring(buffer).substr(0, pos).append(L"\\/SampleVertexShader.cso");
+		auto pixel = std::wstring(buffer).substr(0, pos).append(L"\\/SamplePixelShader.cso");
+
+		std::string nvertex = std::string(vertex.begin(), vertex.end());
+		std::string npixel = std::string(pixel.begin(), pixel.end());
+		VertexShader vs(nvertex);
+		PixelShader ps(npixel);
+
+		// Input Layout Test!
+		D3D12_INPUT_ELEMENT_DESC inputLayout[] = {
+			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+			{ "COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
+		};
+
+		InputLayout layout(inputLayout, 2);
+
+		// Create RootSignature
+		RootSignature root(m_Device, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT |
+			D3D12_ROOT_SIGNATURE_FLAG_DENY_HULL_SHADER_ROOT_ACCESS |
+			D3D12_ROOT_SIGNATURE_FLAG_DENY_DOMAIN_SHADER_ROOT_ACCESS |
+			D3D12_ROOT_SIGNATURE_FLAG_DENY_GEOMETRY_SHADER_ROOT_ACCESS |
+			D3D12_ROOT_SIGNATURE_FLAG_DENY_PIXEL_SHADER_ROOT_ACCESS);
+
+		root.BuildRootSignature(m_Device);
+
+		D3D12_RT_FORMAT_ARRAY rtvFormats = {};
+		rtvFormats.NumRenderTargets = 1;
+		rtvFormats.RTFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
+
+		TopologyResource top(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+
+
+
+		// Pipeline State Object Test : Define Pipeline and bind some bindables
+
+
+		PipelineState state;
+		vs.Setup(state);
+		ps.Setup(state);
+		layout.Setup(state);
+		root.Setup(state);
+		top.Setup(state);
+		state.Attach(rtvFormats);
+		state.Attach(DXGI_FORMAT_D32_FLOAT);
+		state.Build(m_Device);
+
+		ComPtr<ID3D12GraphicsCommandList6> list = m_Queue.GetCommandList();
+
+		Vertex cubeVertex[] = {
+			{ {-0.5f, 0.0f, -1.0f}, {0.0f, 0.0f, 0.0f} }, // 0
+			{ {0.5f,  0.0f, -1.0f}, {0.0f, 1.0f, 0.0f} }, // 1
+			{ {0.0f,  0.5f, -1.0f}, {1.0f, 1.0f, 0.0f} }, // 2
+		};
+
+		VertexBuffer<Vertex> tempBuffer(m_Device, list, cubeVertex, sizeof(cubeVertex) / sizeof(Vertex));
+
+		WORD indexCount[] = {
+			0, 1, 2
+		};
+
+		IndexBuffer tempIndex = IndexBuffer(m_Device, list, indexCount, _countof(indexCount));
+
+		state.Bind(list);
+		root.Bind(list);
+		top.Bind(list);
+		tempBuffer.Bind(list);
+		tempIndex.Bind(list);
+
+		CD3DX12_CPU_DESCRIPTOR_HANDLE targetHandler(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart(), m_SwapChain->GetCurrentBackBufferIndex(), m_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
+		D3D12_CPU_DESCRIPTOR_HANDLE depthHandler = m_DBuffer->GetHandle();
+		list->OMSetRenderTargets(1, &targetHandler, FALSE, &depthHandler);
+
+		list->DrawIndexedInstanced(_countof(indexCount), 1, 0, 0, 0);
+
+		UINT value = m_Queue.ExecuteCommandList(list);
+		m_Queue.WaitForFenceValue(value);
+	}
+
+	/*void DirectX12Renderer::CreateObject() {
 		// Shader Test!
 		VertexShader vs("ExampleVertexShader.cso");
 		PixelShader ps("PixelShader.cso");
@@ -355,7 +453,7 @@ namespace ProjectGE {
 
 	void DirectX12Renderer::DrawObject() {
 		CreateObject();
-	}
+	}*/
 };
 
 

@@ -21,11 +21,8 @@ namespace ProjectGE {
 
 		virtual void Resize(float width, float height) = 0;
 
-		// Create an object in the scene
-		virtual void CreateObject() = 0;
-
-		// Draws an object to the screen (TODO: Add parameters to fully define)
-		virtual void DrawObject() = 0;
+		virtual void SetClearColor(float r, float g, float b, float a) = 0;
+		virtual void DrawDemoTriangle() = 0;
 	};
 
 };

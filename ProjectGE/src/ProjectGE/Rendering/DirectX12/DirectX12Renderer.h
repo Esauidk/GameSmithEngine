@@ -12,10 +12,6 @@
 #include "BindableResources/BindableResource.h"
 
 namespace ProjectGE {
-	struct Vertex {
-		DirectX::XMFLOAT3 pos;
-		DirectX::XMFLOAT3 color;
-	};
 
 	class DirectX12Renderer : public Renderer
 	{
@@ -25,8 +21,8 @@ namespace ProjectGE {
 		void Init() override;
 		void Swap() override;
 		void Resize(float width, float height) override;
-		void CreateObject() override;
-		void DrawObject() override;
+		void SetClearColor(float r, float g, float b, float a) override;
+		void DrawDemoTriangle() override;
 
 		inline Microsoft::WRL::ComPtr<ID3D12Device> GetDevice() { return m_Device; }
 		inline DirectXCommandQueue& GetCommandQueue() { return m_Queue; }
@@ -35,6 +31,7 @@ namespace ProjectGE {
 		CD3DX12_CPU_DESCRIPTOR_HANDLE GetRenderTarget() const;
 	private:
 		void InitializeBackBuffer();
+		
 	
 		// Debug Resources
 		Microsoft::WRL::ComPtr<ID3D12Debug> m_Debug;
@@ -59,9 +56,9 @@ namespace ProjectGE {
 		static const int m_BufferCount = 2;
 
 		HWND m_Window;
-		// Test Buffer
-		BindableResource* m_Buffer;
-		BindableResource* m_Index;
+		
+		bool m_DemoEnabled;
+		float m_ClearColor[4] = { 0.07f, 0.0f, 0.12f, 1 };
 	};
 
 #define CREATE_DIRECTX12 new ProjectGE::DirectX

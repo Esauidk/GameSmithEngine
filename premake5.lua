@@ -53,6 +53,10 @@ project "ProjectGE"
 			"GE_PLATFORM_WINDOWS",
 			"GE_BUILD_DLL"
 		}
+
+		postbuildcommands{
+			("{COPY} %{cfg.buildtarget.relpath}/../**.cso ../bin/" ..outputdir .. "/TestZone")
+		}
 		
 
 	filter "configurations:Debug"

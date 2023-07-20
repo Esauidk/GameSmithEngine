@@ -113,6 +113,8 @@ namespace ProjectGE {
 	void WindowsWindow::OnUpdate() {
 		ProcessMessages();
 		if (m_RenderContext != nullptr) {
+			// TODO: Remove this in the future, just testing
+			m_RenderContext->DrawDemoTriangle();
 			m_RenderContext->Swap();
 		}
 		
@@ -329,6 +331,8 @@ namespace ProjectGE {
 		default:
 			return DefWindowProc(hWnd, msg, wParam, lParam);
 		}
+
+		return DefWindowProc(hWnd, msg, wParam, lParam);
 	}
 
 };
