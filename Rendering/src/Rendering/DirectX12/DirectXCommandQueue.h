@@ -47,15 +47,15 @@ namespace Render {
 		using CommandAllocatorQueue = std::queue<CommandAllocatorEntry>;
 		using CommandListQueue = std::queue<Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6>>;
 
-		D3D12_COMMAND_LIST_TYPE commandListType;
-		Microsoft::WRL::ComPtr<ID3D12Device8> pDevice;
-		Microsoft::WRL::ComPtr<ID3D12CommandQueue> pQueue;
-		Microsoft::WRL::ComPtr<ID3D12Fence1> pFence;
-		HANDLE fenceEvent;
-		UINT fenceValue;
+		D3D12_COMMAND_LIST_TYPE m_CommandListType;
+		Microsoft::WRL::ComPtr<ID3D12Device8> m_Device;
+		Microsoft::WRL::ComPtr<ID3D12CommandQueue> m_Queue;
+		Microsoft::WRL::ComPtr<ID3D12Fence1> m_Fence;
+		HANDLE m_FenceEvent;
+		UINT m_FenceValue;
 
-		CommandAllocatorQueue commandAllocatorQueue;
-		CommandListQueue commandListQueue;
+		CommandAllocatorQueue m_CommandAllocatorQueue;
+		CommandListQueue m_CommandListQueue;
 	};
 }
 

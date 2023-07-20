@@ -12,9 +12,9 @@ namespace Render {
 		D3D12_CPU_DESCRIPTOR_HANDLE GetHandle();
 	private:
 		// Depth Stencil Heap
-		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> pDSVHeap;
+		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> m_DSVHeap;
 
-		Microsoft::WRL::ComPtr<ID3D12Resource2> pDepthBuffer;
+		Microsoft::WRL::ComPtr<ID3D12Resource2> m_DepthBuffer;
 	};
 };
 

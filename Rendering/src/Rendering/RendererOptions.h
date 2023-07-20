@@ -3,5 +3,5 @@
 #include "Renderer.h"
 
 enum class RendererOptions {
-	DirectX
+	DirectX12
 };

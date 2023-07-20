@@ -25,9 +25,9 @@ namespace Render {
 				&bufferDesc,
 				D3D12_RESOURCE_STATE_COMMON,
 				nullptr,
-				IID_PPV_ARGS(&gpuBuffer)
+				IID_PPV_ARGS(&m_GpuBuffer)
 			));
-			gpuBuffer->SetName(L"Personal Buffer");
+			m_GpuBuffer->SetName(L"Personal Buffer");
 
 			RENDER_THROW(pDevice->CreateCommittedResource(
 				&uploadHeapProperties,
@@ -35,7 +35,7 @@ namespace Render {
 				&bufferDesc,
 				D3D12_RESOURCE_STATE_GENERIC_READ,
 				nullptr,
-				IID_PPV_ARGS(&cpuBuffer)
+				IID_PPV_ARGS(&m_CpuBuffer)
 			));
 
 			// Store the data inside
@@ -44,15 +44,15 @@ namespace Render {
 			data.RowPitch = bufferSize;
 			data.SlicePitch = data.RowPitch;
 
-			UpdateSubresources(pCommandList.Get(), gpuBuffer.Get(), cpuBuffer.Get(), 0, 0, 1, &data);
+			UpdateSubresources(pCommandList.Get(), m_GpuBuffer.Get(), m_CpuBuffer.Get(), 0, 0, 1, &data);
 		}
 
 		void Bind(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> cmdList) override {
 			return;
 		}
 	protected:
-		Microsoft::WRL::ComPtr<ID3D12Resource2> gpuBuffer;
-		Microsoft::WRL::ComPtr<ID3D12Resource2> cpuBuffer;
+		Microsoft::WRL::ComPtr<ID3D12Resource2> m_GpuBuffer;
+		Microsoft::WRL::ComPtr<ID3D12Resource2> m_CpuBuffer;
 		UINT bufferSize;
 	};
 };

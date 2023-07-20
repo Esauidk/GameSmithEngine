@@ -69,9 +69,6 @@
     <ClInclude Include="src\Rendering\RenderExceptions.h">
       <Filter>Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="src\Rendering\Renderer.h">
-      <Filter>Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="src\Rendering\RendererOptions.h">
       <Filter>Rendering</Filter>
     </ClInclude>
