@@ -3,6 +3,8 @@
 #include <d3d12.h>
 #include <queue>
 
+using Microsoft::WRL::ComPtr;
+
 namespace ProjectGE {
 	/* 
 	DirectXCommandQueue: An abstraction of the command system from DirectX12, synchronize compatible
@@ -20,37 +22,40 @@ namespace ProjectGE {
 	class DirectXCommandQueue
 	{
 	public:
-		DirectXCommandQueue(Microsoft::WRL::ComPtr<ID3D12Device8> device, D3D12_COMMAND_LIST_TYPE type);
-		DirectXCommandQueue();
+		DirectXCommandQueue(ID3D12Device8* device, D3D12_COMMAND_LIST_TYPE type);
+		DirectXCommandQueue() = delete;
 
-		virtual ~DirectXCommandQueue() = default;
+		~DirectXCommandQueue() = default;
 
-		Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> GetCommandList();
+		ComPtr<ID3D12GraphicsCommandList6> GetCommandList();
 
-		UINT ExecuteCommandList(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> commandList);
+		UINT ExecuteCommandList(ComPtr<ID3D12GraphicsCommandList6> commandList);
 
 		UINT Signal();
 		bool IsFenceComplete(UINT fenceValue);
 		void WaitForFenceValue(UINT fenceValue);
 		void Flush();
 
-		Microsoft::WRL::ComPtr<ID3D12CommandQueue> GetCommandQueue() const;
+		// Return a ptr to the the underlying command queue, keep ownership of it
+		ID3D12CommandQueue* GetCommandQueue() const;
 	protected:
-		Microsoft::WRL::ComPtr<ID3D12CommandAllocator> CreateCommandAllocator();
-		Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> CreateCommandList(Microsoft::WRL::ComPtr<ID3D12CommandAllocator> allocator);
+		// Create an allocator, but do not own the resulting ptr, the client owns it
+		ID3D12CommandAllocator* CreateCommandAllocator();
+		// Create a command list, but do not own the resulting ptr, the client owns it
+		ID3D12GraphicsCommandList6* CreateCommandList(ID3D12CommandAllocator* allocator);
 	private:
 		struct CommandAllocatorEntry {
 			UINT fenceValue;
-			Microsoft::WRL::ComPtr<ID3D12CommandAllocator> commandAllocator;
+			ComPtr<ID3D12CommandAllocator> commandAllocator;
 		};
 
 		using CommandAllocatorQueue = std::queue<CommandAllocatorEntry>;
-		using CommandListQueue = std::queue<Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6>>;
+		using CommandListQueue = std::queue<ComPtr<ID3D12GraphicsCommandList6>>;
 
 		D3D12_COMMAND_LIST_TYPE m_CommandListType;
-		Microsoft::WRL::ComPtr<ID3D12Device8> m_Device;
-		Microsoft::WRL::ComPtr<ID3D12CommandQueue> m_Queue;
-		Microsoft::WRL::ComPtr<ID3D12Fence1> m_Fence;
+		ID3D12Device8* m_Device;
+		ComPtr<ID3D12CommandQueue> m_Queue;
+		ComPtr<ID3D12Fence1> m_Fence;
 		HANDLE m_FenceEvent;
 		UINT m_FenceValue;
 

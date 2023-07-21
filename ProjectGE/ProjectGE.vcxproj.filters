@@ -1413,6 +1413,7 @@
     <ClInclude Include="third-party\glm\glm\vector_relational.hpp">
       <Filter>third-party\glm\glm</Filter>
     </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12TriangleDemo.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\Application.cpp">
@@ -1475,6 +1476,7 @@
     <ClCompile Include="src\gepch.cpp">
       <Filter>src</Filter>
     </ClCompile>
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12TriangleDemo.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\SamplePixelShader.hlsl" />

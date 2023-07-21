@@ -11,6 +11,8 @@
 #include "DepthBuffer.h"
 #include "BindableResources/BindableResource.h"
 
+using Microsoft::WRL::ComPtr;
+
 namespace ProjectGE {
 
 	class DirectX12Renderer : public Renderer
@@ -22,35 +24,36 @@ namespace ProjectGE {
 		void Swap() override;
 		void Resize(float width, float height) override;
 		void SetClearColor(float r, float g, float b, float a) override;
-		void DrawDemoTriangle() override;
+		//void DrawDemoTriangle() override;
 
-		inline Microsoft::WRL::ComPtr<ID3D12Device> GetDevice() { return m_Device; }
-		inline DirectXCommandQueue& GetCommandQueue() { return m_Queue; }
+		inline ID3D12Device* GetDevice() { return m_Device.Get(); }
+		inline DirectXCommandQueue* GetCommandQueue() { return m_Queue.get(); }
 
-		inline Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> GetSRVHeap() { return m_SRVHeapD; }
+		inline ID3D12DescriptorHeap* GetSRVHeap() { return m_SRVHeapD.Get(); }
 		CD3DX12_CPU_DESCRIPTOR_HANDLE GetRenderTarget() const;
 	private:
 		void InitializeBackBuffer();
 		
 	
 		// Debug Resources
-		Microsoft::WRL::ComPtr<ID3D12Debug> m_Debug;
-		Microsoft::WRL::ComPtr<ID3D12InfoQueue> m_InfoQueue;
+		ComPtr<ID3D12Debug> m_Debug;
+		ComPtr<ID3D12InfoQueue> m_InfoQueue;
 
 		// Core Resources
-		Microsoft::WRL::ComPtr<ID3D12Device8> m_Device;
+		ComPtr<ID3D12Device8> m_Device;
 		// This holds the two buffers we use for rendering (Presenting Buffer & Preparing Buffer)
-		Microsoft::WRL::ComPtr<IDXGISwapChain4> m_SwapChain;
+		ComPtr<IDXGISwapChain4> m_SwapChain;
 
 		// Graphics Handlers
-		Microsoft::WRL::ComPtr<ID3D12Resource2> m_BackBuffer;
+		ComPtr<ID3D12Resource2> m_BackBuffer;
 		// Render Target Heap
-		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> m_RTVHeapD;
-		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> m_SRVHeapD;
+		ComPtr<ID3D12DescriptorHeap> m_RTVHeapD;
+		ComPtr<ID3D12DescriptorHeap> m_SRVHeapD;
 		// Depth Buffer
-		DepthBuffer* m_DBuffer;
+		std::unique_ptr<DepthBuffer> m_DBuffer;
 		// The command queue for the renderer
-		DirectXCommandQueue m_Queue;
+		
+		std::unique_ptr<DirectXCommandQueue> m_Queue;
 
 		BOOL m_TearingSupport;
 		static const int m_BufferCount = 2;

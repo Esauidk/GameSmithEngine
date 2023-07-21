@@ -114,7 +114,7 @@ namespace ProjectGE {
 		ProcessMessages();
 		if (m_RenderContext != nullptr) {
 			// TODO: Remove this in the future, just testing
-			m_RenderContext->DrawDemoTriangle();
+			//m_RenderContext->DrawDemoTriangle();
 			m_RenderContext->Swap();
 		}
 		

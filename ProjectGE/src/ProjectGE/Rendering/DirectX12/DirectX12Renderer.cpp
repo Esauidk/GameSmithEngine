@@ -1,19 +1,6 @@
 #include "gepch.h"
 #include "DirectX12Renderer.h"
-
-// Temporary Includes
-#include "BindableResources/VertexBuffer.h"
-#include "BindableResources/IndexBuffer.h"
-#include "BindableResources/RootSignature.h"
-#include "BindableResources/VertexShader.h"
-#include "BindableResources/PixelShader.h"
-#include "BindableResources/RootSignature.h"
-#include "BindableResources/InputLayout.h"
-#include "PipelineState.h"
-#include "BindableResources/TopologyResource.h"
-// END
-
-#include <chrono>
+#include "ProjectGE/Log.h"
 
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxguid.lib")
@@ -56,7 +43,7 @@ namespace ProjectGE {
 		m_InfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING, TRUE);
 #endif
 
-		m_Queue = DirectXCommandQueue(m_Device, D3D12_COMMAND_LIST_TYPE_DIRECT);
+		m_Queue = std::make_unique<DirectXCommandQueue>(m_Device.Get(), D3D12_COMMAND_LIST_TYPE_DIRECT);
 
 
 		/**********************************************/
@@ -109,7 +96,7 @@ namespace ProjectGE {
 
 		// Create OS tied Swap-Chain
 		res = FAILED(dxgiFactory5->CreateSwapChainForHwnd(
-			m_Queue.GetCommandQueue().Get(),
+			m_Queue->GetCommandQueue(),
 			m_Window,
 			&swapChainDesc,
 			nullptr,
@@ -158,7 +145,7 @@ namespace ProjectGE {
 
 		InitializeBackBuffer();
 
-		m_DBuffer = new DepthBuffer(m_Device, 1080, 600);
+		m_DBuffer = std::make_unique<DepthBuffer>(m_Device, 1080, 600);
 	}
 
 	void DirectX12Renderer::Swap()
@@ -167,14 +154,14 @@ namespace ProjectGE {
 			m_BackBuffer.Get(),
 			D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT
 		);
-		ComPtr<ID3D12GraphicsCommandList6> list = m_Queue.GetCommandList();
+		ComPtr<ID3D12GraphicsCommandList6> list = m_Queue->GetCommandList();
 
 
 		// Add command to transition the render target
 		list->ResourceBarrier(1, &barrier);
 
-		UINT value = m_Queue.ExecuteCommandList(list);
-		m_Queue.WaitForFenceValue(value);
+		UINT value = m_Queue->ExecuteCommandList(list);
+		m_Queue->WaitForFenceValue(value);
 
 
 		bool res = FAILED(m_SwapChain->Present(0, 0));
@@ -185,7 +172,7 @@ namespace ProjectGE {
 
 	void DirectX12Renderer::Resize(float width, float height)
 	{
-		m_Queue.Flush();
+		m_Queue->Flush();
 		m_BackBuffer.Reset();
 
 		DXGI_SWAP_CHAIN_DESC1 swapChainDesc = {};
@@ -235,46 +222,20 @@ namespace ProjectGE {
 			D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_RENDER_TARGET
 		);
 
-		ComPtr<ID3D12GraphicsCommandList6> list = m_Queue.GetCommandList();
+		ComPtr<ID3D12GraphicsCommandList6> list = m_Queue->GetCommandList();
 		// Add command to transition the render target
 		list->ResourceBarrier(1, &barrier);
 		CD3DX12_CPU_DESCRIPTOR_HANDLE rtv(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart(), m_SwapChain->GetCurrentBackBufferIndex(), m_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
 		list->ClearRenderTargetView(rtv, m_ClearColor, 0, nullptr);
-		UINT value = m_Queue.ExecuteCommandList(list);
-		m_Queue.WaitForFenceValue(value);
+		UINT value = m_Queue->ExecuteCommandList(list);
+		m_Queue->WaitForFenceValue(value);
 	}
 
-	void DirectX12Renderer::DrawDemoTriangle()
+	/*void DirectX12Renderer::DrawDemoTriangle()
 	{
-		struct Vertex {
-			float pos[3];
-			float color[3];
-		};
-		TCHAR buffer[MAX_PATH] = { 0 };
-		GetModuleFileName(NULL, buffer, MAX_PATH);
-		std::wstring::size_type pos = std::wstring(buffer).find_last_of(L"\\/");
-		auto vertex = std::wstring(buffer).substr(0, pos).append(L"\\/SampleVertexShader.cso");
-		auto pixel = std::wstring(buffer).substr(0, pos).append(L"\\/SamplePixelShader.cso");
-
-		std::string nvertex = std::string(vertex.begin(), vertex.end());
-		std::string npixel = std::string(pixel.begin(), pixel.end());
-		VertexShader vs(nvertex);
-		PixelShader ps(npixel);
-
-		// Input Layout Test!
-		D3D12_INPUT_ELEMENT_DESC inputLayout[] = {
-			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
-			{ "COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
-		};
-
-		InputLayout layout(inputLayout, 2);
 
 		// Create RootSignature
-		RootSignature root(m_Device, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT |
-			D3D12_ROOT_SIGNATURE_FLAG_DENY_HULL_SHADER_ROOT_ACCESS |
-			D3D12_ROOT_SIGNATURE_FLAG_DENY_DOMAIN_SHADER_ROOT_ACCESS |
-			D3D12_ROOT_SIGNATURE_FLAG_DENY_GEOMETRY_SHADER_ROOT_ACCESS |
-			D3D12_ROOT_SIGNATURE_FLAG_DENY_PIXEL_SHADER_ROOT_ACCESS);
+		
 
 		root.BuildRootSignature(m_Device);
 
@@ -330,7 +291,7 @@ namespace ProjectGE {
 
 		UINT value = m_Queue.ExecuteCommandList(list);
 		m_Queue.WaitForFenceValue(value);
-	}
+	}*/
 
 	/*void DirectX12Renderer::CreateObject() {
 		// Shader Test!

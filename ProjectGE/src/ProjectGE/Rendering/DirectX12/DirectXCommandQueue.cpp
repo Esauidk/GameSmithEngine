@@ -6,7 +6,7 @@ using namespace Microsoft::WRL;
 using namespace std::chrono;
 
 namespace ProjectGE {
-	DirectXCommandQueue::DirectXCommandQueue(ComPtr<ID3D12Device8> device, D3D12_COMMAND_LIST_TYPE type) :
+	DirectXCommandQueue::DirectXCommandQueue(ID3D12Device8* device, D3D12_COMMAND_LIST_TYPE type) :
 		m_CommandListType(type),
 		m_Device(device),
 		m_FenceValue(0) {
@@ -28,26 +28,24 @@ namespace ProjectGE {
 		GE_CORE_ASSERT(m_FenceEvent, "Failed to create fence event");
 	}
 
-	DirectXCommandQueue::DirectXCommandQueue() {}
-
-	ComPtr<ID3D12CommandAllocator> DirectXCommandQueue::CreateCommandAllocator() {
-		ComPtr<ID3D12CommandAllocator> commandAllocator;
+	ID3D12CommandAllocator* DirectXCommandQueue::CreateCommandAllocator() {
+		ID3D12CommandAllocator* commandAllocator;
 		bool res = FAILED(m_Device->CreateCommandAllocator(m_CommandListType, IID_PPV_ARGS(&commandAllocator)));
 		GE_CORE_ASSERT(!res, "Failed to create command allocator of type {0}", m_CommandListType);
 
 		return commandAllocator;
 	}
 
-	ComPtr<ID3D12GraphicsCommandList6> DirectXCommandQueue::CreateCommandList(ComPtr<ID3D12CommandAllocator> allocator) {
-		ComPtr<ID3D12GraphicsCommandList6> commandList;
-		bool res = FAILED(m_Device->CreateCommandList(0, m_CommandListType, allocator.Get(), nullptr, IID_PPV_ARGS(&commandList)));
+	ID3D12GraphicsCommandList6* DirectXCommandQueue::CreateCommandList(ID3D12CommandAllocator* allocator) {
+		ID3D12GraphicsCommandList6* commandList;
+		bool res = FAILED(m_Device->CreateCommandList(0, m_CommandListType, allocator, nullptr, IID_PPV_ARGS(&commandList)));
 		GE_CORE_ASSERT(!res, "Failed to create a command list of type {0}", m_CommandListType);
 
 		return commandList;
 	}
 
-	ComPtr<ID3D12CommandQueue> DirectXCommandQueue::GetCommandQueue() const {
-		return m_Queue;
+	ID3D12CommandQueue* DirectXCommandQueue::GetCommandQueue() const {
+		return m_Queue.Get();
 	}
 
 	ComPtr<ID3D12GraphicsCommandList6> DirectXCommandQueue::GetCommandList() {
@@ -74,7 +72,7 @@ namespace ProjectGE {
 			GE_CORE_ASSERT(!res, "Failed to reset a command list");
 		}
 		else {
-			commandList = CreateCommandList(commandAllocator);
+			commandList = CreateCommandList(commandAllocator.Get());
 		}
 
 		res = FAILED(commandList->SetPrivateDataInterface(__uuidof(ID3D12CommandAllocator), commandAllocator.Get()));
@@ -99,7 +97,7 @@ namespace ProjectGE {
 		m_Queue->ExecuteCommandLists(1, commandLists);
 		UINT fenceValue = Signal();
 
-		m_CommandAllocatorQueue.emplace(CommandAllocatorEntry{ fenceValue, commandAllocator });
+		m_CommandAllocatorQueue.emplace(CommandAllocatorEntry{ fenceValue, commandAllocator});
 		m_CommandListQueue.push(commandList);
 
 		commandAllocator->Release();

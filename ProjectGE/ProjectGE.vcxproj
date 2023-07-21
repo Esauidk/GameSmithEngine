@@ -143,6 +143,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12TriangleDemo.h" />
     <ClInclude Include="src\ProjectGE.h" />
     <ClInclude Include="src\ProjectGE\Application.h" />
     <ClInclude Include="src\ProjectGE\Core.h" />
@@ -598,6 +599,7 @@
     <ClInclude Include="third-party\glm\glm\vector_relational.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12TriangleDemo.cpp" />
     <ClCompile Include="src\ProjectGE\Application.cpp" />
     <ClCompile Include="src\ProjectGE\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\ProjectGE\ImGui\ImGuiLayer.cpp" />
