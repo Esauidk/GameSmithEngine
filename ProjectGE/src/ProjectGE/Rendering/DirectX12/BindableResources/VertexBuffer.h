@@ -8,10 +8,10 @@ namespace ProjectGE {
 		VertexBuffer() = default;
 		~VertexBuffer() = default;
 
-		VertexBuffer(Microsoft::WRL::ComPtr<ID3D12Device8> pDevice, Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> pCommandList, T* buffer, int count) : Buffer<T>(pDevice, pCommandList, buffer, count) {}
+		VertexBuffer(ID3D12Device8* pDevice, ID3D12GraphicsCommandList6* pCommandList, T* buffer, int count) : Buffer<T>(pDevice, pCommandList, buffer, count, "Vertex Buffer") {}
 
 
-		void Bind(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> cmdList) override {
+		void Bind(ID3D12GraphicsCommandList6* cmdList) override {
 			CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
 				this->m_GpuBuffer.Get(),
 				D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER

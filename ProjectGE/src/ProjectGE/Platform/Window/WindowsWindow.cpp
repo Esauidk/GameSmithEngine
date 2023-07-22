@@ -91,7 +91,7 @@ namespace ProjectGE {
 		switch (props.renderOption) {
 		case RenderOptions::DIRECTX12:
 		{
-			m_RenderContext = (Renderer*)new DirectX12Renderer(m_HWnd);
+			m_RenderContext = (Renderer*)new DirectX12Renderer(m_HWnd, m_Prop.Width, m_Prop.Height);
 			break;
 		}
 		case RenderOptions::NONE:
@@ -102,6 +102,9 @@ namespace ProjectGE {
 
 		if (m_RenderContext != nullptr) {
 			m_RenderContext->Init();
+
+			// TODO: Remove this in the future, just testing
+			m_RenderContext->SetDemoTriangle(true);
 		}
 		
 		//Show window
@@ -113,8 +116,6 @@ namespace ProjectGE {
 	void WindowsWindow::OnUpdate() {
 		ProcessMessages();
 		if (m_RenderContext != nullptr) {
-			// TODO: Remove this in the future, just testing
-			//m_RenderContext->DrawDemoTriangle();
 			m_RenderContext->Swap();
 		}
 		

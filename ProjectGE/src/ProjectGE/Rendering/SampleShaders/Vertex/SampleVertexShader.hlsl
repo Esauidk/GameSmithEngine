@@ -10,6 +10,11 @@ struct VertexShaderOutput
     float4 Position : SV_POSITION;
 };
 
+/*cbuffer ModelViewProjection : register(b0)
+{
+    matrix MVP;
+};*/
+
     
 VertexShaderOutput main(VertexPosColor input)
 {

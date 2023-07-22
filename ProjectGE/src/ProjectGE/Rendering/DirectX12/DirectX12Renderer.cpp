@@ -10,7 +10,7 @@ using namespace Microsoft::WRL;
 
 namespace ProjectGE {
 
-	DirectX12Renderer::DirectX12Renderer(HWND window) : m_DBuffer(), m_TearingSupport(), m_Window(window) {}
+	DirectX12Renderer::DirectX12Renderer(HWND window, unsigned int initialWidth, unsigned int initialHeight) : m_DBuffer(), m_TearingSupport(), m_Window(window), m_Width(initialWidth), m_Height(initialHeight) {}
 
 	void DirectX12Renderer::Init() {
 
@@ -63,8 +63,8 @@ namespace ProjectGE {
 		DXGI_SWAP_CHAIN_DESC1 swapChainDesc = {};
 
 		// Make them native size for now (potentially allow resolution changing in the future)
-		swapChainDesc.Width = 0;
-		swapChainDesc.Height = 0;
+		swapChainDesc.Width = m_Width;
+		swapChainDesc.Height = m_Height;
 
 		// 8 Bytes per channel, unormalized
 		swapChainDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
@@ -143,13 +143,17 @@ namespace ProjectGE {
 			targetHandler.Offset(rtvSize);
 		}
 
+		m_DBuffer = std::make_unique<DepthBuffer>(m_Device.Get(), 1080, 600);
+
 		InitializeBackBuffer();
 
-		m_DBuffer = std::make_unique<DepthBuffer>(m_Device, 1080, 600);
+		
 	}
 
 	void DirectX12Renderer::Swap()
 	{
+		PreSwap();
+
 		CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
 			m_BackBuffer.Get(),
 			D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT
@@ -172,6 +176,9 @@ namespace ProjectGE {
 
 	void DirectX12Renderer::Resize(float width, float height)
 	{
+		m_Width = (UINT)width;
+		m_Height = (UINT)height;
+
 		m_Queue->Flush();
 		m_BackBuffer.Reset();
 
@@ -179,7 +186,7 @@ namespace ProjectGE {
 		bool res = FAILED(m_SwapChain->GetDesc1(&swapChainDesc));
 		GE_CORE_ASSERT(!res, "Failed to acquire back buffer description");
 
-		res = FAILED(m_SwapChain->ResizeBuffers(swapChainDesc.BufferCount, (UINT)width, (UINT)height, swapChainDesc.Format, swapChainDesc.Flags));
+		res = FAILED(m_SwapChain->ResizeBuffers(swapChainDesc.BufferCount, m_Width, m_Height, swapChainDesc.Format, swapChainDesc.Flags));
 		GE_CORE_ASSERT(!res, "Failed to resize DirectX12 swap chain buffers");
 
 		CD3DX12_CPU_DESCRIPTOR_HANDLE rtv(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart());
@@ -192,7 +199,7 @@ namespace ProjectGE {
 			rtv.Offset(rtvSize);
 		}
 
-		m_DBuffer->Resize(m_Device, (UINT)width, (UINT)height);
+		m_DBuffer->Resize(m_Device.Get(), m_Width, m_Height);
 
 		InitializeBackBuffer();
 	}
@@ -205,8 +212,22 @@ namespace ProjectGE {
 		m_ClearColor[3] = a;
 	}
 
+	void DirectX12Renderer::SetDemoTriangle(bool enabled)
+	{
+		m_DemoEnabled = enabled;
 
-	
+		if (m_DemoEnabled) {
+			auto list = m_Queue->GetCommandList();
+			m_Demo = std::make_unique<DirectX12TriangleDemo>(m_Device.Get(), list.Get());
+
+			UINT val = m_Queue->ExecuteCommandList(list);
+			m_Queue->WaitForFenceValue(val);
+		}
+		else {
+			m_Demo.reset();
+		}
+	}
+
 
 	CD3DX12_CPU_DESCRIPTOR_HANDLE DirectX12Renderer::GetRenderTarget() const {
 		return CD3DX12_CPU_DESCRIPTOR_HANDLE(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart(), m_SwapChain->GetCurrentBackBufferIndex(), m_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
@@ -227,8 +248,30 @@ namespace ProjectGE {
 		list->ResourceBarrier(1, &barrier);
 		CD3DX12_CPU_DESCRIPTOR_HANDLE rtv(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart(), m_SwapChain->GetCurrentBackBufferIndex(), m_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
 		list->ClearRenderTargetView(rtv, m_ClearColor, 0, nullptr);
+		m_DBuffer->Clear(list.Get(), 1);
 		UINT value = m_Queue->ExecuteCommandList(list);
 		m_Queue->WaitForFenceValue(value);
+	}
+
+	void DirectX12Renderer::PreSwap()
+	{
+		auto list = m_Queue->GetCommandList();
+		auto rect = CD3DX12_RECT(0, 0, m_Width, m_Height);
+		auto viewport = CD3DX12_VIEWPORT(0.0f, 0.0f, (FLOAT)m_Width, (FLOAT)m_Height);
+		list->RSSetScissorRects(1, &rect);
+		list->RSSetViewports(1, &viewport);
+
+		CD3DX12_CPU_DESCRIPTOR_HANDLE targetHandler(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart(), m_SwapChain->GetCurrentBackBufferIndex(), m_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
+		D3D12_CPU_DESCRIPTOR_HANDLE depthHandler = m_DBuffer->GetHandle();
+		list->OMSetRenderTargets(1, &targetHandler, FALSE, &depthHandler);
+
+
+		if (m_DemoEnabled) {
+			m_Demo->Draw(list.Get());
+		}
+
+		UINT val = m_Queue->ExecuteCommandList(list);
+		m_Queue->WaitForFenceValue(val);
 	}
 
 	/*void DirectX12Renderer::DrawDemoTriangle()

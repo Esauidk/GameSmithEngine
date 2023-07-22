@@ -6,7 +6,6 @@ namespace ProjectGE {
 	{
 	public:
 		PixelShader(const std::string& shaderPath);
-		void Bind(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> cmdList) override;
 	};
 
 };

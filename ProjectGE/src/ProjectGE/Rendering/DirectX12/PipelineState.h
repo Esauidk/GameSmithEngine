@@ -11,6 +11,7 @@ namespace ProjectGE {
 		CD3DX12_PIPELINE_STATE_STREAM_PS PS;
 		CD3DX12_PIPELINE_STATE_STREAM_DEPTH_STENCIL_FORMAT DSVFormat;
 		CD3DX12_PIPELINE_STATE_STREAM_RENDER_TARGET_FORMATS RTVFormats;
+		CD3DX12_PIPELINE_STATE_STREAM_FLAGS Flags;
 	};
 
 	enum ShaderType {
@@ -28,11 +29,12 @@ namespace ProjectGE {
 		void Attach(ID3DBlob* shaderByte, const ShaderType type);
 		void Attach(const DXGI_FORMAT& format);
 		void Attach(const D3D12_RT_FORMAT_ARRAY& formats);
-		void Build(Microsoft::WRL::ComPtr<ID3D12Device8> pDevice);
-		void Bind(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> cmdList) override;
+		void Build(ID3D12Device8* pDevice);
+		void SetDebug();
+		void Bind(ID3D12GraphicsCommandList6* cmdList) override;
 	private:
-		PipelineStateStream stateStream;
-		Microsoft::WRL::ComPtr<ID3D12PipelineState> pPipelineState;
+		PipelineStateStream m_StateStream;
+		ComPtr<ID3D12PipelineState> m_PipelineState;
 	};
 };
 

@@ -1,9 +1,12 @@
 #include "gepch.h"
 #include "DirectX12TriangleDemo.h"
 
+#include "glm/glm.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+
 namespace ProjectGE {
 
-	DirectX12TriangleDemo::DirectX12TriangleDemo(ID3D12Device8* device )
+	DirectX12TriangleDemo::DirectX12TriangleDemo(ID3D12Device8* device, ID3D12GraphicsCommandList6* list)
 	{
 
 		// Read Shaders (Vertex, Pixel)
@@ -26,11 +29,82 @@ namespace ProjectGE {
 
 		m_Layout = std::make_unique<InputLayout>(inputLayout, 2);
 
+
+		// Setup Root Signature
 		m_Root = std::make_unique<RootSignature>(device, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT |
 			D3D12_ROOT_SIGNATURE_FLAG_DENY_HULL_SHADER_ROOT_ACCESS |
 			D3D12_ROOT_SIGNATURE_FLAG_DENY_DOMAIN_SHADER_ROOT_ACCESS |
 			D3D12_ROOT_SIGNATURE_FLAG_DENY_GEOMETRY_SHADER_ROOT_ACCESS |
 			D3D12_ROOT_SIGNATURE_FLAG_DENY_PIXEL_SHADER_ROOT_ACCESS);
+		
+		/*CD3DX12_ROOT_PARAMETER1 rootParameters;
+		rootParameters.InitAsConstants(sizeof(glm::mat4) / 4, 0, 0, D3D12_SHADER_VISIBILITY_VERTEX);
+		m_Root->AddParameter(rootParameters);*/
+
+		m_Root->BuildRootSignature(device);
+
+		// Setup Topology
+
+		m_Topo = std::make_unique<TopologyResource>(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+		// Setup Pipeline
+		m_State = std::make_unique<PipelineState>();
+		
+		m_VS->Setup(*(m_State.get()));
+
+		m_PS->Setup(*(m_State.get()));
+		m_Layout->Setup(*(m_State.get()));
+		m_Root->Setup(*(m_State.get()));
+		m_Topo->Setup(*(m_State.get()));
+
+		D3D12_RT_FORMAT_ARRAY rtvFormats = {};
+		rtvFormats.NumRenderTargets = 1;
+		rtvFormats.RTFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
+		m_State->Attach(rtvFormats);
+
+		m_State->Attach(DXGI_FORMAT_D32_FLOAT);
+		m_State->Build(device);
+
+		Vertex cubeVertex[] = {
+			{ {-0.5f, 0.0f, 0.0f}, {1.0f, 0.0f, 0.0f} }, // 0
+			{ {0.0f,  0.75f, 0.0f}, {0.0f, 0.0f, 1.0f} }, // 1 
+			{ {0.5f,  0.0f, 0.0f}, {0.0f, 1.0f, 0.0f} } // 2
+		};
+
+		m_VertexBuffer = std::make_unique<VertexBuffer<Vertex>>(device, list, cubeVertex, sizeof(cubeVertex) / sizeof(Vertex));
+
+		WORD indexCount[] = {
+			0, 1, 2
+		};
+
+		m_IndexCount = (int)_countof(indexCount);
+		m_IndexBuffer = std::make_unique<IndexBuffer>(device, list, indexCount, m_IndexCount );
+
+		
+	}	
+
+	void DirectX12TriangleDemo::Draw(ID3D12GraphicsCommandList6* list)
+	{
+		m_State->Bind(list);
+		m_Root->Bind(list);
+
+		//TODO: Use this as refernece code when doing projection later
+
+		/*glm::mat4 proj = glm::orthoLH(0.0f, 800.0f, 0.0f, 600.0f, 0.1f, 100.0f);
+	
+		auto eye = glm::vec3(0, 0, -10);
+		auto focus = glm::vec3(0, 0, 0);
+		auto up = glm::vec3(0, 1, 0);
+		glm::mat4 lookAt = glm::lookAtLH(eye, focus, up);
+
+		auto mvp = proj * lookAt;
+		list->SetGraphicsRoot32BitConstants(0, sizeof(glm::mat4) / 4, &mvp, 0);*/
+
+		m_Topo->Bind(list);
+		m_VertexBuffer->Bind(list);
+		m_IndexBuffer->Bind(list);
+
+		list->DrawIndexedInstanced(m_IndexCount, 1, 0, 0, 0);
 	}
 
 	

@@ -9,7 +9,7 @@ namespace ProjectGE {
 	class Buffer : public BindableResource {
 	public:
 
-		Buffer(Microsoft::WRL::ComPtr<ID3D12Device8> pDevice, Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> pCommandList, T* buffer, UINT count, std::string bufferName = "Personal Buffer") : m_BufferSize(sizeof(T)* count) {
+		Buffer(ID3D12Device8* pDevice, ID3D12GraphicsCommandList6* pCommandList, T* buffer, UINT count, std::string bufferName = "Personal Buffer") : m_BufferSize(sizeof(T)* count) {
 			// Define heap details
 			CD3DX12_HEAP_PROPERTIES defaultHeapProperties(D3D12_HEAP_TYPE_DEFAULT);
 			CD3DX12_HEAP_PROPERTIES uploadHeapProperties(D3D12_HEAP_TYPE_UPLOAD);
@@ -48,15 +48,12 @@ namespace ProjectGE {
 			data.RowPitch = m_BufferSize;
 			data.SlicePitch = data.RowPitch;
 
-			UpdateSubresources(pCommandList.Get(), m_GpuBuffer.Get(), m_CpuBuffer.Get(), 0, 0, 1, &data);
+			UpdateSubresources(pCommandList, m_GpuBuffer.Get(), m_CpuBuffer.Get(), 0, 0, 1, &data);
 		}
 
-		void Bind(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> cmdList) override {
-			return;
-		}
 	protected:
-		Microsoft::WRL::ComPtr<ID3D12Resource2> m_GpuBuffer;
-		Microsoft::WRL::ComPtr<ID3D12Resource2> m_CpuBuffer;
+		ComPtr<ID3D12Resource2> m_GpuBuffer;
+		ComPtr<ID3D12Resource2> m_CpuBuffer;
 		UINT m_BufferSize;
 	};
 };

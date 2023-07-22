@@ -13,8 +13,8 @@
 namespace ProjectGE {
 	class DirectX12TriangleDemo {
 	public:
-		DirectX12TriangleDemo(ID3D12Device8* device);
-		void Draw();
+		DirectX12TriangleDemo(ID3D12Device8* device, ID3D12GraphicsCommandList6* list);
+		void Draw(ID3D12GraphicsCommandList6* list);
 	private:
 		struct Vertex {
 			float pos[3];
@@ -29,6 +29,8 @@ namespace ProjectGE {
 		std::unique_ptr<PixelShader> m_PS;
 		std::unique_ptr<VertexBuffer<Vertex>> m_VertexBuffer;
 		std::unique_ptr<IndexBuffer> m_IndexBuffer;
+
+		int m_IndexCount;
 	};
 };
 

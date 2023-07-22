@@ -7,7 +7,7 @@ namespace ProjectGE {
 		pipeline.Attach(m_Type);
 	}
 
-	void TopologyResource::Bind(Microsoft::WRL::ComPtr<ID3D12GraphicsCommandList6> cmdList) {
+	void TopologyResource::Bind(ID3D12GraphicsCommandList6* cmdList) {
 		cmdList->IASetPrimitiveTopology(m_ListType);
 	}
 };

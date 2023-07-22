@@ -9,7 +9,8 @@
 #include "ProjectGE/Rendering/DirectX12/Util/d3dx12.h"
 #include "DirectXCommandQueue.h"
 #include "DepthBuffer.h"
-#include "BindableResources/BindableResource.h"
+#include "DirectX12TriangleDemo.h"
+
 
 using Microsoft::WRL::ComPtr;
 
@@ -18,13 +19,13 @@ namespace ProjectGE {
 	class DirectX12Renderer : public Renderer
 	{
 	public:
-		DirectX12Renderer(HWND window);
+		DirectX12Renderer(HWND window, unsigned int initialWidth, unsigned int initialHeight);
 		~DirectX12Renderer() = default;
 		void Init() override;
 		void Swap() override;
 		void Resize(float width, float height) override;
 		void SetClearColor(float r, float g, float b, float a) override;
-		//void DrawDemoTriangle() override;
+		void SetDemoTriangle(bool enabled) override;
 
 		inline ID3D12Device* GetDevice() { return m_Device.Get(); }
 		inline DirectXCommandQueue* GetCommandQueue() { return m_Queue.get(); }
@@ -33,6 +34,7 @@ namespace ProjectGE {
 		CD3DX12_CPU_DESCRIPTOR_HANDLE GetRenderTarget() const;
 	private:
 		void InitializeBackBuffer();
+		void PreSwap();
 		
 	
 		// Debug Resources
@@ -52,14 +54,17 @@ namespace ProjectGE {
 		// Depth Buffer
 		std::unique_ptr<DepthBuffer> m_DBuffer;
 		// The command queue for the renderer
-		
 		std::unique_ptr<DirectXCommandQueue> m_Queue;
 
-		BOOL m_TearingSupport;
-		static const int m_BufferCount = 2;
+		std::unique_ptr<DirectX12TriangleDemo> m_Demo;
 
+		BOOL m_TearingSupport;
 		HWND m_Window;
+
+		static const int m_BufferCount = 2;
 		
+		unsigned int m_Width;
+		unsigned int m_Height;
 		bool m_DemoEnabled;
 		float m_ClearColor[4] = { 0.07f, 0.0f, 0.12f, 1 };
 	};
