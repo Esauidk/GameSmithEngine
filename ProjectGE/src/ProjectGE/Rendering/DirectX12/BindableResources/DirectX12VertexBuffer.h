@@ -1,14 +1,14 @@
 #pragma once
-#include "Buffer.h"
+#include "DirectX12Buffer.h"
 
 namespace ProjectGE {
 	template <typename T>
-	class VertexBuffer : public Buffer<T> {
+	class DirectX12VertexBuffer : public DirectX12Buffer<T> {
 	public:
-		VertexBuffer() = default;
-		~VertexBuffer() = default;
+		DirectX12VertexBuffer() = default;
+		~DirectX12VertexBuffer() = default;
 
-		VertexBuffer(ID3D12Device8* pDevice, ID3D12GraphicsCommandList6* pCommandList, T* buffer, int count) : Buffer<T>(pDevice, pCommandList, buffer, count, "Vertex Buffer") {}
+		DirectX12VertexBuffer(ID3D12Device8* pDevice, ID3D12GraphicsCommandList6* pCommandList, T* buffer, int count) : DirectX12Buffer<T>(pDevice, pCommandList, buffer, count, "Vertex Buffer") {}
 
 
 		void Bind(ID3D12GraphicsCommandList6* cmdList) override {

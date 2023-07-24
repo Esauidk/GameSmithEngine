@@ -18,8 +18,8 @@ namespace ProjectGE {
 
 		std::string nvertex = std::string(vertex.begin(), vertex.end());
 		std::string npixel = std::string(pixel.begin(), pixel.end());
-		m_VS = std::make_unique<VertexShader>(nvertex);
-		m_PS = std::make_unique<PixelShader>(npixel);
+		m_VS = std::make_unique<DirectX12VertexShader>(nvertex);
+		m_PS = std::make_unique<DirectX12PixelShader>(npixel);
 
 		// Setup Input Layout
 		D3D12_INPUT_ELEMENT_DESC inputLayout[] = {
@@ -27,11 +27,11 @@ namespace ProjectGE {
 			{ "COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
 		};
 
-		m_Layout = std::make_unique<InputLayout>(inputLayout, 2);
+		m_Layout = std::make_unique<DirectX12InputLayout>(inputLayout, 2);
 
 
 		// Setup Root Signature
-		m_Root = std::make_unique<RootSignature>(device, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT |
+		m_Root = std::make_unique<DirectX12RootSignature>(device, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT |
 			D3D12_ROOT_SIGNATURE_FLAG_DENY_HULL_SHADER_ROOT_ACCESS |
 			D3D12_ROOT_SIGNATURE_FLAG_DENY_DOMAIN_SHADER_ROOT_ACCESS |
 			D3D12_ROOT_SIGNATURE_FLAG_DENY_GEOMETRY_SHADER_ROOT_ACCESS |
@@ -45,10 +45,10 @@ namespace ProjectGE {
 
 		// Setup Topology
 
-		m_Topo = std::make_unique<TopologyResource>(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+		m_Topo = std::make_unique<DirectX12TopologyResource>(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
 
 		// Setup Pipeline
-		m_State = std::make_unique<PipelineState>();
+		m_State = std::make_unique<DirectX12PipelineState>();
 		
 		m_VS->Setup(*(m_State.get()));
 
@@ -71,14 +71,14 @@ namespace ProjectGE {
 			{ {0.5f,  0.0f, 0.0f}, {0.0f, 1.0f, 0.0f} } // 2
 		};
 
-		m_VertexBuffer = std::make_unique<VertexBuffer<Vertex>>(device, list, cubeVertex, sizeof(cubeVertex) / sizeof(Vertex));
+		m_VertexBuffer = std::make_unique<DirectX12VertexBuffer<Vertex>>(device, list, cubeVertex, sizeof(cubeVertex) / sizeof(Vertex));
 
 		WORD indexCount[] = {
 			0, 1, 2
 		};
 
 		m_IndexCount = (int)_countof(indexCount);
-		m_IndexBuffer = std::make_unique<IndexBuffer>(device, list, indexCount, m_IndexCount );
+		m_IndexBuffer = std::make_unique<DirectX12IndexBuffer>(device, list, indexCount, m_IndexCount );
 
 		
 	}	

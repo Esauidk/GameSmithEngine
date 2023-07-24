@@ -1,10 +1,10 @@
 #include "gepch.h"
-#include "DepthBuffer.h"
+#include "DirectX12DepthBuffer.h"
 #include "ProjectGE/Log.h"
 #include "ProjectGE/Rendering/DirectX12/Util/d3dx12.h"
 
 namespace ProjectGE {
-	DepthBuffer::DepthBuffer(ID3D12Device8* pDevice, UINT initialW, UINT initialH) {
+	DirectX12DepthBuffer::DirectX12DepthBuffer(ID3D12Device8* pDevice, UINT initialW, UINT initialH) {
 
 		D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc = {};
 		dsvHeapDesc.NumDescriptors = 1;
@@ -41,11 +41,11 @@ namespace ProjectGE {
             m_DSVHeap->GetCPUDescriptorHandleForHeapStart());
 	}
 
-    void DepthBuffer::Clear(ID3D12GraphicsCommandList6* cmdList, float newDepth) {
+    void DirectX12DepthBuffer::Clear(ID3D12GraphicsCommandList6* cmdList, float newDepth) {
         cmdList->ClearDepthStencilView(m_DSVHeap->GetCPUDescriptorHandleForHeapStart(), D3D12_CLEAR_FLAG_DEPTH, newDepth, 0, 0, nullptr);
     }
 
-    void DepthBuffer::Resize(ID3D12Device8* pDevice, UINT newW, UINT newH)
+    void DirectX12DepthBuffer::Resize(ID3D12Device8* pDevice, UINT newW, UINT newH)
     {
         D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc = {};
         dsvHeapDesc.NumDescriptors = 1;
@@ -82,7 +82,7 @@ namespace ProjectGE {
             m_DSVHeap->GetCPUDescriptorHandleForHeapStart());
     }
 
-    D3D12_CPU_DESCRIPTOR_HANDLE DepthBuffer::GetHandle() const {
+    D3D12_CPU_DESCRIPTOR_HANDLE DirectX12DepthBuffer::GetHandle() const {
         return m_DSVHeap->GetCPUDescriptorHandleForHeapStart();
     }
 };

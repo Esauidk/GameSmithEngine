@@ -3,11 +3,11 @@
 #include <d3d12.h>
 
 namespace ProjectGE {
-	class DepthBuffer
+	class DirectX12DepthBuffer
 	{
 	public:
-		~DepthBuffer() = default;
-		DepthBuffer(ID3D12Device8* pDevice, UINT initialW, UINT initialH);
+		~DirectX12DepthBuffer() = default;
+		DirectX12DepthBuffer(ID3D12Device8* pDevice, UINT initialW, UINT initialH);
 		void Clear(ID3D12GraphicsCommandList6* cmdList, float newDepth = 1.0f);
 		void Resize(ID3D12Device8* pDevice, UINT newW, UINT newH);
 		D3D12_CPU_DESCRIPTOR_HANDLE GetHandle() const;

@@ -43,7 +43,7 @@ namespace ProjectGE {
 		m_InfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING, TRUE);
 #endif
 
-		m_Queue = std::make_unique<DirectXCommandQueue>(m_Device.Get(), D3D12_COMMAND_LIST_TYPE_DIRECT);
+		m_Queue = std::make_unique<DirectX12CommandQueue>(m_Device.Get(), D3D12_COMMAND_LIST_TYPE_DIRECT);
 
 
 		/**********************************************/
@@ -143,7 +143,7 @@ namespace ProjectGE {
 			targetHandler.Offset(rtvSize);
 		}
 
-		m_DBuffer = std::make_unique<DepthBuffer>(m_Device.Get(), 1080, 600);
+		m_DBuffer = std::make_unique<DirectX12DepthBuffer>(m_Device.Get(), 1080, 600);
 
 		InitializeBackBuffer();
 

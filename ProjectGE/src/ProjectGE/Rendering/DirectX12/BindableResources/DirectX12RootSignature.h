@@ -1,6 +1,6 @@
 #pragma once
 #include "gepch.h"
-#include "PipelineDefiner.h"
+#include "DirectX12PipelineDefiner.h"
 
 
 /* 
@@ -11,14 +11,14 @@ Job:
 	- Binds it to the pipeline
 */
 namespace ProjectGE {
-	class RootSignature : public PipelineDefiner
+	class DirectX12RootSignature : public DirectX12PipelineDefiner
 	{
 	public: 
-			RootSignature(ID3D12Device8* pDevice, D3D12_ROOT_SIGNATURE_FLAGS flags);
+			DirectX12RootSignature(ID3D12Device8* pDevice, D3D12_ROOT_SIGNATURE_FLAGS flags);
 			void AddParameter(const CD3DX12_ROOT_PARAMETER1& newParameter);
 			void AddParameter(CD3DX12_ROOT_PARAMETER1* newParameters, UINT size);
 			void BuildRootSignature(ID3D12Device8* pDevice);
-			void Setup(PipelineState& pipeline) override;
+			void Setup(DirectX12PipelineState& pipeline) override;
 			void Bind(ID3D12GraphicsCommandList6* cmdList) override;
 	private:
 		D3D12_FEATURE_DATA_ROOT_SIGNATURE m_RootSigFeat;

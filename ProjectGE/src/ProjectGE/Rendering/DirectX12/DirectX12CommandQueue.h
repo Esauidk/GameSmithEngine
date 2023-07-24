@@ -19,13 +19,13 @@ namespace ProjectGE {
 		Command Allocator: This handles the allocation of space for commands in the command list, this is the real storage of commands
 
 	*/ 
-	class DirectXCommandQueue
+	class DirectX12CommandQueue
 	{
 	public:
-		DirectXCommandQueue(ID3D12Device8* device, D3D12_COMMAND_LIST_TYPE type);
-		DirectXCommandQueue() = delete;
+		DirectX12CommandQueue(ID3D12Device8* device, D3D12_COMMAND_LIST_TYPE type);
+		DirectX12CommandQueue() = delete;
 
-		~DirectXCommandQueue() = default;
+		~DirectX12CommandQueue() = default;
 
 		ComPtr<ID3D12GraphicsCommandList6> GetCommandList();
 

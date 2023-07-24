@@ -7,8 +7,8 @@
 #include <DirectXMath.h>
 #include "ProjectGE/Rendering/Renderer.h"
 #include "ProjectGE/Rendering/DirectX12/Util/d3dx12.h"
-#include "DirectXCommandQueue.h"
-#include "DepthBuffer.h"
+#include "DirectX12CommandQueue.h"
+#include "DirectX12DepthBuffer.h"
 #include "DirectX12TriangleDemo.h"
 
 
@@ -28,7 +28,7 @@ namespace ProjectGE {
 		void SetDemoTriangle(bool enabled) override;
 
 		inline ID3D12Device* GetDevice() { return m_Device.Get(); }
-		inline DirectXCommandQueue* GetCommandQueue() { return m_Queue.get(); }
+		inline DirectX12CommandQueue* GetCommandQueue() { return m_Queue.get(); }
 
 		inline ID3D12DescriptorHeap* GetSRVHeap() { return m_SRVHeapD.Get(); }
 		CD3DX12_CPU_DESCRIPTOR_HANDLE GetRenderTarget() const;
@@ -52,9 +52,9 @@ namespace ProjectGE {
 		ComPtr<ID3D12DescriptorHeap> m_RTVHeapD;
 		ComPtr<ID3D12DescriptorHeap> m_SRVHeapD;
 		// Depth Buffer
-		std::unique_ptr<DepthBuffer> m_DBuffer;
+		std::unique_ptr<DirectX12DepthBuffer> m_DBuffer;
 		// The command queue for the renderer
-		std::unique_ptr<DirectXCommandQueue> m_Queue;
+		std::unique_ptr<DirectX12CommandQueue> m_Queue;
 
 		std::unique_ptr<DirectX12TriangleDemo> m_Demo;
 
