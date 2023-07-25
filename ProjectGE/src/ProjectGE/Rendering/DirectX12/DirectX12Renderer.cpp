@@ -9,6 +9,13 @@
 using namespace Microsoft::WRL;
 
 namespace ProjectGE {
+	ComPtr<ID3D12Debug> DirectX12Renderer::s_Debug = nullptr;
+	ComPtr<ID3D12InfoQueue> DirectX12Renderer::s_InfoQueue = nullptr;
+	ComPtr<ID3D12Device8> DirectX12Renderer::s_Device = nullptr;
+	std::unique_ptr<DirectX12CommandQueue> DirectX12Renderer::s_DirectQueue = nullptr;
+	std::unique_ptr<DirectX12CommandQueue> DirectX12Renderer::s_CopyQueue = nullptr;
+	bool DirectX12Renderer::s_Initialized = false;
+
 
 	DirectX12Renderer::DirectX12Renderer(HWND window, unsigned int initialWidth, unsigned int initialHeight) : m_DBuffer(), m_TearingSupport(), m_Window(window), m_Width(initialWidth), m_Height(initialHeight) {}
 
@@ -17,34 +24,46 @@ namespace ProjectGE {
 		bool res;
 		// Create the Debug Layer (Allows debuging on the device)
 #if defined(GE_DEBUG)
-		res = FAILED(D3D12GetDebugInterface(IID_PPV_ARGS(&m_Debug)));
+		if (!s_Initialized) {
+			res = FAILED(D3D12GetDebugInterface(IID_PPV_ARGS(&s_Debug)));
 
-		GE_CORE_ASSERT(!res, "Failed to create a DirectX12 debug interface");
+			GE_CORE_ASSERT(!res, "Failed to create a DirectX12 debug interface");
 
-		m_Debug->EnableDebugLayer();
+			s_Debug->EnableDebugLayer();
+		}
+		
 #endif
+		if (!s_Initialized) {
+			// Create Device
+			res = FAILED(D3D12CreateDevice(nullptr, D3D_FEATURE_LEVEL_12_0, IID_PPV_ARGS(&s_Device)));
 
-		// Create Device
-		res = FAILED(D3D12CreateDevice(nullptr, D3D_FEATURE_LEVEL_12_0, IID_PPV_ARGS(&m_Device)));
-
-		GE_CORE_ASSERT(!res, "Failed to create DirectX12 device");
+			GE_CORE_ASSERT(!res, "Failed to create DirectX12 device");
+		}
+		
 
 #if defined(GE_DEBUG)
-		// Create Info Queue, shows debug logs depending on severity and sets breaks
-		res = FAILED(m_Device.As(&m_InfoQueue));
-		GE_CORE_ASSERT(!res, "Failed to create DirectX12 info queue");
 
-		m_InfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, TRUE);
+		if (!s_Initialized) {
+			// Create Info Queue, shows debug logs depending on severity and sets breaks
+			res = FAILED(s_Device.As(&s_InfoQueue));
+			GE_CORE_ASSERT(!res, "Failed to create DirectX12 info queue");
+
+			s_InfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_CORRUPTION, TRUE);
 
 
-		m_InfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, TRUE);
+			s_InfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_ERROR, TRUE);
 
 
-		m_InfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING, TRUE);
+			s_InfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING, TRUE);
+		}
+		
 #endif
-
-		m_Queue = std::make_unique<DirectX12CommandQueue>(m_Device.Get(), D3D12_COMMAND_LIST_TYPE_DIRECT);
-
+		if (!s_Initialized) {
+			s_DirectQueue = std::make_unique<DirectX12CommandQueue>(s_Device.Get(), D3D12_COMMAND_LIST_TYPE_DIRECT);
+			s_CopyQueue = std::make_unique<DirectX12CommandQueue>(s_Device.Get(), D3D12_COMMAND_LIST_TYPE_COPY);
+		}
+		
+		s_Initialized = true;
 
 		/**********************************************/
 		// SWAP-CHAIN CREATION
@@ -96,7 +115,7 @@ namespace ProjectGE {
 
 		// Create OS tied Swap-Chain
 		res = FAILED(dxgiFactory5->CreateSwapChainForHwnd(
-			m_Queue->GetCommandQueue(),
+			s_DirectQueue->GetCommandQueue(),
 			m_Window,
 			&swapChainDesc,
 			nullptr,
@@ -118,7 +137,7 @@ namespace ProjectGE {
 		rtvHeapDesc.NumDescriptors = 2;
 		rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
 
-		res = FAILED(m_Device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&m_RTVHeapD)));
+		res = FAILED(s_Device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&m_RTVHeapD)));
 		GE_CORE_ASSERT(!res, "Failed to create DirectX12 render target");
 
 		D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = {};
@@ -126,10 +145,10 @@ namespace ProjectGE {
 		srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
 		srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
 
-		res = FAILED(m_Device->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&m_SRVHeapD)));
+		res = FAILED(s_Device->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&m_SRVHeapD)));
 		GE_CORE_ASSERT(!res, "Failed to create DirectX12 srv");
 
-		UINT rtvSize = m_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+		UINT rtvSize = s_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 
 		// Gets descriptor for render target view
 		CD3DX12_CPU_DESCRIPTOR_HANDLE targetHandler = CD3DX12_CPU_DESCRIPTOR_HANDLE(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart());
@@ -139,11 +158,11 @@ namespace ProjectGE {
 		for (int i = 0; i < m_BufferCount; i++) {
 			res = FAILED(m_SwapChain->GetBuffer(i, IID_PPV_ARGS(&buffer)));
 			GE_CORE_ASSERT(!res, "Failed to create DirectX12 render target buffer");
-			m_Device->CreateRenderTargetView(buffer.Get(), nullptr, targetHandler);
+			s_Device->CreateRenderTargetView(buffer.Get(), nullptr, targetHandler);
 			targetHandler.Offset(rtvSize);
 		}
 
-		m_DBuffer = std::make_unique<DirectX12DepthBuffer>(m_Device.Get(), 1080, 600);
+		m_DBuffer = std::make_unique<DirectX12DepthBuffer>(s_Device.Get(), m_Width, m_Height);
 
 		InitializeBackBuffer();
 
@@ -158,14 +177,13 @@ namespace ProjectGE {
 			m_BackBuffer.Get(),
 			D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT
 		);
-		ComPtr<ID3D12GraphicsCommandList6> list = m_Queue->GetCommandList();
 
 
 		// Add command to transition the render target
-		list->ResourceBarrier(1, &barrier);
+		m_DirectCmdList->ResourceBarrier(1, &barrier);
 
-		UINT value = m_Queue->ExecuteCommandList(list);
-		m_Queue->WaitForFenceValue(value);
+		UINT value = s_DirectQueue->ExecuteCommandList(m_DirectCmdList);
+		s_DirectQueue->WaitForFenceValue(value);
 
 
 		bool res = FAILED(m_SwapChain->Present(0, 0));
@@ -179,7 +197,7 @@ namespace ProjectGE {
 		m_Width = (UINT)width;
 		m_Height = (UINT)height;
 
-		m_Queue->Flush();
+		s_DirectQueue->Flush();
 		m_BackBuffer.Reset();
 
 		DXGI_SWAP_CHAIN_DESC1 swapChainDesc = {};
@@ -190,16 +208,16 @@ namespace ProjectGE {
 		GE_CORE_ASSERT(!res, "Failed to resize DirectX12 swap chain buffers");
 
 		CD3DX12_CPU_DESCRIPTOR_HANDLE rtv(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart());
-		UINT rtvSize = m_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
+		UINT rtvSize = s_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 
 		for (int i = 0; i < m_BufferCount; i++) {
 			res = FAILED(m_SwapChain->GetBuffer(i, IID_PPV_ARGS(&m_BackBuffer)));
 			GE_CORE_ASSERT(!res, "Failed to create DirectX12 render target buffer");
-			m_Device->CreateRenderTargetView(m_BackBuffer.Get(), nullptr, rtv);
+			s_Device->CreateRenderTargetView(m_BackBuffer.Get(), nullptr, rtv);
 			rtv.Offset(rtvSize);
 		}
 
-		m_DBuffer->Resize(m_Device.Get(), m_Width, m_Height);
+		m_DBuffer->Resize(s_Device.Get(), m_Width, m_Height);
 
 		InitializeBackBuffer();
 	}
@@ -217,11 +235,10 @@ namespace ProjectGE {
 		m_DemoEnabled = enabled;
 
 		if (m_DemoEnabled) {
-			auto list = m_Queue->GetCommandList();
-			m_Demo = std::make_unique<DirectX12TriangleDemo>(m_Device.Get(), list.Get());
-
-			UINT val = m_Queue->ExecuteCommandList(list);
-			m_Queue->WaitForFenceValue(val);
+			m_Demo = std::make_unique<DirectX12TriangleDemo>(s_Device.Get(), m_CopyCmdList.Get());
+			UINT val = s_CopyQueue->ExecuteCommandList(m_CopyCmdList);
+			s_CopyQueue->WaitForFenceValue(val);
+			m_CopyCmdList = s_CopyQueue->GetCommandList();
 		}
 		else {
 			m_Demo.reset();
@@ -230,11 +247,14 @@ namespace ProjectGE {
 
 
 	CD3DX12_CPU_DESCRIPTOR_HANDLE DirectX12Renderer::GetRenderTarget() const {
-		return CD3DX12_CPU_DESCRIPTOR_HANDLE(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart(), m_SwapChain->GetCurrentBackBufferIndex(), m_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
+		return CD3DX12_CPU_DESCRIPTOR_HANDLE(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart(), m_SwapChain->GetCurrentBackBufferIndex(), s_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
 	}
 
 	void DirectX12Renderer::InitializeBackBuffer()
 	{
+		m_DirectCmdList = s_DirectQueue->GetCommandList();
+		m_CopyCmdList = s_CopyQueue->GetCommandList();
+
 		bool res = FAILED(m_SwapChain->GetBuffer(m_SwapChain->GetCurrentBackBufferIndex(), IID_PPV_ARGS(&m_BackBuffer)));
 		GE_CORE_ASSERT(!res, "Failed to reacquire DirectX12 back buffer");
 
@@ -242,222 +262,27 @@ namespace ProjectGE {
 			m_BackBuffer.Get(),
 			D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_RENDER_TARGET
 		);
-
-		ComPtr<ID3D12GraphicsCommandList6> list = m_Queue->GetCommandList();
 		// Add command to transition the render target
-		list->ResourceBarrier(1, &barrier);
-		CD3DX12_CPU_DESCRIPTOR_HANDLE rtv(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart(), m_SwapChain->GetCurrentBackBufferIndex(), m_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
-		list->ClearRenderTargetView(rtv, m_ClearColor, 0, nullptr);
-		m_DBuffer->Clear(list.Get(), 1);
-		UINT value = m_Queue->ExecuteCommandList(list);
-		m_Queue->WaitForFenceValue(value);
+		m_DirectCmdList->ResourceBarrier(1, &barrier);
+		CD3DX12_CPU_DESCRIPTOR_HANDLE rtv(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart(), m_SwapChain->GetCurrentBackBufferIndex(), s_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
+		m_DirectCmdList->ClearRenderTargetView(rtv, m_ClearColor, 0, nullptr);
+		m_DBuffer->Clear(m_DirectCmdList.Get(), 1);
+
+		auto rect = CD3DX12_RECT(0, 0, m_Width, m_Height);
+		auto viewport = CD3DX12_VIEWPORT(0.0f, 0.0f, (FLOAT)m_Width, (FLOAT)m_Height);
+		m_DirectCmdList->RSSetScissorRects(1, &rect);
+		m_DirectCmdList->RSSetViewports(1, &viewport);
+
+		D3D12_CPU_DESCRIPTOR_HANDLE depthHandler = m_DBuffer->GetHandle();
+		m_DirectCmdList->OMSetRenderTargets(1, &rtv, FALSE, &depthHandler);
 	}
 
 	void DirectX12Renderer::PreSwap()
 	{
-		auto list = m_Queue->GetCommandList();
-		auto rect = CD3DX12_RECT(0, 0, m_Width, m_Height);
-		auto viewport = CD3DX12_VIEWPORT(0.0f, 0.0f, (FLOAT)m_Width, (FLOAT)m_Height);
-		list->RSSetScissorRects(1, &rect);
-		list->RSSetViewports(1, &viewport);
-
-		CD3DX12_CPU_DESCRIPTOR_HANDLE targetHandler(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart(), m_SwapChain->GetCurrentBackBufferIndex(), m_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
-		D3D12_CPU_DESCRIPTOR_HANDLE depthHandler = m_DBuffer->GetHandle();
-		list->OMSetRenderTargets(1, &targetHandler, FALSE, &depthHandler);
-
-
 		if (m_DemoEnabled) {
-			m_Demo->Draw(list.Get());
+			m_Demo->Draw(m_DirectCmdList.Get());
 		}
-
-		UINT val = m_Queue->ExecuteCommandList(list);
-		m_Queue->WaitForFenceValue(val);
 	}
-
-	/*void DirectX12Renderer::DrawDemoTriangle()
-	{
-
-		// Create RootSignature
-		
-
-		root.BuildRootSignature(m_Device);
-
-		D3D12_RT_FORMAT_ARRAY rtvFormats = {};
-		rtvFormats.NumRenderTargets = 1;
-		rtvFormats.RTFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
-
-		TopologyResource top(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-
-
-
-		// Pipeline State Object Test : Define Pipeline and bind some bindables
-
-
-		PipelineState state;
-		vs.Setup(state);
-		ps.Setup(state);
-		layout.Setup(state);
-		root.Setup(state);
-		top.Setup(state);
-		state.Attach(rtvFormats);
-		state.Attach(DXGI_FORMAT_D32_FLOAT);
-		state.Build(m_Device);
-
-		ComPtr<ID3D12GraphicsCommandList6> list = m_Queue.GetCommandList();
-
-		Vertex cubeVertex[] = {
-			{ {-0.5f, 0.0f, -1.0f}, {0.0f, 0.0f, 0.0f} }, // 0
-			{ {0.5f,  0.0f, -1.0f}, {0.0f, 1.0f, 0.0f} }, // 1
-			{ {0.0f,  0.5f, -1.0f}, {1.0f, 1.0f, 0.0f} }, // 2
-		};
-
-		VertexBuffer<Vertex> tempBuffer(m_Device, list, cubeVertex, sizeof(cubeVertex) / sizeof(Vertex));
-
-		WORD indexCount[] = {
-			0, 1, 2
-		};
-
-		IndexBuffer tempIndex = IndexBuffer(m_Device, list, indexCount, _countof(indexCount));
-
-		state.Bind(list);
-		root.Bind(list);
-		top.Bind(list);
-		tempBuffer.Bind(list);
-		tempIndex.Bind(list);
-
-		CD3DX12_CPU_DESCRIPTOR_HANDLE targetHandler(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart(), m_SwapChain->GetCurrentBackBufferIndex(), m_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
-		D3D12_CPU_DESCRIPTOR_HANDLE depthHandler = m_DBuffer->GetHandle();
-		list->OMSetRenderTargets(1, &targetHandler, FALSE, &depthHandler);
-
-		list->DrawIndexedInstanced(_countof(indexCount), 1, 0, 0, 0);
-
-		UINT value = m_Queue.ExecuteCommandList(list);
-		m_Queue.WaitForFenceValue(value);
-	}*/
-
-	/*void DirectX12Renderer::CreateObject() {
-		// Shader Test!
-		VertexShader vs("ExampleVertexShader.cso");
-		PixelShader ps("PixelShader.cso");
-
-		// Input Layout Test!
-		D3D12_INPUT_ELEMENT_DESC inputLayout[] = {
-			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
-			{ "COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
-		};
-
-		InputLayout layout(inputLayout, 2);
-
-		// Create RootSignature
-		RootSignature root(m_Device, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT |
-			D3D12_ROOT_SIGNATURE_FLAG_DENY_HULL_SHADER_ROOT_ACCESS |
-			D3D12_ROOT_SIGNATURE_FLAG_DENY_DOMAIN_SHADER_ROOT_ACCESS |
-			D3D12_ROOT_SIGNATURE_FLAG_DENY_GEOMETRY_SHADER_ROOT_ACCESS |
-			D3D12_ROOT_SIGNATURE_FLAG_DENY_PIXEL_SHADER_ROOT_ACCESS);
-
-		CD3DX12_ROOT_PARAMETER1 rootParameters;
-		rootParameters.InitAsConstants(sizeof(DirectX::XMMATRIX) / 4, 0, 0, D3D12_SHADER_VISIBILITY_VERTEX);
-		root.AddParameter(rootParameters);
-
-		root.BuildRootSignature(m_Device);
-
-		D3D12_RT_FORMAT_ARRAY rtvFormats = {};
-		rtvFormats.NumRenderTargets = 1;
-		rtvFormats.RTFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
-
-		TopologyResource top(D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE, D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
-
-
-
-
-		// Pipeline State Object Test : Define Pipeline and bind some bindables
-
-
-		PipelineState state;
-		vs.Setup(state);
-		ps.Setup(state);
-		layout.Setup(state);
-		root.Setup(state);
-		top.Setup(state);
-		state.Attach(rtvFormats);
-		state.Attach(DXGI_FORMAT_D32_FLOAT);
-		state.Build(m_Device);
-
-		ComPtr<ID3D12GraphicsCommandList6> list = m_Queue.GetCommandList();
-		using DirectX::XMFLOAT3;
-
-		Vertex cubeVertex[] = {
-			{ XMFLOAT3(-1.0f, -1.0f, -1.0f), XMFLOAT3(0.0f, 0.0f, 0.0f) }, // 0
-			{ XMFLOAT3(-1.0f,  1.0f, -1.0f), XMFLOAT3(0.0f, 1.0f, 0.0f) }, // 1
-			{ XMFLOAT3(1.0f,  1.0f, -1.0f), XMFLOAT3(1.0f, 1.0f, 0.0f) }, // 2
-			{ XMFLOAT3(1.0f, -1.0f, -1.0f), XMFLOAT3(1.0f, 0.0f, 0.0f) }, // 3
-			{ XMFLOAT3(-1.0f, -1.0f,  1.0f), XMFLOAT3(0.0f, 0.0f, 1.0f) }, // 4
-			{ XMFLOAT3(-1.0f,  1.0f,  1.0f), XMFLOAT3(0.0f, 1.0f, 1.0f) }, // 5
-			{ XMFLOAT3(1.0f,  1.0f,  1.0f), XMFLOAT3(1.0f, 1.0f, 1.0f) }, // 6
-			{ XMFLOAT3(1.0f, -1.0f,  1.0f), XMFLOAT3(1.0f, 0.0f, 1.0f) }
-		};
-
-		VertexBuffer<Vertex> tempBuffer(m_Device, list, cubeVertex, sizeof(cubeVertex) / sizeof(Vertex));
-
-		WORD indexCount[] = {
-			0, 1, 2, 0, 2, 3,
-			4, 6, 5, 4, 7, 6,
-			4, 5, 1, 4, 1, 0,
-			3, 2, 6, 3, 6, 7,
-			1, 5, 6, 1, 6, 2,
-			4, 0, 3, 4, 3, 7
-		};
-
-
-
-		IndexBuffer tempIndex = IndexBuffer(m_Device, list, indexCount, _countof(indexCount));
-		UINT value = m_Queue.ExecuteCommandList(list);
-		m_Queue.WaitForFenceValue(value);
-
-		list = m_Queue.GetCommandList();
-
-		state.Bind(list);
-		root.Bind(list);
-		top.Bind(list);
-		tempBuffer.Bind(list);
-		tempIndex.Bind(list);
-
-		auto rect = CD3DX12_RECT(0, 0, LONG_MAX, LONG_MAX);
-		auto viewport = CD3DX12_VIEWPORT(0.0f, 0.0f, 1080, 600);
-
-		list->RSSetScissorRects(1, &rect);
-		list->RSSetViewports(1, &viewport);
-		CD3DX12_CPU_DESCRIPTOR_HANDLE targetHandler(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart(), m_SwapChain->GetCurrentBackBufferIndex(), m_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
-		D3D12_CPU_DESCRIPTOR_HANDLE depthHandler = m_DBuffer->GetHandle();
-		list->OMSetRenderTargets(1, &targetHandler, FALSE, &depthHandler);
-
-		float angle = static_cast<float>(90.0);
-		const DirectX::XMVECTOR rotationAxis = DirectX::XMVectorSet(0, 1, 1, 0);
-		DirectX::XMMATRIX m = DirectX::XMMatrixRotationAxis(rotationAxis, DirectX::XMConvertToRadians(angle));
-
-		const DirectX::XMVECTOR eyePosition = DirectX::XMVectorSet(0, 0, -10, 1);
-		const DirectX::XMVECTOR focusPoint = DirectX::XMVectorSet(0, 0, 0, 1);
-		const DirectX::XMVECTOR upDirection = DirectX::XMVectorSet(0, 1, 0, 0);
-		DirectX::XMMATRIX v = DirectX::XMMatrixLookAtLH(eyePosition, focusPoint, upDirection);
-
-		DirectX::XMMATRIX p = DirectX::XMMatrixPerspectiveFovLH(DirectX::XMConvertToRadians(45), 1080 / 600, 0.1f, 100.0f);
-
-		DirectX::XMMATRIX mvpMatrix = DirectX::XMMatrixMultiply(m, v);
-		mvpMatrix = XMMatrixMultiply(mvpMatrix, p);
-
-		list->SetGraphicsRoot32BitConstants(0, sizeof(DirectX::XMMATRIX) / 4, &mvpMatrix, 0);
-
-		list->DrawIndexedInstanced(_countof(indexCount), 1, 0, 0, 0);
-
-		value = m_Queue.ExecuteCommandList(list);
-		m_Queue.WaitForFenceValue(value);
-
-	}
-
-	void DirectX12Renderer::DrawObject() {
-		CreateObject();
-	}*/
 };
 
 

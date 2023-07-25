@@ -17,14 +17,12 @@ namespace ProjectGE {
 		std::string Title;
 		unsigned int Width;
 		unsigned int Height;
-		RenderOptions renderOption;
 
 		WindowProps(
 			const std::string& title = "ProjectGE Engine", 
 			unsigned int width = 1280, 
-			unsigned int height = 720,
-			RenderOptions option = RenderOptions::NONE) 
-			: Title(title), Width(width), Height(height), renderOption(option) {}
+			unsigned int height = 720) 
+			: Title(title), Width(width), Height(height) {}
 	};
 
 	class GE_API Window

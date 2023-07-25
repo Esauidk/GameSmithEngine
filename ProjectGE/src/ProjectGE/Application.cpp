@@ -6,7 +6,7 @@
 #include "Input.h"
 
 namespace ProjectGE {
-	Application* Application::s_Instance = nullptr;;
+	Application* Application::s_Instance = nullptr;
 
 	Application::Application() {
 		GE_CORE_ASSERT(!s_Instance, "Application already exists");
@@ -15,7 +15,6 @@ namespace ProjectGE {
 		m_Timer = std::make_unique<Timer>();
 
 		ProjectGE::WindowProps props;
-		props.renderOption = RenderOptions::DIRECTX12;
 
 		m_Window = std::unique_ptr<Window>(Window::Create(props));
 

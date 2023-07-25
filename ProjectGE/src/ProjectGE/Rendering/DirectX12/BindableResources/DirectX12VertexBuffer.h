@@ -5,9 +5,6 @@ namespace ProjectGE {
 	template <typename T>
 	class DirectX12VertexBuffer : public DirectX12Buffer<T> {
 	public:
-		DirectX12VertexBuffer() = default;
-		~DirectX12VertexBuffer() = default;
-
 		DirectX12VertexBuffer(ID3D12Device8* pDevice, ID3D12GraphicsCommandList6* pCommandList, T* buffer, int count) : DirectX12Buffer<T>(pDevice, pCommandList, buffer, count, "Vertex Buffer") {}
 
 

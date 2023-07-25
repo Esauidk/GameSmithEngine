@@ -32,8 +32,6 @@ namespace ProjectGE {
 			unsigned int Width = 1920;
 			unsigned int Height = 1080;
 			bool VSync = true;
-			RenderOptions renderOption = RenderOptions::DIRECTX12;
-
 		};
 
 		// This class is required to register with the windows operating system/servers

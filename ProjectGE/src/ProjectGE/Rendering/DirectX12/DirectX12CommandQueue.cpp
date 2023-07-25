@@ -12,7 +12,7 @@ namespace ProjectGE {
 		m_FenceValue(0) {
 
 		D3D12_COMMAND_QUEUE_DESC commandDesc = {};
-		commandDesc.Type = D3D12_COMMAND_LIST_TYPE_DIRECT;
+		commandDesc.Type = type;
 		commandDesc.Priority = D3D12_COMMAND_QUEUE_PRIORITY_NORMAL;
 		commandDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
 		commandDesc.NodeMask = 0;

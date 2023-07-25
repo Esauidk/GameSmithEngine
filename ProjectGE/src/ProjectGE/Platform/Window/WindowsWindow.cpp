@@ -1,9 +1,11 @@
 #include "gepch.h"
 #include "WindowsWindow.h"
 #include "Resource.h"
-#include "ProjectGE/Log.h"
-#include "ProjectGE/Rendering/DirectX12/DirectX12Renderer.h"
 #include "imgui.h"
+#include "ProjectGE/Log.h"
+#include "ProjectGE/Rendering/RenderSettings.h"
+#include "ProjectGE/Rendering/DirectX12/DirectX12Renderer.h"
+
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 namespace ProjectGE {
@@ -56,7 +58,6 @@ namespace ProjectGE {
 		m_Prop.Height = props.Height;
 		m_Prop.Width = props.Width;
 		m_Prop.Title = props.Title;
-		m_Prop.renderOption = props.renderOption;
 
 		GE_CORE_INFO("Creating window {0} ({1}, {2})", props.Title, props.Width, props.Height);
 
@@ -88,7 +89,7 @@ namespace ProjectGE {
 
 		GE_CORE_ASSERT(m_HWnd != nullptr, "Could not react window {0}", props.Title);
 
-		switch (props.renderOption) {
+		switch (RenderSettings::GetOption()) {
 		case RenderOptions::DIRECTX12:
 		{
 			m_RenderContext = (Renderer*)new DirectX12Renderer(m_HWnd, m_Prop.Width, m_Prop.Height);

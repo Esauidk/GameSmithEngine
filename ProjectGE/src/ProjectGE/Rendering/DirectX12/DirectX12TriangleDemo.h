@@ -9,18 +9,14 @@
 #include "BindableResources/DirectX12InputLayout.h"
 #include "DirectX12PipelineState.h"
 #include "BindableResources/DirectX12TopologyResource.h"
+#include "ProjectGE/Rendering/RenderAgnostics/BasicStructs.h"
 
 namespace ProjectGE {
 	class DirectX12TriangleDemo {
 	public:
-		DirectX12TriangleDemo(ID3D12Device8* device, ID3D12GraphicsCommandList6* list);
+		DirectX12TriangleDemo(ID3D12Device8* device, ID3D12GraphicsCommandList6* copyList);
 		void Draw(ID3D12GraphicsCommandList6* list);
 	private:
-		struct Vertex {
-			float pos[3];
-			float color[3];
-		};
-
 		std::unique_ptr<DirectX12PipelineState> m_State;
 		std::unique_ptr<DirectX12InputLayout> m_Layout;
 		std::unique_ptr<DirectX12RootSignature> m_Root;

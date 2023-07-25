@@ -6,7 +6,7 @@
 
 namespace ProjectGE {
 
-	DirectX12TriangleDemo::DirectX12TriangleDemo(ID3D12Device8* device, ID3D12GraphicsCommandList6* list)
+	DirectX12TriangleDemo::DirectX12TriangleDemo(ID3D12Device8* device, ID3D12GraphicsCommandList6* copyList)
 	{
 
 		// Read Shaders (Vertex, Pixel)
@@ -71,14 +71,14 @@ namespace ProjectGE {
 			{ {0.5f,  0.0f, 0.0f}, {0.0f, 1.0f, 0.0f} } // 2
 		};
 
-		m_VertexBuffer = std::make_unique<DirectX12VertexBuffer<Vertex>>(device, list, cubeVertex, sizeof(cubeVertex) / sizeof(Vertex));
+		m_VertexBuffer = std::make_unique<DirectX12VertexBuffer<Vertex>>(device, copyList, cubeVertex, sizeof(cubeVertex) / sizeof(Vertex));
 
 		WORD indexCount[] = {
 			0, 1, 2
 		};
 
 		m_IndexCount = (int)_countof(indexCount);
-		m_IndexBuffer = std::make_unique<DirectX12IndexBuffer>(device, list, indexCount, m_IndexCount );
+		m_IndexBuffer = std::make_unique<DirectX12IndexBuffer>(device, copyList, indexCount, m_IndexCount );
 
 		
 	}	

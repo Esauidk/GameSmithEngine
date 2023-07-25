@@ -4,7 +4,6 @@
 #include <d3d12.h>
 #include <dxgi1_6.h>
 #include <wrl.h>
-#include <DirectXMath.h>
 #include "ProjectGE/Rendering/Renderer.h"
 #include "ProjectGE/Rendering/DirectX12/Util/d3dx12.h"
 #include "DirectX12CommandQueue.h"
@@ -27,34 +26,41 @@ namespace ProjectGE {
 		void SetClearColor(float r, float g, float b, float a) override;
 		void SetDemoTriangle(bool enabled) override;
 
-		inline ID3D12Device* GetDevice() { return m_Device.Get(); }
-		inline DirectX12CommandQueue* GetCommandQueue() { return m_Queue.get(); }
+		inline ID3D12GraphicsCommandList6* GetDirectCommandList() { return m_DirectCmdList.Get(); }
+		inline ID3D12GraphicsCommandList6* GetCopyCommandList() { return m_CopyCmdList.Get(); }
+
+		inline DirectX12CommandQueue* GetCommandQueue() { return s_DirectQueue.get(); }
 
 		inline ID3D12DescriptorHeap* GetSRVHeap() { return m_SRVHeapD.Get(); }
 		CD3DX12_CPU_DESCRIPTOR_HANDLE GetRenderTarget() const;
+
+		inline static ID3D12Device8* GetDevice() { return s_Device.Get(); }
 	private:
 		void InitializeBackBuffer();
 		void PreSwap();
 		
 	
-		// Debug Resources
-		ComPtr<ID3D12Debug> m_Debug;
-		ComPtr<ID3D12InfoQueue> m_InfoQueue;
+		// Static members, needed for all instances
+		static ComPtr<ID3D12Debug> s_Debug;
+		static ComPtr<ID3D12InfoQueue> s_InfoQueue;
+		static ComPtr<ID3D12Device8> s_Device;
+		static std::unique_ptr<DirectX12CommandQueue> s_DirectQueue;
+		static std::unique_ptr<DirectX12CommandQueue> s_CopyQueue;
+		static bool s_Initialized;
 
 		// Core Resources
-		ComPtr<ID3D12Device8> m_Device;
 		// This holds the two buffers we use for rendering (Presenting Buffer & Preparing Buffer)
 		ComPtr<IDXGISwapChain4> m_SwapChain;
-
 		// Graphics Handlers
 		ComPtr<ID3D12Resource2> m_BackBuffer;
 		// Render Target Heap
 		ComPtr<ID3D12DescriptorHeap> m_RTVHeapD;
 		ComPtr<ID3D12DescriptorHeap> m_SRVHeapD;
+		ComPtr<ID3D12GraphicsCommandList6> m_DirectCmdList;
+		ComPtr<ID3D12GraphicsCommandList6> m_CopyCmdList;
 		// Depth Buffer
 		std::unique_ptr<DirectX12DepthBuffer> m_DBuffer;
-		// The command queue for the renderer
-		std::unique_ptr<DirectX12CommandQueue> m_Queue;
+		
 
 		std::unique_ptr<DirectX12TriangleDemo> m_Demo;
 
@@ -69,6 +75,5 @@ namespace ProjectGE {
 		float m_ClearColor[4] = { 0.07f, 0.0f, 0.12f, 1 };
 	};
 
-#define CREATE_DIRECTX12 new ProjectGE::DirectX
 };
 

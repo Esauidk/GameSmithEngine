@@ -1,13 +1,13 @@
 #pragma once
-#include "DirectX12BindableResource.h"
+#include "ProjectGE/Rendering/BindableResource.h"
 #include "ProjectGE/Log.h"
 #include "ProjectGE/Rendering/DirectX12/Util/d3dx12.h"
 
 
 namespace ProjectGE {
 	template <typename T>
-	class DirectX12Buffer : public DirectX12BindableResource {
-	public:
+	class DirectX12Buffer : public BindableResource {
+	protected:
 
 		DirectX12Buffer(ID3D12Device8* pDevice, ID3D12GraphicsCommandList6* pCommandList, T* buffer, UINT count, std::string bufferName = "Personal Buffer") : m_BufferSize(sizeof(T)* count) {
 			// Define heap details

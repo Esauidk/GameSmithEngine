@@ -1,5 +1,5 @@
 #pragma once
-#include "BindableResources/DirectX12BindableResource.h"
+#include "ProjectGE/Rendering/BindableResource.h"
 #include "Util/d3dx12.h"
 
 namespace ProjectGE {
@@ -19,7 +19,7 @@ namespace ProjectGE {
 		PIXEL
 	};
 
-	class DirectX12PipelineState : public DirectX12BindableResource
+	class DirectX12PipelineState : public BindableResource
 	{
 	public:
 		DirectX12PipelineState() = default;
