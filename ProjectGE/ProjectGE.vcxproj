@@ -143,6 +143,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ProjectGE\Rendering\RenderSettings.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12TriangleDemo.h" />
     <ClInclude Include="src\ProjectGE.h" />
     <ClInclude Include="src\ProjectGE\Application.h" />
@@ -161,7 +162,7 @@
     <ClInclude Include="src\ProjectGE\Platform\Window\WindowsInput.h" />
     <ClInclude Include="src\ProjectGE\Platform\Window\WindowsWindow.h" />
     <ClInclude Include="src\ProjectGE\Platform\Window\resource.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12BindableResource.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\BindableResource.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12Buffer.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12IndexBuffer.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12InputLayout.h" />
@@ -177,6 +178,7 @@
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12CommandQueue.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12PipelineState.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\d3dx12.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BasicStructs.h" />
     <ClInclude Include="src\ProjectGE\Rendering\Renderer.h" />
     <ClInclude Include="src\ProjectGE\Timer.h" />
     <ClInclude Include="src\ProjectGE\Window.h" />
@@ -597,8 +599,10 @@
     <ClInclude Include="third-party\glm\glm\vec3.hpp" />
     <ClInclude Include="third-party\glm\glm\vec4.hpp" />
     <ClInclude Include="third-party\glm\glm\vector_relational.hpp" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\VertexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ProjectGE\Rendering\RenderSettings.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12TriangleDemo.cpp" />
     <ClCompile Include="src\ProjectGE\Application.cpp" />
     <ClCompile Include="src\ProjectGE\ImGui\ImGuiBuild.cpp" />
@@ -622,6 +626,7 @@
     <ClCompile Include="src\gepch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\VertexBuffer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="third-party\imgui\ImGui.vcxproj">

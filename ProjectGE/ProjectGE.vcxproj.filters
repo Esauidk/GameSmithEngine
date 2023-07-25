@@ -105,7 +105,7 @@
     <ClInclude Include="src\ProjectGE\Platform\Window\resource.h">
       <Filter>src\ProjectGE\Platform\Window</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12BindableResource.h">
+    <ClInclude Include="src\ProjectGE\Rendering\BindableResource.h">
       <Filter>src\ProjectGE\Rendering\DirectX12\BindableResources</Filter>
     </ClInclude>
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12Buffer.h">
@@ -1414,6 +1414,9 @@
       <Filter>third-party\glm\glm</Filter>
     </ClInclude>
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12TriangleDemo.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\VertexBuffer.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BasicStructs.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderSettings.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\Application.cpp">
@@ -1477,6 +1480,8 @@
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12TriangleDemo.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\VertexBuffer.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\RenderSettings.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\SamplePixelShader.hlsl" />
