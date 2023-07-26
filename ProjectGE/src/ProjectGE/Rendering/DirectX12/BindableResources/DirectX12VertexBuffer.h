@@ -10,6 +10,8 @@ namespace ProjectGE {
 
 
 		void Bind(ID3D12GraphicsCommandList6* cmdList) override {
+			DirectX12Renderer::SyncJob(this->m_UploadSignal, D3D12_COMMAND_LIST_TYPE_COPY);
+
 			CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
 				this->m_GpuBuffer.Get(),
 				D3D12_RESOURCE_STATE_COPY_DEST, D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER

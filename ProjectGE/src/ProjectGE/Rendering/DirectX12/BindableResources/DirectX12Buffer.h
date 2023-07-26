@@ -54,12 +54,13 @@ namespace ProjectGE {
 
 			UpdateSubresources(pCommandList.Get(), m_GpuBuffer.Get(), m_CpuBuffer.Get(), 0, 0, 1, &data);
 
-			DirectX12Renderer::JobSubmission(pCommandList, D3D12_COMMAND_LIST_TYPE_COPY);
+			m_UploadSignal = DirectX12Renderer::AsyncJobSubmission(pCommandList, D3D12_COMMAND_LIST_TYPE_COPY);
 		}
 
 	protected:
 		ComPtr<ID3D12Resource2> m_GpuBuffer;
 		ComPtr<ID3D12Resource2> m_CpuBuffer;
 		UINT m_BufferSize;
+		UINT m_UploadSignal;
 	};
 };
