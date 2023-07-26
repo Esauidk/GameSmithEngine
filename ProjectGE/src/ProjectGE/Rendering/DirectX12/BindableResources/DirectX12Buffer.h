@@ -1,15 +1,19 @@
 #pragma once
-#include "ProjectGE/Rendering/BindableResource.h"
 #include "ProjectGE/Log.h"
 #include "ProjectGE/Rendering/DirectX12/Util/d3dx12.h"
+#include "ProjectGE/Rendering/DirectX12/DirectX12Renderer.h"
 
 
 namespace ProjectGE {
 	template <typename T>
-	class DirectX12Buffer : public BindableResource {
+	class DirectX12Buffer {
 	protected:
 
-		DirectX12Buffer(ID3D12Device8* pDevice, ID3D12GraphicsCommandList6* pCommandList, T* buffer, UINT count, std::string bufferName = "Personal Buffer") : m_BufferSize(sizeof(T)* count) {
+		DirectX12Buffer(T* buffer, UINT count, std::string bufferName = "Personal Buffer") : m_BufferSize(sizeof(T)* count) {
+
+			auto pDevice = DirectX12Renderer::GetDevice();
+			auto pCommandList = DirectX12Renderer::GetCopyCommandList();
+
 			// Define heap details
 			CD3DX12_HEAP_PROPERTIES defaultHeapProperties(D3D12_HEAP_TYPE_DEFAULT);
 			CD3DX12_HEAP_PROPERTIES uploadHeapProperties(D3D12_HEAP_TYPE_UPLOAD);
@@ -48,7 +52,9 @@ namespace ProjectGE {
 			data.RowPitch = m_BufferSize;
 			data.SlicePitch = data.RowPitch;
 
-			UpdateSubresources(pCommandList, m_GpuBuffer.Get(), m_CpuBuffer.Get(), 0, 0, 1, &data);
+			UpdateSubresources(pCommandList.Get(), m_GpuBuffer.Get(), m_CpuBuffer.Get(), 0, 0, 1, &data);
+
+			DirectX12Renderer::JobSubmission(pCommandList, D3D12_COMMAND_LIST_TYPE_COPY);
 		}
 
 	protected:

@@ -143,6 +143,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\IndexBuffer.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\TriangleDemo.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderSettings.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12TriangleDemo.h" />
     <ClInclude Include="src\ProjectGE.h" />
@@ -602,6 +604,7 @@
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\VertexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\IndexBuffer.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\RenderSettings.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12TriangleDemo.cpp" />
     <ClCompile Include="src\ProjectGE\Application.cpp" />

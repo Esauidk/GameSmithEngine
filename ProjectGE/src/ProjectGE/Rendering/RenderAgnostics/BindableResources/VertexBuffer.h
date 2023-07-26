@@ -1,5 +1,4 @@
 #pragma once
-#include "gepch.h"
 #include "ProjectGE/Rendering/BindableResource.h"
 
 namespace ProjectGE {

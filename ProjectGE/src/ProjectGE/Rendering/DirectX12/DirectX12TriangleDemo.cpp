@@ -6,9 +6,9 @@
 
 namespace ProjectGE {
 
-	DirectX12TriangleDemo::DirectX12TriangleDemo(ID3D12Device8* device, ID3D12GraphicsCommandList6* copyList)
+	DirectX12TriangleDemo::DirectX12TriangleDemo()
 	{
-
+		auto device = DirectX12Renderer::GetDevice();
 		// Read Shaders (Vertex, Pixel)
 		TCHAR buffer[MAX_PATH] = { 0 };
 		GetModuleFileName(NULL, buffer, MAX_PATH);
@@ -71,22 +71,24 @@ namespace ProjectGE {
 			{ {0.5f,  0.0f, 0.0f}, {0.0f, 1.0f, 0.0f} } // 2
 		};
 
-		m_VertexBuffer = std::make_unique<DirectX12VertexBuffer<Vertex>>(device, copyList, cubeVertex, sizeof(cubeVertex) / sizeof(Vertex));
+		m_VertexBuffer = std::make_unique<DirectX12VertexBuffer<Vertex>>(cubeVertex, sizeof(cubeVertex) / sizeof(Vertex));
 
 		WORD indexCount[] = {
 			0, 1, 2
 		};
 
 		m_IndexCount = (int)_countof(indexCount);
-		m_IndexBuffer = std::make_unique<DirectX12IndexBuffer>(device, copyList, indexCount, m_IndexCount );
-
-		
+		m_IndexBuffer = std::make_unique<DirectX12IndexBuffer>(indexCount, m_IndexCount );
 	}	
 
-	void DirectX12TriangleDemo::Draw(ID3D12GraphicsCommandList6* list)
+	void DirectX12TriangleDemo::Draw(Renderer* renderer)
 	{
-		m_State->Bind(list);
-		m_Root->Bind(list);
+		DirectX12Renderer* dRender = (DirectX12Renderer*)renderer;
+
+		auto list = dRender->GetDrawCommandList();
+		//auto list = DirectX12Renderer::GetDirectCommandList();
+		m_State->Bind(list.Get());
+		m_Root->Bind(list.Get());
 
 		//TODO: Use this as refernece code when doing projection later
 
@@ -100,11 +102,13 @@ namespace ProjectGE {
 		auto mvp = proj * lookAt;
 		list->SetGraphicsRoot32BitConstants(0, sizeof(glm::mat4) / 4, &mvp, 0);*/
 
-		m_Topo->Bind(list);
-		m_VertexBuffer->Bind(list);
-		m_IndexBuffer->Bind(list);
+		m_Topo->Bind(list.Get());
+		m_VertexBuffer->Bind(list.Get());
+		m_IndexBuffer->Bind(list.Get());
 
 		list->DrawIndexedInstanced(m_IndexCount, 1, 0, 0, 0);
+
+		DirectX12Renderer::AsyncJobSubmission(list, D3D12_COMMAND_LIST_TYPE_DIRECT);
 	}
 
 	

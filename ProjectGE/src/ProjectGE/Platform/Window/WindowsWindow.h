@@ -2,6 +2,7 @@
 
 #include "ProjectGE/Window.h"
 #include "ProjectGE/Rendering/Renderer.h"
+#include "ProjectGE/Rendering/RenderAgnostics/TriangleDemo.h"
 #include "ProjectGE/Events/Event.h"
 
 namespace ProjectGE {
@@ -65,6 +66,10 @@ namespace ProjectGE {
 		bool m_LButtonDown;
 		bool m_RButtonDown;
 		int m_Repeat;
+
+		// Temporary
+		std::unique_ptr<TriangleDemo> m_Demo;
+
 	};
 };
 

@@ -171,19 +171,16 @@ namespace ProjectGE {
 
 	void DirectX12Renderer::Swap()
 	{
-		PreSwap();
-
 		CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
 			m_BackBuffer.Get(),
 			D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT
 		);
 
-
+		auto list = DirectX12Renderer::GetDirectCommandList();
 		// Add command to transition the render target
-		m_DirectCmdList->ResourceBarrier(1, &barrier);
+		list->ResourceBarrier(1, &barrier);
 
-		UINT value = s_DirectQueue->ExecuteCommandList(m_DirectCmdList);
-		s_DirectQueue->WaitForFenceValue(value);
+		DirectX12Renderer::JobSubmission(list, D3D12_COMMAND_LIST_TYPE_DIRECT);
 
 
 		bool res = FAILED(m_SwapChain->Present(0, 0));
@@ -230,30 +227,74 @@ namespace ProjectGE {
 		m_ClearColor[3] = a;
 	}
 
-	void DirectX12Renderer::SetDemoTriangle(bool enabled)
+	ComPtr<ID3D12GraphicsCommandList6> DirectX12Renderer::GetDrawCommandList()
 	{
-		m_DemoEnabled = enabled;
+		auto cmdList = DirectX12Renderer::GetDirectCommandList();
+		auto rect = CD3DX12_RECT(0, 0, m_Width, m_Height);
+		auto viewport = CD3DX12_VIEWPORT(0.0f, 0.0f, (FLOAT)m_Width, (FLOAT)m_Height);
+		cmdList->RSSetScissorRects(1, &rect);
+		cmdList->RSSetViewports(1, &viewport);
 
-		if (m_DemoEnabled) {
-			m_Demo = std::make_unique<DirectX12TriangleDemo>(s_Device.Get(), m_CopyCmdList.Get());
-			UINT val = s_CopyQueue->ExecuteCommandList(m_CopyCmdList);
-			s_CopyQueue->WaitForFenceValue(val);
-			m_CopyCmdList = s_CopyQueue->GetCommandList();
+		D3D12_CPU_DESCRIPTOR_HANDLE depthHandler = m_DBuffer->GetHandle();
+		CD3DX12_CPU_DESCRIPTOR_HANDLE rtv(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart(), m_SwapChain->GetCurrentBackBufferIndex(), s_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
+		cmdList->OMSetRenderTargets(1, &rtv, FALSE, &depthHandler);
+
+		return cmdList;
+	}
+
+	UINT DirectX12Renderer::AsyncJobSubmission(ComPtr<ID3D12GraphicsCommandList6> jobList, D3D12_COMMAND_LIST_TYPE jobType)
+	{
+		switch (jobType) {
+		case D3D12_COMMAND_LIST_TYPE_COPY:
+			return s_CopyQueue->ExecuteCommandList(jobList);
+		case D3D12_COMMAND_LIST_TYPE_DIRECT:
+			return s_DirectQueue->ExecuteCommandList(jobList);
+		default:
+			GE_CORE_ASSERT(false, "Do not support other types of command lists yet");
 		}
-		else {
-			m_Demo.reset();
+
+		return 0;
+	}
+
+	void DirectX12Renderer::SyncJob(UINT fenceVal, D3D12_COMMAND_LIST_TYPE jobType)
+	{
+		switch (jobType) {
+		case D3D12_COMMAND_LIST_TYPE_COPY:
+			return s_CopyQueue->WaitForFenceValue(fenceVal);
+		case D3D12_COMMAND_LIST_TYPE_DIRECT:
+			return s_DirectQueue->WaitForFenceValue(fenceVal);
+		default:
+			GE_CORE_ASSERT(false, "Do not support other types of command lists yet");
 		}
 	}
 
+	void DirectX12Renderer::JobSubmission(ComPtr<ID3D12GraphicsCommandList6> jobList, D3D12_COMMAND_LIST_TYPE jobType)
+	{
+		switch (jobType) {
+		case D3D12_COMMAND_LIST_TYPE_COPY:
+		{
+			UINT val = s_CopyQueue->ExecuteCommandList(jobList);
+			s_CopyQueue->WaitForFenceValue(val);
+			break;
+		}
 
-	CD3DX12_CPU_DESCRIPTOR_HANDLE DirectX12Renderer::GetRenderTarget() const {
-		return CD3DX12_CPU_DESCRIPTOR_HANDLE(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart(), m_SwapChain->GetCurrentBackBufferIndex(), s_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
+		case D3D12_COMMAND_LIST_TYPE_DIRECT:
+		{
+			UINT val = s_DirectQueue->ExecuteCommandList(jobList);
+			s_DirectQueue->WaitForFenceValue(val);
+			break;
+		}
+		default:
+		{
+			GE_CORE_ASSERT(false, "Do not support other types of command lists yet");
+		}
+
+		}
 	}
 
 	void DirectX12Renderer::InitializeBackBuffer()
 	{
-		m_DirectCmdList = s_DirectQueue->GetCommandList();
-		m_CopyCmdList = s_CopyQueue->GetCommandList();
+		auto list = DirectX12Renderer::GetDirectCommandList();
 
 		bool res = FAILED(m_SwapChain->GetBuffer(m_SwapChain->GetCurrentBackBufferIndex(), IID_PPV_ARGS(&m_BackBuffer)));
 		GE_CORE_ASSERT(!res, "Failed to reacquire DirectX12 back buffer");
@@ -263,25 +304,12 @@ namespace ProjectGE {
 			D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_RENDER_TARGET
 		);
 		// Add command to transition the render target
-		m_DirectCmdList->ResourceBarrier(1, &barrier);
+		list->ResourceBarrier(1, &barrier);
 		CD3DX12_CPU_DESCRIPTOR_HANDLE rtv(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart(), m_SwapChain->GetCurrentBackBufferIndex(), s_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
-		m_DirectCmdList->ClearRenderTargetView(rtv, m_ClearColor, 0, nullptr);
-		m_DBuffer->Clear(m_DirectCmdList.Get(), 1);
+		list->ClearRenderTargetView(rtv, m_ClearColor, 0, nullptr);
+		m_DBuffer->Clear(list.Get(), 1);
 
-		auto rect = CD3DX12_RECT(0, 0, m_Width, m_Height);
-		auto viewport = CD3DX12_VIEWPORT(0.0f, 0.0f, (FLOAT)m_Width, (FLOAT)m_Height);
-		m_DirectCmdList->RSSetScissorRects(1, &rect);
-		m_DirectCmdList->RSSetViewports(1, &viewport);
-
-		D3D12_CPU_DESCRIPTOR_HANDLE depthHandler = m_DBuffer->GetHandle();
-		m_DirectCmdList->OMSetRenderTargets(1, &rtv, FALSE, &depthHandler);
-	}
-
-	void DirectX12Renderer::PreSwap()
-	{
-		if (m_DemoEnabled) {
-			m_Demo->Draw(m_DirectCmdList.Get());
-		}
+		DirectX12Renderer::AsyncJobSubmission(list, D3D12_COMMAND_LIST_TYPE_DIRECT);
 	}
 };
 

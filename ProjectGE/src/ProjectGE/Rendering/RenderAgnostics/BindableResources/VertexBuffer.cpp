@@ -6,7 +6,6 @@
 
 #ifdef GE_PLATFORM_WINDOWS
 #include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12VertexBuffer.h"
-#include "ProjectGE/Rendering/DirectX12/DirectX12Renderer.h"
 #endif
 
 namespace ProjectGE {
@@ -17,7 +16,7 @@ namespace ProjectGE {
 			return nullptr;
 			break;
 		case RenderOptions::DIRECTX12:
-			//return new DirectX12VertexBuffer<Vertex>(DirectX12Renderer::GetDevice(), (Vertex*)verticies, count)
+			return new DirectX12VertexBuffer<Vertex>((Vertex*)verticies, count);
 			break;
 		}
 

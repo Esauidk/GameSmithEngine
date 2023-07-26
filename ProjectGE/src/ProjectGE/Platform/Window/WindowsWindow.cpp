@@ -5,6 +5,7 @@
 #include "ProjectGE/Log.h"
 #include "ProjectGE/Rendering/RenderSettings.h"
 #include "ProjectGE/Rendering/DirectX12/DirectX12Renderer.h"
+#include "ProjectGE/Rendering/DirectX12/DirectX12TriangleDemo.h"
 
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -103,9 +104,8 @@ namespace ProjectGE {
 
 		if (m_RenderContext != nullptr) {
 			m_RenderContext->Init();
-
-			// TODO: Remove this in the future, just testing
-			m_RenderContext->SetDemoTriangle(true);
+			// TODO: REMOVE THIS CODE, JUST FOR TESTING!
+			m_Demo = std::make_unique<DirectX12TriangleDemo>();
 		}
 		
 		//Show window
@@ -117,6 +117,7 @@ namespace ProjectGE {
 	void WindowsWindow::OnUpdate() {
 		ProcessMessages();
 		if (m_RenderContext != nullptr) {
+			m_Demo->Draw(m_RenderContext);
 			m_RenderContext->Swap();
 		}
 		

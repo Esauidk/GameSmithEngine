@@ -2,7 +2,7 @@
 #include "DirectX12IndexBuffer.h"
 
 namespace ProjectGE {
-	DirectX12IndexBuffer::DirectX12IndexBuffer(ID3D12Device8* pDevice, ID3D12GraphicsCommandList6* pCommandList, WORD* buffer, int count) : DirectX12Buffer<WORD>::DirectX12Buffer(pDevice, pCommandList, buffer, count, "Index Buffer") {}
+	DirectX12IndexBuffer::DirectX12IndexBuffer(WORD* buffer, int count) : DirectX12Buffer<WORD>::DirectX12Buffer(buffer, count, "Index Buffer") {}
 
 	void DirectX12IndexBuffer::Bind(ID3D12GraphicsCommandList6* cmdList) {
 		CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(

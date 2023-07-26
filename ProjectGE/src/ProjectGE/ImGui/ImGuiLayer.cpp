@@ -82,21 +82,22 @@ namespace ProjectGE {
 
 		Renderer* renderer = window.GetRenderer();
 		auto* dRender = (DirectX12Renderer*)renderer;
-		auto commandList = dRender->GetDirectCommandList();
+		auto commandList = dRender->GetDrawCommandList();
 
 		ID3D12DescriptorHeap* descriptorHeaps[] = {
 			dRender->GetSRVHeap()
 		};
 		commandList->SetDescriptorHeaps(1, descriptorHeaps);
 
-		ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), commandList);
+		ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), commandList.Get());
 
 		if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
 		{
 			ImGui::UpdatePlatformWindows();
-			ImGui::RenderPlatformWindowsDefault(nullptr, (void*)(commandList));
+			ImGui::RenderPlatformWindowsDefault(nullptr, (void*)(commandList.Get()));
 		}
 
+		DirectX12Renderer::AsyncJobSubmission(commandList, D3D12_COMMAND_LIST_TYPE_DIRECT);
 	}
 
 };

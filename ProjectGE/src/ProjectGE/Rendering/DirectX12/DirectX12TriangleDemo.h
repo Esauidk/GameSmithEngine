@@ -11,11 +11,13 @@
 #include "BindableResources/DirectX12TopologyResource.h"
 #include "ProjectGE/Rendering/RenderAgnostics/BasicStructs.h"
 
+#include "ProjectGE/Rendering/RenderAgnostics/TriangleDemo.h"
+
 namespace ProjectGE {
-	class DirectX12TriangleDemo {
+	class DirectX12TriangleDemo : public TriangleDemo{
 	public:
-		DirectX12TriangleDemo(ID3D12Device8* device, ID3D12GraphicsCommandList6* copyList);
-		void Draw(ID3D12GraphicsCommandList6* list);
+		DirectX12TriangleDemo();
+		void Draw(Renderer* renderer);
 	private:
 		std::unique_ptr<DirectX12PipelineState> m_State;
 		std::unique_ptr<DirectX12InputLayout> m_Layout;
