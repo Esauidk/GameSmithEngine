@@ -5,6 +5,8 @@
 
 #include "Input.h"
 
+#include "Rendering/RenderAgnostics/BindableResources/VertexBuffer.h"
+
 namespace ProjectGE {
 	Application* Application::s_Instance = nullptr;
 
@@ -29,6 +31,7 @@ namespace ProjectGE {
 
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
+
 	}
 
 	bool Application::OnWindowClose(WindowCloseEvent& evn) {

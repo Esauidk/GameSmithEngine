@@ -1,6 +1,7 @@
 #include "gepch.h"
 #include "DirectX12PipelineState.h"
 #include "ProjectGE/Log.h"
+#include "ProjectGE/Rendering/DirectX12/DirectX12Renderer.h"
 
 
 namespace ProjectGE {
@@ -35,9 +36,10 @@ namespace ProjectGE {
 		m_StateStream.Flags |= D3D12_PIPELINE_STATE_FLAG_TOOL_DEBUG;
 	}
 
-	void DirectX12PipelineState::Build(ID3D12Device8* pDevice) {
+	void DirectX12PipelineState::Build() {
 		//TODO: Add checks before building
 
+		auto pDevice = DirectX12Renderer::GetDevice();
 		D3D12_PIPELINE_STATE_STREAM_DESC stateStreamDesc = {sizeof(m_StateStream), &m_StateStream};
 		
 		bool res = FAILED(pDevice->CreatePipelineState(&stateStreamDesc, IID_PPV_ARGS(&m_PipelineState)));

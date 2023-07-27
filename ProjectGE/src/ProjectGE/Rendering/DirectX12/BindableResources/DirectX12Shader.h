@@ -1,15 +1,16 @@
 #pragma once
 #include "gepch.h"
-#include "DirectX12PipelineDefiner.h"
 #include <d3dcompiler.h>
+#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/PipelineDefiner.h"
+#include "ProjectGE/Rendering/DirectX12/DirectX12PipelineState.h"
 
 
 namespace ProjectGE {
-	class DirectX12Shader : public DirectX12PipelineDefiner
+	class DirectX12Shader : public PipelineDefiner
 	{
 	public:
 		DirectX12Shader(const std::string& shaderPath, const DirectX12ShaderType shaderType);
-		void Setup(DirectX12PipelineState& pipeline) override;
+		void Append(PipelineStateObject& pipeline) override;
 	protected:
 		Microsoft::WRL::ComPtr<ID3DBlob> m_ShaderBlob;
 		DirectX12ShaderType m_Type;

@@ -1,10 +1,13 @@
 #include "gepch.h"
 #include "DirectX12RootSignature.h"
 #include "ProjectGE/Log.h"
+#include "ProjectGE/Rendering/DirectX12/DirectX12Renderer.h"
+#include "ProjectGE/Rendering/DirectX12/DirectX12PipelineState.h"
 
 
 namespace ProjectGE {
-	DirectX12RootSignature::DirectX12RootSignature(ID3D12Device8* pDevice, D3D12_ROOT_SIGNATURE_FLAGS flags) : m_RootSigFeat(), m_Flags(flags) {
+	DirectX12RootSignature::DirectX12RootSignature(D3D12_ROOT_SIGNATURE_FLAGS flags) : m_RootSigFeat(), m_Flags(flags) {
+		auto pDevice = DirectX12Renderer::GetDevice();
 		m_RootSigFeat.HighestVersion = D3D_ROOT_SIGNATURE_VERSION_1_1;
 		if (FAILED(pDevice->CheckFeatureSupport(D3D12_FEATURE_ROOT_SIGNATURE, &m_RootSigFeat, sizeof(m_RootSigFeat)))) {
 			m_RootSigFeat.HighestVersion = D3D_ROOT_SIGNATURE_VERSION_1_0;
@@ -19,7 +22,9 @@ namespace ProjectGE {
 		m_Parameters.insert(m_Parameters.end(), newParameters, newParameters + size);
 	}
 
-	void DirectX12RootSignature::BuildRootSignature(ID3D12Device8* pDevice) {
+	void DirectX12RootSignature::BuildRootSignature() {
+		auto pDevice = DirectX12Renderer::GetDevice();
+
 		// Build root signature description
 		CD3DX12_VERSIONED_ROOT_SIGNATURE_DESC rootSigDesc;
 		rootSigDesc.Init_1_1((UINT)m_Parameters.size(), m_Parameters.data(), 0 /* Note: Check back on this */, nullptr, m_Flags);
@@ -33,8 +38,9 @@ namespace ProjectGE {
 		GE_CORE_ASSERT(!res, "Failed to create root signature");
 	}
 
-	void DirectX12RootSignature::Setup(DirectX12PipelineState& pipeline) {
-		pipeline.Attach(m_Root.Get());
+	void DirectX12RootSignature::Append(PipelineStateObject& pipeline) {
+		auto& dPipeline = (DirectX12PipelineState&)pipeline;
+		dPipeline.Attach(m_Root.Get());
 	}
 
 	void DirectX12RootSignature::Bind(ID3D12GraphicsCommandList6* cmdList) {

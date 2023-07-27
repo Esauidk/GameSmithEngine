@@ -117,7 +117,7 @@
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12InputLayout.h">
       <Filter>src\ProjectGE\Rendering\DirectX12\BindableResources</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12PipelineDefiner.h">
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\PipelineDefiner.h">
       <Filter>src\ProjectGE\Rendering\DirectX12\BindableResources</Filter>
     </ClInclude>
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12PixelShader.h">
@@ -1419,6 +1419,8 @@
     <ClInclude Include="src\ProjectGE\Rendering\RenderSettings.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\TriangleDemo.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\IndexBuffer.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\BufferLayout.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\PipelineStateObject.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\Application.cpp">

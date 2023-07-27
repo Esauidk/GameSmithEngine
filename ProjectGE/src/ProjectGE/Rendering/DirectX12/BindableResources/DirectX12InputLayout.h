@@ -1,13 +1,15 @@
 #pragma once
-#include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12PipelineDefiner.h"
+#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/PipelineDefiner.h"
+#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/BufferLayout.h"
 
 namespace ProjectGE {
-	class DirectX12InputLayout : public DirectX12PipelineDefiner
+	class DirectX12InputLayout : public PipelineDefiner
 	{
 	public:
-		DirectX12InputLayout(const D3D12_INPUT_ELEMENT_DESC* elements, UINT count);
-		void Setup(DirectX12PipelineState& pipeline) override;
+		DirectX12InputLayout(const BufferLayoutBuilder& layout);
+		void Append(PipelineStateObject& pipeline) override;
 	private:
+		std::unique_ptr<D3D12_INPUT_ELEMENT_DESC[]> m_Desc;
 		D3D12_INPUT_LAYOUT_DESC m_InputLayout;
 	};
 };

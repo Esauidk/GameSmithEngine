@@ -1,5 +1,5 @@
 #pragma once
-#include "ProjectGE/Rendering/BindableResource.h"
+#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/PipelineStateObject.h"
 #include "Util/d3dx12.h"
 
 namespace ProjectGE {
@@ -19,7 +19,7 @@ namespace ProjectGE {
 		PIXEL
 	};
 
-	class DirectX12PipelineState : public BindableResource
+	class DirectX12PipelineState : public PipelineStateObject
 	{
 	public:
 		DirectX12PipelineState() = default;
@@ -29,7 +29,7 @@ namespace ProjectGE {
 		void Attach(ID3DBlob* shaderByte, const DirectX12ShaderType type);
 		void Attach(const DXGI_FORMAT& format);
 		void Attach(const D3D12_RT_FORMAT_ARRAY& formats);
-		void Build(ID3D12Device8* pDevice);
+		void Build() override;
 		void SetDebug();
 		void Bind(ID3D12GraphicsCommandList6* cmdList) override;
 	private:

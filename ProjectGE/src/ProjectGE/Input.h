@@ -19,6 +19,5 @@ namespace ProjectGE {
 		virtual std::pair<float, float> GetMousePosImpl() = 0;
 	private:
 		static Input* m_Instance;
-
 	};
 };

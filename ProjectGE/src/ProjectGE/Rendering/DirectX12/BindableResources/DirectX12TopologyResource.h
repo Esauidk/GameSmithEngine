@@ -1,11 +1,13 @@
 #pragma once
-#include "DirectX12PipelineDefiner.h"
+#include "ProjectGE/Rendering/BindableResource.h"
+#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/PipelineDefiner.h"
+
 namespace ProjectGE {
-	class DirectX12TopologyResource : public DirectX12PipelineDefiner
+	class DirectX12TopologyResource : public PipelineDefiner, public BindableResource
 	{
 	public:
 		DirectX12TopologyResource(D3D12_PRIMITIVE_TOPOLOGY_TYPE type, D3D12_PRIMITIVE_TOPOLOGY listType);
-		void Setup(DirectX12PipelineState& pipeline) override;
+		void Append(PipelineStateObject& pipeline) override;
 		void Bind(ID3D12GraphicsCommandList6* cmdList) override;
 	private:
 		D3D12_PRIMITIVE_TOPOLOGY_TYPE m_Type;

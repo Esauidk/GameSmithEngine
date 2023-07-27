@@ -8,7 +8,6 @@ namespace ProjectGE {
 
 	DirectX12TriangleDemo::DirectX12TriangleDemo()
 	{
-		auto device = DirectX12Renderer::GetDevice();
 		// Read Shaders (Vertex, Pixel)
 		TCHAR buffer[MAX_PATH] = { 0 };
 		GetModuleFileName(NULL, buffer, MAX_PATH);
@@ -22,16 +21,13 @@ namespace ProjectGE {
 		m_PS = std::make_unique<DirectX12PixelShader>(npixel);
 
 		// Setup Input Layout
-		D3D12_INPUT_ELEMENT_DESC inputLayout[] = {
-			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
-			{ "COLOR", 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 },
-		};
 
-		m_Layout = std::make_unique<DirectX12InputLayout>(inputLayout, 2);
+		BufferLayoutBuilder layout = { {"POSITION", ShaderDataType::Float3}, {"COLOR", ShaderDataType::Float3} };
+		m_Layout = std::make_unique<DirectX12InputLayout>(layout);
 
 
 		// Setup Root Signature
-		m_Root = std::make_unique<DirectX12RootSignature>(device, D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT |
+		m_Root = std::make_unique<DirectX12RootSignature>(D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT |
 			D3D12_ROOT_SIGNATURE_FLAG_DENY_HULL_SHADER_ROOT_ACCESS |
 			D3D12_ROOT_SIGNATURE_FLAG_DENY_DOMAIN_SHADER_ROOT_ACCESS |
 			D3D12_ROOT_SIGNATURE_FLAG_DENY_GEOMETRY_SHADER_ROOT_ACCESS |
@@ -41,7 +37,7 @@ namespace ProjectGE {
 		rootParameters.InitAsConstants(sizeof(glm::mat4) / 4, 0, 0, D3D12_SHADER_VISIBILITY_VERTEX);
 		m_Root->AddParameter(rootParameters);*/
 
-		m_Root->BuildRootSignature(device);
+		m_Root->BuildRootSignature();
 
 		// Setup Topology
 
@@ -50,12 +46,12 @@ namespace ProjectGE {
 		// Setup Pipeline
 		m_State = std::make_unique<DirectX12PipelineState>();
 		
-		m_VS->Setup(*(m_State.get()));
+		m_VS->Append(*(m_State.get()));
 
-		m_PS->Setup(*(m_State.get()));
-		m_Layout->Setup(*(m_State.get()));
-		m_Root->Setup(*(m_State.get()));
-		m_Topo->Setup(*(m_State.get()));
+		m_PS->Append(*(m_State.get()));
+		m_Layout->Append(*(m_State.get()));
+		m_Root->Append(*(m_State.get()));
+		m_Topo->Append(*(m_State.get()));
 
 		D3D12_RT_FORMAT_ARRAY rtvFormats = {};
 		rtvFormats.NumRenderTargets = 1;
@@ -63,7 +59,7 @@ namespace ProjectGE {
 		m_State->Attach(rtvFormats);
 
 		m_State->Attach(DXGI_FORMAT_D32_FLOAT);
-		m_State->Build(device);
+		m_State->Build();
 
 		Vertex cubeVertex[] = {
 			{ {-0.5f, 0.0f, 0.0f}, {1.0f, 0.0f, 0.0f} }, // 0

@@ -25,8 +25,6 @@ namespace ProjectGE {
 		void SetClearColor(float r, float g, float b, float a) override;
 		ComPtr<ID3D12GraphicsCommandList6> GetDrawCommandList(); // Get a direct type command list with Viewport, Rect, and RenderTarget set
 
-		inline DirectX12CommandQueue* GetCommandQueue() { return s_DirectQueue.get(); }
-
 		inline ID3D12DescriptorHeap* GetSRVHeap() { return m_SRVHeapD.Get(); }
 
 		inline static ID3D12Device8* GetDevice() { return s_Device.Get(); }

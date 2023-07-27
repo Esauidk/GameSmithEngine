@@ -13,7 +13,8 @@ namespace ProjectGE {
 		GE_CORE_ASSERT(!res, "Failed to read not read shader file {0}", shaderPath);
 	}
 	
-	void DirectX12Shader::Setup(DirectX12PipelineState& pipeline) {
-		pipeline.Attach(m_ShaderBlob.Get(), m_Type);
+	void DirectX12Shader::Append(PipelineStateObject& pipeline) {
+		auto& dPipeline = (DirectX12PipelineState&)pipeline;
+		dPipeline.Attach(m_ShaderBlob.Get(), m_Type);
 	}
 };
