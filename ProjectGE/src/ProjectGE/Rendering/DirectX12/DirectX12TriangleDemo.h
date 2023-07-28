@@ -3,8 +3,7 @@
 #include "BindableResources/DirectX12VertexBuffer.h"
 #include "BindableResources/DirectX12IndexBuffer.h"
 #include "BindableResources/DirectX12RootSignature.h"
-#include "BindableResources/DirectX12VertexShader.h"
-#include "BindableResources/DirectX12PixelShader.h"
+#include "BindableResources/DirectX12Shader.h"
 #include "BindableResources/DirectX12RootSignature.h"
 #include "BindableResources/DirectX12InputLayout.h"
 #include "DirectX12PipelineState.h"
@@ -23,8 +22,8 @@ namespace ProjectGE {
 		std::unique_ptr<DirectX12InputLayout> m_Layout;
 		std::unique_ptr<DirectX12RootSignature> m_Root;
 		std::unique_ptr<DirectX12TopologyResource> m_Topo;
-		std::unique_ptr<DirectX12VertexShader> m_VS;
-		std::unique_ptr<DirectX12PixelShader> m_PS;
+		std::unique_ptr<DirectX12Shader> m_VS;
+		std::unique_ptr<DirectX12Shader> m_PS;
 		std::unique_ptr<DirectX12VertexBuffer<Vertex>> m_VertexBuffer;
 		std::unique_ptr<DirectX12IndexBuffer> m_IndexBuffer;
 

@@ -4,5 +4,6 @@
 namespace ProjectGE {
 	class PipelineStateObject : public BindableResource {
 		virtual void Build() = 0;
+		static PipelineStateObject* Create();
 	};
 };

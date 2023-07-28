@@ -120,9 +120,6 @@
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\PipelineDefiner.h">
       <Filter>src\ProjectGE\Rendering\DirectX12\BindableResources</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12PixelShader.h">
-      <Filter>src\ProjectGE\Rendering\DirectX12\BindableResources</Filter>
-    </ClInclude>
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12RootSignature.h">
       <Filter>src\ProjectGE\Rendering\DirectX12\BindableResources</Filter>
     </ClInclude>
@@ -133,9 +130,6 @@
       <Filter>src\ProjectGE\Rendering\DirectX12\BindableResources</Filter>
     </ClInclude>
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12VertexBuffer.h">
-      <Filter>src\ProjectGE\Rendering\DirectX12\BindableResources</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12VertexShader.h">
       <Filter>src\ProjectGE\Rendering\DirectX12\BindableResources</Filter>
     </ClInclude>
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12DepthBuffer.h">
@@ -1421,6 +1415,7 @@
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\IndexBuffer.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\BufferLayout.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\PipelineStateObject.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\Shader.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\Application.cpp">
@@ -1450,9 +1445,6 @@
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12InputLayout.cpp">
       <Filter>src\ProjectGE\Rendering\DirectX12\BindableResources</Filter>
     </ClCompile>
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12PixelShader.cpp">
-      <Filter>src\ProjectGE\Rendering\DirectX12\BindableResources</Filter>
-    </ClCompile>
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12RootSignature.cpp">
       <Filter>src\ProjectGE\Rendering\DirectX12\BindableResources</Filter>
     </ClCompile>
@@ -1460,9 +1452,6 @@
       <Filter>src\ProjectGE\Rendering\DirectX12\BindableResources</Filter>
     </ClCompile>
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12TopologyResource.cpp">
-      <Filter>src\ProjectGE\Rendering\DirectX12\BindableResources</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12VertexShader.cpp">
       <Filter>src\ProjectGE\Rendering\DirectX12\BindableResources</Filter>
     </ClCompile>
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12DepthBuffer.cpp">
@@ -1487,6 +1476,8 @@
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\VertexBuffer.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\RenderSettings.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\IndexBuffer.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\PipelineStateObject.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\Shader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\SamplePixelShader.hlsl" />

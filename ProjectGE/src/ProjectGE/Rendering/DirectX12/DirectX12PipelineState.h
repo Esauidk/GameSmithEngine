@@ -1,5 +1,6 @@
 #pragma once
 #include "ProjectGE/Rendering/RenderAgnostics/BindableResources/PipelineStateObject.h"
+#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/Shader.h"
 #include "Util/d3dx12.h"
 
 namespace ProjectGE {
@@ -14,11 +15,6 @@ namespace ProjectGE {
 		CD3DX12_PIPELINE_STATE_STREAM_FLAGS Flags;
 	};
 
-	enum DirectX12ShaderType {
-		VERTEX,
-		PIXEL
-	};
-
 	class DirectX12PipelineState : public PipelineStateObject
 	{
 	public:
@@ -26,7 +22,7 @@ namespace ProjectGE {
 		void Attach(ID3D12RootSignature* rootSig);
 		void Attach(const D3D12_INPUT_LAYOUT_DESC& layout);
 		void Attach(const D3D12_PRIMITIVE_TOPOLOGY_TYPE& topology);
-		void Attach(ID3DBlob* shaderByte, const DirectX12ShaderType type);
+		void Attach(ID3DBlob* shaderByte, const ShaderType type);
 		void Attach(const DXGI_FORMAT& format);
 		void Attach(const D3D12_RT_FORMAT_ARRAY& formats);
 		void Build() override;

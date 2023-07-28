@@ -17,8 +17,8 @@ namespace ProjectGE {
 
 		std::string nvertex = std::string(vertex.begin(), vertex.end());
 		std::string npixel = std::string(pixel.begin(), pixel.end());
-		m_VS = std::make_unique<DirectX12VertexShader>(nvertex);
-		m_PS = std::make_unique<DirectX12PixelShader>(npixel);
+		m_VS = std::make_unique<DirectX12Shader>(nvertex, ShaderType::Vertex);
+		m_PS = std::make_unique<DirectX12Shader>(npixel, ShaderType::Pixel);
 
 		// Setup Input Layout
 

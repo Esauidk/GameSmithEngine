@@ -14,13 +14,13 @@ namespace ProjectGE {
 	void DirectX12PipelineState::Attach(const D3D12_PRIMITIVE_TOPOLOGY_TYPE& topology) {
 		m_StateStream.PrimitiveTopologyType = topology;
 	}
-	void DirectX12PipelineState::Attach(ID3DBlob* shaderByte, const DirectX12ShaderType type) {
+	void DirectX12PipelineState::Attach(ID3DBlob* shaderByte, const ShaderType type) {
 		auto shader = CD3DX12_SHADER_BYTECODE(shaderByte);
 		switch (type) {
-		case VERTEX:
+		case ShaderType::Vertex:
 			m_StateStream.VS = shader;
 			break;
-		case PIXEL:
+		case ShaderType::Pixel:
 			m_StateStream.PS = shader;
 			break;
 		}
