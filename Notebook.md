@@ -11,3 +11,10 @@ loader pipelines needs to be addressed. Maybe this is a Asset Manager Issue than
 needed to be solved for the shaders are providing the correct path for the shader .cso file. 
 
 Now that I'm thinking, yes, this is an Asset Management Problem. Anyways, I'm happy the current progress of the engine
+
+# 7/2/2022
+Been working on making the engine Render agnostics, so I'm adding in interfaces to represent basic compoenents of a modern Renderer.
+I'm trying to be careful though, it seems like OpenGL and DX12 have very unique implementations, but I think I can find the similarities between components.
+
+Completed: Vertex Buffer, Index Buffer, Shaders, and PipelineStateObject. Currently working on root signature. Honestly trying to piece together the similairites is 
+helping me better understand DX12 components more than I thought
