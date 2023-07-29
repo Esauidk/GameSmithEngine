@@ -1,6 +1,6 @@
 #pragma once
-#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/PipelineDefiner.h"
-#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/BufferLayout.h"
+#include "ProjectGE/Rendering/RenderAgnostics/PipelineDefiner.h"
+#include "ProjectGE/Rendering/RenderAgnostics/BufferLayout.h"
 
 namespace ProjectGE {
 	class DirectX12InputLayout : public PipelineDefiner

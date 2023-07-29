@@ -18,4 +18,8 @@ namespace ProjectGE {
 		auto& dPipeline = (DirectX12PipelineState&)pipeline;
 		dPipeline.Attach(m_ShaderBlob.Get(), m_Type);
 	}
+	void DirectX12Shader::Bind(ID3D12GraphicsCommandList6* cmdList)
+	{
+		// Has no need to perform binding, already binded to pipelinestateobject
+	}
 };

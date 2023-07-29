@@ -1,5 +1,5 @@
 #pragma once
-#include "PipelineStateObject.h"
+#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/PipelineStateObject.h"
 
 namespace ProjectGE {
 	class PipelineDefiner {

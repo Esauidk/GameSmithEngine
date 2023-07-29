@@ -143,8 +143,13 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12ShaderReferenceTable.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12ShaderReference.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12ShaderConstant.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\ShaderArguement.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\ShaderArguementDefiner.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\Shader.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\BufferLayout.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BufferLayout.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\IndexBuffer.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\PipelineStateObject.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\TriangleDemo.h" />
@@ -171,7 +176,7 @@
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12Buffer.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12IndexBuffer.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12InputLayout.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\PipelineDefiner.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\PipelineDefiner.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12RootSignature.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12Shader.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12TopologyResource.h" />
@@ -605,6 +610,11 @@
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\VertexBuffer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12ShaderReferenceTable.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12ShaderReference.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12ShaderConstant.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\ShaderArguement.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\ShaderArguementDefiner.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\Shader.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\IndexBuffer.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\PipelineStateObject.cpp" />

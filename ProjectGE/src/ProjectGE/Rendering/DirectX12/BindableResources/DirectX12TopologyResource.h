@@ -1,6 +1,6 @@
 #pragma once
 #include "ProjectGE/Rendering/BindableResource.h"
-#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/PipelineDefiner.h"
+#include "ProjectGE/Rendering/RenderAgnostics/PipelineDefiner.h"
 
 namespace ProjectGE {
 	class DirectX12TopologyResource : public PipelineDefiner, public BindableResource

@@ -1,7 +1,8 @@
 #pragma once
 #include "gepch.h"
 #include "ProjectGE/Rendering/DirectX12/Util/d3dx12.h"
-#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/PipelineDefiner.h"
+#include "ProjectGE/Rendering/RenderAgnostics/PipelineDefiner.h"
+#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/ShaderArguementDefiner.h"
 
 
 /* 
@@ -12,10 +13,11 @@ Job:
 	- Binds it to the pipeline
 */
 namespace ProjectGE {
-	class DirectX12RootSignature : public PipelineDefiner, public BindableResource
+	class DirectX12RootSignature : public PipelineDefiner, public ShaderArguementDefiner
 	{
 	public: 
 			DirectX12RootSignature(D3D12_ROOT_SIGNATURE_FLAGS flags);
+			int AddArguement(ShaderArguement& arg) override;
 			void AddParameter(const CD3DX12_ROOT_PARAMETER1& newParameter);
 			void AddParameter(CD3DX12_ROOT_PARAMETER1* newParameters, UINT size);
 			void BuildRootSignature();

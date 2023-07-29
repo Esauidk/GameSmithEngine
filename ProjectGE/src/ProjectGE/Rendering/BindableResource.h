@@ -8,7 +8,7 @@ namespace ProjectGE {
 	class BindableResource {
 	public:
 		// Binding the resource to the pipeline, does not take ownership of the command list pointer
-		virtual void Bind(ID3D12GraphicsCommandList6* cmdList) {/* To allow super classes to not implent bind if there is no extra behavior */ };
+		virtual void Bind(ID3D12GraphicsCommandList6* cmdList) = 0;
 		virtual ~BindableResource() = default;
 	};
 };

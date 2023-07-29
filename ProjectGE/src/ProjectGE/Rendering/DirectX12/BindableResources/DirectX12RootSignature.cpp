@@ -14,6 +14,12 @@ namespace ProjectGE {
 		}
 	}
 
+	int DirectX12RootSignature::AddArguement(ShaderArguement& arg)
+	{
+		//TODO: Implement
+		return 0;
+	}
+
 	void DirectX12RootSignature::AddParameter(const CD3DX12_ROOT_PARAMETER1& newParameter) {
 		m_Parameters.push_back(newParameter);
 	}

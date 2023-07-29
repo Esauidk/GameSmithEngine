@@ -1,6 +1,6 @@
 #pragma once
-#include "BufferLayout.h"
-#include "PipelineDefiner.h"
+#include "ProjectGE/Rendering/RenderAgnostics/BufferLayout.h"
+#include "ProjectGE/Rendering/RenderAgnostics/PipelineDefiner.h"
 #include "ProjectGE/Rendering/BindableResource.h"
 
 
