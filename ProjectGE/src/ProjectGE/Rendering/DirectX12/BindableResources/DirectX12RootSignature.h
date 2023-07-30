@@ -13,14 +13,12 @@ Job:
 	- Binds it to the pipeline
 */
 namespace ProjectGE {
-	class DirectX12RootSignature : public PipelineDefiner, public ShaderArguementDefiner
+	class DirectX12RootSignature : public ShaderArguementDefiner
 	{
 	public: 
 			DirectX12RootSignature(D3D12_ROOT_SIGNATURE_FLAGS flags);
-			int AddArguement(ShaderArguement& arg) override;
-			void AddParameter(const CD3DX12_ROOT_PARAMETER1& newParameter);
-			void AddParameter(CD3DX12_ROOT_PARAMETER1* newParameters, UINT size);
-			void BuildRootSignature();
+			ShaderArguement* AddArguement(void* data, UINT size, ShaderArguementType) override;
+			void FinalizeSignature() override;
 			void Append(PipelineStateObject& pipeline) override;
 			void Bind(ID3D12GraphicsCommandList6* cmdList) override;
 	private:
@@ -28,6 +26,8 @@ namespace ProjectGE {
 		D3D12_ROOT_SIGNATURE_FLAGS m_Flags;
 		std::vector<CD3DX12_ROOT_PARAMETER1> m_Parameters;
 		ComPtr<ID3D12RootSignature> m_Root;
+		UINT m_AvailableSlot;
+		bool m_FinalizedSignature;
 	};
 }
 

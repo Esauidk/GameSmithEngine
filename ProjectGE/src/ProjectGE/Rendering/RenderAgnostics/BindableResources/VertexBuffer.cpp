@@ -14,10 +14,8 @@ namespace ProjectGE {
 		switch (RenderSettings::GetOption()) {
 		case RenderOptions::NONE:
 			return nullptr;
-			break;
 		case RenderOptions::DIRECTX12:
 			return new DirectX12VertexBuffer<Vertex>((Vertex*)verticies, count);
-			break;
 		}
 
 		return nullptr;

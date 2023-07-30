@@ -10,7 +10,6 @@ namespace ProjectGE {
 	};
 	class ShaderArguement : public BindableResource
 	{
-		static ShaderArguement* Create(const void* data, const ShaderArguementType type);
 	};
 };
 

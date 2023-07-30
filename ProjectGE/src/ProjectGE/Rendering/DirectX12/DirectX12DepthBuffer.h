@@ -17,6 +17,10 @@ namespace ProjectGE {
 
 		Microsoft::WRL::ComPtr<ID3D12Resource2> m_DepthBuffer;
 	};
+
+	class DirectX12DepthBufferMetadata {
+	
+	};
 };
 
 

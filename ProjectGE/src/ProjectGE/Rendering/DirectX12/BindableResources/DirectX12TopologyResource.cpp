@@ -3,7 +3,16 @@
 #include "ProjectGE/Rendering/DirectX12/DirectX12PipelineState.h"
 
 namespace ProjectGE {
-	DirectX12TopologyResource::DirectX12TopologyResource(D3D12_PRIMITIVE_TOPOLOGY_TYPE type, D3D12_PRIMITIVE_TOPOLOGY listType) :m_Type(type), m_ListType(listType) {}
+	DirectX12TopologyResource::DirectX12TopologyResource(TopologyType type) {
+		switch (type) {
+		case TopologyType::Triangle:
+			{
+				m_Type = D3D12_PRIMITIVE_TOPOLOGY_TYPE_TRIANGLE;
+				m_ListType = D3D_PRIMITIVE_TOPOLOGY_TRIANGLELIST;
+				break;
+			}
+		}
+	}
 
 	void DirectX12TopologyResource::Append(PipelineStateObject& pipeline) {
 		auto& dPipeline = (DirectX12PipelineState&)pipeline;

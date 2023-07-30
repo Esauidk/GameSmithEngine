@@ -3,6 +3,7 @@
 #include "ProjectGE/Log.h"
 #include "ProjectGE/Rendering/DirectX12/DirectX12Renderer.h"
 #include "ProjectGE/Rendering/DirectX12/DirectX12PipelineState.h"
+#include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12ShaderConstant.h"
 
 
 namespace ProjectGE {
@@ -14,21 +15,24 @@ namespace ProjectGE {
 		}
 	}
 
-	int DirectX12RootSignature::AddArguement(ShaderArguement& arg)
+	ShaderArguement* DirectX12RootSignature::AddArguement(void* data, UINT size, ShaderArguementType type)
 	{
-		//TODO: Implement
-		return 0;
+		switch (type) {
+		case ShaderArguementType::Constant:
+			{
+				auto* constant = new DirectX12ShaderConstant(m_AvailableSlot, data, size);
+				m_Parameters.push_back(constant->GetDefinition());
+				m_AvailableSlot++;
+				return constant;
+			}	
+		default:
+			GE_CORE_ASSERT(false, "This type of arguement is not yet supported for DX12");
+		}
+
+		return nullptr;
 	}
 
-	void DirectX12RootSignature::AddParameter(const CD3DX12_ROOT_PARAMETER1& newParameter) {
-		m_Parameters.push_back(newParameter);
-	}
-
-	void DirectX12RootSignature::AddParameter(CD3DX12_ROOT_PARAMETER1* newParameters, UINT size) {
-		m_Parameters.insert(m_Parameters.end(), newParameters, newParameters + size);
-	}
-
-	void DirectX12RootSignature::BuildRootSignature() {
+	void DirectX12RootSignature::FinalizeSignature() {
 		auto pDevice = DirectX12Renderer::GetDevice();
 
 		// Build root signature description
@@ -45,6 +49,7 @@ namespace ProjectGE {
 	}
 
 	void DirectX12RootSignature::Append(PipelineStateObject& pipeline) {
+		GE_CORE_ASSERT(m_FinalizedSignature, "Need to called FinializeSignature before trying to attach to PipelineStateObject");
 		auto& dPipeline = (DirectX12PipelineState&)pipeline;
 		dPipeline.Attach(m_Root.Get());
 	}

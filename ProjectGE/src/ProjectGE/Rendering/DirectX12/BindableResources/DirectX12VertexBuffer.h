@@ -32,8 +32,8 @@ namespace ProjectGE {
 			m_Layout = std::make_unique<DirectX12InputLayout>(layout);
 		}
 
-		PipelineDefiner& GetLayout() override {
-			return *(m_Layout.get());
+		PipelineDefiner* GetLayout() override {
+			return m_Layout.get();
 		}
 
 	private:

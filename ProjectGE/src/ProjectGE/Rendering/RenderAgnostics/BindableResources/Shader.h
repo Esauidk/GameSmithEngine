@@ -1,5 +1,6 @@
 #pragma once
 #include "ProjectGE/Rendering/BindableResource.h"
+#include "ProjectGE/Rendering/RenderAgnostics/PipelineDefiner.h"
 
 namespace ProjectGE {
 	enum class ShaderType {
@@ -8,7 +9,7 @@ namespace ProjectGE {
 		Pixel
 	};
 
-	class Shader : public BindableResource
+	class Shader : public BindableResource, public PipelineDefiner
 	{
 	public:
 		static Shader* Create(std::string path, ShaderType count);

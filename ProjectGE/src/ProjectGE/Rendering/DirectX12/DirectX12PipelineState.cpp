@@ -5,6 +5,16 @@
 
 
 namespace ProjectGE {
+	DirectX12PipelineState::DirectX12PipelineState()
+	{
+		D3D12_RT_FORMAT_ARRAY rtvFormats = {};
+		rtvFormats.NumRenderTargets = 1;
+		rtvFormats.RTFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
+		m_StateStream.RTVFormats = rtvFormats;
+
+		m_StateStream.DSVFormat = DXGI_FORMAT_D32_FLOAT;
+
+	}
 	void DirectX12PipelineState::Attach(ID3D12RootSignature* rootSig) {
 		m_StateStream.pRootSignature = rootSig;
 	}
@@ -24,12 +34,6 @@ namespace ProjectGE {
 			m_StateStream.PS = shader;
 			break;
 		}
-	}
-	void DirectX12PipelineState::Attach(const DXGI_FORMAT& format) {
-		m_StateStream.DSVFormat = format;
-	}
-	void DirectX12PipelineState::Attach(const D3D12_RT_FORMAT_ARRAY& formats) {
-		m_StateStream.RTVFormats = formats;
 	}
 
 	void DirectX12PipelineState::SetDebug() {

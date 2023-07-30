@@ -18,13 +18,11 @@ namespace ProjectGE {
 	class DirectX12PipelineState : public PipelineStateObject
 	{
 	public:
-		DirectX12PipelineState() = default;
+		DirectX12PipelineState();
 		void Attach(ID3D12RootSignature* rootSig);
 		void Attach(const D3D12_INPUT_LAYOUT_DESC& layout);
 		void Attach(const D3D12_PRIMITIVE_TOPOLOGY_TYPE& topology);
 		void Attach(ID3DBlob* shaderByte, const ShaderType type);
-		void Attach(const DXGI_FORMAT& format);
-		void Attach(const D3D12_RT_FORMAT_ARRAY& formats);
 		void Build() override;
 		void SetDebug();
 		void Bind(ID3D12GraphicsCommandList6* cmdList) override;

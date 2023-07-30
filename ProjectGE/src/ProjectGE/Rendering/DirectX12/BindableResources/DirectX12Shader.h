@@ -1,12 +1,11 @@
 #pragma once
 #include "gepch.h"
 #include <d3dcompiler.h>
-#include "ProjectGE/Rendering/RenderAgnostics/PipelineDefiner.h"
 #include "ProjectGE/Rendering/RenderAgnostics/BindableResources/Shader.h"
 
 
 namespace ProjectGE {
-	class DirectX12Shader : public Shader, public PipelineDefiner
+	class DirectX12Shader : public Shader
 	{
 	public:
 		DirectX12Shader(const std::string& shaderPath, const ShaderType shaderType);
