@@ -105,7 +105,7 @@ namespace ProjectGE {
 		if (m_RenderContext != nullptr) {
 			m_RenderContext->Init();
 			// TODO: REMOVE THIS CODE, JUST FOR TESTING!
-			m_Demo = std::make_unique<DirectX12TriangleDemo>();
+			m_Demo = std::unique_ptr<TriangleDemo>(TriangleDemo::Create());
 		}
 		
 		//Show window
