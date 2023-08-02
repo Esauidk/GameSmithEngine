@@ -1,7 +1,7 @@
 #pragma once
 #include "ProjectGE/Log.h"
 #include "ProjectGE/Rendering/DirectX12/Util/d3dx12.h"
-#include "ProjectGE/Rendering/DirectX12/DirectX12Renderer.h"
+#include "ProjectGE/Rendering/DirectX12/DirectX12Context.h"
 
 
 namespace ProjectGE {
@@ -11,8 +11,8 @@ namespace ProjectGE {
 
 		DirectX12Buffer(T* buffer, UINT count, std::string bufferName = "Personal Buffer") : m_BufferSize(sizeof(T)* count) {
 
-			auto pDevice = DirectX12Renderer::GetDevice();
-			auto pCommandList = DirectX12Renderer::GetCopyCommandList();
+			auto pDevice = DirectX12Context::GetDevice();
+			auto pCommandList = DirectX12Context::GetCopyCommandList();
 
 			// Define heap details
 			CD3DX12_HEAP_PROPERTIES defaultHeapProperties(D3D12_HEAP_TYPE_DEFAULT);
@@ -54,7 +54,7 @@ namespace ProjectGE {
 
 			UpdateSubresources(pCommandList.Get(), m_GpuBuffer.Get(), m_CpuBuffer.Get(), 0, 0, 1, &data);
 
-			m_UploadSignal = DirectX12Renderer::AsyncJobSubmission(pCommandList, D3D12_COMMAND_LIST_TYPE_COPY);
+			m_UploadSignal = DirectX12Context::AsyncJobSubmission(pCommandList, D3D12_COMMAND_LIST_TYPE_COPY);
 		}
 
 	protected:

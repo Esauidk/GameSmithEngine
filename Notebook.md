@@ -19,8 +19,12 @@ I'm trying to be careful though, it seems like OpenGL and DX12 have very unique 
 Completed: Vertex Buffer, Index Buffer, Shaders, and PipelineStateObject. Currently working on root signature. Honestly trying to piece together the similairites is 
 helping me better understand DX12 components more than I thought.
 
-# 7/71/2023
+# 7/31/2023
 With the RenderAgnostic architecture implemented, I can now move on to Job Submission creation! Currently DirectXRenderer has a Job Submission function, but I would like a RenderAgnostic version.
 On top of that, I need to figure out how to handle binding in a RenderAgnostic fashion. DirectX12 needs to pass a commandList that has the Viewport, Rect, and RenderTarget already set, which is 
 dependent on an instance of Renderer. I'm not sure if I want to support ulimited instances of Renderers, so I might create a Renderer Manager that will keep references to all Renderers and be able to do static functions
 for DrawSubmissions too
+
+# 8/1/2023
+After hours of examining how Unreal Engine 5 interacts with the DirectX 12 API, It appears rendering is done on a single thread while other threads are used for other components of the engine. Ex: Game thread. It 
+keeps track of a single command list at a time. When the command list is done it is submitted into the queue and a new command list is acquired. I'm going to change the current architecture to work like that instead. I want sleep btw

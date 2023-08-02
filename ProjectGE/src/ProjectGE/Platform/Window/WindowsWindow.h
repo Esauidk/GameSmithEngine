@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ProjectGE/Window.h"
-#include "ProjectGE/Rendering/Renderer.h"
+#include "ProjectGE/Rendering/RendererContext.h"
 #include "ProjectGE/Rendering/RenderAgnostics/TriangleDemo.h"
 #include "ProjectGE/Events/Event.h"
 

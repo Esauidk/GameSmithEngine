@@ -1,7 +1,7 @@
 #include "gepch.h"
 #include "ImGuiLayer.h"
 
-#include "ProjectGE/Rendering/DirectX12/DirectX12Renderer.h"
+#include "ProjectGE/Rendering/DirectX12/DirectX12Context.h"
 #include "ProjectGE/Rendering/DirectX12/Util/d3dx12.h"
 #include "Backends/imgui_impl_dx12.h"
 #include "backends/imgui_impl_win32.h"
@@ -39,14 +39,14 @@ namespace ProjectGE {
 
 		Application& app = Application::Get();
 		const Window& window = app.GetWindow();
-		Renderer* renderer = window.GetRenderer();
+		RendererContext* renderer = window.GetRenderer();
 
 		auto hwnd = (HWND)(window.GetNativeWindow());
 		ImGui_ImplWin32_Init(hwnd);
 
-		auto* dRender = (DirectX12Renderer*)renderer;
+		auto* dRender = (DirectX12Context*)renderer;
 		auto descriptor = dRender->GetSRVHeap();
-		ImGui_ImplDX12_Init(DirectX12Renderer::GetDevice(),
+		ImGui_ImplDX12_Init(DirectX12Context::GetDevice(),
 			2,
 			DXGI_FORMAT_R8G8B8A8_UNORM,
 			descriptor,
@@ -80,8 +80,8 @@ namespace ProjectGE {
 		io.DisplaySize = ImVec2((float)window.GetWidth(), (float)window.GetHeight());
 		ImGui::Render();
 
-		Renderer* renderer = window.GetRenderer();
-		auto* dRender = (DirectX12Renderer*)renderer;
+		RendererContext* renderer = window.GetRenderer();
+		auto* dRender = (DirectX12Context*)renderer;
 		auto commandList = dRender->GetDrawCommandList();
 
 		ID3D12DescriptorHeap* descriptorHeaps[] = {
@@ -97,7 +97,7 @@ namespace ProjectGE {
 			ImGui::RenderPlatformWindowsDefault(nullptr, (void*)(commandList.Get()));
 		}
 
-		DirectX12Renderer::AsyncJobSubmission(commandList, D3D12_COMMAND_LIST_TYPE_DIRECT);
+		DirectX12Context::AsyncJobSubmission(commandList, D3D12_COMMAND_LIST_TYPE_DIRECT);
 	}
 
 };

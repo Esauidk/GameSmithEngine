@@ -1,8 +1,8 @@
 #pragma once
 
 namespace ProjectGE {
-	// A Renderer System to render 3D/2D or any graphical piece in an application
-	class Renderer {
+	// A RendererContext System to render 3D/2D or any graphical piece in an application
+	class RendererContext {
 	public:
 		// Initialize: Any initialization to be done with this renderer
 		virtual void Init() = 0;

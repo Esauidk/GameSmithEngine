@@ -5,18 +5,18 @@
 #include "glm/gtc/matrix_transform.hpp"
 
 
-#include "ProjectGE/Rendering/DirectX12/DirectX12Renderer.h"
+#include "ProjectGE/Rendering/DirectX12/DirectX12Context.h"
 
 namespace ProjectGE {
 
 	DirectX12TriangleDemo::DirectX12TriangleDemo() : TriangleDemo() {}	
 
-	void DirectX12TriangleDemo::Draw(Renderer* renderer)
+	void DirectX12TriangleDemo::Draw(RendererContext* renderer)
 	{
-		DirectX12Renderer* dRender = (DirectX12Renderer*)renderer;
+		DirectX12Context* dRender = (DirectX12Context*)renderer;
 
 		auto list = dRender->GetDrawCommandList();
-		//auto list = DirectX12Renderer::GetDirectCommandList();
+		//auto list = DirectX12Context::GetDirectCommandList();
 		m_State->Bind(list.Get());
 		m_Root->Bind(list.Get());
 
@@ -38,7 +38,7 @@ namespace ProjectGE {
 
 		list->DrawIndexedInstanced(m_IndexCount, 1, 0, 0, 0);
 
-		DirectX12Renderer::AsyncJobSubmission(list, D3D12_COMMAND_LIST_TYPE_DIRECT);
+		DirectX12Context::AsyncJobSubmission(list, D3D12_COMMAND_LIST_TYPE_DIRECT);
 	}
 
 	

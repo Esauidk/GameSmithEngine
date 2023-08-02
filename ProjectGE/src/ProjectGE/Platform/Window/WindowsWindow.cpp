@@ -4,7 +4,7 @@
 #include "imgui.h"
 #include "ProjectGE/Log.h"
 #include "ProjectGE/Rendering/RenderSettings.h"
-#include "ProjectGE/Rendering/DirectX12/DirectX12Renderer.h"
+#include "ProjectGE/Rendering/DirectX12/DirectX12Context.h"
 #include "ProjectGE/Rendering/DirectX12/DirectX12TriangleDemo.h"
 
 
@@ -93,7 +93,7 @@ namespace ProjectGE {
 		switch (RenderSettings::GetOption()) {
 		case RenderOptions::DIRECTX12:
 		{
-			m_RenderContext = (Renderer*)new DirectX12Renderer(m_HWnd, m_Prop.Width, m_Prop.Height);
+			m_RenderContext = (RendererContext*)new DirectX12Context(m_HWnd, m_Prop.Width, m_Prop.Height);
 			break;
 		}
 		case RenderOptions::NONE:

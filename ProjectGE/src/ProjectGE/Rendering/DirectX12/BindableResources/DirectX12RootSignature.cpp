@@ -1,14 +1,14 @@
 #include "gepch.h"
 #include "DirectX12RootSignature.h"
 #include "ProjectGE/Log.h"
-#include "ProjectGE/Rendering/DirectX12/DirectX12Renderer.h"
+#include "ProjectGE/Rendering/DirectX12/DirectX12Context.h"
 #include "ProjectGE/Rendering/DirectX12/DirectX12PipelineState.h"
 #include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12ShaderConstant.h"
 
 
 namespace ProjectGE {
 	DirectX12RootSignature::DirectX12RootSignature(D3D12_ROOT_SIGNATURE_FLAGS flags) : m_RootSigFeat(), m_Flags(flags) {
-		auto pDevice = DirectX12Renderer::GetDevice();
+		auto pDevice = DirectX12Context::GetDevice();
 		m_RootSigFeat.HighestVersion = D3D_ROOT_SIGNATURE_VERSION_1_1;
 		if (FAILED(pDevice->CheckFeatureSupport(D3D12_FEATURE_ROOT_SIGNATURE, &m_RootSigFeat, sizeof(m_RootSigFeat)))) {
 			m_RootSigFeat.HighestVersion = D3D_ROOT_SIGNATURE_VERSION_1_0;
@@ -33,7 +33,7 @@ namespace ProjectGE {
 	}
 
 	void DirectX12RootSignature::FinalizeSignature() {
-		auto pDevice = DirectX12Renderer::GetDevice();
+		auto pDevice = DirectX12Context::GetDevice();
 
 		// Build root signature description
 		CD3DX12_VERSIONED_ROOT_SIGNATURE_DESC rootSigDesc;

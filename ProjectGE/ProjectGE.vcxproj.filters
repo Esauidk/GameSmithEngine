@@ -135,7 +135,7 @@
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12DepthBuffer.h">
       <Filter>src\ProjectGE\Rendering\DirectX12</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12Renderer.h">
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12Context.h">
       <Filter>src\ProjectGE\Rendering\DirectX12</Filter>
     </ClInclude>
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12CommandQueue.h">
@@ -147,7 +147,7 @@
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\d3dx12.h">
       <Filter>src\ProjectGE\Rendering\DirectX12\Util</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\Renderer.h">
+    <ClInclude Include="src\ProjectGE\Rendering\RendererContext.h">
       <Filter>src\ProjectGE\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="src\ProjectGE\Timer.h">
@@ -1422,6 +1422,7 @@
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12ShaderReference.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12ShaderReferenceTable.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\Topology.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\DrawJob.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\Application.cpp">
@@ -1463,7 +1464,7 @@
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12DepthBuffer.cpp">
       <Filter>src\ProjectGE\Rendering\DirectX12</Filter>
     </ClCompile>
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12Renderer.cpp">
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12Context.cpp">
       <Filter>src\ProjectGE\Rendering\DirectX12</Filter>
     </ClCompile>
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12CommandQueue.cpp">

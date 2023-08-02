@@ -1,6 +1,6 @@
 #pragma once
 
-#include "ProjectGE/Rendering/Renderer.h"
+#include "ProjectGE/Rendering/RendererContext.h"
 
 #include "ProjectGE/Rendering/RenderAgnostics/BindableResources/VertexBuffer.h"
 #include "ProjectGE/Rendering/RenderAgnostics/BindableResources/IndexBuffer.h"
@@ -14,7 +14,7 @@ namespace ProjectGE {
 	class TriangleDemo {
 	public:
 		TriangleDemo();
-		virtual void Draw(Renderer* renderer) = 0;
+		virtual void Draw(RendererContext* renderer) = 0;
 		static TriangleDemo* Create();
 	protected:
 		std::unique_ptr<PipelineStateObject> m_State;

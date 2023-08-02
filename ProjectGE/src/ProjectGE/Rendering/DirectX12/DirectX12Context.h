@@ -4,7 +4,7 @@
 #include <d3d12.h>
 #include <dxgi1_6.h>
 #include <wrl.h>
-#include "ProjectGE/Rendering/Renderer.h"
+#include "ProjectGE/Rendering/RendererContext.h"
 #include "ProjectGE/Rendering/DirectX12/Util/d3dx12.h"
 #include "DirectX12CommandQueue.h"
 #include "DirectX12DepthBuffer.h"
@@ -14,11 +14,11 @@ using Microsoft::WRL::ComPtr;
 
 namespace ProjectGE {
 
-	class DirectX12Renderer : public Renderer
+	class DirectX12Context : public RendererContext
 	{
 	public:
-		DirectX12Renderer(HWND window, unsigned int initialWidth, unsigned int initialHeight);
-		~DirectX12Renderer() = default;
+		DirectX12Context(HWND window, unsigned int initialWidth, unsigned int initialHeight);
+		~DirectX12Context() = default;
 		void Init() override;
 		void Swap() override;
 		void Resize(float width, float height) override;

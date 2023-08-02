@@ -1,5 +1,5 @@
 #include "gepch.h"
-#include "DirectX12Renderer.h"
+#include "DirectX12Context.h"
 #include "ProjectGE/Log.h"
 
 #pragma comment(lib, "d3d12.lib")
@@ -9,17 +9,17 @@
 using namespace Microsoft::WRL;
 
 namespace ProjectGE {
-	ComPtr<ID3D12Debug> DirectX12Renderer::s_Debug = nullptr;
-	ComPtr<ID3D12InfoQueue> DirectX12Renderer::s_InfoQueue = nullptr;
-	ComPtr<ID3D12Device8> DirectX12Renderer::s_Device = nullptr;
-	std::unique_ptr<DirectX12CommandQueue> DirectX12Renderer::s_DirectQueue = nullptr;
-	std::unique_ptr<DirectX12CommandQueue> DirectX12Renderer::s_CopyQueue = nullptr;
-	bool DirectX12Renderer::s_Initialized = false;
+	ComPtr<ID3D12Debug> DirectX12Context::s_Debug = nullptr;
+	ComPtr<ID3D12InfoQueue> DirectX12Context::s_InfoQueue = nullptr;
+	ComPtr<ID3D12Device8> DirectX12Context::s_Device = nullptr;
+	std::unique_ptr<DirectX12CommandQueue> DirectX12Context::s_DirectQueue = nullptr;
+	std::unique_ptr<DirectX12CommandQueue> DirectX12Context::s_CopyQueue = nullptr;
+	bool DirectX12Context::s_Initialized = false;
 
 
-	DirectX12Renderer::DirectX12Renderer(HWND window, unsigned int initialWidth, unsigned int initialHeight) : m_DBuffer(), m_TearingSupport(), m_Window(window), m_Width(initialWidth), m_Height(initialHeight) {}
+	DirectX12Context::DirectX12Context(HWND window, unsigned int initialWidth, unsigned int initialHeight) : m_DBuffer(), m_TearingSupport(), m_Window(window), m_Width(initialWidth), m_Height(initialHeight) {}
 
-	void DirectX12Renderer::Init() {
+	void DirectX12Context::Init() {
 
 		bool res;
 		// Create the Debug Layer (Allows debuging on the device)
@@ -169,18 +169,18 @@ namespace ProjectGE {
 		
 	}
 
-	void DirectX12Renderer::Swap()
+	void DirectX12Context::Swap()
 	{
 		CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
 			m_BackBuffer.Get(),
 			D3D12_RESOURCE_STATE_RENDER_TARGET, D3D12_RESOURCE_STATE_PRESENT
 		);
 
-		auto list = DirectX12Renderer::GetDirectCommandList();
+		auto list = DirectX12Context::GetDirectCommandList();
 		// Add command to transition the render target
 		list->ResourceBarrier(1, &barrier);
 
-		DirectX12Renderer::JobSubmission(list, D3D12_COMMAND_LIST_TYPE_DIRECT);
+		DirectX12Context::JobSubmission(list, D3D12_COMMAND_LIST_TYPE_DIRECT);
 
 
 		bool res = FAILED(m_SwapChain->Present(0, 0));
@@ -189,7 +189,7 @@ namespace ProjectGE {
 		InitializeBackBuffer();
 	}
 
-	void DirectX12Renderer::Resize(float width, float height)
+	void DirectX12Context::Resize(float width, float height)
 	{
 		m_Width = (UINT)width;
 		m_Height = (UINT)height;
@@ -219,7 +219,7 @@ namespace ProjectGE {
 		InitializeBackBuffer();
 	}
 
-	void DirectX12Renderer::SetClearColor(float r, float g, float b, float a)
+	void DirectX12Context::SetClearColor(float r, float g, float b, float a)
 	{
 		m_ClearColor[0] = r;
 		m_ClearColor[1] = g;
@@ -227,9 +227,9 @@ namespace ProjectGE {
 		m_ClearColor[3] = a;
 	}
 
-	ComPtr<ID3D12GraphicsCommandList6> DirectX12Renderer::GetDrawCommandList()
+	ComPtr<ID3D12GraphicsCommandList6> DirectX12Context::GetDrawCommandList()
 	{
-		auto cmdList = DirectX12Renderer::GetDirectCommandList();
+		auto cmdList = DirectX12Context::GetDirectCommandList();
 		auto rect = CD3DX12_RECT(0, 0, m_Width, m_Height);
 		auto viewport = CD3DX12_VIEWPORT(0.0f, 0.0f, (FLOAT)m_Width, (FLOAT)m_Height);
 		cmdList->RSSetScissorRects(1, &rect);
@@ -242,7 +242,7 @@ namespace ProjectGE {
 		return cmdList;
 	}
 
-	UINT DirectX12Renderer::AsyncJobSubmission(ComPtr<ID3D12GraphicsCommandList6> jobList, D3D12_COMMAND_LIST_TYPE jobType)
+	UINT DirectX12Context::AsyncJobSubmission(ComPtr<ID3D12GraphicsCommandList6> jobList, D3D12_COMMAND_LIST_TYPE jobType)
 	{
 		switch (jobType) {
 		case D3D12_COMMAND_LIST_TYPE_COPY:
@@ -256,7 +256,7 @@ namespace ProjectGE {
 		return 0;
 	}
 
-	void DirectX12Renderer::SyncJob(UINT fenceVal, D3D12_COMMAND_LIST_TYPE jobType)
+	void DirectX12Context::SyncJob(UINT fenceVal, D3D12_COMMAND_LIST_TYPE jobType)
 	{
 		switch (jobType) {
 		case D3D12_COMMAND_LIST_TYPE_COPY:
@@ -268,7 +268,7 @@ namespace ProjectGE {
 		}
 	}
 
-	void DirectX12Renderer::JobSubmission(ComPtr<ID3D12GraphicsCommandList6> jobList, D3D12_COMMAND_LIST_TYPE jobType)
+	void DirectX12Context::JobSubmission(ComPtr<ID3D12GraphicsCommandList6> jobList, D3D12_COMMAND_LIST_TYPE jobType)
 	{
 		switch (jobType) {
 		case D3D12_COMMAND_LIST_TYPE_COPY:
@@ -292,9 +292,9 @@ namespace ProjectGE {
 		}
 	}
 
-	void DirectX12Renderer::InitializeBackBuffer()
+	void DirectX12Context::InitializeBackBuffer()
 	{
-		auto list = DirectX12Renderer::GetDirectCommandList();
+		auto list = DirectX12Context::GetDirectCommandList();
 
 		bool res = FAILED(m_SwapChain->GetBuffer(m_SwapChain->GetCurrentBackBufferIndex(), IID_PPV_ARGS(&m_BackBuffer)));
 		GE_CORE_ASSERT(!res, "Failed to reacquire DirectX12 back buffer");
@@ -309,7 +309,7 @@ namespace ProjectGE {
 		list->ClearRenderTargetView(rtv, m_ClearColor, 0, nullptr);
 		m_DBuffer->Clear(list.Get(), 1);
 
-		DirectX12Renderer::AsyncJobSubmission(list, D3D12_COMMAND_LIST_TYPE_DIRECT);
+		DirectX12Context::AsyncJobSubmission(list, D3D12_COMMAND_LIST_TYPE_DIRECT);
 	}
 };
 

@@ -7,6 +7,7 @@ namespace ProjectGE {
 	public:
 		virtual ~IndexBuffer() {}
 		static IndexBuffer* Create(void* verticies, UINT count);
+		virtual UINT GetCount() = 0;
 	};
 };
 
