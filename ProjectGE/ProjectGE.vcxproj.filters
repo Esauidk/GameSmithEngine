@@ -138,7 +138,7 @@
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12Context.h">
       <Filter>src\ProjectGE\Rendering\DirectX12</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12CommandQueue.h">
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12CommandQueue.h">
       <Filter>src\ProjectGE\Rendering\DirectX12</Filter>
     </ClInclude>
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12PipelineState.h">
@@ -1423,6 +1423,8 @@
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12ShaderReferenceTable.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\Topology.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\DrawJob.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12CommandContext.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12CommandListWrapper.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\Application.cpp">
@@ -1467,7 +1469,7 @@
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12Context.cpp">
       <Filter>src\ProjectGE\Rendering\DirectX12</Filter>
     </ClCompile>
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12CommandQueue.cpp">
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12CommandQueue.cpp">
       <Filter>src\ProjectGE\Rendering\DirectX12</Filter>
     </ClCompile>
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12PipelineState.cpp">
@@ -1491,6 +1493,8 @@
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12ShaderReferenceTable.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\Topology.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\TriangleDemo.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12CommandContext.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12CommandListWrapper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\SamplePixelShader.hlsl" />

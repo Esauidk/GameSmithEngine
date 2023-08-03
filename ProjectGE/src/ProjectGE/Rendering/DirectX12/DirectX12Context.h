@@ -6,7 +6,7 @@
 #include <wrl.h>
 #include "ProjectGE/Rendering/RendererContext.h"
 #include "ProjectGE/Rendering/DirectX12/Util/d3dx12.h"
-#include "DirectX12CommandQueue.h"
+#include "CommandList/DirectX12CommandQueue.h"
 #include "DirectX12DepthBuffer.h"
 
 

@@ -143,6 +143,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12CommandContext.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12CommandListWrapper.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12ShaderReferenceTable.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12ShaderReference.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12ShaderConstant.h" />
@@ -184,7 +186,7 @@
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12VertexBuffer.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12DepthBuffer.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12Context.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12CommandQueue.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12CommandQueue.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12PipelineState.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\d3dx12.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BasicStructs.h" />
@@ -612,6 +614,8 @@
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\Topology.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12CommandContext.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12CommandListWrapper.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12ShaderReferenceTable.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12ShaderReference.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12ShaderConstant.cpp" />
@@ -636,7 +640,7 @@
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12TopologyResource.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12DepthBuffer.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12Context.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12CommandQueue.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12CommandQueue.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12PipelineState.cpp" />
     <ClCompile Include="src\ProjectGE\Timer.cpp" />
     <ClCompile Include="src\gepch.cpp">
