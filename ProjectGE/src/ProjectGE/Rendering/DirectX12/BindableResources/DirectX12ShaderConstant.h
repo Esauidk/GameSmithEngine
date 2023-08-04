@@ -9,7 +9,7 @@ namespace ProjectGE {
 		DirectX12ShaderConstant(UINT registerSLot, void* data, UINT size);
 		~DirectX12ShaderConstant();
 		inline CD3DX12_ROOT_PARAMETER1& GetDefinition() { return m_Parameter; }
-		void Bind(ID3D12GraphicsCommandList6* cmdList) override;
+		void Bind() override;
 	private:
 		CD3DX12_ROOT_PARAMETER1 m_Parameter;
 		void* m_RawData;

@@ -12,6 +12,7 @@ namespace ProjectGE {
 		virtual void Resize(float width, float height) = 0;
 
 		virtual void SetClearColor(float r, float g, float b, float a) = 0;
+		virtual void AttachContextResources() = 0;
 	};
 
 };

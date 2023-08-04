@@ -10,7 +10,7 @@ namespace ProjectGE {
 	public:
 		DirectX12Shader(const std::string& shaderPath, const ShaderType shaderType);
 		void Append(PipelineStateObject& pipeline) override;
-		void Bind(ID3D12GraphicsCommandList6* cmdList) override;
+		void Bind() override;
 		Microsoft::WRL::ComPtr<ID3DBlob> m_ShaderBlob;
 		ShaderType m_Type;
 	};

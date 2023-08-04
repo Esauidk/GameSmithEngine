@@ -12,7 +12,7 @@ namespace ProjectGE {
 		DirectX12Buffer(T* buffer, UINT count, std::string bufferName = "Personal Buffer") : m_BufferSize(sizeof(T)* count) {
 
 			auto pDevice = DirectX12Context::GetDevice();
-			auto pCommandList = DirectX12Context::GetCopyCommandList();
+			auto& pCommandList = DirectX12Context::GetCopyCommandList();
 
 			// Define heap details
 			CD3DX12_HEAP_PROPERTIES defaultHeapProperties(D3D12_HEAP_TYPE_DEFAULT);
@@ -52,9 +52,9 @@ namespace ProjectGE {
 			data.RowPitch = m_BufferSize;
 			data.SlicePitch = data.RowPitch;
 
-			UpdateSubresources(pCommandList.Get(), m_GpuBuffer.Get(), m_CpuBuffer.Get(), 0, 0, 1, &data);
+			UpdateSubresources((&pCommandList), m_GpuBuffer.Get(), m_CpuBuffer.Get(), 0, 0, 1, &data);
 
-			m_UploadSignal = DirectX12Context::AsyncJobSubmission(pCommandList, D3D12_COMMAND_LIST_TYPE_COPY);
+			m_UploadSignal = DirectX12Context::FinalizeCommandList(DirectX12QueueType::Copy);
 		}
 
 	protected:

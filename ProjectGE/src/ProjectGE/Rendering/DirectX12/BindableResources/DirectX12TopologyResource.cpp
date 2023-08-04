@@ -1,6 +1,7 @@
 #include "gepch.h"
 #include "DirectX12TopologyResource.h"
 #include "ProjectGE/Rendering/DirectX12/DirectX12PipelineState.h"
+#include "ProjectGE/Rendering/DirectX12/DirectX12Context.h"
 
 namespace ProjectGE {
 	DirectX12TopologyResource::DirectX12TopologyResource(TopologyType type) {
@@ -19,7 +20,8 @@ namespace ProjectGE {
 		dPipeline.Attach(m_Type);
 	}
 
-	void DirectX12TopologyResource::Bind(ID3D12GraphicsCommandList6* cmdList) {
+	void DirectX12TopologyResource::Bind() {
+		auto& cmdList = DirectX12Context::GetDirectCommandList();
 		cmdList->IASetPrimitiveTopology(m_ListType);
 	}
 };

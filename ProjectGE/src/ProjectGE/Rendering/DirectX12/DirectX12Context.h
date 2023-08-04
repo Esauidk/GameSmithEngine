@@ -6,7 +6,7 @@
 #include <wrl.h>
 #include "ProjectGE/Rendering/RendererContext.h"
 #include "ProjectGE/Rendering/DirectX12/Util/d3dx12.h"
-#include "CommandList/DirectX12CommandQueue.h"
+#include "CommandList/DirectX12CommandContext.h"
 #include "DirectX12DepthBuffer.h"
 
 
@@ -23,27 +23,28 @@ namespace ProjectGE {
 		void Swap() override;
 		void Resize(float width, float height) override;
 		void SetClearColor(float r, float g, float b, float a) override;
-		ComPtr<ID3D12GraphicsCommandList6> GetDrawCommandList(); // Get a direct type command list with Viewport, Rect, and RenderTarget set
+		void AttachContextResources() override; // Attach the Viewport, Rect, and RenderTarget set
 
 		inline ID3D12DescriptorHeap* GetSRVHeap() { return m_SRVHeapD.Get(); }
 
 		inline static ID3D12Device8* GetDevice() { return s_Device.Get(); }
-		inline static ComPtr<ID3D12GraphicsCommandList6> GetDirectCommandList() { return s_DirectQueue->GetCommandList(); }
-		inline static ComPtr<ID3D12GraphicsCommandList6> GetCopyCommandList() { return s_CopyQueue->GetCommandList(); }
+		inline static DirectX12CommandListWrapper& GetDirectCommandList() { return s_DirectContext->GetCommandList(); }
+		inline static DirectX12CommandListWrapper& GetCopyCommandList() { return s_CopyContext->GetCommandList(); }
 		
-		static UINT AsyncJobSubmission(ComPtr<ID3D12GraphicsCommandList6> jobList, D3D12_COMMAND_LIST_TYPE jobType);
-		static void SyncJob(UINT fenceVal, D3D12_COMMAND_LIST_TYPE jobType);
-		static void JobSubmission(ComPtr<ID3D12GraphicsCommandList6> jobList, D3D12_COMMAND_LIST_TYPE jobType);
+		static UINT FinalizeCommandList(DirectX12QueueType type);
+		static void InitializeQueueWait(DirectX12QueueType executor, DirectX12QueueType waiter, UINT fenceVal);
+		static void InitializeCPUQueueWait(DirectX12QueueType target);
+		static void InitializeCPUQueueWait(UINT fenceVal, DirectX12QueueType target);
 	private:
 		void InitializeBackBuffer();
-		
+		static DirectX12CommandQueue& FindQueue(DirectX12QueueType type);
 	
 		// Static members, needed for all instances
 		static ComPtr<ID3D12Debug> s_Debug;
 		static ComPtr<ID3D12InfoQueue> s_InfoQueue;
 		static ComPtr<ID3D12Device8> s_Device;
-		static std::unique_ptr<DirectX12CommandQueue> s_DirectQueue;
-		static std::unique_ptr<DirectX12CommandQueue> s_CopyQueue;
+		static std::unique_ptr<DirectX12CommandContextDirect> s_DirectContext;
+		static std::unique_ptr<DirectX12CommandContextCopy> s_CopyContext;
 		static bool s_Initialized;
 
 		// Core Resources

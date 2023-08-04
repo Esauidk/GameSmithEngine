@@ -20,7 +20,7 @@ namespace ProjectGE {
 			ShaderArguement* AddArguement(void* data, UINT size, ShaderArguementType) override;
 			void FinalizeSignature() override;
 			void Append(PipelineStateObject& pipeline) override;
-			void Bind(ID3D12GraphicsCommandList6* cmdList) override;
+			void Bind() override;
 	private:
 		D3D12_FEATURE_DATA_ROOT_SIGNATURE m_RootSigFeat;
 		D3D12_ROOT_SIGNATURE_FLAGS m_Flags;

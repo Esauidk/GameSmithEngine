@@ -15,10 +15,9 @@ namespace ProjectGE {
 	{
 		DirectX12Context* dRender = (DirectX12Context*)renderer;
 
-		auto list = dRender->GetDrawCommandList();
 		//auto list = DirectX12Context::GetDirectCommandList();
-		m_State->Bind(list.Get());
-		m_Root->Bind(list.Get());
+		m_State->Bind();
+		m_Root->Bind();
 
 		//TODO: Use this as refernece code when doing projection later
 
@@ -32,13 +31,14 @@ namespace ProjectGE {
 		auto mvp = proj * lookAt;
 		list->SetGraphicsRoot32BitConstants(0, sizeof(glm::mat4) / 4, &mvp, 0);*/
 
-		m_Topo->Bind(list.Get());
-		m_VertexBuffer->Bind(list.Get());
-		m_IndexBuffer->Bind(list.Get());
+		m_Topo->Bind();
+		m_VertexBuffer->Bind();
+		m_IndexBuffer->Bind();
+
+		auto& list = DirectX12Context::GetDirectCommandList();
 
 		list->DrawIndexedInstanced(m_IndexCount, 1, 0, 0, 0);
-
-		DirectX12Context::AsyncJobSubmission(list, D3D12_COMMAND_LIST_TYPE_DIRECT);
+		DirectX12Context::FinalizeCommandList(DirectX12QueueType::Direct);
 	}
 
 	

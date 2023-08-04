@@ -12,8 +12,8 @@ namespace ProjectGE {
 	ComPtr<ID3D12Debug> DirectX12Context::s_Debug = nullptr;
 	ComPtr<ID3D12InfoQueue> DirectX12Context::s_InfoQueue = nullptr;
 	ComPtr<ID3D12Device8> DirectX12Context::s_Device = nullptr;
-	std::unique_ptr<DirectX12CommandQueue> DirectX12Context::s_DirectQueue = nullptr;
-	std::unique_ptr<DirectX12CommandQueue> DirectX12Context::s_CopyQueue = nullptr;
+	std::unique_ptr<DirectX12CommandContextDirect> DirectX12Context::s_DirectContext = nullptr;
+	std::unique_ptr<DirectX12CommandContextCopy> DirectX12Context::s_CopyContext = nullptr;
 	bool DirectX12Context::s_Initialized = false;
 
 
@@ -59,8 +59,8 @@ namespace ProjectGE {
 		
 #endif
 		if (!s_Initialized) {
-			s_DirectQueue = std::make_unique<DirectX12CommandQueue>(s_Device.Get(), D3D12_COMMAND_LIST_TYPE_DIRECT);
-			s_CopyQueue = std::make_unique<DirectX12CommandQueue>(s_Device.Get(), D3D12_COMMAND_LIST_TYPE_COPY);
+			s_DirectContext = std::make_unique<DirectX12CommandContextDirect>();
+			s_CopyContext = std::make_unique<DirectX12CommandContextCopy>();
 		}
 		
 		s_Initialized = true;
@@ -115,7 +115,7 @@ namespace ProjectGE {
 
 		// Create OS tied Swap-Chain
 		res = FAILED(dxgiFactory5->CreateSwapChainForHwnd(
-			s_DirectQueue->GetCommandQueue(),
+			s_DirectContext->GetQueue().GetCommandQueue(),
 			m_Window,
 			&swapChainDesc,
 			nullptr,
@@ -180,8 +180,9 @@ namespace ProjectGE {
 		// Add command to transition the render target
 		list->ResourceBarrier(1, &barrier);
 
-		DirectX12Context::JobSubmission(list, D3D12_COMMAND_LIST_TYPE_DIRECT);
-
+		
+		UINT val = DirectX12Context::FinalizeCommandList(DirectX12QueueType::Direct);
+		DirectX12Context::InitializeCPUQueueWait(DirectX12QueueType::Direct);
 
 		bool res = FAILED(m_SwapChain->Present(0, 0));
 		GE_CORE_ASSERT(!res, "Failed to present DirectX12 buffer");
@@ -194,7 +195,8 @@ namespace ProjectGE {
 		m_Width = (UINT)width;
 		m_Height = (UINT)height;
 
-		s_DirectQueue->Flush();
+		s_DirectContext->CloseCommandList();
+		s_DirectContext->GetQueue().Flush();
 		m_BackBuffer.Reset();
 
 		DXGI_SWAP_CHAIN_DESC1 swapChainDesc = {};
@@ -216,6 +218,7 @@ namespace ProjectGE {
 
 		m_DBuffer->Resize(s_Device.Get(), m_Width, m_Height);
 
+		s_DirectContext->StartCommandList();
 		InitializeBackBuffer();
 	}
 
@@ -227,9 +230,9 @@ namespace ProjectGE {
 		m_ClearColor[3] = a;
 	}
 
-	ComPtr<ID3D12GraphicsCommandList6> DirectX12Context::GetDrawCommandList()
+	void DirectX12Context::AttachContextResources()
 	{
-		auto cmdList = DirectX12Context::GetDirectCommandList();
+		auto& cmdList = DirectX12Context::GetDirectCommandList();
 		auto rect = CD3DX12_RECT(0, 0, m_Width, m_Height);
 		auto viewport = CD3DX12_VIEWPORT(0.0f, 0.0f, (FLOAT)m_Width, (FLOAT)m_Height);
 		cmdList->RSSetScissorRects(1, &rect);
@@ -238,63 +241,50 @@ namespace ProjectGE {
 		D3D12_CPU_DESCRIPTOR_HANDLE depthHandler = m_DBuffer->GetHandle();
 		CD3DX12_CPU_DESCRIPTOR_HANDLE rtv(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart(), m_SwapChain->GetCurrentBackBufferIndex(), s_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
 		cmdList->OMSetRenderTargets(1, &rtv, FALSE, &depthHandler);
-
-		return cmdList;
 	}
 
-	UINT DirectX12Context::AsyncJobSubmission(ComPtr<ID3D12GraphicsCommandList6> jobList, D3D12_COMMAND_LIST_TYPE jobType)
-	{
-		switch (jobType) {
-		case D3D12_COMMAND_LIST_TYPE_COPY:
-			return s_CopyQueue->ExecuteCommandList(jobList);
-		case D3D12_COMMAND_LIST_TYPE_DIRECT:
-			return s_DirectQueue->ExecuteCommandList(jobList);
-		default:
-			GE_CORE_ASSERT(false, "Do not support other types of command lists yet");
-		}
 
-		return 0;
-	}
-
-	void DirectX12Context::SyncJob(UINT fenceVal, D3D12_COMMAND_LIST_TYPE jobType)
+	UINT DirectX12Context::FinalizeCommandList(DirectX12QueueType type)
 	{
-		switch (jobType) {
-		case D3D12_COMMAND_LIST_TYPE_COPY:
-			return s_CopyQueue->WaitForFenceValue(fenceVal);
-		case D3D12_COMMAND_LIST_TYPE_DIRECT:
-			return s_DirectQueue->WaitForFenceValue(fenceVal);
-		default:
-			GE_CORE_ASSERT(false, "Do not support other types of command lists yet");
-		}
-	}
-
-	void DirectX12Context::JobSubmission(ComPtr<ID3D12GraphicsCommandList6> jobList, D3D12_COMMAND_LIST_TYPE jobType)
-	{
-		switch (jobType) {
-		case D3D12_COMMAND_LIST_TYPE_COPY:
-		{
-			UINT val = s_CopyQueue->ExecuteCommandList(jobList);
-			s_CopyQueue->WaitForFenceValue(val);
+		UINT val;
+		switch (type) {
+		case DirectX12QueueType::Direct:
+			val =  s_DirectContext->CloseCommandList();
+			s_DirectContext->StartCommandList();
 			break;
-		}
-
-		case D3D12_COMMAND_LIST_TYPE_DIRECT:
-		{
-			UINT val = s_DirectQueue->ExecuteCommandList(jobList);
-			s_DirectQueue->WaitForFenceValue(val);
+		case DirectX12QueueType::Copy:
+			val =  s_CopyContext->CloseCommandList();
+			s_CopyContext->StartCommandList();
 			break;
-		}
 		default:
-		{
-			GE_CORE_ASSERT(false, "Do not support other types of command lists yet");
+			val = 0;
 		}
-
-		}
+		return val;
 	}
+
+	void DirectX12Context::InitializeQueueWait(DirectX12QueueType executor, DirectX12QueueType waiter, UINT fenceVal)
+	{
+		auto& execQueue = FindQueue(executor);
+		auto& waiterQueue = FindQueue(waiter);
+		waiterQueue.GPUWaitForFenceValue(execQueue, fenceVal);
+	}
+
+	void DirectX12Context::InitializeCPUQueueWait(DirectX12QueueType target)
+	{
+		auto& targetQueue = FindQueue(target);
+		targetQueue.Flush();
+	}
+
+	void DirectX12Context::InitializeCPUQueueWait(UINT fenceVal, DirectX12QueueType target)
+	{
+		auto& targetQueue = FindQueue(target);
+		targetQueue.CPUWaitForFenceValue(fenceVal);
+	}
+
 
 	void DirectX12Context::InitializeBackBuffer()
 	{
-		auto list = DirectX12Context::GetDirectCommandList();
+		auto& list = DirectX12Context::GetDirectCommandList();
 
 		bool res = FAILED(m_SwapChain->GetBuffer(m_SwapChain->GetCurrentBackBufferIndex(), IID_PPV_ARGS(&m_BackBuffer)));
 		GE_CORE_ASSERT(!res, "Failed to reacquire DirectX12 back buffer");
@@ -307,10 +297,23 @@ namespace ProjectGE {
 		list->ResourceBarrier(1, &barrier);
 		CD3DX12_CPU_DESCRIPTOR_HANDLE rtv(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart(), m_SwapChain->GetCurrentBackBufferIndex(), s_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
 		list->ClearRenderTargetView(rtv, m_ClearColor, 0, nullptr);
-		m_DBuffer->Clear(list.Get(), 1);
+		m_DBuffer->Clear(&list, 1);
 
-		DirectX12Context::AsyncJobSubmission(list, D3D12_COMMAND_LIST_TYPE_DIRECT);
 	}
+
+	DirectX12CommandQueue& DirectX12Context::FindQueue(DirectX12QueueType type)
+	{
+		switch (type) {
+		case DirectX12QueueType::Direct:
+			return s_DirectContext->GetQueue();
+		case DirectX12QueueType::Copy:
+			return s_CopyContext->GetQueue();
+		}
+		return s_DirectContext->GetQueue();
+	}
+
+	
+
 };
 
 

@@ -54,7 +54,8 @@ namespace ProjectGE {
 		dPipeline.Attach(m_Root.Get());
 	}
 
-	void DirectX12RootSignature::Bind(ID3D12GraphicsCommandList6* cmdList) {
+	void DirectX12RootSignature::Bind() {
+		auto& cmdList = DirectX12Context::GetDirectCommandList();
 		cmdList->SetGraphicsRootSignature(m_Root.Get());
 	}
 };

@@ -1,18 +1,29 @@
 #include "gepch.h"
 #include "DirectX12CommandQueue.h"
+#include "ProjectGE/Rendering/DirectX12/DirectX12Context.h"
 #include "ProjectGE/Log.h"
 
 using namespace Microsoft::WRL;
 using namespace std::chrono;
 
 namespace ProjectGE {
-	DirectX12CommandQueue::DirectX12CommandQueue(ID3D12Device8* device, D3D12_COMMAND_LIST_TYPE type) :
-		m_CommandListType(type),
-		m_Device(device),
+	DirectX12CommandQueue::DirectX12CommandQueue(DirectX12QueueType type) :
 		m_FenceValue(0) {
 
+		m_Device = DirectX12Context::GetDevice();
+		switch (type) {
+		case DirectX12QueueType::Direct:
+			m_CommandListType = D3D12_COMMAND_LIST_TYPE_DIRECT;
+			break;
+		case DirectX12QueueType::Copy:
+			m_CommandListType = D3D12_COMMAND_LIST_TYPE_COPY;
+			break;
+		default:
+			GE_CORE_ASSERT(false, "Unsupported command list type");
+		}
+
 		D3D12_COMMAND_QUEUE_DESC commandDesc = {};
-		commandDesc.Type = type;
+		commandDesc.Type = m_CommandListType;
 		commandDesc.Priority = D3D12_COMMAND_QUEUE_PRIORITY_NORMAL;
 		commandDesc.Flags = D3D12_COMMAND_QUEUE_FLAG_NONE;
 		commandDesc.NodeMask = 0;
@@ -26,6 +37,8 @@ namespace ProjectGE {
 		m_FenceEvent = ::CreateEvent(nullptr, FALSE, FALSE, nullptr);
 
 		GE_CORE_ASSERT(m_FenceEvent, "Failed to create fence event");
+
+		Signal();
 	}
 
 	ID3D12CommandAllocator* DirectX12CommandQueue::CreateCommandAllocator() {
@@ -48,7 +61,7 @@ namespace ProjectGE {
 		return m_Queue.Get();
 	}
 
-	ComPtr<ID3D12GraphicsCommandList6> DirectX12CommandQueue::GetCommandList() {
+	DirectX12CommandListWrapper* DirectX12CommandQueue::GetCommandList() {
 		ComPtr<ID3D12GraphicsCommandList6> commandList;
 		ComPtr<ID3D12CommandAllocator> commandAllocator;
 
@@ -78,11 +91,11 @@ namespace ProjectGE {
 		res = FAILED(commandList->SetPrivateDataInterface(__uuidof(ID3D12CommandAllocator), commandAllocator.Get()));
 		GE_CORE_ASSERT(!res, "Failed to assign command list to command allocator");
 
-		return commandList;
+		return new DirectX12CommandListWrapper(commandList);
 	}
 
-	UINT DirectX12CommandQueue::ExecuteCommandList(ComPtr<ID3D12GraphicsCommandList6> commandList) {
-		commandList->Close();
+	UINT DirectX12CommandQueue::ExecuteCommandList(DirectX12CommandListWrapper& commandList) {
+		commandList.CloseList();
 
 		ID3D12CommandAllocator* commandAllocator;
 		UINT dataSize = sizeof(commandAllocator);
@@ -91,14 +104,14 @@ namespace ProjectGE {
 
 
 		ID3D12CommandList* const commandLists[]{
-			commandList.Get()
+			&commandList
 		};
 
 		m_Queue->ExecuteCommandLists(1, commandLists);
 		UINT fenceValue = Signal();
 
 		m_CommandAllocatorQueue.emplace(CommandAllocatorEntry{ fenceValue, commandAllocator});
-		m_CommandListQueue.push(commandList);
+		m_CommandListQueue.push(&commandList);
 
 		commandAllocator->Release();
 
@@ -116,7 +129,7 @@ namespace ProjectGE {
 		return m_Fence->GetCompletedValue() >= fenceValue;
 	}
 
-	void DirectX12CommandQueue::WaitForFenceValue(UINT fenceValue) {
+	void DirectX12CommandQueue::CPUWaitForFenceValue(UINT fenceValue) {
 		if (m_Fence->GetCompletedValue() < fenceValue) {
 			bool res = FAILED(m_Fence->SetEventOnCompletion(fenceValue, m_FenceEvent));
 			GE_CORE_ASSERT(!res, "Failed to assign fence completion event");
@@ -124,8 +137,19 @@ namespace ProjectGE {
 		}
 	}
 
-	void DirectX12CommandQueue::Flush() {
-		Signal();
-		WaitForFenceValue(m_FenceValue);
+	void DirectX12CommandQueue::GPUWaitForFenceValue(UINT fenceValue)
+	{
+		m_Queue->Wait(m_Fence.Get(), fenceValue);
 	}
+
+	void DirectX12CommandQueue::GPUWaitForFenceValue(DirectX12CommandQueue& otherQueue, UINT fenceValue)
+	{
+		m_Queue->Wait(otherQueue.m_Fence.Get(), fenceValue);
+	}
+
+	void DirectX12CommandQueue::Flush() {
+		// Note: There used to be a signal call there, moved to constructor to make sure a fence value always has a signal
+		CPUWaitForFenceValue(m_FenceValue);
+	}
+
 };

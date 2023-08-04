@@ -1,7 +1,9 @@
 #include "gepch.h"
 #include "DirectX12ShaderReference.h"
+#include "ProjectGE/Log.h"
 
-void ProjectGE::DirectX12ShaderReference::Bind(ID3D12GraphicsCommandList6* cmdList)
+void ProjectGE::DirectX12ShaderReference::Bind()
 {
-	//TODO: Fill in code
+	//TODO: IMPLEMENT
+	GE_CORE_ASSERT(false, "Not yet implemented");
 }

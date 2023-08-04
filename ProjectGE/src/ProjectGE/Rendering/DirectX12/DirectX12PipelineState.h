@@ -25,7 +25,7 @@ namespace ProjectGE {
 		void Attach(ID3DBlob* shaderByte, const ShaderType type);
 		void Build() override;
 		void SetDebug();
-		void Bind(ID3D12GraphicsCommandList6* cmdList) override;
+		void Bind() override;
 	private:
 		DirectX12PipelineStateStream m_StateStream;
 		ComPtr<ID3D12PipelineState> m_PipelineState;

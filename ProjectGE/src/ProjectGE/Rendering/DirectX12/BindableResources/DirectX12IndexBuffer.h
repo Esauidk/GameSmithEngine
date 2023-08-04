@@ -9,7 +9,7 @@ namespace ProjectGE {
 
 		DirectX12IndexBuffer(WORD* buffer, int count);
 
-		void Bind(ID3D12GraphicsCommandList6* cmdList) override;
+		void Bind() override;
 		UINT GetCount() override;
 	private:
 		UINT m_Count;

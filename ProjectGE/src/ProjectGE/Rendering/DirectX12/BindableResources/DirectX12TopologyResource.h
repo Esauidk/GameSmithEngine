@@ -8,7 +8,7 @@ namespace ProjectGE {
 	public:
 		DirectX12TopologyResource(TopologyType type);
 		void Append(PipelineStateObject& pipeline) override;
-		void Bind(ID3D12GraphicsCommandList6* cmdList) override;
+		void Bind() override;
 	private:
 		D3D12_PRIMITIVE_TOPOLOGY_TYPE m_Type;
 		D3D12_PRIMITIVE_TOPOLOGY m_ListType;

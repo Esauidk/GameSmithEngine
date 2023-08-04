@@ -117,6 +117,8 @@ namespace ProjectGE {
 	void WindowsWindow::OnUpdate() {
 		ProcessMessages();
 		if (m_RenderContext != nullptr) {
+			m_RenderContext->AttachContextResources();
+			// TODO: DEMO CODE REMOVE
 			m_Demo->Draw(m_RenderContext);
 			m_RenderContext->Swap();
 		}

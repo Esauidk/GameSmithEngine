@@ -5,7 +5,7 @@ namespace ProjectGE {
 	{
 	public:
 		DirectX12ShaderReference(void* data);
-		void Bind(ID3D12GraphicsCommandList6* cmdList) override;
+		void Bind() override;
 	};
 };
 

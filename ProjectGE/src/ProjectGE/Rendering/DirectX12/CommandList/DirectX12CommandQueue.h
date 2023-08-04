@@ -1,11 +1,18 @@
 #pragma once
 #include <wrl.h>
 #include <d3d12.h>
-#include <queue>
+#include "gepch.h"
+
+#include "ProjectGE/Rendering/DirectX12/CommandList/DirectX12CommandListWrapper.h"
 
 using Microsoft::WRL::ComPtr;
 
 namespace ProjectGE {
+	enum class DirectX12QueueType {
+		None = 0,
+		Direct,
+		Copy
+	};
 	/* 
 	DirectXCommandQueue: An abstraction of the command system from DirectX12, synchronize compatible
 	Description: Handles overhead involving command queue's and their respective commandlist and allocators
@@ -22,18 +29,20 @@ namespace ProjectGE {
 	class DirectX12CommandQueue
 	{
 	public:
-		DirectX12CommandQueue(ID3D12Device8* device, D3D12_COMMAND_LIST_TYPE type);
+		DirectX12CommandQueue(DirectX12QueueType type);
 		DirectX12CommandQueue() = delete;
 
 		~DirectX12CommandQueue() = default;
 
-		ComPtr<ID3D12GraphicsCommandList6> GetCommandList();
+		DirectX12CommandListWrapper* GetCommandList();
 
-		UINT ExecuteCommandList(ComPtr<ID3D12GraphicsCommandList6> commandList);
+		UINT ExecuteCommandList(DirectX12CommandListWrapper& commandList);
 
-		UINT Signal();
+		
 		bool IsFenceComplete(UINT fenceValue);
-		void WaitForFenceValue(UINT fenceValue);
+		void CPUWaitForFenceValue(UINT fenceValue);
+		void GPUWaitForFenceValue(UINT fenceValue);
+		void GPUWaitForFenceValue(DirectX12CommandQueue& otherQueue, UINT fenceValue);
 		void Flush();
 
 		// Return a ptr to the the underlying command queue, keep ownership of it
@@ -44,6 +53,7 @@ namespace ProjectGE {
 		// Create a command list, but do not own the resulting ptr, the client owns it
 		ID3D12GraphicsCommandList6* CreateCommandList(ID3D12CommandAllocator* allocator);
 	private:
+		UINT Signal();
 		struct CommandAllocatorEntry {
 			UINT fenceValue;
 			ComPtr<ID3D12CommandAllocator> commandAllocator;
