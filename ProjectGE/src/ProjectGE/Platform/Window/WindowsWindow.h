@@ -68,7 +68,7 @@ namespace ProjectGE {
 		int m_Repeat;
 
 		// Temporary
-		std::unique_ptr<TriangleDemo> m_Demo;
+		//std::unique_ptr<TriangleDemo> m_Demo;
 
 	};
 };

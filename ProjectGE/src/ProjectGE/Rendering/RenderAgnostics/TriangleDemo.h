@@ -14,7 +14,7 @@ namespace ProjectGE {
 	class TriangleDemo {
 	public:
 		TriangleDemo();
-		virtual void Draw(RendererContext* renderer) = 0;
+		virtual void Draw() = 0;
 		static TriangleDemo* Create();
 	protected:
 		std::unique_ptr<PipelineStateObject> m_State;

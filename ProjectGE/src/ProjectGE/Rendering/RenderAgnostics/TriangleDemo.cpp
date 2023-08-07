@@ -1,7 +1,7 @@
 #include "gepch.h"
 #include "TriangleDemo.h"
 
-#include "ProjectGE/Rendering/RenderSettings.h"
+#include "ProjectGE/Rendering/Renderer.h"
 
 #ifdef GE_PLATFORM_WINDOWS
 #include "ProjectGE/Rendering/DirectX12/DirectX12TriangleDemo.h"
@@ -68,8 +68,8 @@ namespace ProjectGE {
 	}
 	TriangleDemo* TriangleDemo::Create()
 	{
-		switch (RenderSettings::GetOption()) {
-		case RenderOptions::DIRECTX12:
+		switch (Renderer::GetAPI()) {
+		case RendererAPI::API::DirectX12:
 			return new DirectX12TriangleDemo();
 		}
 		return nullptr;

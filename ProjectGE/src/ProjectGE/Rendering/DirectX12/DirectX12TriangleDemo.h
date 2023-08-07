@@ -6,7 +6,7 @@ namespace ProjectGE {
 	class DirectX12TriangleDemo : public TriangleDemo {
 	public:
 		DirectX12TriangleDemo();
-		void Draw(RendererContext* renderer) override;
+		void Draw() override;
 	};
 };
 

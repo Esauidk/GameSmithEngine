@@ -3,7 +3,7 @@
 #include "Resource.h"
 #include "imgui.h"
 #include "ProjectGE/Log.h"
-#include "ProjectGE/Rendering/RenderSettings.h"
+#include "ProjectGE/Rendering/Renderer.h"
 #include "ProjectGE/Rendering/DirectX12/DirectX12Context.h"
 #include "ProjectGE/Rendering/DirectX12/DirectX12TriangleDemo.h"
 
@@ -90,13 +90,13 @@ namespace ProjectGE {
 
 		GE_CORE_ASSERT(m_HWnd != nullptr, "Could not react window {0}", props.Title);
 
-		switch (RenderSettings::GetOption()) {
-		case RenderOptions::DIRECTX12:
+		switch (Renderer::GetAPI()) {
+		case RendererAPI::API::DirectX12:
 		{
 			m_RenderContext = (RendererContext*)new DirectX12Context(m_HWnd, m_Prop.Width, m_Prop.Height);
 			break;
 		}
-		case RenderOptions::NONE:
+		case RendererAPI::API::None:
 			GE_CORE_CRITICAL("No render type set");
 			m_RenderContext = nullptr;
 			break;
@@ -105,7 +105,7 @@ namespace ProjectGE {
 		if (m_RenderContext != nullptr) {
 			m_RenderContext->Init();
 			// TODO: REMOVE THIS CODE, JUST FOR TESTING!
-			m_Demo = std::unique_ptr<TriangleDemo>(TriangleDemo::Create());
+			//m_Demo = std::unique_ptr<TriangleDemo>(TriangleDemo::Create());
 		}
 		
 		//Show window
@@ -117,9 +117,9 @@ namespace ProjectGE {
 	void WindowsWindow::OnUpdate() {
 		ProcessMessages();
 		if (m_RenderContext != nullptr) {
-			m_RenderContext->AttachContextResources();
+			//m_RenderContext->AttachContextResources();
 			// TODO: DEMO CODE REMOVE
-			m_Demo->Draw(m_RenderContext);
+			//m_Demo->Draw();
 			m_RenderContext->Swap();
 		}
 		

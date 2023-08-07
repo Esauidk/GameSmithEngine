@@ -1410,7 +1410,7 @@
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12TriangleDemo.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\VertexBuffer.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BasicStructs.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\RenderSettings.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\Renderer.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\TriangleDemo.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\IndexBuffer.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BufferLayout.h" />
@@ -1422,9 +1422,11 @@
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12ShaderReference.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12ShaderReferenceTable.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\Topology.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\DrawJob.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12CommandContext.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12CommandListWrapper.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RendererAPI.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderCommand.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12RendererAPI.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\Application.cpp">
@@ -1483,7 +1485,7 @@
     </ClCompile>
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12TriangleDemo.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\VertexBuffer.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\RenderSettings.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\Renderer.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\IndexBuffer.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\PipelineStateObject.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\Shader.cpp" />
@@ -1495,6 +1497,9 @@
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\TriangleDemo.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12CommandContext.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12CommandListWrapper.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\RendererAPI.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\RenderCommand.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12RendererAPI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\SamplePixelShader.hlsl" />

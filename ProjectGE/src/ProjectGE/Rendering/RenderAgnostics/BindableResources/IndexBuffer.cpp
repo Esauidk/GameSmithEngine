@@ -1,7 +1,7 @@
 #include "gepch.h"
 #include "IndexBuffer.h"
 
-#include "ProjectGE/Rendering/RenderSettings.h"
+#include "ProjectGE/Rendering/Renderer.h"
 
 #ifdef GE_PLATFORM_WINDOWS
 #include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12IndexBuffer.h"
@@ -10,11 +10,11 @@
 namespace ProjectGE {
 	IndexBuffer* ProjectGE::IndexBuffer::Create(void* verticies, UINT count)
 	{
-		switch (RenderSettings::GetOption()) {
-		case RenderOptions::NONE:
+		switch (Renderer::GetAPI()) {
+		case RendererAPI::API::None:
 			return nullptr;
 			break;
-		case RenderOptions::DIRECTX12:
+		case RendererAPI::API::DirectX12:
 			return new DirectX12IndexBuffer((WORD*)verticies, count);
 			break;
 		}

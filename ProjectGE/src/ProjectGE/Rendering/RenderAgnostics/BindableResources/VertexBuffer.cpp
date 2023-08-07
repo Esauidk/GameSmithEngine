@@ -1,7 +1,7 @@
 #include "gepch.h"
 #include "VertexBuffer.h"
 
-#include "ProjectGE/Rendering/RenderSettings.h"
+#include "ProjectGE/Rendering/Renderer.h"
 #include "ProjectGE/Rendering/RenderAgnostics/BasicStructs.h"
 
 #ifdef GE_PLATFORM_WINDOWS
@@ -11,10 +11,10 @@
 namespace ProjectGE {
 	VertexBuffer* ProjectGE::VertexBuffer::Create(void* verticies, UINT count)
 	{
-		switch (RenderSettings::GetOption()) {
-		case RenderOptions::NONE:
+		switch (Renderer::GetAPI()) {
+		case RendererAPI::API::None:
 			return nullptr;
-		case RenderOptions::DIRECTX12:
+		case RendererAPI::API::DirectX12:
 			return new DirectX12VertexBuffer<Vertex>((Vertex*)verticies, count);
 		}
 

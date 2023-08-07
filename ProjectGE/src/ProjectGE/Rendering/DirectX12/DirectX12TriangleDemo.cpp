@@ -11,9 +11,8 @@ namespace ProjectGE {
 
 	DirectX12TriangleDemo::DirectX12TriangleDemo() : TriangleDemo() {}	
 
-	void DirectX12TriangleDemo::Draw(RendererContext* renderer)
+	void DirectX12TriangleDemo::Draw()
 	{
-		DirectX12Context* dRender = (DirectX12Context*)renderer;
 
 		//auto list = DirectX12Context::GetDirectCommandList();
 		m_State->Bind();
