@@ -34,3 +34,6 @@ Okay, this architecture is really messy and I want to clean it up as fast as I c
 at a time and you can access it and do what you need to do it at anytime. This was learned from looking at Unreal Engine 5's  source code. The unfortunate thing is this engine is not multi-threaded yet, meaning that I can't have completed
 be submitted in a seperate thread in teh background. This means I have to start executing it as soon as its complete. I will look into added a submission thread later but my main goal right now is to decouple the command lists from the bind
 function of my bindableresources.
+
+# 8/5/2023
+API Agnostic code has been qdded now I just need to try using it. An example will porbably be recreating the triangle demo using the commands
