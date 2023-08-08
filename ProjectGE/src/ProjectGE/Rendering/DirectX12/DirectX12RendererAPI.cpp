@@ -10,10 +10,13 @@ namespace ProjectGE {
 	void DirectX12RendererAPI::Clear()
 	{
 	}
-	void DirectX12RendererAPI::DrawIndexed(VertexBuffer* vBuffer,IndexBuffer* iBuffer)
+	void DirectX12RendererAPI::DrawIndexed(GeometryPack* geopack)
 	{
 		auto& list = DirectX12Context::GetDirectCommandList();
-		list->DrawIndexedInstanced(iBuffer->GetCount(), 1, 0, 0, 0);
+		list->DrawIndexedInstanced(geopack->GetIndexBuffer()->GetCount(), 1, 0, 0, 0);
+	}
+	void DirectX12RendererAPI::FinishRecording()
+	{
 		DirectX12Context::FinalizeCommandList(DirectX12QueueType::Direct);
 	}
 };

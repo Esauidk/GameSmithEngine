@@ -84,6 +84,7 @@ namespace ProjectGE {
 		auto* dRender = (DirectX12Context*)renderer;
 		auto& commandList = DirectX12Context::GetDirectCommandList();
 
+		dRender->AttachContextResources();
 		ID3D12DescriptorHeap* descriptorHeaps[] = {
 			dRender->GetSRVHeap()
 		};
@@ -96,6 +97,8 @@ namespace ProjectGE {
 			ImGui::UpdatePlatformWindows();
 			ImGui::RenderPlatformWindowsDefault(nullptr, (void*)(&commandList));
 		}
+
+		DirectX12Context::FinalizeCommandList(DirectX12QueueType::Direct);
 	}
 
 };

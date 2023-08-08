@@ -12,8 +12,12 @@ namespace ProjectGE {
 			s_RendererAPI->SetClearColor(color);
 		};
 
-		inline static void DrawIndexed(VertexBuffer* vBuffer, IndexBuffer* iBuffer) {
-			s_RendererAPI->DrawIndexed(vBuffer, iBuffer);
+		inline static void DrawIndexed(GeometryPack* geopack) {
+			s_RendererAPI->DrawIndexed(geopack);
+		}
+
+		inline static void FinishedRecording() {
+			s_RendererAPI->FinishRecording();
 		}
 	private:
 		static RendererAPI* s_RendererAPI;

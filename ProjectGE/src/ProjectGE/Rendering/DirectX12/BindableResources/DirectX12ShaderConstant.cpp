@@ -2,18 +2,24 @@
 #include "DirectX12ShaderConstant.h"
 #include "ProjectGE/Rendering/DirectX12/DirectX12Context.h"
 
-namespace ProjectGE {
-	DirectX12ShaderConstant::DirectX12ShaderConstant(UINT registerSlot, void* data, UINT size) : m_RawData(data), m_RegSlot(registerSlot), m_Size(size) {
-		m_Parameter.InitAsConstants(size, registerSlot, D3D12_SHADER_VISIBILITY_VERTEX);
-	}
+#include "ProjectGE/Log.h"
 
-	DirectX12ShaderConstant::~DirectX12ShaderConstant()
+namespace ProjectGE {
+	DirectX12ShaderConstant::DirectX12ShaderConstant(UINT registerSlot, UINT size) :  m_DataSet(false), m_RegSlot(registerSlot), m_Size(size) {
+		m_Parameter.InitAsConstants(size, registerSlot, 0, D3D12_SHADER_VISIBILITY_VERTEX);
+	}
+	void DirectX12ShaderConstant::SetData(void* rawData)
 	{
-		delete m_RawData;
+		if (!m_DataSet) {
+			m_DataSet = true;
+		}
+
+		m_RawData = rawData;
 	}
 
 	void DirectX12ShaderConstant::Bind()
 	{
+		GE_CORE_ASSERT(m_DataSet, "Raw Data is not set on a shader constant");
 		auto& cmdList = DirectX12Context::GetDirectCommandList();
 		cmdList->SetGraphicsRoot32BitConstants(m_RegSlot, m_Size, m_RawData, 0);
 	}

@@ -7,7 +7,7 @@ namespace ProjectGE {
 	class ShaderArguementDefiner : public BindableResource, public PipelineDefiner
 	{
 	public:
-		virtual ShaderArguement* AddArguement(void* data, UINT size, ShaderArguementType type) = 0;
+		virtual ShaderArguement* AddArguement(UINT size, ShaderArguementType type) = 0;
 		virtual void FinalizeSignature() = 0;
 		static ShaderArguementDefiner* Create();
 	};

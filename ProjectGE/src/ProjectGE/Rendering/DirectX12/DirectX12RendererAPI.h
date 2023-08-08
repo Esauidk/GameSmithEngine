@@ -6,10 +6,12 @@ namespace ProjectGE {
 	class DirectX12RendererAPI : public RendererAPI
 	{
 	public:
-		virtual void SetClearColor(const glm::vec4& color) override;
-		virtual void Clear() override;
+		void SetClearColor(const glm::vec4& color) override;
+		void Clear() override;
 
-		virtual void DrawIndexed(VertexBuffer* vBuffer,IndexBuffer* iBuffer) override;
+		void DrawIndexed(GeometryPack* geopack) override;
+
+		void FinishRecording() override;
 	};
 };
 

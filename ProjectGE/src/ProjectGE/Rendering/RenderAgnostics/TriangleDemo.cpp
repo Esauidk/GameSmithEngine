@@ -24,6 +24,7 @@ namespace ProjectGE {
 
 		// Setup Root Signature
 		m_Root = std::unique_ptr<ShaderArguementDefiner>(ShaderArguementDefiner::Create());
+		m_Root->AddArguement(sizeof(glm::mat4) / 4, ShaderArguementType::Constant);
 
 		/*CD3DX12_ROOT_PARAMETER1 rootParameters;
 		rootParameters.InitAsConstants(sizeof(glm::mat4) / 4, 0, 0, D3D12_SHADER_VISIBILITY_VERTEX);

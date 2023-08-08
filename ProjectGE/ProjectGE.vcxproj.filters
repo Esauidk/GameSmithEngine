@@ -1427,6 +1427,10 @@
     <ClInclude Include="src\ProjectGE\Rendering\RendererAPI.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderCommand.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12RendererAPI.h" />
+    <ClInclude Include="src\ProjectGE\Camera\Camera.h" />
+    <ClInclude Include="src\ProjectGE\Camera\OrthoCamera.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\GeometryPack.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12GeometryPack.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\Application.cpp">
@@ -1500,6 +1504,10 @@
     <ClCompile Include="src\ProjectGE\Rendering\RendererAPI.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\RenderCommand.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12RendererAPI.cpp" />
+    <ClCompile Include="src\ProjectGE\Camera\OrthoCamera.cpp" />
+    <ClCompile Include="src\ProjectGE\Camera\Camera.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\GeometryPack.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12GeometryPack.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\SamplePixelShader.hlsl" />

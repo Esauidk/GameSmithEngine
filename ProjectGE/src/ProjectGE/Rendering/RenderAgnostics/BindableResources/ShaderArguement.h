@@ -10,6 +10,8 @@ namespace ProjectGE {
 	};
 	class ShaderArguement : public BindableResource
 	{
+	public:
+		virtual void SetData(void* rawData) = 0;
 	};
 };
 

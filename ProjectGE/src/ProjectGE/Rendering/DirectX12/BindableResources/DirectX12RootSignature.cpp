@@ -7,7 +7,7 @@
 
 
 namespace ProjectGE {
-	DirectX12RootSignature::DirectX12RootSignature(D3D12_ROOT_SIGNATURE_FLAGS flags) : m_RootSigFeat(), m_Flags(flags) {
+	DirectX12RootSignature::DirectX12RootSignature(D3D12_ROOT_SIGNATURE_FLAGS flags) : m_RootSigFeat(), m_Flags(flags), m_AvailableSlot(0) {
 		auto pDevice = DirectX12Context::GetDevice();
 		m_RootSigFeat.HighestVersion = D3D_ROOT_SIGNATURE_VERSION_1_1;
 		if (FAILED(pDevice->CheckFeatureSupport(D3D12_FEATURE_ROOT_SIGNATURE, &m_RootSigFeat, sizeof(m_RootSigFeat)))) {
@@ -15,12 +15,12 @@ namespace ProjectGE {
 		}
 	}
 
-	ShaderArguement* DirectX12RootSignature::AddArguement(void* data, UINT size, ShaderArguementType type)
+	ShaderArguement* DirectX12RootSignature::AddArguement(UINT size, ShaderArguementType type)
 	{
 		switch (type) {
 		case ShaderArguementType::Constant:
 			{
-				auto* constant = new DirectX12ShaderConstant(m_AvailableSlot, data, size);
+				auto* constant = new DirectX12ShaderConstant(m_AvailableSlot, size);
 				m_Parameters.push_back(constant->GetDefinition());
 				m_AvailableSlot++;
 				return constant;
