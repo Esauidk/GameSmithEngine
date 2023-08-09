@@ -94,30 +94,31 @@ public:
 
 
 	void OnUpdate() override {
+		float dt = ProjectGE::Application::Get().GetTimer().GetDeltaTimeSeconds();
 		glm::vec3 oldPos = m_Cam.GetPosition();
 		if (ProjectGE::Input::IsKeyPressed(GE_KEY_A)) {
-			glm::vec3 newPosition = oldPos + glm::vec3(-0.01, 0, 0);
+			glm::vec3 newPosition = oldPos + dt* glm::vec3(-1, 0, 0);
 			m_Cam.SetPosition(newPosition);
 		}
 		
 		if (ProjectGE::Input::IsKeyPressed(GE_KEY_D)) {
-			glm::vec3 newPosition = oldPos + glm::vec3(0.01, 0, 0);
+			glm::vec3 newPosition = oldPos + dt * glm::vec3(1, 0, 0);
 			m_Cam.SetPosition(newPosition);
 		}
 		
 		if (ProjectGE::Input::IsKeyPressed(GE_KEY_W)) {
-			glm::vec3 newPosition = oldPos + glm::vec3(0, 0.01, 0);
+			glm::vec3 newPosition = oldPos + dt* glm::vec3(0, 1, 0);
 			m_Cam.SetPosition(newPosition);
 		}
 		
 		if (ProjectGE::Input::IsKeyPressed(GE_KEY_S)) {
-			glm::vec3 newPosition = oldPos + glm::vec3(0, -0.01, 0);
+			glm::vec3 newPosition = oldPos + dt* glm::vec3(0, -1, 0);
 			m_Cam.SetPosition(newPosition);
 		}
 		
 		if (ProjectGE::Input::IsKeyPressed(GE_KEY_R)) {
 			float oldRotation = m_Cam.GetRotation();
-			m_Cam.SetRotation(oldRotation + 0.001f);
+			m_Cam.SetRotation(oldRotation + dt * 1);
 		}
 
 		ProjectGE::Renderer::BeginScene(m_Cam);
