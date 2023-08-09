@@ -6,7 +6,8 @@
 #include "ProjectGE/Rendering/RenderAgnostics/BindableResources/ShaderArguement.h"
 
 namespace ProjectGE {
-	
+	// A class that can submit high level rendering commands (Taking a scene and drawing it to the screen)
+	// This can appear as handling some high level logic and then executing commands to perform low level logic related to Rendering
 	class Renderer
 	{
 	public:

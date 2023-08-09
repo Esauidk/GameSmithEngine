@@ -57,13 +57,13 @@
     <ClInclude Include="src\ProjectGE.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\Application.h">
+    <ClInclude Include="src\ProjectGE\Core\Application.h">
       <Filter>src\ProjectGE</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\Core.h">
+    <ClInclude Include="src\ProjectGE\Core\Core.h">
       <Filter>src\ProjectGE</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\EntryPoint.h">
+    <ClInclude Include="src\ProjectGE\Core\EntryPoint.h">
       <Filter>src\ProjectGE</Filter>
     </ClInclude>
     <ClInclude Include="src\ProjectGE\Events\ApplicationEvents.h">
@@ -81,19 +81,19 @@
     <ClInclude Include="src\ProjectGE\ImGui\ImGuiLayer.h">
       <Filter>src\ProjectGE\ImGui</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\Input.h">
+    <ClInclude Include="src\ProjectGE\Core\Input.h">
       <Filter>src\ProjectGE</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\KeyCodes.h">
+    <ClInclude Include="src\ProjectGE\Core\KeyCodes.h">
       <Filter>src\ProjectGE</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\Layer.h">
+    <ClInclude Include="src\ProjectGE\Core\Layer.h">
       <Filter>src\ProjectGE</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\Log.h">
+    <ClInclude Include="src\ProjectGE\Core\Log.h">
       <Filter>src\ProjectGE</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\MixStack.h">
+    <ClInclude Include="src\ProjectGE\Core\MixStack.h">
       <Filter>src\ProjectGE</Filter>
     </ClInclude>
     <ClInclude Include="src\ProjectGE\Platform\Window\WindowsInput.h">
@@ -150,10 +150,10 @@
     <ClInclude Include="src\ProjectGE\Rendering\RendererContext.h">
       <Filter>src\ProjectGE\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\Timer.h">
+    <ClInclude Include="src\ProjectGE\Core\Timer.h">
       <Filter>src\ProjectGE</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\Window.h">
+    <ClInclude Include="src\ProjectGE\Core\Window.h">
       <Filter>src\ProjectGE</Filter>
     </ClInclude>
     <ClInclude Include="src\gepch.h">
@@ -1407,11 +1407,9 @@
     <ClInclude Include="third-party\glm\glm\vector_relational.hpp">
       <Filter>third-party\glm\glm</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12TriangleDemo.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\VertexBuffer.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BasicStructs.h" />
     <ClInclude Include="src\ProjectGE\Rendering\Renderer.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\TriangleDemo.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\IndexBuffer.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BufferLayout.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\PipelineStateObject.h" />
@@ -1433,7 +1431,7 @@
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12GeometryPack.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\ProjectGE\Application.cpp">
+    <ClCompile Include="src\ProjectGE\Core\Application.cpp">
       <Filter>src\ProjectGE</Filter>
     </ClCompile>
     <ClCompile Include="src\ProjectGE\ImGui\ImGuiBuild.cpp">
@@ -1442,10 +1440,10 @@
     <ClCompile Include="src\ProjectGE\ImGui\ImGuiLayer.cpp">
       <Filter>src\ProjectGE\ImGui</Filter>
     </ClCompile>
-    <ClCompile Include="src\ProjectGE\Layer.cpp">
+    <ClCompile Include="src\ProjectGE\Core\Layer.cpp">
       <Filter>src\ProjectGE</Filter>
     </ClCompile>
-    <ClCompile Include="src\ProjectGE\Log.cpp">
+    <ClCompile Include="src\ProjectGE\Core\Log.cpp">
       <Filter>src\ProjectGE</Filter>
     </ClCompile>
     <ClCompile Include="src\ProjectGE\Platform\Window\WindowsInput.cpp">
@@ -1481,13 +1479,12 @@
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12PipelineState.cpp">
       <Filter>src\ProjectGE\Rendering\DirectX12</Filter>
     </ClCompile>
-    <ClCompile Include="src\ProjectGE\Timer.cpp">
+    <ClCompile Include="src\ProjectGE\Core\Timer.cpp">
       <Filter>src\ProjectGE</Filter>
     </ClCompile>
     <ClCompile Include="src\gepch.cpp">
       <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12TriangleDemo.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\VertexBuffer.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\Renderer.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\IndexBuffer.cpp" />
@@ -1498,7 +1495,6 @@
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12ShaderReference.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12ShaderReferenceTable.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\Topology.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\TriangleDemo.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12CommandContext.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12CommandListWrapper.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\RendererAPI.cpp" />

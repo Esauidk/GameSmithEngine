@@ -1,11 +1,10 @@
 #include "gepch.h"
 #include "WindowsWindow.h"
-#include "Resource.h"
+#include "resource.h"
 #include "imgui.h"
-#include "ProjectGE/Log.h"
+#include "ProjectGE/Core/Log.h"
 #include "ProjectGE/Rendering/Renderer.h"
 #include "ProjectGE/Rendering/DirectX12/DirectX12Context.h"
-#include "ProjectGE/Rendering/DirectX12/DirectX12TriangleDemo.h"
 
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -117,9 +116,6 @@ namespace ProjectGE {
 	void WindowsWindow::OnUpdate() {
 		ProcessMessages();
 		if (m_RenderContext != nullptr) {
-			//m_RenderContext->AttachContextResources();
-			// TODO: DEMO CODE REMOVE
-			//m_Demo->Draw();
 			m_RenderContext->Swap();
 		}
 		
@@ -141,6 +137,7 @@ namespace ProjectGE {
 
 	void WindowsWindow::SetVSync(bool enabled) {
 		m_Prop.VSync = enabled;
+		m_RenderContext->SetVsync(enabled);
 	}
 
 	bool WindowsWindow::IsVSync() const {

@@ -1,6 +1,8 @@
 #pragma once
-#include "ProjectGE/Input.h"
+#include "ProjectGE/Core/Input.h"
+
 namespace ProjectGE {
+	// Windows Implementation of Input Polling System
 	class WindowsInput : public Input
 	{
 	protected:

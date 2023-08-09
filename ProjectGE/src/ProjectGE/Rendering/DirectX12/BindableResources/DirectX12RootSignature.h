@@ -5,6 +5,8 @@
 #include "ProjectGE/Rendering/RenderAgnostics/BindableResources/ShaderArguementDefiner.h"
 
 
+using Microsoft::WRL::ComPtr;
+
 /* 
 This class is a encapulated version of the Root Signature (An object linking paramters to stages in the render pipeline)
 Job:

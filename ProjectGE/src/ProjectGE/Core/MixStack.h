@@ -1,8 +1,8 @@
 #pragma once
-#include "ProjectGE/Core.h"
 #include "gepch.h"
 
 namespace ProjectGE {
+	// This class is a variation of a stack data structure, along with the natural stack there is a overlay stack that will always be above any item in the vanillia stack
 	template <typename T>
 	class MixStack
 	{

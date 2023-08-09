@@ -1,7 +1,7 @@
 #include "gepch.h"
 #include "WindowsInput.h"
 
-#include "ProjectGE/Application.h"
+#include "ProjectGE/Core/Application.h"
 
 namespace ProjectGE {
 

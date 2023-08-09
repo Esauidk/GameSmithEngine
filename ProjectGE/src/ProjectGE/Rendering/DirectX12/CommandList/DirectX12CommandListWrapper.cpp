@@ -1,6 +1,6 @@
 #include "gepch.h"
 #include "DirectX12CommandListWrapper.h"
-#include "ProjectGE/Log.h"
+#include "ProjectGE/Core/Log.h"
 
 namespace ProjectGE {
 	DirectX12CommandListWrapper::DirectX12CommandListWrapper(ComPtr<ID3D12GraphicsCommandList6> rawList) : m_RawList(rawList), m_IsOpen(true)

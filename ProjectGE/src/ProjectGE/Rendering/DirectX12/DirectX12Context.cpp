@@ -1,6 +1,6 @@
 #include "gepch.h"
 #include "DirectX12Context.h"
-#include "ProjectGE/Log.h"
+#include "ProjectGE/Core/Log.h"
 
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxguid.lib")
@@ -183,8 +183,13 @@ namespace ProjectGE {
 		
 		UINT val = DirectX12Context::FinalizeCommandList(DirectX12QueueType::Direct);
 		DirectX12Context::InitializeCPUQueueWait(DirectX12QueueType::Direct);
-
-		bool res = FAILED(m_SwapChain->Present(0, 0));
+		bool res;
+		if (m_Vsync) {
+			res = FAILED(m_SwapChain->Present(1, 0));
+		}
+		else {
+			res = FAILED(m_SwapChain->Present(0, 0));
+		}
 		GE_CORE_ASSERT(!res, "Failed to present DirectX12 buffer");
 		
 		InitializeBackBuffer();
@@ -220,6 +225,11 @@ namespace ProjectGE {
 
 		s_DirectContext->StartCommandList();
 		InitializeBackBuffer();
+	}
+
+	void DirectX12Context::SetVsync(bool vsync)
+	{
+		m_Vsync = vsync;
 	}
 
 	void DirectX12Context::SetClearColor(float r, float g, float b, float a)

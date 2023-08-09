@@ -3,6 +3,7 @@
 #include <d3d12.h>
 
 namespace ProjectGE {
+	// A class that encapulates the logic related to a DX12 depth buffer
 	class DirectX12DepthBuffer
 	{
 	public:

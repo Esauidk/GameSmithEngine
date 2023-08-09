@@ -14,11 +14,13 @@ namespace ProjectGE {
 		Bool
 	};
 
+	// A definition that can be used to define a piece or all of vertex data
 	struct BufferElement {
 		std::string SemanticName;
 		ShaderDataType Type;
 	};
 
+	// A class that is used to define vertex data before translating into a Render API format
 	class BufferLayoutBuilder {
 	public:
 		BufferLayoutBuilder(const std::initializer_list<BufferElement>& list) : m_Elements(list) {}

@@ -3,6 +3,8 @@
 #include "ProjectGE/Rendering/RenderAgnostics/BindableResources/Shader.h"
 #include "Util/d3dx12.h"
 
+using Microsoft::WRL::ComPtr;
+
 namespace ProjectGE {
 	struct DirectX12PipelineStateStream {
 		CD3DX12_PIPELINE_STATE_STREAM_ROOT_SIGNATURE pRootSignature;

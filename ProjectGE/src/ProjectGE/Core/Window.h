@@ -1,4 +1,3 @@
-#include "ProjectGE/Core.h"
 #include "ProjectGE/Events/Event.h"
 #include "ProjectGE/Events/ApplicationEvents.h"
 #include "ProjectGE/Events/MouseEvents.h"
@@ -25,19 +24,25 @@ namespace ProjectGE {
 			: Title(title), Width(width), Height(height) {}
 	};
 
-	class GE_API Window
+	// INTERFACE
+	// An abstract representation of a OS Window. This holds the responsibilitie of rendering a window to the screen
+	// and sending OS events relating to the Window.
+	class Window
 	{
 	public:
 		using EventFn = std::function<void(Event&)>;
 		virtual ~Window() = default;
 		
+		// Any behavior a window needs to occur in a time-cycle (ex: every frame)
 		virtual void OnUpdate() = 0;
+		// Changes the title of current OS Window instance this represents
 		virtual void SetTitle(const std::string& title) = 0;
 
 		virtual unsigned int GetWidth() const = 0;
 		virtual unsigned int GetHeight() const = 0;	
 		virtual Platform GetPlatform() const = 0;
 		
+		// Returns the given render context attached to the OS Window
 		inline RendererContext* GetRenderer() const { return m_RenderContext; }
 
 		virtual void SetVSync(bool enabled) = 0;
@@ -45,9 +50,10 @@ namespace ProjectGE {
 
 		virtual void* GetNativeWindow() const = 0;
 
+		// Instantiates an implementation of the Window Interface (recommended to use this instead of instantiating a specific implementation)
 		static Window* Create(const WindowProps& props = WindowProps());
 
-		// Defining dispatcher getter
+		// Returns a list of event dispatchers, used when you want to subscribe to a Window event
 		inline std::vector<EventDispatcherBase*> GetDistpachers() const { return m_Dispatchers; }
 
 	protected:

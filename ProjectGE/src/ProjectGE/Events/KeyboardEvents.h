@@ -2,6 +2,7 @@
 #include "Event.h"
 
 namespace ProjectGE {
+	// Any event related to the a key on a keyboard
 	class GE_API KeyEvent : public Event {
 	public:
 		inline int GetKeyCode() const { return m_KeyCode; }
@@ -12,6 +13,7 @@ namespace ProjectGE {
 		CATEGORY_TYPE(EventCategory::INPUT | EventCategory::KEYBOARD)
 	};
 
+	// When the key is pressed
 	class GE_API KeyPressedEvent : public KeyEvent {
 	public:
 		KeyPressedEvent(int keyCode, int repeatCount) : KeyEvent(keyCode), m_RepeatCount(repeatCount) {}
@@ -29,6 +31,7 @@ namespace ProjectGE {
 		int m_RepeatCount;
 	};
 
+	// When a character key is pressed
 	class GE_API CharEvent : public KeyEvent {
 	public:
 		CharEvent(int keyCode) : KeyEvent(keyCode) {}
@@ -43,6 +46,7 @@ namespace ProjectGE {
 		EVENT_TYPE(CHAR_TYPED)
 	};
 
+	// When a key is released
 	class GE_API KeyReleasedEvent : public KeyEvent {
 	public:
 		KeyReleasedEvent(int keyCode) : KeyEvent(keyCode) {}

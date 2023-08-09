@@ -2,6 +2,7 @@
 #include "Event.h"
 
 namespace ProjectGE {
+	// When a window closes
 	class GE_API WindowCloseEvent : public Event {
 	public:
 		EVENT_TYPE(WND_CLOSE)
@@ -9,6 +10,7 @@ namespace ProjectGE {
 		CATEGORY_TYPE(EventCategory::APP_EVENT)
 	};
 
+	// When a window regains focus
 	class GE_API WindowFocusEvent : public Event {
 	public:
 		EVENT_TYPE(WND_FOCUS)
@@ -16,6 +18,7 @@ namespace ProjectGE {
 		CATEGORY_TYPE(EventCategory::APP_EVENT)
 	};
 
+	// When a window loses focus
 	class GE_API WindowLostFocusEvent : public Event {
 	public:
 		EVENT_TYPE(WND_LOST_FOCUS)
@@ -23,6 +26,7 @@ namespace ProjectGE {
 		CATEGORY_TYPE(EventCategory::APP_EVENT)
 	};
 
+	// When a window changes its size
 	class GE_API WindowResizeEvent : public Event {
 	public:
 		WindowResizeEvent(unsigned int width, unsigned height) : m_Width(width), m_Height(height) {}
@@ -43,6 +47,7 @@ namespace ProjectGE {
 		unsigned int m_Height;
 	};
 
+	// When a window moves
 	class GE_API WindowMovedEvent : public Event {
 	public:
 		EVENT_TYPE(WND_MOVED)
@@ -50,6 +55,7 @@ namespace ProjectGE {
 		CATEGORY_TYPE(EventCategory::APP_EVENT)
 	};
 
+	// When the application performs a tick
 	class GE_API AppTickEvent : public Event {
 	public:
 		EVENT_TYPE(APP_TICK)
@@ -57,6 +63,7 @@ namespace ProjectGE {
 		CATEGORY_TYPE(EventCategory::APP_EVENT)
 	};
 
+	// When the application performs an update
 	class GE_API AppUpdateEvent : public Event {
 	public:
 		EVENT_TYPE(APP_UPDATE)
@@ -64,6 +71,7 @@ namespace ProjectGE {
 		CATEGORY_TYPE(EventCategory::APP_EVENT)
 	};
 
+	// When the application renders a new frame to the screen
 	class GE_API AppRenderEvent : public Event {
 	public:
 		EVENT_TYPE(APP_RENDER)

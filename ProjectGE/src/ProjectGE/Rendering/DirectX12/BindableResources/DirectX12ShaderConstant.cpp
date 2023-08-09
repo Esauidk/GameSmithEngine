@@ -2,7 +2,7 @@
 #include "DirectX12ShaderConstant.h"
 #include "ProjectGE/Rendering/DirectX12/DirectX12Context.h"
 
-#include "ProjectGE/Log.h"
+#include "ProjectGE/Core/Log.h"
 
 namespace ProjectGE {
 	DirectX12ShaderConstant::DirectX12ShaderConstant(UINT registerSlot, UINT size) :  m_DataSet(false), m_RegSlot(registerSlot), m_Size(size) {

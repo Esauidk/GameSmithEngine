@@ -1,5 +1,5 @@
 #pragma once
-#include "ProjectGE/Log.h"
+#include "ProjectGE/Core/Log.h"
 #include "ProjectGE/Rendering/DirectX12/Util/d3dx12.h"
 #include "ProjectGE/Rendering/DirectX12/DirectX12Context.h"
 

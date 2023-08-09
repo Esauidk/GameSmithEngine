@@ -3,13 +3,6 @@
 
 #include "Log.h"
 
-#include "Input.h"
-
-#include "Rendering/Renderer.h"
-#include "Rendering/RenderAgnostics/BasicStructs.h"
-
-#include "KeyCodes.h"
-
 
 namespace ProjectGE {
 	Application* Application::s_Instance = nullptr;
@@ -55,8 +48,8 @@ namespace ProjectGE {
 	}
 
 	void Application::Execute() {
+		m_Timer->Reset();
 		while (m_Running) {
-
 			for (Layer* layer : m_LayerStack) {
 				layer->OnUpdate();
 			}
@@ -67,6 +60,8 @@ namespace ProjectGE {
 			}
 			m_ImGuiLayer->End();
 			m_Window->OnUpdate();
+			m_Timer->Mark();
+			GE_CORE_TRACE("Delta time: {0}s ({1}ms)", m_Timer->GetDeltaTimeSeconds(), m_Timer->GetDeltaTimeMilliseconds());
 		}
 	}
 

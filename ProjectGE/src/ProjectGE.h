@@ -2,11 +2,13 @@
 
 // FOR USE BY PROJECTGE CLIENTS
 
-#include "ProjectGE/Application.h"
-#include "ProjectGE/Input.h"
-#include "ProjectGE/KeyCodes.h"
-#include "ProjectGE/Layer.h"
-#include "ProjectGE/Log.h"
+#include "ProjectGE/Core/Application.h"
+#include "ProjectGE/Core/Input.h"
+#include "ProjectGE/Core/KeyCodes.h"
+#include "ProjectGE/Core/Layer.h"
+#include "ProjectGE/Core/Log.h"
+
+#include "ProjectGE/Core/Timer.h"
 
 #include "ProjectGE/ImGui/ImGuiLayer.h"
 
@@ -27,4 +29,4 @@
 #include "ProjectGE/Camera/OrthoCamera.h"
 
 // ENTRY POINT TO GAME ENGINE
-#include "ProjectGE/EntryPoint.h"
+#include "ProjectGE/Core/EntryPoint.h"

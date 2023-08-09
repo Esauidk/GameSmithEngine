@@ -5,6 +5,8 @@
 #include "ProjectGE/Rendering/RenderAgnostics/BindableResources/GeometryPack.h"
 
 namespace ProjectGE {
+	// INTERFACE
+	// A object that can perform commands using the specified Render API
 	class RendererAPI {
 	public:
 		enum class API {

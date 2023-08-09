@@ -1,9 +1,10 @@
 #pragma once
 
-#include "ProjectGE/Core.h"
-
 namespace ProjectGE {
-	class GE_API Input {
+	// ABSTRACT CLASS
+	// This class lets you poll for inputs
+	// Implementors of this class need to implement protected methods according to their platforms
+	class Input {
 	public:
 		inline static bool IsKeyPressed(int keycode) { return m_Instance->IsKeyPressedImpl(keycode); }
 

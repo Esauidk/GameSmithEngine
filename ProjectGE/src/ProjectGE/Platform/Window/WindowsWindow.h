@@ -1,11 +1,13 @@
 #pragma once
 
-#include "ProjectGE/Window.h"
+#include "ProjectGE/Core/Window.h"
 #include "ProjectGE/Rendering/RendererContext.h"
-#include "ProjectGE/Rendering/RenderAgnostics/TriangleDemo.h"
 #include "ProjectGE/Events/Event.h"
 
 namespace ProjectGE {
+	// Windows OS implementation of Window abstract class
+	// 
+	// Look at Window Interface for method documentation
 	class GE_API WindowsWindow : public Window
 	{
 	public:
@@ -25,8 +27,10 @@ namespace ProjectGE {
 		void SetVSync(bool enabled) override;
 		bool IsVSync() const override;
 
-		static std::optional<int> ProcessMessages() noexcept;
+		
 	private:
+		// Processes Window OS Messages
+		static std::optional<int> ProcessMessages() noexcept;
 
 		struct WindowData {
 			std::string Title = "Sample Title";
@@ -66,10 +70,6 @@ namespace ProjectGE {
 		bool m_LButtonDown;
 		bool m_RButtonDown;
 		int m_Repeat;
-
-		// Temporary
-		//std::unique_ptr<TriangleDemo> m_Demo;
-
 	};
 };
 

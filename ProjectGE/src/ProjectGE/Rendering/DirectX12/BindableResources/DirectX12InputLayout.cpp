@@ -1,7 +1,8 @@
 #include "gepch.h"
 #include "DirectX12InputLayout.h"
+
 #include "ProjectGE/Rendering/DirectX12/DirectX12PipelineState.h"
-#include "ProjectGE/Log.h"
+#include "ProjectGE/Core/Log.h"
 
 namespace ProjectGE {
 	DirectX12InputLayout::DirectX12InputLayout(const BufferLayoutBuilder& layout) {

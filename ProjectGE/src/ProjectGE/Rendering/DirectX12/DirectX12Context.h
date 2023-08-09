@@ -22,6 +22,7 @@ namespace ProjectGE {
 		void Init() override;
 		void Swap() override;
 		void Resize(float width, float height) override;
+		void SetVsync(bool vsync) override;
 		void SetClearColor(float r, float g, float b, float a) override;
 		void AttachContextResources() override; // Attach the Viewport, Rect, and RenderTarget set
 
@@ -31,9 +32,13 @@ namespace ProjectGE {
 		inline static DirectX12CommandListWrapper& GetDirectCommandList() { return s_DirectContext->GetCommandList(); }
 		inline static DirectX12CommandListWrapper& GetCopyCommandList() { return s_CopyContext->GetCommandList(); }
 		
+		// Finish recording on a type of command list
 		static UINT FinalizeCommandList(DirectX12QueueType type);
+		// Tell one queue to wait for another queue to complete a certain amount of work
 		static void InitializeQueueWait(DirectX12QueueType executor, DirectX12QueueType waiter, UINT fenceVal);
+		// Tell the CPU to wait for all work to complete on a specific queue
 		static void InitializeCPUQueueWait(DirectX12QueueType target);
+		// Tell the CPU to wait for some work to be complete on a specific queue
 		static void InitializeCPUQueueWait(UINT fenceVal, DirectX12QueueType target);
 	private:
 		void InitializeBackBuffer();
@@ -54,11 +59,12 @@ namespace ProjectGE {
 		ComPtr<ID3D12Resource2> m_BackBuffer;
 		// Render Target Heap
 		ComPtr<ID3D12DescriptorHeap> m_RTVHeapD;
+		// Shader Resource Heap
 		ComPtr<ID3D12DescriptorHeap> m_SRVHeapD;
 		// Depth Buffer
 		std::unique_ptr<DirectX12DepthBuffer> m_DBuffer;
 		
-
+		bool m_Vsync;
 		BOOL m_TearingSupport;
 		HWND m_Window;
 

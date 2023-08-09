@@ -7,8 +7,8 @@
 #include "backends/imgui_impl_win32.h"
 
 
-#include "ProjectGE/Application.h"
-#include "ProjectGE/Log.h"
+#include "ProjectGE/Core/Application.h"
+#include "ProjectGE/Core/Log.h"
 
 
 namespace ProjectGE {

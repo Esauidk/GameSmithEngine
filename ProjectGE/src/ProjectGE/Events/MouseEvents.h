@@ -2,6 +2,7 @@
 #include "Event.h"
 
 namespace ProjectGE {
+	// When the mouse moves
 	class GE_API MouseMoveEvent : public Event {
 	public:
 		MouseMoveEvent(float x, float y) : m_X(x), m_Y(y) {}
@@ -24,6 +25,7 @@ namespace ProjectGE {
 		float m_Y;
 	};
 
+	// When the mosue scrolls
 	class GE_API MouseScrollEvent : public Event {
 	public:
 		MouseScrollEvent(float delta, float pos_x, float pos_y) : m_Delta(delta), m_PosX(pos_x), m_PosY(pos_y) {}
@@ -48,6 +50,7 @@ namespace ProjectGE {
 		float m_PosY;
 	};
 
+	// Any event related to a mouse button
 	class GE_API MouseButtonEvent : public Event {
 	public:
 		enum MouseButton {
@@ -62,6 +65,7 @@ namespace ProjectGE {
 		int m_Button;
 	};
 
+	// When a mouse button is pressed
 	class GE_API MouseButtonPressEvent : public MouseButtonEvent {
 	public:
 		MouseButtonPressEvent(MouseButtonEvent::MouseButton button) : MouseButtonEvent(button) {}
@@ -75,6 +79,7 @@ namespace ProjectGE {
 		EVENT_TYPE(MOUSE_PRESSED)
 	};
 
+	// When a mouse button is released
 	class GE_API MouseButtonReleaseEvent : public MouseButtonEvent {
 	public:
 		MouseButtonReleaseEvent(MouseButtonEvent::MouseButton button) : MouseButtonEvent(button) {}

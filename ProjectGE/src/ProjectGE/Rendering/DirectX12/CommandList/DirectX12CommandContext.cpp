@@ -1,7 +1,7 @@
 #include "gepch.h"
 #include "DirectX12CommandContext.h"
 
-#include "ProjectGE/Log.h"
+#include "ProjectGE/Core/Log.h"
 
 namespace ProjectGE {
 

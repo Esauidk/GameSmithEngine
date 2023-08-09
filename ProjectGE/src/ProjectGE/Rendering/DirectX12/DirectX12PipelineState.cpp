@@ -1,6 +1,6 @@
 #include "gepch.h"
 #include "DirectX12PipelineState.h"
-#include "ProjectGE/Log.h"
+#include "ProjectGE/Core/Log.h"
 #include "ProjectGE/Rendering/DirectX12/DirectX12Context.h"
 
 

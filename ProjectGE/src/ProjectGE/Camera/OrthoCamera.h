@@ -3,6 +3,7 @@
 #include "Camera.h"
 
 namespace ProjectGE {
+	// This class representes an Orthographic Camera (Orthographics Projection)
 	class OrthoCamera : public Camera
 	{
 	public:

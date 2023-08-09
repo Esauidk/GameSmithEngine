@@ -1,7 +1,7 @@
 #include "gepch.h"
 #include "DirectX12CommandQueue.h"
 #include "ProjectGE/Rendering/DirectX12/DirectX12Context.h"
-#include "ProjectGE/Log.h"
+#include "ProjectGE/Core/Log.h"
 
 using namespace Microsoft::WRL;
 using namespace std::chrono;

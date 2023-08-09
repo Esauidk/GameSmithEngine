@@ -1,6 +1,6 @@
 #include "gepch.h"
 #include "DirectX12ShaderReference.h"
-#include "ProjectGE/Log.h"
+#include "ProjectGE/Core/Log.h"
 
 void ProjectGE::DirectX12ShaderReference::Bind()
 {

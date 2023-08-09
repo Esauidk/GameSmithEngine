@@ -1,8 +1,8 @@
 #pragma once
 
 #include "gepch.h"
-#include "ProjectGE/Core.h"
-#include "ProjectGE/MixStack.h"
+#include "ProjectGE/Core/Core.h"
+#include "ProjectGE/Core/MixStack.h"
 
 
 namespace ProjectGE {

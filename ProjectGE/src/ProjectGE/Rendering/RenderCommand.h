@@ -2,6 +2,7 @@
 
 #include "RendererAPI.h"
 namespace ProjectGE {
+	// A class that can divert commands to the Engine's RendererAPI according to what Render API is being used
 	class RenderCommand {
 	public:
 		inline static void Clear() {

@@ -5,7 +5,8 @@
 #include "spdlog/fmt/ostr.h"
 
 namespace ProjectGE {
-	class GE_API Log
+	// A logger class that allows the engine and clients to send types of logs to the console
+	class Log
 	{
 	public:
 		static void Init();
