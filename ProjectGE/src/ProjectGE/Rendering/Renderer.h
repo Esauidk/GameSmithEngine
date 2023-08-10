@@ -13,7 +13,7 @@ namespace ProjectGE {
 	public:
 		static void BeginScene(Camera& camera);
 		static void EndScene();
-		static void Submit(GeometryPack* geopack, ShaderArguement* mat4Slot);
+		static void Submit(GeometryPack* geopack, glm::mat4& transform, ShaderArguement* camMat4Slot, ShaderArguement* objectMat4Slot);
 		inline static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); };
 	private:
 		struct SceneData {

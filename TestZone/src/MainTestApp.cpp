@@ -2,12 +2,17 @@
 
 #include "imgui.h"
 
+#include "glm/gtx/string_cast.hpp"
+
 class ExampleLayer : public ProjectGE::Layer {
 public:
 
 	ExampleLayer() : Layer("Example"), m_Cam(-1.6f, 1.6f, -0.9f, 0.9f) {
 		/* START: TEST CODE REMOVE */
 		// Read Shaders(Vertex, Pixel)
+
+		m_TriTrans.SetPosition(glm::vec3(0, 1, 0));
+		m_SquareTrans.SetPosition(glm::vec3(1, 0, 0));
 
 		TCHAR buffer[MAX_PATH] = { 0 };
 		GetModuleFileName(NULL, buffer, MAX_PATH);
@@ -24,6 +29,7 @@ public:
 		m_Root = std::unique_ptr<ProjectGE::ShaderArguementDefiner>(ProjectGE::ShaderArguementDefiner::Create());
 
 		m_Arg1 = std::unique_ptr<ProjectGE::ShaderArguement>(m_Root->AddArguement(sizeof(glm::mat4) / 4, ProjectGE::ShaderArguementType::Constant));
+		m_Arg2 = std::unique_ptr<ProjectGE::ShaderArguement>(m_Root->AddArguement(sizeof(glm::mat4) / 4, ProjectGE::ShaderArguementType::Constant));
 
 
 		m_Root->FinalizeSignature();
@@ -42,9 +48,9 @@ public:
 		m_Topo->Append(*(m_State.get()));
 
 		ProjectGE::Vertex triVertex[] = {
-			{ {-0.5f, 0.0f, 0.0f}, {1.0f, 0.0f, 0.0f} }, // 0
-			{ {0.0f,  0.75f, 0.0f}, {0.0f, 0.0f, 1.0f} }, // 1 
-			{ {0.5f,  0.0f, 0.0f}, {0.0f, 1.0f, 0.0f} } // 2
+			{ {-0.5f, -0.5f, 0.0f}, {1.0f, 0.0f, 0.0f} }, // 0
+			{ {0.0f,  0.5f, 0.0f}, {0.0f, 0.0f, 1.0f} }, // 1 
+			{ {0.5f,  -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f} } // 2
 		};
 
 		ProjectGE::Vertex squareVertex[] = {
@@ -95,30 +101,58 @@ public:
 
 	void OnUpdate() override {
 		float dt = ProjectGE::Application::Get().GetTimer().GetDeltaTimeSeconds();
-		glm::vec3 oldPos = m_Cam.GetPosition();
+		Transform& tf = m_Cam.GetTransform();
+
+		glm::vec3 oldPos = tf.GetPosition();
+		glm::vec3 TriOldPos = m_TriTrans.GetPosition();
 		if (ProjectGE::Input::IsKeyPressed(GE_KEY_A)) {
 			glm::vec3 newPosition = oldPos + dt* glm::vec3(-1, 0, 0);
-			m_Cam.SetPosition(newPosition);
+			tf.SetPosition(newPosition);
 		}
 		
 		if (ProjectGE::Input::IsKeyPressed(GE_KEY_D)) {
 			glm::vec3 newPosition = oldPos + dt * glm::vec3(1, 0, 0);
-			m_Cam.SetPosition(newPosition);
+			tf.SetPosition(newPosition);
 		}
 		
 		if (ProjectGE::Input::IsKeyPressed(GE_KEY_W)) {
 			glm::vec3 newPosition = oldPos + dt* glm::vec3(0, 1, 0);
-			m_Cam.SetPosition(newPosition);
+			tf.SetPosition(newPosition);
 		}
 		
 		if (ProjectGE::Input::IsKeyPressed(GE_KEY_S)) {
 			glm::vec3 newPosition = oldPos + dt* glm::vec3(0, -1, 0);
-			m_Cam.SetPosition(newPosition);
+			tf.SetPosition(newPosition);
 		}
 		
 		if (ProjectGE::Input::IsKeyPressed(GE_KEY_R)) {
-			float oldRotation = m_Cam.GetRotation();
-			m_Cam.SetRotation(oldRotation + dt * 1);
+			glm::vec3 oldRotation = tf.GetRotation();
+			tf.SetRotation(oldRotation + dt * glm::vec3(0,0,1));
+		}
+
+		if (ProjectGE::Input::IsKeyPressed(GE_KEY_J)) {
+			glm::vec3 newPosition = TriOldPos + dt * glm::vec3(-1, 0, 0);
+			m_TriTrans.SetPosition(newPosition);
+		}
+
+		if (ProjectGE::Input::IsKeyPressed(GE_KEY_L)) {
+			glm::vec3 newPosition = TriOldPos + dt * glm::vec3(1, 0, 0);
+			m_TriTrans.SetPosition(newPosition);
+		}
+
+		if (ProjectGE::Input::IsKeyPressed(GE_KEY_I)) {
+			glm::vec3 newPosition = TriOldPos + dt * glm::vec3(0, 1, 0);
+			m_TriTrans.SetPosition(newPosition);
+		}
+
+		if (ProjectGE::Input::IsKeyPressed(GE_KEY_K)) {
+			glm::vec3 newPosition = TriOldPos + dt * glm::vec3(0, -1, 0);
+			m_TriTrans.SetPosition(newPosition);
+		}
+
+		if (ProjectGE::Input::IsKeyPressed(GE_KEY_P)) {
+			glm::vec3 oldRotation = m_TriTrans.GetRotation();
+			m_TriTrans.SetRotation(oldRotation + dt * glm::vec3(0, 0, 1));
 		}
 
 		ProjectGE::Renderer::BeginScene(m_Cam);
@@ -127,8 +161,13 @@ public:
 		m_State->Bind();
 		m_Root->Bind();
 
-		ProjectGE::Renderer::Submit(m_TriPack.get(), m_Arg1.get());
-		ProjectGE::Renderer::Submit(m_SquarePack.get(), m_Arg1.get());
+		// DIRECTX12 is ROW MAJOR
+		
+		glm::mat4 tri = glm::transpose(m_TriTrans.GetModelMatrix());
+		glm::mat4 squ = glm::transpose(m_SquareTrans.GetModelMatrix());
+		GE_APP_INFO(glm::to_string(tri));
+		ProjectGE::Renderer::Submit(m_TriPack.get(), tri, m_Arg1.get(), m_Arg2.get());
+		ProjectGE::Renderer::Submit(m_SquarePack.get(), squ, m_Arg1.get(), m_Arg2.get());
 
 		ProjectGE::Renderer::EndScene();
 	}
@@ -143,9 +182,12 @@ private:
 	std::unique_ptr<ProjectGE::Shader> m_VS;
 	std::unique_ptr<ProjectGE::Shader> m_PS;
 	std::unique_ptr<ProjectGE::GeometryPack> m_TriPack;
+	Transform m_TriTrans;
 	std::unique_ptr<ProjectGE::GeometryPack> m_SquarePack;
+	Transform m_SquareTrans;
 
 	std::unique_ptr<ProjectGE::ShaderArguement> m_Arg1;
+	std::unique_ptr<ProjectGE::ShaderArguement> m_Arg2;
 
 	ProjectGE::OrthoCamera m_Cam;
 };

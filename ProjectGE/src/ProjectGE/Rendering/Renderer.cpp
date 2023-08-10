@@ -13,10 +13,14 @@ namespace ProjectGE {
 	{
 		RenderCommand::FinishedRecording();
 	}
-	void Renderer::Submit(GeometryPack* geopack, ShaderArguement* mat4Slot)
+	void Renderer::Submit(GeometryPack* geopack, glm::mat4& objectTransform, ShaderArguement* camMat4Slot, ShaderArguement* objectMat4Slot)
 	{
-		mat4Slot->SetData(&(m_SceneData->cameraMatrix));
-		mat4Slot->Bind();
+		camMat4Slot->SetData(&(m_SceneData->cameraMatrix));
+		camMat4Slot->Bind();
+
+		objectMat4Slot->SetData(&objectTransform);
+		objectMat4Slot->Bind();
+
 		geopack->Bind();
 		RenderCommand::DrawIndexed(geopack);
 	}

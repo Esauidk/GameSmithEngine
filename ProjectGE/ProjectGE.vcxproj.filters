@@ -1429,6 +1429,7 @@
     <ClInclude Include="src\ProjectGE\Camera\OrthoCamera.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\GeometryPack.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12GeometryPack.h" />
+    <ClInclude Include="src\ProjectGE\Components\Transform.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\Core\Application.cpp">
@@ -1504,6 +1505,7 @@
     <ClCompile Include="src\ProjectGE\Camera\Camera.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\GeometryPack.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12GeometryPack.cpp" />
+    <ClCompile Include="src\ProjectGE\Components\Transform.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\SamplePixelShader.hlsl" />

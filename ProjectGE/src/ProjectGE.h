@@ -12,7 +12,7 @@
 
 #include "ProjectGE/ImGui/ImGuiLayer.h"
 
-// Renderer
+// ------------Renderer---------------
 #include "ProjectGE/Rendering/Renderer.h"
 #include "ProjectGE/Rendering/RenderCommand.h"
 
@@ -25,7 +25,11 @@
 #include "ProjectGE/Rendering/RenderAgnostics/BindableResources/GeometryPack.h"
 
 #include "ProjectGE/Rendering/RenderAgnostics/BasicStructs.h"
+// -------------------------------------
 
+// ---------Components-----------------
+#include "ProjectGE/Components/Transform.h"
+//-------------------------------------
 #include "ProjectGE/Camera/OrthoCamera.h"
 
 // ENTRY POINT TO GAME ENGINE

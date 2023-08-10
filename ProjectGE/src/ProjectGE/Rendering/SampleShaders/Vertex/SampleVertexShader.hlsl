@@ -10,17 +10,21 @@ struct VertexShaderOutput
     float4 Position : SV_POSITION;
 };
 
-cbuffer ModelViewProjection : register(b0)
+cbuffer ViewProjection : register(b0)
 {
-    matrix MVP;
+    matrix VP;
 };
+
+cbuffer Model : register(b1){
+    matrix M;
+}
 
     
 VertexShaderOutput main(VertexPosColor input)
 {
     VertexShaderOutput output;
-    
-    output.Position = mul(MVP, float4(input.Position, 1.0f));
+    matrix MVP = mul(M,VP);
+    output.Position = mul(float4(input.Position, 1.0f), MVP);
     output.Color = float4(input.Color, 1.0f);
     
     return output;
