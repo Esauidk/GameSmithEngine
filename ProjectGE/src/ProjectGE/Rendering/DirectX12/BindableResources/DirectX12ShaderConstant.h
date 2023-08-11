@@ -1,21 +1,14 @@
 #pragma once
-#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/ShaderArguement.h"
-#include "ProjectGE/Rendering/DirectX12/Util/d3dx12.h"
+
+#include "DirectX12ShaderInput.h"
 
 namespace ProjectGE {
-	class DirectX12ShaderConstant : public ShaderArguement
+	class DirectX12ShaderConstant : public DirectX12ShaderInput
 	{
 	public:
-		DirectX12ShaderConstant(UINT registerSlot, UINT size);
-		inline CD3DX12_ROOT_PARAMETER1& GetDefinition() { return m_Parameter; }
+		DirectX12ShaderConstant(UINT registerSlot, UINT count);
 		void SetData(void* rawData) override;
 		void Bind() override;
-	private:
-		CD3DX12_ROOT_PARAMETER1 m_Parameter;
-		void* m_RawData;
-		bool m_DataSet;
-		UINT m_RegSlot;
-		UINT m_Size;
 	};
 };
 

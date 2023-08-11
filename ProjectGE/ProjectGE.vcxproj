@@ -143,15 +143,18 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12ConstantBuffer.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12GeometryPack.h" />
     <ClInclude Include="src\ProjectGE\Camera\OrthoCamera.h" />
     <ClInclude Include="src\ProjectGE\Camera\Camera.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12ShaderInput.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12RendererAPI.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12CommandContext.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12CommandListWrapper.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12ShaderReferenceTable.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12ShaderReference.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12ShaderConstant.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\ConstantBuffer.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\GeometryPack.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\ShaderArguement.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\ShaderArguementDefiner.h" />
@@ -619,6 +622,7 @@
     <ClInclude Include="src\ProjectGE\Components\Transform.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12ConstantBuffer.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12GeometryPack.cpp" />
     <ClCompile Include="src\ProjectGE\Camera\Camera.cpp" />
     <ClCompile Include="src\ProjectGE\Camera\OrthoCamera.cpp" />
@@ -628,6 +632,7 @@
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12ShaderReferenceTable.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12ShaderReference.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12ShaderConstant.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\ConstantBuffer.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\GeometryPack.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\ShaderArguementDefiner.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\Shader.cpp" />

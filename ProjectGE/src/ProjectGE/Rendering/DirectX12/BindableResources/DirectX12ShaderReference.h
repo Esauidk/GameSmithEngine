@@ -1,10 +1,13 @@
 #pragma once
-#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/ShaderArguement.h"
+
+#include "DirectX12ShaderInput.h"
+
 namespace ProjectGE {
-	class DirectX12ShaderReference : public ShaderArguement
+	class DirectX12ShaderReference : public DirectX12ShaderInput
 	{
 	public:
-		DirectX12ShaderReference(void* data);
+		DirectX12ShaderReference(UINT registerSlot, UINT size, D3D12_ROOT_DESCRIPTOR_FLAGS flags);
+		void SetData(void* rawData) override;
 		void Bind() override;
 	};
 };

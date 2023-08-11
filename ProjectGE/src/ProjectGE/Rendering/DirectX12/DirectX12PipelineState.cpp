@@ -40,6 +40,7 @@ namespace ProjectGE {
 		m_StateStream.Flags |= D3D12_PIPELINE_STATE_FLAG_TOOL_DEBUG;
 	}
 
+	// TODO: BIG DESIGN CHANGE--------- Use Blobs instead of creating during runtime
 	void DirectX12PipelineState::Build() {
 		//TODO: Add checks before building
 

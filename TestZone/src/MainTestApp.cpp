@@ -6,6 +6,12 @@
 
 class ExampleLayer : public ProjectGE::Layer {
 public:
+	// DIRECTX12 is ROW MAJOR
+	struct test {
+		glm::vec4 color;
+		glm::vec1 intensity;
+		glm::vec3 wordPos;
+	};
 
 	ExampleLayer() : Layer("Example"), m_Cam(-1.6f, 1.6f, -0.9f, 0.9f) {
 		/* START: TEST CODE REMOVE */
@@ -30,6 +36,7 @@ public:
 
 		m_Arg1 = std::unique_ptr<ProjectGE::ShaderArguement>(m_Root->AddArguement(sizeof(glm::mat4) / 4, ProjectGE::ShaderArguementType::Constant));
 		m_Arg2 = std::unique_ptr<ProjectGE::ShaderArguement>(m_Root->AddArguement(sizeof(glm::mat4) / 4, ProjectGE::ShaderArguementType::Constant));
+		m_Arg3 = std::unique_ptr<ProjectGE::ShaderArguement>(m_Root->AddArguement(sizeof(glm::vec3) * 3, ProjectGE::ShaderArguementType::Reference));
 
 
 		m_Root->FinalizeSignature();
@@ -92,6 +99,9 @@ public:
 		m_SquarePack->AttachVertexBuffer(m_SquareVertexBuffer);
 		m_SquarePack->AttachIndexBuffer(m_SquareIndexBuffer);
 		m_SquarePack->AttachTopology(m_Topo);
+
+		test example1 = { {1,1,1,1}, glm::vec1(2), {3,3,3} };
+		m_C = std::unique_ptr<ProjectGE::ConstantBuffer>(ProjectGE::ConstantBuffer::Create(&example1, sizeof(example1)));
 
 		/* END: TEST CODE REMOVE */
 	}
@@ -161,8 +171,8 @@ public:
 		m_State->Bind();
 		m_Root->Bind();
 
-		// DIRECTX12 is ROW MAJOR
-		
+		m_Arg3->SetData(m_C->GetGPUReference());
+		m_Arg3->Bind();
 		glm::mat4 tri = glm::transpose(m_TriTrans.GetModelMatrix());
 		glm::mat4 squ = glm::transpose(m_SquareTrans.GetModelMatrix());
 		GE_APP_INFO(glm::to_string(tri));
@@ -186,8 +196,10 @@ private:
 	std::unique_ptr<ProjectGE::GeometryPack> m_SquarePack;
 	Transform m_SquareTrans;
 
+	std::unique_ptr<ProjectGE::ConstantBuffer> m_C;
 	std::unique_ptr<ProjectGE::ShaderArguement> m_Arg1;
 	std::unique_ptr<ProjectGE::ShaderArguement> m_Arg2;
+	std::unique_ptr<ProjectGE::ShaderArguement> m_Arg3;
 
 	ProjectGE::OrthoCamera m_Cam;
 };

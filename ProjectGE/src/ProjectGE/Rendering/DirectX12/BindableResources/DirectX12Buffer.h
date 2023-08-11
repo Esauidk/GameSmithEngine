@@ -58,6 +58,20 @@ namespace ProjectGE {
 		}
 
 	protected:
+		void UpdateData(void* newData) {
+			auto& pCommandList = DirectX12Context::GetCopyCommandList();
+			// Store the data inside
+			D3D12_SUBRESOURCE_DATA data = {};
+			data.pData = reinterpret_cast<BYTE*>(newData);
+			data.RowPitch = m_BufferSize;
+			data.SlicePitch = data.RowPitch;
+
+			UpdateSubresources((&pCommandList), m_GpuBuffer.Get(), m_CpuBuffer.Get(), 0, 0, 1, &data);
+
+			m_UploadSignal = DirectX12Context::FinalizeCommandList(DirectX12QueueType::Copy);
+		}
+
+	protected:
 		ComPtr<ID3D12Resource2> m_GpuBuffer;
 		ComPtr<ID3D12Resource2> m_CpuBuffer;
 		UINT m_BufferSize;

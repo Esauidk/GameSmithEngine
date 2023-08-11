@@ -3,7 +3,9 @@
 #include "ProjectGE/Core/Log.h"
 #include "ProjectGE/Rendering/DirectX12/DirectX12Context.h"
 #include "ProjectGE/Rendering/DirectX12/DirectX12PipelineState.h"
+
 #include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12ShaderConstant.h"
+#include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12ShaderReference.h"
 
 
 namespace ProjectGE {
@@ -17,19 +19,27 @@ namespace ProjectGE {
 
 	ShaderArguement* DirectX12RootSignature::AddArguement(UINT size, ShaderArguementType type)
 	{
+		DirectX12ShaderInput* input;
 		switch (type) {
 		case ShaderArguementType::Constant:
 			{
-				auto* constant = new DirectX12ShaderConstant(m_AvailableSlot, size);
-				m_Parameters.push_back(constant->GetDefinition());
+				input = new DirectX12ShaderConstant(m_AvailableSlot, size);
+				m_Parameters.push_back(input->GetDefinition());
 				m_AvailableSlot++;
-				return constant;
+				break;
 			}	
+		case ShaderArguementType::Reference:
+		{
+			input = new DirectX12ShaderReference(m_AvailableSlot, size, D3D12_ROOT_DESCRIPTOR_FLAG_DATA_STATIC_WHILE_SET_AT_EXECUTE);
+			m_Parameters.push_back(input->GetDefinition());
+			m_AvailableSlot++;
+			break;
+		}
 		default:
 			GE_CORE_ASSERT(false, "This type of arguement is not yet supported for DX12");
 		}
 
-		return nullptr;
+		return input;
 	}
 
 	void DirectX12RootSignature::FinalizeSignature() {

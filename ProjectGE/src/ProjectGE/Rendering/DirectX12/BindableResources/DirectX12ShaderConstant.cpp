@@ -5,9 +5,10 @@
 #include "ProjectGE/Core/Log.h"
 
 namespace ProjectGE {
-	DirectX12ShaderConstant::DirectX12ShaderConstant(UINT registerSlot, UINT size) :  m_DataSet(false), m_RegSlot(registerSlot), m_Size(size) {
-		m_Parameter.InitAsConstants(size, registerSlot, 0, D3D12_SHADER_VISIBILITY_VERTEX);
+	DirectX12ShaderConstant::DirectX12ShaderConstant(UINT registerSlot, UINT count) :  DirectX12ShaderInput(registerSlot, count) {
+		m_Parameter.InitAsConstants(count, registerSlot, 0, D3D12_SHADER_VISIBILITY_VERTEX);
 	}
+
 	void DirectX12ShaderConstant::SetData(void* rawData)
 	{
 		if (!m_DataSet) {

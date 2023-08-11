@@ -18,6 +18,7 @@
 
 #include "ProjectGE/Rendering/RenderAgnostics/BindableResources/VertexBuffer.h"
 #include "ProjectGE/Rendering/RenderAgnostics/BindableResources/IndexBuffer.h"
+#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/ConstantBuffer.h"
 #include "ProjectGE/Rendering/RenderAgnostics/BindableResources/ShaderArguementDefiner.h"
 #include "ProjectGE/Rendering/RenderAgnostics/BindableResources/Shader.h"
 #include "ProjectGE/Rendering/RenderAgnostics/BindableResources/PipelineStateObject.h"

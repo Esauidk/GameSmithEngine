@@ -17,7 +17,10 @@ cbuffer ViewProjection : register(b0)
 
 cbuffer Model : register(b1){
     matrix M;
-}
+};
+
+cbuffer ExternalInput : register(b2){
+};
 
     
 VertexShaderOutput main(VertexPosColor input)
