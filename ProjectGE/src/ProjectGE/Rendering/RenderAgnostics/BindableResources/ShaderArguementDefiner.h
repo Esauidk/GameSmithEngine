@@ -11,7 +11,7 @@ namespace ProjectGE {
 	public:
 		// Requests to add an arguement
 		// A wrapper to set the arguement data is returned
-		virtual ShaderArguement* AddArguement(UINT size, ShaderArguementType type) = 0;
+		virtual ShaderArguement* AddArguement(ShaderArguementType type, UINT size = 0) = 0;
 
 		// Finializes the list of arguements to be sent to a shader 
 		// (this is normally a time to serialize the arguement definition)

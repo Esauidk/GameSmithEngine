@@ -19,7 +19,7 @@ namespace ProjectGE {
 	{
 	public: 
 			DirectX12RootSignature(D3D12_ROOT_SIGNATURE_FLAGS flags);
-			ShaderArguement* AddArguement(UINT size, ShaderArguementType type) override;
+			ShaderArguement* AddArguement(ShaderArguementType type, UINT size = 0 ) override;
 			void FinalizeSignature() override;
 			void Append(PipelineStateObject& pipeline) override;
 			void Bind() override;

@@ -2,7 +2,7 @@
 
 #include "imgui.h"
 
-#include "glm/gtx/string_cast.hpp"
+#include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12Shader.h"
 
 class ExampleLayer : public ProjectGE::Layer {
 public:
@@ -20,6 +20,17 @@ public:
 		m_TriTrans.SetPosition(glm::vec3(0, 1, 0));
 		m_SquareTrans.SetPosition(glm::vec3(1, 0, 0));
 
+
+		// Setup Root Signature
+		m_Root = std::unique_ptr<ProjectGE::ShaderArguementDefiner>(ProjectGE::ShaderArguementDefiner::Create());
+
+		m_Arg1 = std::unique_ptr<ProjectGE::ShaderArguement>(m_Root->AddArguement(ProjectGE::ShaderArguementType::Constant, sizeof(glm::mat4) / 4));
+		m_Arg2 = std::unique_ptr<ProjectGE::ShaderArguement>(m_Root->AddArguement(ProjectGE::ShaderArguementType::Constant, sizeof(glm::mat4) / 4));
+		m_Arg3 = std::unique_ptr<ProjectGE::ShaderArguement>(m_Root->AddArguement(ProjectGE::ShaderArguementType::Reference));
+
+
+		m_Root->FinalizeSignature();
+
 		TCHAR buffer[MAX_PATH] = { 0 };
 		GetModuleFileName(NULL, buffer, MAX_PATH);
 		std::wstring::size_type pos = std::wstring(buffer).find_last_of(L"\\/");
@@ -28,18 +39,7 @@ public:
 
 		std::string nvertex = std::string(vertex.begin(), vertex.end());
 		std::string npixel = std::string(pixel.begin(), pixel.end());
-		m_VS = std::unique_ptr<ProjectGE::Shader>(ProjectGE::Shader::Create(nvertex, ProjectGE::ShaderType::Vertex));
-		m_PS = std::unique_ptr<ProjectGE::Shader>(ProjectGE::Shader::Create(npixel, ProjectGE::ShaderType::Pixel));
-
-		// Setup Root Signature
-		m_Root = std::unique_ptr<ProjectGE::ShaderArguementDefiner>(ProjectGE::ShaderArguementDefiner::Create());
-
-		m_Arg1 = std::unique_ptr<ProjectGE::ShaderArguement>(m_Root->AddArguement(sizeof(glm::mat4) / 4, ProjectGE::ShaderArguementType::Constant));
-		m_Arg2 = std::unique_ptr<ProjectGE::ShaderArguement>(m_Root->AddArguement(sizeof(glm::mat4) / 4, ProjectGE::ShaderArguementType::Constant));
-		m_Arg3 = std::unique_ptr<ProjectGE::ShaderArguement>(m_Root->AddArguement(sizeof(glm::vec3) * 3, ProjectGE::ShaderArguementType::Reference));
-
-
-		m_Root->FinalizeSignature();
+		m_Shaders = std::unique_ptr<ProjectGE::Shader>(ProjectGE::Shader::Create(nvertex, npixel, m_Arg3.get(), sizeof(test)));
 
 		// Setup Topology
 
@@ -48,9 +48,7 @@ public:
 		// Setup Pipeline
 		m_State = std::unique_ptr<ProjectGE::PipelineStateObject>(ProjectGE::PipelineStateObject::Create());
 
-		m_VS->Append(*(m_State.get()));
-
-		m_PS->Append(*(m_State.get()));
+		m_Shaders->Append(*(m_State.get()));
 		m_Root->Append(*(m_State.get()));
 		m_Topo->Append(*(m_State.get()));
 
@@ -101,7 +99,7 @@ public:
 		m_SquarePack->AttachTopology(m_Topo);
 
 		test example1 = { {1,1,1,1}, glm::vec1(2), {3,3,3} };
-		m_C = std::unique_ptr<ProjectGE::ConstantBuffer>(ProjectGE::ConstantBuffer::Create(&example1, sizeof(example1)));
+		std::dynamic_pointer_cast<ProjectGE::DirectX12Shader>(m_Shaders)->UploadShaderInput((BYTE*)&example1);
 
 		/* END: TEST CODE REMOVE */
 	}
@@ -171,35 +169,29 @@ public:
 		m_State->Bind();
 		m_Root->Bind();
 
-		m_Arg3->SetData(m_C->GetGPUReference());
-		m_Arg3->Bind();
 		glm::mat4 tri = glm::transpose(m_TriTrans.GetModelMatrix());
 		glm::mat4 squ = glm::transpose(m_SquareTrans.GetModelMatrix());
-		GE_APP_INFO(glm::to_string(tri));
-		ProjectGE::Renderer::Submit(m_TriPack.get(), tri, m_Arg1.get(), m_Arg2.get());
-		ProjectGE::Renderer::Submit(m_SquarePack.get(), squ, m_Arg1.get(), m_Arg2.get());
+		ProjectGE::Renderer::Submit(m_TriPack, m_Shaders, tri, m_Arg1, m_Arg2);
+		ProjectGE::Renderer::Submit(m_SquarePack, m_Shaders, squ, m_Arg1, m_Arg2);
 
 		ProjectGE::Renderer::EndScene();
 	}
 
-	void EventSubscribe(const std::vector<ProjectGE::EventDispatcherBase*>& dispatchers, bool overlay) override {
-
-	}
+	void EventSubscribe(const std::vector<ProjectGE::EventDispatcherBase*>& dispatchers, bool overlay) override {}
 
 private:
-	std::unique_ptr<ProjectGE::PipelineStateObject> m_State;
-	std::unique_ptr<ProjectGE::ShaderArguementDefiner> m_Root;
-	std::unique_ptr<ProjectGE::Shader> m_VS;
-	std::unique_ptr<ProjectGE::Shader> m_PS;
-	std::unique_ptr<ProjectGE::GeometryPack> m_TriPack;
+	std::shared_ptr<ProjectGE::PipelineStateObject> m_State;
+	std::shared_ptr<ProjectGE::ShaderArguementDefiner> m_Root;
+	std::shared_ptr<ProjectGE::Shader> m_Shaders;
+	std::shared_ptr<ProjectGE::GeometryPack> m_TriPack;
 	Transform m_TriTrans;
-	std::unique_ptr<ProjectGE::GeometryPack> m_SquarePack;
+	std::shared_ptr<ProjectGE::GeometryPack> m_SquarePack;
 	Transform m_SquareTrans;
 
-	std::unique_ptr<ProjectGE::ConstantBuffer> m_C;
-	std::unique_ptr<ProjectGE::ShaderArguement> m_Arg1;
-	std::unique_ptr<ProjectGE::ShaderArguement> m_Arg2;
-	std::unique_ptr<ProjectGE::ShaderArguement> m_Arg3;
+	std::shared_ptr<ProjectGE::ConstantBuffer> m_C;
+	std::shared_ptr<ProjectGE::ShaderArguement> m_Arg1;
+	std::shared_ptr<ProjectGE::ShaderArguement> m_Arg2;
+	std::shared_ptr<ProjectGE::ShaderArguement> m_Arg3;
 
 	ProjectGE::OrthoCamera m_Cam;
 };

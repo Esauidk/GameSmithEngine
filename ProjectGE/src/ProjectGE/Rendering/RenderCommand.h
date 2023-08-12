@@ -13,7 +13,7 @@ namespace ProjectGE {
 			s_RendererAPI->SetClearColor(color);
 		};
 
-		inline static void DrawIndexed(GeometryPack* geopack) {
+		inline static void DrawIndexed(std::shared_ptr<GeometryPack> geopack) {
 			s_RendererAPI->DrawIndexed(geopack);
 		}
 

@@ -20,6 +20,9 @@ cbuffer Model : register(b1){
 };
 
 cbuffer ExternalInput : register(b2){
+    float4 pos;
+    float rot;
+    float3 scale;
 };
 
     
@@ -27,7 +30,7 @@ VertexShaderOutput main(VertexPosColor input)
 {
     VertexShaderOutput output;
     matrix MVP = mul(M,VP);
-    output.Position = mul(float4(input.Position, 1.0f), MVP);
+    output.Position = mul(float4(input.Position + pos.xyz, 1.0f), MVP);
     output.Color = float4(input.Color, 1.0f);
     
     return output;

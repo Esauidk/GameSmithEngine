@@ -16,7 +16,7 @@ namespace ProjectGE {
 		virtual void Clear() = 0;
 		virtual void SetClearColor(const glm::vec4& color) = 0;
 
-		virtual void DrawIndexed(GeometryPack* geopack) = 0;
+		virtual void DrawIndexed(std::shared_ptr<GeometryPack> geopack) = 0;
 
 		virtual void FinishRecording() = 0;
 

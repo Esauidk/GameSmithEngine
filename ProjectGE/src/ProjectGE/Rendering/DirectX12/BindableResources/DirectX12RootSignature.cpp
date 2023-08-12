@@ -17,7 +17,7 @@ namespace ProjectGE {
 		}
 	}
 
-	ShaderArguement* DirectX12RootSignature::AddArguement(UINT size, ShaderArguementType type)
+	ShaderArguement* DirectX12RootSignature::AddArguement(ShaderArguementType type, UINT size)
 	{
 		DirectX12ShaderInput* input;
 		switch (type) {
@@ -30,7 +30,7 @@ namespace ProjectGE {
 			}	
 		case ShaderArguementType::Reference:
 		{
-			input = new DirectX12ShaderReference(m_AvailableSlot, size, D3D12_ROOT_DESCRIPTOR_FLAG_DATA_STATIC_WHILE_SET_AT_EXECUTE);
+			input = new DirectX12ShaderReference(m_AvailableSlot, D3D12_ROOT_DESCRIPTOR_FLAG_DATA_STATIC_WHILE_SET_AT_EXECUTE);
 			m_Parameters.push_back(input->GetDefinition());
 			m_AvailableSlot++;
 			break;

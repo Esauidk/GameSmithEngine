@@ -10,7 +10,7 @@ namespace ProjectGE {
 	void DirectX12RendererAPI::Clear()
 	{
 	}
-	void DirectX12RendererAPI::DrawIndexed(GeometryPack* geopack)
+	void DirectX12RendererAPI::DrawIndexed(std::shared_ptr<GeometryPack> geopack)
 	{
 		auto& list = DirectX12Context::GetDirectCommandList();
 		list->DrawIndexedInstanced(geopack->GetIndexBuffer()->GetCount(), 1, 0, 0, 0);

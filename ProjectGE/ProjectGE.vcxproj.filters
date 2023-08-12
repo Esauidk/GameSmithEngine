@@ -1433,6 +1433,7 @@
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12ShaderInput.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\ConstantBuffer.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12ConstantBuffer.h" />
+    <ClInclude Include="Material.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\Core\Application.cpp">
@@ -1511,6 +1512,7 @@
     <ClCompile Include="src\ProjectGE\Components\Transform.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\ConstantBuffer.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12ConstantBuffer.cpp" />
+    <ClCompile Include="Material.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\SamplePixelShader.hlsl" />

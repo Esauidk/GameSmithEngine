@@ -6,9 +6,9 @@
 #include "ProjectGE/Core/Log.h"
 
 namespace ProjectGE {
-	DirectX12ShaderReference::DirectX12ShaderReference(UINT registerSlot, UINT size, D3D12_ROOT_DESCRIPTOR_FLAGS flags) : DirectX12ShaderInput(registerSlot, size)
+	DirectX12ShaderReference::DirectX12ShaderReference(UINT registerSlot, D3D12_ROOT_DESCRIPTOR_FLAGS flags) : DirectX12ShaderInput(registerSlot, 0)
 	{
-		m_Parameter.InitAsConstantBufferView(registerSlot,0, flags, D3D12_SHADER_VISIBILITY_VERTEX);
+		m_Parameter.InitAsConstantBufferView(registerSlot,0, flags);
 	}
 
 	void DirectX12ShaderReference::SetData(void* rawData)

@@ -7,5 +7,6 @@ namespace ProjectGE {
 		virtual void* GetGPUReference() = 0;
 
 		static ConstantBuffer* Create(void* initialData, UINT size);
+		static ConstantBuffer* Create(UINT size);
 	};
 }

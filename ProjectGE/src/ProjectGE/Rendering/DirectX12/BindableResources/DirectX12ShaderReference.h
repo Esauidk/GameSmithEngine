@@ -6,7 +6,7 @@ namespace ProjectGE {
 	class DirectX12ShaderReference : public DirectX12ShaderInput
 	{
 	public:
-		DirectX12ShaderReference(UINT registerSlot, UINT size, D3D12_ROOT_DESCRIPTOR_FLAGS flags);
+		DirectX12ShaderReference(UINT registerSlot, D3D12_ROOT_DESCRIPTOR_FLAGS flags);
 		void SetData(void* rawData) override;
 		void Bind() override;
 	};
