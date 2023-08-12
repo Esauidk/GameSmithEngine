@@ -3,14 +3,13 @@
 #include "imgui.h"
 
 #include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12Shader.h"
+#include <glm/gtc/type_ptr.hpp>
 
 class ExampleLayer : public ProjectGE::Layer {
 public:
 	// DIRECTX12 is ROW MAJOR
 	struct test {
-		glm::vec4 color;
-		glm::vec1 intensity;
-		glm::vec3 wordPos;
+		glm::vec3 color;
 	};
 
 	ExampleLayer() : Layer("Example"), m_Cam(-1.6f, 1.6f, -0.9f, 0.9f) {
@@ -98,13 +97,15 @@ public:
 		m_SquarePack->AttachIndexBuffer(m_SquareIndexBuffer);
 		m_SquarePack->AttachTopology(m_Topo);
 
-		test example1 = { {1,1,1,1}, glm::vec1(2), {3,3,3} };
-		std::dynamic_pointer_cast<ProjectGE::DirectX12Shader>(m_Shaders)->UploadShaderInput((BYTE*)&example1);
 
 		/* END: TEST CODE REMOVE */
 	}
 
-	void OnImGuiRender() override {}
+	void OnImGuiRender() override {
+		ImGui::Begin("Settings");
+		ImGui::ColorEdit3("Color", glm::value_ptr(m_Example1.color));
+		ImGui::End();
+	}
 
 
 	void OnUpdate() override {
@@ -168,6 +169,7 @@ public:
 
 		m_State->Bind();
 		m_Root->Bind();
+		std::dynamic_pointer_cast<ProjectGE::DirectX12Shader>(m_Shaders)->UploadShaderInput((BYTE*)&m_Example1);
 
 		glm::mat4 tri = glm::transpose(m_TriTrans.GetModelMatrix());
 		glm::mat4 squ = glm::transpose(m_SquareTrans.GetModelMatrix());
@@ -194,6 +196,7 @@ private:
 	std::shared_ptr<ProjectGE::ShaderArguement> m_Arg3;
 
 	ProjectGE::OrthoCamera m_Cam;
+	test m_Example1;
 };
 class TestZone : public ProjectGE::Application {
 public:
