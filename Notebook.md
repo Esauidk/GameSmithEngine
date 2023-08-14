@@ -37,3 +37,8 @@ function of my bindableresources.
 
 # 8/5/2023
 API Agnostic code has been qdded now I just need to try using it. An example will porbably be recreating the triangle demo using the commands
+
+# 8/13/2023
+So.... I managed to find a way for shaders to have a modular input, but there are some flaws to this solution. 1) The shaders need to know the exact structure of the data and define it in code (this is because the data will come as a data array). 
+This is not that bad of an issue since the intent is for shaders to define their inputs. 2) The inputs need to be known before the storage for it is generated. I need to find a way to extract the input from the compiled shader. Next I'm going to look into 
+material systems.
