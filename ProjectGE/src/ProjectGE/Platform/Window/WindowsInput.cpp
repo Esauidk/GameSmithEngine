@@ -47,6 +47,7 @@ namespace ProjectGE {
 		return y;
 	}
 
+	
 	std::pair<float, float> WindowsInput::GetMousePosImpl()
 	{
 		POINT pt;

@@ -3,6 +3,7 @@
 #include <glm/glm.hpp>
 
 #include "ProjectGE/Rendering/RenderAgnostics/BindableResources/GeometryPack.h"
+#include "ProjectGE/Core/Core.h"
 
 namespace ProjectGE {
 	// INTERFACE
@@ -16,7 +17,7 @@ namespace ProjectGE {
 		virtual void Clear() = 0;
 		virtual void SetClearColor(const glm::vec4& color) = 0;
 
-		virtual void DrawIndexed(std::shared_ptr<GeometryPack> geopack) = 0;
+		virtual void DrawIndexed(Ref<GeometryPack> geopack) = 0;
 
 		virtual void FinishRecording() = 0;
 

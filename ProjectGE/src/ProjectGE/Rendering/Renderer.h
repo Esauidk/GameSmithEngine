@@ -14,7 +14,7 @@ namespace ProjectGE {
 	public:
 		static void BeginScene(Camera& camera);
 		static void EndScene();
-		static void Submit(std::shared_ptr<GeometryPack> geopack, std::shared_ptr<Shader> shader, glm::mat4& transform, std::shared_ptr<ShaderArguement> camMat4Slot, std::shared_ptr<ShaderArguement> objectMat4Slot);
+		static void Submit(Ref<GeometryPack> geopack, Ref<Shader> shader, glm::mat4& transform, Ref<ShaderArguement> camMat4Slot, Ref<ShaderArguement> objectMat4Slot);
 		inline static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); };
 	private:
 		struct SceneData {

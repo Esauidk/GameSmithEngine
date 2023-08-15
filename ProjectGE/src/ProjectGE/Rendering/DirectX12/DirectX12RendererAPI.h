@@ -9,7 +9,7 @@ namespace ProjectGE {
 		void SetClearColor(const glm::vec4& color) override;
 		void Clear() override;
 
-		void DrawIndexed(std::shared_ptr<GeometryPack> geopack) override;
+		void DrawIndexed(Ref<GeometryPack> geopack) override;
 
 		void FinishRecording() override;
 	};

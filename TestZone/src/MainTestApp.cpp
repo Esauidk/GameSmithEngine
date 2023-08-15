@@ -21,11 +21,11 @@ public:
 
 
 		// Setup Root Signature
-		m_Root = std::unique_ptr<ProjectGE::ShaderArguementDefiner>(ProjectGE::ShaderArguementDefiner::Create());
+		m_Root = ProjectGE::Ref<ProjectGE::ShaderArguementDefiner>(ProjectGE::ShaderArguementDefiner::Create());
 
-		m_Arg1 = std::unique_ptr<ProjectGE::ShaderArguement>(m_Root->AddArguement(ProjectGE::ShaderArguementType::Constant, sizeof(glm::mat4) / 4));
-		m_Arg2 = std::unique_ptr<ProjectGE::ShaderArguement>(m_Root->AddArguement(ProjectGE::ShaderArguementType::Constant, sizeof(glm::mat4) / 4));
-		m_Arg3 = std::unique_ptr<ProjectGE::ShaderArguement>(m_Root->AddArguement(ProjectGE::ShaderArguementType::Reference));
+		m_Arg1 = ProjectGE::Ref<ProjectGE::ShaderArguement>(m_Root->AddArguement(ProjectGE::ShaderArguementType::Constant, sizeof(glm::mat4) / 4));
+		m_Arg2 = ProjectGE::Ref<ProjectGE::ShaderArguement>(m_Root->AddArguement(ProjectGE::ShaderArguementType::Constant, sizeof(glm::mat4) / 4));
+		m_Arg3 = ProjectGE::Ref<ProjectGE::ShaderArguement>(m_Root->AddArguement(ProjectGE::ShaderArguementType::Reference));
 
 
 		m_Root->FinalizeSignature();
@@ -38,14 +38,14 @@ public:
 
 		std::string nvertex = std::string(vertex.begin(), vertex.end());
 		std::string npixel = std::string(pixel.begin(), pixel.end());
-		m_Shaders = std::unique_ptr<ProjectGE::Shader>(ProjectGE::Shader::Create(nvertex, npixel, m_Arg3.get(), sizeof(test)));
+		m_Shaders = ProjectGE::Ref<ProjectGE::Shader>(ProjectGE::Shader::Create(nvertex, npixel, m_Arg3.get(), sizeof(test)));
 
 		// Setup Topology
 
-		auto m_Topo = std::shared_ptr<ProjectGE::Topology>(ProjectGE::Topology::Create(ProjectGE::TopologyType::Triangle));
+		auto m_Topo = ProjectGE::Ref<ProjectGE::Topology>(ProjectGE::Topology::Create(ProjectGE::TopologyType::Triangle));
 
 		// Setup Pipeline
-		m_State = std::unique_ptr<ProjectGE::PipelineStateObject>(ProjectGE::PipelineStateObject::Create());
+		m_State = ProjectGE::Ref<ProjectGE::PipelineStateObject>(ProjectGE::PipelineStateObject::Create());
 
 		m_Shaders->Append(*(m_State.get()));
 		m_Root->Append(*(m_State.get()));
@@ -66,8 +66,8 @@ public:
 
 		ProjectGE::BufferLayoutBuilder layout = { {"POSITION", ProjectGE::ShaderDataType::Float3}, {"COLOR", ProjectGE::ShaderDataType::Float3} };
 
-		auto m_TriVertexBuffer = std::shared_ptr<ProjectGE::VertexBuffer>(ProjectGE::VertexBuffer::Create(&triVertex, sizeof(triVertex) / sizeof(ProjectGE::Vertex)));
-		auto m_SquareVertexBuffer = std::shared_ptr<ProjectGE::VertexBuffer>(ProjectGE::VertexBuffer::Create(&squareVertex, sizeof(squareVertex) / sizeof(ProjectGE::Vertex)));
+		auto m_TriVertexBuffer = ProjectGE::Ref<ProjectGE::VertexBuffer>(ProjectGE::VertexBuffer::Create(&triVertex, sizeof(triVertex) / sizeof(ProjectGE::Vertex)));
+		auto m_SquareVertexBuffer = ProjectGE::Ref<ProjectGE::VertexBuffer>(ProjectGE::VertexBuffer::Create(&squareVertex, sizeof(squareVertex) / sizeof(ProjectGE::Vertex)));
 		m_TriVertexBuffer->AttachLayout(layout);
 		m_SquareVertexBuffer->AttachLayout(layout);
 
@@ -84,15 +84,15 @@ public:
 			2,1,0,0,3,2
 		};
 
-		auto m_TriIndexBuffer = std::shared_ptr<ProjectGE::IndexBuffer>(ProjectGE::IndexBuffer::Create(indexCount, (int)_countof(indexCount)));
-		auto m_SquareIndexBuffer = std::shared_ptr<ProjectGE::IndexBuffer>(ProjectGE::IndexBuffer::Create(squareIndex, (int)_countof(squareIndex)));
+		auto m_TriIndexBuffer = ProjectGE::Ref<ProjectGE::IndexBuffer>(ProjectGE::IndexBuffer::Create(indexCount, (int)_countof(indexCount)));
+		auto m_SquareIndexBuffer = ProjectGE::Ref<ProjectGE::IndexBuffer>(ProjectGE::IndexBuffer::Create(squareIndex, (int)_countof(squareIndex)));
 
-		m_TriPack = std::unique_ptr<ProjectGE::GeometryPack>(ProjectGE::GeometryPack::Create());
+		m_TriPack = ProjectGE::Ref<ProjectGE::GeometryPack>(ProjectGE::GeometryPack::Create());
 		m_TriPack->AttachVertexBuffer(m_TriVertexBuffer);
 		m_TriPack->AttachIndexBuffer(m_TriIndexBuffer);
 		m_TriPack->AttachTopology(m_Topo);
 
-		m_SquarePack = std::unique_ptr<ProjectGE::GeometryPack>(ProjectGE::GeometryPack::Create());
+		m_SquarePack = ProjectGE::Ref<ProjectGE::GeometryPack>(ProjectGE::GeometryPack::Create());
 		m_SquarePack->AttachVertexBuffer(m_SquareVertexBuffer);
 		m_SquarePack->AttachIndexBuffer(m_SquareIndexBuffer);
 		m_SquarePack->AttachTopology(m_Topo);
@@ -182,18 +182,18 @@ public:
 	void EventSubscribe(const std::vector<ProjectGE::EventDispatcherBase*>& dispatchers, bool overlay) override {}
 
 private:
-	std::shared_ptr<ProjectGE::PipelineStateObject> m_State;
-	std::shared_ptr<ProjectGE::ShaderArguementDefiner> m_Root;
-	std::shared_ptr<ProjectGE::Shader> m_Shaders;
-	std::shared_ptr<ProjectGE::GeometryPack> m_TriPack;
+	ProjectGE::Ref<ProjectGE::PipelineStateObject> m_State;
+	ProjectGE::Ref<ProjectGE::ShaderArguementDefiner> m_Root;
+	ProjectGE::Ref<ProjectGE::Shader> m_Shaders;
+	ProjectGE::Ref<ProjectGE::GeometryPack> m_TriPack;
 	Transform m_TriTrans;
-	std::shared_ptr<ProjectGE::GeometryPack> m_SquarePack;
+	ProjectGE::Ref<ProjectGE::GeometryPack> m_SquarePack;
 	Transform m_SquareTrans;
 
-	std::shared_ptr<ProjectGE::ConstantBuffer> m_C;
-	std::shared_ptr<ProjectGE::ShaderArguement> m_Arg1;
-	std::shared_ptr<ProjectGE::ShaderArguement> m_Arg2;
-	std::shared_ptr<ProjectGE::ShaderArguement> m_Arg3;
+	ProjectGE::Ref<ProjectGE::ConstantBuffer> m_C;
+	ProjectGE::Ref<ProjectGE::ShaderArguement> m_Arg1;
+	ProjectGE::Ref<ProjectGE::ShaderArguement> m_Arg2;
+	ProjectGE::Ref<ProjectGE::ShaderArguement> m_Arg3;
 
 	ProjectGE::OrthoCamera m_Cam;
 	test m_Example1;

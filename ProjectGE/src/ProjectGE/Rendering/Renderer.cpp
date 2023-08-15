@@ -13,7 +13,7 @@ namespace ProjectGE {
 	{
 		RenderCommand::FinishedRecording();
 	}
-	void Renderer::Submit(std::shared_ptr<GeometryPack> geopack, std::shared_ptr<Shader> shader, glm::mat4& objectTransform, std::shared_ptr<ShaderArguement> camMat4Slot, std::shared_ptr<ShaderArguement> objectMat4Slot)
+	void Renderer::Submit(Ref<GeometryPack> geopack, Ref<Shader> shader, glm::mat4& objectTransform, Ref<ShaderArguement> camMat4Slot, Ref<ShaderArguement> objectMat4Slot)
 	{
 		shader->Bind();
 

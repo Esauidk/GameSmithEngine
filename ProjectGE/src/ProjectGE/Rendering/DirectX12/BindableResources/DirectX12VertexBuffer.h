@@ -38,7 +38,7 @@ namespace ProjectGE {
 		}
 
 	private:
-		std::unique_ptr<DirectX12InputLayout> m_Layout;
+		Scope<DirectX12InputLayout> m_Layout;
 	};
 };
 

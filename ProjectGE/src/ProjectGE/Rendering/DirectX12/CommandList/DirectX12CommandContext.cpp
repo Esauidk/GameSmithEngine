@@ -11,7 +11,7 @@ namespace ProjectGE {
 			GE_CORE_ASSERT(false, "Command List is already open! Close this list if it is meant to be finished");
 		}
 
-		m_CurrentList = std::unique_ptr<DirectX12CommandListWrapper>(m_Queue->GetCommandList());
+		m_CurrentList = Scope<DirectX12CommandListWrapper>(m_Queue->GetCommandList());
 	}
 
 	UINT DirectX12CommandContextBase::CloseCommandList()
@@ -32,7 +32,7 @@ namespace ProjectGE {
 	DirectX12CommandContextBase::DirectX12CommandContextBase(DirectX12QueueType type) : m_QueueType(type)
 	{
 		m_Queue = std::make_unique<DirectX12CommandQueue>(type);
-		m_CurrentList = std::unique_ptr<DirectX12CommandListWrapper>(m_Queue->GetCommandList());
+		m_CurrentList = Scope<DirectX12CommandListWrapper>(m_Queue->GetCommandList());
 	}
 };
 

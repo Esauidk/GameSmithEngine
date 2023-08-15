@@ -12,8 +12,8 @@ namespace ProjectGE {
 	ComPtr<ID3D12Debug> DirectX12Context::s_Debug = nullptr;
 	ComPtr<ID3D12InfoQueue> DirectX12Context::s_InfoQueue = nullptr;
 	ComPtr<ID3D12Device8> DirectX12Context::s_Device = nullptr;
-	std::unique_ptr<DirectX12CommandContextDirect> DirectX12Context::s_DirectContext = nullptr;
-	std::unique_ptr<DirectX12CommandContextCopy> DirectX12Context::s_CopyContext = nullptr;
+	Scope<DirectX12CommandContextDirect> DirectX12Context::s_DirectContext = nullptr;
+	Scope<DirectX12CommandContextCopy> DirectX12Context::s_CopyContext = nullptr;
 	bool DirectX12Context::s_Initialized = false;
 
 

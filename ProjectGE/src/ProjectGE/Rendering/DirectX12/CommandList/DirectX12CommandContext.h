@@ -2,6 +2,8 @@
 #include "gepch.h"
 #include "ProjectGE/Rendering/DirectX12/CommandList/DirectX12CommandQueue.h"
 
+#include "ProjectGE/Core/Core.h"
+
 namespace ProjectGE {
 	// This class manages the lifetime and usage of command lists for DX12 in this engine
 	class DirectX12CommandContextBase
@@ -15,8 +17,8 @@ namespace ProjectGE {
 	protected:
 		DirectX12CommandContextBase(DirectX12QueueType type);
 	private:
-		std::unique_ptr<DirectX12CommandListWrapper> m_CurrentList;
-		std::unique_ptr<DirectX12CommandQueue> m_Queue;
+		Scope<DirectX12CommandListWrapper> m_CurrentList;
+		Scope<DirectX12CommandQueue> m_Queue;
 		std::queue<DirectX12CommandListWrapper> m_CompletedLists;
 		DirectX12QueueType m_QueueType;
 	};

@@ -9,6 +9,8 @@
 #include "CommandList/DirectX12CommandContext.h"
 #include "DirectX12DepthBuffer.h"
 
+#include "ProjectGE/Core/Core.h"
+
 
 using Microsoft::WRL::ComPtr;
 
@@ -48,8 +50,8 @@ namespace ProjectGE {
 		static ComPtr<ID3D12Debug> s_Debug;
 		static ComPtr<ID3D12InfoQueue> s_InfoQueue;
 		static ComPtr<ID3D12Device8> s_Device;
-		static std::unique_ptr<DirectX12CommandContextDirect> s_DirectContext;
-		static std::unique_ptr<DirectX12CommandContextCopy> s_CopyContext;
+		static Scope<DirectX12CommandContextDirect> s_DirectContext;
+		static Scope<DirectX12CommandContextCopy> s_CopyContext;
 		static bool s_Initialized;
 
 		// Core Resources
@@ -62,7 +64,7 @@ namespace ProjectGE {
 		// Shader Resource Heap
 		ComPtr<ID3D12DescriptorHeap> m_SRVHeapD;
 		// Depth Buffer
-		std::unique_ptr<DirectX12DepthBuffer> m_DBuffer;
+		Scope<DirectX12DepthBuffer> m_DBuffer;
 		
 		bool m_Vsync;
 		BOOL m_TearingSupport;
