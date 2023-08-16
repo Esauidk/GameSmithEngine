@@ -8,14 +8,14 @@
 #endif
 
 namespace ProjectGE {
-	IndexBuffer* IndexBuffer::Create(void* verticies, UINT count)
+	Ref<IndexBuffer> IndexBuffer::Create(void* verticies, UINT count)
 	{
 		switch (Renderer::GetAPI()) {
 		case RendererAPI::API::None:
 			return nullptr;
 			break;
 		case RendererAPI::API::DirectX12:
-			return new DirectX12IndexBuffer((WORD*)verticies, count);
+			return Ref<IndexBuffer>(new DirectX12IndexBuffer((WORD*)verticies, count));
 			break;
 		}
 

@@ -8,13 +8,13 @@
 #endif
 
 namespace ProjectGE {
-	PipelineStateObject* PipelineStateObject::Create() {
+	Ref<PipelineStateObject> PipelineStateObject::Create() {
 		switch (Renderer::GetAPI()) {
 		case RendererAPI::API::None:
 			return nullptr;
 			break;
 		case RendererAPI::API::DirectX12:
-			return new DirectX12PipelineState();
+			return Ref<PipelineStateObject>(new DirectX12PipelineState());
 			break;
 		}
 

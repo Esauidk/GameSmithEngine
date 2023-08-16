@@ -1,4 +1,5 @@
 #pragma once
+#include "ProjectGE/Core/Core.h"
 #include "ProjectGE/Rendering/BindableResource.h"
 #include "ProjectGE/Rendering/RenderAgnostics/PipelineDefiner.h"
 
@@ -16,7 +17,7 @@ namespace ProjectGE{
 	{
 	public:
 		// Instantiates an implementation of the Topology Interface (recommended to use this instead of instantiating a specific implementation)
-		static Topology* Create(TopologyType type);
+		static Ref<Topology> Create(TopologyType type);
 	};
 };
 

@@ -1,4 +1,5 @@
 #pragma once
+#include "ProjectGE/Core/Core.h"
 #include "ProjectGE/Rendering/BindableResource.h"
 
 namespace ProjectGE {
@@ -10,6 +11,6 @@ namespace ProjectGE {
 		// This is a chance to serialize the object if need be
 		virtual void Build() = 0;
 		// Instantiates an implementation of the PipelineStateObject Interface (recommended to use this instead of instantiating a specific implementation)
-		static PipelineStateObject* Create();
+		static Ref<PipelineStateObject> Create();
 	};
 };

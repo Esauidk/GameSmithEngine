@@ -17,7 +17,7 @@ public:
 		// Read Shaders(Vertex, Pixel)
 
 		m_TriTrans.SetPosition(glm::vec3(0, 1, 0));
-		m_SquareTrans.SetPosition(glm::vec3(1, 0, 0));
+		m_SquareTrans.SetPosition(glm::vec3(0, 0, 0));
 
 
 		// Setup Root Signature
@@ -42,32 +42,32 @@ public:
 
 		// Setup Topology
 
-		auto m_Topo = ProjectGE::Ref<ProjectGE::Topology>(ProjectGE::Topology::Create(ProjectGE::TopologyType::Triangle));
+		auto m_Topo = ProjectGE::Topology::Create(ProjectGE::TopologyType::Triangle);
 
 		// Setup Pipeline
-		m_State = ProjectGE::Ref<ProjectGE::PipelineStateObject>(ProjectGE::PipelineStateObject::Create());
+		m_State = ProjectGE::PipelineStateObject::Create();
 
 		m_Shaders->Append(*(m_State.get()));
 		m_Root->Append(*(m_State.get()));
 		m_Topo->Append(*(m_State.get()));
 
 		ProjectGE::Vertex triVertex[] = {
-			{ {-0.5f, -0.5f, 0.0f}, {1.0f, 0.0f, 0.0f} }, // 0
-			{ {0.0f,  0.5f, 0.0f}, {0.0f, 0.0f, 1.0f} }, // 1 
-			{ {0.5f,  -0.5f, 0.0f}, {0.0f, 1.0f, 0.0f} } // 2
+			{ {-0.5f, -0.5f, 0.0f}}, // 0
+			{ {0.0f,  0.5f, 0.0f}}, // 1 
+			{ {0.5f,  -0.5f, 0.0f}} // 2
 		};
 
 		ProjectGE::Vertex squareVertex[] = {
-			{{-0.75f, -0.75f, 0.0f}, {1.0f, 1.0f, 0.0f}},
-			{{0.75f, -0.75f, 0.0f}, {0.0f, 1.0f, 1.0f}},
-			{{0.75f,  0.75f, 0.0f}, {1.0, 0.0f, 1.0f}},
-			{{-0.75f,  0.75f, 0.0f}, {0.5f, 0.5f, 0.5f}}
+			{{-0.75f, -0.75f, 0.0f}, {0, 0}},
+			{{0.75f, -0.75f, 0.0f}, {1, 0}},
+			{{0.75f,  0.75f, 0.0f},{1, 1}},
+			{{-0.75f,  0.75f, 0.0f}, {0, 1}}
 		};
 
-		ProjectGE::BufferLayoutBuilder layout = { {"POSITION", ProjectGE::ShaderDataType::Float3}, {"COLOR", ProjectGE::ShaderDataType::Float3} };
+		ProjectGE::BufferLayoutBuilder layout = { {"POSITION", ProjectGE::ShaderDataType::Float3}, {"UV_TEXCOORD", ProjectGE::ShaderDataType::Float2} };
 
-		auto m_TriVertexBuffer = ProjectGE::Ref<ProjectGE::VertexBuffer>(ProjectGE::VertexBuffer::Create(&triVertex, sizeof(triVertex) / sizeof(ProjectGE::Vertex)));
-		auto m_SquareVertexBuffer = ProjectGE::Ref<ProjectGE::VertexBuffer>(ProjectGE::VertexBuffer::Create(&squareVertex, sizeof(squareVertex) / sizeof(ProjectGE::Vertex)));
+		auto m_TriVertexBuffer = ProjectGE::VertexBuffer::Create(&triVertex, sizeof(triVertex) / sizeof(ProjectGE::Vertex));
+		auto m_SquareVertexBuffer = ProjectGE::VertexBuffer::Create(&squareVertex, sizeof(squareVertex) / sizeof(ProjectGE::Vertex));
 		m_TriVertexBuffer->AttachLayout(layout);
 		m_SquareVertexBuffer->AttachLayout(layout);
 
@@ -84,15 +84,15 @@ public:
 			2,1,0,0,3,2
 		};
 
-		auto m_TriIndexBuffer = ProjectGE::Ref<ProjectGE::IndexBuffer>(ProjectGE::IndexBuffer::Create(indexCount, (int)_countof(indexCount)));
-		auto m_SquareIndexBuffer = ProjectGE::Ref<ProjectGE::IndexBuffer>(ProjectGE::IndexBuffer::Create(squareIndex, (int)_countof(squareIndex)));
+		auto m_TriIndexBuffer = ProjectGE::IndexBuffer::Create(indexCount, (int)_countof(indexCount));
+		auto m_SquareIndexBuffer = ProjectGE::IndexBuffer::Create(squareIndex, (int)_countof(squareIndex));
 
-		m_TriPack = ProjectGE::Ref<ProjectGE::GeometryPack>(ProjectGE::GeometryPack::Create());
+		m_TriPack = ProjectGE::GeometryPack::Create();
 		m_TriPack->AttachVertexBuffer(m_TriVertexBuffer);
 		m_TriPack->AttachIndexBuffer(m_TriIndexBuffer);
 		m_TriPack->AttachTopology(m_Topo);
 
-		m_SquarePack = ProjectGE::Ref<ProjectGE::GeometryPack>(ProjectGE::GeometryPack::Create());
+		m_SquarePack = ProjectGE::GeometryPack::Create();
 		m_SquarePack->AttachVertexBuffer(m_SquareVertexBuffer);
 		m_SquarePack->AttachIndexBuffer(m_SquareIndexBuffer);
 		m_SquarePack->AttachTopology(m_Topo);
@@ -103,7 +103,7 @@ public:
 
 	void OnImGuiRender() override {
 		ImGui::Begin("Settings");
-		ImGui::ColorEdit3("Color", glm::value_ptr(m_Example1.color));
+		ImGui::ColorEdit3("Tint Color", glm::value_ptr(m_Example1.color));
 		ImGui::End();
 	}
 
@@ -173,7 +173,7 @@ public:
 
 		glm::mat4 tri = glm::transpose(m_TriTrans.GetModelMatrix());
 		glm::mat4 squ = glm::transpose(m_SquareTrans.GetModelMatrix());
-		ProjectGE::Renderer::Submit(m_TriPack, m_Shaders, tri, m_Arg1, m_Arg2);
+		//ProjectGE::Renderer::Submit(m_TriPack, m_Shaders, tri, m_Arg1, m_Arg2);
 		ProjectGE::Renderer::Submit(m_SquarePack, m_Shaders, squ, m_Arg1, m_Arg2);
 
 		ProjectGE::Renderer::EndScene();

@@ -8,13 +8,13 @@
 #endif
 
 namespace ProjectGE {
-	Topology* ProjectGE::Topology::Create(TopologyType type)
+	Ref<Topology> ProjectGE::Topology::Create(TopologyType type)
 	{
 		switch (Renderer::GetAPI()) {
 		case RendererAPI::API::None:
 			return nullptr;
 		case RendererAPI::API::DirectX12:
-			return new DirectX12TopologyResource(type);
+			return Ref<Topology>(new DirectX12TopologyResource(type));
 		}
 		return nullptr;
 	}

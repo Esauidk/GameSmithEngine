@@ -1,6 +1,7 @@
 #pragma once
-#include "ProjectGE/Rendering/BindableResource.h"
+#include <d3d12.h>
 #include "ProjectGE/Rendering/RenderAgnostics/BindableResources/Topology.h"
+
 
 namespace ProjectGE {
 	class DirectX12TopologyResource : public Topology

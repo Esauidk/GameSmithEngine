@@ -1,4 +1,6 @@
 #pragma once
+#include <d3d12.h>
+
 #include "ProjectGE/Core/Core.h"
 
 #include "ProjectGE/Rendering/RenderAgnostics/PipelineDefiner.h"

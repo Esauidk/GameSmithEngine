@@ -6,8 +6,7 @@
 
 namespace ProjectGE {
 	DirectX12ShaderReferenceTable::DirectX12ShaderReferenceTable(UINT registerSlot, UINT count) : DirectX12ShaderInput(registerSlot, count){
-		
-	}
+	}	
 
 	void DirectX12ShaderReferenceTable::Bind()
 	{

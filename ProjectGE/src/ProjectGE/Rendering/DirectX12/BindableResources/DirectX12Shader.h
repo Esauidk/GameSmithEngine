@@ -1,5 +1,6 @@
 #pragma once
 #include "gepch.h"
+#include <wrl.h>
 #include <d3dcompiler.h>
 #include "ProjectGE/Rendering/RenderAgnostics/BindableResources/Shader.h"
 #include "ProjectGE/Rendering/RenderAgnostics/BindableResources/ConstantBuffer.h"
@@ -16,8 +17,8 @@ namespace ProjectGE {
 	private:
 		Microsoft::WRL::ComPtr<ID3DBlob> m_VertexBlob;
 		Microsoft::WRL::ComPtr<ID3DBlob> m_PixelBlob;
-		ConstantBuffer* m_uniformCBuf;
-		ShaderArguement* m_UnformSlot;
+		Ref<ConstantBuffer> m_uniformCBuf;
+		Ref<ShaderArguement> m_UnformSlot;
 
 	};
 };

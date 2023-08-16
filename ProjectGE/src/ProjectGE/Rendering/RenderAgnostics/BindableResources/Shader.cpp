@@ -8,27 +8,27 @@
 #endif
 
 namespace ProjectGE {
-	Shader* ProjectGE::Shader::Create(std::string vertexPath, std::string pixelPath, ShaderArguement* shaderUnifromsSlot, UINT size)
+	Ref<Shader> ProjectGE::Shader::Create(std::string vertexPath, std::string pixelPath, ShaderArguement* shaderUnifromsSlot, UINT size)
 	{
 		switch (Renderer::GetAPI()) {
 		case RendererAPI::API::None:
 			return nullptr;
 			break;
 		case RendererAPI::API::DirectX12:
-			return new DirectX12Shader(vertexPath, pixelPath, shaderUnifromsSlot, size);
+			return Ref<Shader>(new DirectX12Shader(vertexPath, pixelPath, shaderUnifromsSlot, size));
 			break;
 		}
 
 		return nullptr;
 	}
-	Shader* Shader::Create(std::string vertexPath, std::string pixelPath)
+	Ref<Shader> Shader::Create(std::string vertexPath, std::string pixelPath)
 	{
 		switch (Renderer::GetAPI()) {
 		case RendererAPI::API::None:
 			return nullptr;
 			break;
 		case RendererAPI::API::DirectX12:
-			return new DirectX12Shader(vertexPath, pixelPath, nullptr);
+			return Ref<Shader>(new DirectX12Shader(vertexPath, pixelPath, nullptr));
 			break;
 		}
 

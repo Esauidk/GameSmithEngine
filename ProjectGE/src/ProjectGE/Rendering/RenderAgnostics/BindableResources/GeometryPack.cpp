@@ -8,13 +8,13 @@
 #endif
 
 namespace ProjectGE {
-	GeometryPack* GeometryPack::Create()
+	Ref<GeometryPack> GeometryPack::Create()
 	{
 		switch (Renderer::GetAPI()) {
 		case RendererAPI::API::None:
 			return nullptr;
 		case RendererAPI::API::DirectX12:
-			return new DirectX12GeometryPack();
+			return Ref<GeometryPack>(new DirectX12GeometryPack());
 		}
 
 		return nullptr;

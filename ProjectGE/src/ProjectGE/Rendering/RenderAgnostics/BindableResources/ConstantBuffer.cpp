@@ -8,24 +8,24 @@
 #endif
 
 namespace ProjectGE {
-	ConstantBuffer* ConstantBuffer::Create(void* initialData, UINT size)
+	Ref<ConstantBuffer> ConstantBuffer::Create(void* initialData, UINT size)
 	{
 		switch (Renderer::GetAPI()) {
 		case RendererAPI::API::None:
 			return nullptr;
 		case RendererAPI::API::DirectX12:
-			return new DirectX12ConstantBuffer((BYTE*)initialData, size);
+			return Ref<ConstantBuffer>(new DirectX12ConstantBuffer((BYTE*)initialData, size));
 		}
 		return nullptr;
 	}
 
-	ConstantBuffer* ConstantBuffer::Create(UINT size)
+	Ref<ConstantBuffer> ConstantBuffer::Create(UINT size)
 	{
 		switch (Renderer::GetAPI()) {
 		case RendererAPI::API::None:
 			return nullptr;
 		case RendererAPI::API::DirectX12:
-			return new DirectX12ConstantBuffer(size);
+			return Ref<ConstantBuffer>(new DirectX12ConstantBuffer(size));
 		}
 		return nullptr;
 	}

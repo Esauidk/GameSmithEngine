@@ -7,8 +7,7 @@
 namespace ProjectGE {
 	template <typename T>
 	class DirectX12Buffer {
-	protected:
-
+	public:
 		DirectX12Buffer(T* buffer, UINT count, std::string bufferName = "Personal Buffer") : m_BufferSize(sizeof(T)* count), m_State(D3D12_RESOURCE_STATE_COPY_DEST){
 
 			auto pDevice = DirectX12Context::GetDevice();
@@ -94,7 +93,30 @@ namespace ProjectGE {
 			m_CpuBuffer->SetName(nameConvert.c_str());
 		}
 
-	protected:
+		D3D12_GPU_VIRTUAL_ADDRESS GetGPUReference() {
+			return m_GpuBuffer->GetGPUVirtualAddress();
+		}
+
+		void SetUploadGPUBlock() {
+			DirectX12Context::InitializeQueueWait(DirectX12QueueType::Copy, DirectX12QueueType::Direct, m_UploadSignal);
+		}
+
+		void TransitionState(D3D12_RESOURCE_STATES newState) {
+			if (newState != m_State) {
+				auto& cmdList = DirectX12Context::GetDirectCommandList();
+				CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
+					m_GpuBuffer.Get(),
+					m_State, newState
+				);
+				cmdList->ResourceBarrier(1, &barrier);
+				m_State = newState;
+			}
+			
+		}
+
+		UINT GetSize() const { return m_BufferSize; }
+		D3D12_RESOURCE_STATES GetState() const { return m_State; }
+
 		void UpdateData(void* newData) {
 			auto& pCommandList = DirectX12Context::GetCopyCommandList();
 			// Store the data inside
@@ -107,7 +129,7 @@ namespace ProjectGE {
 			m_UploadSignal = DirectX12Context::FinalizeCommandList(DirectX12QueueType::Copy);
 		}
 
-	protected:
+	private:
 		ComPtr<ID3D12Resource2> m_GpuBuffer;
 		ComPtr<ID3D12Resource2> m_CpuBuffer;
 		UINT m_BufferSize;

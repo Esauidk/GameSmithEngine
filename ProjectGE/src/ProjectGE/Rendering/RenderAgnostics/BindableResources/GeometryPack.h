@@ -1,5 +1,5 @@
 #pragma once
-#include "gepch.h"
+#include "ProjectGE/Core/Core.h"
 #include "ProjectGE/Rendering/BindableResource.h"
 
 #include "ProjectGE/Rendering/RenderAgnostics/BindableResources/VertexBuffer.h"
@@ -12,13 +12,13 @@ namespace ProjectGE {
 	class GeometryPack : public BindableResource {
 	public:
 		// Names are straight forward
-		virtual void AttachVertexBuffer(std::shared_ptr<VertexBuffer> vertex) = 0;
-		virtual void AttachIndexBuffer(std::shared_ptr<IndexBuffer> index) = 0; 
-		virtual void AttachTopology(std::shared_ptr<Topology> top) = 0;
+		virtual void AttachVertexBuffer(Ref<VertexBuffer> vertex) = 0;
+		virtual void AttachIndexBuffer(Ref<IndexBuffer> index) = 0; 
+		virtual void AttachTopology(Ref<Topology> top) = 0;
 
-		virtual std::shared_ptr<IndexBuffer> GetIndexBuffer() const = 0;
+		virtual Ref<IndexBuffer> GetIndexBuffer() const = 0;
 
 		// Instantiates an implementation of the GeometryPack Interface (recommended to use this instead of instantiating a specific implementation)
-		static GeometryPack* Create();
+		static Ref<GeometryPack> Create();
 	};
 };

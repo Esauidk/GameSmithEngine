@@ -9,13 +9,13 @@
 #endif
 
 namespace ProjectGE {
-	VertexBuffer* ProjectGE::VertexBuffer::Create(void* verticies, UINT count)
+	Ref<VertexBuffer> ProjectGE::VertexBuffer::Create(void* verticies, UINT count)
 	{
 		switch (Renderer::GetAPI()) {
 		case RendererAPI::API::None:
 			return nullptr;
 		case RendererAPI::API::DirectX12:
-			return new DirectX12VertexBuffer<Vertex>((Vertex*)verticies, count);
+			return Ref<VertexBuffer>(new DirectX12VertexBuffer<Vertex>((Vertex*)verticies, count));
 		}
 
 		return nullptr;

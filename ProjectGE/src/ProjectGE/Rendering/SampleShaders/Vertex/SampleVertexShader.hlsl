@@ -1,13 +1,13 @@
 struct VertexPosColor
 {
     float3 Position : POSITION;
-    float3 Color : COLOR;
+    float2 uv : UV_TEXCOORD;
 };
 
 struct VertexShaderOutput
 {
-    float4 Color : COLOR;
     float4 Position : SV_POSITION;
+    float2 UV : UV_TEXCOORD;
 };
 
 cbuffer ViewProjection : register(b0)
@@ -29,7 +29,7 @@ VertexShaderOutput main(VertexPosColor input)
     VertexShaderOutput output;
     matrix MVP = mul(M,VP);
     output.Position = mul(float4(input.Position, 1.0f), MVP);
-    output.Color = float4(input.Color, 1.0f);
-    
+    output.UV = input.uv;
+
     return output;
 }

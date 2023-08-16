@@ -17,7 +17,7 @@ namespace ProjectGE {
 		}
 	}
 
-	ShaderArguement* DirectX12RootSignature::AddArguement(ShaderArguementType type, UINT size)
+	Ref<ShaderArguement> DirectX12RootSignature::AddArguement(ShaderArguementType type, UINT size)
 	{
 		DirectX12ShaderInput* input;
 		switch (type) {
@@ -39,7 +39,7 @@ namespace ProjectGE {
 			GE_CORE_ASSERT(false, "This type of arguement is not yet supported for DX12");
 		}
 
-		return input;
+		return Ref<ShaderArguement>(input);
 	}
 
 	void DirectX12RootSignature::FinalizeSignature() {

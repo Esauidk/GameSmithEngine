@@ -1,7 +1,7 @@
 struct VertexShaderOutput
 {
-    float4 Color : COLOR;
     float4 Position : SV_POSITION;
+    float2 UV : UV_TEXCOORD;
 };
 
 cbuffer ExternalInput : register(b2){
@@ -10,5 +10,5 @@ cbuffer ExternalInput : register(b2){
 
 float4 main(VertexShaderOutput input) : SV_TARGET
 {
-    return input.Color * float4(inputColor, 1);
+    return float4(input.UV,0, 1);
 }

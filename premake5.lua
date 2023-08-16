@@ -12,6 +12,7 @@ outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 IncludeDir = {}
 IncludeDir["ImGui"] = "ProjectGE/third-party/imgui"
 IncludeDir["glm"] = "ProjectGE/third-party/glm"
+IncludeDir["stb"] = "ProjectGE/third-party/stb"
 
 include "ProjectGE/third-party/imgui"
 
@@ -31,6 +32,8 @@ project "ProjectGE"
 	files{
 		"%{prj.name}/src/**.h",
 		"%{prj.name}/src/**.cpp",
+		"%{prj.name}/third-party/stb/**.h",
+		"%{prj.name}/third-party/stb/**.cpp",
 		"%{prj.name}/third-party/glm/glm/**.hpp",
 		"%{prj.name}/third-party/glm/glm/**.inl"
 	}
@@ -38,6 +41,7 @@ project "ProjectGE"
 	includedirs{
 		"%{prj.name}/src",
 		"%{prj.name}/third-party/spdlog/include",
+		"%{IncludeDir.stb}",
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}"
 	}
