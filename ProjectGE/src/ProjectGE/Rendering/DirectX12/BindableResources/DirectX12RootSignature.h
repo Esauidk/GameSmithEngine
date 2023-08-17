@@ -1,6 +1,6 @@
 #pragma once
 #include "gepch.h"
-#include "ProjectGE/Rendering/DirectX12/Util/d3dx12.h"
+#include "ProjectGE/Rendering/DirectX12/Util/third-party/d3dx12.h"
 #include "ProjectGE/Rendering/RenderAgnostics/PipelineDefiner.h"
 #include "ProjectGE/Rendering/RenderAgnostics/BindableResources/ShaderArguementDefiner.h"
 

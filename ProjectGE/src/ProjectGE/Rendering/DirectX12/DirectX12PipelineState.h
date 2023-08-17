@@ -1,7 +1,7 @@
 #pragma once
 #include "ProjectGE/Rendering/RenderAgnostics/BindableResources/PipelineStateObject.h"
 #include "ProjectGE/Rendering/RenderAgnostics/BindableResources/Shader.h"
-#include "Util/d3dx12.h"
+#include "Util/third-party/d3dx12.h"
 
 using Microsoft::WRL::ComPtr;
 

@@ -42,3 +42,10 @@ API Agnostic code has been qdded now I just need to try using it. An example wil
 So.... I managed to find a way for shaders to have a modular input, but there are some flaws to this solution. 1) The shaders need to know the exact structure of the data and define it in code (this is because the data will come as a data array). 
 This is not that bad of an issue since the intent is for shaders to define their inputs. 2) The inputs need to be known before the storage for it is generated. I need to find a way to extract the input from the compiled shader. Next I'm going to look into 
 material systems.
+
+# 8/16/2023
+So I've done a majority of reach today, particularly with chatGPT, which surprisingly is a very good teacher when you want advice or to ruberduck with someone. I'm going to go with a full descriptor table approach for all shader specific arguements. 
+Inputs that an artist or programer making a shader would want. Anything else like Camera Projection, or static parameters will be baked into the root signature as a direct descriptor or a direct constant. I've been looking at the Unreal Engine 5 source code to get a snese of this.
+But basically I'm thinking to have resource a heap manager that will pass out heaps to shaders. When shaders are no longer using said shaders, it can give it back to the heap manager to reuse for some other shader. Each shader will have its own seperate heap. I still need to figure out
+how different shader instances will deal with heaps (shared or unique?). I think it comes down to whether shader instances will attempt to be rendered at the same time. If they are being rendered at the same time, I can't let them use the same heap. If they are done sequentially
+then I can let the shader instances touch the same heap resource without worring about undefined behaviors. Since this engine is currently single-threaded in terms of the engine logic, I think I will be going with the latter approach

@@ -1,7 +1,7 @@
 #include "gepch.h"
 #include "DirectX12DepthBuffer.h"
 #include "ProjectGE/Core/Log.h"
-#include "ProjectGE/Rendering/DirectX12/Util/d3dx12.h"
+#include "ProjectGE/Rendering/DirectX12/Util/third-party/d3dx12.h"
 
 namespace ProjectGE {
 	DirectX12DepthBuffer::DirectX12DepthBuffer(ID3D12Device8* pDevice, UINT initialW, UINT initialH) {

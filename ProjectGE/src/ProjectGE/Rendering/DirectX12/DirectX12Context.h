@@ -5,7 +5,8 @@
 #include <dxgi1_6.h>
 #include <wrl.h>
 #include "ProjectGE/Rendering/RendererContext.h"
-#include "ProjectGE/Rendering/DirectX12/Util/d3dx12.h"
+#include "ProjectGE/Rendering/DirectX12/Util/third-party/d3dx12.h"
+#include "ProjectGE/Rendering/DirectX12/Util/DirectX12HeapManager.h"
 #include "CommandList/DirectX12CommandContext.h"
 #include "DirectX12DepthBuffer.h"
 
@@ -28,7 +29,7 @@ namespace ProjectGE {
 		void SetClearColor(float r, float g, float b, float a) override;
 		void AttachContextResources() override; // Attach the Viewport, Rect, and RenderTarget set
 
-		inline ID3D12DescriptorHeap* GetSRVHeap() { return m_SRVHeapD.Get(); }
+		inline static DirectX12HeapManager* GetHeapManager() { return s_HeapManager.get(); }
 
 		inline static ID3D12Device8* GetDevice() { return s_Device.Get(); }
 		inline static DirectX12CommandListWrapper& GetDirectCommandList() { return s_DirectContext->GetCommandList(); }
@@ -52,6 +53,7 @@ namespace ProjectGE {
 		static ComPtr<ID3D12Device8> s_Device;
 		static Scope<DirectX12CommandContextDirect> s_DirectContext;
 		static Scope<DirectX12CommandContextCopy> s_CopyContext;
+		static Scope<DirectX12HeapManager> s_HeapManager;
 		static bool s_Initialized;
 
 		// Core Resources
@@ -61,8 +63,6 @@ namespace ProjectGE {
 		ComPtr<ID3D12Resource2> m_BackBuffer;
 		// Render Target Heap
 		ComPtr<ID3D12DescriptorHeap> m_RTVHeapD;
-		// Shader Resource Heap
-		ComPtr<ID3D12DescriptorHeap> m_SRVHeapD;
 		// Depth Buffer
 		Scope<DirectX12DepthBuffer> m_DBuffer;
 		

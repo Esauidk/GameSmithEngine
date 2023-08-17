@@ -6,8 +6,10 @@ namespace ProjectGE {
 	enum class ShaderArguementType {
 		None = 0,
 		Constant,
-		Reference,
-		ReferenceTable
+		ConstantBuffer,
+		ShaderResource,
+		ConstantBufferTable,
+		ShaderResourceTable
 	};
 
 	// INTERFACE

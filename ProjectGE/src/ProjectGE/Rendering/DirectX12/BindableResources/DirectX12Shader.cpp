@@ -1,7 +1,7 @@
 #include "gepch.h"
 #include "DirectX12Shader.h"
 #include "ProjectGE/Core/Log.h"
-#include "ProjectGE/Rendering/DirectX12/Util/d3dx12.h"
+#include "ProjectGE/Rendering/DirectX12/Util/third-party/d3dx12.h"
 #include "ProjectGE/Rendering/DirectX12/DirectX12PipelineState.h"
 
 

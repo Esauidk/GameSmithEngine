@@ -14,6 +14,7 @@ namespace ProjectGE {
 	ComPtr<ID3D12Device8> DirectX12Context::s_Device = nullptr;
 	Scope<DirectX12CommandContextDirect> DirectX12Context::s_DirectContext = nullptr;
 	Scope<DirectX12CommandContextCopy> DirectX12Context::s_CopyContext = nullptr;
+	Scope<DirectX12HeapManager> DirectX12Context::s_HeapManager = nullptr;
 	bool DirectX12Context::s_Initialized = false;
 
 
@@ -61,6 +62,7 @@ namespace ProjectGE {
 		if (!s_Initialized) {
 			s_DirectContext = std::make_unique<DirectX12CommandContextDirect>();
 			s_CopyContext = std::make_unique<DirectX12CommandContextCopy>();
+			s_HeapManager = std::make_unique<DirectX12HeapManager>();
 		}
 		
 		s_Initialized = true;
@@ -140,13 +142,6 @@ namespace ProjectGE {
 		res = FAILED(s_Device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&m_RTVHeapD)));
 		GE_CORE_ASSERT(!res, "Failed to create DirectX12 render target");
 
-		D3D12_DESCRIPTOR_HEAP_DESC srvHeapDesc = {};
-		srvHeapDesc.NumDescriptors = 1;
-		srvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
-		srvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE;
-
-		res = FAILED(s_Device->CreateDescriptorHeap(&srvHeapDesc, IID_PPV_ARGS(&m_SRVHeapD)));
-		GE_CORE_ASSERT(!res, "Failed to create DirectX12 srv");
 
 		UINT rtvSize = s_Device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
 

@@ -1,7 +1,7 @@
 #pragma once
 
 #include "ProjectGE/Rendering/RenderAgnostics/BindableResources/ShaderArguement.h"
-#include "ProjectGE/Rendering/DirectX12/Util/d3dx12.h"
+#include "ProjectGE/Rendering/DirectX12/Util/third-party/d3dx12.h"
 
 namespace ProjectGE {
 	class DirectX12ShaderInput : public ShaderArguement {

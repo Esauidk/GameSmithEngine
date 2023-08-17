@@ -2,8 +2,8 @@
 #include "ImGuiLayer.h"
 
 #include "ProjectGE/Rendering/DirectX12/DirectX12Context.h"
-#include "ProjectGE/Rendering/DirectX12/Util/d3dx12.h"
-#include "Backends/imgui_impl_dx12.h"
+#include "ProjectGE/Rendering/DirectX12/Util/third-party/d3dx12.h"
+#include "backends/imgui_impl_dx12.h"
 #include "backends/imgui_impl_win32.h"
 
 
@@ -13,7 +13,7 @@
 
 namespace ProjectGE {
 	ImGuiLayer::ImGuiLayer() : Layer("ImGui Layer") {
-		
+		m_Heap = DirectX12Context::GetHeapManager()->AllocateHeap(1, DescriptorHeapType::CBVSRVUAV, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE);
 	}
 
 	ImGuiLayer::~ImGuiLayer() {
@@ -39,18 +39,15 @@ namespace ProjectGE {
 
 		Application& app = Application::Get();
 		const Window& window = app.GetWindow();
-		RendererContext* renderer = window.GetRenderer();
 
 		auto hwnd = (HWND)(window.GetNativeWindow());
 		ImGui_ImplWin32_Init(hwnd);
 
-		auto* dRender = (DirectX12Context*)renderer;
-		auto descriptor = dRender->GetSRVHeap();
 		ImGui_ImplDX12_Init(DirectX12Context::GetDevice(),
 			2,
 			DXGI_FORMAT_R8G8B8A8_UNORM,
-			descriptor,
-			descriptor->GetCPUDescriptorHandleForHeapStart(), descriptor->GetGPUDescriptorHandleForHeapStart());
+			m_Heap->GetHeapReference(),
+			m_Heap->GetCPUReference(0), m_Heap->GetGPUReference(0));
 	}
 
 	void ImGuiLayer::OnDetach() {
@@ -86,7 +83,7 @@ namespace ProjectGE {
 
 		dRender->AttachContextResources();
 		ID3D12DescriptorHeap* descriptorHeaps[] = {
-			dRender->GetSRVHeap()
+			m_Heap->GetHeapReference()
 		};
 		commandList->SetDescriptorHeaps(1, descriptorHeaps);
 

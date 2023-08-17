@@ -28,7 +28,7 @@ namespace ProjectGE {
 				m_AvailableSlot++;
 				break;
 			}	
-		case ShaderArguementType::Reference:
+		case ShaderArguementType::ConstantBuffer:
 		{
 			input = new DirectX12ShaderReference(m_AvailableSlot, D3D12_ROOT_DESCRIPTOR_FLAG_DATA_STATIC_WHILE_SET_AT_EXECUTE);
 			m_Parameters.push_back(input->GetDefinition());

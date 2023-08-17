@@ -43,6 +43,9 @@
     <Filter Include="src\ProjectGE\Rendering\DirectX12\Util">
       <UniqueIdentifier>{5EC981BC-4A1B-59AC-333A-96BC1F2B7295}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\ProjectGE\Rendering\DirectX12\Util\third-party">
+      <UniqueIdentifier>{E5E48CD7-D178-827F-3A3D-DC3326F0BC71}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\ProjectGE\Rendering\RenderAgnostics">
       <UniqueIdentifier>{46D89AE2-B267-5CCD-BB63-3DE5277297D9}</UniqueIdentifier>
     </Filter>
@@ -192,9 +195,6 @@
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12CommandQueue.h">
       <Filter>src\ProjectGE\Rendering\DirectX12\CommandList</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12Buffer.h">
-      <Filter>src\ProjectGE\Rendering\DirectX12</Filter>
-    </ClInclude>
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12Context.h">
       <Filter>src\ProjectGE\Rendering\DirectX12</Filter>
     </ClInclude>
@@ -207,8 +207,14 @@
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12RendererAPI.h">
       <Filter>src\ProjectGE\Rendering\DirectX12</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\d3dx12.h">
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12Buffer.h">
       <Filter>src\ProjectGE\Rendering\DirectX12\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12HeapManager.h">
+      <Filter>src\ProjectGE\Rendering\DirectX12\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\third-party\d3dx12.h">
+      <Filter>src\ProjectGE\Rendering\DirectX12\Util\third-party</Filter>
     </ClInclude>
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BasicStructs.h">
       <Filter>src\ProjectGE\Rendering\RenderAgnostics</Filter>
@@ -1604,6 +1610,9 @@
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12RendererAPI.cpp">
       <Filter>src\ProjectGE\Rendering\DirectX12</Filter>
     </ClCompile>
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12HeapManager.cpp">
+      <Filter>src\ProjectGE\Rendering\DirectX12\Util</Filter>
+    </ClCompile>
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\ConstantBuffer.cpp">
       <Filter>src\ProjectGE\Rendering\RenderAgnostics\BindableResources</Filter>
     </ClCompile>
@@ -1646,5 +1655,9 @@
     <ClCompile Include="third-party\stb\std_image.cpp">
       <Filter>third-party\stb</Filter>
     </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\SamplePixelShader.hlsl" />
+    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Vertex\SampleVertexShader.hlsl" />
   </ItemGroup>
 </Project>
