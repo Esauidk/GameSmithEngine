@@ -7,8 +7,8 @@ namespace ProjectGE {
 	{
 	public:
 		DirectX12ShaderReference(UINT registerSlot, D3D12_ROOT_DESCRIPTOR_FLAGS flags);
-		void SetData(void* rawData) override;
-		void Bind() override;
+		//void SetData(void* rawData) override;
+		//void Bind() override;
 	};
 };
 

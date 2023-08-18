@@ -10,15 +10,15 @@ namespace ProjectGE {
 	class DirectX12Shader : public Shader
 	{
 	public:
-		DirectX12Shader(const std::string vertexPath, const std::string pixelPath, ShaderArguement* shaderUnifromsSlot, UINT inputSize = 0);
-		void Append(PipelineStateObject& pipeline) override;
-		void UploadShaderInput(BYTE* data);
+		DirectX12Shader(const std::string vertexPath, const std::string pixelPath);
+		void* GetVertexByteCode() const { return m_VertexBlob.Get(); }
+		void* GetPixelByteCode() const { return m_VertexBlob.Get(); }
 		void Bind() override;
 	private:
 		Microsoft::WRL::ComPtr<ID3DBlob> m_VertexBlob;
 		Microsoft::WRL::ComPtr<ID3DBlob> m_PixelBlob;
 		Ref<ConstantBuffer> m_uniformCBuf;
-		Ref<ShaderArguement> m_UnformSlot;
+		//Ref<ShaderArguement> m_UnformSlot;
 
 	};
 };

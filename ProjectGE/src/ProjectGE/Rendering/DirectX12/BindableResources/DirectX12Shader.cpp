@@ -8,7 +8,7 @@
 #pragma comment(lib, "D3DCompiler.lib")
 
 namespace ProjectGE {
-	DirectX12Shader::DirectX12Shader(const std::string vertexPath, const std::string pixelPath, ShaderArguement* shaderUnifromsSlot, UINT inputSize) : m_VertexBlob(nullptr), m_PixelBlob(nullptr), m_UnformSlot(shaderUnifromsSlot) {
+	DirectX12Shader::DirectX12Shader(const std::string vertexPath, const std::string pixelPath) : m_VertexBlob(nullptr), m_PixelBlob(nullptr) {
 		auto pathConvert = std::wstring(vertexPath.begin(), vertexPath.end());
 		bool res = FAILED(D3DReadFileToBlob(pathConvert.c_str(), &m_VertexBlob));
 		GE_CORE_ASSERT(!res, "Failed to read vertex shader file");
@@ -16,18 +16,15 @@ namespace ProjectGE {
 		pathConvert = std::wstring(pixelPath.begin(), pixelPath.end());
 		res = FAILED(D3DReadFileToBlob(pathConvert.c_str(), &m_PixelBlob));
 		GE_CORE_ASSERT(!res, "Failed to read pixel shader file");
-
-		if (m_UnformSlot != nullptr) {
-			m_uniformCBuf = ConstantBuffer::Create(inputSize);
-		}
 		
 	}
 	
-	void DirectX12Shader::Append(PipelineStateObject& pipeline) {
+	/*void DirectX12Shader::Append(PipelineStateObject& pipeline) {
 		auto& dPipeline = (DirectX12PipelineState&)pipeline;
 		dPipeline.Attach(m_VertexBlob.Get(), ShaderType::Vertex);
 		dPipeline.Attach(m_PixelBlob.Get(), ShaderType::Pixel);
 	}
+
 	void DirectX12Shader::UploadShaderInput(BYTE* data)
 	{
 		GE_CORE_ASSERT(m_UnformSlot != nullptr, "This shader takes no input");
@@ -40,5 +37,5 @@ namespace ProjectGE {
 			m_UnformSlot->Bind();
 		}
 		
-	}
+	}*/
 };

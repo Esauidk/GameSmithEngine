@@ -3,8 +3,6 @@
 #include "ProjectGE/Rendering/BindableResource.h"
 #include "ProjectGE/Rendering/RenderAgnostics/PipelineDefiner.h"
 
-#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/ShaderArguement.h"
-
 namespace ProjectGE {
 	// Types of shaders currently supported
 	enum class ShaderType {
@@ -20,7 +18,6 @@ namespace ProjectGE {
 	public:
 		// Instantiates an implementation of the Shader Interface (recommended to use this instead of instantiating a specific implementation)
 		static Ref<Shader> Create(std::string vertexPath, std::string pixelPath);
-		static Ref<Shader> Create(std::string vertexPath, std::string pixelPath, ShaderArguement* shaderUnifromsSlot, UINT size);
 	};
 };
 

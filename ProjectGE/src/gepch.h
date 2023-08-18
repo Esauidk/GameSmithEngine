@@ -14,6 +14,7 @@
 #include <queue>
 #include <unordered_map>
 #include <unordered_set>
+#include <array>
 
 
 #ifdef GE_PLATFORM_WINDOWS

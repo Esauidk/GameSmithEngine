@@ -4,7 +4,6 @@
 #include "ProjectGE/Camera/Camera.h"
 
 #include "ProjectGE/Rendering/RenderAgnostics/BindableResources/Shader.h"
-#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/ShaderArguement.h"
 
 namespace ProjectGE {
 	// A class that can submit high level rendering commands (Taking a scene and drawing it to the screen)
@@ -14,7 +13,7 @@ namespace ProjectGE {
 	public:
 		static void BeginScene(Camera& camera);
 		static void EndScene();
-		static void Submit(Ref<GeometryPack> geopack, Ref<Shader> shader, glm::mat4& transform, Ref<ShaderArguement> camMat4Slot, Ref<ShaderArguement> objectMat4Slot);
+		static void Submit(Ref<GeometryPack> geopack, Ref<Shader> shader, glm::mat4& transform);
 		inline static RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); };
 	private:
 		struct SceneData {

@@ -1,5 +1,4 @@
 #pragma once
-#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/PipelineStateObject.h"
 
 namespace ProjectGE {
 	// INTERFACE
@@ -9,6 +8,6 @@ namespace ProjectGE {
 	public:
 		virtual ~PipelineDefiner() = default;
 		// Binding the resource to the pipeline
-		virtual void Append(PipelineStateObject& pipeline) = 0;
+		//virtual void Append(PipelineStateObject& pipeline) = 0;
 	};
 };

@@ -5,16 +5,16 @@
 #include "ProjectGE/Core/Log.h"
 
 namespace ProjectGE {
-	DirectX12ShaderReferenceTable::DirectX12ShaderReferenceTable(ShaderArguementType tableType, UINT registerSlot, UINT count) : DirectX12ShaderInput(registerSlot, count){
-		//D3D12_DESCRIPTOR_RANGE1 range;
+	DirectX12ShaderReferenceTable::DirectX12ShaderReferenceTable( UINT registerSlot, UINT count) : DirectX12ShaderInput(registerSlot, count){
+		
 		//m_Parameter.InitAsDescriptorTable(3, &range, )
 	}	
 
-	void DirectX12ShaderReferenceTable::Bind()
+	/*void DirectX12ShaderReferenceTable::Bind()
 	{
 		//TODO: IMPLEMENT
 		GE_CORE_ASSERT(false, "Not yet implemented");
 		auto& cmdList = DirectX12Context::GetDirectCommandList();
-	}
+	}*/
 };
 

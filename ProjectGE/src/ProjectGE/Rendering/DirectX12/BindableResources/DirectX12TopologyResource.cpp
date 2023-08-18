@@ -15,10 +15,10 @@ namespace ProjectGE {
 		}
 	}
 
-	void DirectX12TopologyResource::Append(PipelineStateObject& pipeline) {
+	/*void DirectX12TopologyResource::Append(PipelineStateObject& pipeline) {
 		auto& dPipeline = (DirectX12PipelineState&)pipeline;
 		dPipeline.Attach(m_Type);
-	}
+	}*/
 
 	void DirectX12TopologyResource::Bind() {
 		auto& cmdList = DirectX12Context::GetDirectCommandList();

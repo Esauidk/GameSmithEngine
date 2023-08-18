@@ -228,16 +228,7 @@
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\IndexBuffer.h">
       <Filter>src\ProjectGE\Rendering\RenderAgnostics\BindableResources</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\PipelineStateObject.h">
-      <Filter>src\ProjectGE\Rendering\RenderAgnostics\BindableResources</Filter>
-    </ClInclude>
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\Shader.h">
-      <Filter>src\ProjectGE\Rendering\RenderAgnostics\BindableResources</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\ShaderArguement.h">
-      <Filter>src\ProjectGE\Rendering\RenderAgnostics\BindableResources</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\ShaderArguementDefiner.h">
       <Filter>src\ProjectGE\Rendering\RenderAgnostics\BindableResources</Filter>
     </ClInclude>
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\Texture.h">
@@ -1521,6 +1512,9 @@
     <ClInclude Include="third-party\stb\stb_image.h">
       <Filter>third-party\stb</Filter>
     </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12Core.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12RootSignatureBuilder.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12Macos.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\Camera\Camera.cpp">
@@ -1622,13 +1616,7 @@
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\IndexBuffer.cpp">
       <Filter>src\ProjectGE\Rendering\RenderAgnostics\BindableResources</Filter>
     </ClCompile>
-    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\PipelineStateObject.cpp">
-      <Filter>src\ProjectGE\Rendering\RenderAgnostics\BindableResources</Filter>
-    </ClCompile>
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\Shader.cpp">
-      <Filter>src\ProjectGE\Rendering\RenderAgnostics\BindableResources</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\ShaderArguementDefiner.cpp">
       <Filter>src\ProjectGE\Rendering\RenderAgnostics\BindableResources</Filter>
     </ClCompile>
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\Texture.cpp">

@@ -20,6 +20,11 @@ namespace ProjectGE {
 
 	Ref<DirectX12DescriptorHeap> DirectX12HeapManager::AllocateHeap(UINT numDescriptor, DescriptorHeapType heapType, D3D12_DESCRIPTOR_HEAP_FLAGS flags)
 	{
+		for (Ref<DirectX12DescriptorHeap>& heap : m_AvailableHeaps) {
+			if (!heap->IsReserved() && heap->GetType() == heapType && heap->GetNumDescriptors() >= numDescriptor) {
+				return heap;
+			}
+		}
 
 		ComPtr<ID3D12DescriptorHeap> newHeap;
 		auto device = DirectX12Context::GetDevice();
@@ -35,8 +40,11 @@ namespace ProjectGE {
 
 		auto wrappedHeap = Ref<DirectX12DescriptorHeap>(new DirectX12DescriptorHeap(newHeap, numDescriptor, heapType, flags));
 
+		m_AvailableHeaps.emplace_back(wrappedHeap);
+
 		return wrappedHeap;
 	}
+
 	DirectX12DescriptorHeap::DirectX12DescriptorHeap(ComPtr<ID3D12DescriptorHeap> newHeap, UINT numDescriptor, DescriptorHeapType heapType, D3D12_DESCRIPTOR_HEAP_FLAGS flags) : 
 		m_CurrentHeap(newHeap),
 		m_DescriptorNum(numDescriptor), 
@@ -44,7 +52,8 @@ namespace ProjectGE {
 		m_Flags(flags), 
 		m_UnitSize(DirectX12Context::GetDevice()->GetDescriptorHandleIncrementSize(ConvertHeapType(heapType))),
 		m_CpuStartPos(m_CurrentHeap->GetCPUDescriptorHandleForHeapStart()),
-		m_GpuStartPos(m_CurrentHeap->GetGPUDescriptorHandleForHeapStart())
+		m_GpuStartPos(m_CurrentHeap->GetGPUDescriptorHandleForHeapStart()),
+		m_Reserve(false)
 	{
 	}
 };

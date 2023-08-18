@@ -41,7 +41,7 @@ namespace ProjectGE {
 	}
 
 	// TODO: BIG DESIGN CHANGE--------- Use Blobs instead of creating during runtime
-	void DirectX12PipelineState::Build() {
+	/*void DirectX12PipelineState::Build() {
 		//TODO: Add checks before building
 
 		auto pDevice = DirectX12Context::GetDevice();
@@ -49,10 +49,10 @@ namespace ProjectGE {
 		
 		bool res = FAILED(pDevice->CreatePipelineState(&stateStreamDesc, IID_PPV_ARGS(&m_PipelineState)));
 		GE_CORE_ASSERT(!res, "Failed to create pipeline state");
-	}
+	}*/
 
-	void DirectX12PipelineState::Bind() {
+	/*void DirectX12PipelineState::Bind() {
 		auto& cmdList = DirectX12Context::GetDirectCommandList();
 		cmdList->SetPipelineState(m_PipelineState.Get());
-	}
+	}*/
 };

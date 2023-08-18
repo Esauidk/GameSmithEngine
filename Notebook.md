@@ -44,7 +44,7 @@ This is not that bad of an issue since the intent is for shaders to define their
 material systems.
 
 # 8/16/2023
-So I've done a majority of reach today, particularly with chatGPT, which surprisingly is a very good teacher when you want advice or to ruberduck with someone. I'm going to go with a full descriptor table approach for all shader specific arguements. 
+So I've done a majority of reasearch today, particularly with chatGPT, which surprisingly is a very good teacher when you want advice or to ruberduck with someone. I'm going to go with a full descriptor table approach for all shader specific arguements. 
 Inputs that an artist or programer making a shader would want. Anything else like Camera Projection, or static parameters will be baked into the root signature as a direct descriptor or a direct constant. I've been looking at the Unreal Engine 5 source code to get a snese of this.
 But basically I'm thinking to have resource a heap manager that will pass out heaps to shaders. When shaders are no longer using said shaders, it can give it back to the heap manager to reuse for some other shader. Each shader will have its own seperate heap. I still need to figure out
 how different shader instances will deal with heaps (shared or unique?). I think it comes down to whether shader instances will attempt to be rendered at the same time. If they are being rendered at the same time, I can't let them use the same heap. If they are done sequentially

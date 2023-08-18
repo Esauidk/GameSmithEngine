@@ -143,6 +143,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12Macos.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12RootSignatureBuilder.h" />
     <ClInclude Include="src\ProjectGE.h" />
     <ClInclude Include="src\ProjectGE\Camera\Camera.h" />
     <ClInclude Include="src\ProjectGE\Camera\OrthoCamera.h" />
@@ -183,6 +185,7 @@
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12CommandListWrapper.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12CommandQueue.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12Context.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12Core.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12DepthBuffer.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12PipelineState.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12RendererAPI.h" />
@@ -193,10 +196,7 @@
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\ConstantBuffer.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\GeometryPack.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\IndexBuffer.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\PipelineStateObject.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\Shader.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\ShaderArguement.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\ShaderArguementDefiner.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\Texture.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\Topology.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\VertexBuffer.h" />
@@ -659,9 +659,7 @@
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\ConstantBuffer.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\GeometryPack.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\IndexBuffer.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\PipelineStateObject.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\Shader.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\ShaderArguementDefiner.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\Texture.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\Topology.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\VertexBuffer.cpp" />

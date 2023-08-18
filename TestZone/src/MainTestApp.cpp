@@ -3,6 +3,8 @@
 #include "imgui.h"
 
 #include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12Shader.h"
+#include "ProjectGE/Rendering/DirectX12/Util/DirectX12RootSignatureBuilder.h"
+#include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12RootSignature.h"
 #include <glm/gtc/type_ptr.hpp>
 
 class ExampleLayer : public ProjectGE::Layer {
@@ -18,17 +20,18 @@ public:
 
 		m_TriTrans.SetPosition(glm::vec3(0, 1, 0));
 		m_SquareTrans.SetPosition(glm::vec3(0, 0, 0));
-
-
+		ProjectGE::Scope<ProjectGE::DirectX12RootSignature> test = std::make_unique<ProjectGE::DirectX12RootSignature>();
+		test->InitGenericRootSignature(D3D12_ROOT_SIGNATURE_FLAG_NONE);
 		// Setup Root Signature
-		m_Root = ProjectGE::Ref<ProjectGE::ShaderArguementDefiner>(ProjectGE::ShaderArguementDefiner::Create());
+		
+		//m_Root = ProjectGE::Ref<ProjectGE::ShaderArguementDefiner>(ProjectGE::ShaderArguementDefiner::Create());
 
-		m_Arg1 = ProjectGE::Ref<ProjectGE::ShaderArguement>(m_Root->AddArguement(ProjectGE::ShaderArguementType::Constant, sizeof(glm::mat4) / 4));
-		m_Arg2 = ProjectGE::Ref<ProjectGE::ShaderArguement>(m_Root->AddArguement(ProjectGE::ShaderArguementType::Constant, sizeof(glm::mat4) / 4));
-		m_Arg3 = ProjectGE::Ref<ProjectGE::ShaderArguement>(m_Root->AddArguement(ProjectGE::ShaderArguementType::ConstantBuffer));
+		//m_Arg1 = ProjectGE::Ref<ProjectGE::ShaderArguement>(m_Root->AddArguement(ProjectGE::ShaderArguementType::Constant, sizeof(glm::mat4) / 4));
+		//m_Arg2 = ProjectGE::Ref<ProjectGE::ShaderArguement>(m_Root->AddArguement(ProjectGE::ShaderArguementType::Constant, sizeof(glm::mat4) / 4));
+		//m_Arg3 = ProjectGE::Ref<ProjectGE::ShaderArguement>(m_Root->AddArguement(ProjectGE::ShaderArguementType::ConstantBuffer));
 
 
-		m_Root->FinalizeSignature();
+		//m_Root->FinalizeSignature();
 
 		TCHAR buffer[MAX_PATH] = { 0 };
 		GetModuleFileName(NULL, buffer, MAX_PATH);
@@ -38,18 +41,18 @@ public:
 
 		std::string nvertex = std::string(vertex.begin(), vertex.end());
 		std::string npixel = std::string(pixel.begin(), pixel.end());
-		m_Shaders = ProjectGE::Ref<ProjectGE::Shader>(ProjectGE::Shader::Create(nvertex, npixel, m_Arg3.get(), sizeof(test)));
+		//m_Shaders = ProjectGE::Ref<ProjectGE::Shader>(ProjectGE::Shader::Create(nvertex, npixel, m_Arg3.get(), sizeof(test)));
 
 		// Setup Topology
 
 		auto m_Topo = ProjectGE::Topology::Create(ProjectGE::TopologyType::Triangle);
 
 		// Setup Pipeline
-		m_State = ProjectGE::PipelineStateObject::Create();
+		//m_State = ProjectGE::PipelineStateObject::Create();
 
-		m_Shaders->Append(*(m_State.get()));
-		m_Root->Append(*(m_State.get()));
-		m_Topo->Append(*(m_State.get()));
+		//m_Shaders->Append(*(m_State.get()));
+		//m_Root->Append(*(m_State.get()));
+		//m_Topo->Append(*(m_State.get()));
 
 		ProjectGE::Vertex triVertex[] = {
 			{ {-0.5f, -0.5f, 0.0f}}, // 0
@@ -72,9 +75,9 @@ public:
 		m_SquareVertexBuffer->AttachLayout(layout);
 
 		auto configuredLayout = m_TriVertexBuffer->GetLayout();
-		configuredLayout->Append(*(m_State.get()));
+		//configuredLayout->Append(*(m_State.get()));
 
-		m_State->Build();
+		//m_State->Build();
 
 		WORD indexCount[] = {
 			0, 1, 2
@@ -167,14 +170,14 @@ public:
 		ProjectGE::Renderer::BeginScene(m_Cam);
 		ProjectGE::Application::Get().GetWindow().GetRenderer()->AttachContextResources();
 
-		m_State->Bind();
-		m_Root->Bind();
-		std::dynamic_pointer_cast<ProjectGE::DirectX12Shader>(m_Shaders)->UploadShaderInput((BYTE*)&m_Example1);
+		//m_State->Bind();
+		//m_Root->Bind();
+		//std::dynamic_pointer_cast<ProjectGE::DirectX12Shader>(m_Shaders)->UploadShaderInput((BYTE*)&m_Example1);
 
 		glm::mat4 tri = glm::transpose(m_TriTrans.GetModelMatrix());
 		glm::mat4 squ = glm::transpose(m_SquareTrans.GetModelMatrix());
 		//ProjectGE::Renderer::Submit(m_TriPack, m_Shaders, tri, m_Arg1, m_Arg2);
-		ProjectGE::Renderer::Submit(m_SquarePack, m_Shaders, squ, m_Arg1, m_Arg2);
+		//ProjectGE::Renderer::Submit(m_SquarePack, m_Shaders, squ, m_Arg1, m_Arg2);
 
 		ProjectGE::Renderer::EndScene();
 	}
@@ -182,8 +185,8 @@ public:
 	void EventSubscribe(const std::vector<ProjectGE::EventDispatcherBase*>& dispatchers, bool overlay) override {}
 
 private:
-	ProjectGE::Ref<ProjectGE::PipelineStateObject> m_State;
-	ProjectGE::Ref<ProjectGE::ShaderArguementDefiner> m_Root;
+	//ProjectGE::Ref<ProjectGE::PipelineStateObject> m_State;
+	//ProjectGE::Ref<ProjectGE::ShaderArguementDefiner> m_Root;
 	ProjectGE::Ref<ProjectGE::Shader> m_Shaders;
 	ProjectGE::Ref<ProjectGE::GeometryPack> m_TriPack;
 	Transform m_TriTrans;
@@ -191,9 +194,9 @@ private:
 	Transform m_SquareTrans;
 
 	ProjectGE::Ref<ProjectGE::ConstantBuffer> m_C;
-	ProjectGE::Ref<ProjectGE::ShaderArguement> m_Arg1;
-	ProjectGE::Ref<ProjectGE::ShaderArguement> m_Arg2;
-	ProjectGE::Ref<ProjectGE::ShaderArguement> m_Arg3;
+	//ProjectGE::Ref<ProjectGE::ShaderArguement> m_Arg1;
+	//ProjectGE::Ref<ProjectGE::ShaderArguement> m_Arg2;
+	//ProjectGE::Ref<ProjectGE::ShaderArguement> m_Arg3;
 
 	ProjectGE::OrthoCamera m_Cam;
 	test m_Example1;

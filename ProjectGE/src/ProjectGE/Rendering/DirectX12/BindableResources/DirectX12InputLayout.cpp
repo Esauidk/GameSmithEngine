@@ -46,8 +46,8 @@ namespace ProjectGE {
 		m_InputLayout = { m_Desc.get(), layout.GetElementCount() };
 	}
 
-	void DirectX12InputLayout::Append(PipelineStateObject& pipeline) {
+	/*void DirectX12InputLayout::Append(PipelineStateObject& pipeline) {
 		auto& dPipeline = (DirectX12PipelineState&)pipeline;
 		dPipeline.Attach(m_InputLayout);
-	}
+	}*/
 };

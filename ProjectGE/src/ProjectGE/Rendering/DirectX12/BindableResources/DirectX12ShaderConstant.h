@@ -7,8 +7,8 @@ namespace ProjectGE {
 	{
 	public:
 		DirectX12ShaderConstant(UINT registerSlot, UINT count);
-		void SetData(void* rawData) override;
-		void Bind() override;
+		//void SetData(void* rawData) override;
+		//void Bind() override;
 	};
 };
 

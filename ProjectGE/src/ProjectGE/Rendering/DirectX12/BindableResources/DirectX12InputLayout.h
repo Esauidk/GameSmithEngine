@@ -11,7 +11,7 @@ namespace ProjectGE {
 	{
 	public:
 		DirectX12InputLayout(const BufferLayoutBuilder& layout);
-		void Append(PipelineStateObject& pipeline) override;
+		//void Append(PipelineStateObject& pipeline) override;
 	private:
 		Scope<D3D12_INPUT_ELEMENT_DESC[]> m_Desc;
 		D3D12_INPUT_LAYOUT_DESC m_InputLayout;

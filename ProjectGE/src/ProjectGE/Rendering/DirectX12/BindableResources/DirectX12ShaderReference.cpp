@@ -11,7 +11,7 @@ namespace ProjectGE {
 		m_Parameter.InitAsConstantBufferView(registerSlot,0, flags);
 	}
 
-	void DirectX12ShaderReference::SetData(void* rawData)
+	/*void DirectX12ShaderReference::SetData(void* rawData)
 	{
 		if (!m_DataSet) {
 			m_DataSet = true;
@@ -26,6 +26,6 @@ namespace ProjectGE {
 		auto& cmdList = DirectX12Context::GetDirectCommandList();
 		cmdList->SetGraphicsRootConstantBufferView(m_RegSlot, *((D3D12_GPU_VIRTUAL_ADDRESS*)m_RawData));
 
-	}
+	}*/
 };
 
