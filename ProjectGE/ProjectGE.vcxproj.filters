@@ -1643,6 +1643,7 @@
     <ClCompile Include="third-party\stb\std_image.cpp">
       <Filter>third-party\stb</Filter>
     </ClCompile>
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12Core.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\SamplePixelShader.hlsl" />

@@ -1,6 +1,6 @@
 #include "gepch.h"
 #include "DirectX12CommandQueue.h"
-#include "ProjectGE/Rendering/DirectX12/DirectX12Context.h"
+#include "ProjectGE/Rendering/DirectX12/DirectX12Core.h"
 #include "ProjectGE/Core/Log.h"
 
 using namespace Microsoft::WRL;
@@ -10,7 +10,8 @@ namespace ProjectGE {
 	DirectX12CommandQueue::DirectX12CommandQueue(DirectX12QueueType type) :
 		m_FenceValue(0) {
 
-		m_Device = DirectX12Context::GetDevice();
+		auto& core = DirectX12Core::GetCore();
+		m_Device = core.GetDevice();
 		switch (type) {
 		case DirectX12QueueType::Direct:
 			m_CommandListType = D3D12_COMMAND_LIST_TYPE_DIRECT;

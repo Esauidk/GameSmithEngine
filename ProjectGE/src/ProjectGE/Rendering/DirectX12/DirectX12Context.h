@@ -5,9 +5,6 @@
 #include <dxgi1_6.h>
 #include <wrl.h>
 #include "ProjectGE/Rendering/RendererContext.h"
-#include "ProjectGE/Rendering/DirectX12/Util/third-party/d3dx12.h"
-#include "ProjectGE/Rendering/DirectX12/Util/DirectX12HeapManager.h"
-#include "CommandList/DirectX12CommandContext.h"
 #include "DirectX12DepthBuffer.h"
 
 #include "ProjectGE/Core/Core.h"
@@ -29,32 +26,8 @@ namespace ProjectGE {
 		void SetClearColor(float r, float g, float b, float a) override;
 		void AttachContextResources() override; // Attach the Viewport, Rect, and RenderTarget set
 
-		inline static DirectX12HeapManager* GetHeapManager() { return s_HeapManager.get(); }
-
-		inline static ID3D12Device8* GetDevice() { return s_Device.Get(); }
-		inline static DirectX12CommandListWrapper& GetDirectCommandList() { return s_DirectContext->GetCommandList(); }
-		inline static DirectX12CommandListWrapper& GetCopyCommandList() { return s_CopyContext->GetCommandList(); }
-		
-		// Finish recording on a type of command list
-		static UINT FinalizeCommandList(DirectX12QueueType type);
-		// Tell one queue to wait for another queue to complete a certain amount of work
-		static void InitializeQueueWait(DirectX12QueueType executor, DirectX12QueueType waiter, UINT fenceVal);
-		// Tell the CPU to wait for all work to complete on a specific queue
-		static void InitializeCPUQueueWait(DirectX12QueueType target);
-		// Tell the CPU to wait for some work to be complete on a specific queue
-		static void InitializeCPUQueueWait(UINT fenceVal, DirectX12QueueType target);
 	private:
 		void InitializeBackBuffer();
-		static DirectX12CommandQueue& FindQueue(DirectX12QueueType type);
-	
-		// Static members, needed for all instances
-		static ComPtr<ID3D12Debug> s_Debug;
-		static ComPtr<ID3D12InfoQueue> s_InfoQueue;
-		static ComPtr<ID3D12Device8> s_Device;
-		static Scope<DirectX12CommandContextDirect> s_DirectContext;
-		static Scope<DirectX12CommandContextCopy> s_CopyContext;
-		static Scope<DirectX12HeapManager> s_HeapManager;
-		static bool s_Initialized;
 
 		// Core Resources
 		// This holds the two buffers we use for rendering (Presenting Buffer & Preparing Buffer)

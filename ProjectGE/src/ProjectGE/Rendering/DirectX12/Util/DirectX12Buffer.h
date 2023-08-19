@@ -1,7 +1,7 @@
 #pragma once
 #include "ProjectGE/Core/Log.h"
 #include "ProjectGE/Rendering/DirectX12/Util/third-party/d3dx12.h"
-#include "ProjectGE/Rendering/DirectX12/DirectX12Context.h"
+#include "ProjectGE/Rendering/DirectX12/DirectX12Core.h"
 
 
 namespace ProjectGE {
@@ -10,8 +10,10 @@ namespace ProjectGE {
 	public:
 		DirectX12Buffer(T* buffer, UINT count, std::string bufferName = "Personal Buffer") : m_BufferSize(sizeof(T)* count), m_State(D3D12_RESOURCE_STATE_COPY_DEST){
 
-			auto pDevice = DirectX12Context::GetDevice();
-			auto& pCommandList = DirectX12Context::GetCopyCommandList();
+			auto& core = DirectX12Core::GetCore();
+			auto pDevice = core.GetDevice();
+			auto copyContext = core.GetCopyCommandContext();
+			auto& pCommandList = copyContext->GetCommandList();
 
 			// Define heap details
 			CD3DX12_HEAP_PROPERTIES defaultHeapProperties(D3D12_HEAP_TYPE_DEFAULT);
@@ -53,12 +55,13 @@ namespace ProjectGE {
 
 			UpdateSubresources((&pCommandList), m_GpuBuffer.Get(), m_CpuBuffer.Get(), 0, 0, 1, &data);
 
-			m_UploadSignal = DirectX12Context::FinalizeCommandList(DirectX12QueueType::Copy);
+			m_UploadSignal = copyContext->FinalizeCommandList();
 		}
 
 		DirectX12Buffer(UINT count, std::string bufferName = "Personal Buffer") : m_BufferSize(sizeof(T)* count), m_State(D3D12_RESOURCE_STATE_COPY_DEST){
 
-			auto pDevice = DirectX12Context::GetDevice();
+			auto& core = DirectX12Core::GetCore();
+			auto pDevice = core.GetDevice();
 
 			// Define heap details
 			CD3DX12_HEAP_PROPERTIES defaultHeapProperties(D3D12_HEAP_TYPE_DEFAULT);
@@ -98,12 +101,14 @@ namespace ProjectGE {
 		}
 
 		void SetUploadGPUBlock() {
-			DirectX12Context::InitializeQueueWait(DirectX12QueueType::Copy, DirectX12QueueType::Direct, m_UploadSignal);
+			auto& core = DirectX12Core::GetCore();
+			core.InitializeQueueWait(DirectX12QueueType::Copy, DirectX12QueueType::Direct, m_UploadSignal);
 		}
 
 		void TransitionState(D3D12_RESOURCE_STATES newState) {
 			if (newState != m_State) {
-				auto& cmdList = DirectX12Context::GetDirectCommandList();
+				auto& core = DirectX12Core::GetCore();
+				auto& cmdList = core.GetDirectCommandContext()->GetCommandList();
 				CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
 					m_GpuBuffer.Get(),
 					m_State, newState
@@ -118,7 +123,9 @@ namespace ProjectGE {
 		D3D12_RESOURCE_STATES GetState() const { return m_State; }
 
 		void UpdateData(void* newData) {
-			auto& pCommandList = DirectX12Context::GetCopyCommandList();
+			auto& core = DirectX12Core::GetCore();
+			auto copyContext = core.GetCopyCommandContext();
+			auto& pCommandList = copyContext->GetCommandList();
 			// Store the data inside
 			D3D12_SUBRESOURCE_DATA data = {};
 			data.pData = reinterpret_cast<BYTE*>(newData);
@@ -126,7 +133,7 @@ namespace ProjectGE {
 			data.SlicePitch = data.RowPitch;
 
 			UpdateSubresources((&pCommandList), m_GpuBuffer.Get(), m_CpuBuffer.Get(), 0, 0, 1, &data);
-			m_UploadSignal = DirectX12Context::FinalizeCommandList(DirectX12QueueType::Copy);
+			m_UploadSignal = copyContext->FinalizeCommandList();
 		}
 
 	private:

@@ -1,7 +1,7 @@
 #include "gepch.h"
 #include "DirectX12HeapManager.h"
 
-#include "ProjectGE/Rendering/DirectX12/DirectX12Context.h"
+#include "ProjectGE/Rendering/DirectX12/DirectX12Core.h"
 #include "ProjectGE/Core/Log.h"
 
 namespace ProjectGE {
@@ -27,7 +27,8 @@ namespace ProjectGE {
 		}
 
 		ComPtr<ID3D12DescriptorHeap> newHeap;
-		auto device = DirectX12Context::GetDevice();
+		auto& core = DirectX12Core::GetCore();
+		auto device = core.GetDevice();
 
 		D3D12_DESCRIPTOR_HEAP_DESC heapDesc = {};
 		heapDesc.NumDescriptors = numDescriptor;
@@ -50,7 +51,7 @@ namespace ProjectGE {
 		m_DescriptorNum(numDescriptor), 
 		m_Type(heapType), 
 		m_Flags(flags), 
-		m_UnitSize(DirectX12Context::GetDevice()->GetDescriptorHandleIncrementSize(ConvertHeapType(heapType))),
+		m_UnitSize(DirectX12Core::GetCore().GetDevice()->GetDescriptorHandleIncrementSize(ConvertHeapType(heapType))),
 		m_CpuStartPos(m_CurrentHeap->GetCPUDescriptorHandleForHeapStart()),
 		m_GpuStartPos(m_CurrentHeap->GetGPUDescriptorHandleForHeapStart()),
 		m_Reserve(false)

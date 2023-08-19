@@ -1,6 +1,7 @@
 #include "gepch.h"
 #include "ImGuiLayer.h"
 
+#include "ProjectGE/Rendering/DirectX12/DirectX12Core.h"
 #include "ProjectGE/Rendering/DirectX12/DirectX12Context.h"
 #include "ProjectGE/Rendering/DirectX12/Util/third-party/d3dx12.h"
 #include "backends/imgui_impl_dx12.h"
@@ -13,7 +14,7 @@
 
 namespace ProjectGE {
 	ImGuiLayer::ImGuiLayer() : Layer("ImGui Layer") {
-		m_Heap = DirectX12Context::GetHeapManager()->AllocateHeap(1, DescriptorHeapType::CBVSRVUAV, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE);
+		m_Heap = DirectX12Core::GetCore().GetHeapManager()->AllocateHeap(1, DescriptorHeapType::CBVSRVUAV, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE);
 	}
 
 	ImGuiLayer::~ImGuiLayer() {
@@ -43,7 +44,7 @@ namespace ProjectGE {
 		auto hwnd = (HWND)(window.GetNativeWindow());
 		ImGui_ImplWin32_Init(hwnd);
 
-		ImGui_ImplDX12_Init(DirectX12Context::GetDevice(),
+		ImGui_ImplDX12_Init(DirectX12Core::GetCore().GetDevice(),
 			2,
 			DXGI_FORMAT_R8G8B8A8_UNORM,
 			m_Heap->GetHeapReference(),
@@ -79,7 +80,8 @@ namespace ProjectGE {
 
 		RendererContext* renderer = window.GetRenderer();
 		auto* dRender = (DirectX12Context*)renderer;
-		auto& commandList = DirectX12Context::GetDirectCommandList();
+		auto context = DirectX12Core::GetCore().GetDirectCommandContext();
+		auto& commandList = context->GetCommandList();
 
 		dRender->AttachContextResources();
 		ID3D12DescriptorHeap* descriptorHeaps[] = {
@@ -95,7 +97,7 @@ namespace ProjectGE {
 			ImGui::RenderPlatformWindowsDefault(nullptr, (void*)(&commandList));
 		}
 
-		DirectX12Context::FinalizeCommandList(DirectX12QueueType::Direct);
+		context->FinalizeCommandList();
 	}
 
 };

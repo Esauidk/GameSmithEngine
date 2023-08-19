@@ -1,7 +1,7 @@
 #include "gepch.h"
 #include "DirectX12RootSignature.h"
 #include "ProjectGE/Core/Log.h"
-#include "ProjectGE/Rendering/DirectX12/DirectX12Context.h"
+#include "ProjectGE/Rendering/DirectX12/DirectX12Core.h"
 
 #include "ProjectGE/Rendering/DirectX12/Util/DirectX12RootSignatureBuilder.h"
 
@@ -9,7 +9,8 @@
 namespace ProjectGE {
 	void DirectX12RootSignature::Init(const D3D12_VERSIONED_ROOT_SIGNATURE_DESC& desc)
 	{
-		auto pDevice = DirectX12Context::GetDevice();
+		auto& core = DirectX12Core::GetCore();
+		auto pDevice = core.GetDevice();
 		m_RootSigFeat.HighestVersion = D3D_ROOT_SIGNATURE_VERSION_1_1;
 		if (FAILED(pDevice->CheckFeatureSupport(D3D12_FEATURE_ROOT_SIGNATURE, &m_RootSigFeat, sizeof(m_RootSigFeat)))) {
 			m_RootSigFeat.HighestVersion = D3D_ROOT_SIGNATURE_VERSION_1_0;

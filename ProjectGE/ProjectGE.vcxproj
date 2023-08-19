@@ -652,6 +652,7 @@
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12CommandListWrapper.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12CommandQueue.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12Context.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12Core.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12DepthBuffer.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12PipelineState.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12RendererAPI.cpp" />

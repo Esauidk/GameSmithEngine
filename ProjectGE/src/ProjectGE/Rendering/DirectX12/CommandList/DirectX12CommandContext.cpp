@@ -14,7 +14,7 @@ namespace ProjectGE {
 		m_CurrentList = Scope<DirectX12CommandListWrapper>(m_Queue->GetCommandList());
 	}
 
-	UINT DirectX12CommandContextBase::CloseCommandList()
+	UINT DirectX12CommandContextBase::FinalizeCommandList()
 	{
 		if (m_CurrentList == nullptr) {
 			GE_CORE_ASSERT(false, "Command List is already closed! Open a new list");
@@ -26,6 +26,7 @@ namespace ProjectGE {
 
 		m_CurrentList = nullptr;
 
+		StartCommandList();
 		return val;
 	}
 

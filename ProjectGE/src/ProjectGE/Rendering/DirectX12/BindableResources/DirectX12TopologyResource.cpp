@@ -1,7 +1,7 @@
 #include "gepch.h"
 #include "DirectX12TopologyResource.h"
 #include "ProjectGE/Rendering/DirectX12/DirectX12PipelineState.h"
-#include "ProjectGE/Rendering/DirectX12/DirectX12Context.h"
+#include "ProjectGE/Rendering/DirectX12/DirectX12Core.h"
 
 namespace ProjectGE {
 	DirectX12TopologyResource::DirectX12TopologyResource(TopologyType type) {
@@ -21,7 +21,7 @@ namespace ProjectGE {
 	}*/
 
 	void DirectX12TopologyResource::Bind() {
-		auto& cmdList = DirectX12Context::GetDirectCommandList();
+		auto& cmdList = DirectX12Core::GetCore().GetDirectCommandContext()->GetCommandList();
 		cmdList->IASetPrimitiveTopology(m_ListType);
 	}
 };

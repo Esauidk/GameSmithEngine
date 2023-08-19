@@ -9,14 +9,14 @@ namespace ProjectGE {
 	class DirectX12CommandContextBase
 	{
 	public:
-		void StartCommandList();
-		UINT CloseCommandList();
+		UINT FinalizeCommandList();
 		inline DirectX12CommandListWrapper& GetCommandList() { return *(m_CurrentList.get()); };
 		inline DirectX12QueueType GetQueueType() const { return m_QueueType; }
 		inline DirectX12CommandQueue& GetQueue() { return *(m_Queue.get()); }
 	protected:
 		DirectX12CommandContextBase(DirectX12QueueType type);
 	private:
+		void StartCommandList();
 		Scope<DirectX12CommandListWrapper> m_CurrentList;
 		Scope<DirectX12CommandQueue> m_Queue;
 		std::queue<DirectX12CommandListWrapper> m_CompletedLists;
