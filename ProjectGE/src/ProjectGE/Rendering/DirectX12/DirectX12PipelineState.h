@@ -1,6 +1,8 @@
 #pragma once
-#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/Shader.h"
 #include "Util/third-party/d3dx12.h"
+#include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12RootSignature.h"
+#include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12Shader.h"
+#include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12TopologyResource.h"
 
 using Microsoft::WRL::ComPtr;
 
@@ -16,19 +18,18 @@ namespace ProjectGE {
 		CD3DX12_PIPELINE_STATE_STREAM_FLAGS Flags;
 	};
 
+	struct DirectX12PipelineArgs {
+		DirectX12PipelineStateStream state;
+	};
+
 	class DirectX12PipelineState
 	{
 	public:
-		DirectX12PipelineState();
-		void Attach(ID3D12RootSignature* rootSig);
-		void Attach(const D3D12_INPUT_LAYOUT_DESC& layout);
-		void Attach(const D3D12_PRIMITIVE_TOPOLOGY_TYPE& topology);
-		void Attach(ID3DBlob* shaderByte, const ShaderType type);
-		//void Build() override;
-		void SetDebug();
+		DirectX12PipelineState() = default;
+		void Create(DirectX12PipelineArgs& args);
+		inline ID3D12PipelineState* GetPipelineState() { return m_PipelineState.Get(); }
 		//void Bind() override;
 	private:
-		DirectX12PipelineStateStream m_StateStream;
 		ComPtr<ID3D12PipelineState> m_PipelineState;
 	};
 };

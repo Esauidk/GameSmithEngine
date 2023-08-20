@@ -30,12 +30,10 @@ namespace ProjectGE {
 		GE_CORE_ASSERT(m_UnformSlot != nullptr, "This shader takes no input");
 		m_uniformCBuf->UpdateData(data);
 	}
+
+	*/
 	void DirectX12Shader::Bind()
 	{
-		if (m_UnformSlot != nullptr) {
-			m_UnformSlot->SetData(m_uniformCBuf->GetGPUReference());
-			m_UnformSlot->Bind();
-		}
 		
-	}*/
+	}
 };

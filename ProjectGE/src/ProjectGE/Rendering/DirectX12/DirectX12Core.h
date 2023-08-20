@@ -26,6 +26,7 @@ namespace ProjectGE {
 		void InitializeCPUQueueWait(UINT fenceVal, DirectX12QueueType target);
 	private:
 		DirectX12Core();
+		void Init();
 		DirectX12CommandQueue& FindQueue(DirectX12QueueType type);
 	private:
 		ComPtr<ID3D12Debug> m_Debug;

@@ -8,6 +8,7 @@ namespace ProjectGE {
 	{
 	public:
 		DirectX12TopologyResource(TopologyType type);
+		inline D3D12_PRIMITIVE_TOPOLOGY_TYPE& GetInternalTolopogyType() { return m_Type; }
 		//void Append(PipelineStateObject& pipeline) override;
 		void Bind() override;
 	private:

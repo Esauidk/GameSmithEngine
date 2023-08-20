@@ -16,6 +16,8 @@ namespace ProjectGE {
 
 		m_Core = Scope<DirectX12Core>(new DirectX12Core());
 
+		m_Core->Init();
+
 		return GetCore();
 	}
 
@@ -50,6 +52,10 @@ namespace ProjectGE {
 		m_InfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING, TRUE);
 
 #endif
+	}
+
+	void DirectX12Core::Init()
+	{
 		m_DirectContext = std::make_unique<DirectX12CommandContextDirect>();
 		m_CopyContext = std::make_unique<DirectX12CommandContextCopy>();
 		m_HeapManager = std::make_unique<DirectX12HeapManager>();

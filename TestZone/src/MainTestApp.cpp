@@ -5,6 +5,9 @@
 #include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12Shader.h"
 #include "ProjectGE/Rendering/DirectX12/Util/DirectX12RootSignatureBuilder.h"
 #include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12RootSignature.h"
+#include "ProjectGE/Rendering/DirectX12/DirectX12PipelineState.h"
+#include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12InputLayout.h"
+#include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12TopologyResource.h"
 #include <glm/gtc/type_ptr.hpp>
 
 class ExampleLayer : public ProjectGE::Layer {
@@ -41,7 +44,7 @@ public:
 
 		std::string nvertex = std::string(vertex.begin(), vertex.end());
 		std::string npixel = std::string(pixel.begin(), pixel.end());
-		//m_Shaders = ProjectGE::Ref<ProjectGE::Shader>(ProjectGE::Shader::Create(nvertex, npixel, m_Arg3.get(), sizeof(test)));
+		m_Shaders = ProjectGE::Ref<ProjectGE::Shader>(ProjectGE::Shader::Create(nvertex, npixel));
 
 		// Setup Topology
 
@@ -75,6 +78,23 @@ public:
 		m_SquareVertexBuffer->AttachLayout(layout);
 
 		auto configuredLayout = m_TriVertexBuffer->GetLayout();
+
+		D3D12_RT_FORMAT_ARRAY rtvFormats = {};
+		rtvFormats.NumRenderTargets = 1;
+		rtvFormats.RTFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
+
+		ProjectGE::DirectX12PipelineArgs args = {
+			{test->GetInternalRootSignature(),
+			((ProjectGE::DirectX12InputLayout*)configuredLayout)->GetInternalLayout(),
+			((ProjectGE::DirectX12TopologyResource*)m_Topo.get())->GetInternalTolopogyType(),
+			CD3DX12_SHADER_BYTECODE(((ProjectGE::DirectX12Shader*)m_Shaders.get())->GetVertexByteCode()),
+			CD3DX12_SHADER_BYTECODE(((ProjectGE::DirectX12Shader*)m_Shaders.get())->GetPixelByteCode()),
+			DXGI_FORMAT_D32_FLOAT,
+			rtvFormats
+			} };
+
+		ProjectGE::DirectX12PipelineState state;
+		state.Create(args);
 		//configuredLayout->Append(*(m_State.get()));
 
 		//m_State->Build();

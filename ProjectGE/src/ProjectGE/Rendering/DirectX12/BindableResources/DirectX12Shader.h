@@ -11,8 +11,8 @@ namespace ProjectGE {
 	{
 	public:
 		DirectX12Shader(const std::string vertexPath, const std::string pixelPath);
-		void* GetVertexByteCode() const { return m_VertexBlob.Get(); }
-		void* GetPixelByteCode() const { return m_VertexBlob.Get(); }
+		inline ID3DBlob* GetVertexByteCode() const { return m_VertexBlob.Get(); }
+		inline ID3DBlob* GetPixelByteCode() const { return m_PixelBlob.Get(); }
 		void Bind() override;
 	private:
 		Microsoft::WRL::ComPtr<ID3DBlob> m_VertexBlob;
