@@ -7,7 +7,8 @@
 namespace ProjectGE {
 	enum class RootParameterVisibility {
 		Vertex,
-		Pixel
+		Pixel,
+		ALL
 		// MORE TO COME
 	};
 
@@ -136,6 +137,8 @@ namespace ProjectGE {
 
 		CreateMaxTables(builder, RootParameterVisibility::Vertex);
 		CreateMaxTables(builder, RootParameterVisibility::Pixel);
+
+		builder.AddTable(RootParameterVisibility::ALL, DescriptorRangeType::UAV, MAX_UAV);
 	}
 };
 

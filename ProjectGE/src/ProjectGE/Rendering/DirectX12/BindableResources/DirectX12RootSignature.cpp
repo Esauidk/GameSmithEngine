@@ -20,6 +20,8 @@ namespace ProjectGE {
 
 		res = FAILED(pDevice->CreateRootSignature(0, m_RootSigBlob->GetBufferPointer(), m_RootSigBlob->GetBufferSize(), IID_PPV_ARGS(&m_Root)));
 		GE_CORE_ASSERT(!res, "Failed to create root signature");
+
+		IndexRootSignature(desc);
 	}
 
 	void DirectX12RootSignature::InitGenericRootSignature(D3D12_ROOT_SIGNATURE_FLAGS flags)
@@ -29,7 +31,7 @@ namespace ProjectGE {
 		Init(builder.Build());
 	}
 
-	void DirectX12RootSignature::IndexRootSignature(D3D12_VERSIONED_ROOT_SIGNATURE_DESC& desc)
+	void DirectX12RootSignature::IndexRootSignature(const D3D12_VERSIONED_ROOT_SIGNATURE_DESC& desc)
 	{
 		// Analysis method taken from Unreal Engine:
 		// Expected Layout of Root Signature is as follows:
@@ -49,18 +51,56 @@ namespace ProjectGE {
 		// 2) Determine the accessibility of the root signature (which stages can access)
 		// 3) Determine the size and binding slots of the resources
 
-		/*for (int i = 0; i < desc.Desc_1_1.NumParameters; i++) {
-
+		for (UINT i = 0; i < desc.Desc_1_1.NumParameters; i++) {
+			
 			auto& curParam = desc.Desc_1_1.pParameters[i];
+
+			// Figure out which stage this parameter is for
+			Stages stage = STAGE_NUM;
+			switch (curParam.ShaderVisibility) {
+			case D3D12_SHADER_VISIBILITY_ALL:
+				stage = STAGE_NUM;
+				break;
+			case D3D12_SHADER_VISIBILITY_VERTEX:
+				stage = STAGE_VERTEX;
+				break;
+			case D3D12_SHADER_VISIBILITY_PIXEL:
+				stage = STAGE_PIXEL;
+				break;
+			}
+
 			switch (curParam.ParameterType) {
 			case D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE:
-
-			case D3D12_ROOT_PARAMETER_TYPE_32BIT_CONSTANTS:
-			case D3D12_ROOT_PARAMETER_TYPE_CBV:
-			case D3D12_ROOT_PARAMETER_TYPE_SRV:
-			case D3D12_ROOT_PARAMETER_TYPE_UAV:
+			{
+				GE_CORE_ASSERT(curParam.DescriptorTable.NumDescriptorRanges == 1, "Descriptor table in root signature has more than one range: UNEXPECTD");
+				auto& range = curParam.DescriptorTable.pDescriptorRanges[0];
+				switch (range.RangeType) {
+				case D3D12_DESCRIPTOR_RANGE_TYPE_CBV:
+					SetCBVRegisterSlot(stage, i);
+					SetCBVMaxCount(stage, range.NumDescriptors);
+					break;
+				case D3D12_DESCRIPTOR_RANGE_TYPE_SAMPLER:
+					SetSamplerRegisterSlot(stage, i);
+					SetSamplerMaxCount(stage, range.NumDescriptors);
+					break;
+				case D3D12_DESCRIPTOR_RANGE_TYPE_SRV:
+					SetSRVRegisterSlot(stage, i);
+					SetSRVMaxCount(stage, range.NumDescriptors);
+					break;
+				case D3D12_DESCRIPTOR_RANGE_TYPE_UAV:
+					SetUAVRegisterSlot(stage, i);
+					SetUAVMaxCount(stage, range.NumDescriptors);
+					break;
+				}
+				break;
 			}
-		}*/
+			case D3D12_ROOT_PARAMETER_TYPE_32BIT_CONSTANTS:
+				//TODO: ADD IN LOGIC FOR CONSTANTS
+				break;
+			default:
+				GE_CORE_ASSERT(false, "All descriptors besides root CBVs should be in a table");
+			}
+		}
 	}
 
 	/*void DirectX12RootSignature::Bind() {
