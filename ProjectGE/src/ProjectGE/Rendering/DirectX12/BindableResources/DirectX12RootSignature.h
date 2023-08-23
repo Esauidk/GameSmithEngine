@@ -44,6 +44,7 @@ namespace ProjectGE {
 		UINT maxCBV = 0;
 		UINT maxSample = 0;
 		UINT maxUAV = 0;
+		bool visibleStage = false;
 	};
 
 	class DirectX12RootSignature
@@ -53,6 +54,16 @@ namespace ProjectGE {
 		void Init(const D3D12_VERSIONED_ROOT_SIGNATURE_DESC& desc);
 		void InitGenericRootSignature(D3D12_ROOT_SIGNATURE_FLAGS flags);
 		inline ID3D12RootSignature* GetInternalRootSignature() { return m_Root.Get(); }
+
+		inline bool HasResource() { return m_HasSRV || m_HasCBV || m_HasUAV; }
+		inline bool HasSamplers() { return m_HasSample; }
+		inline bool HasSRV() { return m_HasSRV; }
+		inline bool HasCBV() { return m_HasCBV; }
+		inline bool HasSample() {return m_HasSample;}
+		inline bool HasUAV() { return m_HasUAV; }
+
+		inline bool VSVisible() { return m_StageInfo[STAGE_VERTEX].visibleStage; }
+		inline bool PSVisible() { return m_StageInfo[STAGE_PIXEL].visibleStage; }
 
 		inline UINT GetMaxSRV(Stages stage) { return m_StageInfo[stage].maxSRV; }
 		inline UINT GetMaxCBV(Stages stage) { return m_StageInfo[stage].maxCBV; }
@@ -109,6 +120,10 @@ namespace ProjectGE {
 		}
 
 		inline void SetSRVMaxCount(Stages stage, UINT count) {
+			if (!m_HasSRV) {
+				m_HasSRV = count > 0;
+			}
+
 			if (stage == STAGE_NUM) {
 				for (UINT i = STAGE_VERTEX; i < STAGE_NUM; i++) {
 					m_StageInfo[i].maxSRV = count;
@@ -120,6 +135,10 @@ namespace ProjectGE {
 		}
 
 		inline void SetCBVMaxCount(Stages stage, UINT count) {
+			if (!m_HasCBV) {
+				m_HasCBV = count > 0;
+			}
+
 			if (stage == STAGE_NUM) {
 				for (UINT i = STAGE_VERTEX; i < STAGE_NUM; i++) {
 					m_StageInfo[i].maxCBV = count;
@@ -131,6 +150,10 @@ namespace ProjectGE {
 		}
 
 		inline void SetSamplerMaxCount(Stages stage, UINT count) {
+			if (!m_HasSample) {
+				m_HasSample = count > 0;
+			}
+
 			if (stage == STAGE_NUM) {
 				for (UINT i = STAGE_VERTEX; i < STAGE_NUM; i++) {
 					m_StageInfo[i].maxSample = count;
@@ -142,6 +165,10 @@ namespace ProjectGE {
 		}
 
 		inline void SetUAVMaxCount(Stages stage, UINT count) {
+			if (!m_HasUAV) {
+				m_HasUAV = count > 0;
+			}
+			
 			if (stage == STAGE_NUM) {
 				for (UINT i = STAGE_VERTEX; i < STAGE_NUM; i++) {
 					m_StageInfo[i].maxUAV = count;
@@ -159,8 +186,12 @@ namespace ProjectGE {
 		Microsoft::WRL::ComPtr<ID3DBlob> m_ErrorBlob;
 
 		UINT m_RegisterSlotTable[COUNT_ENUM];
-		// Temporary, use enum that represents number of stagees
 		StageMetadata m_StageInfo[STAGE_NUM];
+
+		bool m_HasSRV;
+		bool m_HasCBV;
+		bool m_HasSample;
+		bool m_HasUAV;
 	};
 }
 

@@ -50,6 +50,8 @@ namespace ProjectGE {
 		// 1) Determine The total size of the root signature (with each parameter offset)
 		// 2) Determine the accessibility of the root signature (which stages can access)
 		// 3) Determine the size and binding slots of the resources
+		const bool denyVS = desc.Desc_1_1.Flags & D3D12_ROOT_SIGNATURE_FLAG_DENY_VERTEX_SHADER_ROOT_ACCESS;
+		const bool denyPS = desc.Desc_1_1.Flags & D3D12_ROOT_SIGNATURE_FLAG_DENY_PIXEL_SHADER_ROOT_ACCESS;
 
 		for (UINT i = 0; i < desc.Desc_1_1.NumParameters; i++) {
 			
@@ -63,11 +65,14 @@ namespace ProjectGE {
 				break;
 			case D3D12_SHADER_VISIBILITY_VERTEX:
 				stage = STAGE_VERTEX;
+				m_StageInfo[stage].visibleStage = m_StageInfo[stage].visibleStage || !denyVS;
 				break;
 			case D3D12_SHADER_VISIBILITY_PIXEL:
 				stage = STAGE_PIXEL;
+				m_StageInfo[stage].visibleStage = m_StageInfo[stage].visibleStage || !denyPS;
 				break;
 			}
+
 
 			switch (curParam.ParameterType) {
 			case D3D12_ROOT_PARAMETER_TYPE_DESCRIPTOR_TABLE:
