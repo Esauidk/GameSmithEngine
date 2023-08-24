@@ -32,6 +32,14 @@ namespace ProjectGE {
 	private:
 		ComPtr<ID3D12PipelineState> m_PipelineState;
 	};
+
+	class DirectX12PipelineStateData {
+	public:
+		DirectX12PipelineStateData(Ref<DirectX12PipelineState> pso, Ref<DirectX12RootSignature> root) : m_Pso(pso), m_Root(root) {}
+	public:
+		const Ref<DirectX12PipelineState> m_Pso;
+		const Ref<DirectX12RootSignature> m_Root;
+	};
 };
 
 

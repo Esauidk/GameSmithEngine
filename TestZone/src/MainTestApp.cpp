@@ -8,6 +8,7 @@
 #include "ProjectGE/Rendering/DirectX12/DirectX12PipelineState.h"
 #include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12InputLayout.h"
 #include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12TopologyResource.h"
+#include "ProjectGE/Rendering/DirectX12/DirectX12Core.h"
 #include <glm/gtc/type_ptr.hpp>
 
 class ExampleLayer : public ProjectGE::Layer {
@@ -23,7 +24,7 @@ public:
 
 		m_TriTrans.SetPosition(glm::vec3(0, 1, 0));
 		m_SquareTrans.SetPosition(glm::vec3(0, 0, 0));
-		ProjectGE::Scope<ProjectGE::DirectX12RootSignature> test = std::make_unique<ProjectGE::DirectX12RootSignature>();
+		ProjectGE::Ref<ProjectGE::DirectX12RootSignature> test = std::make_unique<ProjectGE::DirectX12RootSignature>();
 		test->InitGenericRootSignature(D3D12_ROOT_SIGNATURE_FLAG_NONE);
 		// Setup Root Signature
 		
@@ -95,6 +96,16 @@ public:
 
 		ProjectGE::DirectX12PipelineState state;
 		state.Create(args);
+		ProjectGE::Ref<ProjectGE::DirectX12PipelineState> stateRef(&state);
+
+		ProjectGE::DirectX12PipelineStateData stateData(stateRef, test);
+		ProjectGE::Ref<ProjectGE::DirectX12PipelineStateData> refData(&stateData);
+
+		auto& core = ProjectGE::DirectX12Core::GetCore();
+		auto context = core.GetDirectCommandContext();
+		context->GetStateManager().SetGraphicsPipelineState(refData);
+		context->GetStateManager().BindState();
+		context->FinalizeCommandList();
 		//configuredLayout->Append(*(m_State.get()));
 
 		//m_State->Build();
