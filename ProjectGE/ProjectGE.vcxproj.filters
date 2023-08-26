@@ -1515,7 +1515,8 @@
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12Core.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12RootSignatureBuilder.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12Macos.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12StateManager.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12StateManager.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\Views.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\Camera\Camera.cpp">
@@ -1645,7 +1646,7 @@
       <Filter>third-party\stb</Filter>
     </ClCompile>
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12Core.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12StateManager.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12StateManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\SamplePixelShader.hlsl" />

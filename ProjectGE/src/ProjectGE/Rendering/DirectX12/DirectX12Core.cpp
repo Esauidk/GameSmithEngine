@@ -58,7 +58,6 @@ namespace ProjectGE {
 	{
 		m_DirectContext = std::make_unique<DirectX12CommandContextDirect>();
 		m_CopyContext = std::make_unique<DirectX12CommandContextCopy>();
-		m_HeapManager = std::make_unique<DirectX12HeapManager>();
 	}
 
 	DirectX12Core& DirectX12Core::GetCore() {

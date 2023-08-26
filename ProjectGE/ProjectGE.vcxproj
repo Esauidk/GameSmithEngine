@@ -143,6 +143,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\Views.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12Macos.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12RootSignatureBuilder.h" />
     <ClInclude Include="src\ProjectGE.h" />
@@ -207,7 +208,7 @@
     <ClInclude Include="src\ProjectGE\Rendering\RendererAPI.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RendererContext.h" />
     <ClInclude Include="src\gepch.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12StateManager.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12StateManager.h" />
     <ClInclude Include="third-party\glm\glm\common.hpp" />
     <ClInclude Include="third-party\glm\glm\detail\_features.hpp" />
     <ClInclude Include="third-party\glm\glm\detail\_fixes.hpp" />
@@ -671,7 +672,7 @@
     <ClCompile Include="src\gepch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12StateManager.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12StateManager.cpp" />
     <ClCompile Include="third-party\stb\std_image.cpp" />
   </ItemGroup>
   <ItemGroup>

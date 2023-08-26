@@ -3,6 +3,7 @@
 #include "ProjectGE/Core/Log.h"
 
 #include "ProjectGE/Rendering/DirectX12/DirectX12Core.h"
+#include "ProjectGE/Rendering/DirectX12/BindableResources/Views.h"
 
 namespace ProjectGE {
 
@@ -202,7 +203,9 @@ namespace ProjectGE {
 
 		D3D12_CPU_DESCRIPTOR_HANDLE depthHandler = m_DBuffer->GetHandle();
 		CD3DX12_CPU_DESCRIPTOR_HANDLE rtv(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart(), m_SwapChain->GetCurrentBackBufferIndex(), device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
-		cmdList->OMSetRenderTargets(1, &rtv, FALSE, &depthHandler);
+		m_RTVs[0] = std::make_shared<DirectX12RenderTargetView>(rtv, DXGI_FORMAT_R8G8B8A8_UNORM);
+		core.GetDirectCommandContext()->GetStateManager().SetRenderTarget(m_RTVs, 1);
+		//cmdList->OMSetRenderTargets(1, &rtv, FALSE, &depthHandler);
 	}
 
 

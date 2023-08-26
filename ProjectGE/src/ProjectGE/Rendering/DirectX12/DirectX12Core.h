@@ -14,7 +14,6 @@ namespace ProjectGE {
 	public:
 		static DirectX12Core& CreateCore();
 		static DirectX12Core& GetCore();
-		inline DirectX12HeapManager* GetHeapManager() { return m_HeapManager.get(); }
 		inline ID3D12Device8* GetDevice() { return m_Device.Get(); }
 		inline DirectX12CommandContextDirect* GetDirectCommandContext() { return m_DirectContext.get(); }
 		inline DirectX12CommandContextCopy* GetCopyCommandContext() { return m_CopyContext.get(); }
@@ -34,7 +33,6 @@ namespace ProjectGE {
 		ComPtr<ID3D12Device8> m_Device;
 		Scope<DirectX12CommandContextDirect> m_DirectContext;
 		Scope<DirectX12CommandContextCopy> m_CopyContext;
-		Scope<DirectX12HeapManager> m_HeapManager;
 		static Scope<DirectX12Core> m_Core;
 	};
 };

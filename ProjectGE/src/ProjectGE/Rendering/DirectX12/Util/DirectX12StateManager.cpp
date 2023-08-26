@@ -2,6 +2,8 @@
 #include "DirectX12StateManager.h"
 #include "ProjectGE/Rendering/DirectX12/DirectX12Core.h"
 
+#include "ProjectGE/Core/Log.h"
+
 namespace ProjectGE {
 	void DirectX12StateManager::SetGraphicsPipelineState(Ref<DirectX12PipelineStateData> pipelineData)
 	{
@@ -18,10 +20,36 @@ namespace ProjectGE {
 		
 	}
 
+	void DirectX12StateManager::SetRenderTarget(Ref<DirectX12RenderTargetView>* target, UINT number)
+	{
+		PipelineState.Graphics.RenderTargets = target;
+		PipelineState.Graphics.numRenderTargets = number;
+		PipelineState.Graphics.updateRenderTargets = true;
+	}
+
+	void DirectX12StateManager::NewCommandList()
+	{
+		PipelineState.Graphics.updateRenderTargets = true;
+		PipelineState.Graphics.updateRootSignature = true;
+	}
+
 	void DirectX12StateManager::BindState()
 	{
 		LowLevelSetRootSignature(PipelineState.Graphics.CurPipelineData->m_Root);
 		LowLevelSetGraphicsPipelineState(PipelineState.Graphics.CurPipelineData->m_Pso);
+
+		auto& core = DirectX12Core::GetCore();
+		auto& commandList = core.GetDirectCommandContext()->GetCommandList();
+
+		if (PipelineState.Graphics.updateRenderTargets) {
+			D3D12_CPU_DESCRIPTOR_HANDLE RenderTargetArray[1];
+
+			for (UINT i = 0; i < PipelineState.Graphics.numRenderTargets; i++) {
+				RenderTargetArray[i] = PipelineState.Graphics.RenderTargets[i]->GetView();
+			}
+			commandList->OMSetRenderTargets(PipelineState.Graphics.numRenderTargets, RenderTargetArray, 0, nullptr);
+			PipelineState.Graphics.updateRenderTargets = false;
+		}
 	}
 
 	void DirectX12StateManager::LowLevelSetGraphicsPipelineState(Ref<DirectX12PipelineState> pipeline)

@@ -9,6 +9,8 @@
 
 #include "ProjectGE/Core/Core.h"
 
+#include "ProjectGE/Rendering/DirectX12/BindableResources/Views.h"
+
 
 using Microsoft::WRL::ComPtr;
 
@@ -48,6 +50,9 @@ namespace ProjectGE {
 		unsigned int m_Width;
 		unsigned int m_Height;
 		float m_ClearColor[4] = { 0.07f, 0.0f, 0.12f, 1 };
+
+		// TESTING
+		Ref<DirectX12RenderTargetView> m_RTVs[1];
 	};
 
 };

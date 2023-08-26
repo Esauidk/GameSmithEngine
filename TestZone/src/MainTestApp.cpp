@@ -105,6 +105,9 @@ public:
 		auto context = core.GetDirectCommandContext();
 		context->GetStateManager().SetGraphicsPipelineState(refData);
 		context->GetStateManager().BindState();
+		ProjectGE::Application::Get().GetWindow().GetRenderer()->AttachContextResources();
+		context->FinalizeCommandList();
+		context->GetStateManager().BindState();
 		context->FinalizeCommandList();
 		//configuredLayout->Append(*(m_State.get()));
 

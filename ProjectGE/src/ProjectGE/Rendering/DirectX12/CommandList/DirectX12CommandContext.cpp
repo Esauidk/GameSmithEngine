@@ -26,6 +26,8 @@ namespace ProjectGE {
 
 		m_CurrentList = nullptr;
 
+		m_StateManager->NewCommandList();
+
 		StartCommandList();
 		return val;
 	}
@@ -34,6 +36,8 @@ namespace ProjectGE {
 	{
 		m_Queue = std::make_unique<DirectX12CommandQueue>(type);
 		m_CurrentList = Scope<DirectX12CommandListWrapper>(m_Queue->GetCommandList());
+		m_StateManager = std::make_unique<DirectX12StateManager>();
+		m_HeapManager = std::make_unique<DirectX12HeapManager>();
 	}
 };
 

@@ -31,6 +31,9 @@ namespace ProjectGE {
 		inline D3D12_CPU_DESCRIPTOR_HANDLE GetCPUReference(UINT slot) { return CD3DX12_CPU_DESCRIPTOR_HANDLE(m_CpuStartPos, slot, m_UnitSize); }
 		inline D3D12_GPU_DESCRIPTOR_HANDLE GetGPUReference(UINT slot) { return CD3DX12_GPU_DESCRIPTOR_HANDLE(m_GpuStartPos, slot, m_UnitSize); }
 
+		void AttachHeap();
+
+
 		
 	private:
 		inline bool IsReserved() { return m_Reserve; }
@@ -51,6 +54,7 @@ namespace ProjectGE {
 	class DirectX12HeapManager
 	{
 	public:
+		DirectX12HeapManager() = default;
 		Ref<DirectX12DescriptorHeap> AllocateHeap(UINT numDescriptor, DescriptorHeapType heapType, D3D12_DESCRIPTOR_HEAP_FLAGS flags);
 	private:
 		std::vector<Ref<DirectX12DescriptorHeap>> m_AvailableHeaps;
