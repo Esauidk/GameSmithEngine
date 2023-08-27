@@ -14,7 +14,7 @@
 
 namespace ProjectGE {
 	ImGuiLayer::ImGuiLayer() : Layer("ImGui Layer") {
-		m_Heap = DirectX12Core::GetCore().GetDirectCommandContext()->GetHeapManager().AllocateHeap(1, DescriptorHeapType::CBVSRVUAV, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE);
+		m_Heap = DirectX12Core::GetCore().GetDirectCommandContext()->GetHeapDB().AllocateHeap(1, DescriptorHeapType::CBVSRVUAV, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE);
 	}
 
 	ImGuiLayer::~ImGuiLayer() {

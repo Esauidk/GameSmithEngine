@@ -20,9 +20,12 @@ public:
 
 	ExampleLayer() : Layer("Example"), m_Cam(-1.6f, 1.6f, -0.9f, 0.9f) {
 		/* START: TEST CODE REMOVE */
+		auto& core = ProjectGE::DirectX12Core::GetCore();
+		auto context = core.GetDirectCommandContext();
+		auto heap = context->GetHeapDB().AllocateHeap(1, ProjectGE::DescriptorHeapType::CBVSRVUAV, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE);
 		// Read Shaders(Vertex, Pixel)
 
-		m_TriTrans.SetPosition(glm::vec3(0, 1, 0));
+		/*m_TriTrans.SetPosition(glm::vec3(0, 1, 0));
 		m_SquareTrans.SetPosition(glm::vec3(0, 0, 0));
 		ProjectGE::Ref<ProjectGE::DirectX12RootSignature> test = std::make_unique<ProjectGE::DirectX12RootSignature>();
 		test->InitGenericRootSignature(D3D12_ROOT_SIGNATURE_FLAG_NONE);

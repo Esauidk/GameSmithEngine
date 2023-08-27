@@ -37,7 +37,7 @@ namespace ProjectGE {
 		m_Queue = std::make_unique<DirectX12CommandQueue>(type);
 		m_CurrentList = Scope<DirectX12CommandListWrapper>(m_Queue->GetCommandList());
 		m_StateManager = std::make_unique<DirectX12StateManager>();
-		m_HeapManager = std::make_unique<DirectX12HeapManager>();
+		m_HeapManager = std::make_unique<DirectX12HeapDatabase>();
 	}
 };
 

@@ -19,7 +19,7 @@ namespace ProjectGE {
 
 	class DirectX12DescriptorHeap {
 	public:
-		friend class DirectX12HeapManager;
+		friend class DirectX12HeapDatabase;
 
 		DirectX12DescriptorHeap(ComPtr<ID3D12DescriptorHeap> newHeap, UINT numDescriptor, DescriptorHeapType heapType, D3D12_DESCRIPTOR_HEAP_FLAGS flags);
 		inline ID3D12DescriptorHeap* GetHeapReference() { return m_CurrentHeap.Get(); }
@@ -51,10 +51,11 @@ namespace ProjectGE {
 		bool m_Reserve;
 	};
 
-	class DirectX12HeapManager
+	class DirectX12HeapDatabase
 	{
 	public:
-		DirectX12HeapManager() = default;
+		DirectX12HeapDatabase() = default;
+		// Reuse or allocate new resource space on GPU heap
 		Ref<DirectX12DescriptorHeap> AllocateHeap(UINT numDescriptor, DescriptorHeapType heapType, D3D12_DESCRIPTOR_HEAP_FLAGS flags);
 	private:
 		std::vector<Ref<DirectX12DescriptorHeap>> m_AvailableHeaps;

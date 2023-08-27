@@ -1,5 +1,5 @@
 #include "gepch.h"
-#include "DirectX12HeapManager.h"
+#include "DirectX12HeapDatabase.h"
 
 #include "ProjectGE/Rendering/DirectX12/DirectX12Core.h"
 #include "ProjectGE/Core/Log.h"
@@ -18,7 +18,7 @@ namespace ProjectGE {
 		return D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
 	}
 
-	Ref<DirectX12DescriptorHeap> DirectX12HeapManager::AllocateHeap(UINT numDescriptor, DescriptorHeapType heapType, D3D12_DESCRIPTOR_HEAP_FLAGS flags)
+	Ref<DirectX12DescriptorHeap> DirectX12HeapDatabase::AllocateHeap(UINT numDescriptor, DescriptorHeapType heapType, D3D12_DESCRIPTOR_HEAP_FLAGS flags)
 	{
 		for (Ref<DirectX12DescriptorHeap>& heap : m_AvailableHeaps) {
 			if (!heap->IsReserved() && heap->GetType() == heapType && heap->GetNumDescriptors() >= numDescriptor) {

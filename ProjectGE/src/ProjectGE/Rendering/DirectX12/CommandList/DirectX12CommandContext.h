@@ -2,7 +2,7 @@
 #include "gepch.h"
 #include "ProjectGE/Rendering/DirectX12/CommandList/DirectX12CommandQueue.h"
 #include "ProjectGE/Rendering/DirectX12/Util/DirectX12StateManager.h"
-#include "ProjectGE/Rendering/DirectX12/Util/DirectX12HeapManager.h"
+#include "ProjectGE/Rendering/DirectX12/Util/DirectX12HeapDatabase.h"
 
 #include "ProjectGE/Core/Core.h"
 
@@ -16,7 +16,7 @@ namespace ProjectGE {
 		inline DirectX12QueueType GetQueueType() const { return m_QueueType; }
 		inline DirectX12CommandQueue& GetQueue() { return *(m_Queue.get()); }
 		inline DirectX12StateManager& GetStateManager() { return *m_StateManager; }
-		inline DirectX12HeapManager& GetHeapManager() { return *m_HeapManager; }
+		inline DirectX12HeapDatabase& GetHeapDB() { return *m_HeapManager; }
 	protected:
 		DirectX12CommandContextBase(DirectX12QueueType type);
 	private:
@@ -26,7 +26,7 @@ namespace ProjectGE {
 		std::queue<DirectX12CommandListWrapper> m_CompletedLists;
 		DirectX12QueueType m_QueueType;
 		Scope<DirectX12StateManager> m_StateManager;
-		Scope<DirectX12HeapManager> m_HeapManager;
+		Scope<DirectX12HeapDatabase> m_HeapManager;
 	};
 
 	class DirectX12CommandContextDirect : public DirectX12CommandContextBase {

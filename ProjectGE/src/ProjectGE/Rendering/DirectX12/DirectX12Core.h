@@ -5,7 +5,6 @@
 
 #include "ProjectGE/Core/Core.h"
 #include "ProjectGE/Rendering/DirectX12/CommandList/DirectX12CommandContext.h"
-#include "ProjectGE/Rendering/DirectX12/Util/DirectX12HeapManager.h"
 
 using Microsoft::WRL::ComPtr;
 

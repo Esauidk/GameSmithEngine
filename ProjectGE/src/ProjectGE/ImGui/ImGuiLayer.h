@@ -5,7 +5,7 @@
 #include "ProjectGE/Events/MouseEvents.h"
 
 // TEMPORARY
-#include "ProjectGE/Rendering/DirectX12/Util/DirectX12HeapManager.h"
+#include "ProjectGE/Rendering/DirectX12/Util/DirectX12HeapDataBase.h"
 
 namespace ProjectGE {
 	// A layer representing a ImGUI overlay, a GUI on top of the basic window
