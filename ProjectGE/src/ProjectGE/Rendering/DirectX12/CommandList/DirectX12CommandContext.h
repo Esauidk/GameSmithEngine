@@ -16,7 +16,6 @@ namespace ProjectGE {
 		inline DirectX12QueueType GetQueueType() const { return m_QueueType; }
 		inline DirectX12CommandQueue& GetQueue() { return *(m_Queue.get()); }
 		inline DirectX12StateManager& GetStateManager() { return *m_StateManager; }
-		inline DirectX12HeapDatabase& GetHeapDB() { return *m_HeapManager; }
 	protected:
 		DirectX12CommandContextBase(DirectX12QueueType type);
 	private:
@@ -26,7 +25,6 @@ namespace ProjectGE {
 		std::queue<DirectX12CommandListWrapper> m_CompletedLists;
 		DirectX12QueueType m_QueueType;
 		Scope<DirectX12StateManager> m_StateManager;
-		Scope<DirectX12HeapDatabase> m_HeapManager;
 	};
 
 	class DirectX12CommandContextDirect : public DirectX12CommandContextBase {

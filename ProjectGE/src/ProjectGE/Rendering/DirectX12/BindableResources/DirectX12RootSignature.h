@@ -1,6 +1,7 @@
 #pragma once
 #include "gepch.h"
 #include "ProjectGE/Rendering/DirectX12/Util/third-party/d3dx12.h"
+#include "ProjectGE/Rendering/DirectX12/Util/ShaderUtil.h"
 
 
 using Microsoft::WRL::ComPtr;
@@ -31,12 +32,6 @@ namespace ProjectGE {
 		COUNT_ENUM
 	};
 
-	// TODO: Temporary, move to a more higher level file
-	enum Stages {
-		STAGE_VERTEX,
-		STAGE_PIXEL,
-		STAGE_NUM
-	};
 
 	// TODO: ADD FIELD FOR IF THE STAGE CAN EVEN SEE THE ROOT SIGNATURE
 	struct StageMetadata {
@@ -68,6 +63,33 @@ namespace ProjectGE {
 		inline UINT GetMaxSRV(Stages stage) { return m_StageInfo[stage].maxSRV; }
 		inline UINT GetMaxCBV(Stages stage) { return m_StageInfo[stage].maxCBV; }
 		inline UINT GetMaxSampler(Stages stage) { return m_StageInfo[stage].maxSample; }
+		inline UINT GetMaxUAV(Stages stage) { return m_StageInfo[STAGE_NUM].maxUAV; }
+
+		inline UINT GetSRVSlot(Stages stage) {
+			switch (stage) {
+			case STAGE_VERTEX:
+				return m_RegisterSlotTable[VS_SRV];
+			case STAGE_PIXEL:
+				return m_RegisterSlotTable[PS_SRV];
+			default:
+				return m_RegisterSlotTable[ALL_SRV];
+			}
+		}
+
+		inline UINT GetCBVSlot(Stages stage) {
+			switch (stage) {
+			case STAGE_VERTEX:
+				return m_RegisterSlotTable[VS_CBV];
+			case STAGE_PIXEL:
+				return m_RegisterSlotTable[PS_CBV];
+			default:
+				return m_RegisterSlotTable[ALL_CBV];
+			}
+		}
+
+		inline UINT GetUAVSlot(Stages stage) {
+			return m_RegisterSlotTable[ALL_UAV];
+		}
 			//void Bind() override;
 	private:
 		void IndexRootSignature(const D3D12_VERSIONED_ROOT_SIGNATURE_DESC& desc);
@@ -181,7 +203,6 @@ namespace ProjectGE {
 	private:
 		D3D12_FEATURE_DATA_ROOT_SIGNATURE m_RootSigFeat;
 		ComPtr<ID3D12RootSignature> m_Root;
-		UINT m_AvailableSlot;
 		Microsoft::WRL::ComPtr<ID3DBlob> m_RootSigBlob;
 		Microsoft::WRL::ComPtr<ID3DBlob> m_ErrorBlob;
 

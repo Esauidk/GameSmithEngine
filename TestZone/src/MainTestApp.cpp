@@ -9,6 +9,7 @@
 #include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12InputLayout.h"
 #include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12TopologyResource.h"
 #include "ProjectGE/Rendering/DirectX12/DirectX12Core.h"
+#include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12ConstantBuffer.h"
 #include <glm/gtc/type_ptr.hpp>
 
 class ExampleLayer : public ProjectGE::Layer {
@@ -20,12 +21,15 @@ public:
 
 	ExampleLayer() : Layer("Example"), m_Cam(-1.6f, 1.6f, -0.9f, 0.9f) {
 		/* START: TEST CODE REMOVE */
-		auto& core = ProjectGE::DirectX12Core::GetCore();
-		auto context = core.GetDirectCommandContext();
-		auto heap = context->GetHeapDB().AllocateHeap(1, ProjectGE::DescriptorHeapType::CBVSRVUAV, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE);
 		// Read Shaders(Vertex, Pixel)
+		auto& core = ProjectGE::DirectX12Core::GetCore();
+		auto device = core.GetDevice();
 
-		/*m_TriTrans.SetPosition(glm::vec3(0, 1, 0));
+
+
+
+
+		m_TriTrans.SetPosition(glm::vec3(0, 1, 0));
 		m_SquareTrans.SetPosition(glm::vec3(0, 0, 0));
 		ProjectGE::Ref<ProjectGE::DirectX12RootSignature> test = std::make_unique<ProjectGE::DirectX12RootSignature>();
 		test->InitGenericRootSignature(D3D12_ROOT_SIGNATURE_FLAG_NONE);
@@ -97,21 +101,30 @@ public:
 			rtvFormats
 			} };
 
-		ProjectGE::DirectX12PipelineState state;
-		state.Create(args);
-		ProjectGE::Ref<ProjectGE::DirectX12PipelineState> stateRef(&state);
+		ProjectGE::DirectX12PipelineState pso;
+		pso.Create(args);
+		ProjectGE::Ref<ProjectGE::DirectX12PipelineState> stateRef(&pso);
 
 		ProjectGE::DirectX12PipelineStateData stateData(stateRef, test);
 		ProjectGE::Ref<ProjectGE::DirectX12PipelineStateData> refData(&stateData);
 
-		auto& core = ProjectGE::DirectX12Core::GetCore();
-		auto context = core.GetDirectCommandContext();
-		context->GetStateManager().SetGraphicsPipelineState(refData);
-		context->GetStateManager().BindState();
+		auto& context = core.GetDirectCommandContext();
+		auto& state = context.GetStateManager();
+		state.SetGraphicsPipelineState(refData);
 		ProjectGE::Application::Get().GetWindow().GetRenderer()->AttachContextResources();
-		context->FinalizeCommandList();
-		context->GetStateManager().BindState();
-		context->FinalizeCommandList();
+		state.BindState();
+
+		ProjectGE::DirectX12ConstantBuffer cBuffer(sizeof(glm::mat4) / 4);
+
+		ProjectGE::DirectX12Buffer<UINT> testbuffer(5);
+		testbuffer.TransitionState(D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
+
+		/*D3D12_SHADER_RESOURCE_VIEW_DESC view;
+		view.
+
+		auto& cmdList = DirectX12Core::GetCore().GetDirectCommandContext()->GetCommandList();
+		cmdList->IASetVertexBuffers(0, 1, &view);
+		context.FinalizeCommandList();*/
 		//configuredLayout->Append(*(m_State.get()));
 
 		//m_State->Build();

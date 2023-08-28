@@ -11,6 +11,7 @@ namespace ProjectGE {
 		DirectX12ConstantBuffer(UINT size) :m_Buffer(std::make_unique<DirectX12Buffer<BYTE>>(size, "Constant Buffer")) { m_GPUAdd = m_Buffer->GetGPUReference(); }
 		void UpdateData(BYTE* data) override;
 		void* GetGPUReference() override;
+
 	private:
 		Scope<DirectX12Buffer<BYTE>> m_Buffer;
 		D3D12_GPU_VIRTUAL_ADDRESS m_GPUAdd;

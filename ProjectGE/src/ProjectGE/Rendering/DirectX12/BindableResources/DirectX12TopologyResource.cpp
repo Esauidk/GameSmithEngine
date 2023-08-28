@@ -21,7 +21,7 @@ namespace ProjectGE {
 	}*/
 
 	void DirectX12TopologyResource::Bind() {
-		auto& cmdList = DirectX12Core::GetCore().GetDirectCommandContext()->GetCommandList();
+		auto& cmdList = DirectX12Core::GetCore().GetDirectCommandContext().GetCommandList();
 		cmdList->IASetPrimitiveTopology(m_ListType);
 	}
 };

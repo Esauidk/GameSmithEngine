@@ -61,6 +61,7 @@ namespace ProjectGE {
 	void DirectX12DescriptorHeap::AttachHeap()
 	{
 		auto& core = DirectX12Core::GetCore();
-		core.GetDirectCommandContext()->GetCommandList()->SetDescriptorHeaps(1, &m_CurrentHeap);
+		ID3D12DescriptorHeap* heaps[] = { m_CurrentHeap.Get() };
+		core.GetDirectCommandContext().GetCommandList()->SetDescriptorHeaps(1, heaps);
 	}
 };

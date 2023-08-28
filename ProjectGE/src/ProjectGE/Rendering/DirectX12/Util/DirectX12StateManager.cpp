@@ -31,6 +31,7 @@ namespace ProjectGE {
 	{
 		PipelineState.Graphics.updateRenderTargets = true;
 		PipelineState.Graphics.updateRootSignature = true;
+		m_HeapState.AttachHeap();
 	}
 
 	void DirectX12StateManager::BindState()
@@ -39,7 +40,7 @@ namespace ProjectGE {
 		LowLevelSetGraphicsPipelineState(PipelineState.Graphics.CurPipelineData->m_Pso);
 
 		auto& core = DirectX12Core::GetCore();
-		auto& commandList = core.GetDirectCommandContext()->GetCommandList();
+		auto& commandList = core.GetDirectCommandContext().GetCommandList();
 
 		if (PipelineState.Graphics.updateRenderTargets) {
 			D3D12_CPU_DESCRIPTOR_HANDLE RenderTargetArray[1];
@@ -50,14 +51,42 @@ namespace ProjectGE {
 			commandList->OMSetRenderTargets(PipelineState.Graphics.numRenderTargets, RenderTargetArray, 0, nullptr);
 			PipelineState.Graphics.updateRenderTargets = false;
 		}
+
+		if (PipelineState.Basic.updateResources) {
+			SetResources(STAGE_VERTEX, STAGE_NUM);
+		}
+
 	}
 
+	void DirectX12StateManager::SetSRV(Stages stage, DirectX12ShaderResourceView* view, UINT index)
+	{
+		PipelineState.Basic.SRVStorage.Views[stage][index] = view;
+
+		PipelineState.Basic.updateResources = true;
+	}
+
+	/*void DirectX12StateManager::SetCBV(Stages stage, D3D12_CPU_DESCRIPTOR_HANDLE* views, UINT viewCount)
+	{
+		PipelineState.Basic.CBVStorage.Views[stage] = views;
+		PipelineState.Basic.CBVStorage.numberViews[stage] = viewCount;
+
+		PipelineState.Basic.updateResources = true;
+	}
+
+	void DirectX12StateManager::SetUAV(Stages stage, D3D12_CPU_DESCRIPTOR_HANDLE* views, UINT viewCount)
+	{
+		PipelineState.Basic.UAVStorage.Views[stage] = views;
+		PipelineState.Basic.UAVStorage.numberViews[stage] = viewCount;
+
+		PipelineState.Basic.updateResources = true;
+	}
+	*/
 	void DirectX12StateManager::LowLevelSetGraphicsPipelineState(Ref<DirectX12PipelineState> pipeline)
 	{
 		PipelineState.Basic.CurPipeline = pipeline;
 
 		auto& core = DirectX12Core::GetCore();
-		auto& commandList = core.GetDirectCommandContext()->GetCommandList();
+		auto& commandList = core.GetDirectCommandContext().GetCommandList();
 		commandList->SetPipelineState(pipeline->GetPipelineState());
 	}
 
@@ -65,10 +94,25 @@ namespace ProjectGE {
 	{
 		if (PipelineState.Graphics.updateRootSignature) {
 			auto& core = DirectX12Core::GetCore();
-			auto& commandList = core.GetDirectCommandContext()->GetCommandList();
+			auto& commandList = core.GetDirectCommandContext().GetCommandList();
 			commandList->SetGraphicsRootSignature(root->GetInternalRootSignature());
 			PipelineState.Graphics.updateRootSignature = false;
 		}
+	}
+	void DirectX12StateManager::SetResources(Stages beginStage, Stages endStage)
+	{
+		UINT begin = (UINT)beginStage;
+		UINT end = (UINT)endStage;
+
+		GE_CORE_ASSERT(begin < end, "Invalid stage range");
+
+		for (UINT i = begin; i < end; i++) {
+			Stages cur = (Stages)i;
+			//TODO: Count the nubmer of resources in each array
+			//m_HeapState.SetSRV(cur, *PipelineState.Graphics.CurPipelineData->m_Root, PipelineState.Basic.SRVStorage.Views[cur], PipelineState.Basic.SRVStorage.numberViews[cur]);
+			//m_HeapState.SetCBV(cur, *PipelineState.Graphics.CurPipelineData->m_Root, PipelineState.Basic.CBVStorage.Views[cur], PipelineState.Basic.CBVStorage.numberViews[cur]);
+		}
+		
 	}
 };
 

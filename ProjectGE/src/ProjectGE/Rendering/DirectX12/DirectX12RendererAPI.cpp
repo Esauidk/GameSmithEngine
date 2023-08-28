@@ -15,13 +15,13 @@ namespace ProjectGE {
 	void DirectX12RendererAPI::DrawIndexed(Ref<GeometryPack> geopack)
 	{
 		auto& core = DirectX12Core::GetCore();
-		auto& list = core.GetDirectCommandContext()->GetCommandList();
+		auto& list = core.GetDirectCommandContext().GetCommandList();
 		list->DrawIndexedInstanced(geopack->GetIndexBuffer()->GetCount(), 1, 0, 0, 0);
 	}
 
 	void DirectX12RendererAPI::FinishRecording()
 	{
 		auto& core = DirectX12Core::GetCore();
-		core.GetDirectCommandContext()->FinalizeCommandList();
+		core.GetDirectCommandContext().FinalizeCommandList();
 	}
 };

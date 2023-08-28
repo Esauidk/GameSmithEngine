@@ -32,13 +32,12 @@ namespace ProjectGE {
 		inline D3D12_GPU_DESCRIPTOR_HANDLE GetGPUReference(UINT slot) { return CD3DX12_GPU_DESCRIPTOR_HANDLE(m_GpuStartPos, slot, m_UnitSize); }
 
 		void AttachHeap();
-
+		inline void Free() { m_Reserve = false; }
 
 		
 	private:
 		inline bool IsReserved() { return m_Reserve; }
 		inline void Reserve() { m_Reserve = true; }
-		inline void Free() { m_Reserve = false; }
 
 		ComPtr<ID3D12DescriptorHeap> m_CurrentHeap;
 		const UINT m_DescriptorNum;

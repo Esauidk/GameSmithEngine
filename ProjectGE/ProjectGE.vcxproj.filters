@@ -1517,6 +1517,8 @@
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12Macos.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12StateManager.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\Views.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12HeapDescriptorState.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\ShaderUtil.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\Camera\Camera.cpp">
@@ -1647,6 +1649,7 @@
     </ClCompile>
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12Core.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12StateManager.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12HeapDescriptorState.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\SamplePixelShader.hlsl" />

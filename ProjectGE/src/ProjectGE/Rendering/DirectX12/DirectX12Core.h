@@ -5,6 +5,7 @@
 
 #include "ProjectGE/Core/Core.h"
 #include "ProjectGE/Rendering/DirectX12/CommandList/DirectX12CommandContext.h"
+#include "ProjectGE/Rendering/DirectX12/Util/DirectX12HeapDatabase.h"
 
 using Microsoft::WRL::ComPtr;
 
@@ -14,8 +15,9 @@ namespace ProjectGE {
 		static DirectX12Core& CreateCore();
 		static DirectX12Core& GetCore();
 		inline ID3D12Device8* GetDevice() { return m_Device.Get(); }
-		inline DirectX12CommandContextDirect* GetDirectCommandContext() { return m_DirectContext.get(); }
-		inline DirectX12CommandContextCopy* GetCopyCommandContext() { return m_CopyContext.get(); }
+		inline DirectX12CommandContextDirect& GetDirectCommandContext() { return *m_DirectContext; }
+		inline DirectX12CommandContextCopy& GetCopyCommandContext() { return *m_CopyContext; }
+		inline DirectX12HeapDatabase& GetHeapDatabase() { return *m_HeapDB; }
 		// Tell one queue to wait for another queue to complete a certain amount of work
 		void InitializeQueueWait(DirectX12QueueType executor, DirectX12QueueType waiter, UINT fenceVal);
 		// Tell the CPU to wait for all work to complete on a specific queue
@@ -32,6 +34,7 @@ namespace ProjectGE {
 		ComPtr<ID3D12Device8> m_Device;
 		Scope<DirectX12CommandContextDirect> m_DirectContext;
 		Scope<DirectX12CommandContextCopy> m_CopyContext;
+		Scope<DirectX12HeapDatabase> m_HeapDB;
 		static Scope<DirectX12Core> m_Core;
 	};
 };

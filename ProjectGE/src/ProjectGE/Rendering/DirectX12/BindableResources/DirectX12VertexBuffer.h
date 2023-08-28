@@ -20,7 +20,7 @@ namespace ProjectGE {
 			view.SizeInBytes = m_Buffer->GetSize();
 			view.StrideInBytes = sizeof(T);
 			
-			auto& cmdList = DirectX12Core::GetCore().GetDirectCommandContext()->GetCommandList();
+			auto& cmdList = DirectX12Core::GetCore().GetDirectCommandContext().GetCommandList();
 			cmdList->IASetVertexBuffers(0, 1, &view);
 		}
 

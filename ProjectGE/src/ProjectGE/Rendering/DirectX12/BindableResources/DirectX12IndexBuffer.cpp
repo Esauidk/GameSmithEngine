@@ -8,7 +8,7 @@ namespace ProjectGE {
 		m_Buffer->SetUploadGPUBlock();
 		m_Buffer->TransitionState(D3D12_RESOURCE_STATE_INDEX_BUFFER);
 		
-		auto& cmdList = DirectX12Core::GetCore().GetDirectCommandContext()->GetCommandList();
+		auto& cmdList = DirectX12Core::GetCore().GetDirectCommandContext().GetCommandList();
 		D3D12_INDEX_BUFFER_VIEW view;
 		view.BufferLocation = m_Buffer->GetGPUReference();
 		view.Format = DXGI_FORMAT_R16_UINT;

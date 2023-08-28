@@ -12,8 +12,8 @@ namespace ProjectGE {
 
 			auto& core = DirectX12Core::GetCore();
 			auto pDevice = core.GetDevice();
-			auto copyContext = core.GetCopyCommandContext();
-			auto& pCommandList = copyContext->GetCommandList();
+			auto& copyContext = core.GetCopyCommandContext();
+			auto& pCommandList = copyContext.GetCommandList();
 
 			// Define heap details
 			CD3DX12_HEAP_PROPERTIES defaultHeapProperties(D3D12_HEAP_TYPE_DEFAULT);
@@ -55,7 +55,7 @@ namespace ProjectGE {
 
 			UpdateSubresources((&pCommandList), m_GpuBuffer.Get(), m_CpuBuffer.Get(), 0, 0, 1, &data);
 
-			m_UploadSignal = copyContext->FinalizeCommandList();
+			m_UploadSignal = copyContext.FinalizeCommandList();
 		}
 
 		DirectX12Buffer(UINT count, std::string bufferName = "Personal Buffer") : m_BufferSize(sizeof(T)* count), m_State(D3D12_RESOURCE_STATE_COPY_DEST){
@@ -108,7 +108,7 @@ namespace ProjectGE {
 		void TransitionState(D3D12_RESOURCE_STATES newState) {
 			if (newState != m_State) {
 				auto& core = DirectX12Core::GetCore();
-				auto& cmdList = core.GetDirectCommandContext()->GetCommandList();
+				auto& cmdList = core.GetDirectCommandContext().GetCommandList();
 				CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
 					m_GpuBuffer.Get(),
 					m_State, newState
@@ -124,8 +124,8 @@ namespace ProjectGE {
 
 		void UpdateData(void* newData) {
 			auto& core = DirectX12Core::GetCore();
-			auto copyContext = core.GetCopyCommandContext();
-			auto& pCommandList = copyContext->GetCommandList();
+			auto& copyContext = core.GetCopyCommandContext();
+			auto& pCommandList = copyContext.GetCommandList();
 			// Store the data inside
 			D3D12_SUBRESOURCE_DATA data = {};
 			data.pData = reinterpret_cast<BYTE*>(newData);
@@ -133,7 +133,7 @@ namespace ProjectGE {
 			data.SlicePitch = data.RowPitch;
 
 			UpdateSubresources((&pCommandList), m_GpuBuffer.Get(), m_CpuBuffer.Get(), 0, 0, 1, &data);
-			m_UploadSignal = copyContext->FinalizeCommandList();
+			m_UploadSignal = copyContext.FinalizeCommandList();
 		}
 
 	private:

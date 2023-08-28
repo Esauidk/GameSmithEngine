@@ -64,7 +64,7 @@ namespace ProjectGE {
 		ComPtr<IDXGISwapChain1> dxgiSwapChain1;
 		// Create OS tied Swap-Chain
 		res = FAILED(dxgiFactory5->CreateSwapChainForHwnd(
-			core.GetDirectCommandContext()->GetQueue().GetCommandQueue(),
+			core.GetDirectCommandContext().GetQueue().GetCommandQueue(),
 			m_Window,
 			&swapChainDesc,
 			nullptr,
@@ -119,13 +119,13 @@ namespace ProjectGE {
 		);
 
 		auto& core = DirectX12Core::GetCore();
-		auto context = core.GetDirectCommandContext();
-		auto& list = context->GetCommandList();
+		auto& context = core.GetDirectCommandContext();
+		auto& list = context.GetCommandList();
 		// Add command to transition the render target
 		list->ResourceBarrier(1, &barrier);
 
 		
-		UINT val = context->FinalizeCommandList();
+		UINT val = context.FinalizeCommandList();
 		core.InitializeCPUQueueWait(DirectX12QueueType::Direct);
 
 		bool res;
@@ -147,9 +147,9 @@ namespace ProjectGE {
 
 		auto& core = DirectX12Core::GetCore();
 		auto device = core.GetDevice();
-		auto context = core.GetDirectCommandContext();
-		context->FinalizeCommandList();
-		context->GetQueue().Flush();
+		auto& context = core.GetDirectCommandContext();
+		context.FinalizeCommandList();
+		context.GetQueue().Flush();
 		m_BackBuffer.Reset();
 
 		DXGI_SWAP_CHAIN_DESC1 swapChainDesc = {};
@@ -193,8 +193,8 @@ namespace ProjectGE {
 	{
 		auto& core = DirectX12Core::GetCore();
 		auto device = core.GetDevice();
-		auto context = core.GetDirectCommandContext();
-		auto& cmdList = context->GetCommandList();
+		auto& context = core.GetDirectCommandContext();
+		auto& cmdList = context.GetCommandList();
 
 		auto rect = CD3DX12_RECT(0, 0, m_Width, m_Height);
 		auto viewport = CD3DX12_VIEWPORT(0.0f, 0.0f, (FLOAT)m_Width, (FLOAT)m_Height);
@@ -204,7 +204,7 @@ namespace ProjectGE {
 		D3D12_CPU_DESCRIPTOR_HANDLE depthHandler = m_DBuffer->GetHandle();
 		CD3DX12_CPU_DESCRIPTOR_HANDLE rtv(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart(), m_SwapChain->GetCurrentBackBufferIndex(), device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
 		m_RTVs[0] = std::make_shared<DirectX12RenderTargetView>(rtv, DXGI_FORMAT_R8G8B8A8_UNORM);
-		core.GetDirectCommandContext()->GetStateManager().SetRenderTarget(m_RTVs, 1);
+		core.GetDirectCommandContext().GetStateManager().SetRenderTarget(m_RTVs, 1);
 		//cmdList->OMSetRenderTargets(1, &rtv, FALSE, &depthHandler);
 	}
 
@@ -213,8 +213,8 @@ namespace ProjectGE {
 	{
 		auto& core = DirectX12Core::GetCore();
 		auto device = core.GetDevice();
-		auto context = core.GetDirectCommandContext();
-		auto& cmdList = context->GetCommandList();
+		auto& context = core.GetDirectCommandContext();
+		auto& cmdList = context.GetCommandList();
 
 		bool res = FAILED(m_SwapChain->GetBuffer(m_SwapChain->GetCurrentBackBufferIndex(), IID_PPV_ARGS(&m_BackBuffer)));
 		GE_CORE_ASSERT(!res, "Failed to reacquire DirectX12 back buffer");
