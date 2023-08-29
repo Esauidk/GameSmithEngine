@@ -113,6 +113,7 @@ public:
 		state.SetGraphicsPipelineState(refData);
 		ProjectGE::Application::Get().GetWindow().GetRenderer()->AttachContextResources();
 		state.BindState();
+		context.FinalizeCommandList();
 
 		ProjectGE::DirectX12ConstantBuffer cBuffer(sizeof(glm::mat4) / 4);
 

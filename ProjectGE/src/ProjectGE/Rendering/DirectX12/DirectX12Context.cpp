@@ -202,9 +202,10 @@ namespace ProjectGE {
 		cmdList->RSSetViewports(1, &viewport);
 
 		D3D12_CPU_DESCRIPTOR_HANDLE depthHandler = m_DBuffer->GetHandle();
+		Ref<DirectX12DepthTargetView> depthView = std::make_shared<DirectX12DepthTargetView>(depthHandler);
 		CD3DX12_CPU_DESCRIPTOR_HANDLE rtv(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart(), m_SwapChain->GetCurrentBackBufferIndex(), device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
 		m_RTVs[0] = std::make_shared<DirectX12RenderTargetView>(rtv, DXGI_FORMAT_R8G8B8A8_UNORM);
-		core.GetDirectCommandContext().GetStateManager().SetRenderTarget(m_RTVs, 1);
+		core.GetDirectCommandContext().GetStateManager().SetRenderTarget(m_RTVs, 1, depthView);
 		//cmdList->OMSetRenderTargets(1, &rtv, FALSE, &depthHandler);
 	}
 

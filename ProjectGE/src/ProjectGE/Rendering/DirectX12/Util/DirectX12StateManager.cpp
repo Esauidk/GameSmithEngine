@@ -20,9 +20,10 @@ namespace ProjectGE {
 		
 	}
 
-	void DirectX12StateManager::SetRenderTarget(Ref<DirectX12RenderTargetView>* target, UINT number)
+	void DirectX12StateManager::SetRenderTarget(Ref<DirectX12RenderTargetView>* target, UINT number, Ref<DirectX12DepthTargetView> depth)
 	{
 		PipelineState.Graphics.RenderTargets = target;
+		PipelineState.Graphics.depthTarget = depth;
 		PipelineState.Graphics.numRenderTargets = number;
 		PipelineState.Graphics.updateRenderTargets = true;
 	}
@@ -44,11 +45,12 @@ namespace ProjectGE {
 
 		if (PipelineState.Graphics.updateRenderTargets) {
 			D3D12_CPU_DESCRIPTOR_HANDLE RenderTargetArray[1];
+			D3D12_CPU_DESCRIPTOR_HANDLE DepthTarget = PipelineState.Graphics.depthTarget->GetView();
 
 			for (UINT i = 0; i < PipelineState.Graphics.numRenderTargets; i++) {
 				RenderTargetArray[i] = PipelineState.Graphics.RenderTargets[i]->GetView();
 			}
-			commandList->OMSetRenderTargets(PipelineState.Graphics.numRenderTargets, RenderTargetArray, 0, nullptr);
+			commandList->OMSetRenderTargets(PipelineState.Graphics.numRenderTargets, RenderTargetArray, 0, &DepthTarget);
 			PipelineState.Graphics.updateRenderTargets = false;
 		}
 

@@ -22,7 +22,7 @@ namespace ProjectGE {
 	public:
 		Ref<DirectX12PipelineStateData> GetGraphicsPiplineState() { return PipelineState.Graphics.CurPipelineData; }
 		void SetGraphicsPipelineState(Ref<DirectX12PipelineStateData> pipelineData);
-		void SetRenderTarget(Ref<DirectX12RenderTargetView>* target, UINT number);
+		void SetRenderTarget(Ref<DirectX12RenderTargetView>* target, UINT number, Ref<DirectX12DepthTargetView> depth);
 		void NewCommandList();
 		void BindState();
 
@@ -41,6 +41,7 @@ namespace ProjectGE {
 
 				UINT numRenderTargets = 0;
 				Ref<DirectX12RenderTargetView>* RenderTargets = nullptr;
+				Ref<DirectX12DepthTargetView> depthTarget;
 				bool updateRenderTargets;
 			} Graphics = {};
 

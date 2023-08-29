@@ -19,6 +19,11 @@ namespace ProjectGE {
 		DXGI_FORMAT m_Format;
 	};
 
+	class DirectX12DepthTargetView : public DirectX12View {
+	public:
+		DirectX12DepthTargetView(D3D12_CPU_DESCRIPTOR_HANDLE view) : DirectX12View(view) {}
+	};
+
 	class DirectX12ShaderResourceView : public DirectX12View {
 	public:
 		DirectX12ShaderResourceView(D3D12_CPU_DESCRIPTOR_HANDLE view) : DirectX12View(view) {};
