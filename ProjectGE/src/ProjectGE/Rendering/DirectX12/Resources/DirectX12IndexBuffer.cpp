@@ -6,7 +6,7 @@ namespace ProjectGE {
 
 	void DirectX12IndexBuffer::Bind() {
 		m_Buffer->SetUploadGPUBlock();
-		m_Buffer->TransitionState(D3D12_RESOURCE_STATE_INDEX_BUFFER);
+		m_Buffer->GetStateTracker().TransitionBarrier(D3D12_RESOURCE_STATE_INDEX_BUFFER);
 		
 		auto& cmdList = DirectX12Core::GetCore().GetDirectCommandContext().GetCommandList();
 		D3D12_INDEX_BUFFER_VIEW view;

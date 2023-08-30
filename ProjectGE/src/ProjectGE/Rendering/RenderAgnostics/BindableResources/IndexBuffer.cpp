@@ -4,7 +4,7 @@
 #include "ProjectGE/Rendering/Renderer.h"
 
 #ifdef GE_PLATFORM_WINDOWS
-#include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12IndexBuffer.h"
+#include "ProjectGE/Rendering/DirectX12/Resources/DirectX12IndexBuffer.h"
 #endif
 
 namespace ProjectGE {

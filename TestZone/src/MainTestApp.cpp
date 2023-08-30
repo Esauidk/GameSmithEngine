@@ -9,7 +9,7 @@
 #include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12InputLayout.h"
 #include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12TopologyResource.h"
 #include "ProjectGE/Rendering/DirectX12/DirectX12Core.h"
-#include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12ConstantBuffer.h"
+#include "ProjectGE/Rendering/DirectX12/Resources/DirectX12ConstantBuffer.h"
 #include <glm/gtc/type_ptr.hpp>
 
 class ExampleLayer : public ProjectGE::Layer {
@@ -115,11 +115,11 @@ public:
 		state.BindState();
 		context.FinalizeCommandList();
 
-		ProjectGE::DirectX12ConstantBuffer cBuffer(sizeof(glm::mat4) / 4);
+		//ProjectGE::DirectX12ConstantBuffer cBuffer(sizeof(glm::mat4) / 4);
 
 		ProjectGE::DirectX12Buffer<UINT> testbuffer(5);
-		testbuffer.TransitionState(D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
-
+		testbuffer.GetStateTracker().TransitionBarrier(D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
+		context.FinalizeCommandList();
 		/*D3D12_SHADER_RESOURCE_VIEW_DESC view;
 		view.
 

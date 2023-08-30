@@ -5,7 +5,7 @@
 #include "ProjectGE/Rendering/RenderAgnostics/BasicStructs.h"
 
 #ifdef GE_PLATFORM_WINDOWS
-#include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12VertexBuffer.h"
+#include "ProjectGE/Rendering/DirectX12/Resources/DirectX12VertexBuffer.h"
 #endif
 
 namespace ProjectGE {

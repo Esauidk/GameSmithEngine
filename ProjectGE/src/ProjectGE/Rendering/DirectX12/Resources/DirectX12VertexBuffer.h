@@ -1,6 +1,6 @@
 #pragma once
 #include "ProjectGE/Rendering/DirectX12/Util/DirectX12Buffer.h"
-#include "DirectX12InputLayout.h"
+#include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12InputLayout.h"
 
 #include "ProjectGE/Rendering/RenderAgnostics/BindableResources/VertexBuffer.h"
 
@@ -13,7 +13,7 @@ namespace ProjectGE {
 
 		void Bind() override {
 			m_Buffer->SetUploadGPUBlock();
-			m_Buffer->TransitionState(D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
+			m_Buffer->GetStateTracker().TransitionBarrier(D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
 
 			D3D12_VERTEX_BUFFER_VIEW view;
 			view.BufferLocation = m_Buffer->GetGPUReference();

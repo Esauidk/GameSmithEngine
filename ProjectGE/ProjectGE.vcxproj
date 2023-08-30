@@ -143,6 +143,11 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12Resource.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12ConstantBuffer.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12IndexBuffer.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12VertexBuffer.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12BarrierTracker.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12HeapDescriptorState.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\Views.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12Macos.h" />
@@ -170,9 +175,7 @@
     <ClInclude Include="src\ProjectGE\Platform\Window\WindowsWindow.h" />
     <ClInclude Include="src\ProjectGE\Platform\Window\resource.h" />
     <ClInclude Include="src\ProjectGE\Rendering\BindableResource.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12ConstantBuffer.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12GeometryPack.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12IndexBuffer.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12InputLayout.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12RootSignature.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12Shader.h" />
@@ -182,7 +185,6 @@
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12ShaderReferenceTable.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12Texture.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12TopologyResource.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12VertexBuffer.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12CommandContext.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12CommandListWrapper.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12CommandQueue.h" />
@@ -630,6 +632,10 @@
     <ClInclude Include="third-party\stb\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12Resource.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12ConstantBuffer.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12IndexBuffer.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12BarrierTracker.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12HeapDescriptorState.cpp" />
     <ClCompile Include="src\ProjectGE\Camera\Camera.cpp" />
     <ClCompile Include="src\ProjectGE\Camera\OrthoCamera.cpp" />
@@ -642,9 +648,7 @@
     <ClCompile Include="src\ProjectGE\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\ProjectGE\Platform\Window\WindowsInput.cpp" />
     <ClCompile Include="src\ProjectGE\Platform\Window\WindowsWindow.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12ConstantBuffer.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12GeometryPack.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12IndexBuffer.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12InputLayout.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12RootSignature.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12Shader.cpp" />
