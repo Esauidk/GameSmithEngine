@@ -78,9 +78,11 @@ public:
 			{{-0.75f,  0.75f, 0.0f}, {0, 1}}
 		};
 
+		auto testVertex = ProjectGE::RenderCommand::CreateVertexBuffer((BYTE*)&triVertex, sizeof(ProjectGE::Vertex), _countof(triVertex));
+
 		ProjectGE::BufferLayoutBuilder layout = { {"POSITION", ProjectGE::ShaderDataType::Float3}, {"UV_TEXCOORD", ProjectGE::ShaderDataType::Float2} };
 
-		auto m_TriVertexBuffer = ProjectGE::VertexBuffer::Create(&triVertex, sizeof(triVertex) / sizeof(ProjectGE::Vertex));
+		/*auto m_TriVertexBuffer = ProjectGE::VertexBuffer::Create(&triVertex, sizeof(triVertex) / sizeof(ProjectGE::Vertex));
 		auto m_SquareVertexBuffer = ProjectGE::VertexBuffer::Create(&squareVertex, sizeof(squareVertex) / sizeof(ProjectGE::Vertex));
 		m_TriVertexBuffer->AttachLayout(layout);
 		m_SquareVertexBuffer->AttachLayout(layout);
@@ -113,13 +115,9 @@ public:
 		state.SetGraphicsPipelineState(refData);
 		ProjectGE::Application::Get().GetWindow().GetRenderer()->AttachContextResources();
 		state.BindState();
-		context.FinalizeCommandList();
+		context.FinalizeCommandList();*/
 
 		//ProjectGE::DirectX12ConstantBuffer cBuffer(sizeof(glm::mat4) / 4);
-
-		ProjectGE::DirectX12Buffer<UINT> testbuffer(5);
-		testbuffer.GetStateTracker().TransitionBarrier(D3D12_RESOURCE_STATE_NON_PIXEL_SHADER_RESOURCE);
-		context.FinalizeCommandList();
 		/*D3D12_SHADER_RESOURCE_VIEW_DESC view;
 		view.
 
@@ -130,7 +128,7 @@ public:
 
 		//m_State->Build();
 
-		WORD indexCount[] = {
+		unsigned int indexCount[] = {
 			0, 1, 2
 		};
 
@@ -138,10 +136,12 @@ public:
 			2,1,0,0,3,2
 		};
 
+		auto testIndex = ProjectGE::RenderCommand::CreateIndexBuffer((unsigned int*)&indexCount, _countof(indexCount));
+
 		auto m_TriIndexBuffer = ProjectGE::IndexBuffer::Create(indexCount, (int)_countof(indexCount));
 		auto m_SquareIndexBuffer = ProjectGE::IndexBuffer::Create(squareIndex, (int)_countof(squareIndex));
 
-		m_TriPack = ProjectGE::GeometryPack::Create();
+		/*m_TriPack = ProjectGE::GeometryPack::Create();
 		m_TriPack->AttachVertexBuffer(m_TriVertexBuffer);
 		m_TriPack->AttachIndexBuffer(m_TriIndexBuffer);
 		m_TriPack->AttachTopology(m_Topo);
@@ -149,7 +149,7 @@ public:
 		m_SquarePack = ProjectGE::GeometryPack::Create();
 		m_SquarePack->AttachVertexBuffer(m_SquareVertexBuffer);
 		m_SquarePack->AttachIndexBuffer(m_SquareIndexBuffer);
-		m_SquarePack->AttachTopology(m_Topo);
+		m_SquarePack->AttachTopology(m_Topo);*/
 
 
 		/* END: TEST CODE REMOVE */

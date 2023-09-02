@@ -15,8 +15,8 @@ namespace ProjectGE {
 			return nullptr;
 			break;
 		case RendererAPI::API::DirectX12:
-			return Ref<IndexBuffer>(new DirectX12IndexBuffer((WORD*)verticies, count));
-			break;
+			//return Ref<IndexBuffer>(new DirectX12IndexBuffer((WORD*)verticies, count));
+			return nullptr;
 		}
 
 		return nullptr;

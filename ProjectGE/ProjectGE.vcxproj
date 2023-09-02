@@ -144,6 +144,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12Resource.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12RendererHeaders.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12ConstantBuffer.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12IndexBuffer.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12VertexBuffer.h" />

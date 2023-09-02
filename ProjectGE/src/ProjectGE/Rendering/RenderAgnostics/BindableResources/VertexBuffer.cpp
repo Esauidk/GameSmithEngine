@@ -15,7 +15,8 @@ namespace ProjectGE {
 		case RendererAPI::API::None:
 			return nullptr;
 		case RendererAPI::API::DirectX12:
-			return Ref<VertexBuffer>(new DirectX12VertexBuffer<Vertex>((Vertex*)verticies, count));
+			//return Ref<VertexBuffer>(new DirectX12VertexBuffer<Vertex>((Vertex*)verticies, count));
+			return nullptr;
 		}
 
 		return nullptr;

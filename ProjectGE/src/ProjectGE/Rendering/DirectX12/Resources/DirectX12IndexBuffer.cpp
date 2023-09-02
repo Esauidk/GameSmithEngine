@@ -2,7 +2,7 @@
 #include "DirectX12IndexBuffer.h"
 
 namespace ProjectGE {
-	DirectX12IndexBuffer::DirectX12IndexBuffer(WORD* buffer, int count) : m_Buffer(std::make_unique<DirectX12Buffer<WORD>>(buffer, count, "Index Buffer")), m_Count(count) {}
+	DirectX12IndexBuffer::DirectX12IndexBuffer(unsigned int* buffer, unsigned int count) : m_Buffer(std::make_unique<DirectX12Buffer<unsigned int>>(buffer, count, "Index Buffer")), m_Count(count) {}
 
 	void DirectX12IndexBuffer::Bind() {
 		m_Buffer->SetUploadGPUBlock();

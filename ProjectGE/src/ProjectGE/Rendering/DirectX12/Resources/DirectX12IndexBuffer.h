@@ -7,12 +7,12 @@ namespace ProjectGE {
 	public:
 		DirectX12IndexBuffer() = default;
 
-		DirectX12IndexBuffer(WORD* buffer, int count);
+		DirectX12IndexBuffer(unsigned int* buffer, unsigned int count);
 
 		void Bind() override;
 		UINT GetCount() override;
 	private:
-		Scope<DirectX12Buffer<WORD>> m_Buffer;
+		Scope<DirectX12Buffer<unsigned int>> m_Buffer;
 		UINT m_Count;
 	};
 };

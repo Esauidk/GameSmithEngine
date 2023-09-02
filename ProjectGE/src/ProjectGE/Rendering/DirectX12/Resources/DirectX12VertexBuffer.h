@@ -5,10 +5,9 @@
 #include "ProjectGE/Rendering/RenderAgnostics/BindableResources/VertexBuffer.h"
 
 namespace ProjectGE {
-	template <typename T>
 	class DirectX12VertexBuffer : public VertexBuffer {
 	public:
-		DirectX12VertexBuffer(T* buffer, int count) : m_Buffer(std::make_unique<DirectX12Buffer<T>>(buffer, count, "Vertex Buffer")) {}
+		DirectX12VertexBuffer(BYTE* buffer, int vertexByteSize, int vertexCount) : m_Buffer(std::make_unique<DirectX12Buffer<BYTE>>(buffer, vertexByteSize * vertexCount, "Vertex Buffer")), m_VertexByteSize(vertexByteSize) {}
 
 
 		void Bind() override {
@@ -18,7 +17,7 @@ namespace ProjectGE {
 			D3D12_VERTEX_BUFFER_VIEW view;
 			view.BufferLocation = m_Buffer->GetGPUReference();
 			view.SizeInBytes = m_Buffer->GetSize();
-			view.StrideInBytes = sizeof(T);
+			view.StrideInBytes = m_VertexByteSize;
 			
 			auto& cmdList = DirectX12Core::GetCore().GetDirectCommandContext().GetCommandList();
 			cmdList->IASetVertexBuffers(0, 1, &view);
@@ -34,8 +33,9 @@ namespace ProjectGE {
 		}
 
 	private:
-		Scope<DirectX12Buffer<T>> m_Buffer;
+		Scope<DirectX12Buffer<BYTE>> m_Buffer;
 		Scope<DirectX12InputLayout> m_Layout;
+		UINT m_VertexByteSize;
 	};
 };
 
