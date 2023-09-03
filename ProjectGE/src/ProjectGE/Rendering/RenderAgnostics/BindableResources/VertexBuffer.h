@@ -2,13 +2,13 @@
 #include "ProjectGE/Core/Core.h"
 #include "ProjectGE/Rendering/RenderAgnostics/BufferLayout.h"
 #include "ProjectGE/Rendering/RenderAgnostics/PipelineDefiner.h"
-#include "ProjectGE/Rendering/BindableResource.h"
+
 
 
 namespace ProjectGE {
 	// INTERFACE
 	// A Buffer that holds Vertex information meant to be sent to a Render API pipeline
-	class VertexBuffer : public BindableResource
+	class VertexBuffer
 	{
 	public:
 		// Tells the VertexBuffer to generate vertex data definitions by converting the arguement into the RenderAPI specific formats

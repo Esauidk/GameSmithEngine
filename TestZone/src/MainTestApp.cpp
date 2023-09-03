@@ -82,12 +82,14 @@ public:
 
 		ProjectGE::BufferLayoutBuilder layout = { {"POSITION", ProjectGE::ShaderDataType::Float3}, {"UV_TEXCOORD", ProjectGE::ShaderDataType::Float2} };
 
+		testVertex->AttachLayout(layout);
+
 		/*auto m_TriVertexBuffer = ProjectGE::VertexBuffer::Create(&triVertex, sizeof(triVertex) / sizeof(ProjectGE::Vertex));
 		auto m_SquareVertexBuffer = ProjectGE::VertexBuffer::Create(&squareVertex, sizeof(squareVertex) / sizeof(ProjectGE::Vertex));
 		m_TriVertexBuffer->AttachLayout(layout);
-		m_SquareVertexBuffer->AttachLayout(layout);
+		m_SquareVertexBuffer->AttachLayout(layout);*/
 
-		auto configuredLayout = m_TriVertexBuffer->GetLayout();
+		auto configuredLayout = testVertex->GetLayout();
 
 		D3D12_RT_FORMAT_ARRAY rtvFormats = {};
 		rtvFormats.NumRenderTargets = 1;
@@ -114,8 +116,7 @@ public:
 		auto& state = context.GetStateManager();
 		state.SetGraphicsPipelineState(refData);
 		ProjectGE::Application::Get().GetWindow().GetRenderer()->AttachContextResources();
-		state.BindState();
-		context.FinalizeCommandList();*/
+
 
 		//ProjectGE::DirectX12ConstantBuffer cBuffer(sizeof(glm::mat4) / 4);
 		/*D3D12_SHADER_RESOURCE_VIEW_DESC view;
@@ -138,6 +139,12 @@ public:
 
 		auto testIndex = ProjectGE::RenderCommand::CreateIndexBuffer((unsigned int*)&indexCount, _countof(indexCount));
 
+		ProjectGE::RenderCommand::SetVertexBuffer(testVertex);
+		ProjectGE::RenderCommand::SetIndexBuffer(testIndex);
+		state.BindState();
+		state.BindState();
+		context.FinalizeCommandList();
+		state.BindState();
 		auto m_TriIndexBuffer = ProjectGE::IndexBuffer::Create(indexCount, (int)_countof(indexCount));
 		auto m_SquareIndexBuffer = ProjectGE::IndexBuffer::Create(squareIndex, (int)_countof(squareIndex));
 

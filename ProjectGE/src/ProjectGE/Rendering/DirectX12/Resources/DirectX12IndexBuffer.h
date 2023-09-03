@@ -9,7 +9,8 @@ namespace ProjectGE {
 
 		DirectX12IndexBuffer(unsigned int* buffer, unsigned int count);
 
-		void Bind() override;
+		D3D12_INDEX_BUFFER_VIEW GenerateView();
+
 		UINT GetCount() override;
 	private:
 		Scope<DirectX12Buffer<unsigned int>> m_Buffer;

@@ -9,7 +9,7 @@
 
 #include "ProjectGE/Core/Core.h"
 
-#include "ProjectGE/Rendering/DirectX12/BindableResources/Views.h"
+#include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12Views.h"
 
 
 using Microsoft::WRL::ComPtr;

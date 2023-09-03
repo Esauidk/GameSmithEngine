@@ -32,6 +32,15 @@ namespace ProjectGE {
 	{
 		PipelineState.Graphics.updateRenderTargets = true;
 		PipelineState.Graphics.updateRootSignature = true;
+
+		if (PipelineState.Graphics.curVBuff.BufferLocation != NULL) {
+			PipelineState.Graphics.updateVertexData = true;
+		}
+
+		if (PipelineState.Graphics.curIBuff.BufferLocation != NULL) {
+			PipelineState.Graphics.updateIndexData = true;
+		}
+		
 		m_HeapState.AttachHeap();
 	}
 
@@ -58,6 +67,30 @@ namespace ProjectGE {
 			SetResources(STAGE_VERTEX, STAGE_NUM);
 		}
 
+		if (PipelineState.Graphics.updateVertexData) {
+			commandList->IASetVertexBuffers(0, 1, &PipelineState.Graphics.curVBuff);
+			PipelineState.Graphics.updateVertexData = false;
+		}
+
+		if (PipelineState.Graphics.updateIndexData) {
+			commandList->IASetIndexBuffer(&PipelineState.Graphics.curIBuff);
+			PipelineState.Graphics.updateIndexData = false;
+		}
+
+	}
+
+	void DirectX12StateManager::SetVBV(D3D12_VERTEX_BUFFER_VIEW& newBuffer)
+	{
+		GE_CORE_ASSERT(newBuffer.BufferLocation != NULL, "Invalid vertex buffer GPU memory location");
+		PipelineState.Graphics.curVBuff = newBuffer;
+		PipelineState.Graphics.updateVertexData = true;
+	}
+
+	void DirectX12StateManager::SetIBV(D3D12_INDEX_BUFFER_VIEW& newBuffer)
+	{
+		GE_CORE_ASSERT(newBuffer.BufferLocation != NULL, "Invalid index buffer GPU memory location");
+		PipelineState.Graphics.curIBuff = newBuffer;
+		PipelineState.Graphics.updateIndexData = true;
 	}
 
 	void DirectX12StateManager::SetSRV(Stages stage, DirectX12ShaderResourceView* view, UINT index)
@@ -101,6 +134,7 @@ namespace ProjectGE {
 			PipelineState.Graphics.updateRootSignature = false;
 		}
 	}
+
 	void DirectX12StateManager::SetResources(Stages beginStage, Stages endStage)
 	{
 		UINT begin = (UINT)beginStage;

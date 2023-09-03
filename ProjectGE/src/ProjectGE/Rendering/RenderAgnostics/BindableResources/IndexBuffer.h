@@ -1,12 +1,11 @@
 #pragma once
 #include "ProjectGE/Core/Core.h"
-#include "ProjectGE/Rendering/BindableResource.h"
 
 namespace ProjectGE {
 	// INTERFACE
 	// A buffer that holds the definition of the connection between verticies
 	// Ex: Vertex 0, 1, and 2 make a triangle
-	class IndexBuffer : public BindableResource
+	class IndexBuffer
 	{
 	public:
 		// Instantiates an implementation of the IndexBuffer Interface (recommended to use this instead of instantiating a specific implementation)

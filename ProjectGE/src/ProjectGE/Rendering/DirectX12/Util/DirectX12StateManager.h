@@ -3,7 +3,7 @@
 
 #include "ProjectGE/Rendering/DirectX12/DirectX12PipelineState.h"
 #include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12RootSignature.h"
-#include "ProjectGE/Rendering/DirectX12/BindableResources/Views.h"
+#include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12Views.h"
 #include "ProjectGE/Rendering/DirectX12/Util/DirectX12HeapDescriptorState.h"
 #include "ProjectGE/Rendering/DirectX12/Util/DirectX12Macos.h"
 
@@ -26,9 +26,12 @@ namespace ProjectGE {
 		void NewCommandList();
 		void BindState();
 
+		void SetVBV(D3D12_VERTEX_BUFFER_VIEW& newBuffer);
+		void SetIBV(D3D12_INDEX_BUFFER_VIEW& newBuffer);
+
 		void SetSRV(Stages stage, DirectX12ShaderResourceView* views, UINT index);
-		void SetCBV(Stages stage, D3D12_CPU_DESCRIPTOR_HANDLE* views, UINT viewCount);
-		void SetUAV(Stages stage, D3D12_CPU_DESCRIPTOR_HANDLE* views, UINT viewCount);
+		//void SetCBV(Stages stage, D3D12_CPU_DESCRIPTOR_HANDLE* views, UINT viewCount);
+		//void SetUAV(Stages stage, D3D12_CPU_DESCRIPTOR_HANDLE* views, UINT viewCount);
 	private:
 		void LowLevelSetGraphicsPipelineState(Ref<DirectX12PipelineState> pipeline);
 		void LowLevelSetRootSignature(Ref<DirectX12RootSignature> root);
@@ -43,6 +46,12 @@ namespace ProjectGE {
 				Ref<DirectX12RenderTargetView>* RenderTargets = nullptr;
 				Ref<DirectX12DepthTargetView> depthTarget;
 				bool updateRenderTargets;
+
+				D3D12_VERTEX_BUFFER_VIEW curVBuff;
+				bool updateVertexData;
+
+				D3D12_INDEX_BUFFER_VIEW curIBuff;
+				bool updateIndexData;
 			} Graphics = {};
 
 			struct {

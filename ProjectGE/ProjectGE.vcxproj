@@ -150,7 +150,7 @@
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12VertexBuffer.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12BarrierTracker.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12HeapDescriptorState.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\Views.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12Views.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12Macos.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12RootSignatureBuilder.h" />
     <ClInclude Include="src\ProjectGE.h" />
@@ -636,6 +636,7 @@
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12Resource.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12ConstantBuffer.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12IndexBuffer.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12VertexBuffer.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12BarrierTracker.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12HeapDescriptorState.cpp" />
     <ClCompile Include="src\ProjectGE\Camera\Camera.cpp" />
