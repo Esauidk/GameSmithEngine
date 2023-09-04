@@ -40,6 +40,10 @@ namespace ProjectGE {
 		if (PipelineState.Graphics.curIBuff.BufferLocation != NULL) {
 			PipelineState.Graphics.updateIndexData = true;
 		}
+
+		if (PipelineState.Graphics.topListType != D3D12_PRIMITIVE_TOPOLOGY_TYPE::D3D12_PRIMITIVE_TOPOLOGY_TYPE_UNDEFINED) {
+			PipelineState.Graphics.setTop = true;
+		}
 		
 		m_HeapState.AttachHeap();
 	}
@@ -77,6 +81,11 @@ namespace ProjectGE {
 			PipelineState.Graphics.updateIndexData = false;
 		}
 
+		if (PipelineState.Graphics.setTop) {
+			commandList->IASetPrimitiveTopology(PipelineState.Graphics.topListType);
+			PipelineState.Graphics.setTop = false;
+		}
+
 	}
 
 	void DirectX12StateManager::SetVBV(D3D12_VERTEX_BUFFER_VIEW& newBuffer)
@@ -92,6 +101,14 @@ namespace ProjectGE {
 		PipelineState.Graphics.curIBuff = newBuffer;
 		PipelineState.Graphics.updateIndexData = true;
 	}
+
+	void DirectX12StateManager::SetTop(D3D12_PRIMITIVE_TOPOLOGY& listType)
+	{
+		GE_CORE_ASSERT(listType != D3D12_PRIMITIVE_TOPOLOGY::D3D_PRIMITIVE_TOPOLOGY_UNDEFINED, "Not a defined topology list");
+		PipelineState.Graphics.topListType = listType;
+		PipelineState.Graphics.setTop = true;
+	}
+
 
 	void DirectX12StateManager::SetSRV(Stages stage, DirectX12ShaderResourceView* view, UINT index)
 	{

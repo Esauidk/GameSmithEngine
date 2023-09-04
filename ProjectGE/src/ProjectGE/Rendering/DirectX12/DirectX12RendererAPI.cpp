@@ -1,6 +1,6 @@
 #include "gepch.h"
 #include "DirectX12RendererAPI.h"
-#include "DirectX12Core.h"
+#include "ProjectGE/Rendering/DirectX12/Util/DirectX12Util.h"
 
 namespace ProjectGE {
 	DirectX12RendererAPI::DirectX12RendererAPI(): m_Core(DirectX12Core::CreateCore())
@@ -13,17 +13,16 @@ namespace ProjectGE {
 	{
 	}
 
-	void DirectX12RendererAPI::DrawIndexed(Ref<GeometryPack> geopack)
+	void DirectX12RendererAPI::DrawIndexed(UINT indecies, UINT instances)
 	{
-		auto& core = DirectX12Core::GetCore();
-		auto& list = core.GetDirectCommandContext().GetCommandList();
-		list->DrawIndexedInstanced(geopack->GetIndexBuffer()->GetCount(), 1, 0, 0, 0);
-	}
+		
+		auto& core = ProjectGE::DirectX12Core::GetCore();
+		auto& context = core.GetDirectCommandContext();
+		auto& list = context.GetCommandList();
+		auto& state = context.GetStateManager();
 
-	void DirectX12RendererAPI::FinishRecording()
-	{
-		auto& core = DirectX12Core::GetCore();
-		core.GetDirectCommandContext().FinalizeCommandList();
+		state.BindState();
+		list->DrawIndexedInstanced(indecies, instances, 0, 0, 0);
 	}
 
 	Ref<VertexBuffer> DirectX12RendererAPI::CreateVertexBuffer(BYTE* data, int vertexByteSize, int vertexCount)
@@ -39,7 +38,7 @@ namespace ProjectGE {
 		context.GetStateManager().SetVBV(view);
 	}
 
-	Ref<IndexBuffer> DirectX12RendererAPI::CreateIndexBuffer(unsigned int* data, unsigned int indexCount)
+	Ref<IndexBuffer> DirectX12RendererAPI::CreateIndexBuffer(unsigned short* data, unsigned int indexCount)
 	{
 		return std::make_shared<DirectX12IndexBuffer>(data, indexCount);
 	}
@@ -55,7 +54,17 @@ namespace ProjectGE {
 	{
 		return Ref<Shader>();
 	}
+
+	void DirectX12RendererAPI::SetTopology(TopologyType& type)
+	{
+		auto& context = m_Core.GetDirectCommandContext();
+		auto& state = context.GetStateManager();
+		D3D12_PRIMITIVE_TOPOLOGY d3Type = TranslateTopListType(TopologyType::Triangle);
+		state.SetTop(d3Type);
+	}
+
 	void DirectX12RendererAPI::SubmitRecording()
 	{
+		m_Core.GetDirectCommandContext().FinalizeCommandList();
 	}
 };

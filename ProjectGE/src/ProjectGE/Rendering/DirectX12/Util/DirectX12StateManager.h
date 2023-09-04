@@ -28,6 +28,7 @@ namespace ProjectGE {
 
 		void SetVBV(D3D12_VERTEX_BUFFER_VIEW& newBuffer);
 		void SetIBV(D3D12_INDEX_BUFFER_VIEW& newBuffer);
+		void SetTop(D3D12_PRIMITIVE_TOPOLOGY& listType);
 
 		void SetSRV(Stages stage, DirectX12ShaderResourceView* views, UINT index);
 		//void SetCBV(Stages stage, D3D12_CPU_DESCRIPTOR_HANDLE* views, UINT viewCount);
@@ -52,6 +53,10 @@ namespace ProjectGE {
 
 				D3D12_INDEX_BUFFER_VIEW curIBuff;
 				bool updateIndexData;
+
+				D3D12_PRIMITIVE_TOPOLOGY topListType;
+				bool setTop;
+
 			} Graphics = {};
 
 			struct {

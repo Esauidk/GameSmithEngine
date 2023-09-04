@@ -196,6 +196,7 @@
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12RendererAPI.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12Buffer.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12HeapDatabase.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12Util.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\ShaderUtil.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\third-party\d3dx12.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BasicStructs.h" />
@@ -690,9 +691,19 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\BasicRenderPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">Pixel</ShaderType>
+    </FxCompile>
     <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\SamplePixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">4.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Vertex\BasicRenderVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">Vertex</ShaderType>
     </FxCompile>
     <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Vertex\SampleVertexShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
