@@ -64,3 +64,6 @@ modules of the layer (ex: VertexShader) in terms of high engine level needs whil
 # 8/27/2023
 Realizing I'm having a hard time organizing what kind of task I want to work on, decided to go back and add to my old trello board and follow along wiht it https://trello.com/c/8R3B7KdP/8-directx12-layer. Next steps are going to be keeping track of resources (SRV, CBV, and UAV)
 
+# 9/4/2023
+Now tha I've simplified and enacapsulated the rendering system with their respect Render API enviornments, I can move on focusing on the shader part of the pipeline. I need to be able to tell what parameters are in the shader and be able to keep values for them. This is going to involve shader 
+reflection. I think when addressing DX12, I'm going to keep a giant root signature for now instead of making specialized ones per shader. I will be using reflection to figure out what resources need to be made and where to bind them. ONWARDS TO MORE!
