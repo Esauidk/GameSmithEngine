@@ -5,6 +5,7 @@
 #include "ProjectGE/Rendering/RenderAgnostics/BindableResources/Shader.h"
 #include "ProjectGE/Rendering/RenderAgnostics/BindableResources/ConstantBuffer.h"
 
+using Microsoft::WRL::ComPtr;
 
 namespace ProjectGE {
 	class DirectX12Shader : public Shader
@@ -15,9 +16,10 @@ namespace ProjectGE {
 		inline ID3DBlob* GetPixelByteCode() const { return m_PixelBlob.Get(); }
 		void Bind() override;
 	private:
-		Microsoft::WRL::ComPtr<ID3DBlob> m_VertexBlob;
-		Microsoft::WRL::ComPtr<ID3DBlob> m_PixelBlob;
-		Ref<ConstantBuffer> m_uniformCBuf;
+		ComPtr<ID3DBlob> m_VertexBlob;
+		ComPtr<ID3DBlob> m_PixelBlob;
+		ComPtr<ID3D12ShaderReflection> m_VertexReflect;
+		ComPtr<ID3D12ShaderReflection> m_PixelReflect;
 		//Ref<ShaderArguement> m_UnformSlot;
 
 	};

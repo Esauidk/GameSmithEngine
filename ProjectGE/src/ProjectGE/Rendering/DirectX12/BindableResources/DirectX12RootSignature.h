@@ -1,7 +1,7 @@
 #pragma once
 #include "gepch.h"
 #include "ProjectGE/Rendering/DirectX12/Util/third-party/d3dx12.h"
-#include "ProjectGE/Rendering/DirectX12/Util/ShaderUtil.h"
+#include "ProjectGE/Rendering/RenderAgnostics/ShaderUtil.h"
 
 
 using Microsoft::WRL::ComPtr;

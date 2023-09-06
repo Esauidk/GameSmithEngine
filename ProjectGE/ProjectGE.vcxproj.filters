@@ -1509,7 +1509,7 @@
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12StateManager.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12Views.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12HeapDescriptorState.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\ShaderUtil.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\ShaderUtil.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12BarrierTracker.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12Resource.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12ConstantBuffer.h" />
@@ -1517,6 +1517,7 @@
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12VertexBuffer.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12RendererHeaders.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12Util.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12ShaderUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\Camera\Camera.cpp">
@@ -1647,6 +1648,7 @@
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12IndexBuffer.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12Resource.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12VertexBuffer.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12ShaderUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\SamplePixelShader.hlsl" />

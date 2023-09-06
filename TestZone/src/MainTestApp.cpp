@@ -50,8 +50,8 @@ public:
 		TCHAR buffer[MAX_PATH] = { 0 };
 		GetModuleFileName(NULL, buffer, MAX_PATH);
 		std::wstring::size_type pos = std::wstring(buffer).find_last_of(L"\\/");
-		auto vertex = std::wstring(buffer).substr(0, pos).append(L"\\/BasicRenderVS.cso");
-		auto pixel = std::wstring(buffer).substr(0, pos).append(L"\\/BasicRenderPS.cso");
+		auto vertex = std::wstring(buffer).substr(0, pos).append(L"\\/SampleVertexShader.cso");
+		auto pixel = std::wstring(buffer).substr(0, pos).append(L"\\/SamplePixelShader.cso");
 
 		std::string nvertex = std::string(vertex.begin(), vertex.end());
 		std::string npixel = std::string(pixel.begin(), pixel.end());
