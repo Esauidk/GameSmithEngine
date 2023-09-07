@@ -1656,4 +1656,7 @@
     <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Vertex\BasicRenderVS.hlsl" />
     <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\BasicRenderPS.hlsl" />
   </ItemGroup>
+  <ItemGroup>
+    <None Include="src\ProjectGE\Rendering\SampleShaders\Core.hlsli" />
+  </ItemGroup>
 </Project>

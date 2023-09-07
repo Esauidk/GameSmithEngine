@@ -10,16 +10,10 @@ struct VertexShaderOutput
     float2 UV : UV_TEXCOORD;
 };
 
-cbuffer ViewProjection : register(b0)
-{
-    matrix VP;
-};
+#include "../Core.hlsli"
 
-cbuffer Model : register(b1){
+cbuffer Instance : register(b1) {
     matrix M;
-};
-
-cbuffer ExternalInput : register(b2){
     float3 inputColor;
 };
 

@@ -16,14 +16,22 @@ namespace ProjectGE {
 		pathConvert = std::wstring(pixelPath.begin(), pixelPath.end());
 		res = FAILED(D3DReadFileToBlob(pathConvert.c_str(), &m_PixelBlob));
 		GE_CORE_ASSERT(!res, "Failed to read pixel shader file");
-		
-		ComPtr<ID3D12ShaderReflection> reflect;
 
 		res = FAILED(D3DReflect(m_VertexBlob->GetBufferPointer(), m_VertexBlob->GetBufferSize(), IID_PPV_ARGS(&m_VertexReflect)));
 		GE_CORE_ASSERT(!res, "Failed to reflect vertex shader");
 
-		res = FAILED(D3DReflect(m_PixelBlob->GetBufferPointer(), m_VertexBlob->GetBufferSize(), IID_PPV_ARGS(&m_PixelReflect)));
+		res = FAILED(D3DReflect(m_PixelBlob->GetBufferPointer(), m_PixelBlob->GetBufferSize(), IID_PPV_ARGS(&m_PixelReflect)));
 		GE_CORE_ASSERT(!res, "Failed to reflect pixel shader");
+
+		ID3D12ShaderReflectionConstantBuffer* buffer = m_VertexReflect->GetConstantBufferByName("Global");
+
+		ID3D12ShaderReflectionVariable* test = buffer->GetVariableByIndex(0);
+		ID3D12ShaderReflectionType* type = test->GetType();
+		D3D12_SHADER_TYPE_DESC varDesc;
+		type->GetDesc(&varDesc);
+		D3D12_SHADER_VARIABLE_DESC desc;
+		test->GetDesc(&desc);
+		delete buffer;
 	}
 	
 	/*void DirectX12Shader::Append(PipelineStateObject& pipeline) {
