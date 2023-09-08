@@ -50,9 +50,9 @@ namespace ProjectGE {
 		D3D12_INDEX_BUFFER_VIEW view = dx12Buf->GenerateView();
 		context.GetStateManager().SetIBV(view);
 	}
-	Ref<Shader> DirectX12RendererAPI::LoadShader()
+	Ref<Shader> DirectX12RendererAPI::LoadShader(std::string path)
 	{
-		return Ref<Shader>();
+		return std::make_shared<DirectX12Shader>(path);
 	}
 
 	void DirectX12RendererAPI::SetTopology(TopologyType& type)

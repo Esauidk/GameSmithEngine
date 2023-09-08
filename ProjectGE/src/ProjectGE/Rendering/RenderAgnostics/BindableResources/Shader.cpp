@@ -15,8 +15,7 @@ namespace ProjectGE {
 			return nullptr;
 			break;
 		case RendererAPI::API::DirectX12:
-			return Ref<Shader>(new DirectX12Shader(vertexPath, pixelPath));
-			break;
+			return nullptr;
 		}
 
 		return nullptr;

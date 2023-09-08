@@ -18,7 +18,7 @@ namespace ProjectGE {
 		virtual void SetVertexBuffer(Ref<VertexBuffer> vbuffer) override;
 		virtual Ref<IndexBuffer> CreateIndexBuffer(unsigned short* data, unsigned int indexCount) override;
 		virtual void SetIndexBuffer(Ref<IndexBuffer> ibuffer) override;
-		virtual Ref<Shader> LoadShader() override;
+		virtual Ref<Shader> LoadShader(std::string path) override;
 
 		virtual void SetTopology(TopologyType& type) override;
 

@@ -55,7 +55,8 @@ public:
 
 		std::string nvertex = std::string(vertex.begin(), vertex.end());
 		std::string npixel = std::string(pixel.begin(), pixel.end());
-		m_Shaders = ProjectGE::Ref<ProjectGE::Shader>(ProjectGE::Shader::Create(nvertex, npixel));
+		m_VShader = ProjectGE::RenderCommand::LoadShader(nvertex);
+		m_PShader = ProjectGE::RenderCommand::LoadShader(npixel);
 
 
 		ProjectGE::Vertex triVertex[] = {
@@ -92,8 +93,8 @@ public:
 			{root->GetInternalRootSignature(),
 			((ProjectGE::DirectX12InputLayout*)configuredLayout)->GetInternalLayout(),
 			ProjectGE::TranslateTopType(ProjectGE::TopologyType::Triangle),
-			CD3DX12_SHADER_BYTECODE(((ProjectGE::DirectX12Shader*)m_Shaders.get())->GetVertexByteCode()),
-			CD3DX12_SHADER_BYTECODE(((ProjectGE::DirectX12Shader*)m_Shaders.get())->GetPixelByteCode()),
+			CD3DX12_SHADER_BYTECODE(((ProjectGE::DirectX12Shader*)m_VShader.get())->ByteCode()),
+			CD3DX12_SHADER_BYTECODE(((ProjectGE::DirectX12Shader*)m_PShader.get())->ByteCode()),
 			DXGI_FORMAT_D32_FLOAT,
 			rtvFormats
 			} };
@@ -215,7 +216,8 @@ private:
 	ProjectGE::Ref<ProjectGE::IndexBuffer> iBuff;
 	//ProjectGE::Ref<ProjectGE::PipelineStateObject> m_State;
 	//ProjectGE::Ref<ProjectGE::ShaderArguementDefiner> m_Root;
-	ProjectGE::Ref<ProjectGE::Shader> m_Shaders;
+	ProjectGE::Ref<ProjectGE::Shader> m_VShader;
+	ProjectGE::Ref<ProjectGE::Shader> m_PShader;
 	//ProjectGE::Ref<ProjectGE::GeometryPack> m_TriPack;
 	Transform m_TriTrans;
 	//ProjectGE::Ref<ProjectGE::GeometryPack> m_SquarePack;

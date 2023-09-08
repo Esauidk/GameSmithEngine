@@ -143,6 +143,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\ShaderInputs\ShaderParameterGroup.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12ShaderUtils.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12Resource.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12RendererHeaders.h" />
@@ -635,6 +636,7 @@
     <ClInclude Include="third-party\stb\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\ShaderInputs\ShaderParameterGroup.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12ShaderUtils.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12Resource.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12ConstantBuffer.cpp" />

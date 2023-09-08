@@ -33,8 +33,8 @@ namespace ProjectGE {
 			s_RendererAPI->SetIndexBuffer(iBuffer);
 		}
 
-		inline static Ref<Shader> LoadShader() {
-			return s_RendererAPI->LoadShader();
+		inline static Ref<Shader> LoadShader(std::string path) {
+			return s_RendererAPI->LoadShader(path);
 		}
 
 		inline static void SetTopology(TopologyType type) {

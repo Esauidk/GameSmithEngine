@@ -1518,6 +1518,7 @@
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12RendererHeaders.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12Util.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12ShaderUtils.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\ShaderInputs\ShaderParameterGroup.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\Camera\Camera.cpp">
@@ -1649,6 +1650,7 @@
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12Resource.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12VertexBuffer.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12ShaderUtils.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\ShaderInputs\ShaderParameterGroup.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\SamplePixelShader.hlsl" />
