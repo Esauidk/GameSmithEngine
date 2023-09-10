@@ -7,6 +7,8 @@ This document describes an approach to allow easier shader creation without need
 HLSL shaders need to be made in according to exactly how the renderer will use it (e.g constant buffers belonging to a register that a engine will bind to). This requires the creator of the hlsl shader and the engine to both be in agreement on where data needs to be send. This results in either the engine decided where data needs to be binded to and shader creators grabbing exactly in those registers, or hlsl creators choosing registers and the engine reflecting on where data is being set. Both of these approaches are restricting on each party (engine needing to reflect on shaders or shader creators needing to make their shader inputs a certain way)
 
 ## Design
+
+### SLab Language
 This system will utilize a high level language almost identical to Unity's ShaderLab:
 ```
 Shader "name"{
@@ -33,7 +35,7 @@ Shader "name"{
     ENDPROGRAM
 }
 ```
-
+### Workflow
 The engine will read a file version of code like above and compile it into the appropriate hlsl shaders and metadata files to be used by the engine and game:
 ![High Level Shader Compilation Workflow](ShaderCreatorSystemWorkflowCompilation.png)
 
@@ -41,6 +43,15 @@ The engine will read a file version of code like above and compile it into the a
 After compilation it will use both the compiled HLSL code and the Metadata file to properly load up a shader:
 ![High Level Shader Loading Workflow](ShaderCreatorSystemWorkflow.png)
 
+
+### Metadata Structure
+This is the structure of the metadata file in the file system
+```
+{{All shader input entries}}
+VS Compile Bytecode file location
+PS Compile Bytecode file location
+... other shader bytecode ...
+```
 ## Design Decisions
 
 ### Unity ShaderLab Language

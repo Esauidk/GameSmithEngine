@@ -33,7 +33,7 @@ namespace ProjectGE {
 		}
 		
 		for (UINT i = 0; i < numDescriptors; i++) {
-			srcDescriptors[i] = descriptors.Views[stage][i]->GetView();
+			srcDescriptors[i] = descriptors.Views[stage][i].m_View;
 		}
 
 		device->CopyDescriptors(1, &dstDescriptors, &numDescriptors, numDescriptors, srcDescriptors, nullptr, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
@@ -65,7 +65,7 @@ namespace ProjectGE {
 			dstDescriptors[i] = m_CurrentHeap->GetCPUReference(freeSlot + i);
 		}
 
-		device->CopyDescriptors(1, dstDescriptors, &numDescriptors, numDescriptors, srcDescriptors, nullptr, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+		device->CopyDescriptors(1, dstDescriptors, &numDescriptors, 1, srcDescriptors, &numDescriptors, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
 		core.GetDirectCommandContext().GetCommandList()->SetGraphicsRootDescriptorTable(root.GetCBVSlot(stage), m_CurrentHeap->GetGPUReference(freeSlot));
 

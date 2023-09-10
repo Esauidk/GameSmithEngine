@@ -52,7 +52,7 @@ namespace ProjectGE {
 		float m_ClearColor[4] = { 0.07f, 0.0f, 0.12f, 1 };
 
 		// TESTING
-		Ref<DirectX12RenderTargetView> m_RTVs[1];
+		Ref<DirectX12RenderTargetView> m_RTVs;
 	};
 
 };

@@ -20,6 +20,9 @@ namespace ProjectGE {
 		virtual void SetIndexBuffer(Ref<IndexBuffer> ibuffer) override;
 		virtual Ref<Shader> LoadShader(std::string path) override;
 
+		virtual Ref<ConstantBuffer> CreateConstantBuffer(UINT size) override;
+		virtual void SetConstantBuffer(Ref<ConstantBuffer> cbuffer, Stages stage, ShaderConstantType constantType) override;
+
 		virtual void SetTopology(TopologyType& type) override;
 
 		virtual void SubmitRecording() override;

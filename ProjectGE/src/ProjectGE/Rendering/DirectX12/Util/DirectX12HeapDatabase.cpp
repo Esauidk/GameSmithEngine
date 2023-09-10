@@ -5,7 +5,7 @@
 #include "ProjectGE/Core/Log.h"
 
 namespace ProjectGE {
-	static D3D12_DESCRIPTOR_HEAP_TYPE ConvertHeapType(DescriptorHeapType heapType) {
+	D3D12_DESCRIPTOR_HEAP_TYPE ConvertHeapType(DescriptorHeapType heapType) {
 		switch (heapType) {
 		case DescriptorHeapType::CBVSRVUAV:
 			return D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
@@ -53,7 +53,7 @@ namespace ProjectGE {
 		m_Flags(flags), 
 		m_UnitSize(DirectX12Core::GetCore().GetDevice()->GetDescriptorHandleIncrementSize(ConvertHeapType(heapType))),
 		m_CpuStartPos(m_CurrentHeap->GetCPUDescriptorHandleForHeapStart()),
-		m_GpuStartPos(m_CurrentHeap->GetGPUDescriptorHandleForHeapStart()),
+		m_GpuStartPos((flags& D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE) ? m_CurrentHeap->GetGPUDescriptorHandleForHeapStart() : D3D12_GPU_DESCRIPTOR_HANDLE{}),
 		m_Reserve(false)
 	{
 	}

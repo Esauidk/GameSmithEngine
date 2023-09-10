@@ -143,7 +143,8 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\ShaderInputs\ShaderParameterGroup.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\HeapStructures\DirectX12DescriptorLoaderHeapManager.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\Shaders\ShaderParameter.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12ShaderUtils.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12Resource.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12RendererHeaders.h" />
@@ -199,7 +200,7 @@
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12Buffer.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12HeapDatabase.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12Util.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\ShaderUtil.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\Shaders\ShaderUtil.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\third-party\d3dx12.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BasicStructs.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\ConstantBuffer.h" />
@@ -211,6 +212,7 @@
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\VertexBuffer.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BufferLayout.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\PipelineDefiner.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\Shaders\SLab\SLab.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderCommand.h" />
     <ClInclude Include="src\ProjectGE\Rendering\Renderer.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RendererAPI.h" />
@@ -636,7 +638,7 @@
     <ClInclude Include="third-party\stb\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\ShaderInputs\ShaderParameterGroup.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\HeapStructures\DirectX12DescriptorLoaderHeapManager.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12ShaderUtils.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12Resource.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12ConstantBuffer.cpp" />

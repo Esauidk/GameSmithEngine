@@ -1,20 +1,26 @@
 #pragma once
 #include "ProjectGE/Rendering/RenderAgnostics/BindableResources/ConstantBuffer.h"
 #include "ProjectGE/Rendering/DirectX12/Util/DirectX12Buffer.h"
+#include "ProjectGE/Rendering/DirectX12/HeapStructures/DirectX12DescriptorLoaderHeapManager.h"
 
 
 namespace ProjectGE {
 	class DirectX12ConstantBuffer : public ConstantBuffer
 	{
 	public:
-		DirectX12ConstantBuffer(BYTE* data, UINT size) : m_Buffer(std::make_unique<DirectX12Buffer<BYTE>>(data, size, "Constant Buffer")) { m_GPUAdd = m_Buffer->GetGPUReference(); }
-		DirectX12ConstantBuffer(UINT size) :m_Buffer(std::make_unique<DirectX12Buffer<BYTE>>(size, "Constant Buffer")) { m_GPUAdd = m_Buffer->GetGPUReference(); }
+		DirectX12ConstantBuffer(BYTE* data, UINT size); 
+		DirectX12ConstantBuffer(UINT size);
 		void UpdateData(BYTE* data) override;
-		void* GetGPUReference() override;
+		D3D12_GPU_VIRTUAL_ADDRESS& GetGPUReference();
+		D3D12_CPU_DESCRIPTOR_HANDLE GetDescriptor();
 
+	private:
+		void GenerateConstantBuffView();
 	private:
 		Scope<DirectX12Buffer<BYTE>> m_Buffer;
 		D3D12_GPU_VIRTUAL_ADDRESS m_GPUAdd;
+		DirectX12LoaderDescriptor m_TempDescriptor;
+
 	};
 };
 

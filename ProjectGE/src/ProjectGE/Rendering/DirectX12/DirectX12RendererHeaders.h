@@ -4,3 +4,4 @@
 
 #include "ProjectGE/Rendering/DirectX12/Resources/DirectX12VertexBuffer.h"
 #include "ProjectGE/Rendering/DirectX12/Resources/DirectX12IndexBuffer.h"
+#include "ProjectGE/Rendering/DirectX12/Resources/DirectX12ConstantBuffer.h"

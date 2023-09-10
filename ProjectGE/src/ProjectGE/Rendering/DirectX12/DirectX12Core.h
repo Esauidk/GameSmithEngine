@@ -6,6 +6,7 @@
 #include "ProjectGE/Core/Core.h"
 #include "ProjectGE/Rendering/DirectX12/CommandList/DirectX12CommandContext.h"
 #include "ProjectGE/Rendering/DirectX12/Util/DirectX12HeapDatabase.h"
+#include "ProjectGE/Rendering/DirectX12/HeapStructures/DirectX12DescriptorLoaderHeapManager.h"
 
 using Microsoft::WRL::ComPtr;
 
@@ -18,6 +19,8 @@ namespace ProjectGE {
 		inline DirectX12CommandContextDirect& GetDirectCommandContext() { return *m_DirectContext; }
 		inline DirectX12CommandContextCopy& GetCopyCommandContext() { return *m_CopyContext; }
 		inline DirectX12HeapDatabase& GetHeapDatabase() { return *m_HeapDB; }
+
+		inline DirectX12DescriptorLoaderManager& GetDescriptorLoader(DescriptorHeapType type) { return m_DescriptorLoaders[(int)type]; }
 		// Tell one queue to wait for another queue to complete a certain amount of work
 		void InitializeQueueWait(DirectX12QueueType executor, DirectX12QueueType waiter, UINT fenceVal);
 		// Tell the CPU to wait for all work to complete on a specific queue
@@ -36,5 +39,7 @@ namespace ProjectGE {
 		Scope<DirectX12CommandContextCopy> m_CopyContext;
 		Scope<DirectX12HeapDatabase> m_HeapDB;
 		static Scope<DirectX12Core> m_Core;
+
+		std::vector<DirectX12DescriptorLoaderManager> m_DescriptorLoaders;
 	};
 };

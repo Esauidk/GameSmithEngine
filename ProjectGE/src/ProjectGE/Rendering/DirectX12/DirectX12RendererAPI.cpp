@@ -55,6 +55,34 @@ namespace ProjectGE {
 		return std::make_shared<DirectX12Shader>(path);
 	}
 
+	Ref<ConstantBuffer> DirectX12RendererAPI::CreateConstantBuffer(UINT size)
+	{
+		return std::make_shared<DirectX12ConstantBuffer>(size);
+	}
+
+	void DirectX12RendererAPI::SetConstantBuffer(Ref<ConstantBuffer> cbuffer, Stages stage, ShaderConstantType constantType)
+	{
+		auto& context = m_Core.GetDirectCommandContext();
+		auto dx12Buf = std::dynamic_pointer_cast<DirectX12ConstantBuffer>(cbuffer);
+		D3D12_GPU_VIRTUAL_ADDRESS add = dx12Buf->GetGPUReference();
+		D3D12_CPU_DESCRIPTOR_HANDLE descriptor = dx12Buf->GetDescriptor();
+
+		DirectX12ConstantBufferView view;
+		view.m_View = descriptor;
+		view.m_GPUAdd = add;
+
+		UINT index;
+
+		if (constantType == ShaderConstantType::Global) {
+			index = 0;
+		}
+		else {
+			index = 1;
+		}
+
+		context.GetStateManager().SetCBV(stage, view, index);
+	}
+
 	void DirectX12RendererAPI::SetTopology(TopologyType& type)
 	{
 		auto& context = m_Core.GetDirectCommandContext();

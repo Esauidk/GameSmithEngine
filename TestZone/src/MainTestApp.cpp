@@ -12,6 +12,8 @@
 #include "ProjectGE/Rendering/DirectX12/Resources/DirectX12ConstantBuffer.h"
 
 #include "ProjectGE/Rendering/DirectX12/Util/DirectX12Util.h"
+#include "ProjectGE/Rendering/DirectX12/Util/DirectX12ShaderUtils.h"
+#include "ProjectGE/Rendering/RenderAgnostics/Shaders/SLab/SLab.h"
 #include <glm/gtc/type_ptr.hpp>
 
 class ExampleLayer : public ProjectGE::Layer {
@@ -125,7 +127,16 @@ public:
 		ProjectGE::RenderCommand::SetVertexBuffer(vBuff);
 		ProjectGE::RenderCommand::SetIndexBuffer(iBuff);
 		
+		ProjectGE::DirectX12Shader(ProjectGE::CompileShaderForDX12("struct VertexInput{float3 Position : POSITION;};struct VertexShaderOutput{float4 Position : SV_POSITION;};VertexShaderOutput main(VertexInput input){VertexShaderOutput vso;vso.Position = float4(input.Position, 1);return vso;}",
+			"main", ProjectGE::STAGE_VERTEX, "test"));
 
+		ProjectGE::SLabMetadata metadata;
+		metadata.AddParameter(ProjectGE::ShaderParameter("Model", ProjectGE::ShaderDataType::Matrix));
+		metadata.AddParameter(ProjectGE::ShaderParameter("InputColor", ProjectGE::ShaderDataType::Float3));
+
+		ProjectGE::Ref<ProjectGE::ConstantBuffer> cbuff = ProjectGE::RenderCommand::CreateConstantBuffer(metadata.GetByteSize());
+		ProjectGE::RenderCommand::SetConstantBuffer(cbuff, ProjectGE::STAGE_VERTEX, ProjectGE::ShaderConstantType::Global);
+		state.BindState();
 
 		/* END: TEST CODE REMOVE */
 	}

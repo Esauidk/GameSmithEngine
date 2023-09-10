@@ -57,6 +57,11 @@ namespace ProjectGE {
 	void DirectX12Core::Init()
 	{
 		m_HeapDB = std::make_unique<DirectX12HeapDatabase>();
+
+		for (UINT heapType = DescriptorHeapType::CBVSRVUAV; heapType < DescriptorHeapType::COUNT; heapType++) {
+			m_DescriptorLoaders.emplace_back((DescriptorHeapType)heapType);
+		}
+
 		m_DirectContext = std::make_unique<DirectX12CommandContextDirect>();
 		m_CopyContext = std::make_unique<DirectX12CommandContextCopy>();
 	}

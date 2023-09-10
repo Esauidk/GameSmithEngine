@@ -13,8 +13,13 @@ namespace ProjectGE {
 		bool Dirty[STAGE_NUM];
 	};
 
+	struct CBVStorage : ViewStorage {
+		D3D12_GPU_VIRTUAL_ADDRESS ResourceLocations[STAGE_NUM][MAX_CBV] = { NULL };
+		D3D12_CPU_DESCRIPTOR_HANDLE Descriptors[STAGE_NUM][MAX_CBV] = { NULL };
+	};
+
 	struct SRVStorage : ViewStorage {
-		DirectX12ShaderResourceView* Views[STAGE_NUM][MAX_SRV] = { nullptr };
+		DirectX12ShaderResourceView Views[STAGE_NUM][MAX_SRV] = { NULL };
 	};
 
 	class DirectX12StateManager
@@ -22,7 +27,7 @@ namespace ProjectGE {
 	public:
 		Ref<DirectX12PipelineStateData> GetGraphicsPiplineState() { return PipelineState.Graphics.CurPipelineData; }
 		void SetGraphicsPipelineState(Ref<DirectX12PipelineStateData> pipelineData);
-		void SetRenderTarget(Ref<DirectX12RenderTargetView>* target, UINT number, Ref<DirectX12DepthTargetView> depth);
+		void SetRenderTarget(Ref<DirectX12RenderTargetView> target, UINT number, DirectX12DepthTargetView depth);
 		void NewCommandList();
 		void BindState();
 
@@ -30,8 +35,8 @@ namespace ProjectGE {
 		void SetIBV(D3D12_INDEX_BUFFER_VIEW& newBuffer);
 		void SetTop(D3D12_PRIMITIVE_TOPOLOGY& listType);
 
-		void SetSRV(Stages stage, DirectX12ShaderResourceView* views, UINT index);
-		//void SetCBV(Stages stage, D3D12_CPU_DESCRIPTOR_HANDLE* views, UINT viewCount);
+		void SetSRV(Stages stage, DirectX12ShaderResourceView view, UINT index);
+		void SetCBV(Stages stage, DirectX12ConstantBufferView view, UINT index);
 		//void SetUAV(Stages stage, D3D12_CPU_DESCRIPTOR_HANDLE* views, UINT viewCount);
 	private:
 		void LowLevelSetGraphicsPipelineState(Ref<DirectX12PipelineState> pipeline);
@@ -44,8 +49,8 @@ namespace ProjectGE {
 				bool updateRootSignature;
 
 				UINT numRenderTargets = 0;
-				Ref<DirectX12RenderTargetView>* RenderTargets = nullptr;
-				Ref<DirectX12DepthTargetView> depthTarget;
+				Ref<DirectX12RenderTargetView> RenderTargets = nullptr;
+				DirectX12DepthTargetView depthTarget;
 				bool updateRenderTargets;
 
 				D3D12_VERTEX_BUFFER_VIEW curVBuff;
@@ -60,7 +65,7 @@ namespace ProjectGE {
 			} Graphics = {};
 
 			struct {
-				ViewStorage CBVStorage;
+				CBVStorage CBVStorage;
 				SRVStorage SRVStorage;
 				ViewStorage UAVStorage;
 				bool updateResources;

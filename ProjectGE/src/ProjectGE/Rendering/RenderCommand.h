@@ -33,6 +33,14 @@ namespace ProjectGE {
 			s_RendererAPI->SetIndexBuffer(iBuffer);
 		}
 
+		inline static Ref<ConstantBuffer> CreateConstantBuffer(UINT size) {
+			return s_RendererAPI->CreateConstantBuffer(size);
+		}
+
+		inline static void SetConstantBuffer(Ref<ConstantBuffer> cbuffer, Stages stage, ShaderConstantType constantType) {
+			s_RendererAPI->SetConstantBuffer(cbuffer, stage, constantType);
+		}
+
 		inline static Ref<Shader> LoadShader(std::string path) {
 			return s_RendererAPI->LoadShader(path);
 		}

@@ -10,11 +10,14 @@
 using Microsoft::WRL::ComPtr;
 
 namespace ProjectGE {
-	enum class DescriptorHeapType {
+	enum DescriptorHeapType {
 		CBVSRVUAV,
 		RT,
-		ST
+		ST,
+		COUNT
 	};
+	
+	D3D12_DESCRIPTOR_HEAP_TYPE ConvertHeapType(DescriptorHeapType heapType);
 
 
 	class DirectX12DescriptorHeap {

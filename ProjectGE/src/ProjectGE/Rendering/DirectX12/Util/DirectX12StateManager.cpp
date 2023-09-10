@@ -20,7 +20,7 @@ namespace ProjectGE {
 		
 	}
 
-	void DirectX12StateManager::SetRenderTarget(Ref<DirectX12RenderTargetView>* target, UINT number, Ref<DirectX12DepthTargetView> depth)
+	void DirectX12StateManager::SetRenderTarget(Ref<DirectX12RenderTargetView> target, UINT number, DirectX12DepthTargetView depth)
 	{
 		PipelineState.Graphics.RenderTargets = target;
 		PipelineState.Graphics.depthTarget = depth;
@@ -58,10 +58,10 @@ namespace ProjectGE {
 
 		if (PipelineState.Graphics.updateRenderTargets) {
 			D3D12_CPU_DESCRIPTOR_HANDLE RenderTargetArray[1];
-			D3D12_CPU_DESCRIPTOR_HANDLE DepthTarget = PipelineState.Graphics.depthTarget->GetView();
+			D3D12_CPU_DESCRIPTOR_HANDLE DepthTarget = PipelineState.Graphics.depthTarget.m_View;
 
 			for (UINT i = 0; i < PipelineState.Graphics.numRenderTargets; i++) {
-				RenderTargetArray[i] = PipelineState.Graphics.RenderTargets[i]->GetView();
+				RenderTargetArray[i] = (PipelineState.Graphics.RenderTargets.get())[i].m_View;
 			}
 			commandList->OMSetRenderTargets(PipelineState.Graphics.numRenderTargets, RenderTargetArray, 0, &DepthTarget);
 			PipelineState.Graphics.updateRenderTargets = false;
@@ -110,20 +110,24 @@ namespace ProjectGE {
 	}
 
 
-	void DirectX12StateManager::SetSRV(Stages stage, DirectX12ShaderResourceView* view, UINT index)
+	void DirectX12StateManager::SetSRV(Stages stage, DirectX12ShaderResourceView view, UINT index)
 	{
 		PipelineState.Basic.SRVStorage.Views[stage][index] = view;
+		PipelineState.Basic.SRVStorage.Dirty[stage] = true;
 
 		PipelineState.Basic.updateResources = true;
 	}
 
-	/*void DirectX12StateManager::SetCBV(Stages stage, D3D12_CPU_DESCRIPTOR_HANDLE* views, UINT viewCount)
+	void DirectX12StateManager::SetCBV(Stages stage, DirectX12ConstantBufferView view, UINT index)
 	{
-		PipelineState.Basic.CBVStorage.Views[stage] = views;
-		PipelineState.Basic.CBVStorage.numberViews[stage] = viewCount;
+		PipelineState.Basic.CBVStorage.ResourceLocations[stage][index] = view.m_GPUAdd;
+		PipelineState.Basic.CBVStorage.Descriptors[stage][index] = view.m_View;
+
+		PipelineState.Basic.CBVStorage.Dirty[stage] = true;
 
 		PipelineState.Basic.updateResources = true;
 	}
+	/*
 
 	void DirectX12StateManager::SetUAV(Stages stage, D3D12_CPU_DESCRIPTOR_HANDLE* views, UINT viewCount)
 	{
@@ -159,8 +163,20 @@ namespace ProjectGE {
 
 		GE_CORE_ASSERT(begin < end, "Invalid stage range");
 
+		DirectX12RootSignature& root = *(PipelineState.Graphics.CurPipelineData->m_Root.get());
 		for (UINT i = begin; i < end; i++) {
 			Stages cur = (Stages)i;
+
+			if (PipelineState.Basic.SRVStorage.Dirty[cur]) {
+				// TODO: FILL IN
+			}
+
+			if (PipelineState.Basic.CBVStorage.Dirty[cur]) {
+				D3D12_CPU_DESCRIPTOR_HANDLE* cbvs = PipelineState.Basic.CBVStorage.Descriptors[cur];
+				m_HeapState.SetCBV(cur, root, cbvs, 1);
+				PipelineState.Basic.CBVStorage.Dirty[cur] = false;
+			}
+
 			//TODO: Count the nubmer of resources in each array
 			//m_HeapState.SetSRV(cur, *PipelineState.Graphics.CurPipelineData->m_Root, PipelineState.Basic.SRVStorage.Views[cur], PipelineState.Basic.SRVStorage.numberViews[cur]);
 			//m_HeapState.SetCBV(cur, *PipelineState.Graphics.CurPipelineData->m_Root, PipelineState.Basic.CBVStorage.Views[cur], PipelineState.Basic.CBVStorage.numberViews[cur]);
