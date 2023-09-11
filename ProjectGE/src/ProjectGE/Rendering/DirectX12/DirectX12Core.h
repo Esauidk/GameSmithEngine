@@ -19,6 +19,7 @@ namespace ProjectGE {
 		inline DirectX12CommandContextDirect& GetDirectCommandContext() { return *m_DirectContext; }
 		inline DirectX12CommandContextCopy& GetCopyCommandContext() { return *m_CopyContext; }
 		inline DirectX12HeapDatabase& GetHeapDatabase() { return *m_HeapDB; }
+		inline DirectX12DefaultViews& GetDefaultViews() { return m_Defaults; }
 
 		inline DirectX12DescriptorLoaderManager& GetDescriptorLoader(DescriptorHeapType type) { return m_DescriptorLoaders[(int)type]; }
 		// Tell one queue to wait for another queue to complete a certain amount of work
@@ -41,5 +42,7 @@ namespace ProjectGE {
 		static Scope<DirectX12Core> m_Core;
 
 		std::vector<DirectX12DescriptorLoaderManager> m_DescriptorLoaders;
+
+		DirectX12DefaultViews m_Defaults;
 	};
 };

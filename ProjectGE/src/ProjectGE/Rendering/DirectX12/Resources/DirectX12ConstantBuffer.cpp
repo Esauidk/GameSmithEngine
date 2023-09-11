@@ -16,13 +16,20 @@ namespace ProjectGE {
 		return result;
 	}
 
-	void ProjectGE::DirectX12ConstantBuffer::UpdateData(BYTE* data)
+	void ProjectGE::DirectX12ConstantBuffer::UpdateData(BYTE* data, UINT byteSize)
 	{
-		if (m_Buffer->GetStateTracker().GetState() != D3D12_RESOURCE_STATE_COPY_DEST) {
+		D3D12_RESOURCE_STATES originalState = m_Buffer->GetStateTracker().GetState();
+		if (originalState != D3D12_RESOURCE_STATE_COPY_DEST) {
 			m_Buffer->GetStateTracker().TransitionBarrier(D3D12_RESOURCE_STATE_COPY_DEST);
 		}
 
-		m_Buffer->UpdateData(data);
+		m_Buffer->UpdateData(data, byteSize);
+
+		if (m_Buffer->GetStateTracker().GetState() != originalState) {
+			m_Buffer->SetUploadGPUBlock();
+			m_Buffer->GetStateTracker().TransitionBarrier(originalState);
+		}
+
 	}
 
 	D3D12_GPU_VIRTUAL_ADDRESS& ProjectGE::DirectX12ConstantBuffer::GetGPUReference()

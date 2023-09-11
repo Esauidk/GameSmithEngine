@@ -64,6 +64,10 @@ namespace ProjectGE {
 
 		m_DirectContext = std::make_unique<DirectX12CommandContextDirect>();
 		m_CopyContext = std::make_unique<DirectX12CommandContextCopy>();
+		m_DirectContext->FinalizeCommandList();
+		m_CopyContext->FinalizeCommandList();
+
+		m_Defaults.EmptyCBV.m_View = m_DescriptorLoaders[DescriptorHeapType::CBVSRVUAV].AllocateSlot();
 	}
 
 	DirectX12Core& DirectX12Core::GetCore() {

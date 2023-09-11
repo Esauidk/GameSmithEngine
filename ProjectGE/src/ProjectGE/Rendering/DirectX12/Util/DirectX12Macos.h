@@ -6,3 +6,6 @@
 #define MAX_UAV 5
 
 #define MAX_ROOT_CBV 3
+
+typedef uint8_t CBVSlotMask;
+typedef uint16_t SRVSlotMask;

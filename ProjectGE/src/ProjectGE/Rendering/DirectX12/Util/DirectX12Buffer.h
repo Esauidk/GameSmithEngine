@@ -10,7 +10,7 @@ namespace ProjectGE {
 	template <typename T>
 	class DirectX12Buffer {
 	public:
-		DirectX12Buffer(T* buffer, UINT count, std::string bufferName = "Personal Buffer") : m_BufferSize(sizeof(T)* count){
+		DirectX12Buffer(T* buffer, UINT count, std::string bufferName = "Personal Buffer") : m_BufferSize(sizeof(T)* count), m_Uploaded(true){
 
 			auto& core = DirectX12Core::GetCore();
 			auto pDevice = core.GetDevice();
@@ -65,7 +65,7 @@ namespace ProjectGE {
 			m_CpuBuffer = std::make_shared<DirectX12Resource>(cpuBuffer.Get(), D3D12_RESOURCE_STATE_GENERIC_READ);
 		}
 
-		DirectX12Buffer(UINT count, std::string bufferName = "Personal Buffer") : m_BufferSize(sizeof(T)* count){
+		DirectX12Buffer(UINT count, std::string bufferName = "Personal Buffer") : m_BufferSize(sizeof(T)* count), m_Uploaded(false) {
 
 			auto& core = DirectX12Core::GetCore();
 			auto pDevice = core.GetDevice();
@@ -114,8 +114,12 @@ namespace ProjectGE {
 		}
 
 		void SetUploadGPUBlock() {
-			auto& core = DirectX12Core::GetCore();
-			core.InitializeQueueWait(DirectX12QueueType::Copy, DirectX12QueueType::Direct, m_UploadSignal);
+			if (m_Uploaded) {
+				auto& core = DirectX12Core::GetCore();
+				core.InitializeQueueWait(DirectX12QueueType::Copy, DirectX12QueueType::Direct, m_UploadSignal);
+				m_Uploaded = false;
+			}
+			
 		}
 
 		DirectX12BarrierTracker& GetStateTracker() {
@@ -124,18 +128,21 @@ namespace ProjectGE {
 
 		UINT GetSize() const { return m_BufferSize; }
 
-		void UpdateData(void* newData) {
+		void UpdateData(void* newData, UINT byteSize) {
+			GE_CORE_ASSERT(byteSize <= m_BufferSize, "Data passed in won't fit in buffer");
+
 			auto& core = DirectX12Core::GetCore();
 			auto& copyContext = core.GetCopyCommandContext();
 			auto& pCommandList = copyContext.GetCommandList();
 			// Store the data inside
 			D3D12_SUBRESOURCE_DATA data = {};
 			data.pData = reinterpret_cast<BYTE*>(newData);
-			data.RowPitch = m_BufferSize;
+			data.RowPitch = byteSize;
 			data.SlicePitch = data.RowPitch;
 
 			UpdateSubresources((&pCommandList), m_GpuBuffer->GetResource(), m_CpuBuffer->GetResource(), 0, 0, 1, &data);
 			m_UploadSignal = copyContext.FinalizeCommandList();
+			m_Uploaded = true;
 		}
 
 	private:
@@ -143,5 +150,6 @@ namespace ProjectGE {
 		Ref<DirectX12Resource> m_CpuBuffer;
 		UINT m_BufferSize;
 		UINT m_UploadSignal;
+		bool m_Uploaded;
 	};
 };

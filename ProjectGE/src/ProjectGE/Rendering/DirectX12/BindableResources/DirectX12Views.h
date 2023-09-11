@@ -3,8 +3,13 @@
 #include <d3d12.h>
 
 namespace ProjectGE {
+	
 	struct DirectX12View {
 		D3D12_CPU_DESCRIPTOR_HANDLE m_View;
+	};
+
+	struct DirectX12DefaultViews {
+		DirectX12View EmptyCBV;
 	};
 
 	struct DirectX12RenderTargetView : public DirectX12View {

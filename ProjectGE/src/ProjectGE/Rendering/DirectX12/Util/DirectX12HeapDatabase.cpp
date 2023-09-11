@@ -54,14 +54,20 @@ namespace ProjectGE {
 		m_UnitSize(DirectX12Core::GetCore().GetDevice()->GetDescriptorHandleIncrementSize(ConvertHeapType(heapType))),
 		m_CpuStartPos(m_CurrentHeap->GetCPUDescriptorHandleForHeapStart()),
 		m_GpuStartPos((flags& D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE) ? m_CurrentHeap->GetGPUDescriptorHandleForHeapStart() : D3D12_GPU_DESCRIPTOR_HANDLE{}),
-		m_Reserve(false)
+		m_Reserve(true)
 	{
 	}
 
-	void DirectX12DescriptorHeap::AttachHeap()
+	void DirectX12DescriptorHeap::AttachHeap(DirectX12QueueType cmdType)
 	{
 		auto& core = DirectX12Core::GetCore();
 		ID3D12DescriptorHeap* heaps[] = { m_CurrentHeap.Get() };
-		core.GetDirectCommandContext().GetCommandList()->SetDescriptorHeaps(1, heaps);
+
+
+		if (cmdType == DirectX12QueueType::Direct) {
+			core.GetDirectCommandContext().GetCommandList()->SetDescriptorHeaps(1, heaps);
+		}
+		// TODO: Add logic for compute context
+		
 	}
 };

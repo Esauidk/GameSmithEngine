@@ -5,6 +5,10 @@
 #include "ProjectGE/Core/Log.h"
 
 namespace ProjectGE {
+	DirectX12StateManager::DirectX12StateManager(DirectX12QueueType cmdType) : m_HeapState(cmdType), m_StateType(cmdType) {
+		GE_CORE_ASSERT(cmdType != DirectX12QueueType::Copy, "We do not keep state of copy command lists");
+	}
+
 	void DirectX12StateManager::SetGraphicsPipelineState(Ref<DirectX12PipelineStateData> pipelineData)
 	{
 		auto currentPipelineData = PipelineState.Graphics.CurPipelineData;
@@ -44,6 +48,9 @@ namespace ProjectGE {
 		if (PipelineState.Graphics.topListType != D3D12_PRIMITIVE_TOPOLOGY_TYPE::D3D12_PRIMITIVE_TOPOLOGY_TYPE_UNDEFINED) {
 			PipelineState.Graphics.setTop = true;
 		}
+
+		PipelineState.Basic.CBVStorage.SetDirtyAll();
+		PipelineState.Basic.SRVStorage.SetDirtyAll();
 		
 		m_HeapState.AttachHeap();
 	}
@@ -53,7 +60,12 @@ namespace ProjectGE {
 		LowLevelSetRootSignature(PipelineState.Graphics.CurPipelineData->m_Root);
 		LowLevelSetGraphicsPipelineState(PipelineState.Graphics.CurPipelineData->m_Pso);
 
+		if (PipelineState.Basic.updateResources) {
+			SetResources(STAGE_VERTEX, STAGE_NUM);
+		}
+
 		auto& core = DirectX12Core::GetCore();
+
 		auto& commandList = core.GetDirectCommandContext().GetCommandList();
 
 		if (PipelineState.Graphics.updateRenderTargets) {
@@ -67,9 +79,7 @@ namespace ProjectGE {
 			PipelineState.Graphics.updateRenderTargets = false;
 		}
 
-		if (PipelineState.Basic.updateResources) {
-			SetResources(STAGE_VERTEX, STAGE_NUM);
-		}
+		
 
 		if (PipelineState.Graphics.updateVertexData) {
 			commandList->IASetVertexBuffers(0, 1, &PipelineState.Graphics.curVBuff);
@@ -123,7 +133,7 @@ namespace ProjectGE {
 		PipelineState.Basic.CBVStorage.ResourceLocations[stage][index] = view.m_GPUAdd;
 		PipelineState.Basic.CBVStorage.Descriptors[stage][index] = view.m_View;
 
-		PipelineState.Basic.CBVStorage.Dirty[stage] = true;
+		CBVStorage::SetSlotDirty(PipelineState.Basic.CBVStorage.Dirty[stage], index);
 
 		PipelineState.Basic.updateResources = true;
 	}
@@ -164,6 +174,7 @@ namespace ProjectGE {
 		GE_CORE_ASSERT(begin < end, "Invalid stage range");
 
 		DirectX12RootSignature& root = *(PipelineState.Graphics.CurPipelineData->m_Root.get());
+		UINT slots = 0;
 		for (UINT i = begin; i < end; i++) {
 			Stages cur = (Stages)i;
 
@@ -172,9 +183,8 @@ namespace ProjectGE {
 			}
 
 			if (PipelineState.Basic.CBVStorage.Dirty[cur]) {
-				D3D12_CPU_DESCRIPTOR_HANDLE* cbvs = PipelineState.Basic.CBVStorage.Descriptors[cur];
-				m_HeapState.SetCBV(cur, root, cbvs, 1);
-				PipelineState.Basic.CBVStorage.Dirty[cur] = false;
+				m_HeapState.SetCBV(cur, root, PipelineState.Basic.CBVStorage, 1, slots);
+				slots++;
 			}
 
 			//TODO: Count the nubmer of resources in each array

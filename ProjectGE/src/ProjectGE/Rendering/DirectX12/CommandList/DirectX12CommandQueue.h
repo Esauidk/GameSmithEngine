@@ -4,15 +4,11 @@
 #include "gepch.h"
 
 #include "ProjectGE/Rendering/DirectX12/CommandList/DirectX12CommandListWrapper.h"
+#include "ProjectGE/Rendering/DirectX12/CommandList/DirectCommandUtils.h"
 
 using Microsoft::WRL::ComPtr;
 
 namespace ProjectGE {
-	enum class DirectX12QueueType {
-		None = 0,
-		Direct,
-		Copy
-	};
 	/* 
 	DirectXCommandQueue: An abstraction of the command system from DirectX12, synchronize compatible
 	Description: Handles overhead involving command queue's and their respective commandlist and allocators

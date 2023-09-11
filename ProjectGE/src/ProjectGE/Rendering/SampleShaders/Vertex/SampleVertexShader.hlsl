@@ -10,7 +10,9 @@ struct VertexShaderOutput
     float2 UV : UV_TEXCOORD;
 };
 
-#include "../Core.hlsli"
+cbuffer Global : register(b0) {
+    matrix VP;
+};
 
 cbuffer Instance : register(b1) {
     matrix M;

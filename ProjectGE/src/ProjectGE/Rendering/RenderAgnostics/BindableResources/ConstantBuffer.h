@@ -5,7 +5,7 @@ namespace ProjectGE {
 	class ConstantBuffer {
 	public:
 		virtual ~ConstantBuffer() = default;
-		virtual void UpdateData(BYTE* data) = 0;
+		virtual void UpdateData(BYTE* data, UINT byteSize) = 0;
 
 		static Ref<ConstantBuffer> Create(void* initialData, UINT size);
 		static Ref<ConstantBuffer> Create(UINT size);

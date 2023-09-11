@@ -9,22 +9,46 @@
 
 namespace ProjectGE {
 
+	template<typename SlotMask>
 	struct ViewStorage {
-		bool Dirty[STAGE_NUM];
+		SlotMask Dirty[STAGE_NUM];
+
+		static inline void SetSlotDirty(SlotMask& slotMask, UINT slot) {
+			slotMask |= (1 << slot);
+		}
+
+		inline void SetDirtyStage(Stages stage, SlotMask slotMask = (SlotMask)-1) {
+			Dirty[stage] |= slotMask;
+		}
+
+		inline void SetDirtyAll(SlotMask slotMask = (SlotMask)-1) {
+			SetDirtyStage(STAGE_VERTEX, slotMask);
+			SetDirtyStage(STAGE_PIXEL, slotMask);
+		}
+
+		static inline void SetSlotClean(SlotMask& slotMask, UINT slot) {
+			slotMask &= ~(1 << slot);
+		}
+
+		static inline bool IsSlotDirty(SlotMask& slotMask, UINT slot) {
+			return (slotMask & (1 << slot)) != 0;
+		}
+
 	};
 
-	struct CBVStorage : ViewStorage {
+	struct CBVStorage : ViewStorage<CBVSlotMask> {
 		D3D12_GPU_VIRTUAL_ADDRESS ResourceLocations[STAGE_NUM][MAX_CBV] = { NULL };
 		D3D12_CPU_DESCRIPTOR_HANDLE Descriptors[STAGE_NUM][MAX_CBV] = { NULL };
 	};
 
-	struct SRVStorage : ViewStorage {
+	struct SRVStorage : ViewStorage<SRVSlotMask> {
 		DirectX12ShaderResourceView Views[STAGE_NUM][MAX_SRV] = { NULL };
 	};
 
 	class DirectX12StateManager
 	{
 	public:
+		DirectX12StateManager(DirectX12QueueType cmdType);
 		Ref<DirectX12PipelineStateData> GetGraphicsPiplineState() { return PipelineState.Graphics.CurPipelineData; }
 		void SetGraphicsPipelineState(Ref<DirectX12PipelineStateData> pipelineData);
 		void SetRenderTarget(Ref<DirectX12RenderTargetView> target, UINT number, DirectX12DepthTargetView depth);
@@ -67,7 +91,7 @@ namespace ProjectGE {
 			struct {
 				CBVStorage CBVStorage;
 				SRVStorage SRVStorage;
-				ViewStorage UAVStorage;
+				//ViewStorage UAVStorage;
 				bool updateResources;
 
 				Ref<DirectX12PipelineState> CurPipeline = nullptr;
@@ -76,6 +100,7 @@ namespace ProjectGE {
 		} PipelineState = {};
 
 		DirectX12HeapDescriptorState m_HeapState;
+		DirectX12QueueType m_StateType;
 	};
 };
 

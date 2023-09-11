@@ -143,6 +143,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectCommandUtils.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\HeapStructures\DirectX12DescriptorLoaderHeapManager.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\Shaders\ShaderParameter.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12ShaderUtils.h" />

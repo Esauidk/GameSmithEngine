@@ -5,15 +5,16 @@
 
 namespace ProjectGE {
 	struct SRVStorage;
+	struct CBVStorage;
 
 	class DirectX12HeapDescriptorState
 	{
 	public:
-		DirectX12HeapDescriptorState() { Reallocate(1); }
+		DirectX12HeapDescriptorState(DirectX12QueueType cmdType);
 		void AttachHeap();
-		void SetSRV(Stages stage, DirectX12RootSignature& root, SRVStorage& descriptors, UINT numDescriptors);
-		void SetCBV(Stages stage, DirectX12RootSignature& root, D3D12_CPU_DESCRIPTOR_HANDLE* descriptors, UINT numDescriptors);
-		void SetUAV(Stages stage, DirectX12RootSignature& root,  D3D12_CPU_DESCRIPTOR_HANDLE* descriptors, UINT numDescriptors);
+		void SetSRV(Stages stage, DirectX12RootSignature& root, SRVStorage& descriptors, UINT numDescriptors, UINT heapSlot);
+		void SetCBV(Stages stage, DirectX12RootSignature& root, CBVStorage& descriptors, UINT numDescriptors, UINT heapSlot);
+		void SetUAV(Stages stage, DirectX12RootSignature& root,  D3D12_CPU_DESCRIPTOR_HANDLE* descriptors, UINT numDescriptors, UINT heapSlot);
 	private:
 		bool CanFit(UINT numDescriptors);
 		void Reallocate(UINT requiredDescriptors);
@@ -21,6 +22,7 @@ namespace ProjectGE {
 		Ref<DirectX12DescriptorHeap> m_CurrentHeap;
 		UINT m_HeapSize;
 		UINT m_CurrentFreeSlot;
+		DirectX12QueueType m_CmdType;
 	};
 };
 

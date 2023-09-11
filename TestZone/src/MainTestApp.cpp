@@ -14,6 +14,7 @@
 #include "ProjectGE/Rendering/DirectX12/Util/DirectX12Util.h"
 #include "ProjectGE/Rendering/DirectX12/Util/DirectX12ShaderUtils.h"
 #include "ProjectGE/Rendering/RenderAgnostics/Shaders/SLab/SLab.h"
+#include "ProjectGE/Rendering/RenderAgnostics/Shaders/ShaderUtil.h"
 #include <glm/gtc/type_ptr.hpp>
 
 class ExampleLayer : public ProjectGE::Layer {
@@ -134,9 +135,8 @@ public:
 		metadata.AddParameter(ProjectGE::ShaderParameter("Model", ProjectGE::ShaderDataType::Matrix));
 		metadata.AddParameter(ProjectGE::ShaderParameter("InputColor", ProjectGE::ShaderDataType::Float3));
 
-		ProjectGE::Ref<ProjectGE::ConstantBuffer> cbuff = ProjectGE::RenderCommand::CreateConstantBuffer(metadata.GetByteSize());
-		ProjectGE::RenderCommand::SetConstantBuffer(cbuff, ProjectGE::STAGE_VERTEX, ProjectGE::ShaderConstantType::Global);
-		state.BindState();
+		cBuff = ProjectGE::RenderCommand::CreateConstantBuffer(metadata.GetByteSize());
+		ProjectGE::RenderCommand::SetConstantBuffer(cBuff, ProjectGE::STAGE_VERTEX, ProjectGE::ShaderConstantType::Global);
 
 		/* END: TEST CODE REMOVE */
 	}
@@ -213,7 +213,9 @@ public:
 
 		//glm::mat4 tri = glm::transpose(m_TriTrans.GetModelMatrix());
 		//glm::mat4 squ = glm::transpose(m_SquareTrans.GetModelMatrix());
-
+		ProjectGE::GloablShaderData data;
+		data.VP = m_Cam.GetMatrix();
+		cBuff->UpdateData((BYTE*)&data, sizeof(data));
 		ProjectGE::RenderCommand::DrawIndexed(iBuff->GetCount(), 1);
 		ProjectGE::RenderCommand::SubmitRecording();
 		//ProjectGE::Renderer::EndScene();
@@ -225,6 +227,7 @@ private:
 	ProjectGE::Ref<ProjectGE::DirectX12PipelineStateData> refData;
 	ProjectGE::Ref<ProjectGE::VertexBuffer> vBuff;
 	ProjectGE::Ref<ProjectGE::IndexBuffer> iBuff;
+	ProjectGE::Ref<ProjectGE::ConstantBuffer> cBuff;
 	//ProjectGE::Ref<ProjectGE::PipelineStateObject> m_State;
 	//ProjectGE::Ref<ProjectGE::ShaderArguementDefiner> m_Root;
 	ProjectGE::Ref<ProjectGE::Shader> m_VShader;

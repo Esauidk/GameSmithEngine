@@ -6,6 +6,7 @@
 #include "ProjectGE/Rendering/DirectX12/Util/third-party/d3dx12.h"
 
 #include "ProjectGE/Core/Core.h"
+#include "ProjectGE/Rendering/DirectX12/CommandList/DirectCommandUtils.h"
 
 using Microsoft::WRL::ComPtr;
 
@@ -34,7 +35,7 @@ namespace ProjectGE {
 		inline D3D12_CPU_DESCRIPTOR_HANDLE GetCPUReference(UINT slot) { return CD3DX12_CPU_DESCRIPTOR_HANDLE(m_CpuStartPos, slot, m_UnitSize); }
 		inline D3D12_GPU_DESCRIPTOR_HANDLE GetGPUReference(UINT slot) { return CD3DX12_GPU_DESCRIPTOR_HANDLE(m_GpuStartPos, slot, m_UnitSize); }
 
-		void AttachHeap();
+		void AttachHeap(DirectX12QueueType cmdType);
 		inline void Free() { m_Reserve = false; }
 
 		

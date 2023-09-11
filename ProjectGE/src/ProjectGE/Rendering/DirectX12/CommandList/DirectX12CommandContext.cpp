@@ -12,7 +12,10 @@ namespace ProjectGE {
 		}
 
 		m_CurrentList = Scope<DirectX12CommandListWrapper>(m_Queue->GetCommandList());
-		m_StateManager->NewCommandList();
+		if (m_StateManager != nullptr) {
+			m_StateManager->NewCommandList();
+		}
+		
 	}
 
 	UINT DirectX12CommandContextBase::FinalizeCommandList()
@@ -35,7 +38,10 @@ namespace ProjectGE {
 	{
 		m_Queue = std::make_unique<DirectX12CommandQueue>(type);
 		m_CurrentList = Scope<DirectX12CommandListWrapper>(m_Queue->GetCommandList());
-		m_StateManager = std::make_unique<DirectX12StateManager>();
+		if (type == DirectX12QueueType::Direct) {
+			m_StateManager = std::make_unique<DirectX12StateManager>(type);
+		}
+		
 	}
 };
 
