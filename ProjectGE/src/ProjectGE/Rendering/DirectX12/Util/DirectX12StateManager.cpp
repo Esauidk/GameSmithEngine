@@ -24,9 +24,12 @@ namespace ProjectGE {
 		
 	}
 
-	void DirectX12StateManager::SetRenderTarget(Ref<DirectX12RenderTargetView> target, UINT number, DirectX12DepthTargetView depth)
+	void DirectX12StateManager::SetRenderTarget(DirectX12RenderTargetView** target, UINT number, DirectX12DepthTargetView depth)
 	{
-		PipelineState.Graphics.RenderTargets = target;
+		for (int i = 0; i < number; i++) {
+			PipelineState.Graphics.RenderTargets[i] = target[i];
+		}
+
 		PipelineState.Graphics.depthTarget = depth;
 		PipelineState.Graphics.numRenderTargets = number;
 		PipelineState.Graphics.updateRenderTargets = true;
@@ -55,6 +58,12 @@ namespace ProjectGE {
 		m_HeapState.AttachHeap();
 	}
 
+	void DirectX12StateManager::NewDescriptorHeap()
+	{
+		PipelineState.Basic.CBVStorage.SetDirtyAll();
+		PipelineState.Basic.SRVStorage.SetDirtyAll();
+	}
+
 	void DirectX12StateManager::BindState()
 	{
 		LowLevelSetRootSignature(PipelineState.Graphics.CurPipelineData->m_Root);
@@ -69,11 +78,11 @@ namespace ProjectGE {
 		auto& commandList = core.GetDirectCommandContext().GetCommandList();
 
 		if (PipelineState.Graphics.updateRenderTargets) {
-			D3D12_CPU_DESCRIPTOR_HANDLE RenderTargetArray[1];
+			D3D12_CPU_DESCRIPTOR_HANDLE RenderTargetArray[MAX_SIM_RENDER_TARGETS] = {};
 			D3D12_CPU_DESCRIPTOR_HANDLE DepthTarget = PipelineState.Graphics.depthTarget.m_View;
 
 			for (UINT i = 0; i < PipelineState.Graphics.numRenderTargets; i++) {
-				RenderTargetArray[i] = (PipelineState.Graphics.RenderTargets.get())[i].m_View;
+				RenderTargetArray[i] = PipelineState.Graphics.RenderTargets[i]->m_View;
 			}
 			commandList->OMSetRenderTargets(PipelineState.Graphics.numRenderTargets, RenderTargetArray, 0, &DepthTarget);
 			PipelineState.Graphics.updateRenderTargets = false;
@@ -166,6 +175,7 @@ namespace ProjectGE {
 		}
 	}
 
+
 	void DirectX12StateManager::SetResources(Stages beginStage, Stages endStage)
 	{
 		UINT begin = (UINT)beginStage;
@@ -173,25 +183,62 @@ namespace ProjectGE {
 
 		GE_CORE_ASSERT(begin < end, "Invalid stage range");
 
+		UINT numSRV[Stages::STAGE_NUM];
+		UINT numCBV[Stages::STAGE_NUM];
+		UINT numViews = 0;
+		UINT heapSlot = 0;
+
 		DirectX12RootSignature& root = *(PipelineState.Graphics.CurPipelineData->m_Root.get());
-		UINT slots = 0;
+		bool retryBinding = true;
+
+		while (retryBinding) {
+			retryBinding = false;
+
+			for (UINT i = begin; i < end; i++) {
+				Stages cur = (Stages)i;
+
+				if (PipelineState.Basic.SRVStorage.Dirty[cur]) {
+					numSRV[cur] = root.GetMaxSRV(cur);
+
+					numViews += numSRV[cur];
+				}
+
+				if (PipelineState.Basic.CBVStorage.Dirty[cur]) {
+
+					numCBV[cur] = root.GetMaxCBV(cur);
+
+					numViews += numCBV[cur];
+				}
+			}
+
+			if (!m_HeapState.CanFit(numViews)) {
+				m_HeapState.Reallocate(numViews);
+				retryBinding = true;
+				numViews = 0;
+				continue;
+			}
+
+			heapSlot = m_HeapState.GetFreeSlots(numViews);
+
+		}
+		
+		SRVStorage& srvStorage = PipelineState.Basic.SRVStorage;
 		for (UINT i = begin; i < end; i++) {
 			Stages cur = (Stages)i;
 
-			if (PipelineState.Basic.SRVStorage.Dirty[cur]) {
-				// TODO: FILL IN
+			if (srvStorage.Dirty[cur]) {
+				m_HeapState.SetSRV(cur, root, srvStorage, numSRV[cur], heapSlot);
 			}
-
-			if (PipelineState.Basic.CBVStorage.Dirty[cur]) {
-				m_HeapState.SetCBV(cur, root, PipelineState.Basic.CBVStorage, 1, slots);
-				slots++;
-			}
-
-			//TODO: Count the nubmer of resources in each array
-			//m_HeapState.SetSRV(cur, *PipelineState.Graphics.CurPipelineData->m_Root, PipelineState.Basic.SRVStorage.Views[cur], PipelineState.Basic.SRVStorage.numberViews[cur]);
-			//m_HeapState.SetCBV(cur, *PipelineState.Graphics.CurPipelineData->m_Root, PipelineState.Basic.CBVStorage.Views[cur], PipelineState.Basic.CBVStorage.numberViews[cur]);
 		}
-		
+
+		CBVStorage& cbvStorage = PipelineState.Basic.CBVStorage;
+		for (UINT i = begin; i < end; i++) {
+			Stages cur = (Stages)i;
+
+			if (cbvStorage.Dirty[cur]) {
+				m_HeapState.SetCBV(cur, root, cbvStorage, numCBV[cur], heapSlot);
+			}
+		}
 	}
 };
 

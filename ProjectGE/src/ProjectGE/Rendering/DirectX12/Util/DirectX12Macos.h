@@ -7,5 +7,7 @@
 
 #define MAX_ROOT_CBV 3
 
+#define MAX_SIM_RENDER_TARGETS 5
+
 typedef uint8_t CBVSlotMask;
 typedef uint16_t SRVSlotMask;

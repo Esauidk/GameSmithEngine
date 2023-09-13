@@ -51,8 +51,9 @@ namespace ProjectGE {
 		DirectX12StateManager(DirectX12QueueType cmdType);
 		Ref<DirectX12PipelineStateData> GetGraphicsPiplineState() { return PipelineState.Graphics.CurPipelineData; }
 		void SetGraphicsPipelineState(Ref<DirectX12PipelineStateData> pipelineData);
-		void SetRenderTarget(Ref<DirectX12RenderTargetView> target, UINT number, DirectX12DepthTargetView depth);
+		void SetRenderTarget(DirectX12RenderTargetView** target, UINT number, DirectX12DepthTargetView depth);
 		void NewCommandList();
+		void NewDescriptorHeap();
 		void BindState();
 
 		void SetVBV(D3D12_VERTEX_BUFFER_VIEW& newBuffer);
@@ -67,13 +68,14 @@ namespace ProjectGE {
 		void LowLevelSetRootSignature(Ref<DirectX12RootSignature> root);
 		void SetResources(Stages beginStage, Stages endStage);
 
+
 		struct {
 			struct {
 				Ref<DirectX12PipelineStateData> CurPipelineData = nullptr;
 				bool updateRootSignature;
 
 				UINT numRenderTargets = 0;
-				Ref<DirectX12RenderTargetView> RenderTargets = nullptr;
+				DirectX12RenderTargetView* RenderTargets[MAX_SIM_RENDER_TARGETS] = {};
 				DirectX12DepthTargetView depthTarget;
 				bool updateRenderTargets;
 

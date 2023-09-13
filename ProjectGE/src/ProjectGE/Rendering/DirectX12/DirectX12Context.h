@@ -36,8 +36,6 @@ namespace ProjectGE {
 		ComPtr<IDXGISwapChain4> m_SwapChain;
 		// Graphics Handlers
 		ComPtr<ID3D12Resource2> m_BackBuffer;
-		// Render Target Heap
-		ComPtr<ID3D12DescriptorHeap> m_RTVHeapD;
 		// Depth Buffer
 		Scope<DirectX12DepthBuffer> m_DBuffer;
 		
@@ -47,12 +45,12 @@ namespace ProjectGE {
 
 		static const int m_BufferCount = 2;
 		
+		Ref<DirectX12RenderTargetView> m_RTV[m_BufferCount];
+		UINT m_CurrentBackBuffer;
+
 		unsigned int m_Width;
 		unsigned int m_Height;
 		float m_ClearColor[4] = { 0.07f, 0.0f, 0.12f, 1 };
-
-		// TESTING
-		Ref<DirectX12RenderTargetView> m_RTVs;
 	};
 
 };

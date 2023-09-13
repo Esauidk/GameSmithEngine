@@ -135,8 +135,13 @@ public:
 		metadata.AddParameter(ProjectGE::ShaderParameter("Model", ProjectGE::ShaderDataType::Matrix));
 		metadata.AddParameter(ProjectGE::ShaderParameter("InputColor", ProjectGE::ShaderDataType::Float3));
 
-		cBuff = ProjectGE::RenderCommand::CreateConstantBuffer(metadata.GetByteSize());
-		ProjectGE::RenderCommand::SetConstantBuffer(cBuff, ProjectGE::STAGE_VERTEX, ProjectGE::ShaderConstantType::Global);
+		// TODO: GET RID OF THIS, JUST FOR TESTING WITH SCENE DATA
+		cBuff1 = ProjectGE::RenderCommand::CreateConstantBuffer(sizeof(ProjectGE::GloablShaderData));
+		ProjectGE::RenderCommand::SetConstantBuffer(cBuff1, ProjectGE::STAGE_VERTEX, ProjectGE::ShaderConstantType::Global);
+
+		cBuff2 = ProjectGE::RenderCommand::CreateConstantBuffer(metadata.GetByteSize());
+		ProjectGE::RenderCommand::SetConstantBuffer(cBuff2, ProjectGE::STAGE_VERTEX, ProjectGE::ShaderConstantType::Instance);
+		ProjectGE::RenderCommand::SetConstantBuffer(cBuff2, ProjectGE::STAGE_PIXEL, ProjectGE::ShaderConstantType::Instance);
 
 		/* END: TEST CODE REMOVE */
 	}
@@ -211,11 +216,22 @@ public:
 		//m_Root->Bind();
 		//std::dynamic_pointer_cast<ProjectGE::DirectX12Shader>(m_Shaders)->UploadShaderInput((BYTE*)&m_Example1);
 
-		//glm::mat4 tri = glm::transpose(m_TriTrans.GetModelMatrix());
+		glm::mat4 tri = glm::transpose(m_TriTrans.GetModelMatrix());
 		//glm::mat4 squ = glm::transpose(m_SquareTrans.GetModelMatrix());
 		ProjectGE::GloablShaderData data;
 		data.VP = m_Cam.GetMatrix();
-		cBuff->UpdateData((BYTE*)&data, sizeof(data));
+		cBuff1->UpdateData((BYTE*)&data, sizeof(data));
+
+
+		struct instanceData {
+			glm::mat4 model;
+			glm::vec3 color;
+		} test;
+
+		test.model = tri;
+		test.color = { 1, 0, 1 };
+		cBuff2->UpdateData((BYTE*)&test, sizeof(instanceData));
+
 		ProjectGE::RenderCommand::DrawIndexed(iBuff->GetCount(), 1);
 		ProjectGE::RenderCommand::SubmitRecording();
 		//ProjectGE::Renderer::EndScene();
@@ -227,7 +243,8 @@ private:
 	ProjectGE::Ref<ProjectGE::DirectX12PipelineStateData> refData;
 	ProjectGE::Ref<ProjectGE::VertexBuffer> vBuff;
 	ProjectGE::Ref<ProjectGE::IndexBuffer> iBuff;
-	ProjectGE::Ref<ProjectGE::ConstantBuffer> cBuff;
+	ProjectGE::Ref<ProjectGE::ConstantBuffer> cBuff1;
+	ProjectGE::Ref<ProjectGE::ConstantBuffer> cBuff2;
 	//ProjectGE::Ref<ProjectGE::PipelineStateObject> m_State;
 	//ProjectGE::Ref<ProjectGE::ShaderArguementDefiner> m_Root;
 	ProjectGE::Ref<ProjectGE::Shader> m_VShader;

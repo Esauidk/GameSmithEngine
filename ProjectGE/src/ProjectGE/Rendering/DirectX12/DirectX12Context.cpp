@@ -81,27 +81,19 @@ namespace ProjectGE {
 		res = FAILED(dxgiSwapChain1.As(&m_SwapChain));
 		GE_CORE_ASSERT(!res, "Failed to cast DirectX12 swap chain");
 
-		// Describe a heap of descriptors (Need one for each back buffer since they will have their own target render views)
-		D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc = {};
-		rtvHeapDesc.NumDescriptors = 2;
-		rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
-
-		res = FAILED(device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&m_RTVHeapD)));
-		GE_CORE_ASSERT(!res, "Failed to create DirectX12 render target");
-
-
-		UINT rtvSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-
 		// Gets descriptor for render target view
-		CD3DX12_CPU_DESCRIPTOR_HANDLE targetHandler = CD3DX12_CPU_DESCRIPTOR_HANDLE(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart());
 		Microsoft::WRL::ComPtr<ID3D12Resource2> buffer;
 
+		auto& descriptorLoader = core.GetDescriptorLoader(RT);
 		// Assign target views to buffers and their place in the heap
 		for (int i = 0; i < m_BufferCount; i++) {
+			m_RTV[i] = std::make_shared<DirectX12RenderTargetView>();
+
 			res = FAILED(m_SwapChain->GetBuffer(i, IID_PPV_ARGS(&buffer)));
 			GE_CORE_ASSERT(!res, "Failed to create DirectX12 render target buffer");
-			device->CreateRenderTargetView(buffer.Get(), nullptr, targetHandler);
-			targetHandler.Offset(rtvSize);
+			m_RTV[i]->m_View = descriptorLoader.AllocateSlot();
+			m_RTV[i]->m_Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+			device->CreateRenderTargetView(buffer.Get(), nullptr, m_RTV[i]->m_View);
 		}
 
 		m_DBuffer = std::make_unique<DirectX12DepthBuffer>(device, m_Width, m_Height);
@@ -159,14 +151,10 @@ namespace ProjectGE {
 		res = FAILED(m_SwapChain->ResizeBuffers(swapChainDesc.BufferCount, m_Width, m_Height, swapChainDesc.Format, swapChainDesc.Flags));
 		GE_CORE_ASSERT(!res, "Failed to resize DirectX12 swap chain buffers");
 
-		CD3DX12_CPU_DESCRIPTOR_HANDLE rtv(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart());
-		UINT rtvSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-
 		for (int i = 0; i < m_BufferCount; i++) {
 			res = FAILED(m_SwapChain->GetBuffer(i, IID_PPV_ARGS(&m_BackBuffer)));
 			GE_CORE_ASSERT(!res, "Failed to create DirectX12 render target buffer");
-			device->CreateRenderTargetView(m_BackBuffer.Get(), nullptr, rtv);
-			rtv.Offset(rtvSize);
+			device->CreateRenderTargetView(m_BackBuffer.Get(), nullptr, m_RTV[i]->m_View);
 		}
 
 		m_DBuffer->Resize(device, m_Width, m_Height);
@@ -204,12 +192,12 @@ namespace ProjectGE {
 		D3D12_CPU_DESCRIPTOR_HANDLE depthHandler = m_DBuffer->GetHandle();
 		DirectX12DepthTargetView depthView;
 		depthView.m_View = depthHandler;
-		CD3DX12_CPU_DESCRIPTOR_HANDLE rtv(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart(), m_SwapChain->GetCurrentBackBufferIndex(), device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
-		m_RTVs = std::make_shared<DirectX12RenderTargetView>();
-		m_RTVs->m_View = rtv;
-		m_RTVs->m_Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 
-		core.GetDirectCommandContext().GetStateManager().SetRenderTarget(m_RTVs, 1, depthView);
+		DirectX12RenderTargetView* transferBuffer[MAX_SIM_RENDER_TARGETS];
+
+		transferBuffer[0] = m_RTV[m_CurrentBackBuffer].get();
+
+		core.GetDirectCommandContext().GetStateManager().SetRenderTarget(transferBuffer, 1, depthView);
 		//cmdList->OMSetRenderTargets(1, &rtv, FALSE, &depthHandler);
 	}
 
@@ -221,7 +209,9 @@ namespace ProjectGE {
 		auto& context = core.GetDirectCommandContext();
 		auto& cmdList = context.GetCommandList();
 
-		bool res = FAILED(m_SwapChain->GetBuffer(m_SwapChain->GetCurrentBackBufferIndex(), IID_PPV_ARGS(&m_BackBuffer)));
+		m_CurrentBackBuffer = m_SwapChain->GetCurrentBackBufferIndex();
+
+		bool res = FAILED(m_SwapChain->GetBuffer(m_CurrentBackBuffer, IID_PPV_ARGS(&m_BackBuffer)));
 		GE_CORE_ASSERT(!res, "Failed to reacquire DirectX12 back buffer");
 
 		CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
@@ -229,9 +219,8 @@ namespace ProjectGE {
 			D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_RENDER_TARGET
 		);
 		// Add command to transition the render target
-		cmdList->ResourceBarrier(1, &barrier);
-		CD3DX12_CPU_DESCRIPTOR_HANDLE rtv(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart(), m_SwapChain->GetCurrentBackBufferIndex(), device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
-		cmdList->ClearRenderTargetView(rtv, m_ClearColor, 0, nullptr);
+		cmdList->ResourceBarrier(1, &barrier);;
+		cmdList->ClearRenderTargetView(m_RTV[m_CurrentBackBuffer]->m_View, m_ClearColor, 0, nullptr);
 		m_DBuffer->Clear(&cmdList, 1);
 
 	}
