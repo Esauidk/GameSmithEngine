@@ -15,7 +15,7 @@ namespace ProjectGE {
 		bool isNull = currentPipelineData.get() == nullptr;
 		if (isNull || currentPipelineData.get() != pipelineData.get()) {
 			if (isNull || currentPipelineData->m_Root.get() != pipelineData->m_Root.get()) {
-				PipelineState.Graphics.updateRootSignature = true;
+				updateRootSignature = true;
 			}
 
 			PipelineState.Graphics.CurPipelineData = pipelineData;
@@ -24,32 +24,40 @@ namespace ProjectGE {
 		
 	}
 
-	void DirectX12StateManager::SetRenderTarget(DirectX12RenderTargetView** target, UINT number, DirectX12DepthTargetView depth)
+	void DirectX12StateManager::SetRenderTargets(DirectX12RenderTargetView** target, UINT number, DirectX12DepthTargetView depth)
 	{
-		for (int i = 0; i < number; i++) {
+		for (UINT i = 0; i < number; i++) {
 			PipelineState.Graphics.RenderTargets[i] = target[i];
 		}
 
 		PipelineState.Graphics.depthTarget = depth;
 		PipelineState.Graphics.numRenderTargets = number;
-		PipelineState.Graphics.updateRenderTargets = true;
+		updateRenderTargets = true;
 	}
 
 	void DirectX12StateManager::NewCommandList()
 	{
-		PipelineState.Graphics.updateRenderTargets = true;
-		PipelineState.Graphics.updateRootSignature = true;
+		updateRenderTargets = true;
+		updateRootSignature = true;
 
 		if (PipelineState.Graphics.curVBuff.BufferLocation != NULL) {
-			PipelineState.Graphics.updateVertexData = true;
+			updateVertexData = true;
 		}
 
 		if (PipelineState.Graphics.curIBuff.BufferLocation != NULL) {
-			PipelineState.Graphics.updateIndexData = true;
+			updateIndexData = true;
 		}
 
 		if (PipelineState.Graphics.topListType != D3D12_PRIMITIVE_TOPOLOGY_TYPE::D3D12_PRIMITIVE_TOPOLOGY_TYPE_UNDEFINED) {
-			PipelineState.Graphics.setTop = true;
+			setTop = true;
+		}
+
+		if (PipelineState.Graphics.numRects > 0) {
+			setRects = true;
+		}
+
+		if (PipelineState.Graphics.numViewports > 0) {
+			setViewports = true;
 		}
 
 		PipelineState.Basic.CBVStorage.SetDirtyAll();
@@ -69,7 +77,7 @@ namespace ProjectGE {
 		LowLevelSetRootSignature(PipelineState.Graphics.CurPipelineData->m_Root);
 		LowLevelSetGraphicsPipelineState(PipelineState.Graphics.CurPipelineData->m_Pso);
 
-		if (PipelineState.Basic.updateResources) {
+		if (updateResources) {
 			SetResources(STAGE_VERTEX, STAGE_NUM);
 		}
 
@@ -77,7 +85,7 @@ namespace ProjectGE {
 
 		auto& commandList = core.GetDirectCommandContext().GetCommandList();
 
-		if (PipelineState.Graphics.updateRenderTargets) {
+		if (updateRenderTargets) {
 			D3D12_CPU_DESCRIPTOR_HANDLE RenderTargetArray[MAX_SIM_RENDER_TARGETS] = {};
 			D3D12_CPU_DESCRIPTOR_HANDLE DepthTarget = PipelineState.Graphics.depthTarget.m_View;
 
@@ -85,47 +93,56 @@ namespace ProjectGE {
 				RenderTargetArray[i] = PipelineState.Graphics.RenderTargets[i]->m_View;
 			}
 			commandList->OMSetRenderTargets(PipelineState.Graphics.numRenderTargets, RenderTargetArray, 0, &DepthTarget);
-			PipelineState.Graphics.updateRenderTargets = false;
+			updateRenderTargets = false;
 		}
 
 		
 
-		if (PipelineState.Graphics.updateVertexData) {
+		if (updateVertexData) {
 			commandList->IASetVertexBuffers(0, 1, &PipelineState.Graphics.curVBuff);
-			PipelineState.Graphics.updateVertexData = false;
+			updateVertexData = false;
 		}
 
-		if (PipelineState.Graphics.updateIndexData) {
+		if (updateIndexData) {
 			commandList->IASetIndexBuffer(&PipelineState.Graphics.curIBuff);
-			PipelineState.Graphics.updateIndexData = false;
+			updateIndexData = false;
 		}
 
-		if (PipelineState.Graphics.setTop) {
+		if (setTop) {
 			commandList->IASetPrimitiveTopology(PipelineState.Graphics.topListType);
-			PipelineState.Graphics.setTop = false;
+			setTop = false;
 		}
 
+		if (setViewports) {
+			commandList->RSSetViewports(PipelineState.Graphics.numViewports, PipelineState.Graphics.viewport);
+			setViewports = false;
+		}
+
+		if (setRects) {
+			commandList->RSSetScissorRects(PipelineState.Graphics.numRects, PipelineState.Graphics.rects);
+			setRects = false;
+		}
 	}
 
 	void DirectX12StateManager::SetVBV(D3D12_VERTEX_BUFFER_VIEW& newBuffer)
 	{
 		GE_CORE_ASSERT(newBuffer.BufferLocation != NULL, "Invalid vertex buffer GPU memory location");
 		PipelineState.Graphics.curVBuff = newBuffer;
-		PipelineState.Graphics.updateVertexData = true;
+		updateVertexData = true;
 	}
 
 	void DirectX12StateManager::SetIBV(D3D12_INDEX_BUFFER_VIEW& newBuffer)
 	{
 		GE_CORE_ASSERT(newBuffer.BufferLocation != NULL, "Invalid index buffer GPU memory location");
 		PipelineState.Graphics.curIBuff = newBuffer;
-		PipelineState.Graphics.updateIndexData = true;
+		updateIndexData = true;
 	}
 
 	void DirectX12StateManager::SetTop(D3D12_PRIMITIVE_TOPOLOGY& listType)
 	{
 		GE_CORE_ASSERT(listType != D3D12_PRIMITIVE_TOPOLOGY::D3D_PRIMITIVE_TOPOLOGY_UNDEFINED, "Not a defined topology list");
 		PipelineState.Graphics.topListType = listType;
-		PipelineState.Graphics.setTop = true;
+		setTop = true;
 	}
 
 
@@ -134,7 +151,7 @@ namespace ProjectGE {
 		PipelineState.Basic.SRVStorage.Views[stage][index] = view;
 		PipelineState.Basic.SRVStorage.Dirty[stage] = true;
 
-		PipelineState.Basic.updateResources = true;
+		updateResources = true;
 	}
 
 	void DirectX12StateManager::SetCBV(Stages stage, DirectX12ConstantBufferView view, UINT index)
@@ -144,7 +161,27 @@ namespace ProjectGE {
 
 		CBVStorage::SetSlotDirty(PipelineState.Basic.CBVStorage.Dirty[stage], index);
 
-		PipelineState.Basic.updateResources = true;
+		updateResources = true;
+	}
+
+	void DirectX12StateManager::SetRects(D3D12_RECT* rects, UINT count)
+	{
+		for (UINT i = 0; i < count; i++) {
+			PipelineState.Graphics.rects[i] = rects[i];
+		}
+
+		PipelineState.Graphics.numRects = count;
+		setRects = true;
+	}
+
+	void DirectX12StateManager::SetViewports(D3D12_VIEWPORT* viewports, UINT count)
+	{
+		for (UINT i = 0; i < count; i++) {
+			PipelineState.Graphics.viewport[i] = viewports[i];
+		}
+
+		PipelineState.Graphics.numViewports = count;
+		setViewports = true;
 	}
 	/*
 
@@ -167,11 +204,11 @@ namespace ProjectGE {
 
 	void DirectX12StateManager::LowLevelSetRootSignature(Ref<DirectX12RootSignature> root)
 	{
-		if (PipelineState.Graphics.updateRootSignature) {
+		if (updateRootSignature) {
 			auto& core = DirectX12Core::GetCore();
 			auto& commandList = core.GetDirectCommandContext().GetCommandList();
 			commandList->SetGraphicsRootSignature(root->GetInternalRootSignature());
-			PipelineState.Graphics.updateRootSignature = false;
+			updateRootSignature = false;
 		}
 	}
 

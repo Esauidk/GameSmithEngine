@@ -51,7 +51,7 @@ namespace ProjectGE {
 		DirectX12StateManager(DirectX12QueueType cmdType);
 		Ref<DirectX12PipelineStateData> GetGraphicsPiplineState() { return PipelineState.Graphics.CurPipelineData; }
 		void SetGraphicsPipelineState(Ref<DirectX12PipelineStateData> pipelineData);
-		void SetRenderTarget(DirectX12RenderTargetView** target, UINT number, DirectX12DepthTargetView depth);
+		void SetRenderTargets(DirectX12RenderTargetView** target, UINT number, DirectX12DepthTargetView depth);
 		void NewCommandList();
 		void NewDescriptorHeap();
 		void BindState();
@@ -63,30 +63,47 @@ namespace ProjectGE {
 		void SetSRV(Stages stage, DirectX12ShaderResourceView view, UINT index);
 		void SetCBV(Stages stage, DirectX12ConstantBufferView view, UINT index);
 		//void SetUAV(Stages stage, D3D12_CPU_DESCRIPTOR_HANDLE* views, UINT viewCount);
+
+		void SetRects(D3D12_RECT* rects, UINT count);
+		void SetViewports(D3D12_VIEWPORT* viewports, UINT count);
 	private:
 		void LowLevelSetGraphicsPipelineState(Ref<DirectX12PipelineState> pipeline);
 		void LowLevelSetRootSignature(Ref<DirectX12RootSignature> root);
 		void SetResources(Stages beginStage, Stages endStage);
 
+		bool updateRootSignature = true;
+		bool updateRenderTargets = true;
+		bool updateVertexData = true;
+		bool updateIndexData = true;
+		bool setTop = true;
+		bool setViewports = true;
+		bool setRects = true;
+		bool updateResources = true;
 
 		struct {
 			struct {
 				Ref<DirectX12PipelineStateData> CurPipelineData = nullptr;
-				bool updateRootSignature;
+				
 
 				UINT numRenderTargets = 0;
 				DirectX12RenderTargetView* RenderTargets[MAX_SIM_RENDER_TARGETS] = {};
 				DirectX12DepthTargetView depthTarget;
-				bool updateRenderTargets;
+				
 
 				D3D12_VERTEX_BUFFER_VIEW curVBuff;
-				bool updateVertexData;
+				
 
 				D3D12_INDEX_BUFFER_VIEW curIBuff;
-				bool updateIndexData;
+				
 
 				D3D12_PRIMITIVE_TOPOLOGY topListType;
-				bool setTop;
+				
+
+				UINT numViewports;
+				D3D12_VIEWPORT viewport[MAX_RECT_AND_VIEWPORT] = {};
+
+				UINT numRects;
+				D3D12_RECT rects[MAX_RECT_AND_VIEWPORT] = {};
 
 			} Graphics = {};
 
@@ -94,7 +111,6 @@ namespace ProjectGE {
 				CBVStorage CBVStorage;
 				SRVStorage SRVStorage;
 				//ViewStorage UAVStorage;
-				bool updateResources;
 
 				Ref<DirectX12PipelineState> CurPipeline = nullptr;
 			} Basic = {};

@@ -9,5 +9,7 @@
 
 #define MAX_SIM_RENDER_TARGETS 5
 
+#define MAX_RECT_AND_VIEWPORT 5
+
 typedef uint8_t CBVSlotMask;
 typedef uint16_t SRVSlotMask;

@@ -100,6 +100,12 @@ namespace ProjectGE {
 
 		InitializeBackBuffer();
 
+		auto rect = CD3DX12_RECT(0, 0, m_Width, m_Height);
+		auto viewport = CD3DX12_VIEWPORT(0.0f, 0.0f, (FLOAT)m_Width, (FLOAT)m_Height);
+		auto& state = core.GetDirectCommandContext().GetStateManager();
+
+		state.SetRects(&rect, 1);
+		state.SetViewports(&viewport, 1);
 		
 	}
 
@@ -159,8 +165,13 @@ namespace ProjectGE {
 
 		m_DBuffer->Resize(device, m_Width, m_Height);
 
-		// NOTE: THIS MIGHT CAUSE A BUG. If there is an active commandlist in the command queue when resizing, dx12 will complain
-		//s_DirectContext->StartCommandList();
+		auto rect = CD3DX12_RECT(0, 0, m_Width, m_Height);
+		auto viewport = CD3DX12_VIEWPORT(0.0f, 0.0f, (FLOAT)m_Width, (FLOAT)m_Height);
+		auto& state = core.GetDirectCommandContext().GetStateManager();
+
+		state.SetRects(&rect, 1);
+		state.SetViewports(&viewport, 1);
+
 		InitializeBackBuffer();
 	}
 
@@ -179,26 +190,6 @@ namespace ProjectGE {
 
 	void DirectX12Context::AttachContextResources()
 	{
-		auto& core = DirectX12Core::GetCore();
-		auto device = core.GetDevice();
-		auto& context = core.GetDirectCommandContext();
-		auto& cmdList = context.GetCommandList();
-
-		auto rect = CD3DX12_RECT(0, 0, m_Width, m_Height);
-		auto viewport = CD3DX12_VIEWPORT(0.0f, 0.0f, (FLOAT)m_Width, (FLOAT)m_Height);
-		cmdList->RSSetScissorRects(1, &rect);
-		cmdList->RSSetViewports(1, &viewport);
-
-		D3D12_CPU_DESCRIPTOR_HANDLE depthHandler = m_DBuffer->GetHandle();
-		DirectX12DepthTargetView depthView;
-		depthView.m_View = depthHandler;
-
-		DirectX12RenderTargetView* transferBuffer[MAX_SIM_RENDER_TARGETS];
-
-		transferBuffer[0] = m_RTV[m_CurrentBackBuffer].get();
-
-		core.GetDirectCommandContext().GetStateManager().SetRenderTarget(transferBuffer, 1, depthView);
-		//cmdList->OMSetRenderTargets(1, &rtv, FALSE, &depthHandler);
 	}
 
 
@@ -222,6 +213,17 @@ namespace ProjectGE {
 		cmdList->ResourceBarrier(1, &barrier);;
 		cmdList->ClearRenderTargetView(m_RTV[m_CurrentBackBuffer]->m_View, m_ClearColor, 0, nullptr);
 		m_DBuffer->Clear(&cmdList, 1);
+
+
+		D3D12_CPU_DESCRIPTOR_HANDLE depthHandler = m_DBuffer->GetHandle();
+		DirectX12DepthTargetView depthView;
+		depthView.m_View = depthHandler;
+
+		DirectX12RenderTargetView* transferBuffer[MAX_SIM_RENDER_TARGETS];
+
+		transferBuffer[0] = m_RTV[m_CurrentBackBuffer].get();
+
+		context.GetStateManager().SetRenderTargets(transferBuffer, 1, depthView);
 
 	}
 

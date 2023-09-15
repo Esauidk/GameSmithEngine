@@ -210,7 +210,6 @@ public:
 		}
 
 		//ProjectGE::Renderer::BeginScene(m_Cam);
-		ProjectGE::Application::Get().GetWindow().GetRenderer()->AttachContextResources();
 
 		//m_State->Bind();
 		//m_Root->Bind();
