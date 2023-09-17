@@ -4,6 +4,7 @@
 
 #include "ProjectGE/Rendering/RenderAgnostics/BindableResources/GeometryPack.h"
 #include "ProjectGE/Rendering/RenderAgnostics/BindableResources/ConstantBuffer.h"
+#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/Texture.h"
 #include "ProjectGE/Rendering/RenderAgnostics/BindableResources/Shader.h"
 #include "ProjectGE/Rendering/RenderAgnostics/Shaders/ShaderUtil.h"
 #include "ProjectGE/Core/Core.h"
@@ -30,6 +31,9 @@ namespace ProjectGE {
 
 		virtual Ref<ConstantBuffer> CreateConstantBuffer(UINT size) = 0;
 		virtual void SetConstantBuffer(Ref<ConstantBuffer> cbuffer, Stages stage, ShaderConstantType constantType) = 0;
+
+		virtual Ref<Texture2D> CreateTexture2D(std::string& texturePath) = 0;
+
 
 		virtual void SetTopology(TopologyType& type) = 0;
 		virtual void SubmitRecording() = 0;

@@ -41,6 +41,10 @@ namespace ProjectGE {
 			s_RendererAPI->SetConstantBuffer(cbuffer, stage, constantType);
 		}
 
+		inline static Ref<Texture2D> CreateTexture2D(std::string texturePath) {
+			return s_RendererAPI->CreateTexture2D(texturePath);
+		}
+
 		inline static Ref<Shader> LoadShader(std::string path) {
 			return s_RendererAPI->LoadShader(path);
 		}

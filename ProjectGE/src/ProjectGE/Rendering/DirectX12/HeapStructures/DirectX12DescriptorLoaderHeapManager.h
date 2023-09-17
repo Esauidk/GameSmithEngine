@@ -2,7 +2,7 @@
 #include <gepch.h>
 #include <d3d12.h>
 
-#include "ProjectGE/Rendering/DirectX12/Util/DirectX12HeapDatabase.h"
+#include "ProjectGE/Rendering/DirectX12/HeapStructures/DirectX12HeapDatabase.h"
 #include "ProjectGE/Core/Core.h"
 
 namespace ProjectGE {

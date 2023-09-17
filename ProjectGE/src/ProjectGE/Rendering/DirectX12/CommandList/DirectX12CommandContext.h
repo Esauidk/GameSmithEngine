@@ -1,8 +1,8 @@
 #pragma once
 #include "gepch.h"
 #include "ProjectGE/Rendering/DirectX12/CommandList/DirectX12CommandQueue.h"
-#include "ProjectGE/Rendering/DirectX12/Util/DirectX12StateManager.h"
-#include "ProjectGE/Rendering/DirectX12/Util/DirectX12HeapDatabase.h"
+#include "ProjectGE/Rendering/DirectX12/State/DirectX12StateManager.h"
+#include "ProjectGE/Rendering/DirectX12/HeapStructures/DirectX12HeapDatabase.h"
 
 #include "ProjectGE/Core/Core.h"
 

@@ -1,8 +1,8 @@
 #pragma once
-#include "Util/third-party/d3dx12.h"
-#include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12RootSignature.h"
-#include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12Shader.h"
-#include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12TopologyResource.h"
+#include "ProjectGE/Rendering/DirectX12/Util/third-party/d3dx12.h"
+#include "ProjectGE/Rendering/DirectX12/RenderComponents/DirectX12RootSignature.h"
+#include "ProjectGE/Rendering/DirectX12/RenderComponents/DirectX12Shader.h"
+#include "ProjectGE/Rendering/DirectX12/Resources/DirectX12TopologyResource.h"
 
 using Microsoft::WRL::ComPtr;
 

@@ -2,14 +2,14 @@
 
 #include "imgui.h"
 
-#include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12Shader.h"
 #include "ProjectGE/Rendering/DirectX12/Util/DirectX12RootSignatureBuilder.h"
-#include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12RootSignature.h"
-#include "ProjectGE/Rendering/DirectX12/DirectX12PipelineState.h"
-#include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12InputLayout.h"
-#include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12TopologyResource.h"
+#include "ProjectGE/Rendering/DirectX12/RenderComponents/DirectX12RootSignature.h"
+#include "ProjectGE/Rendering/DirectX12/RenderComponents/DirectX12PipelineState.h"
+#include "ProjectGE/Rendering/DirectX12/RenderComponents/DirectX12InputLayout.h"
+#include "ProjectGE/Rendering/DirectX12/Resources/DirectX12TopologyResource.h"
 #include "ProjectGE/Rendering/DirectX12/DirectX12Core.h"
-#include "ProjectGE/Rendering/DirectX12/Resources/DirectX12ConstantBuffer.h"
+
+#include "ProjectGE/Rendering/DirectX12/RenderComponents/DirectX12Texture2D.h"
 
 #include "ProjectGE/Rendering/DirectX12/Util/DirectX12Util.h"
 #include "ProjectGE/Rendering/DirectX12/Util/DirectX12ShaderUtils.h"
@@ -30,7 +30,9 @@ public:
 		auto& core = ProjectGE::DirectX12Core::GetCore();
 		auto device = core.GetDevice();
 
-
+		/*ProjectGE::Ref<ProjectGE::Texture2D> tex2d = ProjectGE::RenderCommand::CreateTexture2D("download.png");
+		auto castTex2d = std::dynamic_pointer_cast<ProjectGE::DirectX12Texture2D>(tex2d);
+		castTex2d->GetDescriptor();*/
 
 
 

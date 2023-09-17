@@ -23,6 +23,8 @@ namespace ProjectGE {
 		virtual Ref<ConstantBuffer> CreateConstantBuffer(UINT size) override;
 		virtual void SetConstantBuffer(Ref<ConstantBuffer> cbuffer, Stages stage, ShaderConstantType constantType) override;
 
+		virtual Ref<Texture2D> CreateTexture2D(std::string& texturePath) override;
+
 		virtual void SetTopology(TopologyType& type) override;
 
 		virtual void SubmitRecording() override;

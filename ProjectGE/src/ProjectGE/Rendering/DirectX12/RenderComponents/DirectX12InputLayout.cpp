@@ -1,7 +1,6 @@
 #include "gepch.h"
 #include "DirectX12InputLayout.h"
 
-#include "ProjectGE/Rendering/DirectX12/DirectX12PipelineState.h"
 #include "ProjectGE/Core/Log.h"
 
 namespace ProjectGE {
@@ -46,8 +45,4 @@ namespace ProjectGE {
 		m_InputLayout = { m_Desc.get(), layout.GetElementCount() };
 	}
 
-	/*void DirectX12InputLayout::Append(PipelineStateObject& pipeline) {
-		auto& dPipeline = (DirectX12PipelineState&)pipeline;
-		dPipeline.Attach(m_InputLayout);
-	}*/
 };

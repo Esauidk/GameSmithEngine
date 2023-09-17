@@ -2,8 +2,7 @@
 #include "ProjectGE/Core/Log.h"
 #include "ProjectGE/Rendering/DirectX12/Util/third-party/d3dx12.h"
 #include "ProjectGE/Rendering/DirectX12/DirectX12Core.h"
-#include "ProjectGE/Rendering/DirectX12/Util/DirectX12BarrierTracker.h"
-#include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12Resource.h"
+#include "ProjectGE/Rendering/DirectX12/Resources/DirectX12Resource.h"
 
 
 namespace ProjectGE {
@@ -145,6 +144,7 @@ namespace ProjectGE {
 			m_Uploaded = true;
 		}
 
+		DirectX12Resource* GetResource() { return m_GpuBuffer.get(); }
 	private:
 		Ref<DirectX12Resource> m_GpuBuffer;
 		Ref<DirectX12Resource> m_CpuBuffer;

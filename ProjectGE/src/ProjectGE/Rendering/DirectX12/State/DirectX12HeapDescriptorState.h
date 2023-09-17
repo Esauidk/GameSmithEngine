@@ -1,7 +1,7 @@
 #pragma once
 #include "ProjectGE/Core/Core.h"
-#include "ProjectGE/Rendering/DirectX12/Util/DirectX12HeapDatabase.h"
-#include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12RootSignature.h"
+#include "ProjectGE/Rendering/DirectX12/HeapStructures/DirectX12HeapDatabase.h"
+#include "ProjectGE/Rendering/DirectX12/RenderComponents/DirectX12RootSignature.h"
 
 namespace ProjectGE {
 	struct SRVStorage;

@@ -1,5 +1,5 @@
 #pragma once
-#include "ProjectGE/Rendering/DirectX12/Util/DirectX12BarrierTracker.h"
+#include "ProjectGE/Rendering/DirectX12/Resources/Util/DirectX12BarrierTracker.h"
 #include <wrl.h>
 #include <d3d12.h>
 

@@ -1,6 +1,6 @@
 #pragma once
-#include "ProjectGE/Rendering/DirectX12/Util/DirectX12Buffer.h"
-#include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12InputLayout.h"
+#include "ProjectGE/Rendering/DirectX12/Resources/DirectX12Buffer.h"
+#include "ProjectGE/Rendering/DirectX12/RenderComponents/DirectX12InputLayout.h"
 
 #include "ProjectGE/Rendering/RenderAgnostics/BindableResources/VertexBuffer.h"
 

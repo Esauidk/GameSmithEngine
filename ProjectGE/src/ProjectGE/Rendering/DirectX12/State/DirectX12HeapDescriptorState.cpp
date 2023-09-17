@@ -6,7 +6,7 @@
 
 #include "ProjectGE/Core/Log.h"
 
-#include "ProjectGE/Rendering/DirectX12/Util/DirectX12StateManager.h"
+#include "ProjectGE/Rendering/DirectX12/State/DirectX12StateManager.h"
 
 namespace ProjectGE {
 	DirectX12HeapDescriptorState::DirectX12HeapDescriptorState(DirectX12QueueType cmdType)

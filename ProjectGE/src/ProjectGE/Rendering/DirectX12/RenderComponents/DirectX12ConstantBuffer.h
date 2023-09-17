@@ -1,6 +1,6 @@
 #pragma once
 #include "ProjectGE/Rendering/RenderAgnostics/BindableResources/ConstantBuffer.h"
-#include "ProjectGE/Rendering/DirectX12/Util/DirectX12Buffer.h"
+#include "ProjectGE/Rendering/DirectX12/Resources/DirectX12Buffer.h"
 #include "ProjectGE/Rendering/DirectX12/HeapStructures/DirectX12DescriptorLoaderHeapManager.h"
 
 

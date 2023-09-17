@@ -1,10 +1,12 @@
 #pragma once
 #include "ProjectGE/Core/Core.h"
 
-#include "ProjectGE/Rendering/BindableResource.h"
-
 namespace ProjectGE {
-	class Texture : public BindableResource
+	enum class TextureType {
+		Tex2D
+	};
+
+	class Texture
 	{
 	public:
 		virtual UINT GetWidth() const = 0;

@@ -83,6 +83,11 @@ namespace ProjectGE {
 		context.GetStateManager().SetCBV(stage, view, index);
 	}
 
+	Ref<Texture2D> DirectX12RendererAPI::CreateTexture2D(std::string& texturePath)
+	{
+		return std::make_shared<DirectX12Texture2D>(texturePath);
+	}
+
 	void DirectX12RendererAPI::SetTopology(TopologyType& type)
 	{
 		auto& context = m_Core.GetDirectCommandContext();

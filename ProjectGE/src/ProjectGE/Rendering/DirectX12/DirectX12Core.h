@@ -5,12 +5,16 @@
 
 #include "ProjectGE/Core/Core.h"
 #include "ProjectGE/Rendering/DirectX12/CommandList/DirectX12CommandContext.h"
-#include "ProjectGE/Rendering/DirectX12/Util/DirectX12HeapDatabase.h"
+#include "ProjectGE/Rendering/DirectX12/HeapStructures/DirectX12HeapDatabase.h"
 #include "ProjectGE/Rendering/DirectX12/HeapStructures/DirectX12DescriptorLoaderHeapManager.h"
 
 using Microsoft::WRL::ComPtr;
 
 namespace ProjectGE {
+
+	/**
+	* 
+	**/
 	class DirectX12Core {
 	public:
 		static DirectX12Core& CreateCore();

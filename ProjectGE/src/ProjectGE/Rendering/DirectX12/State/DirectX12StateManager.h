@@ -1,10 +1,10 @@
 #pragma once
 
 
-#include "ProjectGE/Rendering/DirectX12/DirectX12PipelineState.h"
-#include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12RootSignature.h"
-#include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12Views.h"
-#include "ProjectGE/Rendering/DirectX12/Util/DirectX12HeapDescriptorState.h"
+#include "ProjectGE/Rendering/DirectX12/RenderComponents/DirectX12PipelineState.h"
+#include "ProjectGE/Rendering/DirectX12/RenderComponents/DirectX12RootSignature.h"
+#include "ProjectGE/Rendering/DirectX12/Resources/DirectX12Views.h"
+#include "ProjectGE/Rendering/DirectX12/State/DirectX12HeapDescriptorState.h"
 #include "ProjectGE/Rendering/DirectX12/Util/DirectX12Macos.h"
 
 namespace ProjectGE {
