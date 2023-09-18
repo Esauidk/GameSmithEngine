@@ -1,6 +1,6 @@
 #pragma once
 #include "ProjectGE/Rendering/DirectX12/Resources/DirectX12Buffer.h"
-#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/IndexBuffer.h"
+#include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/IndexBuffer.h"
 
 namespace ProjectGE {
 	class DirectX12IndexBuffer :  public IndexBuffer {

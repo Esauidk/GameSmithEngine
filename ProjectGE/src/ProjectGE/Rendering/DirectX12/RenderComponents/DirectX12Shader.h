@@ -2,7 +2,7 @@
 #include "gepch.h"
 #include <wrl.h>
 #include <d3dcompiler.h>
-#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/Shader.h"
+#include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/Shader.h"
 
 using Microsoft::WRL::ComPtr;
 

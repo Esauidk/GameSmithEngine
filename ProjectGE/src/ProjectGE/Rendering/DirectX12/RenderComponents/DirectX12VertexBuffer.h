@@ -2,7 +2,7 @@
 #include "ProjectGE/Rendering/DirectX12/Resources/DirectX12Buffer.h"
 #include "ProjectGE/Rendering/DirectX12/RenderComponents/DirectX12InputLayout.h"
 
-#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/VertexBuffer.h"
+#include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/VertexBuffer.h"
 
 namespace ProjectGE {
 	class DirectX12VertexBuffer : public VertexBuffer {

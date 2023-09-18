@@ -198,25 +198,25 @@
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BasicStructs.h">
       <Filter>src\ProjectGE\Rendering\RenderAgnostics</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\ConstantBuffer.h">
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\ConstantBuffer.h">
       <Filter>src\ProjectGE\Rendering\RenderAgnostics\BindableResources</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\GeometryPack.h">
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\GeometryPack.h">
       <Filter>src\ProjectGE\Rendering\RenderAgnostics\BindableResources</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\IndexBuffer.h">
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\IndexBuffer.h">
       <Filter>src\ProjectGE\Rendering\RenderAgnostics\BindableResources</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\Shader.h">
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\Shader.h">
       <Filter>src\ProjectGE\Rendering\RenderAgnostics\BindableResources</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\Texture.h">
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\Texture.h">
       <Filter>src\ProjectGE\Rendering\RenderAgnostics\BindableResources</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\Topology.h">
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\Topology.h">
       <Filter>src\ProjectGE\Rendering\RenderAgnostics\BindableResources</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources\VertexBuffer.h">
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\VertexBuffer.h">
       <Filter>src\ProjectGE\Rendering\RenderAgnostics\BindableResources</Filter>
     </ClInclude>
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BufferLayout.h">

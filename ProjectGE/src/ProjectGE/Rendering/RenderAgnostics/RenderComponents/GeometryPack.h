@@ -2,9 +2,9 @@
 #include "ProjectGE/Core/Core.h"
 #include "ProjectGE/Rendering/BindableResource.h"
 
-#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/VertexBuffer.h"
-#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/IndexBuffer.h"
-#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/Topology.h"
+#include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/VertexBuffer.h"
+#include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/IndexBuffer.h"
+#include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/Topology.h"
 
 namespace ProjectGE {
 	// INTERFACE

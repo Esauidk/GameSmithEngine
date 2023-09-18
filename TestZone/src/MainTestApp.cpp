@@ -30,9 +30,9 @@ public:
 		auto& core = ProjectGE::DirectX12Core::GetCore();
 		auto device = core.GetDevice();
 
-		/*ProjectGE::Ref<ProjectGE::Texture2D> tex2d = ProjectGE::RenderCommand::CreateTexture2D("download.png");
+		ProjectGE::Ref<ProjectGE::Texture2D> tex2d = ProjectGE::RenderCommand::CreateTexture2D("download.png");
 		auto castTex2d = std::dynamic_pointer_cast<ProjectGE::DirectX12Texture2D>(tex2d);
-		castTex2d->GetDescriptor();*/
+		castTex2d->GetDescriptor();
 
 
 

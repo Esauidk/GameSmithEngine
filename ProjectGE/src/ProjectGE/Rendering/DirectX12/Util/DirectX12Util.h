@@ -1,7 +1,7 @@
 #pragma once
 
 #include <d3d12.h>
-#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/Topology.h"
+#include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/Topology.h"
 
 namespace ProjectGE {
 	inline static D3D12_PRIMITIVE_TOPOLOGY_TYPE TranslateTopType(TopologyType top) {

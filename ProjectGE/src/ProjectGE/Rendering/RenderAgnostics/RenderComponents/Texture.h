@@ -2,6 +2,13 @@
 #include "ProjectGE/Core/Core.h"
 
 namespace ProjectGE {
+	struct TextureMetadata {
+		UINT width;
+		UINT height;
+		UINT depth;
+		UINT channels;
+	};
+
 	enum class TextureType {
 		Tex2D
 	};

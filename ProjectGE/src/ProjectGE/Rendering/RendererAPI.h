@@ -2,10 +2,10 @@
 
 #include <glm/glm.hpp>
 
-#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/GeometryPack.h"
-#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/ConstantBuffer.h"
-#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/Texture.h"
-#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/Shader.h"
+#include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/GeometryPack.h"
+#include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/ConstantBuffer.h"
+#include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/Texture.h"
+#include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/Shader.h"
 #include "ProjectGE/Rendering/RenderAgnostics/Shaders/ShaderUtil.h"
 #include "ProjectGE/Core/Core.h"
 

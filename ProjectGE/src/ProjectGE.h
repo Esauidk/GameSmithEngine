@@ -16,12 +16,12 @@
 #include "ProjectGE/Rendering/Renderer.h"
 #include "ProjectGE/Rendering/RenderCommand.h"
 
-#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/VertexBuffer.h"
-#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/IndexBuffer.h"
-#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/ConstantBuffer.h"
-#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/Shader.h"
-#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/Topology.h"
-#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/GeometryPack.h"
+#include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/VertexBuffer.h"
+#include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/IndexBuffer.h"
+#include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/ConstantBuffer.h"
+#include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/Shader.h"
+#include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/Topology.h"
+#include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/GeometryPack.h"
 
 #include "ProjectGE/Rendering/RenderAgnostics/BasicStructs.h"
 // -------------------------------------
