@@ -7,3 +7,4 @@
 #include "ProjectGE/Rendering/DirectX12/RenderComponents/DirectX12ConstantBuffer.h"
 
 #include "ProjectGE/Rendering/DirectX12/RenderComponents/DirectX12Texture2D.h"
+#include "ProjectGE/Rendering/DirectX12/RenderComponents/DirectX12Sampler.h"

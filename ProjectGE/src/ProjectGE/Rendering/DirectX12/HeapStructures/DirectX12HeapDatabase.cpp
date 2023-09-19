@@ -13,6 +13,8 @@ namespace ProjectGE {
 			return D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
 		case DescriptorHeapType::ST:
 			return D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
+		case DescriptorHeapType::SAMPLER:
+			return D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER;
 		}
 
 		return D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;

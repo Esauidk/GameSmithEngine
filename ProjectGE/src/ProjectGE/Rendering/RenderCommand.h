@@ -45,6 +45,18 @@ namespace ProjectGE {
 			return s_RendererAPI->CreateTexture2D(texturePath);
 		}
 
+		inline static void SetTexture2D(Ref<Texture2D> tex, Stages stage) {
+			return s_RendererAPI->SetTexture2D(tex, stage);
+		}
+
+		inline static Ref<Sampler> CreateSampler(FilterType img, PaddingMethod padMode) {
+			return s_RendererAPI->CreateSampler(img, padMode);
+		}
+
+		inline static void SetSampler(Ref<Sampler> sampler, Stages stage) {
+			s_RendererAPI->SetSampler(sampler, stage);
+		}
+
 		inline static Ref<Shader> LoadShader(std::string path) {
 			return s_RendererAPI->LoadShader(path);
 		}

@@ -88,6 +88,27 @@ namespace ProjectGE {
 		return std::make_shared<DirectX12Texture2D>(texturePath);
 	}
 
+	void DirectX12RendererAPI::SetTexture2D(Ref<Texture2D> tex, Stages stage)
+	{
+		auto& context = m_Core.GetDirectCommandContext();
+		auto castTex2d = std::dynamic_pointer_cast<DirectX12Texture2D>(tex);
+		D3D12_CPU_DESCRIPTOR_HANDLE descriptor = castTex2d->GetDescriptor();
+
+		DirectX12ShaderResourceView view;
+		view.m_View = descriptor;
+
+		context.GetStateManager().SetSRV(stage, view, 0);
+	}
+
+	Ref<Sampler> DirectX12RendererAPI::CreateSampler(FilterType img, PaddingMethod padMode)
+	{
+		return std::make_shared<DirectX12Sampler>(img, padMode);
+	}
+
+	void DirectX12RendererAPI::SetSampler(Ref<Sampler> sampler, Stages stage)
+	{
+	}
+
 	void DirectX12RendererAPI::SetTopology(TopologyType& type)
 	{
 		auto& context = m_Core.GetDirectCommandContext();

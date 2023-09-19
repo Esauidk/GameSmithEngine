@@ -7,6 +7,7 @@ namespace ProjectGE {
 		UINT height;
 		UINT depth;
 		UINT channels;
+		UINT mips;
 	};
 
 	enum class TextureType {

@@ -151,6 +151,7 @@ namespace ProjectGE {
 		PipelineState.Basic.SRVStorage.Views[stage][index] = view;
 		PipelineState.Basic.SRVStorage.Dirty[stage] = true;
 
+		SRVStorage::SetSlotDirty(PipelineState.Basic.SRVStorage.Dirty[stage], index);
 		updateResources = true;
 	}
 

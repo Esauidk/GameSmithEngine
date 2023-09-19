@@ -143,9 +143,11 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12Sampler.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectCommandUtils.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\HeapStructures\DirectX12DescriptorLoaderHeapManager.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12TextureResource.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\Sampler.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\Shaders\ShaderParameter.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12ShaderUtils.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12Resource.h" />
@@ -636,6 +638,7 @@
     <ClInclude Include="third-party\stb\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12Sampler.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\HeapStructures\DirectX12DescriptorLoaderHeapManager.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12ShaderUtils.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12Resource.cpp" />

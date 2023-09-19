@@ -13,6 +13,7 @@ using Microsoft::WRL::ComPtr;
 namespace ProjectGE {
 	enum DescriptorHeapType {
 		CBVSRVUAV,
+		SAMPLER,
 		RT,
 		ST,
 		COUNT

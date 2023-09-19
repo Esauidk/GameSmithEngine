@@ -17,6 +17,7 @@ namespace ProjectGE {
 		m_Metadata.width = width;
 		m_Metadata.height = height;
 		m_Metadata.channels = channels;
+		m_Metadata.mips = 1;
 		m_Resource = std::make_unique<DirectX12TextureResource>((BYTE*)data, m_Metadata, TextureType::Tex2D);
 
 		stbi_image_free(data);
@@ -30,7 +31,7 @@ namespace ProjectGE {
 		desc.Format = DXGI_FORMAT_R32G32B32A32_FLOAT;
 		desc.ViewDimension = D3D12_SRV_DIMENSION_TEXTURE2D;
 		desc.Shader4ComponentMapping = D3D12_DEFAULT_SHADER_4_COMPONENT_MAPPING;
-		desc.Texture2D.MipLevels = 0;
+		desc.Texture2D.MipLevels = m_Metadata.mips;
 		desc.Texture2D.MostDetailedMip = 0;
 		desc.Texture2D.ResourceMinLODClamp = 0.0f;
 		desc.Texture2D.PlaneSlice = 0;

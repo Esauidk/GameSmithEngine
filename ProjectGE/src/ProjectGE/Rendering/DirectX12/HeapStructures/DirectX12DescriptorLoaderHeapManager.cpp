@@ -13,6 +13,8 @@ namespace ProjectGE {
 			return 256;
 		case DescriptorHeapType::ST:
 			return 256;
+		case DescriptorHeapType::SAMPLER:
+			return 64;
 		}
 
 		return 0;

@@ -1511,6 +1511,8 @@
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\HeapStructures\DirectX12DescriptorLoaderHeapManager.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectCommandUtils.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12TextureResource.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12Sampler.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\Sampler.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\Camera\Camera.cpp">
@@ -1614,6 +1616,7 @@
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12ShaderUtils.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\HeapStructures\DirectX12DescriptorLoaderHeapManager.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12TextureResource.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12Sampler.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\SamplePixelShader.hlsl" />
