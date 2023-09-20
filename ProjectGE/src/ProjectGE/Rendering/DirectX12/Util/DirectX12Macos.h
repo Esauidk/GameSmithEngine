@@ -13,3 +13,4 @@
 
 typedef uint8_t CBVSlotMask;
 typedef uint16_t SRVSlotMask;
+typedef uint8_t SamplerSlotMask;

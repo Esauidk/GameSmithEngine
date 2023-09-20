@@ -165,6 +165,10 @@ namespace ProjectGE {
 		updateResources = true;
 	}
 
+	void DirectX12StateManager::SetSampler(Stages stage, DirectX12SamplerView view, UINT index)
+	{
+	}
+
 	void DirectX12StateManager::SetRects(D3D12_RECT* rects, UINT count)
 	{
 		for (UINT i = 0; i < count; i++) {
@@ -249,8 +253,8 @@ namespace ProjectGE {
 				}
 			}
 
-			if (!m_HeapState.CanFit(numViews)) {
-				m_HeapState.Reallocate(numViews);
+			if (!m_HeapState.CanFitView(numViews)) {
+				m_HeapState.ReallocateViewHeap(numViews);
 				retryBinding = true;
 				numViews = 0;
 				continue;

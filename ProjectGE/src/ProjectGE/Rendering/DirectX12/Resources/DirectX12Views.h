@@ -17,6 +17,9 @@ namespace ProjectGE {
 		DXGI_FORMAT m_Format;
 	};
 
+	struct DirectX12SamplerView : public DirectX12View {
+	};
+
 	struct DirectX12DepthTargetView : public DirectX12View {
 	};
 

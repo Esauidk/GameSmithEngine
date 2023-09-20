@@ -14,6 +14,7 @@ namespace ProjectGE {
 		auto& heapDB = DirectX12Core::GetCore().GetHeapDatabase();
 		// TODO: Bring initial descriptor count back to 1 and implement descriptor transfering between previous and new heap
 		m_CurrentHeap = heapDB.AllocateHeap(4, DescriptorHeapType::CBVSRVUAV, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE);
+		m_CurrentSamplerHeap = heapDB.AllocateHeap(4, DescriptorHeapType::SAMPLER, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE);
 		m_HeapSize = 4;
 		m_CurrentFreeSlot = 0;
 		m_OriginSlot = 0;
@@ -128,13 +129,19 @@ namespace ProjectGE {
 		
 	}
 
-	bool DirectX12HeapDescriptorState::CanFit(UINT numDescriptors)
+	bool DirectX12HeapDescriptorState::CanFitView(UINT numDescriptors)
 	{
 		if (m_CurrentHeap == nullptr) {
 			return false;
 		}
 
 		return m_CurrentFreeSlot + numDescriptors <= m_HeapSize;
+	}
+
+	bool DirectX12HeapDescriptorState::CanFitSampler(UINT numDescriptors)
+	{
+		// TODO: Implement Logic
+		return false;
 	}
 
 	UINT DirectX12HeapDescriptorState::GetFreeSlots(UINT requiredDescritpors)
@@ -146,7 +153,7 @@ namespace ProjectGE {
 	}
 
 
-	void DirectX12HeapDescriptorState::Reallocate(UINT requiredDescriptors)
+	void DirectX12HeapDescriptorState::ReallocateViewHeap(UINT requiredDescriptors)
 	{
 		auto& core = DirectX12Core::GetCore();
 		auto& heapDB = core.GetHeapDatabase();
@@ -164,6 +171,11 @@ namespace ProjectGE {
 		core.GetDirectCommandContext().GetStateManager().NewDescriptorHeap();
 
 		AttachHeap();
+	}
+
+	void DirectX12HeapDescriptorState::ReallocateSamplerHeap(UINT requiredDescriptors)
+	{
+		// TODO: Implement Logic
 	}
 };
 

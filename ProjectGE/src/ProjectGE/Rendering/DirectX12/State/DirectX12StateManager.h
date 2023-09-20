@@ -45,6 +45,10 @@ namespace ProjectGE {
 		DirectX12ShaderResourceView Views[STAGE_NUM][MAX_SRV] = { NULL };
 	};
 
+	struct SamplerStorage : ViewStorage<SamplerSlotMask> {
+		DirectX12SamplerView Views[STAGE_NUM + 1][MAX_SAMPLER] = { NULL };
+	};
+
 	class DirectX12StateManager
 	{
 	public:
@@ -63,6 +67,7 @@ namespace ProjectGE {
 		void SetSRV(Stages stage, DirectX12ShaderResourceView view, UINT index);
 		void SetCBV(Stages stage, DirectX12ConstantBufferView view, UINT index);
 		//void SetUAV(Stages stage, D3D12_CPU_DESCRIPTOR_HANDLE* views, UINT viewCount);
+		void SetSampler(Stages stage, DirectX12SamplerView view, UINT index);
 
 		void SetRects(D3D12_RECT* rects, UINT count);
 		void SetViewports(D3D12_VIEWPORT* viewports, UINT count);

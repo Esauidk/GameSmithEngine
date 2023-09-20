@@ -15,12 +15,15 @@ namespace ProjectGE {
 		void SetSRV(Stages stage, DirectX12RootSignature& root, SRVStorage& descriptors, UINT numDescriptors, UINT& heapSlot);
 		void SetCBV(Stages stage, DirectX12RootSignature& root, CBVStorage& descriptors, UINT numDescriptors, UINT& heapSlot);
 		void SetUAV(Stages stage, DirectX12RootSignature& root,  D3D12_CPU_DESCRIPTOR_HANDLE* descriptors, UINT numDescriptors, UINT& heapSlot);
-		void Reallocate(UINT requiredDescriptors);
-		bool CanFit(UINT numDescriptors);
+		void ReallocateViewHeap(UINT requiredDescriptors);
+		void ReallocateSamplerHeap(UINT requiredDescriptors);
+		bool CanFitView(UINT numDescriptors);
+		bool CanFitSampler(UINT numDescriptors);
 		UINT GetFreeSlots(UINT requiredDescritpors);
 		
 	private:
 		Ref<DirectX12DescriptorHeap> m_CurrentHeap;
+		Ref<DirectX12DescriptorHeap> m_CurrentSamplerHeap;
 		UINT m_HeapSize;
 		UINT m_CurrentFreeSlot;
 		UINT m_OriginSlot;
