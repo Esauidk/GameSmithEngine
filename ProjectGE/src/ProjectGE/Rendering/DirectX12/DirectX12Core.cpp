@@ -69,6 +69,7 @@ namespace ProjectGE {
 
 		m_Defaults.EmptyCBV.m_View = m_DescriptorLoaders[DescriptorHeapType::CBVSRVUAV].AllocateSlot();
 		m_Defaults.EmptySRV.m_View = m_DescriptorLoaders[DescriptorHeapType::CBVSRVUAV].AllocateSlot();
+		m_Defaults.EmptySampler.m_View = m_DescriptorLoaders[DescriptorHeapType::SAMPLER].AllocateSlot();
 	}
 
 	DirectX12Core& DirectX12Core::GetCore() {

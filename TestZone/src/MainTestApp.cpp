@@ -31,6 +31,7 @@ public:
 		auto device = core.GetDevice();
 
 		auto sampler = ProjectGE::RenderCommand::CreateSampler(ProjectGE::FilterType::Linear, ProjectGE::PaddingMethod::Clamp);
+		ProjectGE::RenderCommand::SetSampler(sampler, ProjectGE::STAGE_PIXEL);
 		//ProjectGE::Ref<ProjectGE::Texture2D> tex2d = ProjectGE::RenderCommand::CreateTexture2D("download.png");
 		//ProjectGE::RenderCommand::SetTexture2D(tex2d, ProjectGE::STAGE_PIXEL);
 

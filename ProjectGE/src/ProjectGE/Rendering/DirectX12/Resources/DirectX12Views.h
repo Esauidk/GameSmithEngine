@@ -11,6 +11,7 @@ namespace ProjectGE {
 	struct DirectX12DefaultViews {
 		DirectX12View EmptyCBV;
 		DirectX12View EmptySRV;
+		DirectX12View EmptySampler;
 	};
 
 	struct DirectX12RenderTargetView : public DirectX12View {

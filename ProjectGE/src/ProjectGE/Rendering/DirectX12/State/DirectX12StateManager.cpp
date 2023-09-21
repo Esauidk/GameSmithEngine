@@ -63,7 +63,8 @@ namespace ProjectGE {
 		PipelineState.Basic.CBVStorage.SetDirtyAll();
 		PipelineState.Basic.SRVStorage.SetDirtyAll();
 		
-		m_HeapState.AttachHeap();
+		m_HeapState.AttachViewHeap();
+		m_HeapState.AttachSamplerHeap();
 	}
 
 	void DirectX12StateManager::NewDescriptorHeap()
@@ -79,6 +80,10 @@ namespace ProjectGE {
 
 		if (updateResources) {
 			SetResources(STAGE_VERTEX, STAGE_NUM);
+		}
+
+		if (updateSamplers) {
+			SetSamplers(STAGE_VERTEX, STAGE_NUM);
 		}
 
 		auto& core = DirectX12Core::GetCore();
@@ -149,7 +154,6 @@ namespace ProjectGE {
 	void DirectX12StateManager::SetSRV(Stages stage, DirectX12ShaderResourceView view, UINT index)
 	{
 		PipelineState.Basic.SRVStorage.Views[stage][index] = view;
-		PipelineState.Basic.SRVStorage.Dirty[stage] = true;
 
 		SRVStorage::SetSlotDirty(PipelineState.Basic.SRVStorage.Dirty[stage], index);
 		updateResources = true;
@@ -167,6 +171,10 @@ namespace ProjectGE {
 
 	void DirectX12StateManager::SetSampler(Stages stage, DirectX12SamplerView view, UINT index)
 	{
+		PipelineState.Basic.SamplerStorage.Views[stage][index] = view;
+
+		SamplerStorage::SetSlotDirty(PipelineState.Basic.SamplerStorage.Dirty[stage], index);
+		updateSamplers = true;
 	}
 
 	void DirectX12StateManager::SetRects(D3D12_RECT* rects, UINT count)
@@ -260,7 +268,7 @@ namespace ProjectGE {
 				continue;
 			}
 
-			heapSlot = m_HeapState.GetFreeSlots(numViews);
+			heapSlot = m_HeapState.GetFreeViewSlots(numViews);
 
 		}
 		
@@ -279,6 +287,55 @@ namespace ProjectGE {
 
 			if (cbvStorage.Dirty[cur]) {
 				m_HeapState.SetCBV(cur, root, cbvStorage, numCBV[cur], heapSlot);
+			}
+		}
+	}
+
+	void DirectX12StateManager::SetSamplers(Stages beginStage, Stages endStage)
+	{
+
+		UINT begin = (UINT)beginStage;
+		UINT end = (UINT)endStage;
+
+		GE_CORE_ASSERT(begin < end, "Invalid stage range");
+
+		UINT numSampler[Stages::STAGE_NUM];
+		UINT numSamplers = 0;
+		UINT heapSlot = 0;
+
+		DirectX12RootSignature& root = *(PipelineState.Graphics.CurPipelineData->m_Root.get());
+		bool retryBinding = true;
+
+		while (retryBinding) {
+			retryBinding = false;
+
+			for (UINT i = begin; i < end; i++) {
+				Stages cur = (Stages)i;
+
+				if (PipelineState.Basic.SamplerStorage.Dirty[cur]) {
+					numSampler[cur] = root.GetMaxSampler(cur);
+
+					numSamplers += numSampler[cur];
+				}
+			}
+
+			if (!m_HeapState.CanFitSampler(numSamplers)) {
+				m_HeapState.ReallocateSamplerHeap(numSamplers);
+				retryBinding = true;
+				numSamplers = 0;
+				continue;
+			}
+
+			heapSlot = m_HeapState.GetFreeSamplerSlots(numSamplers);
+
+		}
+
+		SamplerStorage& samplerStorage = PipelineState.Basic.SamplerStorage;
+		for (UINT i = begin; i < end; i++) {
+			Stages cur = (Stages)i;
+
+			if (samplerStorage.Dirty[cur]) {
+				m_HeapState.SetSampler(cur, root, samplerStorage, numSampler[cur], heapSlot);
 			}
 		}
 	}

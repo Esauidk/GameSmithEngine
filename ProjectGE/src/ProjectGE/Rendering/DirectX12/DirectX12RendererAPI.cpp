@@ -97,6 +97,7 @@ namespace ProjectGE {
 		DirectX12ShaderResourceView view;
 		view.m_View = descriptor;
 
+		// TODO: Define way to set the index
 		context.GetStateManager().SetSRV(stage, view, 0);
 	}
 
@@ -107,6 +108,16 @@ namespace ProjectGE {
 
 	void DirectX12RendererAPI::SetSampler(Ref<Sampler> sampler, Stages stage)
 	{
+		// TODO: Get Rid of Test code
+		auto& context = m_Core.GetDirectCommandContext();
+		auto castSampler = std::dynamic_pointer_cast<DirectX12Sampler>(sampler);
+		D3D12_CPU_DESCRIPTOR_HANDLE descriptor = castSampler->GetDescriptor();
+
+		DirectX12SamplerView view;
+		view.m_View = descriptor;
+
+		// TODO: Define way to set the index
+		context.GetStateManager().SetSampler(stage, view, 0);
 	}
 
 	void DirectX12RendererAPI::SetTopology(TopologyType& type)

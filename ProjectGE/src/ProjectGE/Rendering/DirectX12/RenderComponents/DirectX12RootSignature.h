@@ -54,7 +54,6 @@ namespace ProjectGE {
 		inline bool HasSamplers() { return m_HasSample; }
 		inline bool HasSRV() { return m_HasSRV; }
 		inline bool HasCBV() { return m_HasCBV; }
-		inline bool HasSample() {return m_HasSample;}
 		inline bool HasUAV() { return m_HasUAV; }
 
 		inline bool VSVisible() { return m_StageInfo[STAGE_VERTEX].visibleStage; }
@@ -84,6 +83,17 @@ namespace ProjectGE {
 				return m_RegisterSlotTable[PS_CBV];
 			default:
 				return m_RegisterSlotTable[ALL_CBV];
+			}
+		}
+
+		inline UINT GetSamplerSlot(Stages stage) {
+			switch (stage) {
+			case STAGE_VERTEX:
+				return m_RegisterSlotTable[VS_SAMPLE];
+			case STAGE_PIXEL:
+				return m_RegisterSlotTable[PS_SAMPLE];
+			default:
+				return m_RegisterSlotTable[ALL_SAMPLE];
 			}
 		}
 

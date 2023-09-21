@@ -75,6 +75,7 @@ namespace ProjectGE {
 		void LowLevelSetGraphicsPipelineState(Ref<DirectX12PipelineState> pipeline);
 		void LowLevelSetRootSignature(Ref<DirectX12RootSignature> root);
 		void SetResources(Stages beginStage, Stages endStage);
+		void SetSamplers(Stages beginStage, Stages endStage);
 
 		bool updateRootSignature = true;
 		bool updateRenderTargets = true;
@@ -84,6 +85,7 @@ namespace ProjectGE {
 		bool setViewports = true;
 		bool setRects = true;
 		bool updateResources = true;
+		bool updateSamplers = true;
 
 		struct {
 			struct {
@@ -115,6 +117,7 @@ namespace ProjectGE {
 			struct {
 				CBVStorage CBVStorage;
 				SRVStorage SRVStorage;
+				SamplerStorage SamplerStorage;
 				//ViewStorage UAVStorage;
 
 				Ref<DirectX12PipelineState> CurPipeline = nullptr;
