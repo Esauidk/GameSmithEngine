@@ -30,11 +30,6 @@ public:
 		auto& core = ProjectGE::DirectX12Core::GetCore();
 		auto device = core.GetDevice();
 
-		auto sampler = ProjectGE::RenderCommand::CreateSampler(ProjectGE::FilterType::Linear, ProjectGE::PaddingMethod::Clamp);
-		ProjectGE::RenderCommand::SetSampler(sampler, ProjectGE::STAGE_PIXEL);
-		//ProjectGE::Ref<ProjectGE::Texture2D> tex2d = ProjectGE::RenderCommand::CreateTexture2D("download.png");
-		//ProjectGE::RenderCommand::SetTexture2D(tex2d, ProjectGE::STAGE_PIXEL);
-
 
 
 		//m_TriTrans.SetPosition(glm::vec3(0, 1, 0));
@@ -145,6 +140,12 @@ public:
 		cBuff2 = ProjectGE::RenderCommand::CreateConstantBuffer(metadata.GetByteSize());
 		ProjectGE::RenderCommand::SetConstantBuffer(cBuff2, ProjectGE::STAGE_VERTEX, ProjectGE::ShaderConstantType::Instance);
 		ProjectGE::RenderCommand::SetConstantBuffer(cBuff2, ProjectGE::STAGE_PIXEL, ProjectGE::ShaderConstantType::Instance);
+
+		auto sampler = ProjectGE::RenderCommand::CreateSampler(ProjectGE::FilterType::Linear, ProjectGE::PaddingMethod::Clamp);
+		ProjectGE::RenderCommand::SetSampler(sampler, ProjectGE::STAGE_PIXEL);
+		//ProjectGE::Ref<ProjectGE::Texture2D> tex2d = ProjectGE::RenderCommand::CreateTexture2D("download.png");
+		//ProjectGE::RenderCommand::SetTexture2D(tex2d, ProjectGE::STAGE_PIXEL);
+
 
 		/* END: TEST CODE REMOVE */
 	}

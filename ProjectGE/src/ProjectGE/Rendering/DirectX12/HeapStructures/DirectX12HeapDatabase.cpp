@@ -59,17 +59,4 @@ namespace ProjectGE {
 		m_Reserve(true)
 	{
 	}
-
-	void DirectX12DescriptorHeap::AttachHeap(DirectX12QueueType cmdType)
-	{
-		auto& core = DirectX12Core::GetCore();
-		ID3D12DescriptorHeap* heaps[] = { m_CurrentHeap.Get() };
-
-
-		if (cmdType == DirectX12QueueType::Direct) {
-			core.GetDirectCommandContext().GetCommandList()->SetDescriptorHeaps(1, heaps);
-		}
-		// TODO: Add logic for compute context
-		
-	}
 };

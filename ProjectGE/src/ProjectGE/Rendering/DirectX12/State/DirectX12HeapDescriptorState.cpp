@@ -26,17 +26,19 @@ namespace ProjectGE {
 		m_CmdType = cmdType;
 	}
 
-	void DirectX12HeapDescriptorState::AttachViewHeap()
+	void DirectX12HeapDescriptorState::AttachHeap()
 	{
 		GE_CORE_ASSERT(m_CurrentViewHeap != nullptr, "There is no view heap current set in the heap descriptor state");
-		m_CurrentViewHeap->AttachHeap(m_CmdType);
-
-	}
-
-	void DirectX12HeapDescriptorState::AttachSamplerHeap()
-	{
 		GE_CORE_ASSERT(m_CurrentSamplerHeap != nullptr, "There is no sampler heap current set in the heap descriptor state");
-		m_CurrentSamplerHeap->AttachHeap(m_CmdType);
+
+		auto& core = DirectX12Core::GetCore();
+		ID3D12DescriptorHeap* heaps[] = { m_CurrentViewHeap->GetHeap(), m_CurrentSamplerHeap->GetHeap() };
+
+
+		if (m_CmdType == DirectX12QueueType::Direct) {
+			core.GetDirectCommandContext().GetCommandList()->SetDescriptorHeaps(2, heaps);
+		}
+
 	}
 
 	void DirectX12HeapDescriptorState::SetSRV(Stages stage, DirectX12RootSignature& root, SRVStorage& descriptors, UINT numDescriptors, UINT& heapSlot)
@@ -228,7 +230,7 @@ namespace ProjectGE {
 		// TODO: MAKE THIS WORK FOR MORE THAN JUST DIRECT CONTEXT
 		core.GetDirectCommandContext().GetStateManager().NewDescriptorHeap();
 
-		AttachViewHeap();
+		AttachHeap();
 	}
 
 	void DirectX12HeapDescriptorState::ReallocateSamplerHeap(UINT requiredDescriptors)
@@ -249,7 +251,7 @@ namespace ProjectGE {
 		// TODO: MAKE THIS WORK FOR MORE THAN JUST DIRECT CONTEXT
 		core.GetDirectCommandContext().GetStateManager().NewDescriptorHeap();
 
-		AttachViewHeap();
+		AttachHeap();
 	}
 };
 

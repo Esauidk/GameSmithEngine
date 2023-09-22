@@ -36,7 +36,7 @@ namespace ProjectGE {
 		inline D3D12_CPU_DESCRIPTOR_HANDLE GetCPUReference(UINT slot) { return CD3DX12_CPU_DESCRIPTOR_HANDLE(m_CpuStartPos, slot, m_UnitSize); }
 		inline D3D12_GPU_DESCRIPTOR_HANDLE GetGPUReference(UINT slot) { return CD3DX12_GPU_DESCRIPTOR_HANDLE(m_GpuStartPos, slot, m_UnitSize); }
 
-		void AttachHeap(DirectX12QueueType cmdType);
+		inline ID3D12DescriptorHeap* GetHeap() { return m_CurrentHeap.Get(); }
 		inline void Free() { m_Reserve = false; }
 
 		

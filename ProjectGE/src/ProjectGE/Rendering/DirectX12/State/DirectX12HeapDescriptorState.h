@@ -12,8 +12,7 @@ namespace ProjectGE {
 	{
 	public:
 		DirectX12HeapDescriptorState(DirectX12QueueType cmdType);
-		void AttachViewHeap();
-		void AttachSamplerHeap();
+		void AttachHeap();
 
 		void SetSRV(Stages stage, DirectX12RootSignature& root, SRVStorage& descriptors, UINT numDescriptors, UINT& heapSlot);
 		void SetCBV(Stages stage, DirectX12RootSignature& root, CBVStorage& descriptors, UINT numDescriptors, UINT& heapSlot);

@@ -62,15 +62,16 @@ namespace ProjectGE {
 
 		PipelineState.Basic.CBVStorage.SetDirtyAll();
 		PipelineState.Basic.SRVStorage.SetDirtyAll();
+		PipelineState.Basic.SamplerStorage.SetDirtyAll();
 		
-		m_HeapState.AttachViewHeap();
-		m_HeapState.AttachSamplerHeap();
+		m_HeapState.AttachHeap();
 	}
 
 	void DirectX12StateManager::NewDescriptorHeap()
 	{
 		PipelineState.Basic.CBVStorage.SetDirtyAll();
 		PipelineState.Basic.SRVStorage.SetDirtyAll();
+		PipelineState.Basic.SamplerStorage.SetDirtyAll();
 	}
 
 	void DirectX12StateManager::BindState()
@@ -252,12 +253,18 @@ namespace ProjectGE {
 
 					numViews += numSRV[cur];
 				}
+				else {
+					numSRV[cur] = 0;
+				}
 
 				if (PipelineState.Basic.CBVStorage.Dirty[cur]) {
 
 					numCBV[cur] = root.GetMaxCBV(cur);
 
 					numViews += numCBV[cur];
+				}
+				else {
+					numCBV[cur] = 0;
 				}
 			}
 
@@ -316,6 +323,9 @@ namespace ProjectGE {
 					numSampler[cur] = root.GetMaxSampler(cur);
 
 					numSamplers += numSampler[cur];
+				}
+				else {
+					numSampler[cur] = 0;
 				}
 			}
 
