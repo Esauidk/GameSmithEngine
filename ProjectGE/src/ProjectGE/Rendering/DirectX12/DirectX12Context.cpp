@@ -15,16 +15,6 @@ namespace ProjectGE {
 		// SWAP-CHAIN CREATION
 		/*********************************************/
 
-		ComPtr<IDXGIFactory5> dxgiFactory5;
-
-		UINT createFactoryFlags = 0;
-
-#if defined(GE_DEBUG)
-		createFactoryFlags = DXGI_CREATE_FACTORY_DEBUG;
-#endif
-		bool res = FAILED(CreateDXGIFactory2(createFactoryFlags, IID_PPV_ARGS(&dxgiFactory5)));
-		GE_CORE_ASSERT(!res, "Failed to create DirectX12 DXGI factory");
-
 		DXGI_SWAP_CHAIN_DESC1 swapChainDesc = {};
 
 		// Make them native size for now (potentially allow resolution changing in the future)
@@ -49,7 +39,10 @@ namespace ProjectGE {
 		swapChainDesc.AlphaMode = DXGI_ALPHA_MODE_UNSPECIFIED;
 
 		m_TearingSupport = FALSE;
-		if (FAILED(dxgiFactory5->CheckFeatureSupport(DXGI_FEATURE_PRESENT_ALLOW_TEARING,
+
+		IDXGIFactory5* factory = DirectX12Core::GetCore().GetFactory();
+
+		if (FAILED(factory->CheckFeatureSupport(DXGI_FEATURE_PRESENT_ALLOW_TEARING,
 			&m_TearingSupport,
 			sizeof(m_TearingSupport)))) {
 			m_TearingSupport = FALSE;
@@ -63,7 +56,7 @@ namespace ProjectGE {
 
 		ComPtr<IDXGISwapChain1> dxgiSwapChain1;
 		// Create OS tied Swap-Chain
-		res = FAILED(dxgiFactory5->CreateSwapChainForHwnd(
+		bool res = FAILED(factory->CreateSwapChainForHwnd(
 			core.GetDirectCommandContext().GetQueue().GetCommandQueue(),
 			m_Window,
 			&swapChainDesc,
@@ -74,7 +67,7 @@ namespace ProjectGE {
 		GE_CORE_ASSERT(!res, "Failed to create DirectX12 swap chain");
 
 		// Disables auto-fullscreen (Alt-Enter)
-		res = FAILED(dxgiFactory5->MakeWindowAssociation(m_Window, DXGI_MWA_NO_ALT_ENTER));
+		res = FAILED(factory->MakeWindowAssociation(m_Window, DXGI_MWA_NO_ALT_ENTER));
 		GE_CORE_ASSERT(!res, "Failed to diable auto-fullscreen");
 
 		// Upgrades swap chan to SwapChain4

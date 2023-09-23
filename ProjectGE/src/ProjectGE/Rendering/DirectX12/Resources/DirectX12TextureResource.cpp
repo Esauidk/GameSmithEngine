@@ -44,7 +44,7 @@ namespace ProjectGE {
 			
 			// TODO: Finish texture resource description
 			textureDesc = CD3DX12_RESOURCE_DESC::Tex2D(
-				DXGI_FORMAT_R32G32B32A32_FLOAT, 
+				DXGI_FORMAT_R8G8B8A8_UINT,
 				metadata.width, 
 				metadata.height,
 				metadata.channels

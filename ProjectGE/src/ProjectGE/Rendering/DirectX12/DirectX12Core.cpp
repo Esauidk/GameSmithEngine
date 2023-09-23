@@ -23,6 +23,16 @@ namespace ProjectGE {
 
 	DirectX12Core::DirectX12Core() {
 		bool res;
+
+		UINT createFactoryFlags = 0;
+
+#if defined(GE_DEBUG)
+		createFactoryFlags = DXGI_CREATE_FACTORY_DEBUG;
+#endif
+		res = FAILED(CreateDXGIFactory2(createFactoryFlags, IID_PPV_ARGS(&m_Factory)));
+		GE_CORE_ASSERT(!res, "Failed to create DirectX12 DXGI factory");
+
+
 		// Create the Debug Layer (Allows debuging on the device)
 #if defined(GE_DEBUG)
 		res = FAILED(D3D12GetDebugInterface(IID_PPV_ARGS(&m_Debug)));
@@ -36,6 +46,7 @@ namespace ProjectGE {
 		res = FAILED(D3D12CreateDevice(nullptr, D3D_FEATURE_LEVEL_12_0, IID_PPV_ARGS(&m_Device)));
 
 		GE_CORE_ASSERT(!res, "Failed to create DirectX12 device");
+
 
 
 #if defined(GE_DEBUG)
