@@ -47,7 +47,7 @@ namespace ProjectGE {
 				DXGI_FORMAT_R8G8B8A8_UINT,
 				metadata.width, 
 				metadata.height,
-				metadata.channels
+				1
 			);
 
 			uploadDesc = CD3DX12_RESOURCE_DESC::Buffer(metadata.width * metadata.height * metadata.channels);

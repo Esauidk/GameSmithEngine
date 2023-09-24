@@ -18,8 +18,6 @@ namespace ProjectGE {
 		m_Metadata.mips = 1;
 		m_Resource = std::make_unique<DirectX12TextureResource>((BYTE*)m_Image, m_Metadata, TextureType::Tex2D);
 
-		
-
 		m_TempDescriptor = DirectX12Core::GetCore().GetDescriptorLoader(CBVSRVUAV).AllocateSlot();
 	}
 

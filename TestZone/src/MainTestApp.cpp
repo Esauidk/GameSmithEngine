@@ -48,16 +48,14 @@ public:
 
 		//m_Root->FinalizeSignature();
 
-		TCHAR buffer[MAX_PATH] = { 0 };
-		GetModuleFileName(NULL, buffer, MAX_PATH);
-		std::wstring::size_type pos = std::wstring(buffer).find_last_of(L"\\/");
-		auto vertex = std::wstring(buffer).substr(0, pos).append(L"\\/SampleVertexShader.cso");
-		auto pixel = std::wstring(buffer).substr(0, pos).append(L"\\/SamplePixelShader.cso");
+		char buffer[MAX_PATH] = { 0 };
+		GetModuleFileNameA(NULL, buffer, MAX_PATH);
+		std::wstring::size_type pos = std::string(buffer).find_last_of("\\");
+		auto vertex = std::string(buffer).substr(0, pos).append("\\SampleVertexShader.cso");
+		auto pixel = std::string(buffer).substr(0, pos).append("\\SamplePixelShader.cso");
 
-		std::string nvertex = std::string(vertex.begin(), vertex.end());
-		std::string npixel = std::string(pixel.begin(), pixel.end());
-		m_VShader = ProjectGE::RenderCommand::LoadShader(nvertex);
-		m_PShader = ProjectGE::RenderCommand::LoadShader(npixel);
+		m_VShader = ProjectGE::RenderCommand::LoadShader(vertex);
+		m_PShader = ProjectGE::RenderCommand::LoadShader(pixel);
 
 
 		ProjectGE::Vertex triVertex[] = {
@@ -141,10 +139,12 @@ public:
 		ProjectGE::RenderCommand::SetConstantBuffer(cBuff2, ProjectGE::STAGE_VERTEX, ProjectGE::ShaderConstantType::Instance);
 		ProjectGE::RenderCommand::SetConstantBuffer(cBuff2, ProjectGE::STAGE_PIXEL, ProjectGE::ShaderConstantType::Instance);
 
-		auto sampler = ProjectGE::RenderCommand::CreateSampler(ProjectGE::FilterType::Linear, ProjectGE::PaddingMethod::Clamp);
-		ProjectGE::RenderCommand::SetSampler(sampler, ProjectGE::STAGE_PIXEL);
-		//ProjectGE::Ref<ProjectGE::Texture2D> tex2d = ProjectGE::RenderCommand::CreateTexture2D("download.png");
-		//ProjectGE::RenderCommand::SetTexture2D(tex2d, ProjectGE::STAGE_PIXEL);
+		m_Sampler = ProjectGE::RenderCommand::CreateSampler(ProjectGE::FilterType::Linear, ProjectGE::PaddingMethod::Clamp);
+		ProjectGE::RenderCommand::SetSampler(m_Sampler, ProjectGE::STAGE_PIXEL);
+
+		auto texture = std::string(buffer).substr(0, pos).append("\\download.png");
+		m_Tex2d = ProjectGE::RenderCommand::CreateTexture2D(texture);
+		ProjectGE::RenderCommand::SetTexture2D(m_Tex2d, ProjectGE::STAGE_PIXEL);
 
 
 		/* END: TEST CODE REMOVE */
@@ -252,6 +252,9 @@ private:
 	//ProjectGE::Ref<ProjectGE::ShaderArguementDefiner> m_Root;
 	ProjectGE::Ref<ProjectGE::Shader> m_VShader;
 	ProjectGE::Ref<ProjectGE::Shader> m_PShader;
+
+	ProjectGE::Ref<ProjectGE::Sampler> m_Sampler;
+	ProjectGE::Ref<ProjectGE::Texture2D> m_Tex2d;
 	//ProjectGE::Ref<ProjectGE::GeometryPack> m_TriPack;
 	Transform m_TriTrans;
 	//ProjectGE::Ref<ProjectGE::GeometryPack> m_SquarePack;

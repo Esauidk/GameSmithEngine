@@ -53,7 +53,6 @@ namespace ProjectGE {
 		heapSlot += numDescriptors;
 
 		SRVSlotMask& curMask = descriptors.Dirty[stage];
-		D3D12_CPU_DESCRIPTOR_HANDLE dstDescriptors = m_CurrentViewHeap->GetCPUReference(freeSlot);
 		DirectX12ShaderResourceView* srcDescriptors = descriptors.Views[stage];
 		
 		for (UINT i = 0; i < numDescriptors; i++) {
