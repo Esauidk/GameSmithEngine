@@ -24,7 +24,7 @@ namespace ProjectGE {
 
 		D3D12_SUBRESOURCE_DATA dataDesc = {};
 		dataDesc.pData = reinterpret_cast<BYTE*>(data);
-		dataDesc.RowPitch = m_Metadata.width;
+		dataDesc.RowPitch = m_Metadata.width * m_Metadata.channels;
 		dataDesc.SlicePitch = m_Metadata.width * m_Metadata.height * m_Metadata.channels;
 
 		UpdateSubresources((&pCommandList), m_GpuBuffer->GetResource(), m_CpuBuffer->GetResource(), 0, 0, 1, &dataDesc);
@@ -33,24 +33,30 @@ namespace ProjectGE {
 		m_Uploaded = true;
 	}
 
+	void DirectX12TextureResource::SetUploadGPUBlock()
+	{
+		if (m_Uploaded) {
+			auto& core = DirectX12Core::GetCore();
+			core.InitializeQueueWait(DirectX12QueueType::Copy, DirectX12QueueType::Direct, m_UploadSignal);
+			m_Uploaded = false;
+		}
+	}
+
 	void DirectX12TextureResource::InitializeBuffers(TextureMetadata metadata, TextureType type)
 	{
 		CD3DX12_HEAP_PROPERTIES defaultHeapProperties(D3D12_HEAP_TYPE_DEFAULT);
 		CD3DX12_HEAP_PROPERTIES uploadHeapProperties(D3D12_HEAP_TYPE_UPLOAD);
 		CD3DX12_RESOURCE_DESC textureDesc;
-		CD3DX12_RESOURCE_DESC uploadDesc;
 		switch (type) {
 		case TextureType::Tex2D:
 			
 			// TODO: Finish texture resource description
 			textureDesc = CD3DX12_RESOURCE_DESC::Tex2D(
-				DXGI_FORMAT_R8G8B8A8_UINT,
+				DXGI_FORMAT_R8G8B8A8_UNORM,
 				metadata.width, 
 				metadata.height,
 				1
 			);
-
-			uploadDesc = CD3DX12_RESOURCE_DESC::Buffer(metadata.width * metadata.height * metadata.channels);
 			break;
 		}
 
@@ -74,10 +80,12 @@ namespace ProjectGE {
 		std::wstring nameConvert = L"Texture Resource";
 		gpuBuffer->SetName(nameConvert.c_str());
 
+		UINT64 interSize = GetRequiredIntermediateSize(gpuBuffer.Get(), 0, 1) + D3D12_DEFAULT_RESOURCE_PLACEMENT_ALIGNMENT;
+		CD3DX12_RESOURCE_DESC bufferDesc = CD3DX12_RESOURCE_DESC::Buffer(interSize);
 		res = FAILED(pDevice->CreateCommittedResource(
 			&uploadHeapProperties,
 			D3D12_HEAP_FLAG_NONE,
-			&uploadDesc,
+			&bufferDesc,
 			D3D12_RESOURCE_STATE_GENERIC_READ,
 			nullptr,
 			IID_PPV_ARGS(&cpuBuffer)

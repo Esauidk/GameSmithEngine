@@ -15,7 +15,10 @@ namespace ProjectGE {
 		UINT GetWidth() const override { return m_Metadata.width; };
 		UINT GetHeight() const override { return m_Metadata.height; };
 
+		void GenerateShaderResourceView();
 		D3D12_CPU_DESCRIPTOR_HANDLE GetDescriptor();
+
+		void Test();
 	private:
 		Scope<DirectX12TextureResource> m_Resource;
 		stbi_uc* m_Image;

@@ -71,7 +71,7 @@ public:
 			{{-0.75f,  0.75f, 0.0f}, {0, 1}}
 		};
 
-		vBuff = ProjectGE::RenderCommand::CreateVertexBuffer((BYTE*)&triVertex, sizeof(ProjectGE::Vertex), _countof(triVertex));
+		vBuff = ProjectGE::RenderCommand::CreateVertexBuffer((BYTE*)&squareVertex, sizeof(ProjectGE::Vertex), _countof(squareVertex));
 
 		ProjectGE::BufferLayoutBuilder layout = { {"POSITION", ProjectGE::ShaderDataType::Float3}, {"UV_TEXCOORD", ProjectGE::ShaderDataType::Float2} };
 
@@ -119,7 +119,7 @@ public:
 			2,1,0,0,3,2
 		};
 
-		iBuff = ProjectGE::RenderCommand::CreateIndexBuffer((unsigned short*)&indexCount, 3);
+		iBuff = ProjectGE::RenderCommand::CreateIndexBuffer((unsigned short*)&squareIndex, _countof(squareIndex));
 
 		ProjectGE::RenderCommand::SetVertexBuffer(vBuff);
 		ProjectGE::RenderCommand::SetIndexBuffer(iBuff);
@@ -139,7 +139,7 @@ public:
 		ProjectGE::RenderCommand::SetConstantBuffer(cBuff2, ProjectGE::STAGE_VERTEX, ProjectGE::ShaderConstantType::Instance);
 		ProjectGE::RenderCommand::SetConstantBuffer(cBuff2, ProjectGE::STAGE_PIXEL, ProjectGE::ShaderConstantType::Instance);
 
-		m_Sampler = ProjectGE::RenderCommand::CreateSampler(ProjectGE::FilterType::Linear, ProjectGE::PaddingMethod::Clamp);
+		m_Sampler = ProjectGE::RenderCommand::CreateSampler(ProjectGE::FilterType::Point, ProjectGE::PaddingMethod::Clamp);
 		ProjectGE::RenderCommand::SetSampler(m_Sampler, ProjectGE::STAGE_PIXEL);
 
 		auto texture = std::string(buffer).substr(0, pos).append("\\download.png");
@@ -234,6 +234,8 @@ public:
 		test.model = tri;
 		test.color = { 1, 0, 1 };
 		cBuff2->UpdateData((BYTE*)&test, sizeof(instanceData));
+
+		//std::dynamic_pointer_cast<ProjectGE::DirectX12Texture2D>(m_Tex2d)->Test();
 
 		ProjectGE::RenderCommand::DrawIndexed(iBuff->GetCount(), 1);
 		ProjectGE::RenderCommand::SubmitRecording();

@@ -11,6 +11,10 @@ namespace ProjectGE {
 		DirectX12TextureResource(BYTE* data, TextureMetadata metadata, TextureType type);
 		DirectX12TextureResource(TextureMetadata metadata, TextureType type);
 		void UpdateData(BYTE* data);
+
+		void SetUploadGPUBlock();
+		DirectX12BarrierTracker& GetStateTracker() { return m_GpuBuffer->GetResourceStateTracker(); }
+
 		ID3D12Resource* GetResource() { return m_GpuBuffer->GetResource(); }
 	private:
 		void InitializeBuffers(TextureMetadata metadata, TextureType type);

@@ -15,5 +15,6 @@ SamplerState samp : register(s0);
 
 float4 main(VertexShaderOutput input) : SV_TARGET
 {
-    return sampleImg.Sample(samp, input.UV);
+    float4 finalColor = sampleImg.Sample(samp, input.UV);
+    return finalColor;
 }
