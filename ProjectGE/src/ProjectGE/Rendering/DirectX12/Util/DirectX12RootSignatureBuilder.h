@@ -1,8 +1,7 @@
 #pragma once
 #include "gepch.h"
 #include "ProjectGE/Rendering/DirectX12/Util/third-party/d3dx12.h"
-
-#include "DirectX12Macos.h"
+#include "ProjectGE/Rendering/DirectX12/Util/DirectX12Macos.h"
 
 namespace ProjectGE {
 	enum class RootParameterVisibility {
@@ -56,6 +55,8 @@ namespace ProjectGE {
 			return D3D12_DESCRIPTOR_RANGE_FLAG_DATA_VOLATILE | D3D12_DESCRIPTOR_RANGE_FLAG_DESCRIPTORS_VOLATILE;
 		case DescriptorRangeType::Sampler:
 			return D3D12_DESCRIPTOR_RANGE_FLAG_DESCRIPTORS_VOLATILE;
+		default:
+			return D3D12_DESCRIPTOR_RANGE_FLAG_DATA_STATIC_WHILE_SET_AT_EXECUTE | D3D12_DESCRIPTOR_RANGE_FLAG_DESCRIPTORS_VOLATILE;
 		}
 	}
 

@@ -1,16 +1,13 @@
 #pragma once
 
 #include "gepch.h"
+#include "ProjectGE/Rendering/RendererContext.h"
+#include "ProjectGE/Rendering/DirectX12/DirectX12DepthBuffer.h"
+#include "ProjectGE/Rendering/DirectX12/Resources/DirectX12Views.h"
 #include <d3d12.h>
 #include <dxgi1_6.h>
 #include <wrl.h>
-#include "ProjectGE/Rendering/RendererContext.h"
-#include "DirectX12DepthBuffer.h"
-
 #include "ProjectGE/Core/Core.h"
-
-#include "ProjectGE/Rendering/DirectX12/Resources/DirectX12Views.h"
-
 
 using Microsoft::WRL::ComPtr;
 

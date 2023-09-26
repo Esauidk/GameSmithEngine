@@ -62,7 +62,7 @@ namespace ProjectGE {
 		inline UINT GetMaxSRV(Stages stage) { return m_StageInfo[stage].maxSRV; }
 		inline UINT GetMaxCBV(Stages stage) { return m_StageInfo[stage].maxCBV; }
 		inline UINT GetMaxSampler(Stages stage) { return m_StageInfo[stage].maxSample; }
-		inline UINT GetMaxUAV(Stages stage) { return m_StageInfo[STAGE_NUM].maxUAV; }
+		inline UINT GetMaxUAV(Stages stage) { return m_StageInfo[stage].maxUAV; }
 
 		inline UINT GetSRVSlot(Stages stage) {
 			switch (stage) {
@@ -213,8 +213,8 @@ namespace ProjectGE {
 	private:
 		D3D12_FEATURE_DATA_ROOT_SIGNATURE m_RootSigFeat;
 		ComPtr<ID3D12RootSignature> m_Root;
-		Microsoft::WRL::ComPtr<ID3DBlob> m_RootSigBlob;
-		Microsoft::WRL::ComPtr<ID3DBlob> m_ErrorBlob;
+		ComPtr<ID3DBlob> m_RootSigBlob;
+		ComPtr<ID3DBlob> m_ErrorBlob;
 
 		UINT m_RegisterSlotTable[COUNT_ENUM];
 		StageMetadata m_StageInfo[STAGE_NUM];

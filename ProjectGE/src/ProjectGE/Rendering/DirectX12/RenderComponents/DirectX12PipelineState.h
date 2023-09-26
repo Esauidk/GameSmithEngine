@@ -3,6 +3,7 @@
 #include "ProjectGE/Rendering/DirectX12/RenderComponents/DirectX12RootSignature.h"
 #include "ProjectGE/Rendering/DirectX12/RenderComponents/DirectX12Shader.h"
 #include "ProjectGE/Rendering/DirectX12/Resources/DirectX12TopologyResource.h"
+#include "ProjectGE/Core/Core.h"
 
 using Microsoft::WRL::ComPtr;
 
@@ -28,7 +29,6 @@ namespace ProjectGE {
 		DirectX12PipelineState() = default;
 		void Create(DirectX12PipelineArgs& args);
 		inline ID3D12PipelineState* GetPipelineState() { return m_PipelineState.Get(); }
-		//void Bind() override;
 	private:
 		ComPtr<ID3D12PipelineState> m_PipelineState;
 	};

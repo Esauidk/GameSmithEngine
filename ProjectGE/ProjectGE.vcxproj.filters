@@ -222,9 +222,6 @@
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BufferLayout.h">
       <Filter>src\ProjectGE\Rendering\RenderAgnostics</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\PipelineDefiner.h">
-      <Filter>src\ProjectGE\Rendering\RenderAgnostics</Filter>
-    </ClInclude>
     <ClInclude Include="src\ProjectGE\Rendering\RenderCommand.h">
       <Filter>src\ProjectGE\Rendering</Filter>
     </ClInclude>

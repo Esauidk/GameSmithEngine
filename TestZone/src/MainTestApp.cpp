@@ -65,10 +65,10 @@ public:
 		};
 
 		ProjectGE::Vertex squareVertex[] = {
-			{{-0.75f, -0.75f, 0.0f}, {0, 0}},
-			{{0.75f, -0.75f, 0.0f}, {1, 0}},
-			{{0.75f,  0.75f, 0.0f},{1, 1}},
-			{{-0.75f,  0.75f, 0.0f}, {0, 1}}
+			{{-0.75f, -0.75f, 0.0f}, {0, 1}},
+			{{0.75f, -0.75f, 0.0f}, {1, 1}},
+			{{0.75f,  0.75f, 0.0f},{1, 0}},
+			{{-0.75f,  0.75f, 0.0f}, {0, 0}}
 		};
 
 		vBuff = ProjectGE::RenderCommand::CreateVertexBuffer((BYTE*)&squareVertex, sizeof(ProjectGE::Vertex), _countof(squareVertex));
@@ -142,7 +142,7 @@ public:
 		m_Sampler = ProjectGE::RenderCommand::CreateSampler(ProjectGE::FilterType::Point, ProjectGE::PaddingMethod::Clamp);
 		ProjectGE::RenderCommand::SetSampler(m_Sampler, ProjectGE::STAGE_PIXEL);
 
-		auto texture = std::string(buffer).substr(0, pos).append("\\download.png");
+		auto texture = std::string(buffer).substr(0, pos).append("\\test2.png");
 		m_Tex2d = ProjectGE::RenderCommand::CreateTexture2D(texture);
 		ProjectGE::RenderCommand::SetTexture2D(m_Tex2d, ProjectGE::STAGE_PIXEL);
 

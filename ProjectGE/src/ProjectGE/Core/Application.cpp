@@ -11,7 +11,7 @@ namespace ProjectGE {
 		GE_CORE_ASSERT(!s_Instance, "Application already exists");
 		s_Instance = this;
 
-		m_Timer = std::make_unique<Timer>();
+		m_Timer = Scope<Timer>(new Timer());
 
 		ProjectGE::WindowProps props;
 

@@ -13,6 +13,8 @@ namespace ProjectGE {
 		case STAGE_PIXEL:
 			return PS_MODEL;
 		}
+
+		return VS_MODEL;
 	}
 
 	ComPtr<ID3DBlob> CompileShaderForDX12(std::string rawCode, std::string entryFunction, Stages stage, std::string destFile)

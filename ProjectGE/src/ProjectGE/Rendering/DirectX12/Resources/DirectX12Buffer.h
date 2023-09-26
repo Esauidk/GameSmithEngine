@@ -60,8 +60,8 @@ namespace ProjectGE {
 
 			m_UploadSignal = copyContext.FinalizeCommandList();
 
-			m_GpuBuffer = std::make_shared<DirectX12Resource>(gpuBuffer.Get(), D3D12_RESOURCE_STATE_COPY_DEST);
-			m_CpuBuffer = std::make_shared<DirectX12Resource>(cpuBuffer.Get(), D3D12_RESOURCE_STATE_GENERIC_READ);
+			m_GpuBuffer = Ref<DirectX12Resource>(new DirectX12Resource(gpuBuffer.Get(), D3D12_RESOURCE_STATE_COPY_DEST));
+			m_CpuBuffer = Ref<DirectX12Resource>(new DirectX12Resource(cpuBuffer.Get(), D3D12_RESOURCE_STATE_GENERIC_READ));
 		}
 
 		DirectX12Buffer(UINT count, std::string bufferName = "Personal Buffer") : m_BufferSize(sizeof(T)* count), m_Uploaded(false) {
@@ -104,8 +104,8 @@ namespace ProjectGE {
 			GE_CORE_ASSERT(!res, "Failed to create CPU Buffer {0}", bufferName);
 			cpuBuffer->SetName(nameConvert.c_str());
 
-			m_GpuBuffer = std::make_shared<DirectX12Resource>(gpuBuffer.Get(), D3D12_RESOURCE_STATE_COPY_DEST);
-			m_CpuBuffer = std::make_shared<DirectX12Resource>(cpuBuffer.Get(), D3D12_RESOURCE_STATE_GENERIC_READ);
+			m_GpuBuffer = Ref<DirectX12Resource>(new DirectX12Resource(gpuBuffer.Get(), D3D12_RESOURCE_STATE_COPY_DEST));
+			m_CpuBuffer = Ref<DirectX12Resource>(new DirectX12Resource(cpuBuffer.Get(), D3D12_RESOURCE_STATE_GENERIC_READ));
 		}
 
 		D3D12_GPU_VIRTUAL_ADDRESS GetGPUReference() {

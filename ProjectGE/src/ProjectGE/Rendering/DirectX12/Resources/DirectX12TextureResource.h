@@ -1,5 +1,4 @@
 #pragma once
-
 #include "ProjectGE/Core/Core.h"
 #include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/Texture.h"
 #include "ProjectGE/Rendering/DirectX12/Resources/DirectX12Resource.h"

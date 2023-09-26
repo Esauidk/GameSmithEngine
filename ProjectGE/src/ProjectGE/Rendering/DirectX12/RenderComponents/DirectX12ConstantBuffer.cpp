@@ -62,14 +62,14 @@ namespace ProjectGE {
 		DirectX12Core::GetCore().GetDevice()->CreateConstantBufferView(&desc, m_TempDescriptor);
 	}
 
-	DirectX12ConstantBuffer::DirectX12ConstantBuffer(BYTE* data, UINT size) : m_Buffer(std::make_unique<DirectX12Buffer<BYTE>>(data, AllignSize(size), "Constant Buffer"))
+	DirectX12ConstantBuffer::DirectX12ConstantBuffer(BYTE* data, UINT size) : m_Buffer(Scope<DirectX12Buffer<BYTE>>(new DirectX12Buffer<BYTE>(data, AllignSize(size), "Constant Buffer")))
 	{
 		m_GPUAdd = m_Buffer->GetGPUReference();
 		m_TempDescriptor = DirectX12Core::GetCore().GetDescriptorLoader(CBVSRVUAV).AllocateSlot();
 		GenerateConstantBuffView();
 	}
 
-	DirectX12ConstantBuffer::DirectX12ConstantBuffer(UINT size) : m_Buffer(std::make_unique<DirectX12Buffer<BYTE>>(AllignSize(size), "Constant Buffer"))
+	DirectX12ConstantBuffer::DirectX12ConstantBuffer(UINT size) : m_Buffer(Scope<DirectX12Buffer<BYTE>>(new DirectX12Buffer<BYTE>(AllignSize(size), "Constant Buffer")))
 	{
 		m_GPUAdd = m_Buffer->GetGPUReference();
 		m_TempDescriptor = DirectX12Core::GetCore().GetDescriptorLoader(CBVSRVUAV).AllocateSlot();

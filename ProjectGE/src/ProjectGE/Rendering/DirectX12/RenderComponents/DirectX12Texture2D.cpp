@@ -9,23 +9,19 @@ namespace ProjectGE {
 	DirectX12Texture2D::DirectX12Texture2D(const std::string& path) : m_Path(path)
 	{
 		int width, height, channels;
-		m_Image = stbi_load(path.c_str(), &width, &height, &channels, 0);
-		GE_CORE_ASSERT(m_Image != nullptr, "Failed to load image");
+		stbi_uc* image = stbi_load(path.c_str(), &width, &height, &channels, 0);
+		GE_CORE_ASSERT(image != nullptr, "Failed to load image");
 
 		m_Metadata.width = width;
 		m_Metadata.height = height;
 		m_Metadata.channels = channels;
 		m_Metadata.mips = 1;
-		m_Resource = std::make_unique<DirectX12TextureResource>((BYTE*)m_Image, m_Metadata, TextureType::Tex2D);
+		m_Resource = Scope<DirectX12TextureResource>(new DirectX12TextureResource((BYTE*)image, m_Metadata, TextureType::Tex2D));
 
 		m_TempDescriptor = DirectX12Core::GetCore().GetDescriptorLoader(CBVSRVUAV).AllocateSlot();
 
 		GenerateShaderResourceView();
-	}
-
-	DirectX12Texture2D::~DirectX12Texture2D()
-	{
-		stbi_image_free(m_Image);
+		stbi_image_free(image);
 	}
 
 	void DirectX12Texture2D::GenerateShaderResourceView()
@@ -51,22 +47,5 @@ namespace ProjectGE {
 
 		return m_TempDescriptor;
 	}
-
-	void DirectX12Texture2D::Test()
-	{
-		D3D12_RESOURCE_STATES originalState = m_Resource->GetStateTracker().GetState();
-		if (originalState != D3D12_RESOURCE_STATE_COPY_DEST) {
-			m_Resource->GetStateTracker().TransitionBarrier(D3D12_RESOURCE_STATE_COPY_DEST);
-		}
-
-		m_Resource->UpdateData((BYTE*)m_Image);
-
-		if (m_Resource->GetStateTracker().GetState() != originalState) {
-			m_Resource->SetUploadGPUBlock();
-			m_Resource->GetStateTracker().TransitionBarrier(originalState);
-		}
-	}
-
-
 };
 

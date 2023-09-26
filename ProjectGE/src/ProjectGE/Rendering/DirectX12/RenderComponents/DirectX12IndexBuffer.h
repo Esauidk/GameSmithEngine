@@ -3,7 +3,7 @@
 #include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/IndexBuffer.h"
 
 namespace ProjectGE {
-	class DirectX12IndexBuffer :  public IndexBuffer {
+	class DirectX12IndexBuffer : public IndexBuffer {
 	public:
 		DirectX12IndexBuffer() = default;
 

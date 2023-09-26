@@ -2,7 +2,6 @@
 #include "DirectX12TextureResource.h"
 #include "ProjectGE/Rendering/DirectX12/Util/third-party/d3dx12.h"
 #include "ProjectGE/Rendering/DirectX12/DirectX12Core.h"
-
 #include "ProjectGE/Core/Log.h"
 
 namespace ProjectGE {
@@ -95,8 +94,8 @@ namespace ProjectGE {
 		GE_CORE_ASSERT(!res, "Failed to create CPU Buffer {0}");
 		cpuBuffer->SetName(nameConvert.c_str());
 
-		m_GpuBuffer = std::make_shared<DirectX12Resource>(gpuBuffer.Get(), D3D12_RESOURCE_STATE_COPY_DEST);
-		m_CpuBuffer = std::make_shared<DirectX12Resource>(cpuBuffer.Get(), D3D12_RESOURCE_STATE_GENERIC_READ);
+		m_GpuBuffer = Ref<DirectX12Resource>(new DirectX12Resource(gpuBuffer.Get(), D3D12_RESOURCE_STATE_COPY_DEST));
+		m_CpuBuffer = Ref<DirectX12Resource>(new DirectX12Resource(cpuBuffer.Get(), D3D12_RESOURCE_STATE_GENERIC_READ));
 	}
 };
 

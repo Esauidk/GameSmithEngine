@@ -1,13 +1,13 @@
 #pragma once
+#include "ProjectGE/Rendering/DirectX12/CommandList/DirectX12CommandContext.h"
+#include "ProjectGE/Rendering/DirectX12/HeapStructures/DirectX12HeapDatabase.h"
+#include "ProjectGE/Rendering/DirectX12/HeapStructures/DirectX12DescriptorLoaderHeapManager.h"
+#include "ProjectGE/Core/Core.h"
 
 #include <wrl.h>
 #include <d3d12.h>
 #include <dxgi1_6.h>
 
-#include "ProjectGE/Core/Core.h"
-#include "ProjectGE/Rendering/DirectX12/CommandList/DirectX12CommandContext.h"
-#include "ProjectGE/Rendering/DirectX12/HeapStructures/DirectX12HeapDatabase.h"
-#include "ProjectGE/Rendering/DirectX12/HeapStructures/DirectX12DescriptorLoaderHeapManager.h"
 
 using Microsoft::WRL::ComPtr;
 

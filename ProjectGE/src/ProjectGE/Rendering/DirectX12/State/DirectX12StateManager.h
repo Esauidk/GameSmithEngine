@@ -1,6 +1,4 @@
 #pragma once
-
-
 #include "ProjectGE/Rendering/DirectX12/RenderComponents/DirectX12PipelineState.h"
 #include "ProjectGE/Rendering/DirectX12/RenderComponents/DirectX12RootSignature.h"
 #include "ProjectGE/Rendering/DirectX12/Resources/DirectX12Views.h"

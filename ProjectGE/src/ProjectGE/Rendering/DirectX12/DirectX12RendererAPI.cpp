@@ -9,6 +9,7 @@ namespace ProjectGE {
 	void DirectX12RendererAPI::SetClearColor(const glm::vec4& color)
 	{
 	}
+
 	void DirectX12RendererAPI::Clear()
 	{
 	}
@@ -27,43 +28,44 @@ namespace ProjectGE {
 
 	Ref<VertexBuffer> DirectX12RendererAPI::CreateVertexBuffer(BYTE* data, int vertexByteSize, int vertexCount)
 	{
-		return std::make_shared<DirectX12VertexBuffer>(data, vertexByteSize, vertexCount);
+		return Ref<VertexBuffer>(new DirectX12VertexBuffer(data, vertexByteSize, vertexCount));
 	}
 
 	void DirectX12RendererAPI::SetVertexBuffer(Ref<VertexBuffer> vbuffer)
 	{
 		auto& context = m_Core.GetDirectCommandContext();
-		auto dx12Buf = std::dynamic_pointer_cast<DirectX12VertexBuffer>(vbuffer);
+		auto dx12Buf = CastPtr<DirectX12VertexBuffer>(vbuffer);
 		D3D12_VERTEX_BUFFER_VIEW view = dx12Buf->GenerateView();
 		context.GetStateManager().SetVBV(view);
 	}
 
 	Ref<IndexBuffer> DirectX12RendererAPI::CreateIndexBuffer(unsigned short* data, unsigned int indexCount)
 	{
-		return std::make_shared<DirectX12IndexBuffer>(data, indexCount);
+		return Ref<IndexBuffer>(new DirectX12IndexBuffer(data, indexCount));
 	}
 
 	void DirectX12RendererAPI::SetIndexBuffer(Ref<IndexBuffer> ibuffer)
 	{
 		auto& context = m_Core.GetDirectCommandContext();
-		auto dx12Buf = std::dynamic_pointer_cast<DirectX12IndexBuffer>(ibuffer);
+		auto dx12Buf = CastPtr<DirectX12IndexBuffer>(ibuffer);
 		D3D12_INDEX_BUFFER_VIEW view = dx12Buf->GenerateView();
 		context.GetStateManager().SetIBV(view);
 	}
+
 	Ref<Shader> DirectX12RendererAPI::LoadShader(std::string path)
 	{
-		return std::make_shared<DirectX12Shader>(path);
+		return Ref<Shader>(new DirectX12Shader(path));
 	}
 
 	Ref<ConstantBuffer> DirectX12RendererAPI::CreateConstantBuffer(UINT size)
 	{
-		return std::make_shared<DirectX12ConstantBuffer>(size);
+		return Ref<ConstantBuffer>(new DirectX12ConstantBuffer(size));
 	}
 
 	void DirectX12RendererAPI::SetConstantBuffer(Ref<ConstantBuffer> cbuffer, Stages stage, ShaderConstantType constantType)
 	{
 		auto& context = m_Core.GetDirectCommandContext();
-		auto dx12Buf = std::dynamic_pointer_cast<DirectX12ConstantBuffer>(cbuffer);
+		auto dx12Buf = CastPtr<DirectX12ConstantBuffer>(cbuffer);
 		D3D12_GPU_VIRTUAL_ADDRESS add = dx12Buf->GetGPUReference();
 		D3D12_CPU_DESCRIPTOR_HANDLE descriptor = dx12Buf->GetDescriptor();
 
@@ -85,13 +87,13 @@ namespace ProjectGE {
 
 	Ref<Texture2D> DirectX12RendererAPI::CreateTexture2D(std::string& texturePath)
 	{
-		return std::make_shared<DirectX12Texture2D>(texturePath);
+		return Ref<Texture2D>(new DirectX12Texture2D(texturePath));
 	}
 
 	void DirectX12RendererAPI::SetTexture2D(Ref<Texture2D> tex, Stages stage)
 	{
 		auto& context = m_Core.GetDirectCommandContext();
-		auto castTex2d = std::dynamic_pointer_cast<DirectX12Texture2D>(tex);
+		auto castTex2d = CastPtr<DirectX12Texture2D>(tex);
 		D3D12_CPU_DESCRIPTOR_HANDLE descriptor = castTex2d->GetDescriptor();
 
 		DirectX12ShaderResourceView view;
@@ -103,14 +105,14 @@ namespace ProjectGE {
 
 	Ref<Sampler> DirectX12RendererAPI::CreateSampler(FilterType img, PaddingMethod padMode)
 	{
-		return std::make_shared<DirectX12Sampler>(img, padMode);
+		return Ref<Sampler>(new DirectX12Sampler(img, padMode));
 	}
 
 	void DirectX12RendererAPI::SetSampler(Ref<Sampler> sampler, Stages stage)
 	{
 		// TODO: Get Rid of Test code
 		auto& context = m_Core.GetDirectCommandContext();
-		auto castSampler = std::dynamic_pointer_cast<DirectX12Sampler>(sampler);
+		auto castSampler = CastPtr<DirectX12Sampler>(sampler);
 		D3D12_CPU_DESCRIPTOR_HANDLE descriptor = castSampler->GetDescriptor();
 
 		DirectX12SamplerView view;

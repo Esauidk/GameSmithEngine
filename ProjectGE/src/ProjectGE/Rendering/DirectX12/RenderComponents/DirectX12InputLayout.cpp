@@ -5,7 +5,7 @@
 
 namespace ProjectGE {
 	DirectX12InputLayout::DirectX12InputLayout(const BufferLayoutBuilder& layout) {
-		m_Desc = std::make_unique<D3D12_INPUT_ELEMENT_DESC[]>(layout.GetElementCount());
+		m_Desc = Scope<D3D12_INPUT_ELEMENT_DESC[]>(new D3D12_INPUT_ELEMENT_DESC[layout.GetElementCount()]);
 		UINT index = 0;
 		for (const auto& element : layout) {
 			switch (element.Type) {

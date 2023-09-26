@@ -1,5 +1,4 @@
 #pragma once
-#include "ProjectGE/Core/Core.h"
 
 namespace ProjectGE {
 	struct TextureMetadata {
@@ -22,8 +21,6 @@ namespace ProjectGE {
 	};
 
 	class Texture2D : public Texture {
-	public:
-		static Ref<Texture2D> Create(const std::string& path);
 	};
 };
 

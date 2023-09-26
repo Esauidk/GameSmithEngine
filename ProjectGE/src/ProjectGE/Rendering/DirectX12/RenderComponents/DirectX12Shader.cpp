@@ -14,13 +14,5 @@ namespace ProjectGE {
 		GE_CORE_ASSERT(!res, "Failed to read shader file");
 	}
 
-	DirectX12Shader::DirectX12Shader(ComPtr<ID3DBlob> loadedByteCode) : m_Blob(loadedByteCode)
-	{
-	}
-
-	void DirectX12Shader::Bind()
-	{
-		
-	}
-	
+	DirectX12Shader::DirectX12Shader(ComPtr<ID3DBlob> loadedByteCode) : m_Blob(loadedByteCode){}
 };

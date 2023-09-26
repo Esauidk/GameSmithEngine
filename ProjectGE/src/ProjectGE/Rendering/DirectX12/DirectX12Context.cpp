@@ -80,7 +80,7 @@ namespace ProjectGE {
 		auto& descriptorLoader = core.GetDescriptorLoader(RT);
 		// Assign target views to buffers and their place in the heap
 		for (int i = 0; i < m_BufferCount; i++) {
-			m_RTV[i] = std::make_shared<DirectX12RenderTargetView>();
+			m_RTV[i] =Ref<DirectX12RenderTargetView>(new DirectX12RenderTargetView());
 
 			res = FAILED(m_SwapChain->GetBuffer(i, IID_PPV_ARGS(&buffer)));
 			GE_CORE_ASSERT(!res, "Failed to create DirectX12 render target buffer");
@@ -89,7 +89,7 @@ namespace ProjectGE {
 			device->CreateRenderTargetView(buffer.Get(), nullptr, m_RTV[i]->m_View);
 		}
 
-		m_DBuffer = std::make_unique<DirectX12DepthBuffer>(device, m_Width, m_Height);
+		m_DBuffer = Scope<DirectX12DepthBuffer>(new DirectX12DepthBuffer(device, m_Width, m_Height));
 
 		InitializeBackBuffer();
 

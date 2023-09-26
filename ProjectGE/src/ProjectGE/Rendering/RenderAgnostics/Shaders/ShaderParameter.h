@@ -33,6 +33,8 @@ namespace ProjectGE {
 			return sizeof(int) * 2;
 		case ShaderDataType::Int3:
 			return sizeof(int) * 3;
+		default:
+			return 0;
 		}
 	}
 

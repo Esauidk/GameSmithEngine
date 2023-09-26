@@ -1,6 +1,5 @@
 #include "gepch.h"
 #include "DirectX12Sampler.h"
-
 #include "ProjectGE/Rendering/DirectX12/DirectX12Core.h"
 
 namespace ProjectGE {

@@ -10,18 +10,14 @@ namespace ProjectGE {
 	{
 	public :
 		DirectX12Texture2D(const std::string& path);
-		~DirectX12Texture2D();
 
 		UINT GetWidth() const override { return m_Metadata.width; };
 		UINT GetHeight() const override { return m_Metadata.height; };
 
 		void GenerateShaderResourceView();
 		D3D12_CPU_DESCRIPTOR_HANDLE GetDescriptor();
-
-		void Test();
 	private:
 		Scope<DirectX12TextureResource> m_Resource;
-		stbi_uc* m_Image;
 		std::string m_Path;
 		TextureMetadata m_Metadata;
 		DirectX12LoaderDescriptor m_TempDescriptor;

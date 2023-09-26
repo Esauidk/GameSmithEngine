@@ -1,5 +1,4 @@
 #pragma once
-#include "ProjectGE/Core/Core.h"
 
 namespace ProjectGE {
 	// INTERFACE
@@ -8,8 +7,6 @@ namespace ProjectGE {
 	class IndexBuffer
 	{
 	public:
-		// Instantiates an implementation of the IndexBuffer Interface (recommended to use this instead of instantiating a specific implementation)
-		static Ref<IndexBuffer> Create(void* verticies, UINT count);
 		// Gets the number of indexes in the buffer
 		virtual UINT GetCount() = 0;
 	};

@@ -13,7 +13,6 @@ namespace ProjectGE {
 		DirectX12Shader(const std::string path);
 		DirectX12Shader(ComPtr<ID3DBlob> loadedByteCode);
 		inline ID3DBlob* ByteCode() const { return m_Blob.Get(); }
-		void Bind() override;
 	private:
 		ComPtr<ID3DBlob> m_Blob;
 	};

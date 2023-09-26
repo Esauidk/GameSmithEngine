@@ -15,9 +15,9 @@ namespace ProjectGE {
 	}
 	void Renderer::Submit(Ref<GeometryPack> geopack, Ref<Shader> shader, glm::mat4& objectTransform)
 	{
-		shader->Bind();
+		//shader->Bind();
 
-		geopack->Bind();
+		//geopack->Bind();
 		//RenderCommand::DrawIndexed(geopack);
 	}
 };
