@@ -1,19 +1,8 @@
 #pragma once
 
-namespace ProjectGE {
-	enum class ShaderDataType {
-		None = 0,
-		Float,
-		Float2,
-		Float3,
-		Float4,
-		Int,
-		Int2,
-		Int3,
-		Int4,
-		Bool
-	};
+#include "ProjectGE/Rendering/RenderAgnostics/Shaders/ShaderParameter.h"
 
+namespace ProjectGE {
 	// A definition that can be used to define a piece or all of vertex data
 	struct BufferElement {
 		std::string SemanticName;

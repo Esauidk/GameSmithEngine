@@ -3,6 +3,7 @@
 #include "ProjectGE/Core/Log.h"
 
 #include "ProjectGE/Rendering/DirectX12/DirectX12Core.h"
+#include "ProjectGE/Rendering/DirectX12/Resources/DirectX12Views.h"
 
 namespace ProjectGE {
 
@@ -13,16 +14,6 @@ namespace ProjectGE {
 		/**********************************************/
 		// SWAP-CHAIN CREATION
 		/*********************************************/
-
-		ComPtr<IDXGIFactory5> dxgiFactory5;
-
-		UINT createFactoryFlags = 0;
-
-#if defined(GE_DEBUG)
-		createFactoryFlags = DXGI_CREATE_FACTORY_DEBUG;
-#endif
-		bool res = FAILED(CreateDXGIFactory2(createFactoryFlags, IID_PPV_ARGS(&dxgiFactory5)));
-		GE_CORE_ASSERT(!res, "Failed to create DirectX12 DXGI factory");
 
 		DXGI_SWAP_CHAIN_DESC1 swapChainDesc = {};
 
@@ -48,7 +39,10 @@ namespace ProjectGE {
 		swapChainDesc.AlphaMode = DXGI_ALPHA_MODE_UNSPECIFIED;
 
 		m_TearingSupport = FALSE;
-		if (FAILED(dxgiFactory5->CheckFeatureSupport(DXGI_FEATURE_PRESENT_ALLOW_TEARING,
+
+		IDXGIFactory5* factory = DirectX12Core::GetCore().GetFactory();
+
+		if (FAILED(factory->CheckFeatureSupport(DXGI_FEATURE_PRESENT_ALLOW_TEARING,
 			&m_TearingSupport,
 			sizeof(m_TearingSupport)))) {
 			m_TearingSupport = FALSE;
@@ -62,8 +56,8 @@ namespace ProjectGE {
 
 		ComPtr<IDXGISwapChain1> dxgiSwapChain1;
 		// Create OS tied Swap-Chain
-		res = FAILED(dxgiFactory5->CreateSwapChainForHwnd(
-			core.GetDirectCommandContext()->GetQueue().GetCommandQueue(),
+		bool res = FAILED(factory->CreateSwapChainForHwnd(
+			core.GetDirectCommandContext().GetQueue().GetCommandQueue(),
 			m_Window,
 			&swapChainDesc,
 			nullptr,
@@ -73,40 +67,38 @@ namespace ProjectGE {
 		GE_CORE_ASSERT(!res, "Failed to create DirectX12 swap chain");
 
 		// Disables auto-fullscreen (Alt-Enter)
-		res = FAILED(dxgiFactory5->MakeWindowAssociation(m_Window, DXGI_MWA_NO_ALT_ENTER));
+		res = FAILED(factory->MakeWindowAssociation(m_Window, DXGI_MWA_NO_ALT_ENTER));
 		GE_CORE_ASSERT(!res, "Failed to diable auto-fullscreen");
 
 		// Upgrades swap chan to SwapChain4
 		res = FAILED(dxgiSwapChain1.As(&m_SwapChain));
 		GE_CORE_ASSERT(!res, "Failed to cast DirectX12 swap chain");
 
-		// Describe a heap of descriptors (Need one for each back buffer since they will have their own target render views)
-		D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc = {};
-		rtvHeapDesc.NumDescriptors = 2;
-		rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
-
-		res = FAILED(device->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(&m_RTVHeapD)));
-		GE_CORE_ASSERT(!res, "Failed to create DirectX12 render target");
-
-
-		UINT rtvSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-
 		// Gets descriptor for render target view
-		CD3DX12_CPU_DESCRIPTOR_HANDLE targetHandler = CD3DX12_CPU_DESCRIPTOR_HANDLE(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart());
 		Microsoft::WRL::ComPtr<ID3D12Resource2> buffer;
 
+		auto& descriptorLoader = core.GetDescriptorLoader(RT);
 		// Assign target views to buffers and their place in the heap
 		for (int i = 0; i < m_BufferCount; i++) {
+			m_RTV[i] =Ref<DirectX12RenderTargetView>(new DirectX12RenderTargetView());
+
 			res = FAILED(m_SwapChain->GetBuffer(i, IID_PPV_ARGS(&buffer)));
 			GE_CORE_ASSERT(!res, "Failed to create DirectX12 render target buffer");
-			device->CreateRenderTargetView(buffer.Get(), nullptr, targetHandler);
-			targetHandler.Offset(rtvSize);
+			m_RTV[i]->m_View = descriptorLoader.AllocateSlot();
+			m_RTV[i]->m_Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+			device->CreateRenderTargetView(buffer.Get(), nullptr, m_RTV[i]->m_View);
 		}
 
-		m_DBuffer = std::make_unique<DirectX12DepthBuffer>(device, m_Width, m_Height);
+		m_DBuffer = Scope<DirectX12DepthBuffer>(new DirectX12DepthBuffer(device, m_Width, m_Height));
 
 		InitializeBackBuffer();
 
+		auto rect = CD3DX12_RECT(0, 0, m_Width, m_Height);
+		auto viewport = CD3DX12_VIEWPORT(0.0f, 0.0f, (FLOAT)m_Width, (FLOAT)m_Height);
+		auto& state = core.GetDirectCommandContext().GetStateManager();
+
+		state.SetRects(&rect, 1);
+		state.SetViewports(&viewport, 1);
 		
 	}
 
@@ -118,13 +110,13 @@ namespace ProjectGE {
 		);
 
 		auto& core = DirectX12Core::GetCore();
-		auto context = core.GetDirectCommandContext();
-		auto& list = context->GetCommandList();
+		auto& context = core.GetDirectCommandContext();
+		auto& list = context.GetCommandList();
 		// Add command to transition the render target
 		list->ResourceBarrier(1, &barrier);
 
 		
-		UINT val = context->FinalizeCommandList();
+		UINT val = context.FinalizeCommandList();
 		core.InitializeCPUQueueWait(DirectX12QueueType::Direct);
 
 		bool res;
@@ -146,9 +138,9 @@ namespace ProjectGE {
 
 		auto& core = DirectX12Core::GetCore();
 		auto device = core.GetDevice();
-		auto context = core.GetDirectCommandContext();
-		context->FinalizeCommandList();
-		context->GetQueue().Flush();
+		auto& context = core.GetDirectCommandContext();
+		context.FinalizeCommandList();
+		context.GetQueue().Flush();
 		m_BackBuffer.Reset();
 
 		DXGI_SWAP_CHAIN_DESC1 swapChainDesc = {};
@@ -158,20 +150,21 @@ namespace ProjectGE {
 		res = FAILED(m_SwapChain->ResizeBuffers(swapChainDesc.BufferCount, m_Width, m_Height, swapChainDesc.Format, swapChainDesc.Flags));
 		GE_CORE_ASSERT(!res, "Failed to resize DirectX12 swap chain buffers");
 
-		CD3DX12_CPU_DESCRIPTOR_HANDLE rtv(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart());
-		UINT rtvSize = device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV);
-
 		for (int i = 0; i < m_BufferCount; i++) {
 			res = FAILED(m_SwapChain->GetBuffer(i, IID_PPV_ARGS(&m_BackBuffer)));
 			GE_CORE_ASSERT(!res, "Failed to create DirectX12 render target buffer");
-			device->CreateRenderTargetView(m_BackBuffer.Get(), nullptr, rtv);
-			rtv.Offset(rtvSize);
+			device->CreateRenderTargetView(m_BackBuffer.Get(), nullptr, m_RTV[i]->m_View);
 		}
 
 		m_DBuffer->Resize(device, m_Width, m_Height);
 
-		// NOTE: THIS MIGHT CAUSE A BUG. If there is an active commandlist in the command queue when resizing, dx12 will complain
-		//s_DirectContext->StartCommandList();
+		auto rect = CD3DX12_RECT(0, 0, m_Width, m_Height);
+		auto viewport = CD3DX12_VIEWPORT(0.0f, 0.0f, (FLOAT)m_Width, (FLOAT)m_Height);
+		auto& state = core.GetDirectCommandContext().GetStateManager();
+
+		state.SetRects(&rect, 1);
+		state.SetViewports(&viewport, 1);
+
 		InitializeBackBuffer();
 	}
 
@@ -190,19 +183,6 @@ namespace ProjectGE {
 
 	void DirectX12Context::AttachContextResources()
 	{
-		auto& core = DirectX12Core::GetCore();
-		auto device = core.GetDevice();
-		auto context = core.GetDirectCommandContext();
-		auto& cmdList = context->GetCommandList();
-
-		auto rect = CD3DX12_RECT(0, 0, m_Width, m_Height);
-		auto viewport = CD3DX12_VIEWPORT(0.0f, 0.0f, (FLOAT)m_Width, (FLOAT)m_Height);
-		cmdList->RSSetScissorRects(1, &rect);
-		cmdList->RSSetViewports(1, &viewport);
-
-		D3D12_CPU_DESCRIPTOR_HANDLE depthHandler = m_DBuffer->GetHandle();
-		CD3DX12_CPU_DESCRIPTOR_HANDLE rtv(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart(), m_SwapChain->GetCurrentBackBufferIndex(), device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
-		cmdList->OMSetRenderTargets(1, &rtv, FALSE, &depthHandler);
 	}
 
 
@@ -210,10 +190,12 @@ namespace ProjectGE {
 	{
 		auto& core = DirectX12Core::GetCore();
 		auto device = core.GetDevice();
-		auto context = core.GetDirectCommandContext();
-		auto& cmdList = context->GetCommandList();
+		auto& context = core.GetDirectCommandContext();
+		auto& cmdList = context.GetCommandList();
 
-		bool res = FAILED(m_SwapChain->GetBuffer(m_SwapChain->GetCurrentBackBufferIndex(), IID_PPV_ARGS(&m_BackBuffer)));
+		m_CurrentBackBuffer = m_SwapChain->GetCurrentBackBufferIndex();
+
+		bool res = FAILED(m_SwapChain->GetBuffer(m_CurrentBackBuffer, IID_PPV_ARGS(&m_BackBuffer)));
 		GE_CORE_ASSERT(!res, "Failed to reacquire DirectX12 back buffer");
 
 		CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
@@ -221,10 +203,20 @@ namespace ProjectGE {
 			D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_RENDER_TARGET
 		);
 		// Add command to transition the render target
-		cmdList->ResourceBarrier(1, &barrier);
-		CD3DX12_CPU_DESCRIPTOR_HANDLE rtv(m_RTVHeapD->GetCPUDescriptorHandleForHeapStart(), m_SwapChain->GetCurrentBackBufferIndex(), device->GetDescriptorHandleIncrementSize(D3D12_DESCRIPTOR_HEAP_TYPE_RTV));
-		cmdList->ClearRenderTargetView(rtv, m_ClearColor, 0, nullptr);
+		cmdList->ResourceBarrier(1, &barrier);;
+		cmdList->ClearRenderTargetView(m_RTV[m_CurrentBackBuffer]->m_View, m_ClearColor, 0, nullptr);
 		m_DBuffer->Clear(&cmdList, 1);
+
+
+		D3D12_CPU_DESCRIPTOR_HANDLE depthHandler = m_DBuffer->GetHandle();
+		DirectX12DepthTargetView depthView;
+		depthView.m_View = depthHandler;
+
+		DirectX12RenderTargetView* transferBuffer[MAX_SIM_RENDER_TARGETS];
+
+		transferBuffer[0] = m_RTV[m_CurrentBackBuffer].get();
+
+		context.GetStateManager().SetRenderTargets(transferBuffer, 1, depthView);
 
 	}
 

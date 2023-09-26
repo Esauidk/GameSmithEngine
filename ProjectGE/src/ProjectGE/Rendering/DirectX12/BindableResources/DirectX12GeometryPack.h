@@ -1,5 +1,5 @@
 #pragma once
-#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/GeometryPack.h"
+#include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/GeometryPack.h"
 
 #include "ProjectGE/Core/Core.h"
 

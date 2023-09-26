@@ -11,12 +11,11 @@ namespace ProjectGE {
 		GE_CORE_ASSERT(!s_Instance, "Application already exists");
 		s_Instance = this;
 
-		m_Timer = std::make_unique<Timer>();
+		m_Timer = Scope<Timer>(new Timer());
 
 		ProjectGE::WindowProps props;
 
 		m_Window = std::unique_ptr<Window>(Window::Create(props));
-
 		for (const std::vector<EventDispatcherBase*> dispatchers = m_Window->GetDistpachers(); auto dispatcher : dispatchers) {
 			
 			bool reg = RegisterEvent<WindowCloseEvent>(dispatcher, GE_BIND_EVENT_FN(Application, OnWindowClose), false);

@@ -38,4 +38,10 @@ namespace ProjectGE {
 
 	template<typename T>
 	using Ref = std::shared_ptr<T>;
+
+	template<typename T, typename U>
+	Scope<T> CastPtr(Scope<U> ptr) { return std::dynamic_pointer_cast<T>(ptr); }
+
+	template<typename T, typename U>
+	Ref<T> CastPtr(Ref<U> ptr) { return std::dynamic_pointer_cast<T>(ptr); }
 };

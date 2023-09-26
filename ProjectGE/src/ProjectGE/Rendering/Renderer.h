@@ -3,7 +3,7 @@
 #include "RenderCommand.h"
 #include "ProjectGE/Camera/Camera.h"
 
-#include "ProjectGE/Rendering/RenderAgnostics/BindableResources/Shader.h"
+#include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/Shader.h"
 
 namespace ProjectGE {
 	// A class that can submit high level rendering commands (Taking a scene and drawing it to the screen)

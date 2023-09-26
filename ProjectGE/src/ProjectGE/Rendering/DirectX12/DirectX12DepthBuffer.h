@@ -2,6 +2,8 @@
 #include <wrl.h>
 #include <d3d12.h>
 
+using Microsoft::WRL::ComPtr;
+
 namespace ProjectGE {
 	// A class that encapulates the logic related to a DX12 depth buffer
 	class DirectX12DepthBuffer
@@ -14,9 +16,9 @@ namespace ProjectGE {
 		D3D12_CPU_DESCRIPTOR_HANDLE GetHandle() const;
 	private:
 		// Depth Stencil Heap
-		Microsoft::WRL::ComPtr<ID3D12DescriptorHeap> m_DSVHeap;
-
-		Microsoft::WRL::ComPtr<ID3D12Resource2> m_DepthBuffer;
+		ComPtr<ID3D12DescriptorHeap> m_DSVHeap;
+		D3D12_CPU_DESCRIPTOR_HANDLE m_Descriptor;
+		ComPtr<ID3D12Resource2> m_DepthBuffer;
 	};
 };
 

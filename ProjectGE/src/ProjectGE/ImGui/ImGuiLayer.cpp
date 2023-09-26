@@ -14,7 +14,7 @@
 
 namespace ProjectGE {
 	ImGuiLayer::ImGuiLayer() : Layer("ImGui Layer") {
-		m_Heap = DirectX12Core::GetCore().GetHeapManager()->AllocateHeap(1, DescriptorHeapType::CBVSRVUAV, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE);
+		m_Heap = DirectX12Core::GetCore().GetHeapDatabase().AllocateHeap(1, DescriptorHeapType::CBVSRVUAV, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE);
 	}
 
 	ImGuiLayer::~ImGuiLayer() {
@@ -80,8 +80,8 @@ namespace ProjectGE {
 
 		RendererContext* renderer = window.GetRenderer();
 		auto* dRender = (DirectX12Context*)renderer;
-		auto context = DirectX12Core::GetCore().GetDirectCommandContext();
-		auto& commandList = context->GetCommandList();
+		auto& context = DirectX12Core::GetCore().GetDirectCommandContext();
+		auto& commandList = context.GetCommandList();
 
 		dRender->AttachContextResources();
 		ID3D12DescriptorHeap* descriptorHeaps[] = {
@@ -97,7 +97,7 @@ namespace ProjectGE {
 			ImGui::RenderPlatformWindowsDefault(nullptr, (void*)(&commandList));
 		}
 
-		context->FinalizeCommandList();
+		context.FinalizeCommandList();
 	}
 
 };

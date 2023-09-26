@@ -1,14 +1,13 @@
 #pragma once
 
 #include "gepch.h"
+#include "ProjectGE/Rendering/RendererContext.h"
+#include "ProjectGE/Rendering/DirectX12/DirectX12DepthBuffer.h"
+#include "ProjectGE/Rendering/DirectX12/Resources/DirectX12Views.h"
 #include <d3d12.h>
 #include <dxgi1_6.h>
 #include <wrl.h>
-#include "ProjectGE/Rendering/RendererContext.h"
-#include "DirectX12DepthBuffer.h"
-
 #include "ProjectGE/Core/Core.h"
-
 
 using Microsoft::WRL::ComPtr;
 
@@ -34,8 +33,6 @@ namespace ProjectGE {
 		ComPtr<IDXGISwapChain4> m_SwapChain;
 		// Graphics Handlers
 		ComPtr<ID3D12Resource2> m_BackBuffer;
-		// Render Target Heap
-		ComPtr<ID3D12DescriptorHeap> m_RTVHeapD;
 		// Depth Buffer
 		Scope<DirectX12DepthBuffer> m_DBuffer;
 		
@@ -45,6 +42,9 @@ namespace ProjectGE {
 
 		static const int m_BufferCount = 2;
 		
+		Ref<DirectX12RenderTargetView> m_RTV[m_BufferCount];
+		UINT m_CurrentBackBuffer;
+
 		unsigned int m_Width;
 		unsigned int m_Height;
 		float m_ClearColor[4] = { 0.07f, 0.0f, 0.12f, 1 };

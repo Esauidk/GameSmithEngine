@@ -2,9 +2,19 @@
 
 #include "imgui.h"
 
-#include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12Shader.h"
 #include "ProjectGE/Rendering/DirectX12/Util/DirectX12RootSignatureBuilder.h"
-#include "ProjectGE/Rendering/DirectX12/BindableResources/DirectX12RootSignature.h"
+#include "ProjectGE/Rendering/DirectX12/RenderComponents/DirectX12RootSignature.h"
+#include "ProjectGE/Rendering/DirectX12/RenderComponents/DirectX12PipelineState.h"
+#include "ProjectGE/Rendering/DirectX12/RenderComponents/DirectX12InputLayout.h"
+#include "ProjectGE/Rendering/DirectX12/Resources/DirectX12TopologyResource.h"
+#include "ProjectGE/Rendering/DirectX12/DirectX12Core.h"
+
+#include "ProjectGE/Rendering/DirectX12/RenderComponents/DirectX12Texture2D.h"
+
+#include "ProjectGE/Rendering/DirectX12/Util/DirectX12Util.h"
+#include "ProjectGE/Rendering/DirectX12/Util/DirectX12ShaderUtils.h"
+#include "ProjectGE/Rendering/RenderAgnostics/Shaders/SLab/SLab.h"
+#include "ProjectGE/Rendering/RenderAgnostics/Shaders/ShaderUtil.h"
 #include <glm/gtc/type_ptr.hpp>
 
 class ExampleLayer : public ProjectGE::Layer {
@@ -17,11 +27,16 @@ public:
 	ExampleLayer() : Layer("Example"), m_Cam(-1.6f, 1.6f, -0.9f, 0.9f) {
 		/* START: TEST CODE REMOVE */
 		// Read Shaders(Vertex, Pixel)
+		auto& core = ProjectGE::DirectX12Core::GetCore();
+		auto device = core.GetDevice();
 
-		m_TriTrans.SetPosition(glm::vec3(0, 1, 0));
-		m_SquareTrans.SetPosition(glm::vec3(0, 0, 0));
-		ProjectGE::Scope<ProjectGE::DirectX12RootSignature> test = std::make_unique<ProjectGE::DirectX12RootSignature>();
-		test->InitGenericRootSignature(D3D12_ROOT_SIGNATURE_FLAG_NONE);
+
+
+		//m_TriTrans.SetPosition(glm::vec3(0, 1, 0));
+		//m_SquareTrans.SetPosition(glm::vec3(0, 0, 0));
+
+		ProjectGE::Ref<ProjectGE::DirectX12RootSignature> root = std::make_shared<ProjectGE::DirectX12RootSignature>();
+		root->InitGenericRootSignature(D3D12_ROOT_SIGNATURE_FLAG_NONE);
 		// Setup Root Signature
 		
 		//m_Root = ProjectGE::Ref<ProjectGE::ShaderArguementDefiner>(ProjectGE::ShaderArguementDefiner::Create());
@@ -33,26 +48,15 @@ public:
 
 		//m_Root->FinalizeSignature();
 
-		TCHAR buffer[MAX_PATH] = { 0 };
-		GetModuleFileName(NULL, buffer, MAX_PATH);
-		std::wstring::size_type pos = std::wstring(buffer).find_last_of(L"\\/");
-		auto vertex = std::wstring(buffer).substr(0, pos).append(L"\\/SampleVertexShader.cso");
-		auto pixel = std::wstring(buffer).substr(0, pos).append(L"\\/SamplePixelShader.cso");
+		char buffer[MAX_PATH] = { 0 };
+		GetModuleFileNameA(NULL, buffer, MAX_PATH);
+		std::wstring::size_type pos = std::string(buffer).find_last_of("\\");
+		auto vertex = std::string(buffer).substr(0, pos).append("\\SampleVertexShader.cso");
+		auto pixel = std::string(buffer).substr(0, pos).append("\\SamplePixelShader.cso");
 
-		std::string nvertex = std::string(vertex.begin(), vertex.end());
-		std::string npixel = std::string(pixel.begin(), pixel.end());
-		//m_Shaders = ProjectGE::Ref<ProjectGE::Shader>(ProjectGE::Shader::Create(nvertex, npixel, m_Arg3.get(), sizeof(test)));
+		m_VShader = ProjectGE::RenderCommand::LoadShader(vertex);
+		m_PShader = ProjectGE::RenderCommand::LoadShader(pixel);
 
-		// Setup Topology
-
-		auto m_Topo = ProjectGE::Topology::Create(ProjectGE::TopologyType::Triangle);
-
-		// Setup Pipeline
-		//m_State = ProjectGE::PipelineStateObject::Create();
-
-		//m_Shaders->Append(*(m_State.get()));
-		//m_Root->Append(*(m_State.get()));
-		//m_Topo->Append(*(m_State.get()));
 
 		ProjectGE::Vertex triVertex[] = {
 			{ {-0.5f, -0.5f, 0.0f}}, // 0
@@ -61,44 +65,86 @@ public:
 		};
 
 		ProjectGE::Vertex squareVertex[] = {
-			{{-0.75f, -0.75f, 0.0f}, {0, 0}},
-			{{0.75f, -0.75f, 0.0f}, {1, 0}},
-			{{0.75f,  0.75f, 0.0f},{1, 1}},
-			{{-0.75f,  0.75f, 0.0f}, {0, 1}}
+			{{-0.75f, -0.75f, 0.0f}, {0, 1}},
+			{{0.75f, -0.75f, 0.0f}, {1, 1}},
+			{{0.75f,  0.75f, 0.0f},{1, 0}},
+			{{-0.75f,  0.75f, 0.0f}, {0, 0}}
 		};
+
+		vBuff = ProjectGE::RenderCommand::CreateVertexBuffer((BYTE*)&squareVertex, sizeof(ProjectGE::Vertex), _countof(squareVertex));
 
 		ProjectGE::BufferLayoutBuilder layout = { {"POSITION", ProjectGE::ShaderDataType::Float3}, {"UV_TEXCOORD", ProjectGE::ShaderDataType::Float2} };
 
-		auto m_TriVertexBuffer = ProjectGE::VertexBuffer::Create(&triVertex, sizeof(triVertex) / sizeof(ProjectGE::Vertex));
+		vBuff->AttachLayout(layout);
+
+		/*auto m_TriVertexBuffer = ProjectGE::VertexBuffer::Create(&triVertex, sizeof(triVertex) / sizeof(ProjectGE::Vertex));
 		auto m_SquareVertexBuffer = ProjectGE::VertexBuffer::Create(&squareVertex, sizeof(squareVertex) / sizeof(ProjectGE::Vertex));
 		m_TriVertexBuffer->AttachLayout(layout);
-		m_SquareVertexBuffer->AttachLayout(layout);
+		m_SquareVertexBuffer->AttachLayout(layout);*/
 
-		auto configuredLayout = m_TriVertexBuffer->GetLayout();
-		//configuredLayout->Append(*(m_State.get()));
+		auto configuredLayout = vBuff->GetLayout();
 
-		//m_State->Build();
+		D3D12_RT_FORMAT_ARRAY rtvFormats = {};
+		rtvFormats.NumRenderTargets = 1;
+		rtvFormats.RTFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
 
-		WORD indexCount[] = {
+		ProjectGE::DirectX12PipelineArgs args = {
+			{root->GetInternalRootSignature(),
+			((ProjectGE::DirectX12InputLayout*)configuredLayout)->GetInternalLayout(),
+			ProjectGE::TranslateTopType(ProjectGE::TopologyType::Triangle),
+			CD3DX12_SHADER_BYTECODE(((ProjectGE::DirectX12Shader*)m_VShader.get())->ByteCode()),
+			CD3DX12_SHADER_BYTECODE(((ProjectGE::DirectX12Shader*)m_PShader.get())->ByteCode()),
+			DXGI_FORMAT_D32_FLOAT,
+			rtvFormats
+			} };
+
+
+		ProjectGE::Ref<ProjectGE::DirectX12PipelineState> stateRef = std::make_shared<ProjectGE::DirectX12PipelineState>();
+		stateRef->Create(args);
+
+		refData = std::make_shared<ProjectGE::DirectX12PipelineStateData>(stateRef, root);
+
+		auto& context = core.GetDirectCommandContext();
+		auto& state = context.GetStateManager();
+		state.SetGraphicsPipelineState(refData);
+		ProjectGE::Application::Get().GetWindow().GetRenderer()->AttachContextResources();
+		ProjectGE::RenderCommand::SetTopology(ProjectGE::TopologyType::Triangle);
+
+		unsigned short indexCount[] = {
 			0, 1, 2
 		};
+
 
 		WORD squareIndex[] = {
 			2,1,0,0,3,2
 		};
 
-		auto m_TriIndexBuffer = ProjectGE::IndexBuffer::Create(indexCount, (int)_countof(indexCount));
-		auto m_SquareIndexBuffer = ProjectGE::IndexBuffer::Create(squareIndex, (int)_countof(squareIndex));
+		iBuff = ProjectGE::RenderCommand::CreateIndexBuffer((unsigned short*)&squareIndex, _countof(squareIndex));
 
-		m_TriPack = ProjectGE::GeometryPack::Create();
-		m_TriPack->AttachVertexBuffer(m_TriVertexBuffer);
-		m_TriPack->AttachIndexBuffer(m_TriIndexBuffer);
-		m_TriPack->AttachTopology(m_Topo);
+		ProjectGE::RenderCommand::SetVertexBuffer(vBuff);
+		ProjectGE::RenderCommand::SetIndexBuffer(iBuff);
+		
+		ProjectGE::DirectX12Shader(ProjectGE::CompileShaderForDX12("struct VertexInput{float3 Position : POSITION;};struct VertexShaderOutput{float4 Position : SV_POSITION;};VertexShaderOutput main(VertexInput input){VertexShaderOutput vso;vso.Position = float4(input.Position, 1);return vso;}",
+			"main", ProjectGE::STAGE_VERTEX, "test"));
 
-		m_SquarePack = ProjectGE::GeometryPack::Create();
-		m_SquarePack->AttachVertexBuffer(m_SquareVertexBuffer);
-		m_SquarePack->AttachIndexBuffer(m_SquareIndexBuffer);
-		m_SquarePack->AttachTopology(m_Topo);
+		ProjectGE::SLabMetadata metadata;
+		metadata.AddParameter(ProjectGE::ShaderParameter("Model", ProjectGE::ShaderDataType::Matrix));
+		metadata.AddParameter(ProjectGE::ShaderParameter("InputColor", ProjectGE::ShaderDataType::Float3));
+
+		// TODO: GET RID OF THIS, JUST FOR TESTING WITH SCENE DATA
+		cBuff1 = ProjectGE::RenderCommand::CreateConstantBuffer(sizeof(ProjectGE::GloablShaderData));
+		ProjectGE::RenderCommand::SetConstantBuffer(cBuff1, ProjectGE::STAGE_VERTEX, ProjectGE::ShaderConstantType::Global);
+
+		cBuff2 = ProjectGE::RenderCommand::CreateConstantBuffer(metadata.GetByteSize());
+		ProjectGE::RenderCommand::SetConstantBuffer(cBuff2, ProjectGE::STAGE_VERTEX, ProjectGE::ShaderConstantType::Instance);
+		ProjectGE::RenderCommand::SetConstantBuffer(cBuff2, ProjectGE::STAGE_PIXEL, ProjectGE::ShaderConstantType::Instance);
+
+		m_Sampler = ProjectGE::RenderCommand::CreateSampler(ProjectGE::FilterType::Point, ProjectGE::PaddingMethod::Clamp);
+		ProjectGE::RenderCommand::SetSampler(m_Sampler, ProjectGE::STAGE_PIXEL);
+
+		auto texture = std::string(buffer).substr(0, pos).append("\\test2.png");
+		m_Tex2d = ProjectGE::RenderCommand::CreateTexture2D(texture);
+		ProjectGE::RenderCommand::SetTexture2D(m_Tex2d, ProjectGE::STAGE_PIXEL);
 
 
 		/* END: TEST CODE REMOVE */
@@ -167,33 +213,56 @@ public:
 			m_TriTrans.SetRotation(oldRotation + dt * glm::vec3(0, 0, 1));
 		}
 
-		ProjectGE::Renderer::BeginScene(m_Cam);
-		ProjectGE::Application::Get().GetWindow().GetRenderer()->AttachContextResources();
+		//ProjectGE::Renderer::BeginScene(m_Cam);
 
 		//m_State->Bind();
 		//m_Root->Bind();
 		//std::dynamic_pointer_cast<ProjectGE::DirectX12Shader>(m_Shaders)->UploadShaderInput((BYTE*)&m_Example1);
 
 		glm::mat4 tri = glm::transpose(m_TriTrans.GetModelMatrix());
-		glm::mat4 squ = glm::transpose(m_SquareTrans.GetModelMatrix());
-		//ProjectGE::Renderer::Submit(m_TriPack, m_Shaders, tri, m_Arg1, m_Arg2);
-		//ProjectGE::Renderer::Submit(m_SquarePack, m_Shaders, squ, m_Arg1, m_Arg2);
+		//glm::mat4 squ = glm::transpose(m_SquareTrans.GetModelMatrix());
+		ProjectGE::GloablShaderData data;
+		data.VP = m_Cam.GetMatrix();
+		cBuff1->UpdateData((BYTE*)&data, sizeof(data));
 
-		ProjectGE::Renderer::EndScene();
+
+		struct instanceData {
+			glm::mat4 model;
+			glm::vec3 color;
+		} test;
+
+		test.model = tri;
+		test.color = { 1, 0, 1 };
+		cBuff2->UpdateData((BYTE*)&test, sizeof(instanceData));
+
+		//std::dynamic_pointer_cast<ProjectGE::DirectX12Texture2D>(m_Tex2d)->Test();
+
+		ProjectGE::RenderCommand::DrawIndexed(iBuff->GetCount(), 1);
+		ProjectGE::RenderCommand::SubmitRecording();
+		//ProjectGE::Renderer::EndScene();
 	}
 
 	void EventSubscribe(const std::vector<ProjectGE::EventDispatcherBase*>& dispatchers, bool overlay) override {}
 
 private:
+	ProjectGE::Ref<ProjectGE::DirectX12PipelineStateData> refData;
+	ProjectGE::Ref<ProjectGE::VertexBuffer> vBuff;
+	ProjectGE::Ref<ProjectGE::IndexBuffer> iBuff;
+	ProjectGE::Ref<ProjectGE::ConstantBuffer> cBuff1;
+	ProjectGE::Ref<ProjectGE::ConstantBuffer> cBuff2;
 	//ProjectGE::Ref<ProjectGE::PipelineStateObject> m_State;
 	//ProjectGE::Ref<ProjectGE::ShaderArguementDefiner> m_Root;
-	ProjectGE::Ref<ProjectGE::Shader> m_Shaders;
-	ProjectGE::Ref<ProjectGE::GeometryPack> m_TriPack;
+	ProjectGE::Ref<ProjectGE::Shader> m_VShader;
+	ProjectGE::Ref<ProjectGE::Shader> m_PShader;
+
+	ProjectGE::Ref<ProjectGE::Sampler> m_Sampler;
+	ProjectGE::Ref<ProjectGE::Texture2D> m_Tex2d;
+	//ProjectGE::Ref<ProjectGE::GeometryPack> m_TriPack;
 	Transform m_TriTrans;
-	ProjectGE::Ref<ProjectGE::GeometryPack> m_SquarePack;
+	//ProjectGE::Ref<ProjectGE::GeometryPack> m_SquarePack;
 	Transform m_SquareTrans;
 
-	ProjectGE::Ref<ProjectGE::ConstantBuffer> m_C;
+	//ProjectGE::Ref<ProjectGE::ConstantBuffer> m_C;
 	//ProjectGE::Ref<ProjectGE::ShaderArguement> m_Arg1;
 	//ProjectGE::Ref<ProjectGE::ShaderArguement> m_Arg2;
 	//ProjectGE::Ref<ProjectGE::ShaderArguement> m_Arg3;

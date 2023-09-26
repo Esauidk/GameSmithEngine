@@ -16,11 +16,23 @@ namespace ProjectGE {
 
 		m_Core = Scope<DirectX12Core>(new DirectX12Core());
 
+		m_Core->Init();
+
 		return GetCore();
 	}
 
 	DirectX12Core::DirectX12Core() {
 		bool res;
+
+		UINT createFactoryFlags = 0;
+
+#if defined(GE_DEBUG)
+		createFactoryFlags = DXGI_CREATE_FACTORY_DEBUG;
+#endif
+		res = FAILED(CreateDXGIFactory2(createFactoryFlags, IID_PPV_ARGS(&m_Factory)));
+		GE_CORE_ASSERT(!res, "Failed to create DirectX12 DXGI factory");
+
+
 		// Create the Debug Layer (Allows debuging on the device)
 #if defined(GE_DEBUG)
 		res = FAILED(D3D12GetDebugInterface(IID_PPV_ARGS(&m_Debug)));
@@ -34,6 +46,7 @@ namespace ProjectGE {
 		res = FAILED(D3D12CreateDevice(nullptr, D3D_FEATURE_LEVEL_12_0, IID_PPV_ARGS(&m_Device)));
 
 		GE_CORE_ASSERT(!res, "Failed to create DirectX12 device");
+
 
 
 #if defined(GE_DEBUG)
@@ -50,9 +63,24 @@ namespace ProjectGE {
 		m_InfoQueue->SetBreakOnSeverity(D3D12_MESSAGE_SEVERITY_WARNING, TRUE);
 
 #endif
-		m_DirectContext = std::make_unique<DirectX12CommandContextDirect>();
-		m_CopyContext = std::make_unique<DirectX12CommandContextCopy>();
-		m_HeapManager = std::make_unique<DirectX12HeapManager>();
+	}
+
+	void DirectX12Core::Init()
+	{
+		m_HeapDB = Scope<DirectX12HeapDatabase>(new DirectX12HeapDatabase());
+
+		for (UINT heapType = DescriptorHeapType::CBVSRVUAV; heapType < DescriptorHeapType::COUNT; heapType++) {
+			m_DescriptorLoaders.emplace_back((DescriptorHeapType)heapType);
+		}
+
+		m_DirectContext = Scope<DirectX12CommandContextDirect>(new DirectX12CommandContextDirect());
+		m_CopyContext = Scope<DirectX12CommandContextCopy>(new DirectX12CommandContextCopy());;
+		m_DirectContext->FinalizeCommandList();
+		m_CopyContext->FinalizeCommandList();
+
+		m_Defaults.EmptyCBV.m_View = m_DescriptorLoaders[DescriptorHeapType::CBVSRVUAV].AllocateSlot();
+		m_Defaults.EmptySRV.m_View = m_DescriptorLoaders[DescriptorHeapType::CBVSRVUAV].AllocateSlot();
+		m_Defaults.EmptySampler.m_View = m_DescriptorLoaders[DescriptorHeapType::SAMPLER].AllocateSlot();
 	}
 
 	DirectX12Core& DirectX12Core::GetCore() {

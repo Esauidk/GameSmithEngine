@@ -11,13 +11,13 @@ namespace ProjectGE {
 
 	void Renderer::EndScene()
 	{
-		RenderCommand::FinishedRecording();
+		RenderCommand::SubmitRecording();
 	}
 	void Renderer::Submit(Ref<GeometryPack> geopack, Ref<Shader> shader, glm::mat4& objectTransform)
 	{
-		shader->Bind();
+		//shader->Bind();
 
-		geopack->Bind();
-		RenderCommand::DrawIndexed(geopack);
+		//geopack->Bind();
+		//RenderCommand::DrawIndexed(geopack);
 	}
 };
