@@ -30,24 +30,6 @@ public:
 		auto& core = ProjectGE::DirectX12Core::GetCore();
 		auto device = core.GetDevice();
 
-
-
-		//m_TriTrans.SetPosition(glm::vec3(0, 1, 0));
-		//m_SquareTrans.SetPosition(glm::vec3(0, 0, 0));
-
-		ProjectGE::Ref<ProjectGE::DirectX12RootSignature> root = std::make_shared<ProjectGE::DirectX12RootSignature>();
-		root->InitGenericRootSignature(D3D12_ROOT_SIGNATURE_FLAG_NONE);
-		// Setup Root Signature
-		
-		//m_Root = ProjectGE::Ref<ProjectGE::ShaderArguementDefiner>(ProjectGE::ShaderArguementDefiner::Create());
-
-		//m_Arg1 = ProjectGE::Ref<ProjectGE::ShaderArguement>(m_Root->AddArguement(ProjectGE::ShaderArguementType::Constant, sizeof(glm::mat4) / 4));
-		//m_Arg2 = ProjectGE::Ref<ProjectGE::ShaderArguement>(m_Root->AddArguement(ProjectGE::ShaderArguementType::Constant, sizeof(glm::mat4) / 4));
-		//m_Arg3 = ProjectGE::Ref<ProjectGE::ShaderArguement>(m_Root->AddArguement(ProjectGE::ShaderArguementType::ConstantBuffer));
-
-
-		//m_Root->FinalizeSignature();
-
 		char buffer[MAX_PATH] = { 0 };
 		GetModuleFileNameA(NULL, buffer, MAX_PATH);
 		std::wstring::size_type pos = std::string(buffer).find_last_of("\\");
@@ -58,55 +40,34 @@ public:
 		m_PShader = ProjectGE::RenderCommand::LoadShader(pixel);
 
 
-		ProjectGE::Vertex triVertex[] = {
+		ProjectGE::VertexStruct triVertex[] = {
 			{ {-0.5f, -0.5f, 0.0f}}, // 0
 			{ {0.0f,  0.5f, 0.0f}}, // 1 
 			{ {0.5f,  -0.5f, 0.0f}} // 2
 		};
 
-		ProjectGE::Vertex squareVertex[] = {
+		ProjectGE::VertexStruct squareVertex[] = {
 			{{-0.75f, -0.75f, 0.0f}, {0, 1}},
 			{{0.75f, -0.75f, 0.0f}, {1, 1}},
 			{{0.75f,  0.75f, 0.0f},{1, 0}},
 			{{-0.75f,  0.75f, 0.0f}, {0, 0}}
 		};
 
-		vBuff = ProjectGE::RenderCommand::CreateVertexBuffer((BYTE*)&squareVertex, sizeof(ProjectGE::Vertex), _countof(squareVertex));
+		vBuff = ProjectGE::RenderCommand::CreateVertexBuffer((BYTE*)&squareVertex, sizeof(ProjectGE::VertexStruct), _countof(squareVertex));
 
 		ProjectGE::BufferLayoutBuilder layout = { {"POSITION", ProjectGE::ShaderDataType::Float3}, {"UV_TEXCOORD", ProjectGE::ShaderDataType::Float2} };
 
 		vBuff->AttachLayout(layout);
 
-		/*auto m_TriVertexBuffer = ProjectGE::VertexBuffer::Create(&triVertex, sizeof(triVertex) / sizeof(ProjectGE::Vertex));
-		auto m_SquareVertexBuffer = ProjectGE::VertexBuffer::Create(&squareVertex, sizeof(squareVertex) / sizeof(ProjectGE::Vertex));
-		m_TriVertexBuffer->AttachLayout(layout);
-		m_SquareVertexBuffer->AttachLayout(layout);*/
-
 		auto configuredLayout = vBuff->GetLayout();
 
-		D3D12_RT_FORMAT_ARRAY rtvFormats = {};
-		rtvFormats.NumRenderTargets = 1;
-		rtvFormats.RTFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
+		ProjectGE::PipelineStateInitializer init;
+		init.shaders[ProjectGE::ShaderType::Vertex] = m_VShader;
+		init.shaders[ProjectGE::ShaderType::Pixel] = m_PShader;
+		init.toplopgyType = ProjectGE::TopologyType::Triangle;
+		init.vertexLayout = configuredLayout;
 
-		ProjectGE::DirectX12PipelineArgs args = {
-			{root->GetInternalRootSignature(),
-			((ProjectGE::DirectX12InputLayout*)configuredLayout)->GetInternalLayout(),
-			ProjectGE::TranslateTopType(ProjectGE::TopologyType::Triangle),
-			CD3DX12_SHADER_BYTECODE(((ProjectGE::DirectX12Shader*)m_VShader.get())->ByteCode()),
-			CD3DX12_SHADER_BYTECODE(((ProjectGE::DirectX12Shader*)m_PShader.get())->ByteCode()),
-			DXGI_FORMAT_D32_FLOAT,
-			rtvFormats
-			} };
-
-
-		ProjectGE::Ref<ProjectGE::DirectX12PipelineState> stateRef = std::make_shared<ProjectGE::DirectX12PipelineState>();
-		stateRef->Create(args);
-
-		refData = std::make_shared<ProjectGE::DirectX12PipelineStateData>(stateRef, root);
-
-		auto& context = core.GetDirectCommandContext();
-		auto& state = context.GetStateManager();
-		state.SetGraphicsPipelineState(refData);
+		ProjectGE::RenderCommand::UpdatePipeline(init);
 		ProjectGE::Application::Get().GetWindow().GetRenderer()->AttachContextResources();
 		ProjectGE::RenderCommand::SetTopology(ProjectGE::TopologyType::Triangle);
 
@@ -212,12 +173,6 @@ public:
 			glm::vec3 oldRotation = m_TriTrans.GetRotation();
 			m_TriTrans.SetRotation(oldRotation + dt * glm::vec3(0, 0, 1));
 		}
-
-		//ProjectGE::Renderer::BeginScene(m_Cam);
-
-		//m_State->Bind();
-		//m_Root->Bind();
-		//std::dynamic_pointer_cast<ProjectGE::DirectX12Shader>(m_Shaders)->UploadShaderInput((BYTE*)&m_Example1);
 
 		glm::mat4 tri = glm::transpose(m_TriTrans.GetModelMatrix());
 		//glm::mat4 squ = glm::transpose(m_SquareTrans.GetModelMatrix());

@@ -1510,6 +1510,7 @@
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12TextureResource.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12Sampler.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\Sampler.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\PipelineStateInitializer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\Camera\Camera.cpp">

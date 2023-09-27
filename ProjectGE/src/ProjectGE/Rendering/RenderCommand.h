@@ -68,6 +68,10 @@ namespace ProjectGE {
 		inline static void SubmitRecording() {
 			s_RendererAPI->SubmitRecording();
 		}
+
+		inline static void UpdatePipeline(PipelineStateInitializer initializer) {
+			s_RendererAPI->UpdatePipeline(initializer);
+		}
 	private:
 		static RendererAPI* s_RendererAPI;
 	};

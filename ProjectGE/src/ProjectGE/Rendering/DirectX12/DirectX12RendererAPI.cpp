@@ -130,6 +130,37 @@ namespace ProjectGE {
 		state.SetTop(d3Type);
 	}
 
+	void DirectX12RendererAPI::UpdatePipeline(PipelineStateInitializer& init)
+	{
+		// TODO: Grab current reference to root signature instead of recreating instance
+		auto root = Ref<DirectX12RootSignature>(new DirectX12RootSignature());
+		root->InitGenericRootSignature(D3D12_ROOT_SIGNATURE_FLAG_NONE);
+
+		// TODO: Make rtv and depth format configurable
+		D3D12_RT_FORMAT_ARRAY rtvFormats = {};
+		rtvFormats.NumRenderTargets = 1;
+		rtvFormats.RTFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
+
+		DirectX12PipelineArgs args = {
+			{root->GetInternalRootSignature(),
+			((ProjectGE::DirectX12InputLayout*)init.vertexLayout)->GetInternalLayout(),
+			ProjectGE::TranslateTopType(init.toplopgyType),
+			CD3DX12_SHADER_BYTECODE(CastPtr<DirectX12Shader>(init.shaders[Vertex])->ByteCode()),
+			CD3DX12_SHADER_BYTECODE(CastPtr<DirectX12Shader>(init.shaders[Pixel])->ByteCode()),
+			DXGI_FORMAT_D32_FLOAT,
+			rtvFormats
+			} 
+		};
+
+		auto stateRef = Ref<DirectX12PipelineState>(new DirectX12PipelineState());
+		stateRef->Create(args);
+
+		auto refData = Ref<DirectX12PipelineStateData>(new DirectX12PipelineStateData(stateRef, root));
+
+		auto& state = m_Core.GetDirectCommandContext().GetStateManager();
+		state.SetGraphicsPipelineState(refData);
+	}
+
 	void DirectX12RendererAPI::SubmitRecording()
 	{
 		m_Core.GetDirectCommandContext().FinalizeCommandList();

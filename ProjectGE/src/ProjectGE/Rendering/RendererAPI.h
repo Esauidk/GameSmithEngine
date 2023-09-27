@@ -7,6 +7,7 @@
 #include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/Texture.h"
 #include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/Shader.h"
 #include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/Sampler.h"
+#include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/PipelineStateInitializer.h"
 #include "ProjectGE/Rendering/RenderAgnostics/Shaders/ShaderUtil.h"
 #include "ProjectGE/Core/Core.h"
 
@@ -39,8 +40,9 @@ namespace ProjectGE {
 		virtual Ref<Sampler> CreateSampler(FilterType img, PaddingMethod padMode) = 0;
 		virtual void SetSampler(Ref<Sampler> sampler, Stages stage) = 0;
 
-
 		virtual void SetTopology(TopologyType& type) = 0;
+
+		virtual void UpdatePipeline(PipelineStateInitializer& init) = 0;
 		virtual void SubmitRecording() = 0;
 
 		inline static API GetAPI() { return s_API; }
