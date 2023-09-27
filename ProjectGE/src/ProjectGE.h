@@ -22,6 +22,7 @@
 #include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/Shader.h"
 #include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/Topology.h"
 #include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/GeometryPack.h"
+#include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/PipelineStateInitializer.h"
 
 #include "ProjectGE/Rendering/RenderAgnostics/BasicStructs.h"
 // -------------------------------------

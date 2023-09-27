@@ -2,17 +2,17 @@
 
 namespace ProjectGE {
 	// Types of shaders currently supported
-	enum class ShaderType {
-		None = 0,
+	enum ShaderType {
 		Vertex,
-		Pixel
+		Pixel,
+		ShaderCount
 	};
 
 	// INTERFACE
 	// A piece of code to be ran on the GPU in some part of a render pipline
 	class Shader
 	{
-
+		virtual ShaderType GetShaderType() = 0;
 	};
 };
 

@@ -31,6 +31,8 @@ namespace ProjectGE {
 
 		virtual void SetTopology(TopologyType& type) override;
 
+		virtual void UpdatePipeline(PipelineStateInitializer& init) override;
+
 		virtual void SubmitRecording() override;
 	private:
 		DirectX12Core& m_Core;
