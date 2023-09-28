@@ -71,3 +71,7 @@ reflection. I think when addressing DX12, I'm going to keep a giant root signatu
 # 9/14/2023
 Now that views (besides UAV) can be added to the layer and saved for state, it's time to do some clean up. Need to add more state functions for rendering specifications (viewport, rect). Also want to refactor and add a linter to make this good. Will also go back and comment on fuctions to give them purpose.
 This wil be in tommorows commit.
+
+# 9/28/2023
+With the renderer subsytem being at a point that I feel comfortable with, I think it's time to look into other required subsystems for this engine. Going to start looking into making a resource manager subsystem (loading textures, mesh data, shaders, etc). Been reading into the Game Engine Arichtecture book by Jason Gregory so I have an
+idea of where to start going. We have the layer stack that we can use to inject subsystems into and make sure their update logic is ran. But what about inter subsystem communication? I'm thinking to extend the event system by adding more events and use that to support communication between the subsystems. No need to expose public methods. The only concern now is making sure I allow subsystems to get the list of all events available in the engine. I'm thinking to have all subsystems have a public method that exposes the list of events their emit. 
