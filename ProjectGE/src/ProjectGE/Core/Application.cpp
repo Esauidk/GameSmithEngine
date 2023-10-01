@@ -11,8 +11,6 @@ namespace ProjectGE {
 		GE_CORE_ASSERT(!s_Instance, "Application already exists");
 		s_Instance = this;
 
-		m_Timer = Scope<Timer>(new Timer());
-
 		ProjectGE::WindowProps props;
 
 		m_Window = std::unique_ptr<Window>(Window::Create(props));
@@ -47,7 +45,7 @@ namespace ProjectGE {
 	}
 
 	void Application::Execute() {
-		m_Timer->Reset();
+		m_Timer.Reset();
 		while (m_Running) {
 			for (Layer* layer : m_LayerStack) {
 				layer->OnUpdate();
@@ -58,9 +56,10 @@ namespace ProjectGE {
 				layer->OnImGuiRender();
 			}
 			m_ImGuiLayer->End();
+
 			m_Window->OnUpdate();
-			m_Timer->Mark();
-			GE_CORE_TRACE("Delta time: {0}s ({1}ms)", m_Timer->GetDeltaTimeSeconds(), m_Timer->GetDeltaTimeMilliseconds());
+			m_Timer.Mark();
+			GE_CORE_TRACE("Delta time: {0}s ({1}ms)", m_Timer.GetDeltaTimeSeconds(), m_Timer.GetDeltaTimeMilliseconds());
 		}
 	}
 

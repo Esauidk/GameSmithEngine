@@ -3,7 +3,7 @@
 #include "resource.h"
 #include "imgui.h"
 #include "ProjectGE/Core/Log.h"
-#include "ProjectGE/Rendering/Renderer.h"
+#include "ProjectGE/Rendering/RenderingManager.h"
 #include "ProjectGE/Rendering/DirectX12/DirectX12Context.h"
 
 
@@ -89,7 +89,7 @@ namespace ProjectGE {
 
 		GE_CORE_ASSERT(m_HWnd != nullptr, "Could not react window {0}", props.Title);
 
-		switch (Renderer::GetAPI()) {
+		switch (RenderingManager::GetInstance()->GetAPI()) {
 		case RendererAPI::API::DirectX12:
 		{
 			m_RenderContext = (RendererContext*)new DirectX12Context(m_HWnd, m_Prop.Width, m_Prop.Height);

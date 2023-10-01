@@ -8,6 +8,7 @@
 #include "ProjectGE/Core/MixStack.h"
 #include "ProjectGE/Core/Layer.h"
 #include "ProjectGE/Core/Timer.h"
+#include "ProjectGE/Core/SubsystemManager.h"
 
 #include "ProjectGE/ImGui/ImGuiLayer.h"
 
@@ -32,13 +33,15 @@ namespace ProjectGE{
 
 		inline static Application& Get() { return *s_Instance; }
 		inline Window& GetWindow() { return *m_Window;}
-		inline Timer& GetTimer() { return *m_Timer; }
+		inline Timer& GetTimer() { return m_Timer; }
 	private:
 		bool OnWindowClose(WindowCloseEvent& evn);
 	private:
 		bool m_Running = true;
-		std::unique_ptr<Window> m_Window;
-		std::unique_ptr<Timer> m_Timer;
+		Timer m_Timer;
+		SubsystemManager m_SubSystems;
+
+		Scope<Window> m_Window;
 		ImGuiLayer* m_ImGuiLayer;
 		MixStack<Layer> m_LayerStack;
 

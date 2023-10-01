@@ -143,6 +143,10 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ProjectGE\ResourceManagement\ResourceLoaders\HeapResourceLoader.h" />
+    <ClInclude Include="src\ProjectGE\ResourceManagement\Resource.h" />
+    <ClInclude Include="src\ProjectGE\ResourceManagement\ResourceLoaders\ResourceLoader.h" />
+    <ClInclude Include="src\ProjectGE\ResourceManagement\ResourceManager.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12Sampler.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectCommandUtils.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\HeapStructures\DirectX12DescriptorLoaderHeapManager.h" />
@@ -213,12 +217,13 @@
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\VertexBuffer.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BufferLayout.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\Shaders\SLab\SLab.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\RenderCommand.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\Renderer.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderingManager.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RendererAPI.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RendererContext.h" />
     <ClInclude Include="src\gepch.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\State\DirectX12StateManager.h" />
+    <ClInclude Include="src\ProjectGE\ResourceAssets\TestResource.h" />
+    <ClInclude Include="src\ProjectGE\Core\SubsystemManager.h" />
     <ClInclude Include="third-party\glm\glm\common.hpp" />
     <ClInclude Include="third-party\glm\glm\detail\_features.hpp" />
     <ClInclude Include="third-party\glm\glm\detail\_fixes.hpp" />
@@ -638,6 +643,9 @@
     <ClInclude Include="third-party\stb\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ProjectGE\ResourceManagement\Resource.cpp" />
+    <ClCompile Include="src\ProjectGE\ResourceManagement\ResourceLoaders\HeapResourceLoader.cpp" />
+    <ClCompile Include="src\ProjectGE\ResourceManagement\ResourceManager.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12Sampler.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\HeapStructures\DirectX12DescriptorLoaderHeapManager.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12ShaderUtils.cpp" />
@@ -674,13 +682,14 @@
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12RendererAPI.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\HeapStructures\DirectX12HeapDatabase.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12TextureResource.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\RenderCommand.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\Renderer.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\RenderingManager.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\RendererAPI.cpp" />
     <ClCompile Include="src\gepch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\State\DirectX12StateManager.cpp" />
+    <ClCompile Include="src\ProjectGE\ResourceAssets\TestResource.cpp" />
+    <ClCompile Include="src\ProjectGE\Core\SubsystemManager.cpp" />
     <ClCompile Include="third-party\stb\std_image.cpp" />
   </ItemGroup>
   <ItemGroup>

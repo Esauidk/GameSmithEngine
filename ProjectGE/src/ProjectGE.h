@@ -13,8 +13,7 @@
 #include "ProjectGE/ImGui/ImGuiLayer.h"
 
 // ------------Renderer---------------
-#include "ProjectGE/Rendering/Renderer.h"
-#include "ProjectGE/Rendering/RenderCommand.h"
+#include "ProjectGE/Rendering/RenderingManager.h"
 
 #include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/VertexBuffer.h"
 #include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/IndexBuffer.h"

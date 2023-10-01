@@ -222,10 +222,7 @@
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BufferLayout.h">
       <Filter>src\ProjectGE\Rendering\RenderAgnostics</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\RenderCommand.h">
-      <Filter>src\ProjectGE\Rendering</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\Renderer.h">
+    <ClInclude Include="src\ProjectGE\Rendering\RenderingManager.h">
       <Filter>src\ProjectGE\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="src\ProjectGE\Rendering\RendererAPI.h">
@@ -1511,6 +1508,12 @@
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12Sampler.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\Sampler.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\PipelineStateInitializer.h" />
+    <ClInclude Include="src\ProjectGE\ResourceManagement\ResourceManager.h" />
+    <ClInclude Include="src\ProjectGE\ResourceManagement\Resource.h" />
+    <ClInclude Include="src\ProjectGE\ResourceManagement\ResourceLoaders\ResourceLoader.h" />
+    <ClInclude Include="src\ProjectGE\ResourceManagement\ResourceLoaders\HeapResourceLoader.h" />
+    <ClInclude Include="src\ProjectGE\ResourceAssets\TestResource.h" />
+    <ClInclude Include="src\ProjectGE\Core\SubsystemManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\Camera\Camera.cpp">
@@ -1588,10 +1591,7 @@
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\HeapStructures\DirectX12HeapDatabase.cpp">
       <Filter>src\ProjectGE\Rendering\DirectX12\Util</Filter>
     </ClCompile>
-    <ClCompile Include="src\ProjectGE\Rendering\RenderCommand.cpp">
-      <Filter>src\ProjectGE\Rendering</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ProjectGE\Rendering\Renderer.cpp">
+    <ClCompile Include="src\ProjectGE\Rendering\RenderingManager.cpp">
       <Filter>src\ProjectGE\Rendering</Filter>
     </ClCompile>
     <ClCompile Include="src\ProjectGE\Rendering\RendererAPI.cpp">
@@ -1615,6 +1615,11 @@
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\HeapStructures\DirectX12DescriptorLoaderHeapManager.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12TextureResource.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12Sampler.cpp" />
+    <ClCompile Include="src\ProjectGE\ResourceManagement\ResourceManager.cpp" />
+    <ClCompile Include="src\ProjectGE\ResourceManagement\ResourceLoaders\HeapResourceLoader.cpp" />
+    <ClCompile Include="src\ProjectGE\ResourceAssets\TestResource.cpp" />
+    <ClCompile Include="src\ProjectGE\ResourceManagement\Resource.cpp" />
+    <ClCompile Include="src\ProjectGE\Core\SubsystemManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\SamplePixelShader.hlsl" />
