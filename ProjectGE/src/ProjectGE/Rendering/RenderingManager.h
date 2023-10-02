@@ -17,9 +17,9 @@ namespace ProjectGE {
 		void ShutDown();
 		void BeginScene(Camera& camera);
 		void EndScene();
-
 		void Submit(Ref<GeometryPack> geopack, Ref<Shader> shader, glm::mat4& transform);
-		inline RendererAPI::API GetAPI() { return RendererAPI::GetAPI(); };
+
+		inline RendererAPI::API GetAPI() { return m_RenderAPI->GetAPI(); };
 		inline RendererAPI* GetRenderAPI() { return m_RenderAPI.get(); }
 	private:
 		static RenderingManager* s_Instance;

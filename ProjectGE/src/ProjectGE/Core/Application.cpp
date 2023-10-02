@@ -59,7 +59,6 @@ namespace ProjectGE {
 
 			m_Window->OnUpdate();
 			m_Timer.Mark();
-			GE_CORE_TRACE("Delta time: {0}s ({1}ms)", m_Timer.GetDeltaTimeSeconds(), m_Timer.GetDeltaTimeMilliseconds());
 		}
 	}
 

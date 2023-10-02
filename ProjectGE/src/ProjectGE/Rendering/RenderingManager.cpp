@@ -1,5 +1,6 @@
 #include "gepch.h"
 #include "RenderingManager.h"
+#include "ProjectGE/Core/Log.h"
 
 #include "ProjectGE/Rendering/DirectX12/DirectX12RendererAPI.h"
 
@@ -16,6 +17,7 @@ namespace ProjectGE {
 	void RenderingManager::Init()
 	{
 		m_RenderAPI = Scope<RendererAPI>(new DirectX12RendererAPI());
+		GE_CORE_INFO("Rendering Manager Loaded!");
 	}
 
 	void RenderingManager::ShutDown()

@@ -4,7 +4,8 @@
 
 namespace ProjectGE {
 	DirectX12RendererAPI::DirectX12RendererAPI(): m_Core(DirectX12Core::CreateCore())
-	{}
+	{
+	}
 
 	void DirectX12RendererAPI::SetClearColor(const glm::vec4& color)
 	{

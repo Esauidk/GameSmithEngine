@@ -31,5 +31,7 @@
 //-------------------------------------
 #include "ProjectGE/Camera/OrthoCamera.h"
 
+#ifndef ENTRY_USED
 // ENTRY POINT TO GAME ENGINE
 #include "ProjectGE/Core/EntryPoint.h"
+#endif

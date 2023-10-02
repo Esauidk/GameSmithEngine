@@ -8,11 +8,12 @@ namespace ProjectGE {
 	{
 	public:
 		DirectX12RendererAPI();
-		void SetClearColor(const glm::vec4& color) override;
-		void Clear() override;
+		virtual API GetAPI() override { return API::DirectX12; }
 
-		void DrawIndexed(UINT indecies, UINT instances) override;
+		virtual void SetClearColor(const glm::vec4& color) override;
+		virtual void Clear() override;
 
+		virtual void DrawIndexed(UINT indecies, UINT instances) override;
 
 		virtual Ref<VertexBuffer> CreateVertexBuffer(BYTE* data, int vertexByteSize, int vertexCount) override;
 		virtual void SetVertexBuffer(Ref<VertexBuffer> vbuffer) override;

@@ -1,11 +1,7 @@
 #include <ProjectGE.h>
+#include "TestRenderLayer.h"
 
-#include "imgui.h"
-
-#include "ProjectGE/Rendering/RenderAgnostics/Shaders/SLab/SLab.h"
-#include "ProjectGE/Rendering/RenderAgnostics/Shaders/ShaderUtil.h"
-#include <glm/gtc/type_ptr.hpp>
-
+/*
 class ExampleLayer : public ProjectGE::Layer {
 public:
 	// DIRECTX12 is ROW MAJOR
@@ -14,8 +10,6 @@ public:
 	};
 
 	ExampleLayer() : Layer("Example"), m_Cam(-1.6f, 1.6f, -0.9f, 0.9f) {
-		/* START: TEST CODE REMOVE */
-		// Read Shaders(Vertex, Pixel)
 
 
 		char buffer[MAX_PATH] = { 0 };
@@ -75,9 +69,7 @@ public:
 
 		renderAPI->SetVertexBuffer(vBuff);
 		renderAPI->SetIndexBuffer(iBuff);
-		
-		/*ProjectGE::DirectX12Shader(ProjectGE::CompileShaderForDX12("struct VertexInput{float3 Position : POSITION;};struct VertexShaderOutput{float4 Position : SV_POSITION;};VertexShaderOutput main(VertexInput input){VertexShaderOutput vso;vso.Position = float4(input.Position, 1);return vso;}",
-			"main", ProjectGE::STAGE_VERTEX, "test"));*/
+	
 
 		ProjectGE::SLabMetadata metadata;
 		metadata.AddParameter(ProjectGE::ShaderParameter("Model", ProjectGE::ShaderDataType::Matrix));
@@ -98,8 +90,6 @@ public:
 		m_Tex2d = renderAPI->CreateTexture2D(texture);
 		renderAPI->SetTexture2D(m_Tex2d, ProjectGE::STAGE_PIXEL);
 
-
-		/* END: TEST CODE REMOVE */
 	}
 
 	void OnImGuiRender() override {
@@ -166,7 +156,6 @@ public:
 		}
 
 		glm::mat4 tri = glm::transpose(m_TriTrans.GetModelMatrix());
-		//glm::mat4 squ = glm::transpose(m_SquareTrans.GetModelMatrix());
 		ProjectGE::GloablShaderData data;
 		data.VP = m_Cam.GetMatrix();
 		cBuff1->UpdateData((BYTE*)&data, sizeof(data));
@@ -216,10 +205,12 @@ private:
 	ProjectGE::OrthoCamera m_Cam;
 	test m_Example1;
 };
+
+*/
 class TestZone : public ProjectGE::Application {
 public:
 	TestZone() {
-		PushLayer(new ExampleLayer());
+		PushLayer(new TestRenderLayer());
 	}
 };
 

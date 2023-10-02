@@ -89,23 +89,25 @@ namespace ProjectGE {
 
 		GE_CORE_ASSERT(m_HWnd != nullptr, "Could not react window {0}", props.Title);
 
-		switch (RenderingManager::GetInstance()->GetAPI()) {
-		case RendererAPI::API::DirectX12:
-		{
-			m_RenderContext = (RendererContext*)new DirectX12Context(m_HWnd, m_Prop.Width, m_Prop.Height);
-			break;
-		}
-		case RendererAPI::API::None:
-			GE_CORE_CRITICAL("No render type set");
-			m_RenderContext = nullptr;
-			break;
-		}
+		auto renderManager = RenderingManager::GetInstance();
+		if (renderManager != nullptr) {
+			switch (renderManager->GetAPI()) {
+			case RendererAPI::API::DirectX12:
+			{
+				m_RenderContext = (RendererContext*)new DirectX12Context(m_HWnd, m_Prop.Width, m_Prop.Height);
+				break;
+			}
+			case RendererAPI::API::None:
+				GE_CORE_CRITICAL("No render type set");
+				m_RenderContext = nullptr;
+				break;
+			}
 
-		if (m_RenderContext != nullptr) {
-			m_RenderContext->Init();
-			// TODO: REMOVE THIS CODE, JUST FOR TESTING!
-			//m_Demo = std::unique_ptr<TriangleDemo>(TriangleDemo::Create());
+			if (m_RenderContext != nullptr) {
+				m_RenderContext->Init();
+			}
 		}
+		
 		
 		//Show window
 		ShowWindow(m_HWnd, SW_SHOWDEFAULT);

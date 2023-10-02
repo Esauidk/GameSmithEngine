@@ -45,8 +45,6 @@ namespace ProjectGE {
 		virtual void UpdatePipeline(PipelineStateInitializer& init) = 0;
 		virtual void SubmitRecording() = 0;
 
-		inline static API GetAPI() { return s_API; }
-	private:
-		static API s_API;
+		virtual API GetAPI() = 0;
 	};
 };
