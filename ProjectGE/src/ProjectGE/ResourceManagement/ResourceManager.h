@@ -21,19 +21,22 @@ namespace ProjectGE {
 		template<typename T>
 		Ref<T> GetResource(std::string asset) {
 			if (m_ResourceRegistry.contains(asset)) {
-				return *m_ResourceRegistry.find(asset);
+				Ref<Resource> ptr = (*m_ResourceRegistry.find(asset)).second;
+				return CastPtr<T>(ptr);
 			}
 
-			size_t size;
+			UINT size;
 			char* data = m_Loader->LoadResource(asset, &size);
 
-			Ref<Resource> resource = Ref<T>();
-			resource->Init(data, size);
+			Ref<T> resource = Ref<T>(new T(data, size));
+			resource->Init();
 
-			m_ResourceRegistry.insert(asset, resource);
+			m_ResourceRegistry.insert({ asset, resource });
 
 			return resource;
 		}
+
+		void ScaneResource();
 
 	private:
 		static ResourceManager* s_Instance;

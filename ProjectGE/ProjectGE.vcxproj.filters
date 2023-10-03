@@ -1618,7 +1618,6 @@
     <ClCompile Include="src\ProjectGE\ResourceManagement\ResourceManager.cpp" />
     <ClCompile Include="src\ProjectGE\ResourceManagement\ResourceLoaders\HeapResourceLoader.cpp" />
     <ClCompile Include="src\ProjectGE\ResourceAssets\TestResource.cpp" />
-    <ClCompile Include="src\ProjectGE\ResourceManagement\Resource.cpp" />
     <ClCompile Include="src\ProjectGE\Core\SubsystemManager.cpp" />
   </ItemGroup>
   <ItemGroup>

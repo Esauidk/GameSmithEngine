@@ -47,6 +47,9 @@ namespace ProjectGE {
 	void Application::Execute() {
 		m_Timer.Reset();
 		while (m_Running) {
+			m_Window->OnUpdate();
+
+			m_SubSystems.Update();
 			for (Layer* layer : m_LayerStack) {
 				layer->OnUpdate();
 			}
@@ -57,7 +60,7 @@ namespace ProjectGE {
 			}
 			m_ImGuiLayer->End();
 
-			m_Window->OnUpdate();
+			
 			m_Timer.Mark();
 		}
 	}

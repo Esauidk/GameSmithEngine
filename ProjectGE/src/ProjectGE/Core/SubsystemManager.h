@@ -7,6 +7,7 @@ namespace ProjectGE {
 	{
 	public:
 		SubsystemManager();
+		void Update();
 	private:
 		Scope<ResourceManager> m_ResourceManager;
 		Scope<RenderingManager> m_RenderingManager;

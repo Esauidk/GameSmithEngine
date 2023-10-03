@@ -26,6 +26,10 @@
 #include "ProjectGE/Rendering/RenderAgnostics/BasicStructs.h"
 // -------------------------------------
 
+// -----------RescourceManagement-----------
+#include "ProjectGE/Rendering/RenderingManager.h"
+#include "ProjectGE/ResourceAssets/TestResource.h"
+
 // ---------Components-----------------
 #include "ProjectGE/Components/Transform.h"
 //-------------------------------------

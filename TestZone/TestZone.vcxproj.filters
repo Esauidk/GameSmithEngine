@@ -21,12 +21,18 @@
     <ClCompile Include="src\TestRenderLayer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\TestResourceLayer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\TestRenderLayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\EngineDependenciesOnly.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\TestResourceLayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

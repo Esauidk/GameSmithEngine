@@ -4,7 +4,8 @@
 namespace ProjectGE {
 	class HeapResourceLoader : public ResourceLoader {
 	public:
-		virtual char* LoadResource(std::string file, size_t* outSize) override;
+		virtual char* LoadResource(std::string file, UINT* outSize) override;
+		virtual void CleanResource(char* resource) override;
 	};
 };
 

@@ -136,6 +136,7 @@
   <ItemGroup>
     <ClCompile Include="src\MainTestApp.cpp" />
     <ClCompile Include="src\TestRenderLayer.cpp" />
+    <ClCompile Include="src\TestResourceLayer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ProjectGE\ProjectGE.vcxproj">
@@ -145,6 +146,7 @@
   <ItemGroup>
     <ClInclude Include="src\EngineDependenciesOnly.h" />
     <ClInclude Include="src\TestRenderLayer.h" />
+    <ClInclude Include="src\TestResourceLayer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

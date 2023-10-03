@@ -3,15 +3,13 @@
 #include "ProjectGE/Core/Log.h"
 
 namespace ProjectGE {
-	char* ProjectGE::HeapResourceLoader::LoadResource(std::string file, size_t* outSize)
+	char* ProjectGE::HeapResourceLoader::LoadResource(std::string file, UINT* outSize)
 	{
-		std::fstream pFile(file, std::ios::in);
+		std::fstream pFile(file, std::ios::in | std::ios::binary | std::ios::ate);
+		GE_CORE_ASSERT(pFile.is_open(), std::format("Asset file {0} cannot be opened", file));
 
-		GE_CORE_ASSERT(!pFile.is_open(), std::format("Asset file {} cannot be opened", file));
-
-		pFile.seekg(0, std::ios::end);
-		*outSize = pFile.tellg();
-		pFile.seekg(0, std::ios::beg);
+		*outSize = (UINT)pFile.tellg();
+		pFile.seekg(0, pFile.beg);
 
 		char* buf = new char[*outSize];
 
@@ -19,6 +17,11 @@ namespace ProjectGE {
 		pFile.close();
 
 		return buf;
+	}
+
+	void HeapResourceLoader::CleanResource(char* resource)
+	{
+		delete resource;
 	}
 };
 

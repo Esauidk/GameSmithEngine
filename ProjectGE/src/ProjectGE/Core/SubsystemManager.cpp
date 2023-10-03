@@ -12,4 +12,9 @@ namespace ProjectGE {
 		m_RenderingManager->ShutDown();
 		m_ResourceManager->Shutdown();
 	}
+
+	void SubsystemManager::Update()
+	{
+		m_ResourceManager->ScaneResource();
+	}
 };
