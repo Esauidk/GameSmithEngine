@@ -130,6 +130,24 @@ namespace ProjectGE {
 		}
 	}
 
+	void DirectX12StateManager::BindRenderTargetsOnly()
+	{
+		auto& core = DirectX12Core::GetCore();
+
+		auto& commandList = core.GetDirectCommandContext().GetCommandList();
+
+		if (updateRenderTargets) {
+			D3D12_CPU_DESCRIPTOR_HANDLE RenderTargetArray[MAX_SIM_RENDER_TARGETS] = {};
+			D3D12_CPU_DESCRIPTOR_HANDLE DepthTarget = PipelineState.Graphics.depthTarget.m_View;
+
+			for (UINT i = 0; i < PipelineState.Graphics.numRenderTargets; i++) {
+				RenderTargetArray[i] = PipelineState.Graphics.RenderTargets[i]->m_View;
+			}
+			commandList->OMSetRenderTargets(PipelineState.Graphics.numRenderTargets, RenderTargetArray, 0, &DepthTarget);
+			updateRenderTargets = false;
+		}
+	}
+
 	void DirectX12StateManager::SetVBV(D3D12_VERTEX_BUFFER_VIEW& newBuffer)
 	{
 		GE_CORE_ASSERT(newBuffer.BufferLocation != NULL, "Invalid vertex buffer GPU memory location");

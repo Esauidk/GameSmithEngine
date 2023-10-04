@@ -14,7 +14,7 @@
 
 namespace ProjectGE {
 	ImGuiLayer::ImGuiLayer() : Layer("ImGui Layer") {
-		m_Heap = DirectX12Core::GetCore().GetHeapDatabase().AllocateHeap(1, DescriptorHeapType::CBVSRVUAV, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE);
+		m_Heap = DirectX12Core::GetCore().GetHeapDatabase().AllocateHeap(1, DescriptorHeapType::CBVSRVUAV, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE, "IMGui Heap");
 	}
 
 	ImGuiLayer::~ImGuiLayer() {
@@ -72,18 +72,17 @@ namespace ProjectGE {
 
 	void ImGuiLayer::End() const
 	{
+
 		ImGuiIO& io = ImGui::GetIO();
 		Application& app = Application::Get();
 		const Window& window = app.GetWindow();
 		io.DisplaySize = ImVec2((float)window.GetWidth(), (float)window.GetHeight());
 		ImGui::Render();
 
-		RendererContext* renderer = window.GetRenderer();
-		auto* dRender = (DirectX12Context*)renderer;
 		auto& context = DirectX12Core::GetCore().GetDirectCommandContext();
 		auto& commandList = context.GetCommandList();
+		context.GetStateManager().BindRenderTargetsOnly();
 
-		dRender->AttachContextResources();
 		ID3D12DescriptorHeap* descriptorHeaps[] = {
 			m_Heap->GetHeapReference()
 		};

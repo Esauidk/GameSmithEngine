@@ -20,7 +20,7 @@ namespace ProjectGE {
 		return D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
 	}
 
-	Ref<DirectX12DescriptorHeap> DirectX12HeapDatabase::AllocateHeap(UINT numDescriptor, DescriptorHeapType heapType, D3D12_DESCRIPTOR_HEAP_FLAGS flags)
+	Ref<DirectX12DescriptorHeap> DirectX12HeapDatabase::AllocateHeap(UINT numDescriptor, DescriptorHeapType heapType, D3D12_DESCRIPTOR_HEAP_FLAGS flags, std::string heapName)
 	{
 		for (Ref<DirectX12DescriptorHeap>& heap : m_AvailableHeaps) {
 			if (!heap->IsReserved() && heap->GetType() == heapType && heap->GetNumDescriptors() >= numDescriptor) {
@@ -40,6 +40,9 @@ namespace ProjectGE {
 
 		bool res = FAILED(device->CreateDescriptorHeap(&heapDesc, IID_PPV_ARGS(&newHeap)));
 		GE_CORE_ASSERT(!res, "Failed to create descriptor heap");
+
+		auto nameConvert = std::wstring(heapName.begin(), heapName.end());
+		newHeap->SetName(nameConvert.c_str());
 
 		auto wrappedHeap = Ref<DirectX12DescriptorHeap>(new DirectX12DescriptorHeap(newHeap, numDescriptor, heapType, flags));
 

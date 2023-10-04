@@ -9,12 +9,20 @@ TestResourceLayer::TestResourceLayer(UINT threshold) : m_Threshold(threshold)
 
 void TestResourceLayer::OnImGuiRender()
 {
+	ImGui::Begin("Resource Manager Settings");
+	m_Pressed = ImGui::Button("Destroy Resource");
+	ImGui::End();
 }
 
 void TestResourceLayer::OnUpdate()
 {
-	if (m_Iteration == m_Threshold) {
+
+	if (m_Pressed) {
 		m_Resource = nullptr;
 	}
-	m_Iteration++;
+	else if(m_Resource == nullptr) {
+		auto instance = ProjectGE::ResourceManager::GetInstance();
+		m_Resource = instance->GetResource<ProjectGE::TestResource>("C:\\Users\\esaus\\Documents\\Coding Projects\\NaniteRendereringRecreation\\bin\\Debug-windows-x86_64\\TestZone\\download.png");
+	}
+	
 }

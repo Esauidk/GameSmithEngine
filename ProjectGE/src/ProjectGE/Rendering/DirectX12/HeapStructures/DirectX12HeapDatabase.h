@@ -60,7 +60,7 @@ namespace ProjectGE {
 	public:
 		DirectX12HeapDatabase() = default;
 		// Reuse or allocate new resource space on GPU heap
-		Ref<DirectX12DescriptorHeap> AllocateHeap(UINT numDescriptor, DescriptorHeapType heapType, D3D12_DESCRIPTOR_HEAP_FLAGS flags);
+		Ref<DirectX12DescriptorHeap> AllocateHeap(UINT numDescriptor, DescriptorHeapType heapType, D3D12_DESCRIPTOR_HEAP_FLAGS flags, std::string heapName = "heap");
 	private:
 		std::vector<Ref<DirectX12DescriptorHeap>> m_AvailableHeaps;
 	};

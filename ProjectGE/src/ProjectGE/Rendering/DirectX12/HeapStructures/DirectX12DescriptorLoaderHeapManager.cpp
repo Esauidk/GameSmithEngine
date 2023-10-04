@@ -60,7 +60,8 @@ namespace ProjectGE {
 		Ref<DirectX12DescriptorHeap> heap = core.GetHeapDatabase().AllocateHeap(
 			m_NumDescriptorsPerHeap,
 			m_Type,
-			D3D12_DESCRIPTOR_HEAP_FLAG_NONE
+			D3D12_DESCRIPTOR_HEAP_FLAG_NONE,
+			"Resource Heap Loader"
 		);
 
 		D3D12_CPU_DESCRIPTOR_HANDLE base = heap->GetCPUReference(0);

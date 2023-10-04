@@ -12,5 +12,6 @@ private:
 	ProjectGE::Ref<ProjectGE::TestResource> m_Resource;
 	UINT m_Iteration = 0;
 	UINT m_Threshold = 10;
+	bool m_Pressed = false;
 };
 

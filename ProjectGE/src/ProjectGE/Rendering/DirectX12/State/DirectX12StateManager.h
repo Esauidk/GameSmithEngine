@@ -57,6 +57,7 @@ namespace ProjectGE {
 		void NewCommandList();
 		void NewDescriptorHeap();
 		void BindState();
+		void BindRenderTargetsOnly();
 
 		void SetVBV(D3D12_VERTEX_BUFFER_VIEW& newBuffer);
 		void SetIBV(D3D12_INDEX_BUFFER_VIEW& newBuffer);

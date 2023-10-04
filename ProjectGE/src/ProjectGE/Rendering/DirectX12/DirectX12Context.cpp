@@ -207,6 +207,9 @@ namespace ProjectGE {
 		cmdList->ClearRenderTargetView(m_RTV[m_CurrentBackBuffer]->m_View, m_ClearColor, 0, nullptr);
 		m_DBuffer->Clear(&cmdList, 1);
 
+		UINT fence = context.FinalizeCommandList();
+		context.GetQueue().GPUWaitForFenceValue(fence);
+
 
 		D3D12_CPU_DESCRIPTOR_HANDLE depthHandler = m_DBuffer->GetHandle();
 		DirectX12DepthTargetView depthView;
