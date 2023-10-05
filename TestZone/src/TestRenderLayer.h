@@ -21,7 +21,7 @@ private:
 	ProjectGE::Ref<ProjectGE::Shader> m_PShader;
 
 	ProjectGE::Ref<ProjectGE::Sampler> m_Sampler;
-	ProjectGE::Ref<ProjectGE::Texture2D> m_Tex2d;
+	ProjectGE::Ref<ProjectGE::TextureAsset> m_Tex2d;
 	Transform m_TriTrans;
 	Transform m_SquareTrans;
 

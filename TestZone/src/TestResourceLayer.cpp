@@ -1,10 +1,12 @@
 #include "TestResourceLayer.h"
 #include "imgui.h"
 
-TestResourceLayer::TestResourceLayer(UINT threshold) : m_Threshold(threshold)
+TestResourceLayer::TestResourceLayer()
 {
 	auto instance = ProjectGE::ResourceManager::GetInstance();
-	m_Resource = instance->GetResource<ProjectGE::TestResource>("C:\\Users\\esaus\\Documents\\Coding Projects\\NaniteRendereringRecreation\\bin\\Debug-windows-x86_64\\TestZone\\download.png");
+	//m_Resource = instance->GetResource<ProjectGE::TestResource>("C:\\Users\\esaus\\Documents\\Coding Projects\\ProjectGE\\bin\\Debug-windows-x86_64\\TestZone\\download.png");
+	m_TexResource = instance->GetResource<ProjectGE::TextureAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\ProjectGE\\bin\\Debug-windows-x86_64\\TestZone\\download.png");
+
 }
 
 void TestResourceLayer::OnImGuiRender()
@@ -18,11 +20,11 @@ void TestResourceLayer::OnUpdate()
 {
 
 	if (m_Pressed) {
-		m_Resource = nullptr;
+		m_TexResource = nullptr;
 	}
-	else if(m_Resource == nullptr) {
+	else if(m_TexResource == nullptr) {
 		auto instance = ProjectGE::ResourceManager::GetInstance();
-		m_Resource = instance->GetResource<ProjectGE::TestResource>("C:\\Users\\esaus\\Documents\\Coding Projects\\NaniteRendereringRecreation\\bin\\Debug-windows-x86_64\\TestZone\\download.png");
+		m_TexResource = instance->GetResource<ProjectGE::TextureAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\ProjectGE\\bin\\Debug-windows-x86_64\\TestZone\\download.png");
 	}
 	
 }

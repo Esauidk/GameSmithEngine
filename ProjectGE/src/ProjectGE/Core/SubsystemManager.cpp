@@ -6,7 +6,7 @@ namespace ProjectGE {
 		m_ResourceManager = Scope<ResourceManager>(new ResourceManager());
 		m_RenderingManager = Scope<RenderingManager>(new RenderingManager());
 
-		m_ResourceManager->Init();
+		m_ResourceManager->Init(ResourceLoaderType::Heap);
 		m_RenderingManager->Init();
 
 		m_RenderingManager->ShutDown();
@@ -15,6 +15,6 @@ namespace ProjectGE {
 
 	void SubsystemManager::Update()
 	{
-		m_ResourceManager->ScaneResource();
+		m_ResourceManager->ScanResource();
 	}
 };

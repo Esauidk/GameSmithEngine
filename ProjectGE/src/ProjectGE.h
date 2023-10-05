@@ -29,6 +29,7 @@
 // -----------RescourceManagement-----------
 #include "ProjectGE/Rendering/RenderingManager.h"
 #include "ProjectGE/ResourceAssets/TestResource.h"
+#include "ProjectGE/ResourceAssets/TextureAsset.h"
 
 // ---------Components-----------------
 #include "ProjectGE/Components/Transform.h"

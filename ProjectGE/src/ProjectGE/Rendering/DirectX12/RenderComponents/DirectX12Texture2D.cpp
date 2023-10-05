@@ -6,10 +6,10 @@
 #include "ProjectGE/Rendering/DirectX12/DirectX12Core.h"
 
 namespace ProjectGE {
-	DirectX12Texture2D::DirectX12Texture2D(const std::string& path) : m_Path(path)
+	DirectX12Texture2D::DirectX12Texture2D(char* data, UINT size)
 	{
 		int width, height, channels;
-		stbi_uc* image = stbi_load(path.c_str(), &width, &height, &channels, 0);
+		stbi_uc* image = stbi_load_from_memory((stbi_uc*)data, size, &width, &height, &channels, 0);
 		GE_CORE_ASSERT(image != nullptr, "Failed to load image");
 
 		m_Metadata.width = width;

@@ -86,9 +86,9 @@ namespace ProjectGE {
 		context.GetStateManager().SetCBV(stage, view, index);
 	}
 
-	Ref<Texture2D> DirectX12RendererAPI::CreateTexture2D(std::string& texturePath)
+	Ref<Texture2D> DirectX12RendererAPI::CreateTexture2D(char* data, UINT size)
 	{
-		return Ref<Texture2D>(new DirectX12Texture2D(texturePath));
+		return Ref<Texture2D>(new DirectX12Texture2D(data, size));
 	}
 
 	void DirectX12RendererAPI::SetTexture2D(Ref<Texture2D> tex, Stages stage)

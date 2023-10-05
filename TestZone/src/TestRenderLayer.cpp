@@ -82,9 +82,10 @@ TestRenderLayer::TestRenderLayer() : Layer("TestRender"), m_Cam(-1.6f, 1.6f, -0.
 	m_Sampler = renderAPI->CreateSampler(ProjectGE::FilterType::Point, ProjectGE::PaddingMethod::Clamp);
 	renderAPI->SetSampler(m_Sampler, ProjectGE::STAGE_PIXEL);
 
-	auto texture = std::string(buffer).substr(0, pos).append("\\test2.png");
-	m_Tex2d = renderAPI->CreateTexture2D(texture);
-	renderAPI->SetTexture2D(m_Tex2d, ProjectGE::STAGE_PIXEL);
+	auto texture = std::string(buffer).substr(0, pos).append("\\download.png");
+	auto instance = ProjectGE::ResourceManager::GetInstance();
+	m_Tex2d = instance->GetResource<ProjectGE::TextureAsset>(texture);
+	m_Tex2d->SetGraphicsTexture(); 
 }
 
 void TestRenderLayer::OnImGuiRender() {

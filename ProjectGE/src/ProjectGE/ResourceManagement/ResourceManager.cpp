@@ -7,6 +7,15 @@
 namespace ProjectGE {
 	ResourceManager* ResourceManager::s_Instance = nullptr;
 
+	static Ref<ResourceLoader> GetLoader(ResourceLoaderType loaderType) {
+		switch (loaderType) {
+		case ResourceLoaderType::Heap:
+			return Ref<ResourceLoader>(new HeapResourceLoader());
+		default:
+			return Ref<ResourceLoader>(new HeapResourceLoader());
+		}
+	}
+
 	ResourceManager::ResourceManager()
 	{
 		if (s_Instance == nullptr) {
@@ -14,9 +23,9 @@ namespace ProjectGE {
 		}
 	}
 
-	void ResourceManager::Init()
+	void ResourceManager::Init(ResourceLoaderType loaderType)
 	{
-		m_Loader = Ref<ResourceLoader>(new HeapResourceLoader());
+		m_Loader = GetLoader(loaderType);
 		GE_CORE_INFO("Resource Manager Loaded!");
 	}
 
@@ -24,7 +33,7 @@ namespace ProjectGE {
 	{
 	}
 
-	void ResourceManager::ScaneResource()
+	void ResourceManager::ScanResource()
 	{
 		auto it = m_ResourceRegistry.begin();
 

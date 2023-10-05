@@ -24,7 +24,7 @@ namespace ProjectGE {
 		virtual Ref<ConstantBuffer> CreateConstantBuffer(UINT size) override;
 		virtual void SetConstantBuffer(Ref<ConstantBuffer> cbuffer, Stages stage, ShaderConstantType constantType) override;
 
-		virtual Ref<Texture2D> CreateTexture2D(std::string& texturePath) override;
+		virtual Ref<Texture2D> CreateTexture2D(char* data, UINT size) override;
 		virtual void SetTexture2D(Ref<Texture2D> tex, Stages stage) override;
 
 		virtual Ref<Sampler> CreateSampler(FilterType img, PaddingMethod padMode) override;

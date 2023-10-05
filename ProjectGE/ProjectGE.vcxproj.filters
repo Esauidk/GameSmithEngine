@@ -1514,6 +1514,7 @@
     <ClInclude Include="src\ProjectGE\ResourceManagement\ResourceLoaders\HeapResourceLoader.h" />
     <ClInclude Include="src\ProjectGE\ResourceAssets\TestResource.h" />
     <ClInclude Include="src\ProjectGE\Core\SubsystemManager.h" />
+    <ClInclude Include="src\ProjectGE\ResourceAssets\TextureAsset.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\Camera\Camera.cpp">
@@ -1594,9 +1595,6 @@
     <ClCompile Include="src\ProjectGE\Rendering\RenderingManager.cpp">
       <Filter>src\ProjectGE\Rendering</Filter>
     </ClCompile>
-    <ClCompile Include="src\ProjectGE\Rendering\RendererAPI.cpp">
-      <Filter>src\ProjectGE\Rendering</Filter>
-    </ClCompile>
     <ClCompile Include="src\gepch.cpp">
       <Filter>src</Filter>
     </ClCompile>
@@ -1619,6 +1617,7 @@
     <ClCompile Include="src\ProjectGE\ResourceManagement\ResourceLoaders\HeapResourceLoader.cpp" />
     <ClCompile Include="src\ProjectGE\ResourceAssets\TestResource.cpp" />
     <ClCompile Include="src\ProjectGE\Core\SubsystemManager.cpp" />
+    <ClCompile Include="src\ProjectGE\ResourceAssets\TextureAsset.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\SamplePixelShader.hlsl" />
