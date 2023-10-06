@@ -30,6 +30,7 @@
 #include "ProjectGE/Rendering/RenderingManager.h"
 #include "ProjectGE/ResourceAssets/TestResource.h"
 #include "ProjectGE/ResourceAssets/TextureAsset.h"
+#include "ProjectGE/ResourceAssets/MeshAsset.h"
 
 // ---------Components-----------------
 #include "ProjectGE/Components/Transform.h"

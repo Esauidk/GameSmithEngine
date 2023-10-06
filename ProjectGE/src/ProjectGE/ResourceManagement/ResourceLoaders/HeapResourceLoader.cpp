@@ -19,6 +19,14 @@ namespace ProjectGE {
 		return buf;
 	}
 
+	char* HeapResourceLoader::LoadResource(char* data, UINT size)
+	{
+		char* buf = new char[size];
+		memcpy(buf, data, size);
+
+		return buf;
+	}
+
 	void HeapResourceLoader::CleanResource(char* resource)
 	{
 		delete resource;

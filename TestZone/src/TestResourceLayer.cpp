@@ -3,8 +3,14 @@
 
 TestResourceLayer::TestResourceLayer()
 {
+	ProjectGE::VertexStruct triVertex[] = {
+		{ {-0.5f, -0.5f, 0.0f}}, // 0
+		{ {0.0f,  0.5f, 0.0f}}, // 1 
+		{ {0.5f,  -0.5f, 0.0f}} // 2
+	};
+
 	auto instance = ProjectGE::ResourceManager::GetInstance();
-	//m_Resource = instance->GetResource<ProjectGE::TestResource>("C:\\Users\\esaus\\Documents\\Coding Projects\\ProjectGE\\bin\\Debug-windows-x86_64\\TestZone\\download.png");
+	m_Resource = instance->GetResource<ProjectGE::MeshAsset>("test", (char*)&triVertex, sizeof(triVertex));
 	m_TexResource = instance->GetResource<ProjectGE::TextureAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\ProjectGE\\bin\\Debug-windows-x86_64\\TestZone\\download.png");
 
 }

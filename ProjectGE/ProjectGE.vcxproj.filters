@@ -1515,6 +1515,7 @@
     <ClInclude Include="src\ProjectGE\ResourceAssets\TestResource.h" />
     <ClInclude Include="src\ProjectGE\Core\SubsystemManager.h" />
     <ClInclude Include="src\ProjectGE\ResourceAssets\TextureAsset.h" />
+    <ClInclude Include="src\ProjectGE\ResourceAssets\MeshAsset.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\Camera\Camera.cpp">
@@ -1618,6 +1619,7 @@
     <ClCompile Include="src\ProjectGE\ResourceAssets\TestResource.cpp" />
     <ClCompile Include="src\ProjectGE\Core\SubsystemManager.cpp" />
     <ClCompile Include="src\ProjectGE\ResourceAssets\TextureAsset.cpp" />
+    <ClCompile Include="src\ProjectGE\ResourceAssets\MeshAsset.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\SamplePixelShader.hlsl" />

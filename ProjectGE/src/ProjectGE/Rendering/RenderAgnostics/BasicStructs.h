@@ -5,6 +5,7 @@ namespace ProjectGE {
 	struct VertexStruct {
 		float pos[3];
 		float uv[2];
+		float normal[3];
 	};
 };
 

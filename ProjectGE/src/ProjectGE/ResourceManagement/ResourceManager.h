@@ -38,6 +38,25 @@ namespace ProjectGE {
 			return resource;
 		}
 
+		// Expected to be used only during testing
+		template<typename T>
+		Ref<T> GetResource(std::string key, char* inData, UINT size) {
+			if (m_ResourceRegistry.contains(key)) {
+				Ref<Resource> ptr = (*m_ResourceRegistry.find(key)).second;
+				return CastPtr<T>(ptr);
+			}
+
+			GE_CORE_INFO("Copying data with key: {0} into memory!", key);
+			char* data = m_Loader->LoadResource(inData, size);
+
+			Ref<T> resource = Ref<T>(new T(data, size));
+			resource->Init();
+
+			m_ResourceRegistry.insert({ key, resource });
+
+			return resource;
+		}
+
 		void ScanResource();
 
 	private:

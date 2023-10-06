@@ -5,7 +5,7 @@
 class TestZone : public ProjectGE::Application {
 public:
 	TestZone() {
-		PushLayer(new TestRenderLayer());
+		PushLayer(new TestResourceLayer());
 	}
 };
 

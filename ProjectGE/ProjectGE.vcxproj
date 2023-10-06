@@ -143,6 +143,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ProjectGE\ResourceAssets\MeshAsset.h" />
     <ClInclude Include="src\ProjectGE\ResourceManagement\ResourceLoaders\HeapResourceLoader.h" />
     <ClInclude Include="src\ProjectGE\ResourceManagement\Resource.h" />
     <ClInclude Include="src\ProjectGE\ResourceManagement\ResourceLoaders\ResourceLoader.h" />
@@ -644,6 +645,7 @@
     <ClInclude Include="third-party\stb\stb_image.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ProjectGE\ResourceAssets\MeshAsset.cpp" />
     <ClCompile Include="src\ProjectGE\ResourceManagement\ResourceLoaders\HeapResourceLoader.cpp" />
     <ClCompile Include="src\ProjectGE\ResourceManagement\ResourceManager.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12Sampler.cpp" />
