@@ -17,7 +17,7 @@ namespace ProjectGE {
 
 		virtual Ref<VertexBuffer> CreateVertexBuffer(BYTE* data, int vertexByteSize, int vertexCount) override;
 		virtual void SetVertexBuffer(Ref<VertexBuffer> vbuffer) override;
-		virtual Ref<IndexBuffer> CreateIndexBuffer(unsigned short* data, unsigned int indexCount) override;
+		virtual Ref<IndexBuffer> CreateIndexBuffer(unsigned int* data, unsigned int indexCount) override;
 		virtual void SetIndexBuffer(Ref<IndexBuffer> ibuffer) override;
 		virtual Ref<Shader> LoadShader(std::string path) override;
 

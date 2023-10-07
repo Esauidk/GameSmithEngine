@@ -7,6 +7,11 @@ namespace ProjectGE {
 	class VertexBuffer;
 	class IndexBuffer;
 
+	struct MeshMetadata {
+		UINT numVerticies;
+		UINT numFaces;
+	};
+
 	class MeshAsset : public Resource
 	{
 	public:
@@ -14,6 +19,8 @@ namespace ProjectGE {
 
 		virtual void Init() override;
 		virtual void Destroy() override;
+
+		void SetGraphicsMesh();
 	private:
 		Ref<VertexBuffer> m_Vert;
 		Ref<IndexBuffer> m_Index;

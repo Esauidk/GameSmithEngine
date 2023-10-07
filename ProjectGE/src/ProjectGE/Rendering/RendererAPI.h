@@ -27,7 +27,7 @@ namespace ProjectGE {
 
 		virtual Ref<VertexBuffer> CreateVertexBuffer(BYTE* data, int vertexByteSize, int vertexCount) = 0;
 		virtual void SetVertexBuffer(Ref<VertexBuffer> vbuffer) = 0;
-		virtual Ref<IndexBuffer> CreateIndexBuffer(unsigned short* data, unsigned int indexCount) = 0;
+		virtual Ref<IndexBuffer> CreateIndexBuffer(unsigned int* data, unsigned int indexCount) = 0;
 		virtual void SetIndexBuffer(Ref<IndexBuffer> ibuffer) = 0;
 		virtual Ref<Shader> LoadShader(std::string path) = 0;
 

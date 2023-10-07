@@ -40,7 +40,7 @@ namespace ProjectGE {
 		context.GetStateManager().SetVBV(view);
 	}
 
-	Ref<IndexBuffer> DirectX12RendererAPI::CreateIndexBuffer(unsigned short* data, unsigned int indexCount)
+	Ref<IndexBuffer> DirectX12RendererAPI::CreateIndexBuffer(unsigned int* data, unsigned int indexCount)
 	{
 		return Ref<IndexBuffer>(new DirectX12IndexBuffer(data, indexCount));
 	}

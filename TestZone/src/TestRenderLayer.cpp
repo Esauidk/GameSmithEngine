@@ -50,7 +50,7 @@ TestRenderLayer::TestRenderLayer() : Layer("TestRender"), m_Cam(-1.6f, 1.6f, -0.
 	auto top = ProjectGE::TopologyType::Triangle;
 	renderAPI->SetTopology(top);
 
-	unsigned short indexCount[] = {
+	unsigned int indexCount[] = {
 		0, 1, 2
 	};
 
@@ -59,7 +59,7 @@ TestRenderLayer::TestRenderLayer() : Layer("TestRender"), m_Cam(-1.6f, 1.6f, -0.
 		2,1,0,0,3,2
 	};
 
-	iBuff = renderAPI->CreateIndexBuffer((unsigned short*)&squareIndex, _countof(squareIndex));
+	iBuff = renderAPI->CreateIndexBuffer((unsigned int*)&squareIndex, _countof(squareIndex));
 
 	renderAPI->SetVertexBuffer(vBuff);
 	renderAPI->SetIndexBuffer(iBuff);
