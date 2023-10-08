@@ -3,6 +3,7 @@
 #include "ProjectGE/Core/Log.h"
 #include "ProjectGE/Rendering/RenderingManager.h"
 #include "ProjectGE/Rendering/RenderAgnostics/BasicStructs.h"
+#include "ProjectGE/ThirdPartySetups/TinyObj/TinyObjLoaderWrapper.h"
 
 namespace ProjectGE {
 	void MeshAsset::Init()
@@ -10,7 +11,47 @@ namespace ProjectGE {
 		char* data = GetResourceData();
 		UINT size = GetResourceSize();
 
-		GE_CORE_ASSERT(size >= sizeof(MeshMetadata), "Not enough space to hold Mesh metadata");
+		tinyobj::ObjReader reader;
+		GE_CORE_ASSERT(reader.ParseFromString(data, ""), "Could not successfully parse .obj mesh file");
+
+		auto& attrib = reader.GetAttrib();
+		auto& shapes = reader.GetShapes();
+
+		GE_CORE_ASSERT(shapes[0].mesh.num_face_vertices[0] == 3, "This model does not use triangles");
+
+		std::vector<VertexStruct> verticies;
+		std::vector<unsigned int> indicies;
+		std::unordered_set<unsigned int> known_indicies;
+
+		for (size_t i = 0; i < shapes[0].mesh.indices.size(); i++) {
+			VertexStruct vertex;
+
+			tinyobj::index_t idx = shapes[0].mesh.indices[i];
+			if (known_indicies.find(idx.vertex_index) == known_indicies.end()) {
+				vertex.pos[0] = attrib.vertices[(3 * idx.vertex_index)];
+				vertex.pos[1] = attrib.vertices[(3 * idx.vertex_index) + 1];
+				vertex.pos[2] = attrib.vertices[(3 * idx.vertex_index) + 2];
+
+
+				if (idx.normal_index >= 0) {
+					vertex.normal[0] = attrib.normals[(3 * idx.normal_index)];
+					vertex.normal[1] = attrib.normals[(3 * idx.normal_index) + 1];
+					vertex.normal[2] = attrib.normals[(3 * idx.normal_index) + 2];
+				}
+
+				if (idx.texcoord_index >= 0) {
+					vertex.uv[0] = attrib.texcoords[(2 * idx.texcoord_index)];
+					vertex.uv[1] = attrib.texcoords[(2 * idx.texcoord_index) + 1];
+				}
+
+				verticies.push_back(vertex);
+				known_indicies.insert(idx.vertex_index);
+			}
+
+			indicies.push_back(idx.vertex_index);
+		}
+
+		/*GE_CORE_ASSERT(size >= sizeof(MeshMetadata), "Not enough space to hold Mesh metadata");
 		// Get metadata
 		MeshMetadata* metadata = (MeshMetadata*)data;
 		data += sizeof(MeshMetadata);
@@ -29,15 +70,15 @@ namespace ProjectGE {
 		VertexStruct* vertexData = (VertexStruct*)data;
 		data += sizeof(VertexStruct) * metadata->numVerticies;
 
-		unsigned int* indicies = (unsigned int*)data;
+		unsigned int* indicies = (unsigned int*)data;*/
 
 		auto rManager = RenderingManager::GetInstance();
 		GE_CORE_ASSERT(rManager != nullptr, "Cannot load mesh without render manager");
 
 		m_Vert = rManager->GetRenderAPI()->CreateVertexBuffer(
-			(BYTE*)vertexData, 
+			(BYTE*)verticies.data(), 
 			sizeof(VertexStruct), 
-			metadata->numVerticies
+			(int)verticies.size()
 		);
 
 		BufferLayoutBuilder layout = { {"POSITION", ProjectGE::ShaderDataType::Float3}, {"UV_TEXCOORD", ProjectGE::ShaderDataType::Float2} };
@@ -45,8 +86,8 @@ namespace ProjectGE {
 		m_Vert->AttachLayout(layout);
 
 		m_Index = rManager->GetRenderAPI()->CreateIndexBuffer(
-			indicies,
-			metadata->numFaces * 3
+			indicies.data(),
+			(unsigned int)indicies.size()
 		);
 		
 	}

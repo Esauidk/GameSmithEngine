@@ -40,6 +40,21 @@
     <Filter Include="src\ProjectGE\Rendering\DirectX12\CommandList">
       <UniqueIdentifier>{BB5FD16D-27D0-D3E6-F0EE-4D6F5C1E0CE8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\ProjectGE\Rendering\DirectX12\HeapStructures">
+      <UniqueIdentifier>{22C30124-0E6C-6953-3702-85D2230A8494}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ProjectGE\Rendering\DirectX12\RenderComponents">
+      <UniqueIdentifier>{E6E64AD5-D27A-407D-3B3F-9A3127F27A6F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ProjectGE\Rendering\DirectX12\Resources">
+      <UniqueIdentifier>{1BCA4649-872F-DACF-1008-7CA87C6CCF3E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ProjectGE\Rendering\DirectX12\Resources\Util">
+      <UniqueIdentifier>{486A9379-3413-FBA8-5DA9-162849B115EA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ProjectGE\Rendering\DirectX12\State">
+      <UniqueIdentifier>{81A3964C-ED32-5837-F62E-394F623D9343}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\ProjectGE\Rendering\DirectX12\Util">
       <UniqueIdentifier>{5EC981BC-4A1B-59AC-333A-96BC1F2B7295}</UniqueIdentifier>
     </Filter>
@@ -49,8 +64,23 @@
     <Filter Include="src\ProjectGE\Rendering\RenderAgnostics">
       <UniqueIdentifier>{46D89AE2-B267-5CCD-BB63-3DE5277297D9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\ProjectGE\Rendering\RenderAgnostics\BindableResources">
-      <UniqueIdentifier>{011E0E3A-6D90-5056-B624-86DA22D61A4F}</UniqueIdentifier>
+    <Filter Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents">
+      <UniqueIdentifier>{5BC014C6-4795-5C79-7044-9C755C786A90}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ProjectGE\Rendering\RenderAgnostics\Shaders">
+      <UniqueIdentifier>{1FE3DD04-8B1E-3EC8-9413-BB5700CEC2F8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ProjectGE\Rendering\RenderAgnostics\Shaders\SLab">
+      <UniqueIdentifier>{D001D565-BC40-7FE1-65C3-5B1351E1344C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ProjectGE\ResourceAssets">
+      <UniqueIdentifier>{89DB7FBD-7596-6F69-1E4E-E8B30AE8B9F9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ProjectGE\ResourceManagement">
+      <UniqueIdentifier>{73521EF9-5FA3-093B-8807-F8FC74B79CA4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ProjectGE\ResourceManagement\ResourceLoaders">
+      <UniqueIdentifier>{541D0AEA-40C6-7119-695C-8D9855648C5A}</UniqueIdentifier>
     </Filter>
     <Filter Include="third-party">
       <UniqueIdentifier>{9DC1EB7C-0977-6472-926B-5E49FE1F5B76}</UniqueIdentifier>
@@ -75,6 +105,9 @@
     </Filter>
     <Filter Include="third-party\stb">
       <UniqueIdentifier>{750619AA-E191-866E-EAA2-096356ADE26E}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="third-party\tinyobjloader">
+      <UniqueIdentifier>{A2CBFA31-0E8E-2EBC-573E-BD48C33F079A}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -114,6 +147,9 @@
     <ClInclude Include="src\ProjectGE\Core\MixStack.h">
       <Filter>src\ProjectGE\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\ProjectGE\Core\SubsystemManager.h">
+      <Filter>src\ProjectGE\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\ProjectGE\Core\Timer.h">
       <Filter>src\ProjectGE\Core</Filter>
     </ClInclude>
@@ -150,20 +186,8 @@
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12GeometryPack.h">
       <Filter>src\ProjectGE\Rendering\DirectX12\BindableResources</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12InputLayout.h">
-      <Filter>src\ProjectGE\Rendering\DirectX12\BindableResources</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12RootSignature.h">
-      <Filter>src\ProjectGE\Rendering\DirectX12\BindableResources</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12Shader.h">
-      <Filter>src\ProjectGE\Rendering\DirectX12\BindableResources</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12Texture2D.h">
-      <Filter>src\ProjectGE\Rendering\DirectX12\BindableResources</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12TopologyResource.h">
-      <Filter>src\ProjectGE\Rendering\DirectX12\BindableResources</Filter>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectCommandUtils.h">
+      <Filter>src\ProjectGE\Rendering\DirectX12\CommandList</Filter>
     </ClInclude>
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12CommandContext.h">
       <Filter>src\ProjectGE\Rendering\DirectX12\CommandList</Filter>
@@ -177,19 +201,85 @@
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12Context.h">
       <Filter>src\ProjectGE\Rendering\DirectX12</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12DepthBuffer.h">
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12Core.h">
       <Filter>src\ProjectGE\Rendering\DirectX12</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12PipelineState.h">
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12DepthBuffer.h">
       <Filter>src\ProjectGE\Rendering\DirectX12</Filter>
     </ClInclude>
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12RendererAPI.h">
       <Filter>src\ProjectGE\Rendering\DirectX12</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12Buffer.h">
-      <Filter>src\ProjectGE\Rendering\DirectX12\Util</Filter>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12RendererHeaders.h">
+      <Filter>src\ProjectGE\Rendering\DirectX12</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\HeapStructures\DirectX12DescriptorLoaderHeapManager.h">
+      <Filter>src\ProjectGE\Rendering\DirectX12\HeapStructures</Filter>
     </ClInclude>
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\HeapStructures\DirectX12HeapDatabase.h">
+      <Filter>src\ProjectGE\Rendering\DirectX12\HeapStructures</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12ConstantBuffer.h">
+      <Filter>src\ProjectGE\Rendering\DirectX12\RenderComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12IndexBuffer.h">
+      <Filter>src\ProjectGE\Rendering\DirectX12\RenderComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12InputLayout.h">
+      <Filter>src\ProjectGE\Rendering\DirectX12\RenderComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12PipelineState.h">
+      <Filter>src\ProjectGE\Rendering\DirectX12\RenderComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12RootSignature.h">
+      <Filter>src\ProjectGE\Rendering\DirectX12\RenderComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12Sampler.h">
+      <Filter>src\ProjectGE\Rendering\DirectX12\RenderComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12Shader.h">
+      <Filter>src\ProjectGE\Rendering\DirectX12\RenderComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12Texture2D.h">
+      <Filter>src\ProjectGE\Rendering\DirectX12\RenderComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12VertexBuffer.h">
+      <Filter>src\ProjectGE\Rendering\DirectX12\RenderComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12Buffer.h">
+      <Filter>src\ProjectGE\Rendering\DirectX12\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12Resource.h">
+      <Filter>src\ProjectGE\Rendering\DirectX12\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12TextureResource.h">
+      <Filter>src\ProjectGE\Rendering\DirectX12\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12TopologyResource.h">
+      <Filter>src\ProjectGE\Rendering\DirectX12\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12Views.h">
+      <Filter>src\ProjectGE\Rendering\DirectX12\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Resources\Util\DirectX12BarrierTracker.h">
+      <Filter>src\ProjectGE\Rendering\DirectX12\Resources\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\State\DirectX12HeapDescriptorState.h">
+      <Filter>src\ProjectGE\Rendering\DirectX12\State</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\State\DirectX12StateManager.h">
+      <Filter>src\ProjectGE\Rendering\DirectX12\State</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12Macos.h">
+      <Filter>src\ProjectGE\Rendering\DirectX12\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12RootSignatureBuilder.h">
+      <Filter>src\ProjectGE\Rendering\DirectX12\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12ShaderUtils.h">
+      <Filter>src\ProjectGE\Rendering\DirectX12\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12Util.h">
       <Filter>src\ProjectGE\Rendering\DirectX12\Util</Filter>
     </ClInclude>
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\third-party\d3dx12.h">
@@ -198,38 +288,74 @@
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BasicStructs.h">
       <Filter>src\ProjectGE\Rendering\RenderAgnostics</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\ConstantBuffer.h">
-      <Filter>src\ProjectGE\Rendering\RenderAgnostics\BindableResources</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\GeometryPack.h">
-      <Filter>src\ProjectGE\Rendering\RenderAgnostics\BindableResources</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\IndexBuffer.h">
-      <Filter>src\ProjectGE\Rendering\RenderAgnostics\BindableResources</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\Shader.h">
-      <Filter>src\ProjectGE\Rendering\RenderAgnostics\BindableResources</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\Texture.h">
-      <Filter>src\ProjectGE\Rendering\RenderAgnostics\BindableResources</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\Topology.h">
-      <Filter>src\ProjectGE\Rendering\RenderAgnostics\BindableResources</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\VertexBuffer.h">
-      <Filter>src\ProjectGE\Rendering\RenderAgnostics\BindableResources</Filter>
-    </ClInclude>
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BufferLayout.h">
       <Filter>src\ProjectGE\Rendering\RenderAgnostics</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\RenderingManager.h">
-      <Filter>src\ProjectGE\Rendering</Filter>
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\ConstantBuffer.h">
+      <Filter>src\ProjectGE\Rendering\RenderAgnostics\RenderComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\GeometryPack.h">
+      <Filter>src\ProjectGE\Rendering\RenderAgnostics\RenderComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\IndexBuffer.h">
+      <Filter>src\ProjectGE\Rendering\RenderAgnostics\RenderComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\PipelineStateInitializer.h">
+      <Filter>src\ProjectGE\Rendering\RenderAgnostics\RenderComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\Sampler.h">
+      <Filter>src\ProjectGE\Rendering\RenderAgnostics\RenderComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\Shader.h">
+      <Filter>src\ProjectGE\Rendering\RenderAgnostics\RenderComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\Texture.h">
+      <Filter>src\ProjectGE\Rendering\RenderAgnostics\RenderComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\Topology.h">
+      <Filter>src\ProjectGE\Rendering\RenderAgnostics\RenderComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\VertexBuffer.h">
+      <Filter>src\ProjectGE\Rendering\RenderAgnostics\RenderComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\Shaders\SLab\SLab.h">
+      <Filter>src\ProjectGE\Rendering\RenderAgnostics\Shaders\SLab</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\Shaders\ShaderParameter.h">
+      <Filter>src\ProjectGE\Rendering\RenderAgnostics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\Shaders\ShaderUtil.h">
+      <Filter>src\ProjectGE\Rendering\RenderAgnostics\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="src\ProjectGE\Rendering\RendererAPI.h">
       <Filter>src\ProjectGE\Rendering</Filter>
     </ClInclude>
     <ClInclude Include="src\ProjectGE\Rendering\RendererContext.h">
       <Filter>src\ProjectGE\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\RenderingManager.h">
+      <Filter>src\ProjectGE\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\ResourceAssets\MeshAsset.h">
+      <Filter>src\ProjectGE\ResourceAssets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\ResourceAssets\TestResource.h">
+      <Filter>src\ProjectGE\ResourceAssets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\ResourceAssets\TextureAsset.h">
+      <Filter>src\ProjectGE\ResourceAssets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\ResourceManagement\Resource.h">
+      <Filter>src\ProjectGE\ResourceManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\ResourceManagement\ResourceLoaders\HeapResourceLoader.h">
+      <Filter>src\ProjectGE\ResourceManagement\ResourceLoaders</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\ResourceManagement\ResourceLoaders\ResourceLoader.h">
+      <Filter>src\ProjectGE\ResourceManagement\ResourceLoaders</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\ResourceManagement\ResourceManager.h">
+      <Filter>src\ProjectGE\ResourceManagement</Filter>
     </ClInclude>
     <ClInclude Include="src\gepch.h">
       <Filter>src</Filter>
@@ -1485,37 +1611,10 @@
     <ClInclude Include="third-party\stb\stb_image.h">
       <Filter>third-party\stb</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12Core.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12RootSignatureBuilder.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12Macos.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\State\DirectX12StateManager.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12Views.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\State\DirectX12HeapDescriptorState.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\Shaders\ShaderUtil.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Resources\Util\DirectX12BarrierTracker.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12Resource.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12ConstantBuffer.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12IndexBuffer.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12VertexBuffer.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\DirectX12RendererHeaders.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12Util.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12ShaderUtils.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\Shaders\ShaderParameter.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\Shaders\SLab\SLab.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\HeapStructures\DirectX12DescriptorLoaderHeapManager.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectCommandUtils.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12TextureResource.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12Sampler.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\Sampler.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\PipelineStateInitializer.h" />
-    <ClInclude Include="src\ProjectGE\ResourceManagement\ResourceManager.h" />
-    <ClInclude Include="src\ProjectGE\ResourceManagement\Resource.h" />
-    <ClInclude Include="src\ProjectGE\ResourceManagement\ResourceLoaders\ResourceLoader.h" />
-    <ClInclude Include="src\ProjectGE\ResourceManagement\ResourceLoaders\HeapResourceLoader.h" />
-    <ClInclude Include="src\ProjectGE\ResourceAssets\TestResource.h" />
-    <ClInclude Include="src\ProjectGE\Core\SubsystemManager.h" />
-    <ClInclude Include="src\ProjectGE\ResourceAssets\TextureAsset.h" />
-    <ClInclude Include="src\ProjectGE\ResourceAssets\MeshAsset.h" />
+    <ClInclude Include="third-party\tinyobjloader\tiny_obj_loader.h">
+      <Filter>third-party\tinyobjloader</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\ThirdPartySetups\TinyObj\TinyObjLoaderWrapper.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\Camera\Camera.cpp">
@@ -1536,6 +1635,9 @@
     <ClCompile Include="src\ProjectGE\Core\Log.cpp">
       <Filter>src\ProjectGE\Core</Filter>
     </ClCompile>
+    <ClCompile Include="src\ProjectGE\Core\SubsystemManager.cpp">
+      <Filter>src\ProjectGE\Core</Filter>
+    </ClCompile>
     <ClCompile Include="src\ProjectGE\Core\Timer.cpp">
       <Filter>src\ProjectGE\Core</Filter>
     </ClCompile>
@@ -1554,21 +1656,6 @@
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12GeometryPack.cpp">
       <Filter>src\ProjectGE\Rendering\DirectX12\BindableResources</Filter>
     </ClCompile>
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12InputLayout.cpp">
-      <Filter>src\ProjectGE\Rendering\DirectX12\BindableResources</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12RootSignature.cpp">
-      <Filter>src\ProjectGE\Rendering\DirectX12\BindableResources</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12Shader.cpp">
-      <Filter>src\ProjectGE\Rendering\DirectX12\BindableResources</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12Texture2D.cpp">
-      <Filter>src\ProjectGE\Rendering\DirectX12\BindableResources</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12TopologyResource.cpp">
-      <Filter>src\ProjectGE\Rendering\DirectX12\BindableResources</Filter>
-    </ClCompile>
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12CommandContext.cpp">
       <Filter>src\ProjectGE\Rendering\DirectX12\CommandList</Filter>
     </ClCompile>
@@ -1581,20 +1668,86 @@
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12Context.cpp">
       <Filter>src\ProjectGE\Rendering\DirectX12</Filter>
     </ClCompile>
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12DepthBuffer.cpp">
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12Core.cpp">
       <Filter>src\ProjectGE\Rendering\DirectX12</Filter>
     </ClCompile>
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12PipelineState.cpp">
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12DepthBuffer.cpp">
       <Filter>src\ProjectGE\Rendering\DirectX12</Filter>
     </ClCompile>
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12RendererAPI.cpp">
       <Filter>src\ProjectGE\Rendering\DirectX12</Filter>
     </ClCompile>
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\HeapStructures\DirectX12DescriptorLoaderHeapManager.cpp">
+      <Filter>src\ProjectGE\Rendering\DirectX12\HeapStructures</Filter>
+    </ClCompile>
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\HeapStructures\DirectX12HeapDatabase.cpp">
+      <Filter>src\ProjectGE\Rendering\DirectX12\HeapStructures</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12ConstantBuffer.cpp">
+      <Filter>src\ProjectGE\Rendering\DirectX12\RenderComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12IndexBuffer.cpp">
+      <Filter>src\ProjectGE\Rendering\DirectX12\RenderComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12InputLayout.cpp">
+      <Filter>src\ProjectGE\Rendering\DirectX12\RenderComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12PipelineState.cpp">
+      <Filter>src\ProjectGE\Rendering\DirectX12\RenderComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12RootSignature.cpp">
+      <Filter>src\ProjectGE\Rendering\DirectX12\RenderComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12Sampler.cpp">
+      <Filter>src\ProjectGE\Rendering\DirectX12\RenderComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12Shader.cpp">
+      <Filter>src\ProjectGE\Rendering\DirectX12\RenderComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12Texture2D.cpp">
+      <Filter>src\ProjectGE\Rendering\DirectX12\RenderComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12VertexBuffer.cpp">
+      <Filter>src\ProjectGE\Rendering\DirectX12\RenderComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12Resource.cpp">
+      <Filter>src\ProjectGE\Rendering\DirectX12\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12TextureResource.cpp">
+      <Filter>src\ProjectGE\Rendering\DirectX12\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12TopologyResource.cpp">
+      <Filter>src\ProjectGE\Rendering\DirectX12\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Resources\Util\DirectX12BarrierTracker.cpp">
+      <Filter>src\ProjectGE\Rendering\DirectX12\Resources\Util</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\State\DirectX12HeapDescriptorState.cpp">
+      <Filter>src\ProjectGE\Rendering\DirectX12\State</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\State\DirectX12StateManager.cpp">
+      <Filter>src\ProjectGE\Rendering\DirectX12\State</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12ShaderUtils.cpp">
       <Filter>src\ProjectGE\Rendering\DirectX12\Util</Filter>
     </ClCompile>
     <ClCompile Include="src\ProjectGE\Rendering\RenderingManager.cpp">
       <Filter>src\ProjectGE\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\ResourceAssets\MeshAsset.cpp">
+      <Filter>src\ProjectGE\ResourceAssets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\ResourceAssets\TestResource.cpp">
+      <Filter>src\ProjectGE\ResourceAssets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\ResourceAssets\TextureAsset.cpp">
+      <Filter>src\ProjectGE\ResourceAssets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\ResourceManagement\ResourceLoaders\HeapResourceLoader.cpp">
+      <Filter>src\ProjectGE\ResourceManagement\ResourceLoaders</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\ResourceManagement\ResourceManager.cpp">
+      <Filter>src\ProjectGE\ResourceManagement</Filter>
     </ClCompile>
     <ClCompile Include="src\gepch.cpp">
       <Filter>src</Filter>
@@ -1602,30 +1755,12 @@
     <ClCompile Include="third-party\stb\std_image.cpp">
       <Filter>third-party\stb</Filter>
     </ClCompile>
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\DirectX12Core.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\State\DirectX12StateManager.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\State\DirectX12HeapDescriptorState.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Resources\Util\DirectX12BarrierTracker.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12ConstantBuffer.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12IndexBuffer.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12Resource.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12VertexBuffer.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12ShaderUtils.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\HeapStructures\DirectX12DescriptorLoaderHeapManager.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12TextureResource.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12Sampler.cpp" />
-    <ClCompile Include="src\ProjectGE\ResourceManagement\ResourceManager.cpp" />
-    <ClCompile Include="src\ProjectGE\ResourceManagement\ResourceLoaders\HeapResourceLoader.cpp" />
-    <ClCompile Include="src\ProjectGE\ResourceAssets\TestResource.cpp" />
-    <ClCompile Include="src\ProjectGE\Core\SubsystemManager.cpp" />
-    <ClCompile Include="src\ProjectGE\ResourceAssets\TextureAsset.cpp" />
-    <ClCompile Include="src\ProjectGE\ResourceAssets\MeshAsset.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\SamplePixelShader.hlsl" />
-    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Vertex\SampleVertexShader.hlsl" />
-    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Vertex\BasicRenderVS.hlsl" />
     <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\BasicRenderPS.hlsl" />
+    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\SamplePixelShader.hlsl" />
+    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Vertex\BasicRenderVS.hlsl" />
+    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Vertex\SampleVertexShader.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\ProjectGE\Rendering\SampleShaders\Core.hlsli" />

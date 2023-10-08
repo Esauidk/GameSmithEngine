@@ -13,6 +13,7 @@ IncludeDir = {}
 IncludeDir["ImGui"] = "ProjectGE/third-party/imgui"
 IncludeDir["glm"] = "ProjectGE/third-party/glm"
 IncludeDir["stb"] = "ProjectGE/third-party/stb"
+IncludeDir["tinyobj"] = "ProjectGE/third-party/tinyobjloader"
 
 include "ProjectGE/third-party/imgui"
 
@@ -35,7 +36,8 @@ project "ProjectGE"
 		"%{prj.name}/third-party/stb/**.h",
 		"%{prj.name}/third-party/stb/**.cpp",
 		"%{prj.name}/third-party/glm/glm/**.hpp",
-		"%{prj.name}/third-party/glm/glm/**.inl"
+		"%{prj.name}/third-party/glm/glm/**.inl",
+		"%{prj.name}/third-party/tinyobjloader/**.h"
 	}
 
 	includedirs{
@@ -43,7 +45,8 @@ project "ProjectGE"
 		"%{prj.name}/third-party/spdlog/include",
 		"%{IncludeDir.stb}",
 		"%{IncludeDir.ImGui}",
-		"%{IncludeDir.glm}"
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.tinyobj}"
 	}
 
 	links{

@@ -134,6 +134,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\EngineDependenciesOnly.h" />
+    <ClInclude Include="src\TestRenderLayer.h" />
+    <ClInclude Include="src\TestResourceLayer.h" />
+  </ItemGroup>
+  <ItemGroup>
     <ClCompile Include="src\MainTestApp.cpp" />
     <ClCompile Include="src\TestRenderLayer.cpp" />
     <ClCompile Include="src\TestResourceLayer.cpp" />
@@ -142,11 +147,6 @@
     <ProjectReference Include="..\ProjectGE\ProjectGE.vcxproj">
       <Project>{C8BC6FED-3427-2464-7D65-D509E90E02B9}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\EngineDependenciesOnly.h" />
-    <ClInclude Include="src\TestRenderLayer.h" />
-    <ClInclude Include="src\TestResourceLayer.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

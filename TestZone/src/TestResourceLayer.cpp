@@ -36,7 +36,7 @@ TestResourceLayer::TestResourceLayer()
 
 
 	auto instance = ProjectGE::ResourceManager::GetInstance();
-	m_Resource = instance->GetResource<ProjectGE::MeshAsset>("test", Test, bufSize);
+	m_Resource = instance->GetResource<ProjectGE::MeshAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\ProjectGE\\bin\\Debug-windows-x86_64\\TestZone\\icosahedron.obj");
 	m_TexResource = instance->GetResource<ProjectGE::TextureAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\ProjectGE\\bin\\Debug-windows-x86_64\\TestZone\\download.png");
 
 }

@@ -55,7 +55,7 @@ TestRenderLayer::TestRenderLayer() : Layer("TestRender"), m_Cam(-1.6f, 1.6f, -0.
 	};
 
 
-	WORD squareIndex[] = {
+	unsigned int squareIndex[] = {
 		2,1,0,0,3,2
 	};
 
@@ -168,6 +168,9 @@ void TestRenderLayer::OnUpdate() {
 
 	//std::dynamic_pointer_cast<ProjectGE::DirectX12Texture2D>(m_Tex2d)->Test();
 	ProjectGE::RendererAPI* renderAPI = ProjectGE::RenderingManager::GetInstance()->GetRenderAPI();
+
+	renderAPI->SetVertexBuffer(vBuff);
+	renderAPI->SetIndexBuffer(iBuff);
 
 	renderAPI->DrawIndexed(iBuff->GetCount(), 1);
 	renderAPI->SubmitRecording();

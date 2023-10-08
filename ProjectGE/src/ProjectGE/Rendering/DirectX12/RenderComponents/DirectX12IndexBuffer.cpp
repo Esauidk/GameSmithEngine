@@ -11,7 +11,7 @@ namespace ProjectGE {
 
 		D3D12_INDEX_BUFFER_VIEW view;
 		view.BufferLocation = m_Buffer->GetGPUReference();
-		view.Format = DXGI_FORMAT_R16_UINT;
+		view.Format = DXGI_FORMAT_R32_UINT;
 		view.SizeInBytes = m_Buffer->GetSize();
 
 		return view;
