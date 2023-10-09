@@ -3,40 +3,8 @@
 
 TestResourceLayer::TestResourceLayer()
 {
-	ProjectGE::VertexStruct triVertex[] = {
-		{ {-0.5f, -0.5f, 0.0f}}, // 0
-		{ {0.0f,  0.5f, 0.0f}}, // 1 
-		{ {0.5f,  -0.5f, 0.0f}} // 2
-	};
-
-	unsigned int indexCount[] = {
-		0, 1, 2
-	};
-
-	ProjectGE::MeshMetadata meta = { _countof(triVertex), 1 };
-
-	UINT bufSize = sizeof(ProjectGE::MeshMetadata) + sizeof(triVertex) + sizeof(indexCount);
-	char* Test = new char[bufSize];
-
-	char* cur = Test;
-	*((ProjectGE::MeshMetadata*)cur) = meta;
-	cur += sizeof(ProjectGE::MeshMetadata);
-
-	for (UINT i = 0; i < _countof(triVertex); i++) {
-		*((ProjectGE::VertexStruct*)cur) = triVertex[i];
-		cur += sizeof(ProjectGE::VertexStruct);
-	}
-
-	for (UINT i = 0; i < _countof(indexCount); i++) {
-		*((unsigned short*)cur) = indexCount[i];
-		cur += sizeof(unsigned short);
-	}
-
-	
-
-
 	auto instance = ProjectGE::ResourceManager::GetInstance();
-	m_Resource = instance->GetResource<ProjectGE::MeshAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\ProjectGE\\bin\\Debug-windows-x86_64\\TestZone\\Cybertruck.obj");
+	m_Resource = instance->GetResource<ProjectGE::MeshAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\ProjectGE\\bin\\Debug-windows-x86_64\\TestZone\\hat_LP.obj");
 	m_TexResource = instance->GetResource<ProjectGE::TextureAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\ProjectGE\\bin\\Debug-windows-x86_64\\TestZone\\download.png");
 
 }

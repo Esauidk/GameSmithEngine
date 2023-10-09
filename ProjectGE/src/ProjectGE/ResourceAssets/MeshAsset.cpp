@@ -21,6 +21,7 @@ namespace ProjectGE {
 
 		std::vector<VertexStruct> verticies;
 		std::vector<unsigned int> indicies;
+		std::unordered_set<unsigned int> viewedIndicies;
 
 		for (size_t i = 0; i < attrib.vertices.size()/3; i++) {
 			VertexStruct vertex;
@@ -29,57 +30,59 @@ namespace ProjectGE {
 			vertex.pos[1] = attrib.vertices[(3 * i) + 1];
 			vertex.pos[2] = attrib.vertices[(3 * i) + 2];
 			verticies.push_back(vertex);
-
-			/*if (attrib.normals.size() > 0) {
-				vertex.normal[0] = attrib.normals[3 * i];
-				vertex.normal[1] = attrib.normals[(3 * i) + 1];
-				vertex.normal[2] = attrib.normals[(3 * i) + 2];
-			}
-			else {
-				vertex.normal[0] = 0;
-				vertex.normal[1] = 0;
-				vertex.normal[2] = 0;
-			}
-
-			if (attrib.texcoords.size() > 0) {
-				vertex.uv[0] = attrib.texcoords[2 * i];
-				vertex.uv[1] = attrib.texcoords[(2 * i) + 1];
-			}
-			else {
-				vertex.uv[0] = 0;
-				vertex.uv[1] = 0;
-			}*/
 		}
-
-		for (size_t i = 0; i < shapes[0].mesh.indices.size(); i++) {
-			tinyobj::index_t idx = shapes[0].mesh.indices[i];
-			indicies.push_back(idx.vertex_index);
-		}
-
-		/*GE_CORE_ASSERT(size >= sizeof(MeshMetadata), "Not enough space to hold Mesh metadata");
-		// Get metadata
-		MeshMetadata* metadata = (MeshMetadata*)data;
-		data += sizeof(MeshMetadata);
-
-		bool fileFitsMeta = 
-			size >=
-			(
-				sizeof(MeshMetadata)
-				+ sizeof(VertexStruct) * metadata->numVerticies
-				+ sizeof(unsigned short) * (metadata->numFaces * 3)
-			);
-
-		GE_CORE_ASSERT(fileFitsMeta, "File cannot fit data described in metadata, corruption?");
-
-		// Make container for extracted vertex
-		VertexStruct* vertexData = (VertexStruct*)data;
-		data += sizeof(VertexStruct) * metadata->numVerticies;
-
-		unsigned int* indicies = (unsigned int*)data;*/
 
 		auto rManager = RenderingManager::GetInstance();
 		GE_CORE_ASSERT(rManager != nullptr, "Cannot load mesh without render manager");
 
+		for (size_t s = 0; s < shapes.size(); s++) {
+			indicies.clear();
+			for (size_t i = 0; i < shapes[s].mesh.indices.size(); i++) {
+				tinyobj::index_t idx = shapes[s].mesh.indices[i];
+
+				bool newVert = (viewedIndicies.find(idx.vertex_index) == viewedIndicies.end());
+				if (idx.vertex_index == 1) {
+					GE_CORE_INFO("Vertex: {0}, Noormal: {1}, UV: {2}", idx.vertex_index, idx.normal_index, idx.texcoord_index);
+				}
+
+				if (newVert) {
+					VertexStruct& v = verticies[idx.vertex_index];
+
+					if (attrib.normals.size() > 0) {
+						v.normal[0] = attrib.normals[3 * idx.normal_index];
+						v.normal[1] = attrib.normals[(3 * idx.normal_index) + 1];
+						v.normal[2] = attrib.normals[(3 * idx.normal_index) + 2];
+					}
+					else {
+						v.normal[0] = 0;
+						v.normal[1] = 0;
+						v.normal[2] = 0;
+					}
+
+					if (attrib.texcoords.size() > 0) {
+						v.uv[0] = attrib.texcoords[2 * idx.texcoord_index];
+						v.uv[1] = attrib.texcoords[(2 * idx.texcoord_index) + 1];
+					}
+					else {
+						v.uv[0] = 0;
+						v.uv[1] = 0;
+					}
+
+					viewedIndicies.insert(idx.vertex_index);
+				}
+				
+
+				indicies.push_back(idx.vertex_index);
+			}
+
+			auto index = rManager->GetRenderAPI()->CreateIndexBuffer(
+				indicies.data(),
+				(unsigned int)indicies.size()
+			);
+
+			m_SubMeshes.emplace_back(index);
+		}
+		
 		m_Vert = rManager->GetRenderAPI()->CreateVertexBuffer(
 			(BYTE*)verticies.data(), 
 			sizeof(VertexStruct), 
@@ -89,18 +92,13 @@ namespace ProjectGE {
 		BufferLayoutBuilder layout = { {"POSITION", ProjectGE::ShaderDataType::Float3}, {"UV_TEXCOORD", ProjectGE::ShaderDataType::Float2} };
 
 		m_Vert->AttachLayout(layout);
-
-		m_Index = rManager->GetRenderAPI()->CreateIndexBuffer(
-			indicies.data(),
-			(unsigned int)indicies.size()
-		);
 		
 	}
 
 	void MeshAsset::Destroy()
 	{
 		m_Vert = nullptr;
-		m_Index = nullptr;
+		m_SubMeshes.clear();
 	}
 
 	void MeshAsset::SetGraphicsMesh()
@@ -110,8 +108,11 @@ namespace ProjectGE {
 		if (manager != nullptr) {
 			auto renderAPI = manager->GetRenderAPI();
 			renderAPI->SetVertexBuffer(m_Vert);
-			renderAPI->SetIndexBuffer(m_Index);
-			renderAPI->DrawIndexed(m_Index->GetCount(), 1);
+
+			for (SubMesh sub : m_SubMeshes) {
+				renderAPI->SetIndexBuffer(sub.index);
+				renderAPI->DrawIndexed(sub.index->GetCount(), 1);
+			}
 		}
 		else {
 			GE_CORE_INFO("RenderManager Not Initialized: Not Allocating GPU Resources for Texture Asset");

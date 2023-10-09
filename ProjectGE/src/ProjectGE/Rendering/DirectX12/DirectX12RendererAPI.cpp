@@ -141,11 +141,20 @@ namespace ProjectGE {
 		D3D12_RT_FORMAT_ARRAY rtvFormats = {};
 		rtvFormats.NumRenderTargets = 1;
 		rtvFormats.RTFormats[0] = DXGI_FORMAT_R8G8B8A8_UNORM;
+		CD3DX12_RASTERIZER_DESC rastDsc(D3D12_FILL_MODE_SOLID,
+			D3D12_CULL_MODE_BACK,
+			TRUE, D3D12_DEFAULT_DEPTH_BIAS,
+			D3D12_DEFAULT_DEPTH_BIAS_CLAMP,
+			D3D12_DEFAULT_SLOPE_SCALED_DEPTH_BIAS,
+			TRUE, FALSE, FALSE,
+			0,
+			D3D12_CONSERVATIVE_RASTERIZATION_MODE_OFF);
 
 		DirectX12PipelineArgs args = {
 			{root->GetInternalRootSignature(),
 			((ProjectGE::DirectX12InputLayout*)init.vertexLayout)->GetInternalLayout(),
 			ProjectGE::TranslateTopType(init.toplopgyType),
+			rastDsc,
 			CD3DX12_SHADER_BYTECODE(CastPtr<DirectX12Shader>(init.shaders[Vertex])->ByteCode()),
 			CD3DX12_SHADER_BYTECODE(CastPtr<DirectX12Shader>(init.shaders[Pixel])->ByteCode()),
 			DXGI_FORMAT_D32_FLOAT,

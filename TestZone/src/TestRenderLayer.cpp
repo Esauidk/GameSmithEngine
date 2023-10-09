@@ -10,7 +10,7 @@ TestRenderLayer::TestRenderLayer() : Layer("TestRender"), m_Cam(-1.6f, 1.6f, -0.
 	GetModuleFileNameA(NULL, buffer, MAX_PATH);
 	std::wstring::size_type pos = std::string(buffer).find_last_of("\\");
 	auto vertex = std::string(buffer).substr(0, pos).append("\\SampleVertexShader.cso");
-	auto pixel = std::string(buffer).substr(0, pos).append("\\BasicRenderPS.cso");
+	auto pixel = std::string(buffer).substr(0, pos).append("\\SamplePixelShader.cso");
 
 	ProjectGE::RendererAPI* renderAPI = ProjectGE::RenderingManager::GetInstance()->GetRenderAPI();
 
@@ -145,9 +145,29 @@ void TestRenderLayer::OnUpdate() {
 		m_TriTrans.SetPosition(newPosition);
 	}
 
-	if (ProjectGE::Input::IsKeyPressed(GE_KEY_P)) {
+	if (ProjectGE::Input::IsKeyPressed(GE_KEY_M)) {
 		glm::vec3 oldRotation = m_TriTrans.GetRotation();
 		m_TriTrans.SetRotation(oldRotation + dt * glm::vec3(0, 0, 1));
+	}
+
+	if (ProjectGE::Input::IsKeyPressed(GE_KEY_N)) {
+		glm::vec3 oldRotation = m_TriTrans.GetRotation();
+		m_TriTrans.SetRotation(oldRotation + dt * glm::vec3(0, 1, 0));
+	}
+
+	if (ProjectGE::Input::IsKeyPressed(GE_KEY_B)) {
+		glm::vec3 oldRotation = m_TriTrans.GetRotation();
+		m_TriTrans.SetRotation(oldRotation + dt * glm::vec3(0, 1, 0));
+	}
+
+	if (ProjectGE::Input::IsKeyPressed(GE_KEY_Z)) {
+		glm::vec3 oldScale = m_TriTrans.GetScale();
+		m_TriTrans.SetScale(oldScale + dt * glm::vec3(-1, -1, -1));
+	}
+
+	if (ProjectGE::Input::IsKeyPressed(GE_KEY_X)) {
+		glm::vec3 oldScale = m_TriTrans.GetScale();
+		m_TriTrans.SetScale(oldScale + dt * glm::vec3(1, 1, 1));
 	}
 
 	glm::mat4 tri = glm::transpose(m_TriTrans.GetModelMatrix());
@@ -169,9 +189,9 @@ void TestRenderLayer::OnUpdate() {
 	//std::dynamic_pointer_cast<ProjectGE::DirectX12Texture2D>(m_Tex2d)->Test();
 	ProjectGE::RendererAPI* renderAPI = ProjectGE::RenderingManager::GetInstance()->GetRenderAPI();
 
-	renderAPI->SetVertexBuffer(vBuff);
-	renderAPI->SetIndexBuffer(iBuff);
+	//renderAPI->SetVertexBuffer(vBuff);
+	//renderAPI->SetIndexBuffer(iBuff);
 
-	renderAPI->DrawIndexed(iBuff->GetCount(), 1);
+	//renderAPI->DrawIndexed(iBuff->GetCount(), 1);
 	renderAPI->SubmitRecording();
 }

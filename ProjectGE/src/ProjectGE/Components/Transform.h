@@ -8,6 +8,9 @@ public:
 	inline glm::vec3 GetPosition() const { return m_Position; }
 	inline void SetRotation(glm::vec3 newRotation) { m_Rotation = newRotation; UpdateMatrix(); }
 	inline glm::vec3 GetRotation() const { return m_Rotation; }
+	inline void SetScale(glm::vec3 newScale) { m_Scale = newScale; UpdateMatrix(); }
+	inline glm::vec3 GetScale() const { return m_Scale; }
+
 	inline glm::mat4 GetModelMatrix() const { return m_ModelMatrix; }
 private:
 	void UpdateMatrix();

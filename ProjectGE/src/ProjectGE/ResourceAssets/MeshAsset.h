@@ -7,9 +7,8 @@ namespace ProjectGE {
 	class VertexBuffer;
 	class IndexBuffer;
 
-	struct MeshMetadata {
-		UINT numVerticies;
-		UINT numFaces;
+	struct SubMesh {
+		Ref<IndexBuffer> index;
 	};
 
 	class MeshAsset : public Resource
@@ -23,7 +22,7 @@ namespace ProjectGE {
 		void SetGraphicsMesh();
 	private:
 		Ref<VertexBuffer> m_Vert;
-		Ref<IndexBuffer> m_Index;
+		std::vector<SubMesh> m_SubMeshes;
 	};
 };
 
