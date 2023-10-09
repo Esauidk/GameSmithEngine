@@ -21,33 +21,38 @@ namespace ProjectGE {
 
 		std::vector<VertexStruct> verticies;
 		std::vector<unsigned int> indicies;
-		std::unordered_set<unsigned int> known_indicies;
 
-		for (size_t i = 0; i < shapes[0].mesh.indices.size(); i++) {
+		for (size_t i = 0; i < attrib.vertices.size()/3; i++) {
 			VertexStruct vertex;
+			
+			vertex.pos[0] = attrib.vertices[3 * i];
+			vertex.pos[1] = attrib.vertices[(3 * i) + 1];
+			vertex.pos[2] = attrib.vertices[(3 * i) + 2];
+			verticies.push_back(vertex);
 
-			tinyobj::index_t idx = shapes[0].mesh.indices[i];
-			if (known_indicies.find(idx.vertex_index) == known_indicies.end()) {
-				vertex.pos[0] = attrib.vertices[(3 * idx.vertex_index)];
-				vertex.pos[1] = attrib.vertices[(3 * idx.vertex_index) + 1];
-				vertex.pos[2] = attrib.vertices[(3 * idx.vertex_index) + 2];
-
-
-				if (idx.normal_index >= 0) {
-					vertex.normal[0] = attrib.normals[(3 * idx.normal_index)];
-					vertex.normal[1] = attrib.normals[(3 * idx.normal_index) + 1];
-					vertex.normal[2] = attrib.normals[(3 * idx.normal_index) + 2];
-				}
-
-				if (idx.texcoord_index >= 0) {
-					vertex.uv[0] = attrib.texcoords[(2 * idx.texcoord_index)];
-					vertex.uv[1] = attrib.texcoords[(2 * idx.texcoord_index) + 1];
-				}
-
-				verticies.push_back(vertex);
-				known_indicies.insert(idx.vertex_index);
+			/*if (attrib.normals.size() > 0) {
+				vertex.normal[0] = attrib.normals[3 * i];
+				vertex.normal[1] = attrib.normals[(3 * i) + 1];
+				vertex.normal[2] = attrib.normals[(3 * i) + 2];
+			}
+			else {
+				vertex.normal[0] = 0;
+				vertex.normal[1] = 0;
+				vertex.normal[2] = 0;
 			}
 
+			if (attrib.texcoords.size() > 0) {
+				vertex.uv[0] = attrib.texcoords[2 * i];
+				vertex.uv[1] = attrib.texcoords[(2 * i) + 1];
+			}
+			else {
+				vertex.uv[0] = 0;
+				vertex.uv[1] = 0;
+			}*/
+		}
+
+		for (size_t i = 0; i < shapes[0].mesh.indices.size(); i++) {
+			tinyobj::index_t idx = shapes[0].mesh.indices[i];
 			indicies.push_back(idx.vertex_index);
 		}
 
