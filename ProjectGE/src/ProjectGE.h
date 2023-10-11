@@ -24,6 +24,10 @@
 #include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/PipelineStateInitializer.h"
 
 #include "ProjectGE/Rendering/RenderAgnostics/BasicStructs.h"
+
+// Material System
+#include "ProjectGE/Rendering/RenderAgnostics/MaterialSystem/Material.h"
+#include "ProjectGE/Rendering/RenderAgnostics/Shaders/ShaderParameter.h"
 // -------------------------------------
 
 // -----------RescourceManagement-----------

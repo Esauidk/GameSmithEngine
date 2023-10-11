@@ -1615,6 +1615,7 @@
       <Filter>third-party\tinyobjloader</Filter>
     </ClInclude>
     <ClInclude Include="src\ProjectGE\ThirdPartySetups\TinyObj\TinyObjLoaderWrapper.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\MaterialSystem\Material.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\Camera\Camera.cpp">
@@ -1755,6 +1756,7 @@
     <ClCompile Include="third-party\stb\std_image.cpp">
       <Filter>third-party\stb</Filter>
     </ClCompile>
+    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\MaterialSystem\Material.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\BasicRenderPS.hlsl" />

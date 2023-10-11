@@ -68,8 +68,10 @@ TestRenderLayer::TestRenderLayer() : Layer("TestRender"), m_Cam(-1.6f, 1.6f, -0.
 		"main", ProjectGE::STAGE_VERTEX, "test"));*/
 
 	ProjectGE::SLabMetadata metadata;
-	metadata.AddParameter(ProjectGE::ShaderParameter("Model", ProjectGE::ShaderDataType::Matrix));
-	metadata.AddParameter(ProjectGE::ShaderParameter("InputColor", ProjectGE::ShaderDataType::Float3));
+	auto pModel = ProjectGE::Ref<ProjectGE::ShaderParameter>(new ProjectGE::ShaderParameterMatrix("Model"));
+	auto pColor = ProjectGE::Ref<ProjectGE::ShaderParameter>(new ProjectGE::ShaderParameterFloat3("InputColor"));
+	metadata.AddParameter(pModel);
+	metadata.AddParameter(pColor);
 
 	// TODO: GET RID OF THIS, JUST FOR TESTING WITH SCENE DATA
 	cBuff1 = renderAPI->CreateConstantBuffer(sizeof(ProjectGE::GloablShaderData));
@@ -86,6 +88,17 @@ TestRenderLayer::TestRenderLayer() : Layer("TestRender"), m_Cam(-1.6f, 1.6f, -0.
 	auto instance = ProjectGE::ResourceManager::GetInstance();
 	m_Tex2d = instance->GetResource<ProjectGE::TextureAsset>(texture);
 	m_Tex2d->SetGraphicsTexture(); 
+
+	std::unordered_map<std::string, ProjectGE::Ref<ProjectGE::ShaderParameter>> params;
+	params.insert({ pModel->GetName(), pModel });
+	params.insert({ pColor->GetName(), pColor });
+
+	std::unordered_map<std::string, ProjectGE::Ref<ProjectGE::TextureAsset>> texs;
+	texs.insert({ texture, m_Tex2d });
+
+	ProjectGE::Material mat(params, texs);
+	auto modelParam = mat.GetParameter<ProjectGE::ShaderParameterMatrix>(pModel->GetName());
+	int i = 0;
 }
 
 void TestRenderLayer::OnImGuiRender() {

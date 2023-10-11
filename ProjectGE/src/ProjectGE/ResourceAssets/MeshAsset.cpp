@@ -26,9 +26,11 @@ namespace ProjectGE {
 		for (size_t i = 0; i < attrib.vertices.size()/3; i++) {
 			VertexStruct vertex;
 			
-			vertex.pos[0] = attrib.vertices[3 * i];
-			vertex.pos[1] = attrib.vertices[(3 * i) + 1];
-			vertex.pos[2] = attrib.vertices[(3 * i) + 2];
+			vertex.pos = { 
+				attrib.vertices[3 * i], 
+				attrib.vertices[(3 * i) + 1], 
+				attrib.vertices[(3 * i) + 2] 
+			};
 			verticies.push_back(vertex);
 		}
 
@@ -49,23 +51,24 @@ namespace ProjectGE {
 					VertexStruct& v = verticies[idx.vertex_index];
 
 					if (attrib.normals.size() > 0) {
-						v.normal[0] = attrib.normals[3 * idx.normal_index];
-						v.normal[1] = attrib.normals[(3 * idx.normal_index) + 1];
-						v.normal[2] = attrib.normals[(3 * idx.normal_index) + 2];
+						v.normal = {
+							attrib.normals[3 * idx.normal_index],
+							attrib.normals[(3 * idx.normal_index) + 1],
+							attrib.normals[(3 * idx.normal_index) + 2]
+						};
 					}
 					else {
-						v.normal[0] = 0;
-						v.normal[1] = 0;
-						v.normal[2] = 0;
+						v.normal = { 0, 0, 0 };
 					}
 
 					if (attrib.texcoords.size() > 0) {
-						v.uv[0] = attrib.texcoords[2 * idx.texcoord_index];
-						v.uv[1] = attrib.texcoords[(2 * idx.texcoord_index) + 1];
+						v.uv = {
+							attrib.texcoords[2 * idx.texcoord_index],
+							attrib.texcoords[(2 * idx.texcoord_index) + 1]
+						};
 					}
 					else {
-						v.uv[0] = 0;
-						v.uv[1] = 0;
+						v.uv = { 0, 0 };
 					}
 
 					viewedIndicies.insert(idx.vertex_index);
