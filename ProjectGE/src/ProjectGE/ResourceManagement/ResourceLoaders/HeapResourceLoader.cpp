@@ -29,7 +29,7 @@ namespace ProjectGE {
 
 	void HeapResourceLoader::CleanResource(char* resource)
 	{
-		delete resource;
+		delete[] resource;
 	}
 };
 

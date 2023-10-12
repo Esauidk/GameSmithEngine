@@ -1,5 +1,6 @@
 #pragma once
 #include "ProjectGE/Rendering/RenderAgnostics/Shaders/ShaderParameter.h"
+#include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/ConstantBuffer.h"
 #include "ProjectGE/ResourceAssets/TextureAsset.h"
 #include "ProjectGE/Core/Log.h"
 
@@ -7,11 +8,9 @@ namespace ProjectGE {
 	class Material
 	{
 	public:
-		Material(std::unordered_map<std::string , Ref<ShaderParameter>> paramters, 
-			std::unordered_map<std::string, Ref<TextureAsset>> textures) : 
-			m_Paramters(paramters), 
-			m_Textures(textures) 
-		{};
+		Material(std::vector<std::string> order, 
+			std::unordered_map<std::string, Ref<ShaderParameter>> paramters,
+			std::unordered_map<std::string, Ref<TextureAsset>> textures);
 
 		template<typename T>
 		Ref<T> GetParameter(std::string parameterName) {
@@ -30,8 +29,12 @@ namespace ProjectGE {
 		}
 		void ApplyMaterial();
 	private:
+		std::vector<std::string> m_ParameterKeys;
 		std::unordered_map<std::string, Ref<ShaderParameter>> m_Paramters;
 		std::unordered_map<std::string, Ref<TextureAsset>> m_Textures;
+
+		unsigned int m_ParameterByteTotal;
+		Ref<ConstantBuffer> m_GPULocation;
 	};
 };
 

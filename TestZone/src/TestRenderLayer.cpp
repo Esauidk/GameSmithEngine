@@ -67,19 +67,19 @@ TestRenderLayer::TestRenderLayer() : Layer("TestRender"), m_Cam(-1.6f, 1.6f, -0.
 	/*ProjectGE::DirectX12Shader(ProjectGE::CompileShaderForDX12("struct VertexInput{float3 Position : POSITION;};struct VertexShaderOutput{float4 Position : SV_POSITION;};VertexShaderOutput main(VertexInput input){VertexShaderOutput vso;vso.Position = float4(input.Position, 1);return vso;}",
 		"main", ProjectGE::STAGE_VERTEX, "test"));*/
 
-	ProjectGE::SLabMetadata metadata;
+	//ProjectGE::SLabMetadata metadata;
 	auto pModel = ProjectGE::Ref<ProjectGE::ShaderParameter>(new ProjectGE::ShaderParameterMatrix("Model"));
 	auto pColor = ProjectGE::Ref<ProjectGE::ShaderParameter>(new ProjectGE::ShaderParameterFloat3("InputColor"));
-	metadata.AddParameter(pModel);
-	metadata.AddParameter(pColor);
+	//metadata.AddParameter(pModel);
+	//metadata.AddParameter(pColor);
 
 	// TODO: GET RID OF THIS, JUST FOR TESTING WITH SCENE DATA
 	cBuff1 = renderAPI->CreateConstantBuffer(sizeof(ProjectGE::GloablShaderData));
 	renderAPI->SetConstantBuffer(cBuff1, ProjectGE::STAGE_VERTEX, ProjectGE::ShaderConstantType::Global);
 
-	cBuff2 = renderAPI->CreateConstantBuffer(metadata.GetByteSize());
-	renderAPI->SetConstantBuffer(cBuff2, ProjectGE::STAGE_VERTEX, ProjectGE::ShaderConstantType::Instance);
-	renderAPI->SetConstantBuffer(cBuff2, ProjectGE::STAGE_PIXEL, ProjectGE::ShaderConstantType::Instance);
+	//cBuff2 = renderAPI->CreateConstantBuffer(metadata.GetByteSize());
+	//renderAPI->SetConstantBuffer(cBuff2, ProjectGE::STAGE_VERTEX, ProjectGE::ShaderConstantType::Instance);
+	//renderAPI->SetConstantBuffer(cBuff2, ProjectGE::STAGE_PIXEL, ProjectGE::ShaderConstantType::Instance);
 
 	m_Sampler = renderAPI->CreateSampler(ProjectGE::FilterType::Point, ProjectGE::PaddingMethod::Clamp);
 	renderAPI->SetSampler(m_Sampler, ProjectGE::STAGE_PIXEL);
@@ -96,9 +96,12 @@ TestRenderLayer::TestRenderLayer() : Layer("TestRender"), m_Cam(-1.6f, 1.6f, -0.
 	std::unordered_map<std::string, ProjectGE::Ref<ProjectGE::TextureAsset>> texs;
 	texs.insert({ texture, m_Tex2d });
 
-	ProjectGE::Material mat(params, texs);
-	auto modelParam = mat.GetParameter<ProjectGE::ShaderParameterMatrix>(pModel->GetName());
-	int i = 0;
+	std::vector<std::string> parameterOrder;
+	parameterOrder.push_back(pModel->GetName());
+	parameterOrder.push_back(pColor->GetName());
+
+	m_Mat = ProjectGE::Ref <ProjectGE::Material>(new ProjectGE::Material(parameterOrder, params, texs));
+	m_Mat->ApplyMaterial();
 }
 
 void TestRenderLayer::OnImGuiRender() {
@@ -190,14 +193,21 @@ void TestRenderLayer::OnUpdate() {
 	cBuff1->UpdateData((BYTE*)&data, sizeof(data));
 
 
-	struct instanceData {
+	/*struct instanceData {
 		glm::mat4 model;
 		glm::vec3 color;
 	} test;
 
 	test.model = tri;
 	test.color = { 1, 0, 1 };
-	cBuff2->UpdateData((BYTE*)&test, sizeof(instanceData));
+	cBuff2->UpdateData((BYTE*)&test, sizeof(instanceData));*/
+	auto model = m_Mat->GetParameter<ProjectGE::ShaderParameterMatrix>("Model");
+	auto color = m_Mat->GetParameter<ProjectGE::ShaderParameterFloat3>("InputColor");
+
+	model->SetData(tri);
+	glm::vec3 newColor(1, 0, 1);
+	color->SetData(newColor);
+	m_Mat->ApplyMaterial();
 
 	//std::dynamic_pointer_cast<ProjectGE::DirectX12Texture2D>(m_Tex2d)->Test();
 	ProjectGE::RendererAPI* renderAPI = ProjectGE::RenderingManager::GetInstance()->GetRenderAPI();

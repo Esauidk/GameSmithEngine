@@ -16,6 +16,7 @@ private:
 	ProjectGE::Ref<ProjectGE::VertexBuffer> vBuff;
 	ProjectGE::Ref<ProjectGE::IndexBuffer> iBuff;
 	ProjectGE::Ref<ProjectGE::ConstantBuffer> cBuff1;
+	ProjectGE::Ref<ProjectGE::Material> m_Mat;
 	ProjectGE::Ref<ProjectGE::ConstantBuffer> cBuff2;
 	ProjectGE::Ref<ProjectGE::Shader> m_VShader;
 	ProjectGE::Ref<ProjectGE::Shader> m_PShader;

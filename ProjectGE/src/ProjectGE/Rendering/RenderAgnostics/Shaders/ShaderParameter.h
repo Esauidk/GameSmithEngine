@@ -20,14 +20,15 @@ namespace ProjectGE {
 	static UINT GetParameterSize(ShaderDataType type) {
 		switch (type) {
 		case ShaderDataType::Matrix:
+			return sizeof(glm::mat4);
 		case ShaderDataType::Float4:
-			return sizeof(float) * 4;
+			return sizeof(glm::vec4);
 		case ShaderDataType::Float:
-			return sizeof(float);
+			return sizeof(glm::vec1);
 		case ShaderDataType::Float2:
-			return sizeof(float) * 2;
+			return sizeof(glm::vec2);
 		case ShaderDataType::Float3:
-			return sizeof(float) * 3;
+			return sizeof(glm::vec3);
 		case ShaderDataType::Int:
 			return sizeof(int);
 		case ShaderDataType::Int2:
@@ -46,8 +47,8 @@ namespace ProjectGE {
 		inline std::string GetName() { return m_Name; }
 		inline ShaderDataType GetType() { return m_Type; }
 		inline UINT GetSize() { return GetParameterSize(m_Type); }
-		
-		virtual void* GetData() = 0;
+		virtual char* GetCharData() = 0;
+		virtual void ResetData() = 0;
 		
 	private:
 		std::string m_Name;
@@ -57,7 +58,10 @@ namespace ProjectGE {
 	class ShaderParameterInt : public ShaderParameter {
 	public:
 		ShaderParameterInt(std::string name) : ShaderParameter(name, ShaderDataType::Int), m_Data(0)  {}
-		inline virtual void* GetData() override { return &m_Data; }
+		inline const int& GetData() { return m_Data; }
+		inline void SetData(int updated) { m_Data = updated; }
+		inline virtual char* GetCharData() override { return (char*)&m_Data; };
+		inline virtual void ResetData() override {}
 	private:
 		int m_Data;
 	};
@@ -65,7 +69,10 @@ namespace ProjectGE {
 	class ShaderParameterInt2 : public ShaderParameter {
 	public:
 		ShaderParameterInt2(std::string name) : ShaderParameter(name, ShaderDataType::Int2), m_Data() {}
-		inline virtual void* GetData() override { return &m_Data; }
+		virtual char* GetCharData() override { return (char*)&m_Data; };
+		inline const int* GetData() { return m_Data; }
+		inline void SetData(int* updated) { memcpy(m_Data, updated, GetSize()); }
+		inline virtual void ResetData() override {}
 	private:
 		int m_Data[2];
 	};
@@ -73,7 +80,10 @@ namespace ProjectGE {
 	class ShaderParameterInt3 : public ShaderParameter {
 	public:
 		ShaderParameterInt3(std::string name) : ShaderParameter(name, ShaderDataType::Int3), m_Data() {}
-		inline virtual void* GetData() override { return &m_Data; }
+		inline virtual char* GetCharData() override { return (char*)&m_Data; };
+		inline const int* GetData() { return m_Data; }
+		inline void SetData(int* updated) { memcpy(m_Data, updated, GetSize()); }
+		inline virtual void ResetData() override {}
 	private:
 		 int m_Data[3];
 	};
@@ -81,7 +91,10 @@ namespace ProjectGE {
 	class ShaderParameterFloat : public ShaderParameter {
 	public:
 		ShaderParameterFloat(std::string name) : ShaderParameter(name, ShaderDataType::Float), m_Data(0) {}
-		inline virtual void* GetData() override { return &m_Data; }
+		inline virtual char* GetCharData() override { return (char*)&m_Data; };
+		inline const glm::vec1& GetData() { return m_Data; }
+		inline void SetData(glm::vec1& updated) { m_Data = updated; }
+		inline virtual void ResetData() override {}
 	private:
 		glm::vec1 m_Data;
 	};
@@ -89,7 +102,10 @@ namespace ProjectGE {
 	class ShaderParameterFloat2 : public ShaderParameter {
 	public:
 		ShaderParameterFloat2(std::string name) : ShaderParameter(name, ShaderDataType::Float2), m_Data(0, 0) {}
-		inline virtual void* GetData() override { return &m_Data; }
+		inline virtual char* GetCharData() override { return (char*)&m_Data; };
+		inline const glm::vec2& GetData() { return m_Data; }
+		inline void SetData(glm::vec2& updated) { m_Data = updated; }
+		inline virtual void ResetData() override {}
 	private:
 		glm::vec2 m_Data;
 	};
@@ -97,7 +113,10 @@ namespace ProjectGE {
 	class ShaderParameterFloat3 : public ShaderParameter {
 	public:
 		ShaderParameterFloat3(std::string name) : ShaderParameter(name, ShaderDataType::Float3), m_Data(0, 0, 0) {}
-		inline virtual void* GetData() override { return &m_Data; }
+		inline virtual char* GetCharData() override { return (char*)&m_Data; };
+		inline const glm::vec3& GetData() { return m_Data; }
+		inline void SetData(glm::vec3& updated) { m_Data = updated; }
+		inline virtual void ResetData() override {}
 	private:
 		glm::vec3 m_Data;
 	};
@@ -105,7 +124,10 @@ namespace ProjectGE {
 	class ShaderParameterFloat4 : public ShaderParameter {
 	public:
 		ShaderParameterFloat4(std::string name) : ShaderParameter(name, ShaderDataType::Float4), m_Data(0, 0, 0, 0) {}
-		inline virtual void* GetData() override { return &m_Data; }
+		inline virtual char* GetCharData() override { return (char*)&m_Data; };
+		inline const glm::vec4& GetData() { return m_Data; }
+		inline void SetData(glm::vec4& updated) { m_Data = updated; }
+		inline virtual void ResetData() override {}
 	private:
 		glm::vec4 m_Data;
 	};
@@ -113,7 +135,10 @@ namespace ProjectGE {
 	class ShaderParameterMatrix : public ShaderParameter {
 	public:
 		ShaderParameterMatrix(std::string name) : ShaderParameter(name, ShaderDataType::Matrix), m_Data(0) {}
-		inline virtual void* GetData() override { return &m_Data; }
+		inline virtual char* GetCharData() override { return (char*)&m_Data; };
+		inline const glm::mat4& GetData() { return m_Data; }
+		inline void SetData(glm::mat4& updated) { m_Data = updated; }
+		inline virtual void ResetData() override {}
 	private:
 		glm::mat4 m_Data;
 	};
