@@ -87,7 +87,6 @@ TestRenderLayer::TestRenderLayer() : Layer("TestRender"), m_Cam(-1.6f, 1.6f, -0.
 	auto texture = std::string(buffer).substr(0, pos).append("\\download.png");
 	auto instance = ProjectGE::ResourceManager::GetInstance();
 	m_Tex2d = instance->GetResource<ProjectGE::TextureAsset>(texture);
-	m_Tex2d->SetGraphicsTexture(); 
 
 	std::unordered_map<std::string, ProjectGE::Ref<ProjectGE::ShaderParameter>> params;
 	params.insert({ pModel->GetName(), pModel });
@@ -100,7 +99,10 @@ TestRenderLayer::TestRenderLayer() : Layer("TestRender"), m_Cam(-1.6f, 1.6f, -0.
 	parameterOrder.push_back(pModel->GetName());
 	parameterOrder.push_back(pColor->GetName());
 
-	m_Mat = ProjectGE::Ref <ProjectGE::Material>(new ProjectGE::Material(parameterOrder, params, texs));
+	std::vector<std::string> textureOrder;
+	textureOrder.push_back(texture);
+
+	m_Mat = ProjectGE::Ref <ProjectGE::Material>(new ProjectGE::Material(parameterOrder, textureOrder, params, texs));
 	m_Mat->ApplyMaterial();
 }
 

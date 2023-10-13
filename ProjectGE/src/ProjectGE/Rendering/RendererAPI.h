@@ -35,7 +35,7 @@ namespace ProjectGE {
 		virtual void SetConstantBuffer(Ref<ConstantBuffer> cbuffer, Stages stage, ShaderConstantType constantType) = 0;
 
 		virtual Ref<Texture2D> CreateTexture2D(char* data, UINT size) = 0;
-		virtual void SetTexture2D(Ref<Texture2D> tex, Stages stage) = 0;
+		virtual void SetTexture2D(Ref<Texture2D> tex, UINT slot, Stages stage) = 0;
 
 		virtual Ref<Sampler> CreateSampler(FilterType img, PaddingMethod padMode) = 0;
 		virtual void SetSampler(Ref<Sampler> sampler, Stages stage) = 0;

@@ -91,7 +91,7 @@ namespace ProjectGE {
 		return Ref<Texture2D>(new DirectX12Texture2D(data, size));
 	}
 
-	void DirectX12RendererAPI::SetTexture2D(Ref<Texture2D> tex, Stages stage)
+	void DirectX12RendererAPI::SetTexture2D(Ref<Texture2D> tex, UINT slot, Stages stage)
 	{
 		auto& context = m_Core.GetDirectCommandContext();
 		auto castTex2d = CastPtr<DirectX12Texture2D>(tex);
@@ -101,7 +101,7 @@ namespace ProjectGE {
 		view.m_View = descriptor;
 
 		// TODO: Define way to set the index
-		context.GetStateManager().SetSRV(stage, view, 0);
+		context.GetStateManager().SetSRV(stage, view, slot);
 	}
 
 	Ref<Sampler> DirectX12RendererAPI::CreateSampler(FilterType img, PaddingMethod padMode)
