@@ -4,10 +4,12 @@
 #include "ProjectGE/Rendering/RenderingManager.h"
 
 namespace ProjectGE {
-	Material::Material(std::vector<std::string> order,
+	Material::Material(ShaderSet shaders,
+		std::vector<std::string> order,
 		std::vector<std::string> textureOrder,
 		std::unordered_map<std::string, Ref<ShaderParameter>> paramters,
 		std::unordered_map<std::string, Ref<TextureAsset>> textures) :
+		m_Shaders(shaders),
 		m_ParameterKeys(order),
 		m_TextureKeys(textureOrder),
 		m_Paramters(paramters),
@@ -62,5 +64,11 @@ namespace ProjectGE {
 			pair->second->SetGraphicsTexture(slot, STAGE_PIXEL);
 			slot++;
 		}
+
+		PipelineStateInitializer pipelineInit;
+		pipelineInit.shaderSet = m_Shaders;
+		pipelineInit.toplopgyType = TopologyType::Triangle;
+
+		renderManager->GetRenderAPI()->UpdatePipeline(pipelineInit);
 	}
 };

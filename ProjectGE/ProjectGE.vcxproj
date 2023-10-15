@@ -213,6 +213,7 @@
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\Texture.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\Topology.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\VertexBuffer.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\VertexInputLayout.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\Shaders\SLab\SLab.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\Shaders\ShaderParameter.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\Shaders\ShaderUtil.h" />

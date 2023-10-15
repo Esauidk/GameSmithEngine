@@ -2,6 +2,7 @@
 #include "DirectX12Core.h"
 
 #include "ProjectGE/Core/Log.h"
+#include "ProjectGE/Rendering/RenderAgnostics/BufferLayout.h"
 
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxguid.lib")

@@ -1,6 +1,8 @@
 #include "gepch.h"
 #include "DirectX12VertexBuffer.h"
 
+#include "ProjectGE/Core/Log.h"
+
 namespace ProjectGE {
 	D3D12_VERTEX_BUFFER_VIEW DirectX12VertexBuffer::GenerateView()
 	{
@@ -13,5 +15,10 @@ namespace ProjectGE {
 		view.StrideInBytes = m_VertexByteSize;
 
 		return view;
+	}
+
+	void DirectX12VertexBuffer::UpdateData(BYTE* data, unsigned int size)
+	{
+		GE_CORE_ERROR("VertexBuffer: updating data not currently supported");
 	}
 };

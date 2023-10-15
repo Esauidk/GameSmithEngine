@@ -10,18 +10,10 @@ namespace ProjectGE {
 
 		D3D12_VERTEX_BUFFER_VIEW GenerateView();
 
-		inline void AttachLayout(const BufferLayoutBuilder& layout) override {
-			m_Layout.reset();
-			m_Layout = Scope<DirectX12InputLayout>(new DirectX12InputLayout(layout));
-		}
-
-		inline void* GetLayout() override {
-			return m_Layout.get();
-		}
+		virtual void UpdateData(BYTE* data, unsigned int size) override;
 
 	private:
 		Scope<DirectX12Buffer<BYTE>> m_Buffer;
-		Scope<DirectX12InputLayout> m_Layout;
 		UINT m_VertexByteSize;
 	};
 };

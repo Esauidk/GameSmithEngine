@@ -33,20 +33,6 @@ TestRenderLayer::TestRenderLayer() : Layer("TestRender"), m_Cam(-1.6f, 1.6f, -0.
 
 	vBuff = renderAPI->CreateVertexBuffer((BYTE*)&squareVertex, sizeof(ProjectGE::VertexStruct), _countof(squareVertex));
 
-	ProjectGE::BufferLayoutBuilder layout = { {"POSITION", ProjectGE::ShaderDataType::Float3}, {"UV_TEXCOORD", ProjectGE::ShaderDataType::Float2} };
-
-	vBuff->AttachLayout(layout);
-
-	auto configuredLayout = vBuff->GetLayout();
-
-	ProjectGE::PipelineStateInitializer init;
-	init.shaders[ProjectGE::ShaderType::Vertex] = m_VShader;
-	init.shaders[ProjectGE::ShaderType::Pixel] = m_PShader;
-	init.toplopgyType = ProjectGE::TopologyType::Triangle;
-	init.vertexLayout = configuredLayout;
-
-	renderAPI->UpdatePipeline(init);
-	ProjectGE::Application::Get().GetWindow().GetRenderer()->AttachContextResources();
 	auto top = ProjectGE::TopologyType::Triangle;
 	renderAPI->SetTopology(top);
 
@@ -102,7 +88,11 @@ TestRenderLayer::TestRenderLayer() : Layer("TestRender"), m_Cam(-1.6f, 1.6f, -0.
 	std::vector<std::string> textureOrder;
 	textureOrder.push_back(texture);
 
-	m_Mat = ProjectGE::Ref <ProjectGE::Material>(new ProjectGE::Material(parameterOrder, textureOrder, params, texs));
+	ProjectGE::ShaderSet sSet;
+	sSet.shaders[ProjectGE::STAGE_VERTEX] = m_VShader;
+	sSet.shaders[ProjectGE::STAGE_PIXEL] = m_PShader;
+
+	m_Mat = ProjectGE::Ref <ProjectGE::Material>(new ProjectGE::Material(sSet, parameterOrder, textureOrder, params, texs));
 	m_Mat->ApplyMaterial();
 }
 

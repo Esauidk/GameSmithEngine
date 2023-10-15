@@ -1616,6 +1616,7 @@
     </ClInclude>
     <ClInclude Include="src\ProjectGE\ThirdPartySetups\TinyObj\TinyObjLoaderWrapper.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\MaterialSystem\Material.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\VertexInputLayout.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\Camera\Camera.cpp">

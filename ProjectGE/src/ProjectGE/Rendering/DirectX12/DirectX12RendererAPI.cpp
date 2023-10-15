@@ -149,14 +149,15 @@ namespace ProjectGE {
 			TRUE, FALSE, FALSE,
 			0,
 			D3D12_CONSERVATIVE_RASTERIZATION_MODE_OFF);
-
+		BufferLayoutBuilder layout = { {"POSITION", ShaderDataType::Float3}, {"UV_TEXCOORD", ShaderDataType::Float2} };
+		DirectX12InputLayout dxLayout(layout);
 		DirectX12PipelineArgs args = {
 			{root->GetInternalRootSignature(),
-			((ProjectGE::DirectX12InputLayout*)init.vertexLayout)->GetInternalLayout(),
+			dxLayout.GetInternalLayout(),
 			ProjectGE::TranslateTopType(init.toplopgyType),
 			rastDsc,
-			CD3DX12_SHADER_BYTECODE(CastPtr<DirectX12Shader>(init.shaders[Vertex])->ByteCode()),
-			CD3DX12_SHADER_BYTECODE(CastPtr<DirectX12Shader>(init.shaders[Pixel])->ByteCode()),
+			CD3DX12_SHADER_BYTECODE(CastPtr<DirectX12Shader>(init.shaderSet.shaders[Vertex])->ByteCode()),
+			CD3DX12_SHADER_BYTECODE(CastPtr<DirectX12Shader>(init.shaderSet.shaders[Pixel])->ByteCode()),
 			DXGI_FORMAT_D32_FLOAT,
 			rtvFormats
 			} 

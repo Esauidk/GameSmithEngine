@@ -1,12 +1,12 @@
 #pragma once
 #include "Topology.h"
-#include "Shader.h"
+#include "VertexInputLayout.h"
 #include "ProjectGE/Core/Core.h"
+#include "ProjectGE/Rendering/RenderAgnostics/Shaders/ShaderUtil.h"
 
 namespace ProjectGE {
 	struct PipelineStateInitializer {
-		void* vertexLayout;
 		TopologyType toplopgyType;
-		Ref<Shader> shaders[ShaderCount];
+		ShaderSet shaderSet;
 	};
 }

@@ -91,11 +91,7 @@ namespace ProjectGE {
 			sizeof(VertexStruct), 
 			(int)verticies.size()
 		);
-
-		BufferLayoutBuilder layout = { {"POSITION", ProjectGE::ShaderDataType::Float3}, {"UV_TEXCOORD", ProjectGE::ShaderDataType::Float2} };
-
-		m_Vert->AttachLayout(layout);
-		
+	
 	}
 
 	void MeshAsset::Destroy()

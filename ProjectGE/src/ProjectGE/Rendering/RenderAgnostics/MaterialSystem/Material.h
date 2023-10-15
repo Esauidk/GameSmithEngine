@@ -8,7 +8,8 @@ namespace ProjectGE {
 	class Material
 	{
 	public:
-		Material(std::vector<std::string> parameterOrder,
+		Material(ShaderSet shaders,
+			std::vector<std::string> parameterOrder,
 			std::vector<std::string> textureOrder,
 			std::unordered_map<std::string, Ref<ShaderParameter>> paramters,
 			std::unordered_map<std::string, Ref<TextureAsset>> textures);
@@ -32,6 +33,7 @@ namespace ProjectGE {
 		void SetTexture(std::string textureName, Ref<TextureAsset> newTexture);
 		void ApplyMaterial();
 	private:
+		ShaderSet m_Shaders;
 		std::vector<std::string> m_ParameterKeys;
 		std::vector<std::string> m_TextureKeys;
 		std::unordered_map<std::string, Ref<ShaderParameter>> m_Paramters;
