@@ -4,12 +4,6 @@
 #include <glm/gtc/type_ptr.hpp>
 
 namespace ProjectGE {
-	enum Stages {
-		STAGE_VERTEX,
-		STAGE_PIXEL,
-		STAGE_NUM
-	};
-
 	enum class ShaderConstantType {
 		Global,
 		Instance

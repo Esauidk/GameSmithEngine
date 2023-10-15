@@ -6,6 +6,7 @@
 
 namespace ProjectGE {
 	struct PipelineStateInitializer {
+		bool tesselation;
 		TopologyType toplopgyType;
 		ShaderSet shaderSet;
 	};

@@ -11,11 +11,15 @@ TestRenderLayer::TestRenderLayer() : Layer("TestRender"), m_Cam(-1.6f, 1.6f, -0.
 	std::wstring::size_type pos = std::string(buffer).find_last_of("\\");
 	auto vertex = std::string(buffer).substr(0, pos).append("\\SampleVertexShader.cso");
 	auto pixel = std::string(buffer).substr(0, pos).append("\\SamplePixelShader.cso");
+	auto hull = std::string(buffer).substr(0, pos).append("\\BasicSubdivideHS.cso");
+	auto domain = std::string(buffer).substr(0, pos).append("\\BasicRenderDS.cso");
 
 	ProjectGE::RendererAPI* renderAPI = ProjectGE::RenderingManager::GetInstance()->GetRenderAPI();
 
 	m_VShader = renderAPI->LoadShader(vertex);
 	m_PShader = renderAPI->LoadShader(pixel);
+	auto hullShader = renderAPI->LoadShader(hull);
+	auto domainShader = renderAPI->LoadShader(domain);
 
 
 	ProjectGE::VertexStruct triVertex[] = {
@@ -32,9 +36,6 @@ TestRenderLayer::TestRenderLayer() : Layer("TestRender"), m_Cam(-1.6f, 1.6f, -0.
 	};
 
 	vBuff = renderAPI->CreateVertexBuffer((BYTE*)&squareVertex, sizeof(ProjectGE::VertexStruct), _countof(squareVertex));
-
-	auto top = ProjectGE::TopologyType::Triangle;
-	renderAPI->SetTopology(top);
 
 	unsigned int indexCount[] = {
 		0, 1, 2
@@ -89,6 +90,8 @@ TestRenderLayer::TestRenderLayer() : Layer("TestRender"), m_Cam(-1.6f, 1.6f, -0.
 	textureOrder.push_back(texture);
 
 	ProjectGE::ShaderSet sSet;
+	//sSet.shaders[ProjectGE::STAGE_HULL] = hullShader;
+	//sSet.shaders[ProjectGE::STAGE_DOMAIN] = domainShader;
 	sSet.shaders[ProjectGE::STAGE_VERTEX] = m_VShader;
 	sSet.shaders[ProjectGE::STAGE_PIXEL] = m_PShader;
 

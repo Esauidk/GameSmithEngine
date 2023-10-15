@@ -53,22 +53,43 @@ namespace ProjectGE {
 		auto renderManager = RenderingManager::GetInstance();
 
 		GE_CORE_ASSERT(renderManager != nullptr, "Render manager is not running! Required for material to be used");
+		PipelineStateInitializer pipelineInit;
+		pipelineInit.shaderSet = m_Shaders;
+		pipelineInit.toplopgyType = TopologyType::Triangle;
+
+		if (m_Shaders.shaders[STAGE_HULL] != nullptr || m_Shaders.shaders[STAGE_DOMAIN] != nullptr) {
+			pipelineInit.tesselation = true;
+			renderManager->GetRenderAPI()->SetTopology(pipelineInit.toplopgyType, true);
+		}
+		else {
+			pipelineInit.tesselation = false;
+			renderManager->GetRenderAPI()->SetTopology(pipelineInit.toplopgyType, false);
+		}
+
+		renderManager->GetRenderAPI()->UpdatePipeline(pipelineInit);
+
 
 		renderManager->GetRenderAPI()->SetConstantBuffer(m_GPULocation, STAGE_VERTEX, ShaderConstantType::Instance);
 		renderManager->GetRenderAPI()->SetConstantBuffer(m_GPULocation, STAGE_PIXEL, ShaderConstantType::Instance);
+
+		if (pipelineInit.tesselation) {
+			renderManager->GetRenderAPI()->SetConstantBuffer(m_GPULocation, STAGE_HULL, ShaderConstantType::Instance);
+			renderManager->GetRenderAPI()->SetConstantBuffer(m_GPULocation, STAGE_DOMAIN, ShaderConstantType::Instance);
+		}
 
 		UINT slot = 0;
 		for (auto& entry : m_TextureKeys) {
 			auto pair = m_Textures.find(entry);
 			pair->second->SetGraphicsTexture(slot, STAGE_VERTEX);
 			pair->second->SetGraphicsTexture(slot, STAGE_PIXEL);
+
+			if (pipelineInit.tesselation) {
+				pair->second->SetGraphicsTexture(slot, STAGE_HULL);
+				pair->second->SetGraphicsTexture(slot, STAGE_DOMAIN);
+			}
 			slot++;
 		}
 
-		PipelineStateInitializer pipelineInit;
-		pipelineInit.shaderSet = m_Shaders;
-		pipelineInit.toplopgyType = TopologyType::Triangle;
-
-		renderManager->GetRenderAPI()->UpdatePipeline(pipelineInit);
+		
 	}
 };

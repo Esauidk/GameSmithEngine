@@ -24,10 +24,16 @@ namespace ProjectGE {
 		IndexRootSignature(desc);
 	}
 
-	void DirectX12RootSignature::InitGenericRootSignature(D3D12_ROOT_SIGNATURE_FLAGS flags)
+	void DirectX12RootSignature::InitGenericRootSignature(D3D12_ROOT_SIGNATURE_FLAGS flags, bool tesselation)
 	{
 		DirectX12RootSignatureBuilder builder;
-		CreateLargeGraphicsRootSignature(builder, flags);
+		if (tesselation) {
+			CreateLargeTesGraphicsRootSignature(builder, flags);
+		}
+		else {
+			CreateLargeGraphicsRootSignature(builder, flags);
+		}
+		
 		Init(builder.Build());
 	}
 

@@ -20,6 +20,14 @@ namespace ProjectGE {
 		VS_CBV,
 		VS_SAMPLE,
 		VS_ROOTC,
+		HS_SRV,
+		HS_CBV,
+		HS_SAMPLE,
+		HS_ROOTC,
+		DS_SRV,
+		DS_CBV,
+		DS_SAMPLE,
+		DS_ROOTC,
 		PS_SRV,
 		PS_CBV,
 		PS_SAMPLE,
@@ -47,7 +55,7 @@ namespace ProjectGE {
 	public: 
 		DirectX12RootSignature() = default;
 		void Init(const D3D12_VERSIONED_ROOT_SIGNATURE_DESC& desc);
-		void InitGenericRootSignature(D3D12_ROOT_SIGNATURE_FLAGS flags);
+		void InitGenericRootSignature(D3D12_ROOT_SIGNATURE_FLAGS flags, bool tesselation);
 		inline ID3D12RootSignature* GetInternalRootSignature() { return m_Root.Get(); }
 
 		inline bool HasResource() { return m_HasSRV || m_HasCBV || m_HasUAV; }

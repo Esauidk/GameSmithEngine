@@ -30,7 +30,7 @@ namespace ProjectGE {
 		virtual Ref<Sampler> CreateSampler(FilterType img, PaddingMethod padMode) override;
 		virtual void SetSampler(Ref<Sampler> sampler, Stages stage) override;
 
-		virtual void SetTopology(TopologyType& type) override;
+		virtual void SetTopology(TopologyType& type, bool tesselation) override;
 
 		virtual void UpdatePipeline(PipelineStateInitializer& init) override;
 

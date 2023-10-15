@@ -1,6 +1,7 @@
 #include "gepch.h"
 #include "DirectX12RendererAPI.h"
 #include "ProjectGE/Rendering/DirectX12/Util/DirectX12Util.h"
+#include "ProjectGE/Rendering/DirectX12/Util/DirectX12ShaderUtils.h"
 
 namespace ProjectGE {
 	DirectX12RendererAPI::DirectX12RendererAPI(): m_Core(DirectX12Core::CreateCore())
@@ -123,11 +124,11 @@ namespace ProjectGE {
 		context.GetStateManager().SetSampler(stage, view, 0);
 	}
 
-	void DirectX12RendererAPI::SetTopology(TopologyType& type)
+	void DirectX12RendererAPI::SetTopology(TopologyType& type, bool tesselation)
 	{
 		auto& context = m_Core.GetDirectCommandContext();
 		auto& state = context.GetStateManager();
-		D3D12_PRIMITIVE_TOPOLOGY d3Type = TranslateTopListType(TopologyType::Triangle);
+		D3D12_PRIMITIVE_TOPOLOGY d3Type = TranslateTopListType(type, tesselation);
 		state.SetTop(d3Type);
 	}
 
@@ -135,7 +136,8 @@ namespace ProjectGE {
 	{
 		// TODO: Grab current reference to root signature instead of recreating instance
 		auto root = Ref<DirectX12RootSignature>(new DirectX12RootSignature());
-		root->InitGenericRootSignature(D3D12_ROOT_SIGNATURE_FLAG_NONE);
+		root->InitGenericRootSignature(D3D12_ROOT_SIGNATURE_FLAG_NONE, init.tesselation);
+		
 
 		// TODO: Make rtv and depth format configurable
 		D3D12_RT_FORMAT_ARRAY rtvFormats = {};
@@ -154,10 +156,12 @@ namespace ProjectGE {
 		DirectX12PipelineArgs args = {
 			{root->GetInternalRootSignature(),
 			dxLayout.GetInternalLayout(),
-			ProjectGE::TranslateTopType(init.toplopgyType),
+			TranslateTopType(init.toplopgyType, init.tesselation),
 			rastDsc,
-			CD3DX12_SHADER_BYTECODE(CastPtr<DirectX12Shader>(init.shaderSet.shaders[Vertex])->ByteCode()),
-			CD3DX12_SHADER_BYTECODE(CastPtr<DirectX12Shader>(init.shaderSet.shaders[Pixel])->ByteCode()),
+			SHADER_STATE_STREAM_NULL_SAFE(init.shaderSet.shaders[STAGE_HULL], CD3DX12_PIPELINE_STATE_STREAM_HS),
+			SHADER_STATE_STREAM_NULL_SAFE(init.shaderSet.shaders[STAGE_DOMAIN], CD3DX12_PIPELINE_STATE_STREAM_DS),
+			SHADER_STATE_STREAM_NULL_SAFE(init.shaderSet.shaders[STAGE_VERTEX],  CD3DX12_PIPELINE_STATE_STREAM_VS),
+			SHADER_STATE_STREAM_NULL_SAFE(init.shaderSet.shaders[STAGE_PIXEL],  CD3DX12_PIPELINE_STATE_STREAM_PS),
 			DXGI_FORMAT_D32_FLOAT,
 			rtvFormats
 			} 

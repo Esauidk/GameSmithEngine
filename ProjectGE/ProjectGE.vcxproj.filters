@@ -1764,6 +1764,9 @@
     <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\SamplePixelShader.hlsl" />
     <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Vertex\BasicRenderVS.hlsl" />
     <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Vertex\SampleVertexShader.hlsl" />
+    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Hull\BasicSubdivideHS.hlsl" />
+    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Domain\BasicRenderDS.hlsl" />
+    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Vertex\SampleVertexTesShader.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\ProjectGE\Rendering\SampleShaders\Core.hlsli" />

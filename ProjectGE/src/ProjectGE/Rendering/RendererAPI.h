@@ -40,7 +40,7 @@ namespace ProjectGE {
 		virtual Ref<Sampler> CreateSampler(FilterType img, PaddingMethod padMode) = 0;
 		virtual void SetSampler(Ref<Sampler> sampler, Stages stage) = 0;
 
-		virtual void SetTopology(TopologyType& type) = 0;
+		virtual void SetTopology(TopologyType& type, bool tesselation) = 0;
 
 		virtual void UpdatePipeline(PipelineStateInitializer& init) = 0;
 		virtual void SubmitRecording() = 0;

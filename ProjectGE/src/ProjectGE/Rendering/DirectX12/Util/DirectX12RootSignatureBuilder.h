@@ -7,6 +7,8 @@ namespace ProjectGE {
 	enum class RootParameterVisibility {
 		Vertex,
 		Pixel,
+		Hull,
+		Domain,
 		ALL
 		// MORE TO COME
 	};
@@ -25,6 +27,10 @@ namespace ProjectGE {
 			return D3D12_SHADER_VISIBILITY_VERTEX;
 		case RootParameterVisibility::Pixel:
 			return D3D12_SHADER_VISIBILITY_PIXEL;
+		case RootParameterVisibility::Hull:
+			return D3D12_SHADER_VISIBILITY_HULL;
+		case RootParameterVisibility::Domain:
+			return D3D12_SHADER_VISIBILITY_DOMAIN;
 		default:
 			return D3D12_SHADER_VISIBILITY_ALL;
 		}
@@ -138,6 +144,17 @@ namespace ProjectGE {
 
 		CreateMaxTables(builder, RootParameterVisibility::Vertex);
 		CreateMaxTables(builder, RootParameterVisibility::Pixel);
+
+		builder.AddTable(RootParameterVisibility::ALL, DescriptorRangeType::UAV, MAX_UAV);
+	}
+
+	inline void CreateLargeTesGraphicsRootSignature(DirectX12RootSignatureBuilder& builder, D3D12_ROOT_SIGNATURE_FLAGS flags) {
+		builder.SetRootFlag(flags | D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
+
+		CreateMaxTables(builder, RootParameterVisibility::Vertex);
+		CreateMaxTables(builder, RootParameterVisibility::Pixel);
+		CreateMaxTables(builder, RootParameterVisibility::Hull);
+		CreateMaxTables(builder, RootParameterVisibility::Domain);
 
 		builder.AddTable(RootParameterVisibility::ALL, DescriptorRangeType::UAV, MAX_UAV);
 	}
