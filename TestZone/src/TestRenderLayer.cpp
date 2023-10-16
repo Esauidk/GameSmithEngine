@@ -92,14 +92,16 @@ TestRenderLayer::TestRenderLayer() : Layer("TestRender"), m_Cam(-1.6f, 1.6f, -0.
 	sSet.shaders[ProjectGE::STAGE_VERTEX] = m_VShader;
 	sSet.shaders[ProjectGE::STAGE_PIXEL] = m_PShader;
 
-	m_Mat = ProjectGE::Ref <ProjectGE::Material>(new ProjectGE::Material(sSet, parameterOrder, textureOrder, params, texs));
+	m_Mat = ProjectGE::Ref<ProjectGE::Material>(new ProjectGE::Material(sSet, parameterOrder, textureOrder, params, texs));
 	m_Mat->ApplyMaterial();
+
+	m_CopyMat = ProjectGE::Ref<ProjectGE::Material>(new ProjectGE::Material(*m_Mat));
 }
 
 void TestRenderLayer::OnImGuiRender() {
-	ImGui::Begin("Settings");
-	ImGui::ColorEdit3("Tint Color", glm::value_ptr(m_Example1.color));
-	ImGui::End();
+	//ImGui::Begin("Settings");
+	//ImGui::ColorEdit3("Tint Color", glm::value_ptr(m_Example1.color));
+	//ImGui::End();
 }
 
 void TestRenderLayer::OnUpdate() {
@@ -200,6 +202,13 @@ void TestRenderLayer::OnUpdate() {
 	glm::vec3 newColor(1, 0, 1);
 	color->SetData(newColor);
 	m_Mat->ApplyMaterial();
+
+	const glm::vec3& orgColor = color->GetData();
+	GE_APP_INFO("Original Material Color {0}, {1}, {2}",orgColor[0], orgColor[1], orgColor[2]);
+
+	auto copyColor = m_CopyMat->GetParameter<ProjectGE::ShaderParameterFloat3>("InputColor");
+	const glm::vec3& copyColorRaw = copyColor->GetData();
+	GE_APP_INFO("Copy Material Color {0}, {1}, {2}", copyColorRaw[0], copyColorRaw[1], copyColorRaw[2]);
 
 	//std::dynamic_pointer_cast<ProjectGE::DirectX12Texture2D>(m_Tex2d)->Test();
 	ProjectGE::RendererAPI* renderAPI = ProjectGE::RenderingManager::GetInstance()->GetRenderAPI();

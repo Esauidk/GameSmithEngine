@@ -5,6 +5,9 @@
 #include "ProjectGE/Core/Log.h"
 
 namespace ProjectGE {
+	struct MaterialConfig {
+	};
+
 	class Material
 	{
 	public:
@@ -13,6 +16,8 @@ namespace ProjectGE {
 			std::vector<std::string> textureOrder,
 			std::unordered_map<std::string, Ref<ShaderParameter>> paramters,
 			std::unordered_map<std::string, Ref<TextureAsset>> textures);
+
+		Material(Material& oldMat);
 
 		template<typename T>
 		Ref<T> GetParameter(std::string parameterName) {
@@ -34,6 +39,7 @@ namespace ProjectGE {
 		void ApplyMaterial();
 	private:
 		ShaderSet m_Shaders;
+		MaterialConfig m_Config;
 		std::vector<std::string> m_ParameterKeys;
 		std::vector<std::string> m_TextureKeys;
 		std::unordered_map<std::string, Ref<ShaderParameter>> m_Paramters;

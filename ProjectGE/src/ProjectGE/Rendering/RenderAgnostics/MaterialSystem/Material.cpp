@@ -27,6 +27,28 @@ namespace ProjectGE {
 		m_GPULocation = renderManager->GetRenderAPI()->CreateConstantBuffer(m_ParameterByteTotal);
 	}
 
+	Material::Material(Material& oldMat) : 
+		m_Shaders(oldMat.m_Shaders), 
+		m_Config(oldMat.m_Config), 
+		m_ParameterByteTotal(oldMat.m_ParameterByteTotal), 
+		m_ParameterKeys(oldMat.m_ParameterKeys),
+		m_TextureKeys(oldMat.m_TextureKeys),
+		m_Textures(oldMat.m_Textures)
+	{
+		std::unordered_map<std::string, Ref<ShaderParameter>> copyMap;
+		for (auto entry : oldMat.m_Paramters) {
+			copyMap.insert({ entry.first, entry.second->MakeCopy() });
+		}
+
+		m_Paramters = copyMap;
+
+		auto renderManager = RenderingManager::GetInstance();
+
+		GE_CORE_ASSERT(renderManager != nullptr, "Render manager is not running! Required for material to be used");
+
+		m_GPULocation = renderManager->GetRenderAPI()->CreateConstantBuffer(m_ParameterByteTotal);
+	}
+
 	void Material::SetTexture(std::string textureName, Ref<TextureAsset> newTexture)
 	{
 		GE_CORE_ASSERT(m_Textures.find(textureName) != m_Textures.end(), "Not a valid texutre in this material");

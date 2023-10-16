@@ -2,11 +2,6 @@
 
 class TestRenderLayer : public ProjectGE::Layer {
 public:
-	// DIRECTX12 is ROW MAJOR
-	struct test {
-		glm::vec3 color;
-	};
-
 	TestRenderLayer();
 	void OnImGuiRender() override;
 	void OnUpdate() override;
@@ -17,6 +12,7 @@ private:
 	ProjectGE::Ref<ProjectGE::IndexBuffer> iBuff;
 	ProjectGE::Ref<ProjectGE::ConstantBuffer> cBuff1;
 	ProjectGE::Ref<ProjectGE::Material> m_Mat;
+	ProjectGE::Ref<ProjectGE::Material> m_CopyMat;
 	ProjectGE::Ref<ProjectGE::ConstantBuffer> cBuff2;
 	ProjectGE::Ref<ProjectGE::Shader> m_VShader;
 	ProjectGE::Ref<ProjectGE::Shader> m_PShader;
@@ -27,5 +23,4 @@ private:
 	Transform m_SquareTrans;
 
 	ProjectGE::OrthoCamera m_Cam;
-	test m_Example1;
 };
