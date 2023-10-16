@@ -158,6 +158,13 @@ namespace ProjectGE {
 
 		builder.AddTable(RootParameterVisibility::ALL, DescriptorRangeType::UAV, MAX_UAV);
 	}
+
+	inline void CreateGraphicsRootSignaureAll(DirectX12RootSignatureBuilder& builder, D3D12_ROOT_SIGNATURE_FLAGS flags) {
+		builder.SetRootFlag(flags | D3D12_ROOT_SIGNATURE_FLAG_ALLOW_INPUT_ASSEMBLER_INPUT_LAYOUT);
+		CreateMaxTables(builder, RootParameterVisibility::ALL);
+
+		builder.AddTable(RootParameterVisibility::ALL, DescriptorRangeType::UAV, MAX_UAV);
+	}
 };
 
 

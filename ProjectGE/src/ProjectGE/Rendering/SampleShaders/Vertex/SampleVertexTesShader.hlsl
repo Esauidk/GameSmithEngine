@@ -26,7 +26,7 @@ VertexShaderOutput main(VertexPosColor input)
     VertexShaderOutput output;
     matrix MVP = mul(M, VP);
     output.Position = mul(float4(input.Position, 1.0f), MVP);
-    output.OriginPos = input.Position;
+    output.OriginPos = output.Position.xyz;
     output.UV = input.uv;
 
     return output;

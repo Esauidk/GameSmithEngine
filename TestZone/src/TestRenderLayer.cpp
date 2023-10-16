@@ -63,10 +63,7 @@ TestRenderLayer::TestRenderLayer() : Layer("TestRender"), m_Cam(-1.6f, 1.6f, -0.
 	// TODO: GET RID OF THIS, JUST FOR TESTING WITH SCENE DATA
 	cBuff1 = renderAPI->CreateConstantBuffer(sizeof(ProjectGE::GloablShaderData));
 	renderAPI->SetConstantBuffer(cBuff1, ProjectGE::STAGE_VERTEX, ProjectGE::ShaderConstantType::Global);
-
-	//cBuff2 = renderAPI->CreateConstantBuffer(metadata.GetByteSize());
-	//renderAPI->SetConstantBuffer(cBuff2, ProjectGE::STAGE_VERTEX, ProjectGE::ShaderConstantType::Instance);
-	//renderAPI->SetConstantBuffer(cBuff2, ProjectGE::STAGE_PIXEL, ProjectGE::ShaderConstantType::Instance);
+	//renderAPI->SetConstantBuffer(cBuff1, ProjectGE::STAGE_DOMAIN, ProjectGE::ShaderConstantType::Global);
 
 	m_Sampler = renderAPI->CreateSampler(ProjectGE::FilterType::Point, ProjectGE::PaddingMethod::Clamp);
 	renderAPI->SetSampler(m_Sampler, ProjectGE::STAGE_PIXEL);

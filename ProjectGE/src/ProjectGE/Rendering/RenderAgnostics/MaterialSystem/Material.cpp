@@ -34,8 +34,6 @@ namespace ProjectGE {
 	}
 
 	void Material::ApplyMaterial() {
-		// TODO: Attach shaders
-
 		char* temp = new char[m_ParameterByteTotal];
 		char* cur = temp;
 		for (auto& entry : m_ParameterKeys) {

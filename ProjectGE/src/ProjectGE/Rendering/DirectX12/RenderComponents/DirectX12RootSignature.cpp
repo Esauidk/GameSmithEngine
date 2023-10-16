@@ -24,10 +24,12 @@ namespace ProjectGE {
 		IndexRootSignature(desc);
 	}
 
-	void DirectX12RootSignature::InitGenericRootSignature(D3D12_ROOT_SIGNATURE_FLAGS flags, bool tesselation)
+	void DirectX12RootSignature::InitGenericRootSignature(D3D12_ROOT_SIGNATURE_FLAGS flags, bool all, bool tesselation)
 	{
 		DirectX12RootSignatureBuilder builder;
-		if (tesselation) {
+		if (all) {
+			CreateGraphicsRootSignaureAll(builder, flags);
+		}else if (tesselation) {
 			CreateLargeTesGraphicsRootSignature(builder, flags);
 		}
 		else {
@@ -58,6 +60,8 @@ namespace ProjectGE {
 		// 3) Determine the size and binding slots of the resources
 		const bool denyVS = desc.Desc_1_1.Flags & D3D12_ROOT_SIGNATURE_FLAG_DENY_VERTEX_SHADER_ROOT_ACCESS;
 		const bool denyPS = desc.Desc_1_1.Flags & D3D12_ROOT_SIGNATURE_FLAG_DENY_PIXEL_SHADER_ROOT_ACCESS;
+		const bool denyHS = desc.Desc_1_1.Flags & D3D12_ROOT_SIGNATURE_FLAG_DENY_HULL_SHADER_ROOT_ACCESS;
+		const bool denyDS = desc.Desc_1_1.Flags & D3D12_ROOT_SIGNATURE_FLAG_DENY_DOMAIN_SHADER_ROOT_ACCESS;
 
 		for (UINT i = 0; i < desc.Desc_1_1.NumParameters; i++) {
 			
@@ -76,6 +80,14 @@ namespace ProjectGE {
 			case D3D12_SHADER_VISIBILITY_PIXEL:
 				stage = STAGE_PIXEL;
 				m_StageInfo[stage].visibleStage = m_StageInfo[stage].visibleStage || !denyPS;
+				break;
+			case D3D12_SHADER_VISIBILITY_HULL:
+				stage = STAGE_HULL;
+				m_StageInfo[stage].visibleStage = m_StageInfo[stage].visibleStage || !denyHS;
+				break;
+			case D3D12_SHADER_VISIBILITY_DOMAIN:
+				stage = STAGE_DOMAIN;
+				m_StageInfo[stage].visibleStage = m_StageInfo[stage].visibleStage || !denyDS;
 				break;
 			}
 

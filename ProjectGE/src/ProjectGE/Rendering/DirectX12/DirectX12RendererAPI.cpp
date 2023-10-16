@@ -136,7 +136,7 @@ namespace ProjectGE {
 	{
 		// TODO: Grab current reference to root signature instead of recreating instance
 		auto root = Ref<DirectX12RootSignature>(new DirectX12RootSignature());
-		root->InitGenericRootSignature(D3D12_ROOT_SIGNATURE_FLAG_NONE, init.tesselation);
+		root->InitGenericRootSignature(D3D12_ROOT_SIGNATURE_FLAG_NONE, false, init.tesselation);
 		
 
 		// TODO: Make rtv and depth format configurable

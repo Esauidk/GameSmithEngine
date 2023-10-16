@@ -55,7 +55,7 @@ namespace ProjectGE {
 	public: 
 		DirectX12RootSignature() = default;
 		void Init(const D3D12_VERSIONED_ROOT_SIGNATURE_DESC& desc);
-		void InitGenericRootSignature(D3D12_ROOT_SIGNATURE_FLAGS flags, bool tesselation);
+		void InitGenericRootSignature(D3D12_ROOT_SIGNATURE_FLAGS flags, bool all, bool tesselation);
 		inline ID3D12RootSignature* GetInternalRootSignature() { return m_Root.Get(); }
 
 		inline bool HasResource() { return m_HasSRV || m_HasCBV || m_HasUAV; }
@@ -78,6 +78,10 @@ namespace ProjectGE {
 				return m_RegisterSlotTable[VS_SRV];
 			case STAGE_PIXEL:
 				return m_RegisterSlotTable[PS_SRV];
+			case STAGE_HULL:
+				return m_RegisterSlotTable[HS_SRV];
+			case STAGE_DOMAIN:
+				return m_RegisterSlotTable[DS_SRV];
 			default:
 				return m_RegisterSlotTable[ALL_SRV];
 			}
@@ -89,6 +93,10 @@ namespace ProjectGE {
 				return m_RegisterSlotTable[VS_CBV];
 			case STAGE_PIXEL:
 				return m_RegisterSlotTable[PS_CBV];
+			case STAGE_HULL:
+				return m_RegisterSlotTable[HS_CBV];
+			case STAGE_DOMAIN:
+				return m_RegisterSlotTable[DS_CBV];
 			default:
 				return m_RegisterSlotTable[ALL_CBV];
 			}
@@ -100,6 +108,10 @@ namespace ProjectGE {
 				return m_RegisterSlotTable[VS_SAMPLE];
 			case STAGE_PIXEL:
 				return m_RegisterSlotTable[PS_SAMPLE];
+			case STAGE_HULL:
+				return m_RegisterSlotTable[HS_SAMPLE];
+			case STAGE_DOMAIN:
+				return m_RegisterSlotTable[DS_SAMPLE];
 			default:
 				return m_RegisterSlotTable[ALL_SAMPLE];
 			}
@@ -121,6 +133,12 @@ namespace ProjectGE {
 			case STAGE_PIXEL:
 				m_RegisterSlotTable[PS_SRV] = index;
 				break;
+			case STAGE_HULL:
+				m_RegisterSlotTable[HS_SRV] = index;
+				break;
+			case STAGE_DOMAIN:
+				m_RegisterSlotTable[DS_SRV] = index;
+				break;
 			default:
 				m_RegisterSlotTable[ALL_SRV] = index;
 				break;
@@ -135,6 +153,12 @@ namespace ProjectGE {
 			case STAGE_PIXEL:
 				m_RegisterSlotTable[PS_CBV] = index;
 				break;
+			case STAGE_HULL:
+				m_RegisterSlotTable[HS_CBV] = index;
+				break;
+			case STAGE_DOMAIN:
+				m_RegisterSlotTable[DS_CBV] = index;
+				break;
 			default:
 				m_RegisterSlotTable[ALL_CBV] = index;
 				break;
@@ -148,6 +172,12 @@ namespace ProjectGE {
 				break;
 			case STAGE_PIXEL:
 				m_RegisterSlotTable[PS_SAMPLE] = index;
+				break;
+			case STAGE_HULL:
+				m_RegisterSlotTable[HS_SAMPLE];
+				break;
+			case STAGE_DOMAIN:
+				m_RegisterSlotTable[DS_SAMPLE];
 				break;
 			default:
 				m_RegisterSlotTable[ALL_SAMPLE] = index;

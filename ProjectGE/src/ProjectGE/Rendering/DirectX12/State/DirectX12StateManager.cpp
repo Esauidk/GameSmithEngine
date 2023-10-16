@@ -298,7 +298,7 @@ namespace ProjectGE {
 		}
 		
 		SRVStorage& srvStorage = PipelineState.Basic.SRVStorage;
-		for (UINT i = begin; i < end; i++) {
+		for (UINT i = begin; i <= end; i++) {
 			Stages cur = (Stages)i;
 
 			if (srvStorage.Dirty[cur]) {
@@ -307,7 +307,7 @@ namespace ProjectGE {
 		}
 
 		CBVStorage& cbvStorage = PipelineState.Basic.CBVStorage;
-		for (UINT i = begin; i < end; i++) {
+		for (UINT i = begin; i <= end; i++) {
 			Stages cur = (Stages)i;
 
 			if (cbvStorage.Dirty[cur]) {

@@ -9,7 +9,7 @@ namespace ProjectGE {
 
 	template<typename SlotMask>
 	struct ViewStorage {
-		SlotMask Dirty[STAGE_NUM];
+		SlotMask Dirty[STAGE_NUM+1];
 
 		static inline void SetSlotDirty(SlotMask& slotMask, UINT slot) {
 			slotMask |= (1 << slot);
@@ -35,12 +35,12 @@ namespace ProjectGE {
 	};
 
 	struct CBVStorage : ViewStorage<CBVSlotMask> {
-		D3D12_GPU_VIRTUAL_ADDRESS ResourceLocations[STAGE_NUM][MAX_CBV] = { NULL };
-		D3D12_CPU_DESCRIPTOR_HANDLE Descriptors[STAGE_NUM][MAX_CBV] = { NULL };
+		D3D12_GPU_VIRTUAL_ADDRESS ResourceLocations[STAGE_NUM+1][MAX_CBV] = { NULL };
+		D3D12_CPU_DESCRIPTOR_HANDLE Descriptors[STAGE_NUM+1][MAX_CBV] = { NULL };
 	};
 
 	struct SRVStorage : ViewStorage<SRVSlotMask> {
-		DirectX12ShaderResourceView Views[STAGE_NUM][MAX_SRV] = { NULL };
+		DirectX12ShaderResourceView Views[STAGE_NUM+1][MAX_SRV] = { NULL };
 	};
 
 	struct SamplerStorage : ViewStorage<SamplerSlotMask> {
