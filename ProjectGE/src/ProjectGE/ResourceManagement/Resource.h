@@ -2,7 +2,7 @@
 namespace ProjectGE {
 	class Resource {
 	public:
-		Resource(char* data, UINT size) : m_Data(data), m_Size(size) {}
+		inline void AttachResource(char* data, UINT size) { m_Data = data; m_Size = size; };
 		char* GetResourceData() { return m_Data; }
 		UINT GetResourceSize() { return m_Size; }
 

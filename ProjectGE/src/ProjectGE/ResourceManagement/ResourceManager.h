@@ -30,7 +30,8 @@ namespace ProjectGE {
 			UINT size;
 			char* data = m_Loader->LoadResource(asset, &size);
 
-			Ref<T> resource = Ref<T>(new T(data, size));
+			Ref<T> resource = Ref<T>(new T());
+			resource->AttachResource(data, size);
 			resource->Init();
 
 			m_ResourceRegistry.insert({ asset, resource });
@@ -49,7 +50,8 @@ namespace ProjectGE {
 			GE_CORE_INFO("Copying data with key: {0} into memory!", key);
 			char* data = m_Loader->LoadResource(inData, size);
 
-			Ref<T> resource = Ref<T>(new T(data, size));
+			Ref<T> resource = Ref<T>(new T());
+			resource->AttachResource(data, size);
 			resource->Init();
 
 			m_ResourceRegistry.insert({ key, resource });

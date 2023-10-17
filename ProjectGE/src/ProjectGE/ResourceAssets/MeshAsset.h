@@ -14,8 +14,6 @@ namespace ProjectGE {
 	class MeshAsset : public Resource
 	{
 	public:
-		MeshAsset(char* data, UINT size) : Resource(data, size) {}
-
 		virtual void Init() override;
 		virtual void Destroy() override;
 

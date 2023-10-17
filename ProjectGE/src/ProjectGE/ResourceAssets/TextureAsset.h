@@ -9,8 +9,6 @@ namespace ProjectGE {
 	class TextureAsset : public Resource
 	{
 	public:
-		TextureAsset(char* data, UINT size) : Resource(data, size) {}
-
 		virtual void Init() override;
 		virtual void Destroy() override;
 
