@@ -1617,6 +1617,8 @@
     <ClInclude Include="src\ProjectGE\ThirdPartySetups\TinyObj\TinyObjLoaderWrapper.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\MaterialSystem\Material.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\VertexInputLayout.h" />
+    <ClInclude Include="src\ProjectGE\ResourceAssets\MaterialAsset.h" />
+    <ClInclude Include="src\ProjectGE\ResourceManagement\ResourceAssetHelper.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\Camera\Camera.cpp">
@@ -1758,6 +1760,7 @@
       <Filter>third-party\stb</Filter>
     </ClCompile>
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\MaterialSystem\Material.cpp" />
+    <ClCompile Include="src\ProjectGE\ResourceAssets\MaterialAsset.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\BasicRenderPS.hlsl" />

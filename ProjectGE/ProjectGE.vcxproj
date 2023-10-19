@@ -143,6 +143,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ProjectGE\ResourceAssets\MaterialAsset.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\MaterialSystem\Material.h" />
     <ClInclude Include="src\ProjectGE.h" />
     <ClInclude Include="src\ProjectGE\Camera\Camera.h" />
@@ -224,6 +225,7 @@
     <ClInclude Include="src\ProjectGE\ResourceAssets\TestResource.h" />
     <ClInclude Include="src\ProjectGE\ResourceAssets\TextureAsset.h" />
     <ClInclude Include="src\ProjectGE\ResourceManagement\Resource.h" />
+    <ClInclude Include="src\ProjectGE\ResourceManagement\ResourceAssetHelper.h" />
     <ClInclude Include="src\ProjectGE\ResourceManagement\ResourceLoaders\HeapResourceLoader.h" />
     <ClInclude Include="src\ProjectGE\ResourceManagement\ResourceLoaders\ResourceLoader.h" />
     <ClInclude Include="src\ProjectGE\ResourceManagement\ResourceManager.h" />
@@ -649,6 +651,7 @@
     <ClInclude Include="third-party\tinyobjloader\tiny_obj_loader.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ProjectGE\ResourceAssets\MaterialAsset.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\MaterialSystem\Material.cpp" />
     <ClCompile Include="src\ProjectGE\Camera\Camera.cpp" />
     <ClCompile Include="src\ProjectGE\Camera\OrthoCamera.cpp" />

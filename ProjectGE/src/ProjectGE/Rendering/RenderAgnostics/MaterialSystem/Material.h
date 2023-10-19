@@ -11,7 +11,7 @@ namespace ProjectGE {
 	class Material
 	{
 	public:
-		Material(ShaderSet shaders,
+		Material(ShaderSet shaders, MaterialConfig config,
 			std::vector<std::string> parameterOrder,
 			std::vector<std::string> textureOrder,
 			std::unordered_map<std::string, Ref<ShaderParameter>> paramters,

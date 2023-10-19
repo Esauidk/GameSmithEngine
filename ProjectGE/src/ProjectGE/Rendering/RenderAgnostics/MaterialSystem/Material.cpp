@@ -4,12 +4,13 @@
 #include "ProjectGE/Rendering/RenderingManager.h"
 
 namespace ProjectGE {
-	Material::Material(ShaderSet shaders,
+	Material::Material(ShaderSet shaders, MaterialConfig config,
 		std::vector<std::string> order,
 		std::vector<std::string> textureOrder,
 		std::unordered_map<std::string, Ref<ShaderParameter>> paramters,
 		std::unordered_map<std::string, Ref<TextureAsset>> textures) :
 		m_Shaders(shaders),
+		m_Config(config),
 		m_ParameterKeys(order),
 		m_TextureKeys(textureOrder),
 		m_Paramters(paramters),
