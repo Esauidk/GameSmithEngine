@@ -1761,6 +1761,7 @@
     </ClCompile>
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\MaterialSystem\Material.cpp" />
     <ClCompile Include="src\ProjectGE\ResourceAssets\MaterialAsset.cpp" />
+    <ClCompile Include="src\ProjectGE\ResourceManagement\ResourceAssetHelper.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\BasicRenderPS.hlsl" />

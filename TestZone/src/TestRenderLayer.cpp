@@ -87,12 +87,13 @@ TestRenderLayer::TestRenderLayer() : Layer("TestRender"), m_Cam(-1.6f, 1.6f, -0.
 	textureOrder.push_back(texture);
 
 	ProjectGE::ShaderSet sSet;
+	ProjectGE::MaterialConfig config;
 	//sSet.shaders[ProjectGE::STAGE_HULL] = hullShader;
 	//sSet.shaders[ProjectGE::STAGE_DOMAIN] = domainShader;
 	sSet.shaders[ProjectGE::STAGE_VERTEX] = m_VShader;
 	sSet.shaders[ProjectGE::STAGE_PIXEL] = m_PShader;
 
-	m_Mat = ProjectGE::Ref<ProjectGE::Material>(new ProjectGE::Material(sSet, parameterOrder, textureOrder, params, texs));
+	m_Mat = ProjectGE::Ref<ProjectGE::Material>(new ProjectGE::Material(sSet, config, parameterOrder, textureOrder, params, texs));
 	m_Mat->ApplyMaterial();
 
 	m_CopyMat = ProjectGE::Ref<ProjectGE::Material>(new ProjectGE::Material(*m_Mat));

@@ -695,6 +695,7 @@
     <ClCompile Include="src\ProjectGE\ResourceAssets\MeshAsset.cpp" />
     <ClCompile Include="src\ProjectGE\ResourceAssets\TestResource.cpp" />
     <ClCompile Include="src\ProjectGE\ResourceAssets\TextureAsset.cpp" />
+    <ClCompile Include="src\ProjectGE\ResourceManagement\ResourceAssetHelper.cpp" />
     <ClCompile Include="src\ProjectGE\ResourceManagement\ResourceLoaders\HeapResourceLoader.cpp" />
     <ClCompile Include="src\ProjectGE\ResourceManagement\ResourceManager.cpp" />
     <ClCompile Include="src\gepch.cpp">
