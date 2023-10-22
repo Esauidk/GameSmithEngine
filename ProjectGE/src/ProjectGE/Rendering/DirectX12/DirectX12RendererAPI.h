@@ -20,6 +20,7 @@ namespace ProjectGE {
 		virtual Ref<IndexBuffer> CreateIndexBuffer(unsigned int* data, unsigned int indexCount) override;
 		virtual void SetIndexBuffer(Ref<IndexBuffer> ibuffer) override;
 		virtual Ref<Shader> LoadShader(std::string path) override;
+		virtual Ref<Shader> LoadShader(char* byteCode, unsigned int length) override;
 
 		virtual Ref<ConstantBuffer> CreateConstantBuffer(UINT size) override;
 		virtual void SetConstantBuffer(Ref<ConstantBuffer> cbuffer, Stages stage, ShaderConstantType constantType) override;

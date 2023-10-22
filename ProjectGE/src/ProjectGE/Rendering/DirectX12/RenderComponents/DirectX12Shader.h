@@ -12,6 +12,7 @@ namespace ProjectGE {
 	public:
 		DirectX12Shader(const std::string path);
 		DirectX12Shader(ComPtr<ID3DBlob> loadedByteCode);
+		DirectX12Shader(char* byteCode, unsigned int length);
 		inline ID3DBlob* ByteCode() const { return m_Blob.Get(); }
 		inline virtual Stages GetShaderType() override {
 			// TODO: Return actual shader type

@@ -1,6 +1,6 @@
 #pragma once
 #include "ProjectGE/Core/Core.h"
-#include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/Shader.h"
+#include "ProjectGE/ResourceAssets/ShaderAsset.h"
 #include <glm/gtc/type_ptr.hpp>
 
 namespace ProjectGE {
@@ -14,6 +14,6 @@ namespace ProjectGE {
 	};
 
 	struct ShaderSet {
-		Ref<Shader> shaders[STAGE_NUM];
+		Ref<ShaderAsset> shaders[STAGE_NUM];
 	};
 };

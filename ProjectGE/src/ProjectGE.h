@@ -34,6 +34,8 @@
 #include "ProjectGE/Rendering/RenderingManager.h"
 #include "ProjectGE/ResourceAssets/TestResource.h"
 #include "ProjectGE/ResourceAssets/TextureAsset.h"
+#include "ProjectGE/ResourceAssets/MaterialAsset.h"
+#include "ProjectGE/ResourceAssets/ShaderAsset.h"
 #include "ProjectGE/ResourceAssets/MeshAsset.h"
 
 // ---------Components-----------------

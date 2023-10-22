@@ -15,4 +15,12 @@ namespace ProjectGE {
 	}
 
 	DirectX12Shader::DirectX12Shader(ComPtr<ID3DBlob> loadedByteCode) : m_Blob(loadedByteCode){}
+
+	DirectX12Shader::DirectX12Shader(char* byteCode, unsigned int length)
+	{
+		bool res = FAILED(D3DCreateBlob(length, &m_Blob));
+		GE_CORE_ASSERT(!res, "Failed to create blob buffer");
+
+		memcpy(m_Blob->GetBufferPointer(), byteCode, length);
+	}
 };

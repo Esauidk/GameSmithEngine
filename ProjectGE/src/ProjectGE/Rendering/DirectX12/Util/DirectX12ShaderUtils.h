@@ -5,7 +5,7 @@
 #include <d3dcompiler.h>
 
 #define SHADER_STATE_STREAM_NULL_SAFE(x, StreamType) x != nullptr ? \
-CD3DX12_SHADER_BYTECODE(CastPtr<DirectX12Shader>(x)->ByteCode()) : StreamType()
+CD3DX12_SHADER_BYTECODE(CastPtr<DirectX12Shader>(x->GetShader())->ByteCode()) : StreamType()
 
 using Microsoft::WRL::ComPtr;
 namespace ProjectGE {

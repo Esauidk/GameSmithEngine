@@ -143,6 +143,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ProjectGE\ResourceAssets\ShaderAsset.h" />
     <ClInclude Include="src\ProjectGE\ResourceAssets\MaterialAsset.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\MaterialSystem\Material.h" />
     <ClInclude Include="src\ProjectGE.h" />
@@ -651,6 +652,7 @@
     <ClInclude Include="third-party\tinyobjloader\tiny_obj_loader.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ProjectGE\ResourceAssets\ShaderAsset.cpp" />
     <ClCompile Include="src\ProjectGE\ResourceAssets\MaterialAsset.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\MaterialSystem\Material.cpp" />
     <ClCompile Include="src\ProjectGE\Camera\Camera.cpp" />

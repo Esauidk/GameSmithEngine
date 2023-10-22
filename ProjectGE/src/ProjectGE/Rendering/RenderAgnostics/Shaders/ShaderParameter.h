@@ -160,6 +160,29 @@ namespace ProjectGE {
 	private:
 		glm::mat4 m_Data;
 	};
+
+	static Ref<ShaderParameter> ConvertToParameter(std::string name, ShaderDataType type, char* data) {
+		switch (type) {
+		case ShaderDataType::Matrix:
+			return Ref<ShaderParameter>(new ShaderParameterMatrix(name, *((glm::mat4*)data)));
+		case ShaderDataType::Float4:
+			return Ref<ShaderParameter>(new ShaderParameterFloat4(name, *((glm::vec4*)data)));
+		case ShaderDataType::Float:
+			return Ref<ShaderParameter>(new ShaderParameterFloat(name, *((glm::vec1*)data)));
+		case ShaderDataType::Float2:
+			return Ref<ShaderParameter>(new ShaderParameterFloat2(name, *((glm::vec2*)data)));
+		case ShaderDataType::Float3:
+			return Ref<ShaderParameter>(new ShaderParameterFloat3(name, *((glm::vec3*)data)));
+		case ShaderDataType::Int:
+			return Ref<ShaderParameter>(new ShaderParameterInt(name, *((int*)data)));
+		case ShaderDataType::Int2:
+			return Ref<ShaderParameter>(new ShaderParameterInt2(name, (int*)data));
+		case ShaderDataType::Int3:
+			return Ref<ShaderParameter>(new ShaderParameterInt3(name, (int*)data));
+		default:
+			return 0;
+		}
+	}
 };
 
 

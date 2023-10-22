@@ -5,23 +5,39 @@
 
 TestResourceLayer::TestResourceLayer()
 {
-	ProjectGE::ResourceAssetWriter writer(30);
+	ProjectGE::ResourceAssetWriter writer(500);
+	ProjectGE::MaterialAssetMetadata meta;
+	meta.ParamterCount = 1;
+	meta.TetureCount = 1;
+	meta.Shaders[ProjectGE::Stages::STAGE_VERTEX].UsedShader = true;
+	writer.WriteClass<ProjectGE::MaterialAssetMetadata>(&meta);
 
-	std::string st1("Hello there");
-	struct Test {
-		unsigned int v1 = 5;
-		int v2 = 2;
-		float v3 = 3.5f;
-	}ex1;
-	
-	writer.WriteString(st1);
-	writer.WriteData<Test>(&ex1);
+	ProjectGE::MaterialConfig config;
+	writer.WriteClass<ProjectGE::MaterialConfig>(&config);
 
-	ProjectGE::ResourceAssetReader reader(writer.GetBuffer(), writer.GetBufferSize());
-	std::string st2 = reader.GetString();
-	Test* ex2 = reader.ReadData<Test>();
+	std::string vs("C:\\Users\\esaus\\Documents\\Coding Projects\\ProjectGE\\bin\\Debug-windows-x86_64\\TestZone\\SampleVertexShader.cso");
+	writer.WriteString(vs);
+
+	std::string paramName("color");
+	writer.WriteString(paramName);
+
+	ProjectGE::ShaderDataType dataType = ProjectGE::ShaderDataType::Float3;
+	writer.WriteClass<ProjectGE::ShaderDataType>(&dataType);
+
+	glm::vec3 mat(2, 5, 1);
+	writer.WriteClass<glm::vec3>(&mat);
+
+	std::string texParamName("texture");
+	writer.WriteString(texParamName);
+
+	std::string tex("C:\\Users\\esaus\\Documents\\Coding Projects\\ProjectGE\\bin\\Debug-windows-x86_64\\TestZone\\download.png");
+	writer.WriteString(tex);
+
 
 	auto instance = ProjectGE::ResourceManager::GetInstance();
+
+	ProjectGE::Ref<ProjectGE::MaterialAsset> asset = instance->GetResource<ProjectGE::MaterialAsset>("Material", writer.GetBuffer(), writer.GetBufferSize());
+
 	m_Resource = instance->GetResource<ProjectGE::MeshAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\ProjectGE\\bin\\Debug-windows-x86_64\\TestZone\\hat_LP.obj");
 	m_TexResource = instance->GetResource<ProjectGE::TextureAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\ProjectGE\\bin\\Debug-windows-x86_64\\TestZone\\download.png");
 

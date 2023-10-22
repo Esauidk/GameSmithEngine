@@ -1619,6 +1619,7 @@
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\VertexInputLayout.h" />
     <ClInclude Include="src\ProjectGE\ResourceAssets\MaterialAsset.h" />
     <ClInclude Include="src\ProjectGE\ResourceManagement\ResourceAssetHelper.h" />
+    <ClInclude Include="src\ProjectGE\ResourceAssets\ShaderAsset.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\Camera\Camera.cpp">
@@ -1762,6 +1763,7 @@
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\MaterialSystem\Material.cpp" />
     <ClCompile Include="src\ProjectGE\ResourceAssets\MaterialAsset.cpp" />
     <ClCompile Include="src\ProjectGE\ResourceManagement\ResourceAssetHelper.cpp" />
+    <ClCompile Include="src\ProjectGE\ResourceAssets\ShaderAsset.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\BasicRenderPS.hlsl" />

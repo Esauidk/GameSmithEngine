@@ -90,8 +90,8 @@ TestRenderLayer::TestRenderLayer() : Layer("TestRender"), m_Cam(-1.6f, 1.6f, -0.
 	ProjectGE::MaterialConfig config;
 	//sSet.shaders[ProjectGE::STAGE_HULL] = hullShader;
 	//sSet.shaders[ProjectGE::STAGE_DOMAIN] = domainShader;
-	sSet.shaders[ProjectGE::STAGE_VERTEX] = m_VShader;
-	sSet.shaders[ProjectGE::STAGE_PIXEL] = m_PShader;
+	sSet.shaders[ProjectGE::STAGE_VERTEX] = ProjectGE::Ref<ProjectGE::ShaderAsset>(new ProjectGE::ShaderAsset(m_VShader));
+	sSet.shaders[ProjectGE::STAGE_PIXEL] = ProjectGE::Ref<ProjectGE::ShaderAsset>(new ProjectGE::ShaderAsset(m_PShader));
 
 	m_Mat = ProjectGE::Ref<ProjectGE::Material>(new ProjectGE::Material(sSet, config, parameterOrder, textureOrder, params, texs));
 	m_Mat->ApplyMaterial();

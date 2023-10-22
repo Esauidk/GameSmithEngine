@@ -6,8 +6,9 @@ namespace ProjectGE {
 		unsigned int ParamterCount;
 		unsigned int TetureCount;
 		struct ShaderMetadata {
-			bool UsedShader;
-		}shaders[STAGE_NUM];
+			bool UsedShader = false;
+			unsigned int stringLength = 0;
+		}Shaders[STAGE_NUM];
 	};
 
 	class MaterialAssetHelper{

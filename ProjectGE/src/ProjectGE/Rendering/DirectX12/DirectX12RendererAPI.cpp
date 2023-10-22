@@ -59,6 +59,11 @@ namespace ProjectGE {
 		return Ref<Shader>(new DirectX12Shader(path));
 	}
 
+	Ref<Shader> DirectX12RendererAPI::LoadShader(char* byteCode, unsigned int length)
+	{
+		return Ref<Shader>(new DirectX12Shader(byteCode, length));
+	}
+
 	Ref<ConstantBuffer> DirectX12RendererAPI::CreateConstantBuffer(UINT size)
 	{
 		return Ref<ConstantBuffer>(new DirectX12ConstantBuffer(size));

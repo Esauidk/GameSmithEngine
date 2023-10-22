@@ -4,7 +4,18 @@
 namespace ProjectGE {
 	std::string ResourceAssetReader::GetString()
 	{
-		std::string collectedString(m_CurPtr); m_CurPtr += collectedString.length()+1; return collectedString;
+		std::string collectedString(m_CurPtr); 
+		
+		m_CurPtr += collectedString.length()+1; 
+		
+		return collectedString;
+	}
+
+	char* ResourceAssetReader::GetBytes(unsigned int byteCount)
+	{
+		char* savePtr = m_CurPtr;
+		m_CurPtr += byteCount;
+		return savePtr;
 	}
 
 
@@ -16,8 +27,14 @@ namespace ProjectGE {
 
 	void ResourceAssetWriter::WriteString(std::string str)
 	{
-		memcpy(m_CurPtr, str.c_str(), str.length()+1);
-		m_CurPtr += str.length() + 1;
+		size_t length = str.length() + 1;
+		memcpy(m_CurPtr, str.c_str(), length);
+		m_CurPtr += length;
+	}
+
+	void ResourceAssetWriter::WriteByte(char* bytes, unsigned int byteCount)
+	{
+		memcpy(m_CurPtr, bytes, byteCount);
 	}
 };
 
