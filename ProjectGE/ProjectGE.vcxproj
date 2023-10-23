@@ -143,6 +143,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\ProjectGE\Camera\PerspectiveCamera.h" />
     <ClInclude Include="src\ProjectGE\ResourceAssets\ShaderAsset.h" />
     <ClInclude Include="src\ProjectGE\ResourceAssets\MaterialAsset.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\MaterialSystem\Material.h" />
@@ -231,6 +232,7 @@
     <ClInclude Include="src\ProjectGE\ResourceManagement\ResourceLoaders\ResourceLoader.h" />
     <ClInclude Include="src\ProjectGE\ResourceManagement\ResourceManager.h" />
     <ClInclude Include="src\gepch.h" />
+    <ClInclude Include="src\ProjectGE\ThirdPartySetups\GLM\GLMDefines.h" />
     <ClInclude Include="src\ProjectGE\ThirdPartySetups\TinyObj\TinyObjLoaderWrapper.h" />
     <ClInclude Include="third-party\glm\glm\common.hpp" />
     <ClInclude Include="third-party\glm\glm\detail\_features.hpp" />
@@ -652,6 +654,7 @@
     <ClInclude Include="third-party\tinyobjloader\tiny_obj_loader.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\ProjectGE\Camera\PerspectiveCamera.cpp" />
     <ClCompile Include="src\ProjectGE\ResourceAssets\ShaderAsset.cpp" />
     <ClCompile Include="src\ProjectGE\ResourceAssets\MaterialAsset.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\MaterialSystem\Material.cpp" />

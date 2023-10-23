@@ -42,6 +42,7 @@
 #include "ProjectGE/Components/Transform.h"
 //-------------------------------------
 #include "ProjectGE/Camera/OrthoCamera.h"
+#include "ProjectGE/Camera/PerspectiveCamera.h"
 
 #ifndef ENTRY_USED
 // ENTRY POINT TO GAME ENGINE

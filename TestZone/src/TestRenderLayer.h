@@ -23,4 +23,7 @@ private:
 	Transform m_SquareTrans;
 
 	ProjectGE::OrthoCamera m_Cam;
+	ProjectGE::PerspectiveCamera m_PerpCam;
+
+	bool switchPerp = false;
 };

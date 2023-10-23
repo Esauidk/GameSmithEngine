@@ -5,7 +5,7 @@
 #include "ProjectGE/Rendering/RenderAgnostics/Shaders/SLab/SLab.h"
 #include "ProjectGE/Rendering/RenderAgnostics/Shaders/ShaderUtil.h"
 
-TestRenderLayer::TestRenderLayer() : Layer("TestRender"), m_Cam(-1.6f, 1.6f, -0.9f, 0.9f) {
+TestRenderLayer::TestRenderLayer() : Layer("TestRender"), m_Cam(-1.6f, 1.6f, -0.9f, 0.9f), m_PerpCam(54.0f, (float)ProjectGE::Application::Get().GetWindow().GetWidth(), (float)ProjectGE::Application::Get().GetWindow().GetHeight()) {
 	char buffer[MAX_PATH] = { 0 };
 	GetModuleFileNameA(NULL, buffer, MAX_PATH);
 	std::wstring::size_type pos = std::string(buffer).find_last_of("\\");
@@ -100,35 +100,40 @@ TestRenderLayer::TestRenderLayer() : Layer("TestRender"), m_Cam(-1.6f, 1.6f, -0.
 }
 
 void TestRenderLayer::OnImGuiRender() {
-	//ImGui::Begin("Settings");
-	//ImGui::ColorEdit3("Tint Color", glm::value_ptr(m_Example1.color));
-	//ImGui::End();
+	ImGui::Begin("Camera Setting");
+	ImGui::Checkbox("Perspective Camera", &switchPerp);
+	ImGui::End();
 }
 
 void TestRenderLayer::OnUpdate() {
 	float dt = ProjectGE::Application::Get().GetTimer().GetDeltaTimeSeconds();
 	Transform& tf = m_Cam.GetTransform();
+	Transform& perTf = m_PerpCam.GetTransform();
 
 	glm::vec3 oldPos = tf.GetPosition();
 	glm::vec3 TriOldPos = m_TriTrans.GetPosition();
 	if (ProjectGE::Input::IsKeyPressed(GE_KEY_A)) {
 		glm::vec3 newPosition = oldPos + dt * glm::vec3(-1, 0, 0);
 		tf.SetPosition(newPosition);
+		perTf.SetPosition(newPosition);
 	}
 
 	if (ProjectGE::Input::IsKeyPressed(GE_KEY_D)) {
 		glm::vec3 newPosition = oldPos + dt * glm::vec3(1, 0, 0);
 		tf.SetPosition(newPosition);
+		perTf.SetPosition(newPosition);
 	}
 
 	if (ProjectGE::Input::IsKeyPressed(GE_KEY_W)) {
 		glm::vec3 newPosition = oldPos + dt * glm::vec3(0, 1, 0);
 		tf.SetPosition(newPosition);
+		perTf.SetPosition(newPosition);
 	}
 
 	if (ProjectGE::Input::IsKeyPressed(GE_KEY_S)) {
 		glm::vec3 newPosition = oldPos + dt * glm::vec3(0, -1, 0);
 		tf.SetPosition(newPosition);
+		perTf.SetPosition(newPosition);
 	}
 
 	if (ProjectGE::Input::IsKeyPressed(GE_KEY_R)) {
@@ -153,6 +158,16 @@ void TestRenderLayer::OnUpdate() {
 
 	if (ProjectGE::Input::IsKeyPressed(GE_KEY_K)) {
 		glm::vec3 newPosition = TriOldPos + dt * glm::vec3(0, -1, 0);
+		m_TriTrans.SetPosition(newPosition);
+	}
+
+	if (ProjectGE::Input::IsKeyPressed(GE_KEY_O)) {
+		glm::vec3 newPosition = TriOldPos + dt * glm::vec3(0, 0, 1);
+		m_TriTrans.SetPosition(newPosition);
+	}
+
+	if (ProjectGE::Input::IsKeyPressed(GE_KEY_P)) {
+		glm::vec3 newPosition = TriOldPos + dt * glm::vec3(0, 0, -1);
 		m_TriTrans.SetPosition(newPosition);
 	}
 
@@ -184,18 +199,15 @@ void TestRenderLayer::OnUpdate() {
 	glm::mat4 tri = glm::transpose(m_TriTrans.GetModelMatrix());
 	//glm::mat4 squ = glm::transpose(m_SquareTrans.GetModelMatrix());
 	ProjectGE::GloablShaderData data;
-	data.VP = m_Cam.GetMatrix();
+	if (!switchPerp) {
+		data.VP = m_Cam.GetMatrix();
+	}
+	else {
+		data.VP = m_PerpCam.GetMatrix();
+	}
+	
 	cBuff1->UpdateData((BYTE*)&data, sizeof(data));
 
-
-	/*struct instanceData {
-		glm::mat4 model;
-		glm::vec3 color;
-	} test;
-
-	test.model = tri;
-	test.color = { 1, 0, 1 };
-	cBuff2->UpdateData((BYTE*)&test, sizeof(instanceData));*/
 	auto model = m_Mat->GetParameter<ProjectGE::ShaderParameterMatrix>("Model");
 	auto color = m_Mat->GetParameter<ProjectGE::ShaderParameterFloat3>("InputColor");
 
@@ -203,13 +215,6 @@ void TestRenderLayer::OnUpdate() {
 	glm::vec3 newColor(1, 0, 1);
 	color->SetData(newColor);
 	m_Mat->ApplyMaterial();
-
-	const glm::vec3& orgColor = color->GetData();
-	GE_APP_INFO("Original Material Color {0}, {1}, {2}",orgColor[0], orgColor[1], orgColor[2]);
-
-	auto copyColor = m_CopyMat->GetParameter<ProjectGE::ShaderParameterFloat3>("InputColor");
-	const glm::vec3& copyColorRaw = copyColor->GetData();
-	GE_APP_INFO("Copy Material Color {0}, {1}, {2}", copyColorRaw[0], copyColorRaw[1], copyColorRaw[2]);
 
 	//std::dynamic_pointer_cast<ProjectGE::DirectX12Texture2D>(m_Tex2d)->Test();
 	ProjectGE::RendererAPI* renderAPI = ProjectGE::RenderingManager::GetInstance()->GetRenderAPI();

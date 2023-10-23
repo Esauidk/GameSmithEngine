@@ -1,4 +1,5 @@
 #pragma once
+#include "ProjectGE/ThirdPartySetups/GLM/GLMDefines.h"
 #include <glm/gtc/matrix_transform.hpp>
 class Transform
 {

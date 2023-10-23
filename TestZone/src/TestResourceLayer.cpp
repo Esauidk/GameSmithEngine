@@ -38,7 +38,7 @@ TestResourceLayer::TestResourceLayer()
 
 	ProjectGE::Ref<ProjectGE::MaterialAsset> asset = instance->GetResource<ProjectGE::MaterialAsset>("Material", writer.GetBuffer(), writer.GetBufferSize());
 
-	m_Resource = instance->GetResource<ProjectGE::MeshAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\ProjectGE\\bin\\Debug-windows-x86_64\\TestZone\\hat_LP.obj");
+	m_Resource = instance->GetResource<ProjectGE::MeshAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\ProjectGE\\bin\\Debug-windows-x86_64\\TestZone\\pvc_pipe_90.obj");
 	m_TexResource = instance->GetResource<ProjectGE::TextureAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\ProjectGE\\bin\\Debug-windows-x86_64\\TestZone\\download.png");
 
 }
