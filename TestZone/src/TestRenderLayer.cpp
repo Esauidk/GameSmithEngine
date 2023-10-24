@@ -5,7 +5,7 @@
 #include "ProjectGE/Rendering/RenderAgnostics/Shaders/SLab/SLab.h"
 #include "ProjectGE/Rendering/RenderAgnostics/Shaders/ShaderUtil.h"
 
-TestRenderLayer::TestRenderLayer() : Layer("TestRender"), m_Cam(-1.6f, 1.6f, -0.9f, 0.9f), m_PerpCam(54.0f, (float)ProjectGE::Application::Get().GetWindow().GetWidth(), (float)ProjectGE::Application::Get().GetWindow().GetHeight()) {
+TestRenderLayer::TestRenderLayer() : Layer("TestRender"), m_Cam(-1.6f, 1.6f, -0.9f, 0.9f), m_PerpCam(glm::pi<float>() / 3, (float)ProjectGE::Application::Get().GetWindow().GetWidth(), (float)ProjectGE::Application::Get().GetWindow().GetHeight()) {
 	char buffer[MAX_PATH] = { 0 };
 	GetModuleFileNameA(NULL, buffer, MAX_PATH);
 	std::wstring::size_type pos = std::string(buffer).find_last_of("\\");
@@ -29,10 +29,14 @@ TestRenderLayer::TestRenderLayer() : Layer("TestRender"), m_Cam(-1.6f, 1.6f, -0.
 	};
 
 	ProjectGE::VertexStruct squareVertex[] = {
-		{{-0.75f, -0.75f, 0.0f}, {0, 1}},
-		{{0.75f, -0.75f, 0.0f}, {1, 1}},
-		{{0.75f,  0.75f, 0.0f},{1, 0}},
-		{{-0.75f,  0.75f, 0.0f}, {0, 0}}
+		{{-0.75f, -0.75f, -0.5f}, {0, 1}},
+		{{0.75f, -0.75f, -0.5f}, {1, 1}},
+		{{0.75f,  0.75f, -0.5f},{1, 0}},
+		{{-0.75f,  0.75f, -0.5f}, {0, 0}},
+		{{-0.75f, -0.75f, 0.5f}, {0, 1}},
+		{{0.75f, -0.75f, 0.5f}, {1, 1}},
+		{{0.75f,  0.75f, 0.5f},{1, 0}},
+		{{-0.75f,  0.75f, 0.5f}, {0, 0}}
 	};
 
 	vBuff = renderAPI->CreateVertexBuffer((BYTE*)&squareVertex, sizeof(ProjectGE::VertexStruct), _countof(squareVertex));
@@ -43,7 +47,12 @@ TestRenderLayer::TestRenderLayer() : Layer("TestRender"), m_Cam(-1.6f, 1.6f, -0.
 
 
 	unsigned int squareIndex[] = {
-		2,1,0,0,3,2
+		2,1,0,
+		0,3,2,
+		4,7,0,
+		0,7,3,
+		1,6,5,
+		1,2,6
 	};
 
 	iBuff = renderAPI->CreateIndexBuffer((unsigned int*)&squareIndex, _countof(squareIndex));
@@ -183,7 +192,7 @@ void TestRenderLayer::OnUpdate() {
 
 	if (ProjectGE::Input::IsKeyPressed(GE_KEY_B)) {
 		glm::vec3 oldRotation = m_TriTrans.GetRotation();
-		m_TriTrans.SetRotation(oldRotation + dt * glm::vec3(0, 1, 0));
+		m_TriTrans.SetRotation(oldRotation + dt * glm::vec3(0, -1, 0));
 	}
 
 	if (ProjectGE::Input::IsKeyPressed(GE_KEY_Z)) {
