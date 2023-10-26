@@ -24,6 +24,8 @@
 #include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/PipelineStateInitializer.h"
 
 #include "ProjectGE/Rendering/RenderAgnostics/BasicStructs.h"
+#include "ProjectGE/Rendering/RenderAgnostics/Camera/OrthoCamera.h"
+#include "ProjectGE/Rendering/RenderAgnostics/Camera/PerspectiveCamera.h"
 
 // Material System
 #include "ProjectGE/Rendering/RenderAgnostics/MaterialSystem/Material.h"
@@ -41,8 +43,6 @@
 // ---------Components-----------------
 #include "ProjectGE/Components/Transform.h"
 //-------------------------------------
-#include "ProjectGE/Camera/OrthoCamera.h"
-#include "ProjectGE/Camera/PerspectiveCamera.h"
 
 #ifndef ENTRY_USED
 // ENTRY POINT TO GAME ENGINE

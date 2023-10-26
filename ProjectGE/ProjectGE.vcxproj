@@ -143,13 +143,15 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\ProjectGE\Camera\PerspectiveCamera.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\LightingSystem\Sources\DirectionalLight.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\PerspectiveCamera.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\LightingSystem\LightSource.h" />
     <ClInclude Include="src\ProjectGE\ResourceAssets\ShaderAsset.h" />
     <ClInclude Include="src\ProjectGE\ResourceAssets\MaterialAsset.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\MaterialSystem\Material.h" />
     <ClInclude Include="src\ProjectGE.h" />
-    <ClInclude Include="src\ProjectGE\Camera\Camera.h" />
-    <ClInclude Include="src\ProjectGE\Camera\OrthoCamera.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\Camera.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\OrthoCamera.h" />
     <ClInclude Include="src\ProjectGE\Components\Transform.h" />
     <ClInclude Include="src\ProjectGE\Core\Application.h" />
     <ClInclude Include="src\ProjectGE\Core\Core.h" />
@@ -654,12 +656,12 @@
     <ClInclude Include="third-party\tinyobjloader\tiny_obj_loader.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\ProjectGE\Camera\PerspectiveCamera.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\PerspectiveCamera.cpp" />
     <ClCompile Include="src\ProjectGE\ResourceAssets\ShaderAsset.cpp" />
     <ClCompile Include="src\ProjectGE\ResourceAssets\MaterialAsset.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\MaterialSystem\Material.cpp" />
-    <ClCompile Include="src\ProjectGE\Camera\Camera.cpp" />
-    <ClCompile Include="src\ProjectGE\Camera\OrthoCamera.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\Camera.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\OrthoCamera.cpp" />
     <ClCompile Include="src\ProjectGE\Components\Transform.cpp" />
     <ClCompile Include="src\ProjectGE\Core\Application.cpp" />
     <ClCompile Include="src\ProjectGE\Core\Layer.cpp" />

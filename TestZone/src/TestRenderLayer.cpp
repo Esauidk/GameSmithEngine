@@ -66,12 +66,7 @@ TestRenderLayer::TestRenderLayer() : Layer("TestRender"), m_Cam(-1.6f, 1.6f, -0.
 	//ProjectGE::SLabMetadata metadata;
 	auto pModel = ProjectGE::Ref<ProjectGE::ShaderParameter>(new ProjectGE::ShaderParameterMatrix("Model"));
 	auto pColor = ProjectGE::Ref<ProjectGE::ShaderParameter>(new ProjectGE::ShaderParameterFloat3("InputColor"));
-	//metadata.AddParameter(pModel);
-	//metadata.AddParameter(pColor);
 
-	// TODO: GET RID OF THIS, JUST FOR TESTING WITH SCENE DATA
-	cBuff1 = renderAPI->CreateConstantBuffer(sizeof(ProjectGE::GloablShaderData));
-	renderAPI->SetConstantBuffer(cBuff1, ProjectGE::STAGE_VERTEX, ProjectGE::ShaderConstantType::Global);
 	//renderAPI->SetConstantBuffer(cBuff1, ProjectGE::STAGE_DOMAIN, ProjectGE::ShaderConstantType::Global);
 
 	m_Sampler = renderAPI->CreateSampler(ProjectGE::FilterType::Point, ProjectGE::PaddingMethod::Clamp);
@@ -205,17 +200,8 @@ void TestRenderLayer::OnUpdate() {
 		m_TriTrans.SetScale(oldScale + dt * glm::vec3(1, 1, 1));
 	}
 
-	glm::mat4 tri = glm::transpose(m_TriTrans.GetModelMatrix());
+	glm::mat4 tri = m_TriTrans.GetModelMatrix();
 	//glm::mat4 squ = glm::transpose(m_SquareTrans.GetModelMatrix());
-	ProjectGE::GloablShaderData data;
-	if (!switchPerp) {
-		data.VP = m_Cam.GetMatrix();
-	}
-	else {
-		data.VP = m_PerpCam.GetMatrix();
-	}
-	
-	cBuff1->UpdateData((BYTE*)&data, sizeof(data));
 
 	auto model = m_Mat->GetParameter<ProjectGE::ShaderParameterMatrix>("Model");
 	auto color = m_Mat->GetParameter<ProjectGE::ShaderParameterFloat3>("InputColor");
@@ -226,11 +212,17 @@ void TestRenderLayer::OnUpdate() {
 	m_Mat->ApplyMaterial();
 
 	//std::dynamic_pointer_cast<ProjectGE::DirectX12Texture2D>(m_Tex2d)->Test();
-	ProjectGE::RendererAPI* renderAPI = ProjectGE::RenderingManager::GetInstance()->GetRenderAPI();
 
+	auto renderManager = ProjectGE::RenderingManager::GetInstance();
+	if (!switchPerp) {
+		renderManager->BeginScene(&m_Cam, nullptr);
+	}
+	else {
+		renderManager->BeginScene(&m_PerpCam, nullptr);
+	}
 	//renderAPI->SetVertexBuffer(vBuff);
 	//renderAPI->SetIndexBuffer(iBuff);
 
 	//renderAPI->DrawIndexed(iBuff->GetCount(), 1);
-	renderAPI->SubmitRecording();
+	renderManager->EndScene();
 }

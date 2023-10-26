@@ -12,7 +12,7 @@ public:
 	inline void SetScale(glm::vec3 newScale) { m_Scale = newScale; UpdateMatrix(); }
 	inline glm::vec3 GetScale() const { return m_Scale; }
 
-	inline glm::mat4 GetModelMatrix() const { return m_ModelMatrix; }
+	inline glm::mat4 GetModelMatrix() const { return glm::transpose(m_ModelMatrix); }
 private:
 	void UpdateMatrix();
 private:

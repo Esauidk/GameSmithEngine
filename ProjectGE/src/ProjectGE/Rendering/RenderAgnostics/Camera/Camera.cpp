@@ -10,9 +10,7 @@ namespace ProjectGE {
 	{
 		glm::mat4 transform = m_Transform.GetModelMatrix();
 		m_View = glm::inverse(transform);
-
-		auto test = glm::transpose(m_Projection);
 		// Convert from Collumn Major to Row Major
-		m_VP = glm::transpose(m_Projection * m_View);
+		m_VP = m_Projection * m_View;
 	}
 };

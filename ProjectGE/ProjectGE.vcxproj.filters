@@ -114,10 +114,10 @@
     <ClInclude Include="src\ProjectGE.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\Camera\Camera.h">
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\Camera.h">
       <Filter>src\ProjectGE\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\Camera\OrthoCamera.h">
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\OrthoCamera.h">
       <Filter>src\ProjectGE\Camera</Filter>
     </ClInclude>
     <ClInclude Include="src\ProjectGE\Components\Transform.h">
@@ -1620,14 +1620,16 @@
     <ClInclude Include="src\ProjectGE\ResourceAssets\MaterialAsset.h" />
     <ClInclude Include="src\ProjectGE\ResourceManagement\ResourceAssetHelper.h" />
     <ClInclude Include="src\ProjectGE\ResourceAssets\ShaderAsset.h" />
-    <ClInclude Include="src\ProjectGE\Camera\PerspectiveCamera.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\PerspectiveCamera.h" />
     <ClInclude Include="src\ProjectGE\ThirdPartySetups\GLM\GLMDefines.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\LightingSystem\LightSource.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\LightingSystem\Sources\DirectionalLight.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\ProjectGE\Camera\Camera.cpp">
+    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\Camera.cpp">
       <Filter>src\ProjectGE\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="src\ProjectGE\Camera\OrthoCamera.cpp">
+    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\OrthoCamera.cpp">
       <Filter>src\ProjectGE\Camera</Filter>
     </ClCompile>
     <ClCompile Include="src\ProjectGE\Components\Transform.cpp">
@@ -1766,7 +1768,7 @@
     <ClCompile Include="src\ProjectGE\ResourceAssets\MaterialAsset.cpp" />
     <ClCompile Include="src\ProjectGE\ResourceManagement\ResourceAssetHelper.cpp" />
     <ClCompile Include="src\ProjectGE\ResourceAssets\ShaderAsset.cpp" />
-    <ClCompile Include="src\ProjectGE\Camera\PerspectiveCamera.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\PerspectiveCamera.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\BasicRenderPS.hlsl" />

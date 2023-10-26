@@ -11,6 +11,8 @@ namespace ProjectGE {
 
 	struct GloablShaderData {
 		glm::mat4 VP;
+		glm::vec3 MainLightDir;
+		glm::vec3 MainLightColor;
 	};
 
 	struct ShaderSet {

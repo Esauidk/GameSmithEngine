@@ -9,9 +9,16 @@ namespace ProjectGE {
 		m_ResourceManager->Init(ResourceLoaderType::Heap);
 		m_RenderingManager->Init();
 
+		
+	}
+
+	SubsystemManager::~SubsystemManager()
+	{
 		m_RenderingManager->ShutDown();
 		m_ResourceManager->Shutdown();
 	}
+
+
 
 	void SubsystemManager::Update()
 	{

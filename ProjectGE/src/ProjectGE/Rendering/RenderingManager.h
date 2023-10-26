@@ -1,7 +1,8 @@
 #pragma once
 #include "RendererAPI.h"
 
-#include "ProjectGE/Camera/Camera.h"
+#include "ProjectGE/Rendering/RenderAgnostics/Camera/Camera.h"
+#include "ProjectGE/Rendering/RenderAgnostics/LightingSystem/LightSource.h"
 #include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/Shader.h"
 
 namespace ProjectGE {
@@ -15,7 +16,7 @@ namespace ProjectGE {
 
 		void Init();
 		void ShutDown();
-		void BeginScene(Camera& camera);
+		void BeginScene(Camera* cam, LightSource* mainLight);
 		void EndScene();
 		void Submit(Ref<GeometryPack> geopack, Ref<Shader> shader, glm::mat4& transform);
 
@@ -24,6 +25,8 @@ namespace ProjectGE {
 	private:
 		static RenderingManager* s_Instance;
 		Scope<RendererAPI> m_RenderAPI;
+		GloablShaderData m_SceneData;
+		Ref<ConstantBuffer> m_SceneDataGPU;
 	};
 };
 
