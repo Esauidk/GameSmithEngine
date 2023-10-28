@@ -42,9 +42,7 @@ namespace ProjectGE {
 			m_SceneData.MainLightDir = glm::vec3(1, 0, 1);
 			m_SceneData.MainLightColor = glm::vec3(1, 1, 1);
 		}
-		sizeof(glm::mat4);
-		sizeof(glm::vec3);
-		GE_CORE_INFO("Light Position: {0}, {1}, {2}", m_SceneData.LightWorldPos.x, m_SceneData.LightWorldPos.y, m_SceneData.LightWorldPos.z);
+		
 		m_SceneDataGPU->UpdateData((BYTE*)&m_SceneData, sizeof(m_SceneData));
 		m_RenderAPI->SetConstantBuffer(m_SceneDataGPU, STAGE_VERTEX, ShaderConstantType::Global);
 		m_RenderAPI->SetConstantBuffer(m_SceneDataGPU, STAGE_PIXEL, ShaderConstantType::Global);
