@@ -1,31 +1,33 @@
 struct VertexPosColor
 {
     float3 Position : POSITION;
-    float2 uv : UV_TEXCOORD;
+    float2 UV : UV_TEXCOORD;
+    float3 Normal : NORMAL;
 };
 
 struct VertexShaderOutput
 {
     float4 Position : SV_POSITION;
     float2 UV : UV_TEXCOORD;
+    float3 WorldNormal : NORMAL;
+    float3 WorldPos : WORLDPOS;
 };
 
-cbuffer Global : register(b0) {
-    matrix VP;
-};
 
 cbuffer Instance : register(b1) {
     matrix M;
     float3 inputColor;
 };
 
+#include "../Core.hlsli"
     
 VertexShaderOutput main(VertexPosColor input)
 {
     VertexShaderOutput output;
-    matrix MVP = mul(M,VP);
-    output.Position = mul(float4(input.Position, 1.0f), MVP);
-    output.UV = input.uv;
+    output.WorldPos = mul(float4(input.Position, 1.0f), M).xyz;
+    output.WorldNormal = mul(float4(input.Normal, 1.0f), M).xyz;
+    output.Position = mul(float4(output.WorldPos, 1.0f), VP);
+    output.UV = input.UV;
 
     return output;
 }

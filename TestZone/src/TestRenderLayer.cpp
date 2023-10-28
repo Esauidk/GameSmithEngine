@@ -10,7 +10,7 @@ TestRenderLayer::TestRenderLayer() : Layer("TestRender"), m_Cam(-1.6f, 1.6f, -0.
 	GetModuleFileNameA(NULL, buffer, MAX_PATH);
 	std::wstring::size_type pos = std::string(buffer).find_last_of("\\");
 	auto vertex = std::string(buffer).substr(0, pos).append("\\SampleVertexShader.cso");
-	auto pixel = std::string(buffer).substr(0, pos).append("\\SamplePixelShader.cso");
+	auto pixel = std::string(buffer).substr(0, pos).append("\\BlinnPhongPixelShader.cso");
 	auto hull = std::string(buffer).substr(0, pos).append("\\BasicSubdivideHS.cso");
 	auto domain = std::string(buffer).substr(0, pos).append("\\BasicRenderDS.cso");
 

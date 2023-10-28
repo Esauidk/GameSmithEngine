@@ -157,7 +157,11 @@ namespace ProjectGE {
 			TRUE, FALSE, FALSE,
 			0,
 			D3D12_CONSERVATIVE_RASTERIZATION_MODE_OFF);
-		BufferLayoutBuilder layout = { {"POSITION", ShaderDataType::Float3}, {"UV_TEXCOORD", ShaderDataType::Float2} };
+		BufferLayoutBuilder layout = { 
+			{"POSITION", ShaderDataType::Float3}, 
+			{"UV_TEXCOORD", ShaderDataType::Float2}, 
+			{"NORMAL", ShaderDataType::Float3} 
+		};
 		DirectX12InputLayout dxLayout(layout);
 		DirectX12PipelineArgs args = {
 			{root->GetInternalRootSignature(),
