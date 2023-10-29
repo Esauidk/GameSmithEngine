@@ -106,6 +106,8 @@ TestRenderLayer::TestRenderLayer() : Layer("TestRender"), m_Cam(-1.6f, 1.6f, -0.
 void TestRenderLayer::OnImGuiRender() {
 	ImGui::Begin("Camera Setting");
 	ImGui::Checkbox("Perspective Camera", &switchPerp);
+	ImGui::InputFloat3("Light Direction", glm::value_ptr(lightDir));
+	ImGui::ColorEdit3("Light Color", glm::value_ptr(lightColor));
 	ImGui::End();
 }
 
@@ -214,11 +216,15 @@ void TestRenderLayer::OnUpdate() {
 	//std::dynamic_pointer_cast<ProjectGE::DirectX12Texture2D>(m_Tex2d)->Test();
 
 	auto renderManager = ProjectGE::RenderingManager::GetInstance();
+	ProjectGE::DirectionalLight light;
+	light.SetLightColor(lightColor);
+	light.SetLightVector(lightDir);
+
 	if (!switchPerp) {
-		renderManager->BeginScene(&m_Cam, nullptr);
+		renderManager->BeginScene(&m_Cam, &light);
 	}
 	else {
-		renderManager->BeginScene(&m_PerpCam, nullptr);
+		renderManager->BeginScene(&m_PerpCam, &light);
 	}
 	//renderAPI->SetVertexBuffer(vBuff);
 	//renderAPI->SetIndexBuffer(iBuff);

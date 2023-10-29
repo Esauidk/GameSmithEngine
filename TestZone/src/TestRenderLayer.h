@@ -21,6 +21,8 @@ private:
 	ProjectGE::Ref<ProjectGE::TextureAsset> m_Tex2d;
 	Transform m_TriTrans;
 	Transform m_SquareTrans;
+	glm::vec3 lightDir;
+	glm::vec3 lightColor;
 
 	ProjectGE::OrthoCamera m_Cam;
 	ProjectGE::PerspectiveCamera m_PerpCam;

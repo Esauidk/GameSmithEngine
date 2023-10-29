@@ -24,8 +24,15 @@
 #include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/PipelineStateInitializer.h"
 
 #include "ProjectGE/Rendering/RenderAgnostics/BasicStructs.h"
+
+#include "ProjectGE/Rendering/RenderAgnostics/Camera/Camera.h"
 #include "ProjectGE/Rendering/RenderAgnostics/Camera/OrthoCamera.h"
 #include "ProjectGE/Rendering/RenderAgnostics/Camera/PerspectiveCamera.h"
+
+#include "ProjectGE/Rendering/RenderAgnostics/LightingSystem/LightSource.h"
+#include "ProjectGE/Rendering/RenderAgnostics/LightingSystem/Sources/DirectionalLight.h"
+
+
 
 // Material System
 #include "ProjectGE/Rendering/RenderAgnostics/MaterialSystem/Material.h"
