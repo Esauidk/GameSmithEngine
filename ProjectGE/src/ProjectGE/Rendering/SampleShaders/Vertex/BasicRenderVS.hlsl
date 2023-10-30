@@ -1,15 +1,11 @@
-struct VertexInput
-{
-    float3 Position : POSITION;
-};
-
 struct VertexShaderOutput
 {
     float4 Position : SV_POSITION;
 };
 
+#include "../Core.hlsli"
 
-VertexShaderOutput main(VertexInput input )
+VertexShaderOutput main(DefaultVertexData input )
 {
     VertexShaderOutput vso;
     vso.Position = float4(input.Position,1);

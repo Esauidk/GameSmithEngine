@@ -43,9 +43,6 @@ namespace ProjectGE {
 				tinyobj::index_t idx = shapes[s].mesh.indices[i];
 
 				bool newVert = (viewedIndicies.find(idx.vertex_index) == viewedIndicies.end());
-				if (idx.vertex_index == 1) {
-					GE_CORE_INFO("Vertex: {0}, Noormal: {1}, UV: {2}", idx.vertex_index, idx.normal_index, idx.texcoord_index);
-				}
 
 				if (newVert) {
 					VertexStruct& v = verticies[idx.vertex_index];

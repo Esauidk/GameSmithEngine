@@ -143,15 +143,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\LightingSystem\Sources\DirectionalLight.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\PerspectiveCamera.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\LightingSystem\LightSource.h" />
-    <ClInclude Include="src\ProjectGE\ResourceAssets\ShaderAsset.h" />
-    <ClInclude Include="src\ProjectGE\ResourceAssets\MaterialAsset.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\MaterialSystem\Material.h" />
     <ClInclude Include="src\ProjectGE.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\Camera.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\OrthoCamera.h" />
     <ClInclude Include="src\ProjectGE\Components\Transform.h" />
     <ClInclude Include="src\ProjectGE\Core\Application.h" />
     <ClInclude Include="src\ProjectGE\Core\Core.h" />
@@ -209,6 +201,13 @@
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\third-party\d3dx12.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BasicStructs.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BufferLayout.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\Camera.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\OrthoCamera.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\PerspectiveCamera.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\LightingSystem\LightSource.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\LightingSystem\Sources\DirectionalLight.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\LightingSystem\Sources\PointLight.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\MaterialSystem\Material.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\ConstantBuffer.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\GeometryPack.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\IndexBuffer.h" />
@@ -225,7 +224,9 @@
     <ClInclude Include="src\ProjectGE\Rendering\RendererAPI.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RendererContext.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderingManager.h" />
+    <ClInclude Include="src\ProjectGE\ResourceAssets\MaterialAsset.h" />
     <ClInclude Include="src\ProjectGE\ResourceAssets\MeshAsset.h" />
+    <ClInclude Include="src\ProjectGE\ResourceAssets\ShaderAsset.h" />
     <ClInclude Include="src\ProjectGE\ResourceAssets\TestResource.h" />
     <ClInclude Include="src\ProjectGE\ResourceAssets\TextureAsset.h" />
     <ClInclude Include="src\ProjectGE\ResourceManagement\Resource.h" />
@@ -233,9 +234,9 @@
     <ClInclude Include="src\ProjectGE\ResourceManagement\ResourceLoaders\HeapResourceLoader.h" />
     <ClInclude Include="src\ProjectGE\ResourceManagement\ResourceLoaders\ResourceLoader.h" />
     <ClInclude Include="src\ProjectGE\ResourceManagement\ResourceManager.h" />
-    <ClInclude Include="src\gepch.h" />
     <ClInclude Include="src\ProjectGE\ThirdPartySetups\GLM\GLMDefines.h" />
     <ClInclude Include="src\ProjectGE\ThirdPartySetups\TinyObj\TinyObjLoaderWrapper.h" />
+    <ClInclude Include="src\gepch.h" />
     <ClInclude Include="third-party\glm\glm\common.hpp" />
     <ClInclude Include="third-party\glm\glm\detail\_features.hpp" />
     <ClInclude Include="third-party\glm\glm\detail\_fixes.hpp" />
@@ -656,12 +657,6 @@
     <ClInclude Include="third-party\tinyobjloader\tiny_obj_loader.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\PerspectiveCamera.cpp" />
-    <ClCompile Include="src\ProjectGE\ResourceAssets\ShaderAsset.cpp" />
-    <ClCompile Include="src\ProjectGE\ResourceAssets\MaterialAsset.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\MaterialSystem\Material.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\Camera.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\OrthoCamera.cpp" />
     <ClCompile Include="src\ProjectGE\Components\Transform.cpp" />
     <ClCompile Include="src\ProjectGE\Core\Application.cpp" />
     <ClCompile Include="src\ProjectGE\Core\Layer.cpp" />
@@ -698,8 +693,14 @@
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\State\DirectX12HeapDescriptorState.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\State\DirectX12StateManager.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12ShaderUtils.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\Camera.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\OrthoCamera.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\PerspectiveCamera.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\MaterialSystem\Material.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\RenderingManager.cpp" />
+    <ClCompile Include="src\ProjectGE\ResourceAssets\MaterialAsset.cpp" />
     <ClCompile Include="src\ProjectGE\ResourceAssets\MeshAsset.cpp" />
+    <ClCompile Include="src\ProjectGE\ResourceAssets\ShaderAsset.cpp" />
     <ClCompile Include="src\ProjectGE\ResourceAssets\TestResource.cpp" />
     <ClCompile Include="src\ProjectGE\ResourceAssets\TextureAsset.cpp" />
     <ClCompile Include="src\ProjectGE\ResourceManagement\ResourceAssetHelper.cpp" />
@@ -714,51 +715,6 @@
     <ProjectReference Include="third-party\imgui\ImGui.vcxproj">
       <Project>{C0FF640D-2C14-8DBE-F595-301E616989EF}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Domain\BasicRenderDS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Domain</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Domain</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">Domain</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">5.0</ShaderModel>
-    </FxCompile>
-    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Hull\BasicSubdivideHS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Hull</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Hull</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">Hull</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">5.0</ShaderModel>
-    </FxCompile>
-    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\BasicRenderPS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\BlinnPhongPixelShader.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">Pixel</ShaderType>
-    </FxCompile>
-    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\SamplePixelShader.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-    </FxCompile>
-    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Vertex\BasicRenderVS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-    </FxCompile>
-    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Vertex\SampleVertexShader.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-    </FxCompile>
-    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Vertex\SampleVertexTesShader.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">Vertex</ShaderType>
-    </FxCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="src\ProjectGE\Rendering\SampleShaders\Core.hlsli" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

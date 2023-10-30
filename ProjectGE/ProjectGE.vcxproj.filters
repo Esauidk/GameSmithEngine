@@ -7,9 +7,6 @@
     <Filter Include="src\ProjectGE">
       <UniqueIdentifier>{9F1E2A2D-0BDF-A563-D419-EFE04099EA3F}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\ProjectGE\Camera">
-      <UniqueIdentifier>{372A13B3-23B9-9C7C-CCD7-B077B845AD22}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\ProjectGE\Components">
       <UniqueIdentifier>{54422FA8-4067-7E28-69B2-63B855367D46}</UniqueIdentifier>
     </Filter>
@@ -64,6 +61,18 @@
     <Filter Include="src\ProjectGE\Rendering\RenderAgnostics">
       <UniqueIdentifier>{46D89AE2-B267-5CCD-BB63-3DE5277297D9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\ProjectGE\Rendering\RenderAgnostics\Camera">
+      <UniqueIdentifier>{FEA14B9C-EA1F-9C35-D317-5ACDBF34DE5D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ProjectGE\Rendering\RenderAgnostics\LightingSystem">
+      <UniqueIdentifier>{7062CC7B-5C0C-028B-45DD-09A63126A279}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ProjectGE\Rendering\RenderAgnostics\LightingSystem\Sources">
+      <UniqueIdentifier>{E3A02982-CF76-B07F-B820-CBD2A495E320}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ProjectGE\Rendering\RenderAgnostics\MaterialSystem">
+      <UniqueIdentifier>{492CD0A1-35D6-05B1-1EA7-0DCC0AF0A59F}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents">
       <UniqueIdentifier>{5BC014C6-4795-5C79-7044-9C755C786A90}</UniqueIdentifier>
     </Filter>
@@ -81,6 +90,15 @@
     </Filter>
     <Filter Include="src\ProjectGE\ResourceManagement\ResourceLoaders">
       <UniqueIdentifier>{541D0AEA-40C6-7119-695C-8D9855648C5A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ProjectGE\ThirdPartySetups">
+      <UniqueIdentifier>{5D80D93C-49A6-A3A3-32EC-286F1EB1C86F}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ProjectGE\ThirdPartySetups\GLM">
+      <UniqueIdentifier>{CC644714-B8A0-4A7E-21B3-62750D0EF398}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\ProjectGE\ThirdPartySetups\TinyObj">
+      <UniqueIdentifier>{6B7AB82E-57CC-8F1E-40EB-CC2E2CDCA807}</UniqueIdentifier>
     </Filter>
     <Filter Include="third-party">
       <UniqueIdentifier>{9DC1EB7C-0977-6472-926B-5E49FE1F5B76}</UniqueIdentifier>
@@ -113,12 +131,6 @@
   <ItemGroup>
     <ClInclude Include="src\ProjectGE.h">
       <Filter>src</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\Camera.h">
-      <Filter>src\ProjectGE\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\OrthoCamera.h">
-      <Filter>src\ProjectGE\Camera</Filter>
     </ClInclude>
     <ClInclude Include="src\ProjectGE\Components\Transform.h">
       <Filter>src\ProjectGE\Components</Filter>
@@ -291,6 +303,27 @@
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BufferLayout.h">
       <Filter>src\ProjectGE\Rendering\RenderAgnostics</Filter>
     </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\Camera.h">
+      <Filter>src\ProjectGE\Rendering\RenderAgnostics\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\OrthoCamera.h">
+      <Filter>src\ProjectGE\Rendering\RenderAgnostics\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\PerspectiveCamera.h">
+      <Filter>src\ProjectGE\Rendering\RenderAgnostics\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\LightingSystem\LightSource.h">
+      <Filter>src\ProjectGE\Rendering\RenderAgnostics\LightingSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\LightingSystem\Sources\DirectionalLight.h">
+      <Filter>src\ProjectGE\Rendering\RenderAgnostics\LightingSystem\Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\LightingSystem\Sources\PointLight.h">
+      <Filter>src\ProjectGE\Rendering\RenderAgnostics\LightingSystem\Sources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\MaterialSystem\Material.h">
+      <Filter>src\ProjectGE\Rendering\RenderAgnostics\MaterialSystem</Filter>
+    </ClInclude>
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\ConstantBuffer.h">
       <Filter>src\ProjectGE\Rendering\RenderAgnostics\RenderComponents</Filter>
     </ClInclude>
@@ -318,6 +351,9 @@
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\VertexBuffer.h">
       <Filter>src\ProjectGE\Rendering\RenderAgnostics\RenderComponents</Filter>
     </ClInclude>
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\VertexInputLayout.h">
+      <Filter>src\ProjectGE\Rendering\RenderAgnostics\RenderComponents</Filter>
+    </ClInclude>
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\Shaders\SLab\SLab.h">
       <Filter>src\ProjectGE\Rendering\RenderAgnostics\Shaders\SLab</Filter>
     </ClInclude>
@@ -336,7 +372,13 @@
     <ClInclude Include="src\ProjectGE\Rendering\RenderingManager.h">
       <Filter>src\ProjectGE\Rendering</Filter>
     </ClInclude>
+    <ClInclude Include="src\ProjectGE\ResourceAssets\MaterialAsset.h">
+      <Filter>src\ProjectGE\ResourceAssets</Filter>
+    </ClInclude>
     <ClInclude Include="src\ProjectGE\ResourceAssets\MeshAsset.h">
+      <Filter>src\ProjectGE\ResourceAssets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\ResourceAssets\ShaderAsset.h">
       <Filter>src\ProjectGE\ResourceAssets</Filter>
     </ClInclude>
     <ClInclude Include="src\ProjectGE\ResourceAssets\TestResource.h">
@@ -348,6 +390,9 @@
     <ClInclude Include="src\ProjectGE\ResourceManagement\Resource.h">
       <Filter>src\ProjectGE\ResourceManagement</Filter>
     </ClInclude>
+    <ClInclude Include="src\ProjectGE\ResourceManagement\ResourceAssetHelper.h">
+      <Filter>src\ProjectGE\ResourceManagement</Filter>
+    </ClInclude>
     <ClInclude Include="src\ProjectGE\ResourceManagement\ResourceLoaders\HeapResourceLoader.h">
       <Filter>src\ProjectGE\ResourceManagement\ResourceLoaders</Filter>
     </ClInclude>
@@ -356,6 +401,12 @@
     </ClInclude>
     <ClInclude Include="src\ProjectGE\ResourceManagement\ResourceManager.h">
       <Filter>src\ProjectGE\ResourceManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\ThirdPartySetups\GLM\GLMDefines.h">
+      <Filter>src\ProjectGE\ThirdPartySetups\GLM</Filter>
+    </ClInclude>
+    <ClInclude Include="src\ProjectGE\ThirdPartySetups\TinyObj\TinyObjLoaderWrapper.h">
+      <Filter>src\ProjectGE\ThirdPartySetups\TinyObj</Filter>
     </ClInclude>
     <ClInclude Include="src\gepch.h">
       <Filter>src</Filter>
@@ -1614,24 +1665,8 @@
     <ClInclude Include="third-party\tinyobjloader\tiny_obj_loader.h">
       <Filter>third-party\tinyobjloader</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\ThirdPartySetups\TinyObj\TinyObjLoaderWrapper.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\MaterialSystem\Material.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\VertexInputLayout.h" />
-    <ClInclude Include="src\ProjectGE\ResourceAssets\MaterialAsset.h" />
-    <ClInclude Include="src\ProjectGE\ResourceManagement\ResourceAssetHelper.h" />
-    <ClInclude Include="src\ProjectGE\ResourceAssets\ShaderAsset.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\PerspectiveCamera.h" />
-    <ClInclude Include="src\ProjectGE\ThirdPartySetups\GLM\GLMDefines.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\LightingSystem\LightSource.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\LightingSystem\Sources\DirectionalLight.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\Camera.cpp">
-      <Filter>src\ProjectGE\Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\OrthoCamera.cpp">
-      <Filter>src\ProjectGE\Camera</Filter>
-    </ClCompile>
     <ClCompile Include="src\ProjectGE\Components\Transform.cpp">
       <Filter>src\ProjectGE\Components</Filter>
     </ClCompile>
@@ -1740,10 +1775,28 @@
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12ShaderUtils.cpp">
       <Filter>src\ProjectGE\Rendering\DirectX12\Util</Filter>
     </ClCompile>
+    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\Camera.cpp">
+      <Filter>src\ProjectGE\Rendering\RenderAgnostics\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\OrthoCamera.cpp">
+      <Filter>src\ProjectGE\Rendering\RenderAgnostics\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\PerspectiveCamera.cpp">
+      <Filter>src\ProjectGE\Rendering\RenderAgnostics\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\MaterialSystem\Material.cpp">
+      <Filter>src\ProjectGE\Rendering\RenderAgnostics\MaterialSystem</Filter>
+    </ClCompile>
     <ClCompile Include="src\ProjectGE\Rendering\RenderingManager.cpp">
       <Filter>src\ProjectGE\Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="src\ProjectGE\ResourceAssets\MaterialAsset.cpp">
+      <Filter>src\ProjectGE\ResourceAssets</Filter>
+    </ClCompile>
     <ClCompile Include="src\ProjectGE\ResourceAssets\MeshAsset.cpp">
+      <Filter>src\ProjectGE\ResourceAssets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\ResourceAssets\ShaderAsset.cpp">
       <Filter>src\ProjectGE\ResourceAssets</Filter>
     </ClCompile>
     <ClCompile Include="src\ProjectGE\ResourceAssets\TestResource.cpp">
@@ -1751,6 +1804,9 @@
     </ClCompile>
     <ClCompile Include="src\ProjectGE\ResourceAssets\TextureAsset.cpp">
       <Filter>src\ProjectGE\ResourceAssets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\ProjectGE\ResourceManagement\ResourceAssetHelper.cpp">
+      <Filter>src\ProjectGE\ResourceManagement</Filter>
     </ClCompile>
     <ClCompile Include="src\ProjectGE\ResourceManagement\ResourceLoaders\HeapResourceLoader.cpp">
       <Filter>src\ProjectGE\ResourceManagement\ResourceLoaders</Filter>
@@ -1764,23 +1820,5 @@
     <ClCompile Include="third-party\stb\std_image.cpp">
       <Filter>third-party\stb</Filter>
     </ClCompile>
-    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\MaterialSystem\Material.cpp" />
-    <ClCompile Include="src\ProjectGE\ResourceAssets\MaterialAsset.cpp" />
-    <ClCompile Include="src\ProjectGE\ResourceManagement\ResourceAssetHelper.cpp" />
-    <ClCompile Include="src\ProjectGE\ResourceAssets\ShaderAsset.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\PerspectiveCamera.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\BasicRenderPS.hlsl" />
-    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\SamplePixelShader.hlsl" />
-    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Vertex\BasicRenderVS.hlsl" />
-    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Vertex\SampleVertexShader.hlsl" />
-    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Hull\BasicSubdivideHS.hlsl" />
-    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Domain\BasicRenderDS.hlsl" />
-    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Vertex\SampleVertexTesShader.hlsl" />
-    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\BlinnPhongPixelShader.hlsl" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="src\ProjectGE\Rendering\SampleShaders\Core.hlsli" />
   </ItemGroup>
 </Project>

@@ -14,10 +14,7 @@ namespace ProjectGE {
 		glm::mat4 VP;
 		glm::vec3 CameraWorldPos;
 		float pad;
-		glm::vec3 LightWorldPos;
-		float pad2;
-		glm::vec3 MainLightDir;
-		float pad3;
+		glm::vec4 LightWorldPos;
 		glm::vec3 MainLightColor;
 	};
 

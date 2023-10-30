@@ -14,7 +14,6 @@ namespace ProjectGE {
 		UINT m_ByteSize;
 	};
 
-	class SLabInterpeter {
-	
+	class SLabInterpeter { 
 	};
 };

@@ -31,6 +31,7 @@
 
 #include "ProjectGE/Rendering/RenderAgnostics/LightingSystem/LightSource.h"
 #include "ProjectGE/Rendering/RenderAgnostics/LightingSystem/Sources/DirectionalLight.h"
+#include "ProjectGE/Rendering/RenderAgnostics/LightingSystem/Sources/PointLight.h"
 
 
 

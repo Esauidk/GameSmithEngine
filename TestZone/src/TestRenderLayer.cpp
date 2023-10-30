@@ -106,8 +106,12 @@ TestRenderLayer::TestRenderLayer() : Layer("TestRender"), m_Cam(-1.6f, 1.6f, -0.
 void TestRenderLayer::OnImGuiRender() {
 	ImGui::Begin("Camera Setting");
 	ImGui::Checkbox("Perspective Camera", &switchPerp);
-	ImGui::InputFloat3("Light Direction", glm::value_ptr(lightDir));
+	ImGui::Separator();
+	ImGui::Text("Light Settings");
 	ImGui::ColorEdit3("Light Color", glm::value_ptr(lightColor));
+	ImGui::Checkbox("Point Light", &switchLight);
+	ImGui::InputFloat3("Direction Light: Direction", glm::value_ptr(lightDir));
+	ImGui::InputFloat3("Point Light: Position", glm::value_ptr(lightPos));
 	ImGui::End();
 }
 
@@ -218,13 +222,28 @@ void TestRenderLayer::OnUpdate() {
 	auto renderManager = ProjectGE::RenderingManager::GetInstance();
 	ProjectGE::DirectionalLight light;
 	light.SetLightColor(lightColor);
-	light.SetLightVector(lightDir);
+	light.SetLightDirection(lightDir);
+
+	ProjectGE::PointLight pLight;
+	pLight.SetLightPosition(lightPos);
+	pLight.SetLightColor(lightColor);
 
 	if (!switchPerp) {
-		renderManager->BeginScene(&m_Cam, &light);
+		if (!switchLight) {
+			renderManager->BeginScene(&m_Cam, &light);
+		}
+		else {
+			renderManager->BeginScene(&m_Cam, &pLight);
+		}
 	}
 	else {
-		renderManager->BeginScene(&m_PerpCam, &light);
+		if (!switchLight) {
+			renderManager->BeginScene(&m_PerpCam, &light);
+		}
+		else {
+			renderManager->BeginScene(&m_PerpCam, &pLight);
+		}
+		
 	}
 	//renderAPI->SetVertexBuffer(vBuff);
 	//renderAPI->SetIndexBuffer(iBuff);

@@ -31,15 +31,13 @@ namespace ProjectGE {
 	{
 		m_SceneData.VP = cam->GetMatrix();
 		m_SceneData.CameraWorldPos = cam->GetTransform().GetPosition();
-		// TODO: Remove this
-		m_SceneData.LightWorldPos = glm::vec3(0, 0, 0);
 
 		if (mainLight != nullptr) {
-			m_SceneData.MainLightDir = mainLight->GetLightVector();
+			m_SceneData.LightWorldPos = mainLight->GetLightVector();
 			m_SceneData.MainLightColor = mainLight->GetLightColor();
 		}
 		else {
-			m_SceneData.MainLightDir = glm::vec3(1, 0, 1);
+			m_SceneData.LightWorldPos = glm::vec4(1, 0, 1, 0);
 			m_SceneData.MainLightColor = glm::vec3(1, 1, 1);
 		}
 		

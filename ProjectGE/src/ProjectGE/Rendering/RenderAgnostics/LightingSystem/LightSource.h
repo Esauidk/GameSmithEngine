@@ -4,7 +4,7 @@
 namespace ProjectGE {
 	class LightSource {
 	public:
-		virtual glm::vec3& GetLightVector() = 0;
+		virtual glm::vec4& GetLightVector() = 0;
 		virtual glm::vec3& GetLightColor() = 0;
 	};
 };

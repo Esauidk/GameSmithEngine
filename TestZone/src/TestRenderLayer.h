@@ -21,6 +21,7 @@ private:
 	ProjectGE::Ref<ProjectGE::TextureAsset> m_Tex2d;
 	Transform m_TriTrans;
 	Transform m_SquareTrans;
+	glm::vec3 lightPos;
 	glm::vec3 lightDir;
 	glm::vec3 lightColor;
 
@@ -28,4 +29,5 @@ private:
 	ProjectGE::PerspectiveCamera m_PerpCam;
 
 	bool switchPerp = false;
+	bool switchLight = false;
 };

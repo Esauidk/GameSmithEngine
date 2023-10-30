@@ -81,6 +81,55 @@ project "ProjectGE"
 		runtime "Release"
 		optimize "on"
 
+project "GEEditor"
+	location "GEEditor"
+	kind "ConsoleApp"
+	language "C++"
+	cppdialect "C++20"
+	staticruntime "on"
+
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+	files{
+		"%{prj.name}/src/**.h",
+		"%{prj.name}/src/**.cpp"
+	}
+
+	includedirs{
+		"ProjectGE/third-party/spdlog/include",
+		"ProjectGE/src",
+		"%{IncludeDir.glm}",
+		"%{IncludeDir.ImGui}"
+	}
+
+	links{
+		"ProjectGE"
+	}
+
+	filter "system:windows"
+		systemversion "latest"
+
+		defines{
+			"GE_PLATFORM_WINDOWS"
+		}
+
+	filter "configurations:Debug"
+		defines "GE_DEBUG"
+		runtime "Debug"
+		symbols "on"
+
+	filter "configurations:Release"
+		defines "GE_Release"
+		runtime "Release"
+		optimize "on"
+
+	filter "configurations:Dist"
+		defines "GE_Dist"
+		runtime "Release"
+		optimize "on"
+
+
 project "TestZone"
 	location "TestZone"
 	kind "ConsoleApp"

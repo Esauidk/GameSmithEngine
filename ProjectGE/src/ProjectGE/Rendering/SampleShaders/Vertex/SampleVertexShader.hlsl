@@ -1,10 +1,3 @@
-struct VertexPosColor
-{
-    float3 Position : POSITION;
-    float2 UV : UV_TEXCOORD;
-    float3 Normal : NORMAL;
-};
-
 struct VertexShaderOutput
 {
     float4 Position : SV_POSITION;
@@ -21,7 +14,7 @@ cbuffer Instance : register(b1) {
 
 #include "../Core.hlsli"
     
-VertexShaderOutput main(VertexPosColor input)
+VertexShaderOutput main(DefaultVertexData input)
 {
     VertexShaderOutput output;
     output.WorldPos = mul(float4(input.Position, 1.0f), M).xyz;
