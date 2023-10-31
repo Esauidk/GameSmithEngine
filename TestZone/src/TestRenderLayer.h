@@ -19,8 +19,8 @@ private:
 
 	ProjectGE::Ref<ProjectGE::Sampler> m_Sampler;
 	ProjectGE::Ref<ProjectGE::TextureAsset> m_Tex2d;
-	Transform m_TriTrans;
-	Transform m_SquareTrans;
+	ProjectGE::Transform m_TriTrans;
+	ProjectGE::Transform m_SquareTrans;
 	glm::vec3 lightPos;
 	glm::vec3 lightDir;
 	glm::vec3 lightColor;

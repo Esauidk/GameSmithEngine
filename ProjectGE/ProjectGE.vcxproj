@@ -144,7 +144,9 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\ProjectGE.h" />
-    <ClInclude Include="src\ProjectGE\Components\Transform.h" />
+    <ClInclude Include="src\ProjectGE\EntitySystem\Components\Component.h" />
+    <ClInclude Include="src\ProjectGE\EntitySystem\Components\MeshRenderer.h" />
+    <ClInclude Include="src\ProjectGE\EntitySystem\Components\Transform.h" />
     <ClInclude Include="src\ProjectGE\Core\Application.h" />
     <ClInclude Include="src\ProjectGE\Core\Core.h" />
     <ClInclude Include="src\ProjectGE\Core\EntryPoint.h" />
@@ -156,6 +158,7 @@
     <ClInclude Include="src\ProjectGE\Core\SubsystemManager.h" />
     <ClInclude Include="src\ProjectGE\Core\Timer.h" />
     <ClInclude Include="src\ProjectGE\Core\Window.h" />
+    <ClInclude Include="src\ProjectGE\EntitySystem\GameObject.h" />
     <ClInclude Include="src\ProjectGE\Events\ApplicationEvents.h" />
     <ClInclude Include="src\ProjectGE\Events\Event.h" />
     <ClInclude Include="src\ProjectGE\Events\KeyboardEvents.h" />
@@ -657,12 +660,14 @@
     <ClInclude Include="third-party\tinyobjloader\tiny_obj_loader.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\ProjectGE\Components\Transform.cpp" />
+    <ClCompile Include="src\ProjectGE\EntitySystem\Components\MeshRenderer.cpp" />
+    <ClCompile Include="src\ProjectGE\EntitySystem\Components\Transform.cpp" />
     <ClCompile Include="src\ProjectGE\Core\Application.cpp" />
     <ClCompile Include="src\ProjectGE\Core\Layer.cpp" />
     <ClCompile Include="src\ProjectGE\Core\Log.cpp" />
     <ClCompile Include="src\ProjectGE\Core\SubsystemManager.cpp" />
     <ClCompile Include="src\ProjectGE\Core\Timer.cpp" />
+    <ClCompile Include="src\ProjectGE\EntitySystem\GameObject.cpp" />
     <ClCompile Include="src\ProjectGE\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\ProjectGE\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\ProjectGE\Platform\Window\WindowsInput.cpp" />

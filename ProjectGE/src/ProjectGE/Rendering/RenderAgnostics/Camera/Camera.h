@@ -1,5 +1,5 @@
 #pragma once
-#include "ProjectGE/Components/Transform.h"
+#include "ProjectGE/EntitySystem/Components/Transform.h"
 namespace ProjectGE {
 
 	// An abstract representation of a Camera in 3D space

@@ -137,11 +137,13 @@
     <ClInclude Include="src\EngineDependenciesOnly.h" />
     <ClInclude Include="src\TestRenderLayer.h" />
     <ClInclude Include="src\TestResourceLayer.h" />
+    <ClInclude Include="src\TestComponentLayer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\MainTestApp.cpp" />
     <ClCompile Include="src\TestRenderLayer.cpp" />
     <ClCompile Include="src\TestResourceLayer.cpp" />
+    <ClCompile Include="src\TestComponentLayer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ProjectGE\ProjectGE.vcxproj">

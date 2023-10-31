@@ -117,8 +117,8 @@ void TestRenderLayer::OnImGuiRender() {
 
 void TestRenderLayer::OnUpdate() {
 	float dt = ProjectGE::Application::Get().GetTimer().GetDeltaTimeSeconds();
-	Transform& tf = m_Cam.GetTransform();
-	Transform& perTf = m_PerpCam.GetTransform();
+	ProjectGE::Transform& tf = m_Cam.GetTransform();
+	ProjectGE::Transform& perTf = m_PerpCam.GetTransform();
 
 	glm::vec3 oldPos = tf.GetPosition();
 	glm::vec3 TriOldPos = m_TriTrans.GetPosition();

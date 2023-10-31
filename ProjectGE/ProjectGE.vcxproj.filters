@@ -132,7 +132,7 @@
     <ClInclude Include="src\ProjectGE.h">
       <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\Components\Transform.h">
+    <ClInclude Include="src\ProjectGE\EntitySystem\Components\Transform.h">
       <Filter>src\ProjectGE\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\ProjectGE\Core\Application.h">
@@ -1665,9 +1665,12 @@
     <ClInclude Include="third-party\tinyobjloader\tiny_obj_loader.h">
       <Filter>third-party\tinyobjloader</Filter>
     </ClInclude>
+    <ClInclude Include="src\ProjectGE\EntitySystem\GameObject.h" />
+    <ClInclude Include="src\ProjectGE\EntitySystem\Components\Component.h" />
+    <ClInclude Include="src\ProjectGE\EntitySystem\Components\MeshRenderer.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\ProjectGE\Components\Transform.cpp">
+    <ClCompile Include="src\ProjectGE\EntitySystem\Components\Transform.cpp">
       <Filter>src\ProjectGE\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\ProjectGE\Core\Application.cpp">
@@ -1820,5 +1823,7 @@
     <ClCompile Include="third-party\stb\std_image.cpp">
       <Filter>third-party\stb</Filter>
     </ClCompile>
+    <ClCompile Include="src\ProjectGE\EntitySystem\GameObject.cpp" />
+    <ClCompile Include="src\ProjectGE\EntitySystem\Components\MeshRenderer.cpp" />
   </ItemGroup>
 </Project>

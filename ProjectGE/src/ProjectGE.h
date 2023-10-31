@@ -33,7 +33,10 @@
 #include "ProjectGE/Rendering/RenderAgnostics/LightingSystem/Sources/DirectionalLight.h"
 #include "ProjectGE/Rendering/RenderAgnostics/LightingSystem/Sources/PointLight.h"
 
-
+// Component System
+#include "ProjectGE/EntitySystem/GameObject.h"
+#include "ProjectGE/EntitySystem/Components/Transform.h"
+#include "ProjectGE/EntitySystem/Components/Component.h"
 
 // Material System
 #include "ProjectGE/Rendering/RenderAgnostics/MaterialSystem/Material.h"
@@ -47,10 +50,6 @@
 #include "ProjectGE/ResourceAssets/MaterialAsset.h"
 #include "ProjectGE/ResourceAssets/ShaderAsset.h"
 #include "ProjectGE/ResourceAssets/MeshAsset.h"
-
-// ---------Components-----------------
-#include "ProjectGE/Components/Transform.h"
-//-------------------------------------
 
 #ifndef ENTRY_USED
 // ENTRY POINT TO GAME ENGINE
