@@ -62,6 +62,9 @@ void TestResourceLayer::OnUpdate()
 	}
 
 	m_Resource->SetGraphicsMesh();
+	for (unsigned int i = 0; i < m_Resource->GetSubMeshSize(); i++) {
+		m_Resource->DrawMesh(i);
+	}
 	ProjectGE::RenderingManager::GetInstance()->GetRenderAPI()->SubmitRecording();
 	
 }
