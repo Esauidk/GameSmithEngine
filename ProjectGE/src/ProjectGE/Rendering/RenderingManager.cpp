@@ -29,6 +29,7 @@ namespace ProjectGE {
 
 	void RenderingManager::BeginScene(Camera* cam, LightSource* mainLight)
 	{
+		//m_RenderAPI->ClearCachedAssets();
 		m_SceneData.VP = cam->GetMatrix();
 		m_SceneData.CameraWorldPos = cam->GetTransform().GetPosition();
 
@@ -51,11 +52,13 @@ namespace ProjectGE {
 		m_RenderAPI->SubmitRecording();
 	}
 
-	void RenderingManager::Submit(Ref<GeometryPack> geopack, Ref<Shader> shader, glm::mat4& objectTransform)
+	void RenderingManager::Submit(Ref<VertexBuffer> vBuff, Ref<IndexBuffer> iBuff, Ref<Material> mat)
 	{
-		//shader->Bind();
-
-		//geopack->Bind();
-		//RenderCommand::DrawIndexed(geopack);
+		m_RenderAPI->SetVertexBuffer(vBuff);
+		m_RenderAPI->SetIndexBuffer(iBuff);
+		mat->ApplyMaterial();
+		m_RenderAPI->DrawIndexed(iBuff->GetCount(), 1);
 	}
+
+	
 };

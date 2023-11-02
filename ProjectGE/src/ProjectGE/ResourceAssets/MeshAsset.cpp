@@ -97,35 +97,4 @@ namespace ProjectGE {
 		m_SubMeshes.clear();
 	}
 
-	void MeshAsset::SetGraphicsMesh()
-	{
-		auto manager = RenderingManager::GetInstance();
-
-		if (manager != nullptr) {
-			auto renderAPI = manager->GetRenderAPI();
-			renderAPI->SetVertexBuffer(m_Vert);
-		}
-		else {
-			GE_CORE_INFO("RenderManager Not Initialized: Not Allocating GPU Resources for Texture Asset");
-		}
-	}
-
-	SubMesh::SubMesh(std::string name, Ref<IndexBuffer> index) : m_SubMeshName(name), m_Index(index)
-	{
-	}
-
-	void SubMesh::DrawSubMesh()
-	{
-		auto manager = RenderingManager::GetInstance();
-
-		if (manager != nullptr) {
-			auto renderAPI = manager->GetRenderAPI();
-
-			renderAPI->SetIndexBuffer(m_Index);
-			renderAPI->DrawIndexed(m_Index->GetCount(), 1);
-		}
-		else {
-			GE_CORE_INFO("RenderManager Not Initialized: Not Allocating GPU Resources for Texture Asset");
-		}
-	}
 };

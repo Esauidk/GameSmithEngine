@@ -35,8 +35,9 @@
 
 // Component System
 #include "ProjectGE/EntitySystem/GameObject.h"
-#include "ProjectGE/EntitySystem/Components/Transform.h"
 #include "ProjectGE/EntitySystem/Components/Component.h"
+#include "ProjectGE/EntitySystem/Components/Transform.h"
+#include "ProjectGE/EntitySystem/Components/MeshRenderer.h"
 
 // Material System
 #include "ProjectGE/Rendering/RenderAgnostics/MaterialSystem/Material.h"

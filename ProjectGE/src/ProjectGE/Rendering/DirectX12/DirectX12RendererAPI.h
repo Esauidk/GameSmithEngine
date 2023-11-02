@@ -8,7 +8,7 @@ namespace ProjectGE {
 	{
 	public:
 		DirectX12RendererAPI();
-		virtual API GetAPI() override { return API::DirectX12; }
+		inline virtual API GetAPI() override { return API::DirectX12; }
 
 		virtual void SetClearColor(const glm::vec4& color) override;
 		virtual void Clear() override;
@@ -36,8 +36,11 @@ namespace ProjectGE {
 		virtual void UpdatePipeline(PipelineStateInitializer& init) override;
 
 		virtual void SubmitRecording() override;
+
+		inline virtual void ClearCachedAssets() override { m_SavedPipelineObjects.clear(); }
 	private:
 		DirectX12Core& m_Core;
+		std::vector<Ref<DirectX12PipelineStateData>> m_SavedPipelineObjects;
 	};
 };
 

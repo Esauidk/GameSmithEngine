@@ -7,12 +7,7 @@ namespace ProjectGE {
 	class VertexBuffer;
 	class IndexBuffer;
 
-	class SubMesh {
-	public:
-		SubMesh(std::string name, Ref<IndexBuffer> index);
-		void DrawSubMesh();
-		inline std::string GetName() { return m_SubMeshName; }
-	private:
+	struct SubMesh {
 		std::string m_SubMeshName;
 		Ref<IndexBuffer> m_Index;
 	};
@@ -23,8 +18,8 @@ namespace ProjectGE {
 		virtual void Init() override;
 		virtual void Destroy() override;
 
-		void SetGraphicsMesh();
-		inline void DrawMesh(unsigned int index) { m_SubMeshes[index].DrawSubMesh(); }
+		inline Ref<VertexBuffer> GetVerticies() { return m_Vert; }
+		inline SubMesh GetSubMesh(unsigned int index) { return m_SubMeshes[index]; }
 		inline unsigned int GetSubMeshSize() { return (unsigned int)m_SubMeshes.size(); }
 	private:
 		Ref<VertexBuffer> m_Vert;

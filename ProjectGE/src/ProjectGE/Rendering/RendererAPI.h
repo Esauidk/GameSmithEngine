@@ -45,6 +45,7 @@ namespace ProjectGE {
 
 		virtual void UpdatePipeline(PipelineStateInitializer& init) = 0;
 		virtual void SubmitRecording() = 0;
+		virtual void ClearCachedAssets() = 0;
 
 		virtual API GetAPI() = 0;
 	};

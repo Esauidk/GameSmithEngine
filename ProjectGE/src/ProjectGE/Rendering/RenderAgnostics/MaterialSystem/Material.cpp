@@ -57,7 +57,7 @@ namespace ProjectGE {
 	}
 
 	void Material::ApplyMaterial() {
-		char* temp = new char[m_ParameterByteTotal];
+		char* temp = new char[m_GPULocation->GetBufferSize()];
 		char* cur = temp;
 		for (auto& entry : m_ParameterKeys) {
 			auto pair = m_Paramters.find(entry);

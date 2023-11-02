@@ -61,10 +61,10 @@ void TestResourceLayer::OnUpdate()
 		m_TexResource = instance->GetResource<ProjectGE::TextureAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\ProjectGE\\bin\\Debug-windows-x86_64\\TestZone\\download.png");
 	}
 
-	m_Resource->SetGraphicsMesh();
+	/*m_Resource->SetGraphicsMesh();
 	for (unsigned int i = 0; i < m_Resource->GetSubMeshSize(); i++) {
 		m_Resource->DrawMesh(i);
-	}
-	ProjectGE::RenderingManager::GetInstance()->GetRenderAPI()->SubmitRecording();
+	}*/
+	//ProjectGE::RenderingManager::GetInstance()->GetRenderAPI()->SubmitRecording();
 	
 }

@@ -4,6 +4,7 @@
 #include "ProjectGE/Rendering/DirectX12/DirectX12Core.h"
 #include "ProjectGE/Rendering/DirectX12/Resources/DirectX12Resource.h"
 
+#define MIN_BUFF_SIZE 256
 
 namespace ProjectGE {
 	template <typename T>
@@ -101,11 +102,16 @@ namespace ProjectGE {
 				IID_PPV_ARGS(&cpuBuffer)
 			));
 
+
 			GE_CORE_ASSERT(!res, "Failed to create CPU Buffer {0}", bufferName);
 			cpuBuffer->SetName(nameConvert.c_str());
 
 			m_GpuBuffer = Ref<DirectX12Resource>(new DirectX12Resource(gpuBuffer.Get(), D3D12_RESOURCE_STATE_COPY_DEST));
 			m_CpuBuffer = Ref<DirectX12Resource>(new DirectX12Resource(cpuBuffer.Get(), D3D12_RESOURCE_STATE_GENERIC_READ));
+
+			if (m_BufferSize < MIN_BUFF_SIZE) {
+				m_BufferSize = MIN_BUFF_SIZE;
+			}
 		}
 
 		D3D12_GPU_VIRTUAL_ADDRESS GetGPUReference() {

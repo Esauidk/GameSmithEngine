@@ -11,6 +11,7 @@ namespace ProjectGE {
 		DirectX12ConstantBuffer(BYTE* data, UINT size); 
 		DirectX12ConstantBuffer(UINT size);
 		void UpdateData(BYTE* data, UINT byteSize) override;
+		virtual unsigned int GetBufferSize() override { return m_Buffer->GetSize(); };
 		D3D12_GPU_VIRTUAL_ADDRESS& GetGPUReference();
 		D3D12_CPU_DESCRIPTOR_HANDLE GetDescriptor();
 

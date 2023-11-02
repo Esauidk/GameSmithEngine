@@ -4,6 +4,7 @@
 #include "ProjectGE/Rendering/RenderAgnostics/Camera/Camera.h"
 #include "ProjectGE/Rendering/RenderAgnostics/LightingSystem/LightSource.h"
 #include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/Shader.h"
+#include "ProjectGE/Rendering/RenderAgnostics/MaterialSystem/Material.h"
 
 namespace ProjectGE {
 	// A class that can submit high level rendering commands (Taking a scene and drawing it to the screen)
@@ -18,7 +19,7 @@ namespace ProjectGE {
 		void ShutDown();
 		void BeginScene(Camera* cam, LightSource* mainLight);
 		void EndScene();
-		void Submit(Ref<GeometryPack> geopack, Ref<Shader> shader, glm::mat4& transform);
+		void Submit(Ref<VertexBuffer> vBuff, Ref<IndexBuffer> iBuff, Ref<Material> mat);
 
 		inline RendererAPI::API GetAPI() { return m_RenderAPI->GetAPI(); };
 		inline RendererAPI* GetRenderAPI() { return m_RenderAPI.get(); }

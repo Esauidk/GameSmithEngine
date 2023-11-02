@@ -249,5 +249,5 @@ void TestRenderLayer::OnUpdate() {
 	//renderAPI->SetIndexBuffer(iBuff);
 
 	//renderAPI->DrawIndexed(iBuff->GetCount(), 1);
-	renderManager->EndScene();
+	
 }
