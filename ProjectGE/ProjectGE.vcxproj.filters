@@ -1668,6 +1668,7 @@
     <ClInclude Include="src\ProjectGE\EntitySystem\GameObject.h" />
     <ClInclude Include="src\ProjectGE\EntitySystem\Components\Component.h" />
     <ClInclude Include="src\ProjectGE\EntitySystem\Components\MeshRenderer.h" />
+    <ClInclude Include="src\ProjectGE\EntitySystem\Components\TestComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\EntitySystem\Components\Transform.cpp">
@@ -1825,5 +1826,6 @@
     </ClCompile>
     <ClCompile Include="src\ProjectGE\EntitySystem\GameObject.cpp" />
     <ClCompile Include="src\ProjectGE\EntitySystem\Components\MeshRenderer.cpp" />
+    <ClCompile Include="src\ProjectGE\EntitySystem\Components\TestComponent.cpp" />
   </ItemGroup>
 </Project>

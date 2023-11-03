@@ -7,7 +7,7 @@ namespace ProjectGE {
 	{
 		auto renderer = RenderingManager::GetInstance();
 
-		if (renderer != nullptr) {
+		if (renderer != nullptr && m_Mesh != nullptr) {
 			glm::mat4 model = m_Transform->GetModelMatrix();
 
 			unsigned int size = m_Mesh->GetSubMeshSize();

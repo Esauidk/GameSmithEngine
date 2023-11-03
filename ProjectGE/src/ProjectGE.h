@@ -38,6 +38,7 @@
 #include "ProjectGE/EntitySystem/Components/Component.h"
 #include "ProjectGE/EntitySystem/Components/Transform.h"
 #include "ProjectGE/EntitySystem/Components/MeshRenderer.h"
+#include "ProjectGE/EntitySystem/Components/TestComponent.h"
 
 // Material System
 #include "ProjectGE/Rendering/RenderAgnostics/MaterialSystem/Material.h"

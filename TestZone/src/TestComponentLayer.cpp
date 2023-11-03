@@ -46,6 +46,7 @@ void TestComponentLayer::OnAttach()
 
 	auto trans = gameObject.GetTransform();
 	auto meshRend = gameObject.AddComponent<ProjectGE::MeshRenderer>();
+	auto testComp = gameObject.AddComponent<ProjectGE::TestComponent>();
 
 	meshRend->SetMesh(mesh);
 	
@@ -55,6 +56,9 @@ void TestComponentLayer::OnAttach()
 
 	glm::vec3 pos = trans->GetPosition();
 	GE_APP_INFO("GameObject location: x:{0}, y{1}, z{2}", pos.x, pos.y, pos.z);
+
+	gameObject.OnUpdate();
+	gameObject.RemoveComponent(testComp);
 }
 
 void TestComponentLayer::OnImGuiRender()

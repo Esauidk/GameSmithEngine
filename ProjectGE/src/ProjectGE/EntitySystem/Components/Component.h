@@ -10,6 +10,9 @@ namespace ProjectGE {
 		virtual void OnStart() = 0;
 		virtual void OnUpdate() = 0;
 		virtual void OnDestroy() = 0;
+
+		GameObject* GetGameObject() { return m_GameObject; }
+		Transform* GetTransform() { return m_Transform; }
 	protected:
 		GameObject* m_GameObject;
 		Transform* m_Transform;

@@ -32,6 +32,20 @@ namespace ProjectGE {
 			return nullptr;
 		}
 
+		template<typename T>
+		void RemoveComponent(Ref<T> component) {
+			auto castCheck = CastPtr<Transform>(component);
+			if (castCheck == nullptr && component->GetGameObject() == this) {
+				for (auto it = m_Components.begin(); it < m_Components.end(); it++) {
+					if ((*it).get() == component.get()) {
+						component->OnDestroy();
+						m_Components.erase(it);
+						break;
+					}
+				}
+			}
+		}
+
 		Ref<Transform> GetTransform() { return m_Transform; }
 	private:
 		Ref<Transform> m_Transform;
