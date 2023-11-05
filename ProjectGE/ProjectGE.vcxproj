@@ -58,6 +58,8 @@
     <IntDir>..\bin-int\Debug-windows-x86_64\ProjectGE\</IntDir>
     <TargetName>ProjectGE</TargetName>
     <TargetExt>.lib</TargetExt>
+    <RunCodeAnalysis>false</RunCodeAnalysis>
+    <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>..\bin\Release-windows-x86_64\ProjectGE\</OutDir>

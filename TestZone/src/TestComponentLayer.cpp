@@ -3,7 +3,7 @@
 
 #include "ProjectGE/ResourceManagement/ResourceAssetHelper.h"
 
-TestComponentLayer::TestComponentLayer() : ProjectGE::Layer("Component System Layer") {
+TestComponentLayer::TestComponentLayer() : ProjectGE::Layer("Component System Layer"), gameObject("Test Object") {
 	
 }
 

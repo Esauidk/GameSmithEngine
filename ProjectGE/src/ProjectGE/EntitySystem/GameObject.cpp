@@ -3,7 +3,7 @@
 #include "Components/Transform.h"
 
 namespace ProjectGE {
-	GameObject::GameObject()
+	GameObject::GameObject(std::string name) : m_Name(name)
 	{
 		m_Transform = Ref<Transform>(new Transform());
 	}

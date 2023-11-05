@@ -8,7 +8,10 @@
 namespace ProjectGE {
 	class GameObject {
 	public:
-		GameObject();
+		GameObject(std::string name);
+		inline std::string GetName() { return m_Name; }
+		inline Ref<Transform> GetTransform() { return m_Transform; }
+
 		void OnUpdate();
 
 		template<typename T>
@@ -45,9 +48,8 @@ namespace ProjectGE {
 				}
 			}
 		}
-
-		Ref<Transform> GetTransform() { return m_Transform; }
 	private:
+		std::string m_Name;
 		Ref<Transform> m_Transform;
 		std::vector<Ref<Component>> m_Components;
 	};
