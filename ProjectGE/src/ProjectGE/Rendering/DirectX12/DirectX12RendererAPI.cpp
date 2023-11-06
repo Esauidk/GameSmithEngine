@@ -137,7 +137,7 @@ namespace ProjectGE {
 		state.SetTop(d3Type);
 	}
 
-	void DirectX12RendererAPI::UpdatePipeline(PipelineStateInitializer& init)
+	Ref<GraphicsPipelineStateObject> DirectX12RendererAPI::CreateGraphicsPipelineState(PipelineStateInitializer& init)
 	{
 		// TODO: Grab current reference to root signature instead of recreating instance
 		auto root = Ref<DirectX12RootSignature>(new DirectX12RootSignature());
@@ -180,12 +180,19 @@ namespace ProjectGE {
 		auto stateRef = Ref<DirectX12PipelineState>(new DirectX12PipelineState());
 		stateRef->Create(args);
 
-		auto refData = Ref<DirectX12PipelineStateData>(new DirectX12PipelineStateData(stateRef, root));
+		auto refData = Ref<DirectX12GraphicsPipelineState>(new DirectX12GraphicsPipelineState(stateRef, root));
 		// TODO: REMOVE THIS, Think of a way to ensure previous state pipelines don't get deleted
-		m_SavedPipelineObjects.push_back(refData);
+		/*m_SavedPipelineObjects.push_back(refData);
 
 		auto& state = m_Core.GetDirectCommandContext().GetStateManager();
-		state.SetGraphicsPipelineState(refData);
+		state.SetGraphicsPipelineState(refData);*/
+
+		return refData;
+	}
+
+	void DirectX12RendererAPI::SetGraphicsPipelineState(Ref<GraphicsPipelineStateObject> pso)
+	{
+		m_Core.GetDirectCommandContext().GetStateManager().SetGraphicsPipelineState(CastPtr<DirectX12GraphicsPipelineState>(pso));
 	}
 
 	void DirectX12RendererAPI::SubmitRecording()

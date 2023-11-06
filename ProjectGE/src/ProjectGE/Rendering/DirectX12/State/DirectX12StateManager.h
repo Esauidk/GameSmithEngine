@@ -51,8 +51,8 @@ namespace ProjectGE {
 	{
 	public:
 		DirectX12StateManager(DirectX12QueueType cmdType);
-		Ref<DirectX12PipelineStateData> GetGraphicsPiplineState() { return PipelineState.Graphics.CurPipelineData; }
-		void SetGraphicsPipelineState(Ref<DirectX12PipelineStateData> pipelineData);
+		Ref<DirectX12GraphicsPipelineState> GetGraphicsPiplineState() { return PipelineState.Graphics.CurPipelineData; }
+		void SetGraphicsPipelineState(Ref<DirectX12GraphicsPipelineState> pipelineData);
 		void SetRenderTargets(DirectX12RenderTargetView** target, UINT number, DirectX12DepthTargetView depth);
 		void NewCommandList();
 		void NewDescriptorHeap();
@@ -88,7 +88,7 @@ namespace ProjectGE {
 
 		struct {
 			struct {
-				Ref<DirectX12PipelineStateData> CurPipelineData = nullptr;
+				Ref<DirectX12GraphicsPipelineState> CurPipelineData = nullptr;
 				
 
 				UINT numRenderTargets = 0;

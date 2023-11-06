@@ -9,7 +9,7 @@ namespace ProjectGE {
 		GE_CORE_ASSERT(cmdType != DirectX12QueueType::Copy, "We do not keep state of copy command lists");
 	}
 
-	void DirectX12StateManager::SetGraphicsPipelineState(Ref<DirectX12PipelineStateData> pipelineData)
+	void DirectX12StateManager::SetGraphicsPipelineState(Ref<DirectX12GraphicsPipelineState> pipelineData)
 	{
 		auto currentPipelineData = PipelineState.Graphics.CurPipelineData;
 		bool isNull = currentPipelineData.get() == nullptr;

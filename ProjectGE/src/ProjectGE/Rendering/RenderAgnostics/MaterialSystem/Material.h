@@ -1,6 +1,8 @@
 #pragma once
 #include "ProjectGE/Rendering/RenderAgnostics/Shaders/ShaderParameter.h"
 #include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/ConstantBuffer.h"
+#include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/PipelineStateObject.h"
+#include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/PipelineStateInitializer.h"
 #include "ProjectGE/ResourceAssets/TextureAsset.h"
 #include "ProjectGE/Core/Log.h"
 
@@ -47,6 +49,8 @@ namespace ProjectGE {
 
 		unsigned int m_ParameterByteTotal;
 		Ref<ConstantBuffer> m_GPULocation;
+		Ref<GraphicsPipelineStateObject> m_PSO;
+		PipelineStateInitializer m_PSOSettings;
 	};
 };
 

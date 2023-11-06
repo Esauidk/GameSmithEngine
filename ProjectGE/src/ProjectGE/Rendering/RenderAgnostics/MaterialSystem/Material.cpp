@@ -26,6 +26,12 @@ namespace ProjectGE {
 		GE_CORE_ASSERT(renderManager != nullptr, "Render manager is not running! Required for material to be used");
 
 		m_GPULocation = renderManager->GetRenderAPI()->CreateConstantBuffer(m_ParameterByteTotal);
+
+		m_PSOSettings.shaderSet = m_Shaders;
+		m_PSOSettings.toplopgyType = TopologyType::Triangle;
+		m_PSOSettings.tesselation = m_Shaders.shaders[STAGE_HULL] != nullptr || m_Shaders.shaders[STAGE_DOMAIN] != nullptr;
+
+		m_PSO = renderManager->GetPSOManager()->RetrieveOrCreateStateObject(m_PSOSettings);
 	}
 
 	Material::Material(Material& oldMat) : 
@@ -48,6 +54,12 @@ namespace ProjectGE {
 		GE_CORE_ASSERT(renderManager != nullptr, "Render manager is not running! Required for material to be used");
 
 		m_GPULocation = renderManager->GetRenderAPI()->CreateConstantBuffer(m_ParameterByteTotal);
+
+		m_PSOSettings.shaderSet = m_Shaders;
+		m_PSOSettings.toplopgyType = TopologyType::Triangle;
+		m_PSOSettings.tesselation = m_Shaders.shaders[STAGE_HULL] != nullptr || m_Shaders.shaders[STAGE_DOMAIN] != nullptr;
+
+		m_PSO = renderManager->GetPSOManager()->RetrieveOrCreateStateObject(m_PSOSettings);
 	}
 
 	void Material::SetTexture(std::string textureName, Ref<TextureAsset> newTexture)
@@ -74,26 +86,16 @@ namespace ProjectGE {
 		auto renderManager = RenderingManager::GetInstance();
 
 		GE_CORE_ASSERT(renderManager != nullptr, "Render manager is not running! Required for material to be used");
-		PipelineStateInitializer pipelineInit;
-		pipelineInit.shaderSet = m_Shaders;
-		pipelineInit.toplopgyType = TopologyType::Triangle;
 
-		if (m_Shaders.shaders[STAGE_HULL] != nullptr || m_Shaders.shaders[STAGE_DOMAIN] != nullptr) {
-			pipelineInit.tesselation = true;
-			renderManager->GetRenderAPI()->SetTopology(pipelineInit.toplopgyType, true);
-		}
-		else {
-			pipelineInit.tesselation = false;
-			renderManager->GetRenderAPI()->SetTopology(pipelineInit.toplopgyType, false);
-		}
+		renderManager->GetRenderAPI()->SetTopology(m_PSOSettings.toplopgyType, m_PSOSettings.tesselation);
 
-		renderManager->GetRenderAPI()->UpdatePipeline(pipelineInit);
+		renderManager->GetRenderAPI()->SetGraphicsPipelineState(m_PSO);
 
 
 		renderManager->GetRenderAPI()->SetConstantBuffer(m_GPULocation, STAGE_VERTEX, ShaderConstantType::Instance);
 		renderManager->GetRenderAPI()->SetConstantBuffer(m_GPULocation, STAGE_PIXEL, ShaderConstantType::Instance);
 
-		if (pipelineInit.tesselation) {
+		if (m_PSOSettings.tesselation) {
 			renderManager->GetRenderAPI()->SetConstantBuffer(m_GPULocation, STAGE_HULL, ShaderConstantType::Instance);
 			renderManager->GetRenderAPI()->SetConstantBuffer(m_GPULocation, STAGE_DOMAIN, ShaderConstantType::Instance);
 		}
@@ -104,7 +106,7 @@ namespace ProjectGE {
 			pair->second->SetGraphicsTexture(slot, STAGE_VERTEX);
 			pair->second->SetGraphicsTexture(slot, STAGE_PIXEL);
 
-			if (pipelineInit.tesselation) {
+			if (m_PSOSettings.tesselation) {
 				pair->second->SetGraphicsTexture(slot, STAGE_HULL);
 				pair->second->SetGraphicsTexture(slot, STAGE_DOMAIN);
 			}

@@ -14,7 +14,9 @@ namespace ProjectGE {
 	// A piece of code to be ran on the GPU in some part of a render pipline
 	class Shader
 	{
+	public:
 		virtual Stages GetShaderType() = 0;
+		virtual unsigned int GetHash() = 0;
 	};
 };
 

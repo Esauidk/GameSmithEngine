@@ -171,7 +171,6 @@
     <ClInclude Include="src\ProjectGE\Platform\Window\WindowsWindow.h" />
     <ClInclude Include="src\ProjectGE\Platform\Window\resource.h" />
     <ClInclude Include="src\ProjectGE\Rendering\BindableResource.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12GeometryPack.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectCommandUtils.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12CommandContext.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12CommandListWrapper.h" />
@@ -195,7 +194,6 @@
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12Buffer.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12Resource.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12TextureResource.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12TopologyResource.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12Views.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Resources\Util\DirectX12BarrierTracker.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\State\DirectX12HeapDescriptorState.h" />
@@ -205,6 +203,7 @@
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12ShaderUtils.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12Util.h" />
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Util\third-party\d3dx12.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\PipelineStateObjectManager.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BasicStructs.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\BufferLayout.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\Camera.h" />
@@ -218,10 +217,10 @@
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\GeometryPack.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\IndexBuffer.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\PipelineStateInitializer.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\PipelineStateObject.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\Sampler.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\Shader.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\Texture.h" />
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\Topology.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\VertexBuffer.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\VertexInputLayout.h" />
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\Shaders\SLab\SLab.h" />
@@ -676,7 +675,6 @@
     <ClCompile Include="src\ProjectGE\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\ProjectGE\Platform\Window\WindowsInput.cpp" />
     <ClCompile Include="src\ProjectGE\Platform\Window\WindowsWindow.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12GeometryPack.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12CommandContext.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12CommandListWrapper.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12CommandQueue.cpp" />
@@ -697,11 +695,11 @@
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\RenderComponents\DirectX12VertexBuffer.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12Resource.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12TextureResource.cpp" />
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12TopologyResource.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Resources\Util\DirectX12BarrierTracker.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\State\DirectX12HeapDescriptorState.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\State\DirectX12StateManager.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Util\DirectX12ShaderUtils.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\PipelineStateObjectManager.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\Camera.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\OrthoCamera.cpp" />
     <ClCompile Include="src\ProjectGE\Rendering\RenderAgnostics\Camera\PerspectiveCamera.cpp" />
@@ -724,6 +722,43 @@
     <ProjectReference Include="third-party\imgui\ImGui.vcxproj">
       <Project>{C0FF640D-2C14-8DBE-F595-301E616989EF}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\ProjectGE\Rendering\SampleShaders\Core.hlsli" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Domain\BasicRenderDS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Domain</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Hull\BasicSubdivideHS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Hull</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\BasicRenderPS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\BlinnPhongPixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\SamplePixelShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Vertex\BasicRenderVS.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Vertex\SampleVertexShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
+    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Vertex\SampleVertexTesShader.hlsl">
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

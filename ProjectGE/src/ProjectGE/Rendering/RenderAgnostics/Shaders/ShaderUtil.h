@@ -20,5 +20,20 @@ namespace ProjectGE {
 
 	struct ShaderSet {
 		Ref<ShaderAsset> shaders[STAGE_NUM];
+
+		std::size_t operator()(const ShaderSet& key) const {
+			std::size_t hash = 0;
+			// Combine the hash codes of the struct members
+
+			for (unsigned int i = 0; i < STAGE_NUM; i++) {
+				Stages stage = (Stages)i;
+
+				if (shaders[i] != nullptr) {
+					hash ^= shaders[i]->GetShader()->GetHash();
+				}
+			}
+			
+			return hash;
+		}
 	};
 };
