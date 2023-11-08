@@ -2,7 +2,7 @@
 This is a personal C++ game engine I'm making to both learn what goes into each piece of a game engine and have a cool game engine
 
 This readme will be updated in the days to come, but for now, here's its current status:
-- [X] Rendering System (DirectX12 currently implementation
+- [X] Rendering System (DirectX12 currently implementation)
 - [X] Material System
 - [X] Resource/Asset Management System
 - [X] Entity/Gameobject-Component Architecture
