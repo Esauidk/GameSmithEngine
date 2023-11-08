@@ -1,32 +1,32 @@
 #include "EngineDependenciesOnly.h"
 
-class TestRenderLayer : public ProjectGE::Layer {
+class TestRenderLayer : public GameSmith::Layer {
 public:
 	TestRenderLayer();
 	void OnImGuiRender() override;
 	void OnUpdate() override;
-	void EventSubscribe(const std::vector<ProjectGE::EventDispatcherBase*>& dispatchers, bool overlay) override {}
+	void EventSubscribe(const std::vector<GameSmith::EventDispatcherBase*>& dispatchers, bool overlay) override {}
 
 private:
-	ProjectGE::Ref<ProjectGE::VertexBuffer> vBuff;
-	ProjectGE::Ref<ProjectGE::IndexBuffer> iBuff;
-	ProjectGE::Ref<ProjectGE::ConstantBuffer> cBuff1;
-	ProjectGE::Ref<ProjectGE::Material> m_Mat;
-	ProjectGE::Ref<ProjectGE::Material> m_CopyMat;
-	ProjectGE::Ref<ProjectGE::ConstantBuffer> cBuff2;
-	ProjectGE::Ref<ProjectGE::Shader> m_VShader;
-	ProjectGE::Ref<ProjectGE::Shader> m_PShader;
+	GameSmith::Ref<GameSmith::VertexBuffer> vBuff;
+	GameSmith::Ref<GameSmith::IndexBuffer> iBuff;
+	GameSmith::Ref<GameSmith::ConstantBuffer> cBuff1;
+	GameSmith::Ref<GameSmith::Material> m_Mat;
+	GameSmith::Ref<GameSmith::Material> m_CopyMat;
+	GameSmith::Ref<GameSmith::ConstantBuffer> cBuff2;
+	GameSmith::Ref<GameSmith::Shader> m_VShader;
+	GameSmith::Ref<GameSmith::Shader> m_PShader;
 
-	ProjectGE::Ref<ProjectGE::Sampler> m_Sampler;
-	ProjectGE::Ref<ProjectGE::TextureAsset> m_Tex2d;
-	ProjectGE::Transform m_TriTrans;
-	ProjectGE::Transform m_SquareTrans;
+	GameSmith::Ref<GameSmith::Sampler> m_Sampler;
+	GameSmith::Ref<GameSmith::TextureAsset> m_Tex2d;
+	GameSmith::Transform m_TriTrans;
+	GameSmith::Transform m_SquareTrans;
 	glm::vec3 lightPos;
 	glm::vec3 lightDir;
 	glm::vec3 lightColor;
 
-	ProjectGE::OrthoCamera m_Cam;
-	ProjectGE::PerspectiveCamera m_PerpCam;
+	GameSmith::OrthoCamera m_Cam;
+	GameSmith::PerspectiveCamera m_PerpCam;
 
 	bool switchPerp = false;
 	bool switchLight = false;
