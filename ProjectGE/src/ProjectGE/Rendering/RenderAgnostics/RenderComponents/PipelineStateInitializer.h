@@ -12,8 +12,8 @@ namespace ProjectGE {
 
 		inline std::size_t operator()(const PipelineStateInitializer& key) const {
 			std::size_t hash = 0;
-			
-			hash |= (unsigned int)tesselation | (unsigned int)toplopgyType | shaderSet(shaderSet);
+
+			hash |= (std::size_t)tesselation | (std::size_t)toplopgyType | shaderSet(shaderSet);
 
 			return hash;
 		}

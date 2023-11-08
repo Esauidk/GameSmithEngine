@@ -20,6 +20,7 @@ namespace ProjectGE {
 		void ShutDown();
 		void BeginScene(Camera* cam, LightSource* mainLight);
 		void EndScene();
+		void EndFrame();
 		void Submit(Ref<VertexBuffer> vBuff, Ref<IndexBuffer> iBuff, Ref<Material> mat);
 
 		inline RendererAPI::API GetAPI() { return m_RenderAPI->GetAPI(); };

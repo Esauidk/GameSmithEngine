@@ -17,6 +17,7 @@ namespace ProjectGE {
 	void RenderingManager::Init()
 	{
 		m_RenderAPI = Scope<RendererAPI>(new DirectX12RendererAPI());
+		m_PSOManager = Scope<PipelineStateObjectManager>(new PipelineStateObjectManager(m_RenderAPI.get()));
 		m_SceneDataGPU = m_RenderAPI->CreateConstantBuffer(sizeof(GloablShaderData));
 		GE_CORE_INFO("Rendering Manager Loaded!");
 	}
@@ -50,6 +51,11 @@ namespace ProjectGE {
 	void RenderingManager::EndScene()
 	{
 		m_RenderAPI->SubmitRecording();
+	}
+
+	void RenderingManager::EndFrame()
+	{
+		m_PSOManager->CleanStateObjects();
 	}
 
 	void RenderingManager::Submit(Ref<VertexBuffer> vBuff, Ref<IndexBuffer> iBuff, Ref<Material> mat)
