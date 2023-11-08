@@ -195,9 +195,6 @@
     <ClInclude Include="src\ProjectGE\Rendering\BindableResource.h">
       <Filter>src\ProjectGE\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12GeometryPack.h">
-      <Filter>src\ProjectGE\Rendering\DirectX12\BindableResources</Filter>
-    </ClInclude>
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectCommandUtils.h">
       <Filter>src\ProjectGE\Rendering\DirectX12\CommandList</Filter>
     </ClInclude>
@@ -265,9 +262,6 @@
       <Filter>src\ProjectGE\Rendering\DirectX12\Resources</Filter>
     </ClInclude>
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12TextureResource.h">
-      <Filter>src\ProjectGE\Rendering\DirectX12\Resources</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12TopologyResource.h">
       <Filter>src\ProjectGE\Rendering\DirectX12\Resources</Filter>
     </ClInclude>
     <ClInclude Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12Views.h">
@@ -343,9 +337,6 @@
       <Filter>src\ProjectGE\Rendering\RenderAgnostics\RenderComponents</Filter>
     </ClInclude>
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\Texture.h">
-      <Filter>src\ProjectGE\Rendering\RenderAgnostics\RenderComponents</Filter>
-    </ClInclude>
-    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\Topology.h">
       <Filter>src\ProjectGE\Rendering\RenderAgnostics\RenderComponents</Filter>
     </ClInclude>
     <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\VertexBuffer.h">
@@ -1669,6 +1660,8 @@
     <ClInclude Include="src\ProjectGE\EntitySystem\Components\Component.h" />
     <ClInclude Include="src\ProjectGE\EntitySystem\Components\MeshRenderer.h" />
     <ClInclude Include="src\ProjectGE\EntitySystem\Components\TestComponent.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\RenderAgnostics\RenderComponents\PipelineStateObject.h" />
+    <ClInclude Include="src\ProjectGE\Rendering\PipelineStateObjectManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\ProjectGE\EntitySystem\Components\Transform.cpp">
@@ -1700,9 +1693,6 @@
     </ClCompile>
     <ClCompile Include="src\ProjectGE\Platform\Window\WindowsWindow.cpp">
       <Filter>src\ProjectGE\Platform\Window</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\BindableResources\DirectX12GeometryPack.cpp">
-      <Filter>src\ProjectGE\Rendering\DirectX12\BindableResources</Filter>
     </ClCompile>
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\CommandList\DirectX12CommandContext.cpp">
       <Filter>src\ProjectGE\Rendering\DirectX12\CommandList</Filter>
@@ -1762,9 +1752,6 @@
       <Filter>src\ProjectGE\Rendering\DirectX12\Resources</Filter>
     </ClCompile>
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12TextureResource.cpp">
-      <Filter>src\ProjectGE\Rendering\DirectX12\Resources</Filter>
-    </ClCompile>
-    <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Resources\DirectX12TopologyResource.cpp">
       <Filter>src\ProjectGE\Rendering\DirectX12\Resources</Filter>
     </ClCompile>
     <ClCompile Include="src\ProjectGE\Rendering\DirectX12\Resources\Util\DirectX12BarrierTracker.cpp">
@@ -1827,5 +1814,19 @@
     <ClCompile Include="src\ProjectGE\EntitySystem\GameObject.cpp" />
     <ClCompile Include="src\ProjectGE\EntitySystem\Components\MeshRenderer.cpp" />
     <ClCompile Include="src\ProjectGE\EntitySystem\Components\TestComponent.cpp" />
+    <ClCompile Include="src\ProjectGE\Rendering\PipelineStateObjectManager.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\ProjectGE\Rendering\SampleShaders\Core.hlsli" />
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Domain\BasicRenderDS.hlsl" />
+    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Hull\BasicSubdivideHS.hlsl" />
+    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\BasicRenderPS.hlsl" />
+    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\BlinnPhongPixelShader.hlsl" />
+    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Pixel\SamplePixelShader.hlsl" />
+    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Vertex\BasicRenderVS.hlsl" />
+    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Vertex\SampleVertexShader.hlsl" />
+    <FxCompile Include="src\ProjectGE\Rendering\SampleShaders\Vertex\SampleVertexTesShader.hlsl" />
   </ItemGroup>
 </Project>

@@ -33,14 +33,15 @@ namespace ProjectGE {
 
 		virtual void SetTopology(TopologyType& type, bool tesselation) override;
 
-		virtual void UpdatePipeline(PipelineStateInitializer& init) override;
+		virtual Ref<GraphicsPipelineStateObject> CreateGraphicsPipelineState(PipelineStateInitializer& init) override;
+		virtual void SetGraphicsPipelineState(Ref<GraphicsPipelineStateObject> pso) override;
 
 		virtual void SubmitRecording() override;
 
 		inline virtual void ClearCachedAssets() override { m_SavedPipelineObjects.clear(); }
 	private:
 		DirectX12Core& m_Core;
-		std::vector<Ref<DirectX12PipelineStateData>> m_SavedPipelineObjects;
+		std::vector<Ref<DirectX12GraphicsPipelineState>> m_SavedPipelineObjects;
 	};
 };
 

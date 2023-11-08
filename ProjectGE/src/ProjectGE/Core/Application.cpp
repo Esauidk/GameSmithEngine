@@ -60,7 +60,7 @@ namespace ProjectGE {
 			}
 			m_ImGuiLayer->End();
 
-			
+			m_SubSystems.EndUpdate();
 			m_Timer.Mark();
 		}
 	}

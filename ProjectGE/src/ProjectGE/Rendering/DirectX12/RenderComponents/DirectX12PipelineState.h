@@ -4,6 +4,7 @@
 #include "ProjectGE/Rendering/DirectX12/RenderComponents/DirectX12Shader.h"
 #include "ProjectGE/Rendering/DirectX12/Resources/DirectX12TopologyResource.h"
 #include "ProjectGE/Core/Core.h"
+#include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/PipelineStateObject.h"
 
 using Microsoft::WRL::ComPtr;
 
@@ -36,10 +37,8 @@ namespace ProjectGE {
 		ComPtr<ID3D12PipelineState> m_PipelineState;
 	};
 
-	class DirectX12PipelineStateData {
-	public:
-		DirectX12PipelineStateData(Ref<DirectX12PipelineState> pso, Ref<DirectX12RootSignature> root) : m_Pso(pso), m_Root(root) {}
-	public:
+	struct DirectX12GraphicsPipelineState : public GraphicsPipelineStateObject {
+		DirectX12GraphicsPipelineState(Ref<DirectX12PipelineState> pso, Ref<DirectX12RootSignature> root) : m_Pso(pso), m_Root(root) {}
 		const Ref<DirectX12PipelineState> m_Pso;
 		const Ref<DirectX12RootSignature> m_Root;
 	};

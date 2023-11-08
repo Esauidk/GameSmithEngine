@@ -8,6 +8,7 @@
 #include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/Shader.h"
 #include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/Sampler.h"
 #include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/PipelineStateInitializer.h"
+#include "ProjectGE/Rendering/RenderAgnostics/RenderComponents/PipelineStateObject.h"
 #include "ProjectGE/Rendering/RenderAgnostics/Shaders/ShaderUtil.h"
 #include "ProjectGE/Core/Core.h"
 
@@ -43,7 +44,9 @@ namespace ProjectGE {
 
 		virtual void SetTopology(TopologyType& type, bool tesselation) = 0;
 
-		virtual void UpdatePipeline(PipelineStateInitializer& init) = 0;
+		virtual Ref<GraphicsPipelineStateObject> CreateGraphicsPipelineState(PipelineStateInitializer& init) = 0;
+		virtual void SetGraphicsPipelineState(Ref<GraphicsPipelineStateObject> pso) = 0;
+
 		virtual void SubmitRecording() = 0;
 		virtual void ClearCachedAssets() = 0;
 

@@ -24,4 +24,9 @@ namespace ProjectGE {
 	{
 		m_ResourceManager->ScanResource();
 	}
+
+	void SubsystemManager::EndUpdate()
+	{
+		m_RenderingManager->EndFrame();
+	}
 };

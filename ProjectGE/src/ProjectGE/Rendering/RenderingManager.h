@@ -1,5 +1,6 @@
 #pragma once
 #include "RendererAPI.h"
+#include "PipelineStateObjectManager.h"
 
 #include "ProjectGE/Rendering/RenderAgnostics/Camera/Camera.h"
 #include "ProjectGE/Rendering/RenderAgnostics/LightingSystem/LightSource.h"
@@ -19,13 +20,16 @@ namespace ProjectGE {
 		void ShutDown();
 		void BeginScene(Camera* cam, LightSource* mainLight);
 		void EndScene();
+		void EndFrame();
 		void Submit(Ref<VertexBuffer> vBuff, Ref<IndexBuffer> iBuff, Ref<Material> mat);
 
 		inline RendererAPI::API GetAPI() { return m_RenderAPI->GetAPI(); };
 		inline RendererAPI* GetRenderAPI() { return m_RenderAPI.get(); }
+		inline PipelineStateObjectManager* GetPSOManager() { return m_PSOManager.get(); }
 	private:
 		static RenderingManager* s_Instance;
 		Scope<RendererAPI> m_RenderAPI;
+		Scope<PipelineStateObjectManager> m_PSOManager;
 		GloablShaderData m_SceneData;
 		Ref<ConstantBuffer> m_SceneDataGPU;
 	};

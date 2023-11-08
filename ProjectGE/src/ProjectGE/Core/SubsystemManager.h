@@ -9,6 +9,7 @@ namespace ProjectGE {
 		SubsystemManager();
 		~SubsystemManager();
 		void Update();
+		void EndUpdate();
 	private:
 		Scope<ResourceManager> m_ResourceManager;
 		Scope<RenderingManager> m_RenderingManager;

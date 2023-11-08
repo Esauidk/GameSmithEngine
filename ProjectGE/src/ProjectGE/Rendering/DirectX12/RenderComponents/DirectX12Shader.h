@@ -18,8 +18,13 @@ namespace ProjectGE {
 			// TODO: Return actual shader type
 			return Stages::STAGE_NUM; 
 		}
+
+		virtual unsigned int GetHash() { return m_Hash; }
+	private:
+		void GenerateHash();
 	private:
 		ComPtr<ID3DBlob> m_Blob;
+		unsigned int m_Hash;
 	};
 };
 
