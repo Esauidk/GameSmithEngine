@@ -1,52 +1,52 @@
 #include "TestComponentLayer.h"
-#include "ProjectGE/Core/Log.h"
+#include "GameSmithEngine/Core/Log.h"
 
-#include "ProjectGE/ResourceManagement/ResourceAssetHelper.h"
+#include "GameSmithEngine/ResourceManagement/ResourceAssetHelper.h"
 
-TestComponentLayer::TestComponentLayer() : ProjectGE::Layer("Component System Layer"), gameObject("Test Object") {
+TestComponentLayer::TestComponentLayer() : GameSmith::Layer("Component System Layer"), gameObject("Test Object") {
 	
 }
 
 void TestComponentLayer::OnAttach()
 {
 
-	ProjectGE::ResourceAssetWriter writer(500);
-	ProjectGE::MaterialAssetMetadata meta;
+	GameSmith::ResourceAssetWriter writer(500);
+	GameSmith::MaterialAssetMetadata meta;
 	meta.ParamterCount = 1;
 	meta.TetureCount = 0;
-	meta.Shaders[ProjectGE::Stages::STAGE_VERTEX].UsedShader = true;
-	meta.Shaders[ProjectGE::Stages::STAGE_PIXEL].UsedShader = true;
-	writer.WriteClass<ProjectGE::MaterialAssetMetadata>(&meta);
+	meta.Shaders[GameSmith::Stages::STAGE_VERTEX].UsedShader = true;
+	meta.Shaders[GameSmith::Stages::STAGE_PIXEL].UsedShader = true;
+	writer.WriteClass<GameSmith::MaterialAssetMetadata>(&meta);
 
-	ProjectGE::MaterialConfig config;
-	writer.WriteClass<ProjectGE::MaterialConfig>(&config);
+	GameSmith::MaterialConfig config;
+	writer.WriteClass<GameSmith::MaterialConfig>(&config);
 
-	std::string vs("C:\\Users\\esaus\\Documents\\Coding Projects\\ProjectGE\\bin\\Debug-windows-x86_64\\TestZone\\SampleVertexShader.cso");
+	std::string vs("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\SampleVertexShader.cso");
 	writer.WriteString(vs);
 
-	std::string ps("C:\\Users\\esaus\\Documents\\Coding Projects\\ProjectGE\\bin\\Debug-windows-x86_64\\TestZone\\BlinnPhongPixelShader.cso");
+	std::string ps("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\BlinnPhongPixelShader.cso");
 	writer.WriteString(ps);
 
 	std::string paramName("Model");
 	writer.WriteString(paramName);
 
-	ProjectGE::ShaderDataType dataType = ProjectGE::ShaderDataType::Matrix;
-	writer.WriteClass<ProjectGE::ShaderDataType>(&dataType);
+	GameSmith::ShaderDataType dataType = GameSmith::ShaderDataType::Matrix;
+	writer.WriteClass<GameSmith::ShaderDataType>(&dataType);
 
 	glm::mat4 mat;
 	writer.WriteClass<glm::mat4>(&mat);
 
 
-	auto instance = ProjectGE::ResourceManager::GetInstance();
+	auto instance = GameSmith::ResourceManager::GetInstance();
 
-	ProjectGE::Ref<ProjectGE::MaterialAsset> asset = instance->GetResource<ProjectGE::MaterialAsset>("MaterialComp", writer.GetBuffer(), writer.GetBufferSize());
-	auto mesh = instance->GetResource<ProjectGE::MeshAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\ProjectGE\\bin\\Debug-windows-x86_64\\TestZone\\cybertruck.obj");
+	GameSmith::Ref<GameSmith::MaterialAsset> asset = instance->GetResource<GameSmith::MaterialAsset>("MaterialComp", writer.GetBuffer(), writer.GetBufferSize());
+	auto mesh = instance->GetResource<GameSmith::MeshAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\cybertruck.obj");
 
 	auto matInstance = asset->CreateInstance();
 
 	auto trans = gameObject.GetTransform();
-	auto meshRend = gameObject.AddComponent<ProjectGE::MeshRenderer>();
-	auto testComp = gameObject.AddComponent<ProjectGE::TestComponent>();
+	auto meshRend = gameObject.AddComponent<GameSmith::MeshRenderer>();
+	auto testComp = gameObject.AddComponent<GameSmith::TestComponent>();
 
 	meshRend->SetMesh(mesh);
 	
@@ -70,7 +70,7 @@ void TestComponentLayer::OnUpdate()
 {
 	gameObject.OnUpdate();
 
-	auto renderManager = ProjectGE::RenderingManager::GetInstance();
+	auto renderManager = GameSmith::RenderingManager::GetInstance();
 	renderManager->EndScene();
 
 }

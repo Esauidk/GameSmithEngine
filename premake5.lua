@@ -1,4 +1,4 @@
-workspace "GameEngineProject"
+workspace "GameSmithEngineProject"
 	architecture "x64"
 
 	configurations{
@@ -10,15 +10,15 @@ workspace "GameEngineProject"
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
 IncludeDir = {}
-IncludeDir["ImGui"] = "ProjectGE/third-party/imgui"
-IncludeDir["glm"] = "ProjectGE/third-party/glm"
-IncludeDir["stb"] = "ProjectGE/third-party/stb"
-IncludeDir["tinyobj"] = "ProjectGE/third-party/tinyobjloader"
+IncludeDir["ImGui"] = "GameSmithEngine/third-party/imgui"
+IncludeDir["glm"] = "GameSmithEngine/third-party/glm"
+IncludeDir["stb"] = "GameSmithEngine/third-party/stb"
+IncludeDir["tinyobj"] = "GameSmithEngine/third-party/tinyobjloader"
 
-include "ProjectGE/third-party/imgui"
+include "GameSmithEngine/third-party/imgui"
 
-project "ProjectGE"
-	location "ProjectGE"
+project "GameSmithEngine"
+	location "GameSmithEngine"
 	kind "StaticLib"
 	language "C++"
 	staticruntime "on"
@@ -28,7 +28,7 @@ project "ProjectGE"
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
 	pchheader "gepch.h"
-	pchsource "ProjectGE/src/gepch.cpp"
+	pchsource "GameSmithEngine/src/gepch.cpp"
 
 	files{
 		"%{prj.name}/src/**.h",
@@ -81,8 +81,8 @@ project "ProjectGE"
 		runtime "Release"
 		optimize "on"
 
-project "GEEditor"
-	location "GEEditor"
+project "GameSmithEditor"
+	location "GameSmithEditor"
 	kind "ConsoleApp"
 	language "C++"
 	cppdialect "C++20"
@@ -97,14 +97,14 @@ project "GEEditor"
 	}
 
 	includedirs{
-		"ProjectGE/third-party/spdlog/include",
-		"ProjectGE/src",
+		"GameSmithEngine/third-party/spdlog/include",
+		"GameSmithEngine/src",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.ImGui}"
 	}
 
 	links{
-		"ProjectGE"
+		"GameSmithEngine"
 	}
 
 	filter "system:windows"
@@ -148,14 +148,14 @@ project "TestZone"
 	}
 
 	includedirs{
-		"ProjectGE/third-party/spdlog/include",
-		"ProjectGE/src",
+		"GameSmithEngine/third-party/spdlog/include",
+		"GameSmithEngine/src",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.ImGui}"
 	}
 
 	links{
-		"ProjectGE"
+		"GameSmithEngine"
 	}
 
 	filter "system:windows"

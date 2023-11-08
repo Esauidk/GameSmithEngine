@@ -1,28 +1,28 @@
 #include "TestResourceLayer.h"
 #include "imgui.h"
 
-#include "ProjectGE/ResourceManagement/ResourceAssetHelper.h"
+#include "GameSmithEngine/ResourceManagement/ResourceAssetHelper.h"
 
 TestResourceLayer::TestResourceLayer()
 {
-	ProjectGE::ResourceAssetWriter writer(500);
-	ProjectGE::MaterialAssetMetadata meta;
+	GameSmith::ResourceAssetWriter writer(500);
+	GameSmith::MaterialAssetMetadata meta;
 	meta.ParamterCount = 1;
 	meta.TetureCount = 1;
-	meta.Shaders[ProjectGE::Stages::STAGE_VERTEX].UsedShader = true;
-	writer.WriteClass<ProjectGE::MaterialAssetMetadata>(&meta);
+	meta.Shaders[GameSmith::Stages::STAGE_VERTEX].UsedShader = true;
+	writer.WriteClass<GameSmith::MaterialAssetMetadata>(&meta);
 
-	ProjectGE::MaterialConfig config;
-	writer.WriteClass<ProjectGE::MaterialConfig>(&config);
+	GameSmith::MaterialConfig config;
+	writer.WriteClass<GameSmith::MaterialConfig>(&config);
 
-	std::string vs("C:\\Users\\esaus\\Documents\\Coding Projects\\ProjectGE\\bin\\Debug-windows-x86_64\\TestZone\\SampleVertexShader.cso");
+	std::string vs("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\SampleVertexShader.cso");
 	writer.WriteString(vs);
 
 	std::string paramName("color");
 	writer.WriteString(paramName);
 
-	ProjectGE::ShaderDataType dataType = ProjectGE::ShaderDataType::Float3;
-	writer.WriteClass<ProjectGE::ShaderDataType>(&dataType);
+	GameSmith::ShaderDataType dataType = GameSmith::ShaderDataType::Float3;
+	writer.WriteClass<GameSmith::ShaderDataType>(&dataType);
 
 	glm::vec3 mat(2, 5, 1);
 	writer.WriteClass<glm::vec3>(&mat);
@@ -30,16 +30,16 @@ TestResourceLayer::TestResourceLayer()
 	std::string texParamName("texture");
 	writer.WriteString(texParamName);
 
-	std::string tex("C:\\Users\\esaus\\Documents\\Coding Projects\\ProjectGE\\bin\\Debug-windows-x86_64\\TestZone\\download.png");
+	std::string tex("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\download.png");
 	writer.WriteString(tex);
 
 
-	auto instance = ProjectGE::ResourceManager::GetInstance();
+	auto instance = GameSmith::ResourceManager::GetInstance();
 
-	ProjectGE::Ref<ProjectGE::MaterialAsset> asset = instance->GetResource<ProjectGE::MaterialAsset>("Material", writer.GetBuffer(), writer.GetBufferSize());
+	GameSmith::Ref<GameSmith::MaterialAsset> asset = instance->GetResource<GameSmith::MaterialAsset>("Material", writer.GetBuffer(), writer.GetBufferSize());
 
-	m_Resource = instance->GetResource<ProjectGE::MeshAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\ProjectGE\\bin\\Debug-windows-x86_64\\TestZone\\cybertruck.obj");
-	m_TexResource = instance->GetResource<ProjectGE::TextureAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\ProjectGE\\bin\\Debug-windows-x86_64\\TestZone\\download.png");
+	m_Resource = instance->GetResource<GameSmith::MeshAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\cybertruck.obj");
+	m_TexResource = instance->GetResource<GameSmith::TextureAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\download.png");
 
 }
 
@@ -57,14 +57,14 @@ void TestResourceLayer::OnUpdate()
 		m_TexResource = nullptr;
 	}
 	else if(m_TexResource == nullptr) {
-		auto instance = ProjectGE::ResourceManager::GetInstance();
-		m_TexResource = instance->GetResource<ProjectGE::TextureAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\ProjectGE\\bin\\Debug-windows-x86_64\\TestZone\\download.png");
+		auto instance = GameSmith::ResourceManager::GetInstance();
+		m_TexResource = instance->GetResource<GameSmith::TextureAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\download.png");
 	}
 
 	/*m_Resource->SetGraphicsMesh();
 	for (unsigned int i = 0; i < m_Resource->GetSubMeshSize(); i++) {
 		m_Resource->DrawMesh(i);
 	}*/
-	//ProjectGE::RenderingManager::GetInstance()->GetRenderAPI()->SubmitRecording();
+	//GameSmith::RenderingManager::GetInstance()->GetRenderAPI()->SubmitRecording();
 	
 }
