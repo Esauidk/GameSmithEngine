@@ -129,6 +129,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\GameSmithEngine.h">
+      <Filter>src</Filter>
+    </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Core\Application.h">
       <Filter>src\GameSmithEngine\Core</Filter>
     </ClInclude>
@@ -413,9 +416,6 @@
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\ThirdPartySetups\TinyObj\TinyObjLoaderWrapper.h">
       <Filter>src\GameSmithEngine\ThirdPartySetups\TinyObj</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameSmithEngine.h">
-      <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\gepch.h">
       <Filter>src</Filter>
@@ -1835,18 +1835,5 @@
     <ClCompile Include="third-party\stb\std_image.cpp">
       <Filter>third-party\stb</Filter>
     </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="src\GameSmithEngine\Rendering\SampleShaders\Core.hlsli" />
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Domain\BasicRenderDS.hlsl" />
-    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Hull\BasicSubdivideHS.hlsl" />
-    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Pixel\SamplePixelShader.hlsl" />
-    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Pixel\BlinnPhongPixelShader.hlsl" />
-    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Pixel\BasicRenderPS.hlsl" />
-    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Vertex\BasicRenderVS.hlsl" />
-    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Vertex\SampleVertexShader.hlsl" />
-    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Vertex\SampleVertexTesShader.hlsl" />
   </ItemGroup>
 </Project>

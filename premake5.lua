@@ -14,8 +14,41 @@ IncludeDir["ImGui"] = "GameSmithEngine/third-party/imgui"
 IncludeDir["glm"] = "GameSmithEngine/third-party/glm"
 IncludeDir["stb"] = "GameSmithEngine/third-party/stb"
 IncludeDir["tinyobj"] = "GameSmithEngine/third-party/tinyobjloader"
+IncludeDir["googletest"] = "third-party/googletest/googletest/include"
 
 include "GameSmithEngine/third-party/imgui"
+
+project "GoogleTest"
+	kind "StaticLib"
+	language "C++"
+	cppdialect "C++20"
+	staticruntime "on"
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+	files{
+		"third-party/googletest/googletest/src/gtest-all.cc",
+		"third-party/googletest/googlemock/src/gmock-all.cc"
+	}
+
+	includedirs{
+		"third-party/googletest/googletest/include",
+		"third-party/googletest/googletest",
+		"third-party/googletest/googlemock/include",
+		"third-party/googletest/googlemock/"
+	}
+
+	filter "system:windows"
+	systemversion "latest"
+	filter "configurations:Debug"
+	defines "GE_DEBUG"
+	runtime "Debug"
+	symbols "on"
+
+	filter "configurations:Release"
+	defines "GE_Release"
+	runtime "Release"
+	optimize "on"
 
 project "GameSmithEngine"
 	location "GameSmithEngine"
@@ -80,6 +113,44 @@ project "GameSmithEngine"
 		defines "GE_Dist"
 		runtime "Release"
 		optimize "on"
+
+project "GameSmithEngineTestSuite"
+	location "GameSmithEngineTestSuite"
+	kind "ConsoleApp"
+	language "C++"
+	cppdialect "C++20"
+	staticruntime "on"
+
+	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+
+	files{
+		"%{prj.name}/tst/**.h",
+		"%{prj.name}/tst/**.cpp"
+	}
+
+	links{
+		"GameSmithEngine",
+		"GoogleTest"
+	}
+	
+	includedirs{
+		"GameSmithEngine/src",
+		"%{IncludeDir.googletest}",
+		"third-party/googletest/googletest/src/"
+	}
+
+	filter "system:windows"
+	systemversion "latest"
+	filter "configurations:Debug"
+	defines "GE_DEBUG"
+	runtime "Debug"
+	symbols "on"
+
+	filter "configurations:Release"
+	defines "GE_Release"
+	runtime "Release"
+	optimize "on"
 
 project "GameSmithEditor"
 	location "GameSmithEditor"

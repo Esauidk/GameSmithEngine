@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="googlemock">
+      <UniqueIdentifier>{AC7B6BC4-9833-AD11-013B-866DED114802}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="googlemock\src">
+      <UniqueIdentifier>{C32FF5BF-AFFD-E8C5-9891-59EC84FEC42A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="googletest">
+      <UniqueIdentifier>{E2296FC4-CEE1-B011-37E9-896D23C04B02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="googletest\src">
+      <UniqueIdentifier>{F908F159-E5D6-E45F-CE6A-5586BAD7C0C4}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="third-party\googletest\googlemock\src\gmock-all.cc">
+      <Filter>googlemock\src</Filter>
+    </ClCompile>
+    <ClCompile Include="third-party\googletest\googletest\src\gtest-all.cc">
+      <Filter>googletest\src</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>

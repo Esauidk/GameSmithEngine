@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="third-party">
+      <UniqueIdentifier>{9DC1EB7C-0977-6472-926B-5E49FE1F5B76}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="third-party\googletest">
+      <UniqueIdentifier>{09F7773D-F5F0-A08F-DE5D-37A0CAF606FC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="third-party\googletest\googletest">
+      <UniqueIdentifier>{F5708417-61DF-D996-AAC8-94961676CF32}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="third-party\googletest\googletest\src">
+      <UniqueIdentifier>{8CA1A935-F865-A825-C1CB-D8EF2D4F445B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="tst">
+      <UniqueIdentifier>{A0AF880B-0CB9-887C-9534-9F7C013D947C}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="..\third-party\googletest\googletest\src\gtest_main.cc">
+      <Filter>third-party\googletest\googletest\src</Filter>
+    </ClCompile>
+    <ClCompile Include="tst\SampleTest.cpp">
+      <Filter>tst</Filter>
+    </ClCompile>
+    <ClCompile Include="tst\TestEntry.cpp">
+      <Filter>tst</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
