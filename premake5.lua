@@ -135,10 +135,20 @@ project "GameSmithEngineTestSuite"
 	}
 	
 	includedirs{
+		"GameSmithEngine/third-party/spdlog/include",
 		"GameSmithEngine/src",
+		"%{IncludeDir.glm}",
 		"%{IncludeDir.googletest}",
 		"third-party/googletest/googletest/src/"
 	}
+
+	filter "system:windows"
+		systemversion "latest"
+
+		defines{
+			"GE_PLATFORM_WINDOWS"
+		}
+
 
 	filter "system:windows"
 	systemversion "latest"
