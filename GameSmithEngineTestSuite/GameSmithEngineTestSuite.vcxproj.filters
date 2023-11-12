@@ -12,10 +12,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="tst\GameSmithEngine\EntitySystem\Components\TransformTest.cpp">
+    <ClInclude Include="tst\GameSmithEngineTest\TestInclude.h">
+      <Filter>GameSmithEngine</Filter>
+    </ClInclude>
+    <ClInclude Include="tst\GameSmithEngineTest\EntitySystem\Components\TestComponent.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="tst\GameSmithEngineTest\EntitySystem\Components\TransformTest.cpp">
       <Filter>GameSmithEngine\EntitySystem\Components</Filter>
     </ClCompile>
-    <ClCompile Include="tst\SampleTest.cpp" />
+    <ClCompile Include="tst\GameSmithEngineTest\EntitySystem\GameObjectTest.cpp">
+      <Filter>GameSmithEngine\EntitySystem</Filter>
+    </ClCompile>
     <ClCompile Include="tst\TestEntry.cpp" />
   </ItemGroup>
 </Project>

@@ -135,6 +135,7 @@ project "GameSmithEngineTestSuite"
 	}
 	
 	includedirs{
+		"%{prj.name}/tst",
 		"GameSmithEngine/third-party/spdlog/include",
 		"GameSmithEngine/src",
 		"%{IncludeDir.glm}",
