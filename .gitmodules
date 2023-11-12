@@ -5,6 +5,7 @@
 [submodule "GameSmithEngine/third-party/imgui"]
 	path = GameSmithEngine/third-party/imgui
 	url = https://github.com/Esauidk/imgui
+	branch = docking
 [submodule "GameSmithEngine/third-party/glm"]
 	path = GameSmithEngine/third-party/glm
 	url = https://github.com/g-truc/glm
