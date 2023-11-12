@@ -47,6 +47,6 @@ jobs:
     - name: Run tests
       uses: microsoft/vstest-action@v1.0.0
       with:
-        testAssembly: CloudTest.DefaultSamples*.dll
-        searchFolder: ./GameSmithEngineTestSuite/
+        testAssembly: GameSmithEngineTestSuite.exe
+        searchFolder: ./bin/
         runInParallel: true
