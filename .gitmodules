@@ -1,12 +1,12 @@
 
-[submodule "ProjectGE/third-party/spdlog"]
-	path = ProjectGE/third-party/spdlog
+[submodule "GameSmithEngine/third-party/spdlog"]
+	path = GameSmithEngine/third-party/spdlog
 	url = https://github.com/gabime/spdlog
-[submodule "ProjectGE/third-party/imgui"]
-	path = ProjectGE/third-party/imgui
+[submodule "GameSmithEngine/third-party/imgui"]
+	path = GameSmithEngine/third-party/imgui
 	url = https://github.com/Esauidk/imgui
-[submodule "ProjectGE/third-party/glm"]
-	path = ProjectGE/third-party/glm
+[submodule "GameSmithEngine/third-party/glm"]
+	path = GameSmithEngine/third-party/glm
 	url = https://github.com/g-truc/glm
 [submodule "GameSmithEngineTestSuite/third-party/googletest"]
 	path = third-party/googletest
