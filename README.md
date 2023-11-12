@@ -1,3 +1,5 @@
+![GitHub Workflow Status (with event)](https://img.shields.io/github/actions/workflow/status/Esauidk/GameSmithEngine/CI.yml)
+
 # GameSmithEngine (previously ProjectGE)
 This is a personal C++ game engine I'm making to both learn what goes into each piece of a game engine and have a cool game engine
 
