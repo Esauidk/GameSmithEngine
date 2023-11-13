@@ -1,6 +1,5 @@
 #pragma once
 #include "Topology.h"
-#include "VertexInputLayout.h"
 #include "GameSmithEngine/Core/Core.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/Shaders/ShaderUtil.h"
 

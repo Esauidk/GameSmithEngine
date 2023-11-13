@@ -134,6 +134,8 @@
   <ItemGroup>
     <ClCompile Include="tst\GameSmithEngineTest\EntitySystem\Components\TransformTest.cpp" />
     <ClCompile Include="tst\GameSmithEngineTest\EntitySystem\GameObjectTest.cpp" />
+    <ClCompile Include="tst\GameSmithEngineTest\Rendering\RenderAgnostics\LightingSystem\Sources\DirectionalLightTest.cpp" />
+    <ClCompile Include="tst\GameSmithEngineTest\Rendering\RenderAgnostics\LightingSystem\Sources\PointLightTest.cpp" />
     <ClCompile Include="tst\TestEntry.cpp" />
   </ItemGroup>
   <ItemGroup>

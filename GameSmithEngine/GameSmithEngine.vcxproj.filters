@@ -204,9 +204,6 @@
     <ClInclude Include="src\GameSmithEngine\Platform\Window\resource.h">
       <Filter>src\GameSmithEngine\Platform\Window</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameSmithEngine\Rendering\BindableResource.h">
-      <Filter>src\GameSmithEngine\Rendering</Filter>
-    </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\CommandList\DirectCommandUtils.h">
       <Filter>src\GameSmithEngine\Rendering\DirectX12\CommandList</Filter>
     </ClInclude>
@@ -358,9 +355,6 @@
       <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\RenderComponents</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\RenderComponents\VertexBuffer.h">
-      <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\RenderComponents</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\RenderComponents\VertexInputLayout.h">
       <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\RenderComponents</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\SLab\SLab.h">

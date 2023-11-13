@@ -25,5 +25,7 @@
       <Filter>GameSmithEngine\EntitySystem</Filter>
     </ClCompile>
     <ClCompile Include="tst\TestEntry.cpp" />
+    <ClCompile Include="tst\GameSmithEngineTest\Rendering\RenderAgnostics\LightingSystem\Sources\PointLightTest.cpp" />
+    <ClCompile Include="tst\GameSmithEngineTest\Rendering\RenderAgnostics\LightingSystem\Sources\DirectionalLightTest.cpp" />
   </ItemGroup>
 </Project>
