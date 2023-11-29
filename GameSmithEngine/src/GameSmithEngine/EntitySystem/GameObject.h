@@ -8,7 +8,7 @@
 namespace GameSmith {
 	class GameObject {
 	public:
-		GameObject(std::string name);
+		GameObject(std::string name = DEFAULT_GAMEOBJECT_NAME);
 		inline std::string GetName() { return m_Name; }
 		inline Ref<Transform> GetTransform() { return m_Transform; }
 
@@ -48,6 +48,8 @@ namespace GameSmith {
 				}
 			}
 		}
+	public:
+		const static std::string DEFAULT_GAMEOBJECT_NAME;
 	private:
 		std::string m_Name;
 		Ref<Transform> m_Transform;

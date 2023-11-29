@@ -6,9 +6,6 @@
 class TestZone : public GameSmith::Application {
 public:
 	TestZone() {
-		PushLayer(new TestRenderLayer());
-		PushLayer(new TestResourceLayer());
-		PushLayer(new TestComponentLayer());
 	}
 };
 

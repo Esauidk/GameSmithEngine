@@ -143,6 +143,10 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\GameSmithEngine\EntitySystem\GameObjectManager.h" />
+    <ClInclude Include="src\GameSmithEngine\ResourceAssets\SceneAsset.h" />
+    <ClInclude Include="src\GameSmithEngine\SceneSystem\Scene.h" />
+    <ClInclude Include="src\GameSmithEngine\SceneSystem\SceneManager.h" />
     <ClInclude Include="src\GameSmithEngine.h" />
     <ClInclude Include="src\GameSmithEngine\Core\Application.h" />
     <ClInclude Include="src\GameSmithEngine\Core\Core.h" />
@@ -658,6 +662,10 @@
     <ClInclude Include="third-party\tinyobjloader\tiny_obj_loader.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\GameSmithEngine\EntitySystem\GameObjectManager.cpp" />
+    <ClCompile Include="src\GameSmithEngine\ResourceAssets\SceneAsset.cpp" />
+    <ClCompile Include="src\GameSmithEngine\SceneSystem\Scene.cpp" />
+    <ClCompile Include="src\GameSmithEngine\SceneSystem\SceneManager.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\Application.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\Layer.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\Log.cpp" />

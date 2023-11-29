@@ -1,6 +1,7 @@
 #pragma once
 #include "GameSmithEngine/ResourceManagement/ResourceManager.h"
 #include "GameSmithEngine/Rendering/RenderingManager.h"
+#include "GameSmithEngine/SceneSystem/SceneManager.h"
 
 namespace GameSmith {
 	class SubsystemManager
@@ -11,8 +12,9 @@ namespace GameSmith {
 		void Update();
 		void EndUpdate();
 	private:
-		Scope<ResourceManager> m_ResourceManager;
-		Scope<RenderingManager> m_RenderingManager;
+		ResourceManager m_ResourceManager;
+		RenderingManager m_RenderingManager;
+		SceneManager m_SceneManager;
 	};
 };
 
