@@ -14,8 +14,8 @@ namespace GameSmith {
 	{
 		auto& heapDB = DirectX12Core::GetCore().GetHeapDatabase();
 		// TODO: Bring initial descriptor count back to 1 and implement descriptor transfering between previous and new heap
-		m_CurrentViewHeap = heapDB.AllocateHeap(4, DescriptorHeapType::CBVSRVUAV, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE);
-		m_CurrentSamplerHeap = heapDB.AllocateHeap(4, DescriptorHeapType::SAMPLER, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE);
+		m_ProductionViewHeap = heapDB.AllocateHeap(4, DescriptorHeapType::CBVSRVUAV, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE);
+		m_ProductionSamplerHeap = heapDB.AllocateHeap(4, DescriptorHeapType::SAMPLER, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE);
 		m_ViewHeapSize = 4;
 		m_CurrentViewFreeSlot = 0;
 		m_ViewOriginSlot = 0;
@@ -29,11 +29,11 @@ namespace GameSmith {
 
 	void DirectX12HeapDescriptorState::AttachHeap()
 	{
-		GE_CORE_ASSERT(m_CurrentViewHeap != nullptr, "There is no view heap current set in the heap descriptor state");
-		GE_CORE_ASSERT(m_CurrentSamplerHeap != nullptr, "There is no sampler heap current set in the heap descriptor state");
+		GE_CORE_ASSERT(m_ProductionViewHeap != nullptr, "There is no view heap current set in the heap descriptor state");
+		GE_CORE_ASSERT(m_ProductionSamplerHeap != nullptr, "There is no sampler heap current set in the heap descriptor state");
 
 		auto& core = DirectX12Core::GetCore();
-		ID3D12DescriptorHeap* heaps[] = { m_CurrentViewHeap->GetHeap(), m_CurrentSamplerHeap->GetHeap() };
+		ID3D12DescriptorHeap* heaps[] = { m_ProductionViewHeap->GetHeap(), m_ProductionSamplerHeap->GetHeap() };
 
 
 		if (m_CmdType == DirectX12QueueType::Direct) {
@@ -47,6 +47,8 @@ namespace GameSmith {
 		GE_CORE_ASSERT(root.HasSRV(), "This root signature has no shader resource views");
 		GE_CORE_ASSERT(root.GetMaxSRV(stage) > 0, "This root signature has no shader resource views for this stage");
 		GE_CORE_ASSERT(root.GetMaxSRV(stage) >= numDescriptors, "This root signature does not enough descriptors set for this table");
+		GE_CORE_ASSERT(numDescriptors <= m_ViewHeapSize, "More descriptors are required than available slots in the current heap");
+		GE_CORE_ASSERT(numDescriptors + heapSlot <= m_ViewHeapSize, "We're to go past the heap boundary with the selected number of descriptors");
 
 		auto& core = DirectX12Core::GetCore();
 		auto device = core.GetDevice();
@@ -58,7 +60,7 @@ namespace GameSmith {
 		
 		for (UINT i = 0; i < numDescriptors; i++) {
 			D3D12_CPU_DESCRIPTOR_HANDLE srcDescriptor = srcDescriptors[i].m_View;
-			D3D12_CPU_DESCRIPTOR_HANDLE dstDescriptors = m_CurrentViewHeap->GetCPUReference(freeSlot + i);
+			D3D12_CPU_DESCRIPTOR_HANDLE dstDescriptors = m_ProductionViewHeap->GetCPUReference(freeSlot + i);
 
 			if (srcDescriptor.ptr != 0) {
 				device->CopyDescriptorsSimple(1, dstDescriptors, srcDescriptor, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
@@ -71,7 +73,7 @@ namespace GameSmith {
 		}
 
 		if (m_CmdType == DirectX12QueueType::Direct) {
-			core.GetDirectCommandContext().GetCommandList()->SetGraphicsRootDescriptorTable(root.GetSRVSlot(stage), m_CurrentViewHeap->GetGPUReference(freeSlot));
+			core.GetDirectCommandContext().GetCommandList()->SetGraphicsRootDescriptorTable(root.GetSRVSlot(stage), m_ProductionViewHeap->GetGPUReference(freeSlot));
 		}
 	
 		
@@ -82,6 +84,8 @@ namespace GameSmith {
 		GE_CORE_ASSERT(root.HasCBV(), "This root signature has no shader resource views");
 		GE_CORE_ASSERT(root.GetMaxCBV(stage) > 0, "This root signature has no shader resource views for this stage");
 		GE_CORE_ASSERT(root.GetMaxCBV(stage) >= numDescriptors, "This root signature does not enough descriptors set for this table");
+		GE_CORE_ASSERT(numDescriptors <= m_ViewHeapSize, "More descriptors are required than available slots in the current heap");
+		GE_CORE_ASSERT(numDescriptors + heapSlot <= m_ViewHeapSize, "We're to go past the heap boundary with the selected number of descriptors");
 
 		auto& core = DirectX12Core::GetCore();
 		auto device = core.GetDevice();
@@ -91,8 +95,9 @@ namespace GameSmith {
 
 		UINT freeSlot = heapSlot;
 		heapSlot += numDescriptors;
+
 		for (UINT i = 0; i < numDescriptors; i++) {
-			D3D12_CPU_DESCRIPTOR_HANDLE dstDescriptors = m_CurrentViewHeap->GetCPUReference(freeSlot + i);
+			D3D12_CPU_DESCRIPTOR_HANDLE dstDescriptors = m_ProductionViewHeap->GetCPUReference(freeSlot + i);
 
 			if (srcDescriptors[i].ptr != 0) {
 				device->CopyDescriptorsSimple(1, dstDescriptors, srcDescriptors[i], D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
@@ -106,7 +111,7 @@ namespace GameSmith {
 		
 
 		if (m_CmdType == DirectX12QueueType::Direct) {
-			core.GetDirectCommandContext().GetCommandList()->SetGraphicsRootDescriptorTable(root.GetCBVSlot(stage), m_CurrentViewHeap->GetGPUReference(freeSlot));
+			core.GetDirectCommandContext().GetCommandList()->SetGraphicsRootDescriptorTable(root.GetCBVSlot(stage), m_ProductionViewHeap->GetGPUReference(freeSlot));
 		}
 	}
 
@@ -115,6 +120,7 @@ namespace GameSmith {
 		GE_CORE_ASSERT(root.HasUAV(), "This root signature has no shader resource views");
 		GE_CORE_ASSERT(root.GetMaxUAV(stage) > 0, "This root signature has no shader resource views for this stage");
 		GE_CORE_ASSERT(root.GetMaxUAV(stage) >= numDescriptors, "This root signature does not enough descriptors set for this table");
+		GE_CORE_ASSERT(numDescriptors <= m_ViewHeapSize, "More descriptors are required than available slots in the current heap");
 
 		auto& core = DirectX12Core::GetCore();
 		auto device = core.GetDevice();
@@ -125,7 +131,7 @@ namespace GameSmith {
 		UINT freeSlot = heapSlot;
 		heapSlot += numDescriptors;
 		for (UINT i = 0; i < numDescriptors; i++) {
-			D3D12_CPU_DESCRIPTOR_HANDLE dstDescriptors = m_CurrentViewHeap->GetCPUReference(freeSlot + i);
+			D3D12_CPU_DESCRIPTOR_HANDLE dstDescriptors = m_ProductionViewHeap->GetCPUReference(freeSlot + i);
 
 			if (srcDescriptors[i].ptr != 0) {
 				device->CopyDescriptorsSimple(1, dstDescriptors, srcDescriptors[i], D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
@@ -138,7 +144,7 @@ namespace GameSmith {
 		}
 
 		if (m_CmdType == DirectX12QueueType::Direct) {
-			core.GetDirectCommandContext().GetCommandList()->SetGraphicsRootDescriptorTable(root.GetUAVSlot(stage), m_CurrentViewHeap->GetGPUReference(freeSlot));
+			core.GetDirectCommandContext().GetCommandList()->SetGraphicsRootDescriptorTable(root.GetUAVSlot(stage), m_ProductionViewHeap->GetGPUReference(freeSlot));
 		}
 		
 	}
@@ -159,7 +165,7 @@ namespace GameSmith {
 		heapSlot += numDescriptors;
 		for (UINT i = 0; i < numDescriptors; i++) {
 			D3D12_CPU_DESCRIPTOR_HANDLE srcDescriptor = srcDescriptors[i].m_View;
-			D3D12_CPU_DESCRIPTOR_HANDLE dstDescriptors = m_CurrentSamplerHeap->GetCPUReference(freeSlot + i);
+			D3D12_CPU_DESCRIPTOR_HANDLE dstDescriptors = m_ProductionSamplerHeap->GetCPUReference(freeSlot + i);
 
 			if (srcDescriptor.ptr != 0) {
 				device->CopyDescriptorsSimple(1, dstDescriptors, srcDescriptor, D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER);
@@ -174,13 +180,13 @@ namespace GameSmith {
 
 
 		if (m_CmdType == DirectX12QueueType::Direct) {
-			core.GetDirectCommandContext().GetCommandList()->SetGraphicsRootDescriptorTable(root.GetSamplerSlot(stage), m_CurrentSamplerHeap->GetGPUReference(freeSlot));
+			core.GetDirectCommandContext().GetCommandList()->SetGraphicsRootDescriptorTable(root.GetSamplerSlot(stage), m_ProductionSamplerHeap->GetGPUReference(freeSlot));
 		}
 	}
 
 	bool DirectX12HeapDescriptorState::CanFitView(UINT numDescriptors)
 	{
-		if (m_CurrentViewHeap == nullptr) {
+		if (m_ProductionViewHeap.get() == nullptr) {
 			return false;
 		}
 
@@ -189,7 +195,7 @@ namespace GameSmith {
 
 	bool DirectX12HeapDescriptorState::CanFitSampler(UINT numDescriptors)
 	{
-		if (m_CurrentSamplerHeap == nullptr) {
+		if (m_ProductionSamplerHeap == nullptr) {
 			return false;
 		}
 
@@ -218,11 +224,11 @@ namespace GameSmith {
 		auto& core = DirectX12Core::GetCore();
 		auto& heapDB = core.GetHeapDatabase();
 
-		if (m_CurrentViewHeap != nullptr) {
-			m_CurrentViewHeap->Free();
+		if (m_ProductionViewHeap.get() != nullptr) {
+			m_ProductionViewHeap->Free();
 		}
 		
-		m_CurrentViewHeap = heapDB.AllocateHeap(requiredDescriptors, DescriptorHeapType::CBVSRVUAV, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE);
+		m_ProductionViewHeap = heapDB.AllocateHeap(requiredDescriptors, DescriptorHeapType::CBVSRVUAV, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE);
 
 		m_ViewHeapSize = requiredDescriptors;
 		m_CurrentViewFreeSlot = 0;
@@ -235,15 +241,14 @@ namespace GameSmith {
 
 	void DirectX12HeapDescriptorState::ReallocateSamplerHeap(UINT requiredDescriptors)
 	{
-		// TODO: Implement Logic
 		auto& core = DirectX12Core::GetCore();
 		auto& heapDB = core.GetHeapDatabase();
 
-		if (m_CurrentSamplerHeap != nullptr) {
-			m_CurrentSamplerHeap->Free();
+		if (m_ProductionSamplerHeap != nullptr) {
+			m_ProductionSamplerHeap->Free();
 		}
 
-		m_CurrentSamplerHeap = heapDB.AllocateHeap(requiredDescriptors, DescriptorHeapType::SAMPLER, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE);
+		m_ProductionSamplerHeap = heapDB.AllocateHeap(requiredDescriptors, DescriptorHeapType::SAMPLER, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE);
 
 		m_SamplerHeapSize = requiredDescriptors;
 		m_CurrentSamplerFreeSlot = 0;

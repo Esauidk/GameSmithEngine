@@ -30,6 +30,9 @@ namespace GameSmith {
 			cmdList->ResourceBarrier(1, &barrier);
 			m_LastState = m_CurrentState;
 			m_CurrentState = nextState;
+			unsigned int signal = core.GetDirectCommandContext().FinalizeCommandList();
+			// TODO: Make barrier transition a batch change
+			core.InitializeQueueWait(DirectX12QueueType::Direct, DirectX12QueueType::Copy, signal);
 		}
 	}
 

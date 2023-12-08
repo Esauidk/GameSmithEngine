@@ -11,14 +11,11 @@ namespace GameSmith {
 		}Shaders[STAGE_NUM];
 	};
 
-	class MaterialAssetHelper{
-	public:
-		static Ref<Material> ReadAsset(char* assetData, unsigned int assetSize);
-	};
-
 	class MaterialAsset : public Resource
 	{
 	public:
+		static Ref<Material> ReadAsset(char* assetData, unsigned int assetSize);
+
 		virtual void Init() override;
 		virtual void Destroy() override;
 

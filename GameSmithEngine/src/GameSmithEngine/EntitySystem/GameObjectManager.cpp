@@ -2,6 +2,21 @@
 #include "GameObjectManager.h"
 
 namespace GameSmith {
+	GameObjectManager* GameObjectManager::s_Instance = nullptr;
+
+	GameObjectManager::GameObjectManager() {
+		if (s_Instance == nullptr) {
+			s_Instance = this;
+		}
+	}
+
+	void GameObjectManager::Init()
+	{
+		m_Counter = 0;
+		m_Objects.clear();
+		CleanGameObjects();
+	}
+
 	void GameObjectManager::ShutDown()
 	{
 		CleanGameObjects();

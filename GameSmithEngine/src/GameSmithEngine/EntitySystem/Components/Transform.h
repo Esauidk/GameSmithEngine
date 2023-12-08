@@ -11,6 +11,7 @@ namespace GameSmith {
 		inline virtual void OnStart() override {}
 		inline virtual void OnUpdate() override {}
 		inline virtual void OnDestroy() override {}
+		inline bool HasChanged() { return m_ModelMatrix != m_LastMatrix; }
 		inline void SetPosition(glm::vec3 newPos) { m_Position = newPos; UpdateMatrix(); }
 		inline glm::vec3 GetPosition() const { return m_Position; }
 		inline void SetRotation(glm::vec3 newRotation) { m_Rotation = newRotation; UpdateMatrix(); }
@@ -22,10 +23,14 @@ namespace GameSmith {
 	private:
 		void UpdateMatrix();
 	private:
+		bool m_Changed;
+
 		glm::vec3 m_Position;
 		glm::vec3 m_Rotation;
 		glm::vec3 m_Scale;
 		glm::mat4 m_ModelMatrix;
+
+		glm::mat4 m_LastMatrix;
 	};
 };
 

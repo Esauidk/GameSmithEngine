@@ -10,6 +10,7 @@ namespace GameSmith {
 	public:
 		DirectX12ConstantBuffer(BYTE* data, UINT size); 
 		DirectX12ConstantBuffer(UINT size);
+		DirectX12ConstantBuffer(UINT size, std::string name);
 		void UpdateData(BYTE* data, UINT byteSize) override;
 		virtual unsigned int GetBufferSize() override { return m_Buffer->GetSize(); };
 		D3D12_GPU_VIRTUAL_ADDRESS& GetGPUReference();

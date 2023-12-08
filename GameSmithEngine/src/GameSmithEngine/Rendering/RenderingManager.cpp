@@ -64,6 +64,7 @@ namespace GameSmith {
 		m_RenderAPI->SetIndexBuffer(iBuff);
 		mat->ApplyMaterial();
 		m_RenderAPI->DrawIndexed(iBuff->GetCount(), 1);
+		m_RenderAPI->SubmitRecording();
 	}
 
 	

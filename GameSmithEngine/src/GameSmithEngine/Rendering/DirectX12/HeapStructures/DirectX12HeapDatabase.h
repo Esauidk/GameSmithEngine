@@ -42,7 +42,11 @@ namespace GameSmith {
 		
 	private:
 		inline bool IsReserved() { return m_Reserve; }
-		inline void Reserve() { m_Reserve = true; }
+		inline bool UsedInFrame() { return m_UsedInCurrentFrame; }
+		inline int NumberFramesUnused() { return m_FramesSinceLastUse; }
+		inline void IncreamentNotUse() { m_FramesSinceLastUse++; }
+		inline void EndFrame() { m_UsedInCurrentFrame = false; }
+		inline void Reserve() { m_Reserve = true; m_UsedInCurrentFrame = true; }
 
 		ComPtr<ID3D12DescriptorHeap> m_CurrentHeap;
 		const UINT m_DescriptorNum;
@@ -53,6 +57,8 @@ namespace GameSmith {
 		const D3D12_GPU_DESCRIPTOR_HANDLE m_GpuStartPos;
 
 		bool m_Reserve;
+		bool m_UsedInCurrentFrame;
+		int m_FramesSinceLastUse;
 	};
 
 	class DirectX12HeapDatabase
@@ -61,8 +67,10 @@ namespace GameSmith {
 		DirectX12HeapDatabase() = default;
 		// Reuse or allocate new resource space on GPU heap
 		Ref<DirectX12DescriptorHeap> AllocateHeap(UINT numDescriptor, DescriptorHeapType heapType, D3D12_DESCRIPTOR_HEAP_FLAGS flags, std::string heapName = "heap");
+		void FrameEnded();
 	private:
 		std::vector<Ref<DirectX12DescriptorHeap>> m_AvailableHeaps;
+		unsigned int m_TotalDescriptorSize;
 	};
 };
 

@@ -10,7 +10,7 @@ namespace GameSmith {
 	void MaterialAsset::Init()
 	{
 		GE_CORE_INFO("Loading Material");
-		m_GlobalVer = MaterialAssetHelper::ReadAsset(GetResourceData(), GetResourceSize());
+		m_GlobalVer = ReadAsset(GetResourceData(), GetResourceSize());
 	}
 
 	void MaterialAsset::Destroy()
@@ -24,7 +24,7 @@ namespace GameSmith {
 	}
 
 
-	Ref<Material> MaterialAssetHelper::ReadAsset(char* assetData, unsigned int dataSize)
+	Ref<Material> MaterialAsset::ReadAsset(char* assetData, unsigned int dataSize)
 	{
 		ResourceAssetReader reader(assetData, dataSize);
 

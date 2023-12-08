@@ -127,7 +127,8 @@ namespace GameSmith {
 			res = FAILED(m_SwapChain->Present(0, 0));
 		}
 		GE_CORE_ASSERT(!res, "Failed to present DirectX12 buffer");
-		
+		core.GetHeapDatabase().FrameEnded();
+
 		InitializeBackBuffer();
 	}
 

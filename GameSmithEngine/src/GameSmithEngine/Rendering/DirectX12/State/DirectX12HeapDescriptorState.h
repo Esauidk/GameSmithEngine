@@ -29,8 +29,8 @@ namespace GameSmith {
 		UINT GetFreeSamplerSlots(UINT requiredDescritpors);
 		
 	private:
-		Ref<DirectX12DescriptorHeap> m_CurrentViewHeap;
-		Ref<DirectX12DescriptorHeap> m_CurrentSamplerHeap;
+		Ref<DirectX12DescriptorHeap> m_ProductionViewHeap;
+		Ref<DirectX12DescriptorHeap> m_ProductionSamplerHeap;
 		UINT m_ViewHeapSize;
 		UINT m_CurrentViewFreeSlot;
 		UINT m_ViewOriginSlot;

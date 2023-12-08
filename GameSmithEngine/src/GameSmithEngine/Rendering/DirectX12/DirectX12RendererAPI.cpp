@@ -64,6 +64,11 @@ namespace GameSmith {
 		return Ref<Shader>(new DirectX12Shader(byteCode, length));
 	}
 
+	Ref<ConstantBuffer> DirectX12RendererAPI::CreateConstantBuffer(UINT size, std::string name)
+	{
+		return Ref<ConstantBuffer>(new DirectX12ConstantBuffer(size, name));
+	}
+
 	Ref<ConstantBuffer> DirectX12RendererAPI::CreateConstantBuffer(UINT size)
 	{
 		return Ref<ConstantBuffer>(new DirectX12ConstantBuffer(size));
@@ -79,6 +84,8 @@ namespace GameSmith {
 		DirectX12ConstantBufferView view;
 		view.m_View = descriptor;
 		view.m_GPUAdd = add;
+
+		// GE_CORE_INFO("Attempting to Set With: {0}", descriptor.ptr);
 
 		UINT index;
 

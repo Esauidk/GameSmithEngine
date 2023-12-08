@@ -16,7 +16,7 @@ namespace GameSmith {
 		return result;
 	}
 
-	void GameSmith::DirectX12ConstantBuffer::UpdateData(BYTE* data, UINT byteSize)
+	void DirectX12ConstantBuffer::UpdateData(BYTE* data, UINT byteSize)
 	{
 		D3D12_RESOURCE_STATES originalState = m_Buffer->GetStateTracker().GetState();
 		if (originalState != D3D12_RESOURCE_STATE_COPY_DEST) {
@@ -32,7 +32,7 @@ namespace GameSmith {
 
 	}
 
-	D3D12_GPU_VIRTUAL_ADDRESS& GameSmith::DirectX12ConstantBuffer::GetGPUReference()
+	D3D12_GPU_VIRTUAL_ADDRESS& DirectX12ConstantBuffer::GetGPUReference()
 	{
 		if (m_Buffer->GetStateTracker().GetState() == D3D12_RESOURCE_STATE_COPY_DEST) {
 			m_Buffer->SetUploadGPUBlock();
@@ -70,6 +70,13 @@ namespace GameSmith {
 	}
 
 	DirectX12ConstantBuffer::DirectX12ConstantBuffer(UINT size) : m_Buffer(Scope<DirectX12Buffer<BYTE>>(new DirectX12Buffer<BYTE>(AllignSize(size), "Constant Buffer")))
+	{
+		m_GPUAdd = m_Buffer->GetGPUReference();
+		m_TempDescriptor = DirectX12Core::GetCore().GetDescriptorLoader(CBVSRVUAV).AllocateSlot();
+		GenerateConstantBuffView();
+	}
+
+	DirectX12ConstantBuffer::DirectX12ConstantBuffer(UINT size, std::string name) : m_Buffer(Scope<DirectX12Buffer<BYTE>>(new DirectX12Buffer<BYTE>(AllignSize(size), name)))
 	{
 		m_GPUAdd = m_Buffer->GetGPUReference();
 		m_TempDescriptor = DirectX12Core::GetCore().GetDescriptorLoader(CBVSRVUAV).AllocateSlot();

@@ -5,6 +5,10 @@
 namespace GameSmith {
 	class GameObjectManager {
 	public:
+		GameObjectManager();
+		inline static GameObjectManager* GetInstance() { return s_Instance; }
+
+		void Init();
 		void ShutDown();
 		void CleanGameObjects();
 
@@ -13,6 +17,8 @@ namespace GameSmith {
 		void DestroyGameObject(Connection<GameObject> object);
 
 	private:
+		static GameObjectManager* s_Instance;
+
 		unsigned int m_Counter = 0;
 
 		std::unordered_map<std::string, Ref<GameObject>> m_Objects;

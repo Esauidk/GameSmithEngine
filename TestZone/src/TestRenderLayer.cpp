@@ -21,45 +21,6 @@ TestRenderLayer::TestRenderLayer() : Layer("TestRender"), m_Cam(-1.6f, 1.6f, -0.
 	auto hullShader = renderAPI->LoadShader(hull);
 	auto domainShader = renderAPI->LoadShader(domain);
 
-
-	GameSmith::VertexStruct triVertex[] = {
-		{ {-0.5f, -0.5f, 0.0f}}, // 0
-		{ {0.0f,  0.5f, 0.0f}}, // 1 
-		{ {0.5f,  -0.5f, 0.0f}} // 2
-	};
-
-	GameSmith::VertexStruct squareVertex[] = {
-		{{-0.75f, -0.75f, -0.5f}, {0, 1}},
-		{{0.75f, -0.75f, -0.5f}, {1, 1}},
-		{{0.75f,  0.75f, -0.5f},{1, 0}},
-		{{-0.75f,  0.75f, -0.5f}, {0, 0}},
-		{{-0.75f, -0.75f, 0.5f}, {0, 1}},
-		{{0.75f, -0.75f, 0.5f}, {1, 1}},
-		{{0.75f,  0.75f, 0.5f},{1, 0}},
-		{{-0.75f,  0.75f, 0.5f}, {0, 0}}
-	};
-
-	vBuff = renderAPI->CreateVertexBuffer((BYTE*)&squareVertex, sizeof(GameSmith::VertexStruct), _countof(squareVertex));
-
-	unsigned int indexCount[] = {
-		0, 1, 2
-	};
-
-
-	unsigned int squareIndex[] = {
-		2,1,0,
-		0,3,2,
-		4,7,0,
-		0,7,3,
-		1,6,5,
-		1,2,6
-	};
-
-	iBuff = renderAPI->CreateIndexBuffer((unsigned int*)&squareIndex, _countof(squareIndex));
-
-	renderAPI->SetVertexBuffer(vBuff);
-	renderAPI->SetIndexBuffer(iBuff);
-
 	/*GameSmith::DirectX12Shader(GameSmith::CompileShaderForDX12("struct VertexInput{float3 Position : POSITION;};struct VertexShaderOutput{float4 Position : SV_POSITION;};VertexShaderOutput main(VertexInput input){VertexShaderOutput vso;vso.Position = float4(input.Position, 1);return vso;}",
 		"main", GameSmith::STAGE_VERTEX, "test"));*/
 

@@ -1,6 +1,7 @@
 #pragma once
 #include <gepch.h>
 #include <glm/glm.hpp>
+#include <glm/gtc/type_ptr.hpp>
 #include "GameSmithEngine/Core/Log.h"
 
 namespace GameSmith {
@@ -152,7 +153,7 @@ namespace GameSmith {
 	public:
 		ShaderParameterMatrix(std::string name) : ShaderParameter(name, ShaderDataType::Matrix), m_Data(0) {}
 		ShaderParameterMatrix(std::string name, glm::mat4& data) : ShaderParameter(name, ShaderDataType::Matrix), m_Data(data) {}
-		inline virtual char* GetCharData() override { return (char*)&m_Data; };
+		inline virtual char* GetCharData() override { return (char*)glm::value_ptr(m_Data); };
 		inline const glm::mat4& GetData() { return m_Data; }
 		inline void SetData(glm::mat4& updated) { m_Data = updated; }
 		inline virtual void ResetData() override {}

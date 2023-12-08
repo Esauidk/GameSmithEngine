@@ -104,7 +104,7 @@ namespace GameSmith {
 
 
 			GE_CORE_ASSERT(!res, "Failed to create CPU Buffer {0}", bufferName);
-			cpuBuffer->SetName(nameConvert.c_str());
+			cpuBuffer->SetName(L"Upload Buffer");
 
 			m_GpuBuffer = Ref<DirectX12Resource>(new DirectX12Resource(gpuBuffer.Get(), D3D12_RESOURCE_STATE_COPY_DEST));
 			m_CpuBuffer = Ref<DirectX12Resource>(new DirectX12Resource(cpuBuffer.Get(), D3D12_RESOURCE_STATE_GENERIC_READ));
