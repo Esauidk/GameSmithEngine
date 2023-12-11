@@ -7,7 +7,7 @@ namespace GameSmith {
 	std::shared_ptr<spdlog::logger> Log::p_AppLogger;
 
 	void Log::Init() {
-		spdlog::set_pattern("%^[%T] %n: %v%$");
+		spdlog::set_pattern("%^[%T] %n: %v(%s)%$");
 
 		p_CoreLogger = spdlog::stdout_color_mt("GAMESMITHENGINE");
 		p_CoreLogger->set_level(spdlog::level::trace);

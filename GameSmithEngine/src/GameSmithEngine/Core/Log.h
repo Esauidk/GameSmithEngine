@@ -1,7 +1,14 @@
 #pragma once
 
 #include "Core.h"
+
+// To avoid SPDLog from defining this
+#define SPDLOG_ACTIVE_LEVEL 0
+
 #include "spdlog/spdlog.h"
+// To define using other SPDLog macros
+#undef SPDLOG_ACTIVE_LEVEL
+#define SPDLOG_ACTIVE_LEVEL SPDLOG_LEVEL_CRITICAL
 #include "spdlog/fmt/ostr.h"
 
 namespace GameSmith {
@@ -20,17 +27,17 @@ namespace GameSmith {
 };
 
 // Core Log Macros
-#define GE_CORE_INFO(...) GameSmith::Log::GetCoreLogger()->info(__VA_ARGS__)
-#define GE_CORE_ERROR(...) GameSmith::Log::GetCoreLogger()->error(__VA_ARGS__)
-#define GE_CORE_WARN(...) GameSmith::Log::GetCoreLogger()->warn(__VA_ARGS__)
-#define GE_CORE_TRACE(...) GameSmith::Log::GetCoreLogger()->trace(__VA_ARGS__)
-#define GE_CORE_CRITICAL(...) GameSmith::Log::GetCoreLogger()->critical(__VA_ARGS__)
+#define GE_CORE_INFO(...) SPDLOG_LOGGER_INFO(GameSmith::Log::GetCoreLogger(), __VA_ARGS__)
+#define GE_CORE_ERROR(...) SPDLOG_LOGGER_ERROR(GameSmith::Log::GetCoreLogger(), __VA_ARGS__)
+#define GE_CORE_WARN(...) SPDLOG_LOGGER_WARN(GameSmith::Log::GetCoreLogger(), __VA_ARGS__)
+#define GE_CORE_TRACE(...) SPDLOG_LOGGER_TRACE(GameSmith::Log::GetCoreLogger(), __VA_ARGS__)
+#define GE_CORE_CRITICAL(...) SPDLOG_LOGGER_CRITICAL(GameSmith::Log::GetCoreLogger(), __VA_ARGS__)
 
 // Client Log Macros
-#define GE_APP_INFO(...) GameSmith::Log::GetAppLogger()->info(__VA_ARGS__)
-#define GE_APP_ERROR(...) GameSmith::Log::GetAppLogger()->error(__VA_ARGS__)
-#define GE_APP_WARN(...) GameSmith::Log::GetAppLogger()->warn(__VA_ARGS__)
-#define GE_APP_TRACE(...) GameSmith::Log::GetAppLogger()->trace(__VA_ARGS__)
-#define GE_APP_CRITICAL(...) GameSmith::Log::GetAppLogger()->critical(__VA_ARGS__)
+#define GE_APP_INFO(...) SPDLOG_LOGGER_INFO(GameSmith::Log::GetAppLogger(), __VA_ARGS__)
+#define GE_APP_ERROR(...) SPDLOG_LOGGER_ERROR(GameSmith::Log::GetAppLogger(), __VA_ARGS__)
+#define GE_APP_WARN(...) SPDLOG_LOGGER_WARN(GameSmith::Log::GetAppLogger(), __VA_ARGS__)
+#define GE_APP_TRACE(...) SPDLOG_LOGGER_TRACE(GameSmith::Log::GetAppLogger(), __VA_ARGS__)
+#define GE_APP_CRITICAL(...) SPDLOG_LOGGER_CRITICAL(GameSmith::Log::GetAppLogger(), __VA_ARGS__)
 
 
