@@ -26,6 +26,7 @@ namespace GameSmith {
 
 };
 
+#ifdef GE_DEBUG
 // Core Log Macros
 #define GE_CORE_INFO(...) SPDLOG_LOGGER_INFO(GameSmith::Log::GetCoreLogger(), __VA_ARGS__)
 #define GE_CORE_ERROR(...) SPDLOG_LOGGER_ERROR(GameSmith::Log::GetCoreLogger(), __VA_ARGS__)
@@ -39,5 +40,21 @@ namespace GameSmith {
 #define GE_APP_WARN(...) SPDLOG_LOGGER_WARN(GameSmith::Log::GetAppLogger(), __VA_ARGS__)
 #define GE_APP_TRACE(...) SPDLOG_LOGGER_TRACE(GameSmith::Log::GetAppLogger(), __VA_ARGS__)
 #define GE_APP_CRITICAL(...) SPDLOG_LOGGER_CRITICAL(GameSmith::Log::GetAppLogger(), __VA_ARGS__)
+#else
+// Core Log Macros
+#define GE_CORE_INFO(...)
+#define GE_CORE_ERROR(...)
+#define GE_CORE_WARN(...)
+#define GE_CORE_TRACE(...)
+#define GE_CORE_CRITICAL(...)
+
+// Client Log Macros
+#define GE_APP_INFO(...)
+#define GE_APP_ERROR(...)
+#define GE_APP_WARN(...)
+#define GE_APP_TRACE(...)
+#define GE_APP_CRITICAL(...)
+#endif
+
 
 

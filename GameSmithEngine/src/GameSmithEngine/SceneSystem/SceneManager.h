@@ -1,5 +1,6 @@
 #pragma once
 
+#include "GameSmithEngine/Core/Log.h"
 #include "GameSmithEngine/SceneSystem/Scene.h"
 #include "GameSmithEngine/ResourceAssets/SceneAsset.h"
 
@@ -8,7 +9,7 @@ namespace GameSmith {
 	{
 	public:
 		inline static SceneManager* GetInstance() { return s_Instance; }
-		void Init() {};
+		void Init() { GE_CORE_INFO("SceneManager Loaded"); }
 		void ShutDown() {};
 
 		void LoadScene(std::string sceneAsset);
