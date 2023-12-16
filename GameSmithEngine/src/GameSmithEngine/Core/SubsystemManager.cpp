@@ -20,6 +20,8 @@ namespace GameSmith {
 	void SubsystemManager::Update()
 	{
 		m_ResourceManager.ScanResource();
+		m_GameplayUpdater.RunGameplayInit();
+		m_GameplayUpdater.RunGameplayUpdate();
 	}
 
 	void SubsystemManager::EndUpdate()

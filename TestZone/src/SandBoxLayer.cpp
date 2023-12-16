@@ -44,31 +44,31 @@ SandBoxLayer::SandBoxLayer() : Layer("SandBox"), m_Cam(-1.6f, 1.6f, -0.9f, 0.9f)
 
 	auto object = gameObjectManager->CreateGameObject(glm::vec3(0, 0, 5), glm::vec3(0, 0, 0));
 	auto meshRef = object.lock()->AddComponent<GameSmith::MeshRenderer>();
-	meshRef->SetMesh(mesh);
+	meshRef.lock()->SetMesh(mesh);
 	
-	for (unsigned int i = 0; i < meshRef->GetMaterialSlots(); i++) {
+	for (unsigned int i = 0; i < meshRef.lock()->GetMaterialSlots(); i++) {
 		auto matInstance = asset->CreateInstance();
-		meshRef->SetMaterial(i, matInstance);
+		meshRef.lock()->SetMaterial(i, matInstance);
 	}
 
 	m_GameObjects.push_back(object);
 
 	object = gameObjectManager->CreateGameObject(glm::vec3(-1, 0, 10), glm::vec3(0, 0, 0));
 	meshRef = object.lock()->AddComponent<GameSmith::MeshRenderer>();
-	meshRef->SetMesh(mesh);
-	for (unsigned int i = 0; i < meshRef->GetMaterialSlots(); i++) {
+	meshRef.lock()->SetMesh(mesh);
+	for (unsigned int i = 0; i < meshRef.lock()->GetMaterialSlots(); i++) {
 		auto matInstance = asset->CreateInstance();
-		meshRef->SetMaterial(i, matInstance);
+		meshRef.lock()->SetMaterial(i, matInstance);
 	}
 
 	m_GameObjects.push_back(object);
 
 	object = gameObjectManager->CreateGameObject(glm::vec3(9, 1, 20), glm::vec3(0, 0, 0));
 	meshRef = object.lock()->AddComponent<GameSmith::MeshRenderer>();
-	meshRef->SetMesh(mesh);
-	for (unsigned int i = 0; i < meshRef->GetMaterialSlots(); i++) {
+	meshRef.lock()->SetMesh(mesh);
+	for (unsigned int i = 0; i < meshRef.lock()->GetMaterialSlots(); i++) {
 		auto matInstance = asset->CreateInstance();
-		meshRef->SetMaterial(i, matInstance);
+		meshRef.lock()->SetMaterial(i, matInstance);
 	}
 
 	m_GameObjects.push_back(object);
@@ -86,8 +86,11 @@ void SandBoxLayer::OnImGuiRender()
 	ImGui::InputFloat3("Point Light: Position", glm::value_ptr(lightPos));
 	ImGui::Text("GameObject Settings");
 	ImGui::InputFloat3("GameObject 1 Position", glm::value_ptr(pos1));
+	ImGui::InputFloat3("GameObject 1 Rotation", glm::value_ptr(rot1));
 	ImGui::InputFloat3("GameObject 2 Position", glm::value_ptr(pos2));
+	ImGui::InputFloat3("GameObject 2 Rotation", glm::value_ptr(rot2));
 	ImGui::InputFloat3("GameObject 3 Position", glm::value_ptr(pos3));
+	ImGui::InputFloat3("GameObject 3 Rotation", glm::value_ptr(rot3));
 	ImGui::End();
 }
 
@@ -121,12 +124,15 @@ void SandBoxLayer::OnUpdate()
 	}
 
 	m_GameObjects[0].lock()->GetTransform()->SetPosition(pos1);
+	m_GameObjects[0].lock()->GetTransform()->SetRotation(rot1);
 	m_GameObjects[1].lock()->GetTransform()->SetPosition(pos2);
+	m_GameObjects[1].lock()->GetTransform()->SetRotation(rot2);
 	m_GameObjects[2].lock()->GetTransform()->SetPosition(pos3);
+	m_GameObjects[2].lock()->GetTransform()->SetRotation(rot3);
 
-	m_GameObjects[2].lock()->OnUpdate();
+	/*m_GameObjects[2].lock()->OnUpdate();
 	m_GameObjects[1].lock()->OnUpdate();
-	m_GameObjects[0].lock()->OnUpdate();
+	m_GameObjects[0].lock()->OnUpdate();*/
 	
-	renderManager->EndScene();
+	//renderManager->EndScene();
 }

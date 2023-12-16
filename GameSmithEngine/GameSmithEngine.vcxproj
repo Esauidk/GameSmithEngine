@@ -143,6 +143,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\GameSmithEngine\EntitySystem\GameplayUpdater.h" />
     <ClInclude Include="src\GameSmithEngine\EntitySystem\GameObjectManager.h" />
     <ClInclude Include="src\GameSmithEngine\ResourceAssets\SceneAsset.h" />
     <ClInclude Include="src\GameSmithEngine\SceneSystem\Scene.h" />
@@ -662,6 +663,7 @@
     <ClInclude Include="third-party\tinyobjloader\tiny_obj_loader.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\GameSmithEngine\EntitySystem\GameplayUpdater.cpp" />
     <ClCompile Include="src\GameSmithEngine\EntitySystem\GameObjectManager.cpp" />
     <ClCompile Include="src\GameSmithEngine\ResourceAssets\SceneAsset.cpp" />
     <ClCompile Include="src\GameSmithEngine\SceneSystem\Scene.cpp" />

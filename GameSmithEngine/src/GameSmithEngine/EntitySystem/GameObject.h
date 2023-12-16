@@ -1,8 +1,10 @@
 #pragma once
 #include "gepch.h"
 #include "GameSmithEngine/Core/Core.h"
+#include "GameSmithEngine/Core/Log.h"
 #include "GameSmithEngine/EntitySystem/Components/Transform.h"
 #include "Components/Component.h"
+#include "GameplayUpdater.h"
 
 
 namespace GameSmith {
@@ -15,16 +17,25 @@ namespace GameSmith {
 		void OnUpdate();
 
 		template<typename T>
-		Ref<T> AddComponent() {
+		Connection<T> AddComponent() {
 			auto component = Ref<T>(new T(this, m_Transform.get()));
-			component->OnStart();
+			
+			auto updater = GameplayUpdater::GetInstance();
+
+			if (updater != nullptr) {
+				updater->Register(component);
+			}
+			else {
+				GE_CORE_ERROR("Unable to get reference to gameplay updater");
+			}
+
 			m_Components.emplace_back(component);
 
 			return component;
 		}
 
 		template<typename T>
-		Ref<T> GetComponent() {
+		Connection<T> GetComponent() {
 			for (Ref<Component> comp : m_Components) {
 				auto cast = CastPtr<T>(comp);
 				if (cast != nullptr) {
@@ -36,12 +47,12 @@ namespace GameSmith {
 		}
 
 		template<typename T>
-		void RemoveComponent(Ref<T> component) {
-			auto castCheck = CastPtr<Transform>(component);
-			if (castCheck == nullptr && component->GetGameObject() == this) {
+		void RemoveComponent(Connection<T> component) {
+			auto lockComp = component.lock();
+			if (lockComp->GetGameObject() == this) {
 				for (auto it = m_Components.begin(); it < m_Components.end(); it++) {
-					if ((*it).get() == component.get()) {
-						component->OnDestroy();
+					if ((*it).get() == lockComp.get()) {
+						lockComp->OnDestroy();
 						m_Components.erase(it);
 						break;
 					}

@@ -4,13 +4,10 @@
 #include "GameSmithEngine/EntitySystem/Components/Component.h"
 
 namespace GameSmith {
-	class Transform : public Component
+	class Transform
 	{
 	public:
 		Transform();
-		inline virtual void OnStart() override {}
-		inline virtual void OnUpdate() override {}
-		inline virtual void OnDestroy() override {}
 		inline bool HasChanged() { return m_ModelMatrix != m_LastMatrix; }
 		inline void SetPosition(glm::vec3 newPos) { m_Position = newPos; UpdateMatrix(); }
 		inline glm::vec3 GetPosition() const { return m_Position; }

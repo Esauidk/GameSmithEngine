@@ -19,6 +19,8 @@
 #include <array>
 #include <list>
 
+#include <algorithm>
+
 
 #ifdef GE_PLATFORM_WINDOWS
 	#include <Windows.h>

@@ -12,8 +12,11 @@ private:
 	std::vector<GameSmith::Connection<GameSmith::GameObject>> m_GameObjects;
 
 	glm::vec3 pos1;
-	glm::vec3 pos2; 
+	glm::vec3 rot1;
+	glm::vec3 pos2;
+	glm::vec3 rot2;
 	glm::vec3 pos3;
+	glm::vec3 rot3;
 
 	glm::vec3 lightPos;
 	glm::vec3 lightDir;

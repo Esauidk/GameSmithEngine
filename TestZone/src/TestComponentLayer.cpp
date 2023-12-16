@@ -48,10 +48,10 @@ void TestComponentLayer::OnAttach()
 	auto meshRend = gameObject.AddComponent<GameSmith::MeshRenderer>();
 	auto testComp = gameObject.AddComponent<GameSmith::TestComponent>();
 
-	meshRend->SetMesh(mesh);
+	meshRend.lock()->SetMesh(mesh);
 	
-	for (unsigned int i = 0; i < meshRend->GetMaterialSlots(); i++) {
-		meshRend->SetMaterial(i, matInstance);
+	for (unsigned int i = 0; i < meshRend.lock()->GetMaterialSlots(); i++) {
+		meshRend.lock()->SetMaterial(i, matInstance);
 	}
 
 	glm::vec3 pos = trans->GetPosition();

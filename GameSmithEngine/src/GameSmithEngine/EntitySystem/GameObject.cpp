@@ -12,7 +12,6 @@ namespace GameSmith {
 
 	void GameObject::OnUpdate()
 	{
-		m_Transform->OnUpdate();
 		for (auto comp : m_Components) {
 			comp->OnUpdate();
 		}
