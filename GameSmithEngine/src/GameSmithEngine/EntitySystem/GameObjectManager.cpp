@@ -46,8 +46,8 @@ namespace GameSmith {
 		m_Counter++;
 
 		auto transform = gameObject->GetTransform();
-		transform->SetPosition(startingPos);
-		transform->SetRotation(startingRotation);
+		transform.lock()->SetPosition(startingPos);
+		transform.lock()->SetRotation(startingRotation);
 
 		return gameObject;
 	}
@@ -64,13 +64,14 @@ namespace GameSmith {
 
 	void GameObjectManager::DestroyGameObject(Connection<GameObject> object)
 	{
-		auto temp = object.lock();
-		if (temp.get() != nullptr && m_Objects.contains(temp->GetName())) {
-			auto item = m_Objects.find(temp->GetName());
-			m_ToBeDeleted.push(item->second);
-			m_Objects.erase(item);
+		if (!object.expired()) {
+			auto temp = object.lock();
+			if (temp.get() != nullptr && m_Objects.contains(temp->GetName())) {
+				auto item = m_Objects.find(temp->GetName());
+				m_ToBeDeleted.push(item->second);
+				m_Objects.erase(item);
+			}
 		}
-		
 	}
 };
 

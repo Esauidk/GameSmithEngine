@@ -9,7 +9,11 @@ public:
 	void OnUpdate() override;
 	void EventSubscribe(const std::vector<GameSmith::EventDispatcherBase*>& dispatchers, bool overlay) override {}
 private:
-	std::vector<GameSmith::Connection<GameSmith::GameObject>> m_GameObjects;
+	GameSmith::Connection<GameSmith::Transform> m_t1;
+	GameSmith::Connection<GameSmith::Transform> m_t2;
+	GameSmith::Connection<GameSmith::Transform> m_t3;
+
+	GameSmith::Ref<GameSmith::GameChunk> m_Chunk2;
 
 	glm::vec3 pos1;
 	glm::vec3 rot1;
@@ -27,5 +31,6 @@ private:
 
 	bool switchPerp = false;
 	bool switchLight = false;
+	bool applyPartition2 = false;
 };
 

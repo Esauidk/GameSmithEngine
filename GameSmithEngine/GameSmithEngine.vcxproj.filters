@@ -174,7 +174,7 @@
     <ClInclude Include="src\GameSmithEngine\EntitySystem\Components\TestComponent.h">
       <Filter>src\GameSmithEngine\EntitySystem\Components</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameSmithEngine\EntitySystem\Components\Transform.h">
+    <ClInclude Include="src\GameSmithEngine\EntitySystem\Transform.h">
       <Filter>src\GameSmithEngine\EntitySystem\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\EntitySystem\GameObject.h">
@@ -1668,9 +1668,9 @@
     <ClInclude Include="third-party\tinyobjloader\tiny_obj_loader.h">
       <Filter>third-party\tinyobjloader</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameSmithEngine\SceneSystem\SceneManager.h" />
-    <ClInclude Include="src\GameSmithEngine\SceneSystem\Scene.h" />
-    <ClInclude Include="src\GameSmithEngine\ResourceAssets\SceneAsset.h" />
+    <ClInclude Include="src\GameSmithEngine\GameChunkSystem\ChunkManager.h" />
+    <ClInclude Include="src\GameSmithEngine\GameChunkSystem\GameChunk.h" />
+    <ClInclude Include="src\GameSmithEngine\ResourceAssets\GameChunkAsset.h" />
     <ClInclude Include="src\GameSmithEngine\EntitySystem\GameObjectManager.h" />
     <ClInclude Include="src\GameSmithEngine\EntitySystem\GameplayUpdater.h" />
   </ItemGroup>
@@ -1696,7 +1696,7 @@
     <ClCompile Include="src\GameSmithEngine\EntitySystem\Components\TestComponent.cpp">
       <Filter>src\GameSmithEngine\EntitySystem\Components</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameSmithEngine\EntitySystem\Components\Transform.cpp">
+    <ClCompile Include="src\GameSmithEngine\EntitySystem\Transform.cpp">
       <Filter>src\GameSmithEngine\EntitySystem\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\EntitySystem\GameObject.cpp">
@@ -1834,9 +1834,9 @@
     <ClCompile Include="third-party\stb\std_image.cpp">
       <Filter>third-party\stb</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameSmithEngine\SceneSystem\SceneManager.cpp" />
-    <ClCompile Include="src\GameSmithEngine\SceneSystem\Scene.cpp" />
-    <ClCompile Include="src\GameSmithEngine\ResourceAssets\SceneAsset.cpp" />
+    <ClCompile Include="src\GameSmithEngine\GameChunkSystem\ChunkManager.cpp" />
+    <ClCompile Include="src\GameSmithEngine\GameChunkSystem\GameChunk.cpp" />
+    <ClCompile Include="src\GameSmithEngine\ResourceAssets\GameChunkAsset.cpp" />
     <ClCompile Include="src\GameSmithEngine\EntitySystem\GameObjectManager.cpp" />
     <ClCompile Include="src\GameSmithEngine\EntitySystem\GameplayUpdater.cpp" />
   </ItemGroup>

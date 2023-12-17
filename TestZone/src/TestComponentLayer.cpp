@@ -54,7 +54,7 @@ void TestComponentLayer::OnAttach()
 		meshRend.lock()->SetMaterial(i, matInstance);
 	}
 
-	glm::vec3 pos = trans->GetPosition();
+	glm::vec3 pos = trans.lock()->GetPosition();
 	GE_APP_INFO("GameObject location: x:{0}, y{1}, z{2}", pos.x, pos.y, pos.z);
 
 	gameObject.OnUpdate();

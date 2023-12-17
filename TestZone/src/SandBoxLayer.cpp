@@ -40,6 +40,9 @@ SandBoxLayer::SandBoxLayer() : Layer("SandBox"), m_Cam(-1.6f, 1.6f, -0.9f, 0.9f)
 	GameSmith::Ref<GameSmith::MaterialAsset> asset = instance->GetResource<GameSmith::MaterialAsset>("MaterialComp", writer.GetBuffer(), writer.GetBufferSize());
 	auto mesh = instance->GetResource<GameSmith::MeshAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\cybertruck.obj");
 
+	std::vector<GameSmith::Connection<GameSmith::GameObject>> gameObjectPartition1;
+	std::vector<GameSmith::Connection<GameSmith::GameObject>> gameObjectPartition2;
+
 	auto gameObjectManager = GameSmith::GameObjectManager::GetInstance();
 
 	auto object = gameObjectManager->CreateGameObject(glm::vec3(0, 0, 5), glm::vec3(0, 0, 0));
@@ -51,7 +54,8 @@ SandBoxLayer::SandBoxLayer() : Layer("SandBox"), m_Cam(-1.6f, 1.6f, -0.9f, 0.9f)
 		meshRef.lock()->SetMaterial(i, matInstance);
 	}
 
-	m_GameObjects.push_back(object);
+	m_t1 = object.lock()->GetTransform();
+	gameObjectPartition1.push_back(object);
 
 	object = gameObjectManager->CreateGameObject(glm::vec3(-1, 0, 10), glm::vec3(0, 0, 0));
 	meshRef = object.lock()->AddComponent<GameSmith::MeshRenderer>();
@@ -61,7 +65,8 @@ SandBoxLayer::SandBoxLayer() : Layer("SandBox"), m_Cam(-1.6f, 1.6f, -0.9f, 0.9f)
 		meshRef.lock()->SetMaterial(i, matInstance);
 	}
 
-	m_GameObjects.push_back(object);
+	m_t2 = object.lock()->GetTransform();
+	gameObjectPartition1.push_back(object);
 
 	object = gameObjectManager->CreateGameObject(glm::vec3(9, 1, 20), glm::vec3(0, 0, 0));
 	meshRef = object.lock()->AddComponent<GameSmith::MeshRenderer>();
@@ -71,7 +76,14 @@ SandBoxLayer::SandBoxLayer() : Layer("SandBox"), m_Cam(-1.6f, 1.6f, -0.9f, 0.9f)
 		meshRef.lock()->SetMaterial(i, matInstance);
 	}
 
-	m_GameObjects.push_back(object);
+	m_t3 = object.lock()->GetTransform();
+	gameObjectPartition2.push_back(object);
+
+	auto sceneManager = GameSmith::ChunkManager::GetInstance();
+
+	GameSmith::Ref<GameSmith::GameChunk> chunk1 = GameSmith::Ref<GameSmith::GameChunk>(new GameSmith::GameChunk(gameObjectPartition1));
+	m_Chunk2 = GameSmith::Ref<GameSmith::GameChunk>(new GameSmith::GameChunk(gameObjectPartition2));
+	sceneManager->LoadChunk("Sample Chunk1", chunk1);
 }
 
 void SandBoxLayer::OnImGuiRender()
@@ -91,6 +103,7 @@ void SandBoxLayer::OnImGuiRender()
 	ImGui::InputFloat3("GameObject 2 Rotation", glm::value_ptr(rot2));
 	ImGui::InputFloat3("GameObject 3 Position", glm::value_ptr(pos3));
 	ImGui::InputFloat3("GameObject 3 Rotation", glm::value_ptr(rot3));
+	applyPartition2 =  ImGui::Button("Insert Partition 2");
 	ImGui::End();
 }
 
@@ -123,16 +136,26 @@ void SandBoxLayer::OnUpdate()
 
 	}
 
-	m_GameObjects[0].lock()->GetTransform()->SetPosition(pos1);
-	m_GameObjects[0].lock()->GetTransform()->SetRotation(rot1);
-	m_GameObjects[1].lock()->GetTransform()->SetPosition(pos2);
-	m_GameObjects[1].lock()->GetTransform()->SetRotation(rot2);
-	m_GameObjects[2].lock()->GetTransform()->SetPosition(pos3);
-	m_GameObjects[2].lock()->GetTransform()->SetRotation(rot3);
+	if (applyPartition2 && m_Chunk2 != nullptr) {
+		auto sceneManager = GameSmith::ChunkManager::GetInstance();
+		sceneManager->LoadChunk("Sample Chunk2", m_Chunk2);
+		m_Chunk2 = nullptr;
+	}
 
-	/*m_GameObjects[2].lock()->OnUpdate();
-	m_GameObjects[1].lock()->OnUpdate();
-	m_GameObjects[0].lock()->OnUpdate();*/
+	if (!m_t1.expired()) {
+		m_t1.lock()->SetPosition(pos1);
+		m_t1.lock()->SetRotation(rot1);
+	}
+
+	if (!m_t2.expired()) {
+		m_t2.lock()->SetPosition(pos2);
+		m_t2.lock()->SetRotation(rot2);
+	}
+	
+	if (!m_t3.expired()) {
+		m_t3.lock()->SetPosition(pos3);
+		m_t3.lock()->SetRotation(rot3);
+	}
 	
 	//renderManager->EndScene();
 }

@@ -1,5 +1,5 @@
 #pragma once
-#include "GameSmithEngine/EntitySystem/Components/Transform.h"
+#include "GameSmithEngine/EntitySystem/Transform.h"
 namespace GameSmith {
 
 	// An abstract representation of a Camera in 3D space

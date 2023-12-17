@@ -2,7 +2,7 @@
 #include "gepch.h"
 #include "GameSmithEngine/Core/Core.h"
 #include "GameSmithEngine/Core/Log.h"
-#include "GameSmithEngine/EntitySystem/Components/Transform.h"
+#include "GameSmithEngine/EntitySystem/Transform.h"
 #include "Components/Component.h"
 #include "GameplayUpdater.h"
 
@@ -12,7 +12,7 @@ namespace GameSmith {
 	public:
 		GameObject(std::string name = DEFAULT_GAMEOBJECT_NAME);
 		inline std::string GetName() { return m_Name; }
-		inline Ref<Transform> GetTransform() { return m_Transform; }
+		inline Connection<Transform> GetTransform() { return m_Transform; }
 
 		void OnUpdate();
 

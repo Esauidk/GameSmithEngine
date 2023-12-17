@@ -32,17 +32,25 @@
 #include "GameSmithEngine/Rendering/RenderAgnostics/LightingSystem/Sources/DirectionalLight.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/LightingSystem/Sources/PointLight.h"
 
-// Component System
-#include "GameSmithEngine/EntitySystem/GameObject.h"
-#include "GameSmithEngine/EntitySystem/Components/Component.h"
-#include "GameSmithEngine/EntitySystem/Components/Transform.h"
-#include "GameSmithEngine/EntitySystem/Components/MeshRenderer.h"
-#include "GameSmithEngine/EntitySystem/Components/TestComponent.h"
-
 // Material System
 #include "GameSmithEngine/Rendering/RenderAgnostics/MaterialSystem/Material.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/Shaders/ShaderParameter.h"
 // -------------------------------------
+
+// ----------- Entity System -------------
+#include "GameSmithEngine/EntitySystem/GameObject.h"
+
+// Component System
+#include "GameSmithEngine/EntitySystem/Components/Component.h"
+#include "GameSmithEngine/EntitySystem/Transform.h"
+#include "GameSmithEngine/EntitySystem/Components/MeshRenderer.h"
+#include "GameSmithEngine/EntitySystem/Components/TestComponent.h"
+// ------------------------------------------
+
+// ------------ Game Chunk Management -------------
+#include "GameSmithEngine/GameChunkSystem/ChunkManager.h"
+#include "GameSmithEngine/GameChunkSystem/GameChunk.h"
+// -------------------------------------------
 
 // -----------RescourceManagement-----------
 #include "GameSmithEngine/Rendering/RenderingManager.h"

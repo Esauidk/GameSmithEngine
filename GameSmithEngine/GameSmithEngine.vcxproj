@@ -145,9 +145,9 @@
   <ItemGroup>
     <ClInclude Include="src\GameSmithEngine\EntitySystem\GameplayUpdater.h" />
     <ClInclude Include="src\GameSmithEngine\EntitySystem\GameObjectManager.h" />
-    <ClInclude Include="src\GameSmithEngine\ResourceAssets\SceneAsset.h" />
-    <ClInclude Include="src\GameSmithEngine\SceneSystem\Scene.h" />
-    <ClInclude Include="src\GameSmithEngine\SceneSystem\SceneManager.h" />
+    <ClInclude Include="src\GameSmithEngine\ResourceAssets\GameChunkAsset.h" />
+    <ClInclude Include="src\GameSmithEngine\GameChunkSystem\GameChunk.h" />
+    <ClInclude Include="src\GameSmithEngine\GameChunkSystem\ChunkManager.h" />
     <ClInclude Include="src\GameSmithEngine.h" />
     <ClInclude Include="src\GameSmithEngine\Core\Application.h" />
     <ClInclude Include="src\GameSmithEngine\Core\Core.h" />
@@ -163,7 +163,7 @@
     <ClInclude Include="src\GameSmithEngine\EntitySystem\Components\Component.h" />
     <ClInclude Include="src\GameSmithEngine\EntitySystem\Components\MeshRenderer.h" />
     <ClInclude Include="src\GameSmithEngine\EntitySystem\Components\TestComponent.h" />
-    <ClInclude Include="src\GameSmithEngine\EntitySystem\Components\Transform.h" />
+    <ClInclude Include="src\GameSmithEngine\EntitySystem\Transform.h" />
     <ClInclude Include="src\GameSmithEngine\EntitySystem\GameObject.h" />
     <ClInclude Include="src\GameSmithEngine\Events\ApplicationEvents.h" />
     <ClInclude Include="src\GameSmithEngine\Events\Event.h" />
@@ -665,9 +665,9 @@
   <ItemGroup>
     <ClCompile Include="src\GameSmithEngine\EntitySystem\GameplayUpdater.cpp" />
     <ClCompile Include="src\GameSmithEngine\EntitySystem\GameObjectManager.cpp" />
-    <ClCompile Include="src\GameSmithEngine\ResourceAssets\SceneAsset.cpp" />
-    <ClCompile Include="src\GameSmithEngine\SceneSystem\Scene.cpp" />
-    <ClCompile Include="src\GameSmithEngine\SceneSystem\SceneManager.cpp" />
+    <ClCompile Include="src\GameSmithEngine\ResourceAssets\GameChunkAsset.cpp" />
+    <ClCompile Include="src\GameSmithEngine\GameChunkSystem\GameChunk.cpp" />
+    <ClCompile Include="src\GameSmithEngine\GameChunkSystem\ChunkManager.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\Application.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\Layer.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\Log.cpp" />
@@ -675,7 +675,7 @@
     <ClCompile Include="src\GameSmithEngine\Core\Timer.cpp" />
     <ClCompile Include="src\GameSmithEngine\EntitySystem\Components\MeshRenderer.cpp" />
     <ClCompile Include="src\GameSmithEngine\EntitySystem\Components\TestComponent.cpp" />
-    <ClCompile Include="src\GameSmithEngine\EntitySystem\Components\Transform.cpp" />
+    <ClCompile Include="src\GameSmithEngine\EntitySystem\Transform.cpp" />
     <ClCompile Include="src\GameSmithEngine\EntitySystem\GameObject.cpp" />
     <ClCompile Include="src\GameSmithEngine\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\GameSmithEngine\ImGui\ImGuiLayer.cpp" />

@@ -1,7 +1,6 @@
 #pragma once
 #include "GameSmithEngine/ThirdPartySetups/GLM/GLMDefines.h"
 #include <glm/gtc/matrix_transform.hpp>
-#include "GameSmithEngine/EntitySystem/Components/Component.h"
 
 namespace GameSmith {
 	class Transform

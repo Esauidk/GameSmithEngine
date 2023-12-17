@@ -26,7 +26,10 @@ namespace GameSmith {
 
 	struct ComponentCompare {
 		bool operator()(const Connection<Component> lhs, const Connection<Component> rhs) {
-			if (lhs.expired()) {
+			if (lhs.expired() && rhs.expired()) {
+				return false;
+			}
+			else if(lhs.expired()) {
 				return true;
 			}
 			else if (rhs.expired()) {
