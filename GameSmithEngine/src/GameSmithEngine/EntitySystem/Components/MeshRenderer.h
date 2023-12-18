@@ -10,7 +10,7 @@ namespace GameSmith {
 		virtual void OnStart() override {}
 		virtual void OnUpdate() override;
 		virtual void OnDestroy() override {}
-		virtual int GetPriority() override { return 0; };
+		virtual int GetPriority() const override { return 0; };
 
 		void SetMesh(Ref<MeshAsset> newMesh) { m_Mesh = newMesh; m_Materials.resize(m_Mesh->GetSubMeshSize()); }
 		void SetMaterial(unsigned int index, Ref<Material> mat) { m_Materials[index] = mat; };

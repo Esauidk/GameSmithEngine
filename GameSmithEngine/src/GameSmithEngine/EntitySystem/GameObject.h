@@ -43,7 +43,7 @@ namespace GameSmith {
 				}
 			}
 
-			return nullptr;
+			return Ref<T>(nullptr);
 		}
 
 		template<typename T>

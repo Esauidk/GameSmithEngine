@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
 
-#include "GameSmithEngine/EntitySystem/Components/Transform.h"
+#include "GameSmithEngine/EntitySystem/Transform.h"
 
 TEST(TransformTest, GetPosition) {
 	GameSmith::Transform trams;

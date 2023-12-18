@@ -10,8 +10,8 @@ TEST(GameObjectManager, CreateSingleGameObject) {
 	EXPECT_EQ(gameObject->GetName(), GameSmith::GameObject::DEFAULT_GAMEOBJECT_NAME);
 
 	auto transform = gameObject->GetTransform();
-	EXPECT_EQ(transform->GetPosition(), startPos);
-	EXPECT_EQ(transform->GetRotation(), startRot);
+	EXPECT_EQ(transform.lock()->GetPosition(), startPos);
+	EXPECT_EQ(transform.lock()->GetRotation(), startRot);
 }
 
 TEST(GameObjectManager, CreateMultpleGameObjects) {
@@ -24,16 +24,16 @@ TEST(GameObjectManager, CreateMultpleGameObjects) {
 	EXPECT_EQ(gameObject->GetName(), GameSmith::GameObject::DEFAULT_GAMEOBJECT_NAME);
 
 	auto transform = gameObject->GetTransform();
-	EXPECT_EQ(transform->GetPosition(), startPos);
-	EXPECT_EQ(transform->GetRotation(), startRot);
+	EXPECT_EQ(transform.lock()->GetPosition(), startPos);
+	EXPECT_EQ(transform.lock()->GetRotation(), startRot);
 
 	gameObject = manager.CreateGameObject(startPos, startRot).lock();
 	EXPECT_NE(gameObject, nullptr);
 	EXPECT_EQ(gameObject->GetName(), std::format("{} ({})", GameSmith::GameObject::DEFAULT_GAMEOBJECT_NAME, 1));
 
 	transform = gameObject->GetTransform();
-	EXPECT_EQ(transform->GetPosition(), startPos);
-	EXPECT_EQ(transform->GetRotation(), startRot);
+	EXPECT_EQ(transform.lock()->GetPosition(), startPos);
+	EXPECT_EQ(transform.lock()->GetRotation(), startRot);
 }
 
 TEST(GameObjectManager, FindNoGameObject) {

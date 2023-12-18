@@ -8,6 +8,6 @@ namespace GameSmith {
 		virtual void OnStart() override;
 		virtual void OnUpdate() override;
 		virtual void OnDestroy() override;
-		virtual int GetPriority() override { return 0; };
+		virtual int GetPriority() const override { return 0; };
 	};
 };

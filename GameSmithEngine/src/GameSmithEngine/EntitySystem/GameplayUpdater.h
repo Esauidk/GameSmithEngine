@@ -1,4 +1,5 @@
 #pragma once
+#include "gepch.h"
 #include "GameSmithEngine/Core/Core.h"
 #include "GameSmithEngine/EntitySystem/Components/Component.h"
 

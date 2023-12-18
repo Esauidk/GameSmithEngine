@@ -5,7 +5,7 @@
 namespace GameSmith {
 	class GameObjectManager {
 	public:
-		GameObjectManager();
+		GameObjectManager(bool override = false);
 		inline static GameObjectManager* GetInstance() { return s_Instance; }
 
 		void Init();

@@ -4,8 +4,11 @@
 namespace GameSmith {
 	GameObjectManager* GameObjectManager::s_Instance = nullptr;
 
-	GameObjectManager::GameObjectManager() {
+	GameObjectManager::GameObjectManager(bool override) {
 		if (s_Instance == nullptr) {
+			s_Instance = this;
+		}
+		else if (override) {
 			s_Instance = this;
 		}
 	}

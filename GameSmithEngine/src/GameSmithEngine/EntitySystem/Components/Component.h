@@ -14,7 +14,7 @@ namespace GameSmith {
 		virtual void OnStart() = 0;
 		virtual void OnUpdate() = 0;
 		virtual void OnDestroy() = 0;
-		virtual int GetPriority() = 0;
+		virtual int GetPriority() const = 0;
 
 		GameObject* GetGameObject() { return m_GameObject; }
 		Transform* GetTransform() { return m_Transform; }

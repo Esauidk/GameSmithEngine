@@ -5,19 +5,27 @@
 
 TEST(GameObjectTest, AddComponent) {
 	GameSmith::GameObject gameObject("Test Object");
-	
-	GameSmith::Ref<TestComponent> test;
+
+	GameSmith::Connection<TestComponent> test;
 	EXPECT_NO_THROW(test = gameObject.AddComponent<TestComponent>());
-	EXPECT_NE(test.get(), nullptr);
+	EXPECT_FALSE(test.expired());
 }
 
 TEST(GameObjectTest, GetComponent) {
 	GameSmith::GameObject gameObject("Test Object");
 
-	GameSmith::Ref<TestComponent> test;
+	GameSmith::Connection<TestComponent> test;
 	EXPECT_NO_THROW(gameObject.AddComponent<TestComponent>());
 	EXPECT_NO_THROW(test = gameObject.GetComponent<TestComponent>());
-	EXPECT_NE(test.get(), nullptr);
+	EXPECT_FALSE(test.expired());
+}
+
+TEST(GameObjectTest, GetComponentError) {
+	GameSmith::GameObject gameObject("Test Object");
+
+	GameSmith::Connection<TestComponent> test;
+	EXPECT_NO_THROW(test = gameObject.GetComponent<TestComponent>());
+	EXPECT_TRUE(test.expired());
 }
 
 TEST(GameObjectTest, GetName) {
@@ -29,26 +37,26 @@ TEST(GameObjectTest, GetName) {
 TEST(GameObjectTest, GetTransform) {
 	GameSmith::GameObject gameObject("Test Object");
 
-	GameSmith::Ref<GameSmith::Transform> transform = gameObject.GetTransform();
-	EXPECT_NE(transform.get(), nullptr);
+	GameSmith::Connection<GameSmith::Transform> transform = gameObject.GetTransform();
+	EXPECT_FALSE(transform.expired());
 }
 
 TEST(GameObjectTest, RemoveComponent) {
 	GameSmith::GameObject gameObject("Test Object");
 
-	GameSmith::Ref<TestComponent> test;
+	GameSmith::Connection<TestComponent> test;
 	EXPECT_NO_THROW(test = gameObject.AddComponent<TestComponent>());
-	EXPECT_NE(test.get(), nullptr);
+	EXPECT_FALSE(test.expired());
 
 	gameObject.RemoveComponent<TestComponent>(test);
-	EXPECT_EQ(gameObject.GetComponent<TestComponent>(), nullptr);
+	EXPECT_TRUE(gameObject.GetComponent<TestComponent>().expired());
 }
 
 TEST(GameObjectTest, UpdateComponent) {
 	GameSmith::GameObject gameObject("Test Object");
 
-	GameSmith::Ref<TestComponent> test;
+	GameSmith::Connection<TestComponent> test;
 	EXPECT_NO_THROW(test = gameObject.AddComponent<TestComponent>());
 	EXPECT_NO_THROW(gameObject.OnUpdate());
-	EXPECT_EQ(test->GetUpdateCheck(), true);
+	EXPECT_EQ(test.lock()->GetUpdateCheck(), true);
 }
