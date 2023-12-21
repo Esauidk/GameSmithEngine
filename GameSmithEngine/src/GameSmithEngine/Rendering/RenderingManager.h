@@ -1,6 +1,7 @@
 #pragma once
 #include "RendererAPI.h"
 #include "PipelineStateObjectManager.h"
+#include "RenderWorkflow.h"
 
 #include "GameSmithEngine/Rendering/RenderAgnostics/Camera/Camera.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/LightingSystem/LightSource.h"
@@ -17,6 +18,7 @@ namespace GameSmith {
 		inline static RenderingManager* GetInstance() { return s_Instance; }
 
 		void Init();
+		void SetRenderWorkflow(RenderWorkflow* workflow);
 		void ShutDown();
 		void BeginScene(Camera* cam, LightSource* mainLight);
 		void EndScene();
@@ -30,6 +32,7 @@ namespace GameSmith {
 		static RenderingManager* s_Instance;
 		Scope<RendererAPI> m_RenderAPI;
 		Scope<PipelineStateObjectManager> m_PSOManager;
+		Scope<RenderWorkflow> m_RenderWorkflow;
 		GloablShaderData m_SceneData;
 		Ref<ConstantBuffer> m_SceneDataGPU;
 	};

@@ -1673,6 +1673,8 @@
     <ClInclude Include="src\GameSmithEngine\ResourceAssets\GameChunkAsset.h" />
     <ClInclude Include="src\GameSmithEngine\EntitySystem\GameObjectManager.h" />
     <ClInclude Include="src\GameSmithEngine\EntitySystem\GameplayUpdater.h" />
+    <ClInclude Include="src\GameSmithEngine\Rendering\RenderWorkflow.h" />
+    <ClInclude Include="src\GameSmithEngine\Rendering\Workflows\ForwardRender.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GameSmithEngine\Core\Application.cpp">
@@ -1839,5 +1841,6 @@
     <ClCompile Include="src\GameSmithEngine\ResourceAssets\GameChunkAsset.cpp" />
     <ClCompile Include="src\GameSmithEngine\EntitySystem\GameObjectManager.cpp" />
     <ClCompile Include="src\GameSmithEngine\EntitySystem\GameplayUpdater.cpp" />
+    <ClCompile Include="src\GameSmithEngine\Rendering\Workflows\ForwardRender.cpp" />
   </ItemGroup>
 </Project>

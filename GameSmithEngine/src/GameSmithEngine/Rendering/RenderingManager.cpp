@@ -3,6 +3,7 @@
 #include "GameSmithEngine/Core/Log.h"
 
 #include "GameSmithEngine/Rendering/DirectX12/DirectX12RendererAPI.h"
+#include "GameSmithEngine/Rendering/Workflows/ForwardRender.h"
 
 namespace GameSmith {
 	RenderingManager* RenderingManager::s_Instance = nullptr;
@@ -17,9 +18,15 @@ namespace GameSmith {
 	void RenderingManager::Init()
 	{
 		m_RenderAPI = Scope<RendererAPI>(new DirectX12RendererAPI());
+		m_RenderWorkflow = Scope<RenderWorkflow>(new ForwardRender(m_RenderAPI.get()));
 		m_PSOManager = Scope<PipelineStateObjectManager>(new PipelineStateObjectManager(m_RenderAPI.get()));
 		m_SceneDataGPU = m_RenderAPI->CreateConstantBuffer(sizeof(GloablShaderData));
 		GE_CORE_INFO("Rendering Manager Loaded!");
+	}
+
+	void RenderingManager::SetRenderWorkflow(RenderWorkflow* workflow)
+	{
+		m_RenderWorkflow = Scope<RenderWorkflow>(workflow);
 	}
 
 	void RenderingManager::ShutDown()
@@ -60,11 +67,7 @@ namespace GameSmith {
 
 	void RenderingManager::Submit(Ref<VertexBuffer> vBuff, Ref<IndexBuffer> iBuff, Ref<Material> mat)
 	{
-		m_RenderAPI->SetVertexBuffer(vBuff);
-		m_RenderAPI->SetIndexBuffer(iBuff);
-		mat->ApplyMaterial();
-		m_RenderAPI->DrawIndexed(iBuff->GetCount(), 1);
-		m_RenderAPI->SubmitRecording();
+		m_RenderWorkflow->Submit(vBuff, iBuff, mat);
 	}
 
 	
