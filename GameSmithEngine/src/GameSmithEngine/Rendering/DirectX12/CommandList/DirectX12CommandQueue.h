@@ -30,8 +30,9 @@ namespace GameSmith {
 
 		~DirectX12CommandQueue() = default;
 
-		DirectX12CommandListWrapper* GetCommandList();
+		DirectX12CommandListWrapper GetCommandList();
 
+		UINT ExecuteCommandLists(std::vector<DirectX12CommandListWrapper> commandLists);
 		UINT ExecuteCommandList(DirectX12CommandListWrapper& commandList);
 
 		

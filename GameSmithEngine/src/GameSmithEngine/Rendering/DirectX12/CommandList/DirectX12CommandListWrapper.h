@@ -10,8 +10,9 @@ namespace GameSmith {
 	class DirectX12CommandListWrapper
 	{
 	public:
-		friend class DirectX12CommandQueue;
+		friend class DirectX12CommandContextBase;
 		DirectX12CommandListWrapper(ComPtr<ID3D12GraphicsCommandList6> rawList);
+		bool isOpen() { return m_IsOpen; }
 		inline ID3D12GraphicsCommandList6* operator ->  () { return m_RawList.Get(); }
 		inline ID3D12GraphicsCommandList6* operator& () {return m_RawList.Get();}
 	private:

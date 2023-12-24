@@ -7,42 +7,54 @@ namespace GameSmith {
 
 	void DirectX12CommandContextBase::StartCommandList()
 	{
-		if (m_CurrentList != nullptr) {
+		if (m_CurrentList.isOpen()) {
 			GE_CORE_ASSERT(false, "Command List is already open! Close this list if it is meant to be finished");
 		}
 
-		m_CurrentList = Scope<DirectX12CommandListWrapper>(m_Queue->GetCommandList());
-		if (m_StateManager != nullptr) {
-			m_StateManager->NewCommandList();
+		m_CurrentList = m_Queue.GetCommandList();
+		if (m_QueueType == DirectX12QueueType::Direct) {
+			m_StateManager.NewCommandList();
 		}
 		
+	}
+
+	void DirectX12CommandContextBase::SubmitCommandLists()
+	{
+		m_Queue.ExecuteCommandLists(m_CompletedLists);
 	}
 
 	UINT DirectX12CommandContextBase::FinalizeCommandList()
 	{
-		if (m_CurrentList == nullptr) {
+		if (!m_CurrentList.isOpen()) {
 			GE_CORE_ASSERT(false, "Command List is already closed! Open a new list");
 		}
+		
+		FinalizeResourceBarriers();
 
+		m_CurrentList.CloseList();
 		//TODO: Create a execution system for the command lists (seperate thread), would be great to execute batches at the same time
-		UINT val = m_Queue->ExecuteCommandList(*(m_CurrentList.get()));
-		m_CurrentList.release();
-
-		m_CurrentList = nullptr;
-
+		UINT val = m_Queue.ExecuteCommandList(m_CurrentList);
+		
 		StartCommandList();
 		return val;
 	}
 
-	DirectX12CommandContextBase::DirectX12CommandContextBase(DirectX12QueueType type) : m_QueueType(type)
+	void DirectX12CommandContextBase::FinalizeResourceBarriers()
 	{
-		m_Queue = Scope<DirectX12CommandQueue>(new DirectX12CommandQueue(type));
-		m_CurrentList = Scope<DirectX12CommandListWrapper>(m_Queue->GetCommandList());
+		if (!m_Barriers.empty()) {
+			std::vector<CD3DX12_RESOURCE_BARRIER> barriers;
+			for (auto wrapper : m_Barriers) {
+				barriers.push_back(wrapper.GetBarrier());
+			}
 
-		if (type == DirectX12QueueType::Direct) {
-			m_StateManager = Scope<DirectX12StateManager>(new DirectX12StateManager(type));
+			m_CurrentList->ResourceBarrier((UINT)barriers.size(), barriers.data());
 		}
-		
+
+		m_Barriers.clear();
+	}
+
+	DirectX12CommandContextBase::DirectX12CommandContextBase(DirectX12QueueType type) : m_QueueType(type), m_Queue(type), m_CurrentList(m_Queue.GetCommandList()), m_StateManager(DirectX12QueueType::Direct)
+	{
 	}
 };
 

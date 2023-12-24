@@ -4,6 +4,8 @@
 #include "GameSmithEngine/Rendering/DirectX12/State/DirectX12StateManager.h"
 #include "GameSmithEngine/Rendering/DirectX12/HeapStructures/DirectX12HeapDatabase.h"
 
+#include "GameSmithEngine/Rendering/DirectX12/Resources/Util/DirectX12BarrierWrapper.h"
+
 #include "GameSmithEngine/Core/Core.h"
 
 namespace GameSmith {
@@ -11,20 +13,24 @@ namespace GameSmith {
 	class DirectX12CommandContextBase
 	{
 	public:
+		void SubmitCommandLists();
 		UINT FinalizeCommandList();
-		inline DirectX12CommandListWrapper& GetCommandList() { return *(m_CurrentList.get()); };
+		void FinalizeResourceBarriers();
+		inline void InsertBarrier(DirectX12BarrierWrapper& barrier) { m_Barriers.push_back(barrier); }
+		inline DirectX12CommandListWrapper& GetCommandList() { return m_CurrentList; };
 		inline DirectX12QueueType GetQueueType() const { return m_QueueType; }
-		inline DirectX12CommandQueue& GetQueue() { return *(m_Queue.get()); }
-		inline DirectX12StateManager& GetStateManager() { return *m_StateManager; }
+		inline DirectX12CommandQueue& GetQueue() { return m_Queue; }
+		inline DirectX12StateManager& GetStateManager() { return m_StateManager; }
 	protected:
 		DirectX12CommandContextBase(DirectX12QueueType type);
 	private:
 		void StartCommandList();
-		Scope<DirectX12CommandListWrapper> m_CurrentList;
-		Scope<DirectX12CommandQueue> m_Queue;
-		std::queue<DirectX12CommandListWrapper> m_CompletedLists;
 		DirectX12QueueType m_QueueType;
-		Scope<DirectX12StateManager> m_StateManager;
+		DirectX12CommandQueue m_Queue;
+		DirectX12CommandListWrapper m_CurrentList;
+		std::vector<DirectX12BarrierWrapper> m_Barriers;
+		DirectX12StateManager m_StateManager;
+		std::vector<DirectX12CommandListWrapper> m_CompletedLists;
 	};
 
 	class DirectX12CommandContextDirect : public DirectX12CommandContextBase {

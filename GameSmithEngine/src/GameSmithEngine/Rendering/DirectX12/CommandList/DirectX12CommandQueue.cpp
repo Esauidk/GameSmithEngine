@@ -62,7 +62,7 @@ namespace GameSmith {
 		return m_Queue.Get();
 	}
 
-	DirectX12CommandListWrapper* DirectX12CommandQueue::GetCommandList() {
+	DirectX12CommandListWrapper DirectX12CommandQueue::GetCommandList() {
 		ComPtr<ID3D12GraphicsCommandList6> commandList;
 		ComPtr<ID3D12CommandAllocator> commandAllocator;
 
@@ -92,16 +92,46 @@ namespace GameSmith {
 		res = FAILED(commandList->SetPrivateDataInterface(__uuidof(ID3D12CommandAllocator), commandAllocator.Get()));
 		GE_CORE_ASSERT(!res, "Failed to assign command list to command allocator");
 
-		return new DirectX12CommandListWrapper(commandList);
+		return DirectX12CommandListWrapper(commandList);
+	}
+
+	UINT DirectX12CommandQueue::ExecuteCommandLists(std::vector<DirectX12CommandListWrapper> commandLists)
+	{
+		std::vector<ID3D12GraphicsCommandList6*> lists;
+		std::vector<ID3D12CommandAllocator*> allocators;
+		for (auto list : commandLists) {
+			GE_CORE_ASSERT(!list.isOpen(), "Command list needs to be closed before submission for execution");
+
+			ID3D12CommandAllocator* commandAllocator;
+			UINT dataSize = sizeof(commandAllocator);
+			bool res = FAILED(list->GetPrivateData(__uuidof(ID3D12CommandAllocator), &dataSize, &commandAllocator));
+			GE_CORE_ASSERT(!res, "Failed to find command allocator assign to this command list");
+
+			lists.push_back(&list);
+		}
+
+		m_Queue->ExecuteCommandLists((UINT)lists.size(), (ID3D12CommandList**)lists.data());
+		UINT fenceValue = Signal();
+
+		for (auto list : lists) {
+			m_CommandListQueue.push(list);
+		}
+
+		for (auto allocator : allocators) {
+			m_CommandAllocatorQueue.emplace(CommandAllocatorEntry{ fenceValue, allocator });
+			allocator->Release();
+		}
+
+		return fenceValue;
 	}
 
 	UINT DirectX12CommandQueue::ExecuteCommandList(DirectX12CommandListWrapper& commandList) {
-		commandList.CloseList();
+		GE_CORE_ASSERT(!commandList.isOpen(), "Command list needs to be closed before submission for execution");
 
 		ID3D12CommandAllocator* commandAllocator;
 		UINT dataSize = sizeof(commandAllocator);
 		bool res = FAILED(commandList->GetPrivateData(__uuidof(ID3D12CommandAllocator), &dataSize, &commandAllocator));
-		GE_CORE_ASSERT(!res, "Failed to find command allocator assign to this command list")
+		GE_CORE_ASSERT(!res, "Failed to find command allocator assign to this command list");
 
 
 		ID3D12CommandList* const commandLists[]{
