@@ -6,8 +6,10 @@ namespace GameSmith {
 
 	D3D12_INDEX_BUFFER_VIEW DirectX12IndexBuffer::GenerateView()
 	{
+		auto& core = DirectX12Core::GetCore();
 		m_Buffer->SetUploadGPUBlock();
-		m_Buffer->GetStateTracker().TransitionBarrier(D3D12_RESOURCE_STATE_INDEX_BUFFER);
+		m_Buffer->GetStateTracker().TransitionBarrier(D3D12_RESOURCE_STATE_INDEX_BUFFER, core.GetDirectCommandContext());
+		core.GetDirectCommandContext().FinalizeResourceBarriers();
 
 		D3D12_INDEX_BUFFER_VIEW view;
 		view.BufferLocation = m_Buffer->GetGPUReference();

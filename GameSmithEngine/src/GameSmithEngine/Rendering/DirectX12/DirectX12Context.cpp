@@ -199,12 +199,14 @@ namespace GameSmith {
 		bool res = FAILED(m_SwapChain->GetBuffer(m_CurrentBackBuffer, IID_PPV_ARGS(&m_BackBuffer)));
 		GE_CORE_ASSERT(!res, "Failed to reacquire DirectX12 back buffer");
 
-		CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
+		DirectX12BarrierWrapper barrier(CD3DX12_RESOURCE_BARRIER::Transition(
 			m_BackBuffer.Get(),
 			D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_RENDER_TARGET
-		);
-		// Add command to transition the render target
-		cmdList->ResourceBarrier(1, &barrier);;
+		));
+
+		context.InsertBarrier(barrier);
+		context.FinalizeResourceBarriers();
+
 		cmdList->ClearRenderTargetView(m_RTV[m_CurrentBackBuffer]->m_View, m_ClearColor, 0, nullptr);
 		m_DBuffer->Clear(&cmdList, 1);
 

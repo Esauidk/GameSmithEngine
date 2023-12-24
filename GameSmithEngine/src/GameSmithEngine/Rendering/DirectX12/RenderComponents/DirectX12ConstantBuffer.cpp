@@ -18,37 +18,32 @@ namespace GameSmith {
 
 	void DirectX12ConstantBuffer::UpdateData(BYTE* data, UINT byteSize)
 	{
-		D3D12_RESOURCE_STATES originalState = m_Buffer->GetStateTracker().GetState();
-		if (originalState != D3D12_RESOURCE_STATE_COPY_DEST) {
-			m_Buffer->GetStateTracker().TransitionBarrier(D3D12_RESOURCE_STATE_COPY_DEST);
+		auto& core = DirectX12Core::GetCore();
+		auto& stateTracker = m_Buffer->GetStateTracker();
+		D3D12_RESOURCE_STATES originalState = stateTracker.GetState();
+
+		if (originalState != D3D12_RESOURCE_STATE_COPY_DEST && originalState != D3D12_RESOURCE_STATE_COMMON) {
+			stateTracker.TransitionBarrier(D3D12_RESOURCE_STATE_COPY_DEST, core.GetDirectCommandContext());
+			core.GetDirectCommandContext().FinalizeResourceBarriers();
 		}
 
 		m_Buffer->UpdateData(data, byteSize);
 
 		if (m_Buffer->GetStateTracker().GetState() != originalState) {
 			m_Buffer->SetUploadGPUBlock();
-			m_Buffer->GetStateTracker().TransitionBarrier(originalState);
+			m_Buffer->GetStateTracker().TransitionBarrier(originalState, core.GetDirectCommandContext());
+			core.GetDirectCommandContext().FinalizeResourceBarriers();
 		}
 
 	}
 
 	D3D12_GPU_VIRTUAL_ADDRESS& DirectX12ConstantBuffer::GetGPUReference()
 	{
-		if (m_Buffer->GetStateTracker().GetState() == D3D12_RESOURCE_STATE_COPY_DEST) {
-			m_Buffer->SetUploadGPUBlock();
-			m_Buffer->GetStateTracker().TransitionBarrier(D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
-		}
-
 		return m_GPUAdd;
 	}
 
 	D3D12_CPU_DESCRIPTOR_HANDLE DirectX12ConstantBuffer::GetDescriptor()
 	{
-		if (m_Buffer->GetStateTracker().GetState() == D3D12_RESOURCE_STATE_COPY_DEST) {
-			m_Buffer->SetUploadGPUBlock();
-			m_Buffer->GetStateTracker().TransitionBarrier(D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
-		}
-
 		return m_TempDescriptor;
 	}
 
@@ -60,6 +55,8 @@ namespace GameSmith {
 		desc.SizeInBytes = m_Buffer->GetSize();
 
 		DirectX12Core::GetCore().GetDevice()->CreateConstantBufferView(&desc, m_TempDescriptor);
+
+		m_Buffer->GetStateTracker().AssumeState(D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
 	}
 
 	DirectX12ConstantBuffer::DirectX12ConstantBuffer(BYTE* data, UINT size) : m_Buffer(Scope<DirectX12Buffer<BYTE>>(new DirectX12Buffer<BYTE>(data, AllignSize(size), "Constant Buffer")))

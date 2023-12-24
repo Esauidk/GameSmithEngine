@@ -5,8 +5,8 @@
 
 namespace GameSmith {
 	struct PipelineStateInitializer {
-		bool tesselation;
-		TopologyType toplopgyType;
+		bool tesselation = false;
+		TopologyType toplopgyType = TopologyType::Triangle;
 		ShaderSet shaderSet;
 
 		inline std::size_t operator()(const PipelineStateInitializer& key) const {
