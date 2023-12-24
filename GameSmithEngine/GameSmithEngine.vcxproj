@@ -146,6 +146,7 @@
   <ItemGroup>
     <ClInclude Include="src\GameSmithEngine\EntitySystem\GameplayUpdater.h" />
     <ClInclude Include="src\GameSmithEngine\EntitySystem\GameObjectManager.h" />
+    <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\Resources\Util\DirectX12BarrierWrapper.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderWorkflow.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\Workflows\ForwardRender.h" />
     <ClInclude Include="src\GameSmithEngine\ResourceAssets\GameChunkAsset.h" />
