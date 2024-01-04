@@ -19,7 +19,7 @@ namespace GameSmith {
 		DirectX12Context(HWND window, unsigned int initialWidth, unsigned int initialHeight);
 		~DirectX12Context() = default;
 		void Init() override;
-		void Swap() override;
+		bool Swap() override;
 		void Resize(float width, float height) override;
 		void SetVsync(bool vsync) override;
 		void SetClearColor(float r, float g, float b, float a) override;

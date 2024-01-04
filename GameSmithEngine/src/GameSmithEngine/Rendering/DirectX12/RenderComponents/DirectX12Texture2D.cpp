@@ -42,7 +42,6 @@ namespace GameSmith {
 	{
 		auto& core = DirectX12Core::GetCore();
 		if (m_Resource->GetStateTracker().GetState() == D3D12_RESOURCE_STATE_COPY_DEST) {
-			m_Resource->SetUploadGPUBlock();
 			m_Resource->GetStateTracker().TransitionBarrier(D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, core.GetDirectCommandContext());
 		}
 

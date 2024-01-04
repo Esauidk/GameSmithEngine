@@ -8,7 +8,7 @@ namespace GameSmith {
 		virtual void Init() = 0;
 		
 		// Swap the frame buffers currently being displayed
-		virtual void Swap() = 0;
+		virtual bool Swap() = 0;
 
 		// Resize the Render Display
 		virtual void Resize(float width, float height) = 0;

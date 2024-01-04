@@ -8,6 +8,7 @@ class TestZone : public GameSmith::Application {
 public:
 	TestZone() {
 		PushLayer(new SandBoxLayer());
+		//PushLayer(new TestRenderLayer());
 	}
 };
 

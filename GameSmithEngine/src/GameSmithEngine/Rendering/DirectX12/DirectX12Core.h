@@ -3,6 +3,7 @@
 #include "GameSmithEngine/Rendering/DirectX12/HeapStructures/DirectX12HeapDatabase.h"
 #include "GameSmithEngine/Rendering/DirectX12/HeapStructures/DirectX12DescriptorLoaderHeapManager.h"
 #include "GameSmithEngine/Core/Core.h"
+#include "GameSmithEngine/Core/Log.h"
 
 #include <wrl.h>
 #include <d3d12.h>
@@ -22,6 +23,15 @@ namespace GameSmith {
 		static DirectX12Core& GetCore();
 		inline ID3D12Device8* GetDevice() { return m_Device.Get(); }
 		inline IDXGIFactory5* GetFactory() { return m_Factory.Get(); }
+		inline void FrameCompletedRecording() { m_FrameIds.push(m_DirectContext->GetLastSubmissionID()); }
+		inline void FrameSkipped() { if (!m_FrameIds.empty()) { m_FrameIds.pop(); GE_CORE_INFO("Skipping this frame"); } }
+		inline void SwappingFrame() { 
+			if (!m_FrameIds.empty()) { 
+				InitializeCPUQueueWait(m_FrameIds.front(), Direct); 
+				m_FrameIds.pop(); 
+			} 
+		}
+		inline bool FrameReady() { return m_FrameIds.empty() || FindQueue(Direct).IsFenceComplete(m_FrameIds.front()); }
 		inline DirectX12CommandContextDirect& GetDirectCommandContext() { return *m_DirectContext; }
 		inline DirectX12CommandContextCopy& GetCopyCommandContext() { return *m_CopyContext; }
 		inline DirectX12HeapDatabase& GetHeapDatabase() { return *m_HeapDB; }
@@ -51,5 +61,7 @@ namespace GameSmith {
 		std::vector<DirectX12DescriptorLoaderManager> m_DescriptorLoaders;
 
 		DirectX12DefaultViews m_Defaults;
+
+		std::queue<unsigned int> m_FrameIds;
 	};
 };

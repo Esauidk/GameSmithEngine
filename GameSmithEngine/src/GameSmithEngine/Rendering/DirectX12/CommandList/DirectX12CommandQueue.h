@@ -68,6 +68,8 @@ namespace GameSmith {
 
 		CommandAllocatorQueue m_CommandAllocatorQueue;
 		CommandListQueue m_CommandListQueue;
+
+		DirectX12QueueType m_Type;
 	};
 }
 

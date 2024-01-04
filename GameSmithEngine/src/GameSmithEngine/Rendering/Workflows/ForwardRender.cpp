@@ -10,6 +10,6 @@ namespace GameSmith {
 		m_APIInstance->DrawIndexed(iBuff->GetCount(), 1);
 
 		// TODO: Remove by queuing command lists to be processed on a seperate thread
-		m_APIInstance->SubmitRecording();
+		//m_APIInstance->SubmitRecording();
 	}
 };

@@ -57,17 +57,20 @@ namespace GameSmith {
 
 	void RenderingManager::EndScene()
 	{
-		m_RenderAPI->SubmitRecording();
+		
 	}
 
 	void RenderingManager::EndFrame()
 	{
+		EndScene();
+		m_RenderAPI->CompleteFrameSubmissions();
 		m_PSOManager->CleanStateObjects();
 	}
 
 	void RenderingManager::Submit(Ref<VertexBuffer> vBuff, Ref<IndexBuffer> iBuff, Ref<Material> mat)
 	{
 		m_RenderWorkflow->Submit(vBuff, iBuff, mat);
+		m_RenderAPI->SubmitRecording();
 	}
 
 	

@@ -22,6 +22,7 @@ namespace GameSmith {
 		auto& stateTracker = m_Buffer->GetStateTracker();
 		D3D12_RESOURCE_STATES originalState = stateTracker.GetState();
 
+		// Let the Direct queue know that this constant buffer is being used for writing coping commands
 		if (originalState != D3D12_RESOURCE_STATE_COPY_DEST && originalState != D3D12_RESOURCE_STATE_COMMON) {
 			stateTracker.TransitionBarrier(D3D12_RESOURCE_STATE_COPY_DEST, core.GetDirectCommandContext());
 			core.GetDirectCommandContext().FinalizeResourceBarriers();
@@ -30,7 +31,9 @@ namespace GameSmith {
 		m_Buffer->UpdateData(data, byteSize);
 
 		if (m_Buffer->GetStateTracker().GetState() != originalState) {
+			// Tell the Direct queue to wait for copying to finish before executing more command lists
 			m_Buffer->SetUploadGPUBlock();
+			// Tell the Direct queue this constant buffer is back to its old state
 			m_Buffer->GetStateTracker().TransitionBarrier(originalState, core.GetDirectCommandContext());
 			core.GetDirectCommandContext().FinalizeResourceBarriers();
 		}

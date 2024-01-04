@@ -1,9 +1,20 @@
 #pragma once
 
 namespace GameSmith {
-	enum class DirectX12QueueType {
-		None = 0,
+	enum DirectX12QueueType {
 		Direct,
-		Copy
+		Copy,
+		NUM_QUEUES
 	};
+
+	inline std::string QueueString(DirectX12QueueType type) {
+		switch (type) {
+		case Direct:
+			return "Direct";
+		case Copy:
+			return "Copy";
+		default:
+			return "Unknown";
+		}
+	}
 };

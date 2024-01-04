@@ -3,6 +3,8 @@
 
 #include "GameSmithEngine/Core/Log.h"
 
+#include "GameSmithEngine/Rendering/DirectX12/DirectX12Core.h"
+
 namespace GameSmith {
 
 	void DirectX12CommandContextBase::StartCommandList()
@@ -20,10 +22,20 @@ namespace GameSmith {
 
 	void DirectX12CommandContextBase::SubmitCommandLists()
 	{
-		m_Queue.ExecuteCommandLists(m_CompletedLists);
+		m_LastSignal = m_Queue.ExecuteCommandLists(m_CompletedLists);
+
+		auto& core = DirectX12Core::GetCore();
+		for (unsigned int type = 0; type < DirectX12QueueType::NUM_QUEUES; type++) {
+			if (m_WaitRequests[type]) {
+				core.InitializeQueueWait(m_QueueType, (DirectX12QueueType)type,  m_LastSignal);
+				m_WaitRequests[type] = false;
+			}
+		}
+
+		m_CompletedLists.clear();
 	}
 
-	UINT DirectX12CommandContextBase::FinalizeCommandList()
+	void DirectX12CommandContextBase::FinalizeCommandList()
 	{
 		if (!m_CurrentList.isOpen()) {
 			GE_CORE_ASSERT(false, "Command List is already closed! Open a new list");
@@ -32,11 +44,9 @@ namespace GameSmith {
 		FinalizeResourceBarriers();
 
 		m_CurrentList.CloseList();
-		//TODO: Create a execution system for the command lists (seperate thread), would be great to execute batches at the same time
-		UINT val = m_Queue.ExecuteCommandList(m_CurrentList);
+		m_CompletedLists.push_back(m_CurrentList);
 		
 		StartCommandList();
-		return val;
 	}
 
 	void DirectX12CommandContextBase::FinalizeResourceBarriers()

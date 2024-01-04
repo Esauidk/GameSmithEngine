@@ -9,7 +9,9 @@ namespace GameSmith {
 	{
 		InitializeBuffers(metadata, type);
 		UpdateData(data);
+		SetUploadGPUBlock();
 	}
+
 	DirectX12TextureResource::DirectX12TextureResource(TextureMetadata metadata, TextureType type) : m_Metadata(metadata)
 	{
 		InitializeBuffers(metadata, type);
@@ -28,7 +30,7 @@ namespace GameSmith {
 
 		UpdateSubresources((&pCommandList), m_GpuBuffer->GetResource(), m_CpuBuffer->GetResource(), 0, 0, 1, &dataDesc);
 
-		m_UploadSignal = copyContext.FinalizeCommandList();
+		copyContext.FinalizeCommandList();
 		m_Uploaded = true;
 	}
 
@@ -36,7 +38,7 @@ namespace GameSmith {
 	{
 		if (m_Uploaded) {
 			auto& core = DirectX12Core::GetCore();
-			core.InitializeQueueWait(DirectX12QueueType::Copy, DirectX12QueueType::Direct, m_UploadSignal);
+			core.GetCopyCommandContext().RequestWait(DirectX12QueueType::Direct);
 			m_Uploaded = false;
 		}
 	}

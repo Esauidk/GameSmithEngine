@@ -204,6 +204,16 @@ namespace GameSmith {
 
 	void DirectX12RendererAPI::SubmitRecording()
 	{
+		m_Core.GetCopyCommandContext().FinalizeCommandList();
+		m_Core.GetCopyCommandContext().SubmitCommandLists();
+
 		m_Core.GetDirectCommandContext().FinalizeCommandList();
+		m_Core.GetDirectCommandContext().SubmitCommandLists();
+
+	}
+
+	void DirectX12RendererAPI::CompleteFrameSubmissions()
+	{
+		m_Core.FrameCompletedRecording();
 	}
 };

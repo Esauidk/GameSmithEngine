@@ -5,6 +5,9 @@
 #include "GameSmithEngine/Rendering/RenderAgnostics/Shaders/SLab/SLab.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/Shaders/ShaderUtil.h"
 
+#include "GameSmithEngine/Rendering/DirectX12/DirectX12Core.h"
+#include "GameSmithEngine/Rendering/DirectX12/RenderComponents/DirectX12VertexBuffer.h"
+
 TestRenderLayer::TestRenderLayer() : Layer("TestRender"), m_Cam(-1.6f, 1.6f, -0.9f, 0.9f), m_PerpCam(glm::pi<float>() / 3, (float)GameSmith::Application::Get().GetWindow().GetWidth(), (float)GameSmith::Application::Get().GetWindow().GetHeight()) {
 	char buffer[MAX_PATH] = { 0 };
 	GetModuleFileNameA(NULL, buffer, MAX_PATH);
@@ -16,52 +19,38 @@ TestRenderLayer::TestRenderLayer() : Layer("TestRender"), m_Cam(-1.6f, 1.6f, -0.
 
 	GameSmith::RendererAPI* renderAPI = GameSmith::RenderingManager::GetInstance()->GetRenderAPI();
 
+	GameSmith::VertexStruct test1[] = {
+		{{0, 0, 0}, {0, 1}, {0, 0, 0}},
+		{{1, 1, 1}, {1, 1}, {1, 1, 1}}
+	};
+
+	GameSmith::VertexStruct test2[] = {
+		{{1, 1, 1}, {0, 1}, {0, 0, 0}},
+		{{1, 1, 1}, {1, 1}, {1, 1, 1}}
+	};
+	unsigned int index[] = {
+		0, 1, 0
+	};
+
+	vBuff = renderAPI->CreateVertexBuffer((BYTE*)test1, sizeof(test1), _countof(test1));
+	vBuff2 = renderAPI->CreateVertexBuffer((BYTE*)test2, sizeof(test2), _countof(test2));
+	iBuff = renderAPI->CreateIndexBuffer(index, _countof(index));
+
 	m_VShader = renderAPI->LoadShader(vertex);
 	m_PShader = renderAPI->LoadShader(pixel);
+
+	GameSmith::Ref<GameSmith::ShaderAsset> shaderV(new GameSmith::ShaderAsset(m_VShader));
+	GameSmith::Ref<GameSmith::ShaderAsset> shaderP(new GameSmith::ShaderAsset(m_PShader));
+
+	GameSmith::PipelineStateInitializer init;
+	init.shaderSet.shaders[GameSmith::STAGE_VERTEX] = shaderV;
+	init.shaderSet.shaders[GameSmith::STAGE_PIXEL] = shaderP;
+	init.toplopgyType = GameSmith::TopologyType::Triangle;
+	init.tesselation = false;
+
+	mObj = renderAPI->CreateGraphicsPipelineState(init);
 	auto hullShader = renderAPI->LoadShader(hull);
 	auto domainShader = renderAPI->LoadShader(domain);
-
-	/*GameSmith::DirectX12Shader(GameSmith::CompileShaderForDX12("struct VertexInput{float3 Position : POSITION;};struct VertexShaderOutput{float4 Position : SV_POSITION;};VertexShaderOutput main(VertexInput input){VertexShaderOutput vso;vso.Position = float4(input.Position, 1);return vso;}",
-		"main", GameSmith::STAGE_VERTEX, "test"));*/
-
-	//GameSmith::SLabMetadata metadata;
-	auto pModel = GameSmith::Ref<GameSmith::ShaderParameter>(new GameSmith::ShaderParameterMatrix("Model"));
-	auto pColor = GameSmith::Ref<GameSmith::ShaderParameter>(new GameSmith::ShaderParameterFloat3("InputColor"));
-
-	//renderAPI->SetConstantBuffer(cBuff1, GameSmith::STAGE_DOMAIN, GameSmith::ShaderConstantType::Global);
-
-	m_Sampler = renderAPI->CreateSampler(GameSmith::FilterType::Point, GameSmith::PaddingMethod::Clamp);
-	renderAPI->SetSampler(m_Sampler, GameSmith::STAGE_PIXEL);
-
-	auto texture = std::string(buffer).substr(0, pos).append("\\download.png");
-	auto instance = GameSmith::ResourceManager::GetInstance();
-	m_Tex2d = instance->GetResource<GameSmith::TextureAsset>(texture);
-
-	std::unordered_map<std::string, GameSmith::Ref<GameSmith::ShaderParameter>> params;
-	params.insert({ pModel->GetName(), pModel });
-	params.insert({ pColor->GetName(), pColor });
-
-	std::unordered_map<std::string, GameSmith::Ref<GameSmith::TextureAsset>> texs;
-	texs.insert({ texture, m_Tex2d });
-
-	std::vector<std::string> parameterOrder;
-	parameterOrder.push_back(pModel->GetName());
-	parameterOrder.push_back(pColor->GetName());
-
-	std::vector<std::string> textureOrder;
-	textureOrder.push_back(texture);
-
-	GameSmith::ShaderSet sSet;
-	GameSmith::MaterialConfig config;
-	//sSet.shaders[GameSmith::STAGE_HULL] = hullShader;
-	//sSet.shaders[GameSmith::STAGE_DOMAIN] = domainShader;
-	sSet.shaders[GameSmith::STAGE_VERTEX] = GameSmith::Ref<GameSmith::ShaderAsset>(new GameSmith::ShaderAsset(m_VShader));
-	sSet.shaders[GameSmith::STAGE_PIXEL] = GameSmith::Ref<GameSmith::ShaderAsset>(new GameSmith::ShaderAsset(m_PShader));
-
-	m_Mat = GameSmith::Ref<GameSmith::Material>(new GameSmith::Material(sSet, config, parameterOrder, textureOrder, params, texs));
-	m_Mat->ApplyMaterial();
-
-	m_CopyMat = GameSmith::Ref<GameSmith::Material>(new GameSmith::Material(*m_Mat));
 }
 
 void TestRenderLayer::OnImGuiRender() {
@@ -170,17 +159,11 @@ void TestRenderLayer::OnUpdate() {
 	glm::mat4 tri = m_TriTrans.GetModelMatrix();
 	//glm::mat4 squ = glm::transpose(m_SquareTrans.GetModelMatrix());
 
-	auto model = m_Mat->GetParameter<GameSmith::ShaderParameterMatrix>("Model");
-	auto color = m_Mat->GetParameter<GameSmith::ShaderParameterFloat3>("InputColor");
-
-	model->SetData(tri);
-	glm::vec3 newColor(1, 0, 1);
-	color->SetData(newColor);
-	m_Mat->ApplyMaterial();
-
 	//std::dynamic_pointer_cast<GameSmith::DirectX12Texture2D>(m_Tex2d)->Test();
 
 	auto renderManager = GameSmith::RenderingManager::GetInstance();
+	auto renderAPI = renderManager->GetRenderAPI();
+
 	GameSmith::DirectionalLight light;
 	light.SetLightColor(lightColor);
 	light.SetLightDirection(lightDir);
@@ -206,9 +189,22 @@ void TestRenderLayer::OnUpdate() {
 		}
 		
 	}
-	//renderAPI->SetVertexBuffer(vBuff);
-	//renderAPI->SetIndexBuffer(iBuff);
 
-	//renderAPI->DrawIndexed(iBuff->GetCount(), 1);
+	renderAPI->SetGraphicsPipelineState(mObj);
+	renderAPI->SetIndexBuffer(iBuff);
+	GameSmith::TopologyType type = GameSmith::TopologyType::Triangle;
+	renderAPI->SetTopology(type, false);
+
+	auto& core = GameSmith::DirectX12Core::GetCore();
+	core.GetDirectCommandContext().GetStateManager().BindState();
+	D3D12_VERTEX_BUFFER_VIEW view = GameSmith::CastPtr<GameSmith::DirectX12VertexBuffer>(vBuff)->GenerateView();
+	D3D12_VERTEX_BUFFER_VIEW view1 = GameSmith::CastPtr<GameSmith::DirectX12VertexBuffer>(vBuff2)->GenerateView();
+	core.GetDirectCommandContext().GetCommandList()->IASetVertexBuffers(0, 1, &view);
+	core.GetDirectCommandContext().GetCommandList()->DrawIndexedInstanced(3, 1, 0, 0, 0);
+
+	core.GetDirectCommandContext().GetCommandList()->IASetVertexBuffers(0, 1, &view1);
+	core.GetDirectCommandContext().GetCommandList()->DrawIndexedInstanced(3, 1, 0, 0, 0);
+	
+	renderAPI->SubmitRecording();
 	
 }

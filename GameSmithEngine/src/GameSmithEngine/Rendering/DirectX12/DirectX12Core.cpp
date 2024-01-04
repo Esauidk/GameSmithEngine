@@ -107,11 +107,13 @@ namespace GameSmith {
 		auto& waiterQueue = FindQueue(waiter);
 		waiterQueue.GPUWaitForFenceValue(execQueue, fenceVal);
 	}
+
 	void DirectX12Core::InitializeCPUQueueWait(DirectX12QueueType target)
 	{
 		auto& targetQueue = FindQueue(target);
 		targetQueue.Flush();
 	}
+
 	void DirectX12Core::InitializeCPUQueueWait(UINT fenceVal, DirectX12QueueType target)
 	{
 		auto& targetQueue = FindQueue(target);

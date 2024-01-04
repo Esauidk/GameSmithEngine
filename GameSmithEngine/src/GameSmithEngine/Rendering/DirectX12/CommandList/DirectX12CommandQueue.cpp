@@ -23,6 +23,8 @@ namespace GameSmith {
 			GE_CORE_ASSERT(false, "Unsupported command list type");
 		}
 
+		m_Type = type;
+
 		D3D12_COMMAND_QUEUE_DESC commandDesc = {};
 		commandDesc.Type = m_CommandListType;
 		commandDesc.Priority = D3D12_COMMAND_QUEUE_PRIORITY_NORMAL;
@@ -53,6 +55,9 @@ namespace GameSmith {
 	ID3D12GraphicsCommandList6* DirectX12CommandQueue::CreateCommandList(ID3D12CommandAllocator* allocator) {
 		ID3D12GraphicsCommandList6* commandList;
 		bool res = FAILED(m_Device->CreateCommandList(0, m_CommandListType, allocator, nullptr, IID_PPV_ARGS(&commandList)));
+		std::string name = QueueString(m_Type);
+		std::wstring wName = std::wstring(name.begin(), name.end());
+		commandList->SetName(wName.c_str());
 		GE_CORE_ASSERT(!res, "Failed to create a command list of type {0}", m_CommandListType);
 
 		return commandList;
@@ -108,6 +113,7 @@ namespace GameSmith {
 			GE_CORE_ASSERT(!res, "Failed to find command allocator assign to this command list");
 
 			lists.push_back(&list);
+			allocators.push_back(commandAllocator);
 		}
 
 		m_Queue->ExecuteCommandLists((UINT)lists.size(), (ID3D12CommandList**)lists.data());

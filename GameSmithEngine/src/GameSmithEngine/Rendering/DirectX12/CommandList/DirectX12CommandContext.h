@@ -14,13 +14,15 @@ namespace GameSmith {
 	{
 	public:
 		void SubmitCommandLists();
-		UINT FinalizeCommandList();
+		void FinalizeCommandList();
 		void FinalizeResourceBarriers();
 		inline void InsertBarrier(DirectX12BarrierWrapper& barrier) { m_Barriers.push_back(barrier); }
+		inline void RequestWait(DirectX12QueueType type) { m_WaitRequests[type] = true; }
 		inline DirectX12CommandListWrapper& GetCommandList() { return m_CurrentList; };
 		inline DirectX12QueueType GetQueueType() const { return m_QueueType; }
 		inline DirectX12CommandQueue& GetQueue() { return m_Queue; }
 		inline DirectX12StateManager& GetStateManager() { return m_StateManager; }
+		inline UINT GetLastSubmissionID() { return m_LastSignal; }
 	protected:
 		DirectX12CommandContextBase(DirectX12QueueType type);
 	private:
@@ -28,9 +30,11 @@ namespace GameSmith {
 		DirectX12QueueType m_QueueType;
 		DirectX12CommandQueue m_Queue;
 		DirectX12CommandListWrapper m_CurrentList;
+		bool m_WaitRequests[DirectX12QueueType::NUM_QUEUES] = { false };
 		std::vector<DirectX12BarrierWrapper> m_Barriers;
 		DirectX12StateManager m_StateManager;
 		std::vector<DirectX12CommandListWrapper> m_CompletedLists;
+		UINT m_LastSignal = 0;
 	};
 
 	class DirectX12CommandContextDirect : public DirectX12CommandContextBase {

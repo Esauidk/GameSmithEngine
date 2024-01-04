@@ -75,3 +75,14 @@ This wil be in tommorows commit.
 # 9/28/2023
 With the renderer subsytem being at a point that I feel comfortable with, I think it's time to look into other required subsystems for this engine. Going to start looking into making a resource manager subsystem (loading textures, mesh data, shaders, etc). Been reading into the Game Engine Arichtecture book by Jason Gregory so I have an
 idea of where to start going. We have the layer stack that we can use to inject subsystems into and make sure their update logic is ran. But what about inter subsystem communication? I'm thinking to extend the event system by adding more events and use that to support communication between the subsystems. No need to expose public methods. The only concern now is making sure I allow subsystems to get the list of all events available in the engine. I'm thinking to have all subsystems have a public method that exposes the list of events their emit. 
+
+# 12/26/2023
+Wow, I haven't wrote in here for a while. Don't thik I can make much progress tonight so I'm writing things that need to be looked at the next time:
+
+- Constant Buffer needs to be verified that fence/signal setup is written correctly
+- Texture Resource needs to be verified that fence/signal setup is wirtten correctly
+- Logic for notifying that frame is completed and ready for swapping
+- Logic for swapping back buffers in presentation
+
+# 1/3/2024
+Finally I think I know what is causing this GB level memory usage. It appears allocators are constantly unavailable for usage. What's weird is unavailabiltiy is determined by complete fence value. Before swapping, the CPU waits for all GPU tasks to be completed, so allocators should be available in the next frame recording. Why is the memory constantly growing??????????? Will need to look into this.

@@ -9,7 +9,9 @@ public:
 
 private:
 	GameSmith::Ref<GameSmith::VertexBuffer> vBuff;
+	GameSmith::Ref<GameSmith::VertexBuffer> vBuff2;
 	GameSmith::Ref<GameSmith::IndexBuffer> iBuff;
+	GameSmith::Ref<GameSmith::GraphicsPipelineStateObject> mObj;
 	GameSmith::Ref<GameSmith::ConstantBuffer> cBuff1;
 	GameSmith::Ref<GameSmith::Material> m_Mat;
 	GameSmith::Ref<GameSmith::Material> m_CopyMat;

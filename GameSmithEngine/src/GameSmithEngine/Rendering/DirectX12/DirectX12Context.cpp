@@ -80,7 +80,7 @@ namespace GameSmith {
 		auto& descriptorLoader = core.GetDescriptorLoader(RT);
 		// Assign target views to buffers and their place in the heap
 		for (int i = 0; i < m_BufferCount; i++) {
-			m_RTV[i] =Ref<DirectX12RenderTargetView>(new DirectX12RenderTargetView());
+			m_RTV[i] = Ref<DirectX12RenderTargetView>(new DirectX12RenderTargetView());
 
 			res = FAILED(m_SwapChain->GetBuffer(i, IID_PPV_ARGS(&buffer)));
 			GE_CORE_ASSERT(!res, "Failed to create DirectX12 render target buffer");
@@ -102,7 +102,7 @@ namespace GameSmith {
 		
 	}
 
-	void DirectX12Context::Swap()
+	bool DirectX12Context::Swap()
 	{
 		CD3DX12_RESOURCE_BARRIER barrier = CD3DX12_RESOURCE_BARRIER::Transition(
 			m_BackBuffer.Get(),
@@ -116,8 +116,16 @@ namespace GameSmith {
 		list->ResourceBarrier(1, &barrier);
 
 		
-		UINT val = context.FinalizeCommandList();
-		core.InitializeCPUQueueWait(DirectX12QueueType::Direct);
+		context.FinalizeCommandList();
+		context.SubmitCommandLists();
+		
+		if (core.FrameReady()) {
+			core.SwappingFrame();
+		}
+		else {
+			// TODO: Add logic for if we're under an FPS constraint
+			core.SwappingFrame();
+		}
 
 		bool res;
 		if (m_Vsync) {
@@ -130,6 +138,8 @@ namespace GameSmith {
 		core.GetHeapDatabase().FrameEnded();
 
 		InitializeBackBuffer();
+
+		return true;
 	}
 
 	void DirectX12Context::Resize(float width, float height)
@@ -210,8 +220,9 @@ namespace GameSmith {
 		cmdList->ClearRenderTargetView(m_RTV[m_CurrentBackBuffer]->m_View, m_ClearColor, 0, nullptr);
 		m_DBuffer->Clear(&cmdList, 1);
 
-		UINT fence = context.FinalizeCommandList();
-		context.GetQueue().GPUWaitForFenceValue(fence);
+		context.FinalizeCommandList();
+		context.RequestWait(DirectX12QueueType::Direct);
+		context.SubmitCommandLists();
 
 
 		D3D12_CPU_DESCRIPTOR_HANDLE depthHandler = m_DBuffer->GetHandle();

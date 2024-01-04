@@ -59,10 +59,13 @@ namespace GameSmith {
 
 			UpdateSubresources((&pCommandList), gpuBuffer.Get(), cpuBuffer.Get(), 0, 0, 1, &data);
 
-			m_UploadSignal = copyContext.FinalizeCommandList();
+			copyContext.FinalizeCommandList();
 
 			m_GpuBuffer = Ref<DirectX12Resource>(new DirectX12Resource(gpuBuffer.Get(), D3D12_RESOURCE_STATE_COPY_DEST));
 			m_CpuBuffer = Ref<DirectX12Resource>(new DirectX12Resource(cpuBuffer.Get(), D3D12_RESOURCE_STATE_GENERIC_READ));
+			m_Uploaded = true;
+
+			SetUploadGPUBlock();
 		}
 
 		DirectX12Buffer(UINT count, std::string bufferName = "Personal Buffer") : m_BufferSize(sizeof(T)* count), m_Uploaded(false) {
@@ -121,7 +124,8 @@ namespace GameSmith {
 		void SetUploadGPUBlock() {
 			if (m_Uploaded) {
 				auto& core = DirectX12Core::GetCore();
-				core.InitializeQueueWait(DirectX12QueueType::Copy, DirectX12QueueType::Direct, m_UploadSignal);
+				core.InitializeQueueWait(DirectX12QueueType::Direct, DirectX12QueueType::Copy, core.GetDirectCommandContext().GetLastSubmissionID());
+				core.GetCopyCommandContext().RequestWait(DirectX12QueueType::Direct);
 				m_Uploaded = false;
 			}
 			
@@ -146,7 +150,7 @@ namespace GameSmith {
 			data.SlicePitch = data.RowPitch;
 
 			UpdateSubresources((&pCommandList), m_GpuBuffer->GetResource(), m_CpuBuffer->GetResource(), 0, 0, 1, &data);
-			m_UploadSignal = copyContext.FinalizeCommandList();
+			copyContext.FinalizeCommandList();
 			m_Uploaded = true;
 		}
 
@@ -155,7 +159,6 @@ namespace GameSmith {
 		Ref<DirectX12Resource> m_GpuBuffer;
 		Ref<DirectX12Resource> m_CpuBuffer;
 		UINT m_BufferSize;
-		UINT m_UploadSignal;
 		bool m_Uploaded;
 	};
 };
