@@ -24,14 +24,35 @@ namespace GameSmith {
 		
 	}
 
-	void DirectX12StateManager::SetRenderTargets(DirectX12RenderTargetView** target, UINT number, DirectX12DepthTargetView depth)
+	void DirectX12StateManager::SetRenderTargets(DirectX12RenderTargetView target, UINT index, DirectX12DepthTargetView depth)
 	{
-		for (UINT i = 0; i < number; i++) {
-			PipelineState.Graphics.RenderTargets[i] = target[i];
-		}
+		SetRenderTargets(target, index);
 
 		PipelineState.Graphics.depthTarget = depth;
-		PipelineState.Graphics.numRenderTargets = number;
+		updateRenderTargets = true;
+	}
+
+	void DirectX12StateManager::SetRenderTargets(DirectX12RenderTargetView target, UINT index)
+	{
+		UINT currentRTSize = PipelineState.Graphics.numRenderTargets;
+		if (index > currentRTSize) {
+			PipelineState.Graphics.RenderTargets[currentRTSize] = target;
+			PipelineState.Graphics.numRenderTargets++;
+		}
+		else {
+			PipelineState.Graphics.RenderTargets[index] = target;
+
+			if (index == currentRTSize) {
+				PipelineState.Graphics.numRenderTargets++;
+			}
+		}
+
+		updateRenderTargets = true;
+	}
+
+	void DirectX12StateManager::SetDepthTarget(DirectX12DepthTargetView depth)
+	{
+		PipelineState.Graphics.depthTarget = depth;
 		updateRenderTargets = true;
 	}
 
@@ -89,14 +110,14 @@ namespace GameSmith {
 
 		auto& core = DirectX12Core::GetCore();
 
-		auto& commandList = core.GetDirectCommandContext().GetCommandList();
+		auto& commandList = core.GetDirectCommandContext()->GetCommandList();
 
 		if (updateRenderTargets) {
 			D3D12_CPU_DESCRIPTOR_HANDLE RenderTargetArray[MAX_SIM_RENDER_TARGETS] = {};
 			D3D12_CPU_DESCRIPTOR_HANDLE DepthTarget = PipelineState.Graphics.depthTarget.m_View;
 
 			for (UINT i = 0; i < PipelineState.Graphics.numRenderTargets; i++) {
-				RenderTargetArray[i] = PipelineState.Graphics.RenderTargets[i]->m_View;
+				RenderTargetArray[i] = PipelineState.Graphics.RenderTargets[i].m_View;
 			}
 			commandList->OMSetRenderTargets(PipelineState.Graphics.numRenderTargets, RenderTargetArray, 0, &DepthTarget);
 			updateRenderTargets = false;
@@ -134,15 +155,16 @@ namespace GameSmith {
 	{
 		auto& core = DirectX12Core::GetCore();
 
-		auto& commandList = core.GetDirectCommandContext().GetCommandList();
+		auto& commandList = core.GetDirectCommandContext()->GetCommandList();
 
 		if (updateRenderTargets) {
 			D3D12_CPU_DESCRIPTOR_HANDLE RenderTargetArray[MAX_SIM_RENDER_TARGETS] = {};
 			D3D12_CPU_DESCRIPTOR_HANDLE DepthTarget = PipelineState.Graphics.depthTarget.m_View;
 
 			for (UINT i = 0; i < PipelineState.Graphics.numRenderTargets; i++) {
-				RenderTargetArray[i] = PipelineState.Graphics.RenderTargets[i]->m_View;
+				RenderTargetArray[i] = PipelineState.Graphics.RenderTargets[i].m_View;
 			}
+
 			commandList->OMSetRenderTargets(PipelineState.Graphics.numRenderTargets, RenderTargetArray, 0, &DepthTarget);
 			updateRenderTargets = false;
 		}
@@ -230,7 +252,7 @@ namespace GameSmith {
 		PipelineState.Basic.CurPipeline = pipeline;
 
 		auto& core = DirectX12Core::GetCore();
-		auto& commandList = core.GetDirectCommandContext().GetCommandList();
+		auto& commandList = core.GetDirectCommandContext()->GetCommandList();
 		commandList->SetPipelineState(pipeline->GetPipelineState());
 	}
 
@@ -238,7 +260,7 @@ namespace GameSmith {
 	{
 		if (updateRootSignature) {
 			auto& core = DirectX12Core::GetCore();
-			auto& commandList = core.GetDirectCommandContext().GetCommandList();
+			auto& commandList = core.GetDirectCommandContext()->GetCommandList();
 			commandList->SetGraphicsRootSignature(root->GetInternalRootSignature());
 			updateRootSignature = false;
 		}

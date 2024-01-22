@@ -41,12 +41,13 @@ namespace GameSmith {
 		virtual unsigned int GetWidth() const = 0;
 		virtual unsigned int GetHeight() const = 0;	
 		virtual Platform GetPlatform() const = 0;
-		
-		// Returns the given render context attached to the OS Window
-		inline RendererContext* GetRenderer() const { return m_RenderContext; }
 
 		virtual void SetVSync(bool enabled) = 0;
 		virtual bool IsVSync() const = 0;
+		
+		virtual void SetFullWindowRender(bool enabled) = 0;
+		virtual bool IsRenderingFullWindow() const = 0;
+		virtual void ChangeRenderLocation(float x, float y, float width, float height) = 0;
 
 		virtual void* GetNativeWindow() const = 0;
 

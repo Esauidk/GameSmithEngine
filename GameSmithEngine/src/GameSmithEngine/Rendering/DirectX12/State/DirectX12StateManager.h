@@ -53,7 +53,9 @@ namespace GameSmith {
 		DirectX12StateManager(DirectX12QueueType cmdType);
 		Ref<DirectX12GraphicsPipelineState> GetGraphicsPiplineState() { return PipelineState.Graphics.CurPipelineData; }
 		void SetGraphicsPipelineState(Ref<DirectX12GraphicsPipelineState> pipelineData);
-		void SetRenderTargets(DirectX12RenderTargetView** target, UINT number, DirectX12DepthTargetView depth);
+		void SetRenderTargets(DirectX12RenderTargetView target, UINT index, DirectX12DepthTargetView depth);
+		void SetRenderTargets(DirectX12RenderTargetView target, UINT index);
+		void SetDepthTarget(DirectX12DepthTargetView depth);
 		void NewCommandList();
 		void NewDescriptorHeap();
 		void BindState();
@@ -92,7 +94,7 @@ namespace GameSmith {
 				
 
 				UINT numRenderTargets = 0;
-				DirectX12RenderTargetView* RenderTargets[MAX_SIM_RENDER_TARGETS] = {};
+				DirectX12RenderTargetView RenderTargets[MAX_SIM_RENDER_TARGETS] = {};
 				DirectX12DepthTargetView depthTarget;
 				
 

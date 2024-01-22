@@ -9,7 +9,7 @@ namespace GameSmith {
 		auto& core = DirectX12Core::GetCore();
 		m_Buffer->SetUploadGPUBlock();
 		m_Buffer->GetStateTracker().TransitionBarrier(D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER, core.GetDirectCommandContext());
-		core.GetDirectCommandContext().FinalizeResourceBarriers();
+		core.GetDirectCommandContext()->FinalizeResourceBarriers();
 
 		D3D12_VERTEX_BUFFER_VIEW view;
 		view.BufferLocation = m_Buffer->GetGPUReference();

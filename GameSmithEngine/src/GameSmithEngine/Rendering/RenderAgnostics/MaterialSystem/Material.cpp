@@ -29,6 +29,7 @@ namespace GameSmith {
 
 		m_PSOSettings.shaderSet = m_Shaders;
 		m_PSOSettings.toplopgyType = TopologyType::Triangle;
+		m_PSOSettings.numRT = 2;
 		m_PSOSettings.tesselation = m_Shaders.shaders[STAGE_HULL] != nullptr || m_Shaders.shaders[STAGE_DOMAIN] != nullptr;
 
 		m_PSO = renderManager->GetPSOManager()->RetrieveOrCreateStateObject(m_PSOSettings);
@@ -56,6 +57,7 @@ namespace GameSmith {
 		m_GPULocation = renderManager->GetRenderAPI()->CreateConstantBuffer(m_ParameterByteTotal, "Material Copy");
 
 		m_PSOSettings.shaderSet = m_Shaders;
+		m_PSOSettings.numRT = 2;
 		m_PSOSettings.toplopgyType = TopologyType::Triangle;
 		m_PSOSettings.tesselation = m_Shaders.shaders[STAGE_HULL] != nullptr || m_Shaders.shaders[STAGE_DOMAIN] != nullptr;
 

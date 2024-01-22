@@ -27,6 +27,10 @@ namespace GameSmith {
 		void SetVSync(bool enabled) override;
 		bool IsVSync() const override;
 
+		virtual void SetFullWindowRender(bool enabled) override;
+		virtual bool IsRenderingFullWindow() const override;
+		virtual void ChangeRenderLocation(float x, float y, float width, float height) override;
+
 		
 	private:
 		// Processes Window OS Messages
@@ -37,6 +41,7 @@ namespace GameSmith {
 			unsigned int Width = 1920;
 			unsigned int Height = 1080;
 			bool VSync = true;
+			bool m_RenderFullWindow = true;
 		};
 
 		// This class is required to register with the windows operating system/servers

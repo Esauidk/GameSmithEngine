@@ -84,6 +84,11 @@ namespace GameSmith {
 		m_Defaults.EmptySampler.m_View = m_DescriptorLoaders[DescriptorHeapType::SAMPLER].AllocateSlot();
 	}
 
+	void DirectX12Core::Destroy()
+	{
+		InitializeCPUQueueWait(DirectX12QueueType::Direct);
+	}
+
 	DirectX12Core& DirectX12Core::GetCore() {
 		GE_CORE_ASSERT(m_Core != nullptr, "There is no Core instance available");
 		return *(m_Core.get());

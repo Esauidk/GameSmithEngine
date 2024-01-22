@@ -5,23 +5,23 @@
 #include "GameSmithEngine/Core/Log.h"
 
 namespace GameSmith {
-	DirectX12TextureResource::DirectX12TextureResource(BYTE* data, TextureMetadata metadata, TextureType type) : m_Metadata(metadata)
+	DirectX12TextureResource::DirectX12TextureResource(BYTE* data, TextureMetadata metadata, TextureType type, TextureMisc extra) : m_Metadata(metadata)
 	{
-		InitializeBuffers(metadata, type);
+		InitializeBuffers(metadata, type, extra);
 		UpdateData(data);
 		SetUploadGPUBlock();
 	}
 
-	DirectX12TextureResource::DirectX12TextureResource(TextureMetadata metadata, TextureType type) : m_Metadata(metadata)
+	DirectX12TextureResource::DirectX12TextureResource(TextureMetadata metadata, TextureType type, TextureMisc extra) : m_Metadata(metadata)
 	{
-		InitializeBuffers(metadata, type);
+		InitializeBuffers(metadata, type, extra);
 	}
 
 	void DirectX12TextureResource::UpdateData(BYTE* data)
 	{
 		auto& core = DirectX12Core::GetCore();
-		auto& copyContext = core.GetCopyCommandContext();
-		auto& pCommandList = copyContext.GetCommandList();
+		auto copyContext = core.GetCopyCommandContext();
+		auto& pCommandList = copyContext->GetCommandList();
 
 		D3D12_SUBRESOURCE_DATA dataDesc = {};
 		dataDesc.pData = reinterpret_cast<BYTE*>(data);
@@ -30,7 +30,7 @@ namespace GameSmith {
 
 		UpdateSubresources((&pCommandList), m_GpuBuffer->GetResource(), m_CpuBuffer->GetResource(), 0, 0, 1, &dataDesc);
 
-		copyContext.FinalizeCommandList();
+		copyContext->FinalizeCommandList();
 		m_Uploaded = true;
 	}
 
@@ -38,17 +38,33 @@ namespace GameSmith {
 	{
 		if (m_Uploaded) {
 			auto& core = DirectX12Core::GetCore();
-			core.GetCopyCommandContext().RequestWait(DirectX12QueueType::Direct);
+			core.GetCopyCommandContext()->RequestWait(DirectX12QueueType::Direct);
 			m_Uploaded = false;
 		}
 	}
 
-	void DirectX12TextureResource::InitializeBuffers(TextureMetadata metadata, TextureType type)
+	void DirectX12TextureResource::InitializeBuffers(TextureMetadata metadata, TextureType type, TextureMisc extra)
 	{
 		CD3DX12_HEAP_PROPERTIES defaultHeapProperties(D3D12_HEAP_TYPE_DEFAULT);
 		CD3DX12_HEAP_PROPERTIES uploadHeapProperties(D3D12_HEAP_TYPE_UPLOAD);
 		CD3DX12_RESOURCE_DESC textureDesc;
+		CD3DX12_CLEAR_VALUE clearValue(DXGI_FORMAT_R8G8B8A8_UNORM, metadata.clearColor);
+		D3D12_RESOURCE_FLAGS texFlags;
+
+		switch (extra) {
+		case TextureMisc::RT:
+			texFlags = D3D12_RESOURCE_FLAG_ALLOW_RENDER_TARGET;
+			break;
+		case TextureMisc::DT:
+			texFlags = D3D12_RESOURCE_FLAG_ALLOW_DEPTH_STENCIL;
+			break;
+		default:
+			texFlags = D3D12_RESOURCE_FLAG_NONE;
+		}
+
+
 		switch (type) {
+
 		case TextureType::Tex2D:
 			
 			// TODO: Finish texture resource description
@@ -56,10 +72,18 @@ namespace GameSmith {
 				DXGI_FORMAT_R8G8B8A8_UNORM,
 				metadata.width, 
 				metadata.height,
-				1
+				1,
+				metadata.mips,
+				1,
+				0,
+				texFlags,
+				D3D12_TEXTURE_LAYOUT_UNKNOWN,
+				0
 			);
 			break;
 		}
+
+		
 
 		auto& core = DirectX12Core::GetCore();
 		auto pDevice = core.GetDevice();
@@ -72,7 +96,7 @@ namespace GameSmith {
 			D3D12_HEAP_FLAG_NONE,
 			&textureDesc,
 			D3D12_RESOURCE_STATE_COMMON,
-			nullptr,
+			&clearValue,
 			IID_PPV_ARGS(&gpuBuffer)
 		));
 

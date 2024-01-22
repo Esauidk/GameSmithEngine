@@ -7,10 +7,17 @@ namespace GameSmith {
 		UINT depth;
 		UINT channels;
 		UINT mips;
+		float clearColor[4] = { 0, 0, 0, 0 };
 	};
 
 	enum class TextureType {
 		Tex2D
+	};
+
+	enum class TextureMisc {
+		RT,
+		DT,
+		Normal
 	};
 
 	class Texture
@@ -21,6 +28,11 @@ namespace GameSmith {
 	};
 
 	class Texture2D : public Texture {
+	};
+
+	class RenderTexture : public Texture {
+	public:
+		virtual const float* GetClearColor() const = 0;
 	};
 };
 

@@ -28,6 +28,10 @@
 	#define GE_CORE_ASSERT(x, ...)
 #endif
 
+#define MIN(x, y) (x < y) ? x : y
+
+#define MAX(x,y) (x < y) ? y : x
+
 #define BIT(x) (1 << x)
 
 #define GE_BIND_EVENT_FN(classname, x) std::bind(&classname::x, this, std::placeholders::_1)

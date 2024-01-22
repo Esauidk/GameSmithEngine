@@ -7,8 +7,8 @@ namespace GameSmith {
 	
 	class DirectX12TextureResource {
 	public:
-		DirectX12TextureResource(BYTE* data, TextureMetadata metadata, TextureType type);
-		DirectX12TextureResource(TextureMetadata metadata, TextureType type);
+		DirectX12TextureResource(BYTE* data, TextureMetadata metadata, TextureType type, TextureMisc extra = TextureMisc::Normal);
+		DirectX12TextureResource(TextureMetadata metadata, TextureType type, TextureMisc extra = TextureMisc::Normal);
 		void UpdateData(BYTE* data);
 
 		void SetUploadGPUBlock();
@@ -16,7 +16,7 @@ namespace GameSmith {
 
 		ID3D12Resource* GetResource() { return m_GpuBuffer->GetResource(); }
 	private:
-		void InitializeBuffers(TextureMetadata metadata, TextureType type);
+		void InitializeBuffers(TextureMetadata metadata, TextureType type, TextureMisc extra);
 	private:
 		TextureMetadata m_Metadata;
 

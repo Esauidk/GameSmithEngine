@@ -6,20 +6,21 @@
 namespace GameSmith {
 	struct PipelineStateInitializer {
 		bool tesselation = false;
+		unsigned int numRT = 1;
 		TopologyType toplopgyType = TopologyType::Triangle;
 		ShaderSet shaderSet;
 
 		inline std::size_t operator()(const PipelineStateInitializer& key) const {
 			std::size_t hash = 0;
 
-			hash |= (std::size_t)tesselation | (std::size_t)toplopgyType | shaderSet(shaderSet);
+			hash |= (std::size_t)tesselation | (std::size_t)toplopgyType | shaderSet(shaderSet) | numRT;
 
 			return hash;
 		}
 
 		inline bool operator==(const PipelineStateInitializer& rhs) const {
 			return !(tesselation != rhs.tesselation ||
-				toplopgyType != rhs.toplopgyType ||
+				toplopgyType != rhs.toplopgyType || numRT != rhs.numRT ||
 				shaderSet.shaders[STAGE_VERTEX] != rhs.shaderSet.shaders[STAGE_VERTEX] ||
 				shaderSet.shaders[STAGE_HULL] != rhs.shaderSet.shaders[STAGE_HULL] ||
 				shaderSet.shaders[STAGE_DOMAIN] != rhs.shaderSet.shaders[STAGE_DOMAIN] ||

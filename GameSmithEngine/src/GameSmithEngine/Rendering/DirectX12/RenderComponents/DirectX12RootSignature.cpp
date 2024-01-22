@@ -41,7 +41,7 @@ namespace GameSmith {
 
 	void DirectX12RootSignature::IndexRootSignature(const D3D12_VERSIONED_ROOT_SIGNATURE_DESC& desc)
 	{
-		// Analysis method taken from Unreal Engine:
+		// Analysis method:
 		// Expected Layout of Root Signature is as follows:
 		// EACH STAGE WILL HAVE POTENTIALLY 4 TYPES OF PARAMETERS:
 		// SRV TABLES, CBV TABLES, ROOT CONSTANTS, AND SAMPLERS

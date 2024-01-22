@@ -32,9 +32,9 @@ namespace GameSmith {
 			} 
 		}
 		inline bool FrameReady() { return m_FrameIds.empty() || FindQueue(Direct).IsFenceComplete(m_FrameIds.front()); }
-		inline DirectX12CommandContextDirect& GetDirectCommandContext() { return *m_DirectContext; }
-		inline DirectX12CommandContextCopy& GetCopyCommandContext() { return *m_CopyContext; }
-		inline DirectX12HeapDatabase& GetHeapDatabase() { return *m_HeapDB; }
+		inline DirectX12CommandContextDirect* GetDirectCommandContext() { return m_DirectContext.get(); }
+		inline DirectX12CommandContextCopy* GetCopyCommandContext() { return m_CopyContext.get(); }
+		inline DirectX12HeapDatabase* GetHeapDatabase() { return m_HeapDB.get(); }
 		inline DirectX12DefaultViews& GetDefaultViews() { return m_Defaults; }
 
 		inline DirectX12DescriptorLoaderManager& GetDescriptorLoader(DescriptorHeapType type) { return m_DescriptorLoaders[(int)type]; }
@@ -47,6 +47,7 @@ namespace GameSmith {
 	private:
 		DirectX12Core();
 		void Init();
+		void Destroy();
 		DirectX12CommandQueue& FindQueue(DirectX12QueueType type);
 	private:
 		ComPtr<ID3D12Debug> m_Debug;

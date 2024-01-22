@@ -17,25 +17,24 @@ namespace GameSmith {
 		m_IsInit = true;
 	}
 
-	void DirectX12BarrierTracker::TransitionBarrier(D3D12_RESOURCE_STATES nextState, DirectX12CommandContextBase& context)
+	void DirectX12BarrierTracker::TransitionBarrier(D3D12_RESOURCE_STATES nextState, DirectX12CommandContextBase* context)
 	{
 		GE_CORE_ASSERT(m_IsInit, "Transition Barrier Has Not Been Initialized Yet");
 
 		if (m_CurrentState != nextState) {
 			auto& core = DirectX12Core::GetCore();
-			auto& cmdList = core.GetDirectCommandContext().GetCommandList();
 			DirectX12BarrierWrapper barrier(CD3DX12_RESOURCE_BARRIER::Transition(
 				m_Resource,
 				m_CurrentState, nextState
 			));
 
-			context.InsertBarrier(barrier);
+			context->InsertBarrier(barrier);
 			m_LastState = m_CurrentState;
 			m_CurrentState = nextState;
 		}
 	}
 
-	void DirectX12BarrierTracker::UndoTransition(DirectX12CommandContextBase& context)
+	void DirectX12BarrierTracker::UndoTransition(DirectX12CommandContextBase* context)
 	{
 		TransitionBarrier(m_LastState, context);
 	}

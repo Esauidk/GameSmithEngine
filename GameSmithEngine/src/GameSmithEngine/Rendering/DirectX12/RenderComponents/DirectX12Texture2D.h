@@ -8,14 +8,15 @@
 namespace GameSmith {
 	class DirectX12Texture2D : public Texture2D
 	{
-	public :
+	public:
 		DirectX12Texture2D(char* data, UINT size);
 
 		UINT GetWidth() const override { return m_Metadata.width; };
 		UINT GetHeight() const override { return m_Metadata.height; };
 
-		void GenerateShaderResourceView();
 		D3D12_CPU_DESCRIPTOR_HANDLE GetDescriptor();
+	private:
+		void GenerateShaderResourceView();
 	private:
 		Scope<DirectX12TextureResource> m_Resource;
 		TextureMetadata m_Metadata;

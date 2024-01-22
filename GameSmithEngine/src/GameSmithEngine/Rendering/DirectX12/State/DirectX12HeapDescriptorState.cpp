@@ -12,10 +12,10 @@
 namespace GameSmith {
 	DirectX12HeapDescriptorState::DirectX12HeapDescriptorState(DirectX12QueueType cmdType)
 	{
-		auto& heapDB = DirectX12Core::GetCore().GetHeapDatabase();
+		auto heapDB = DirectX12Core::GetCore().GetHeapDatabase();
 		// TODO: Bring initial descriptor count back to 1 and implement descriptor transfering between previous and new heap
-		m_ProductionViewHeap = heapDB.AllocateHeap(4, DescriptorHeapType::CBVSRVUAV, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE);
-		m_ProductionSamplerHeap = heapDB.AllocateHeap(4, DescriptorHeapType::SAMPLER, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE);
+		m_ProductionViewHeap = heapDB->AllocateHeap(4, DescriptorHeapType::CBVSRVUAV, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE);
+		m_ProductionSamplerHeap = heapDB->AllocateHeap(4, DescriptorHeapType::SAMPLER, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE);
 		m_ViewHeapSize = 4;
 		m_CurrentViewFreeSlot = 0;
 		m_ViewOriginSlot = 0;
@@ -37,7 +37,7 @@ namespace GameSmith {
 
 
 		if (m_CmdType == DirectX12QueueType::Direct) {
-			core.GetDirectCommandContext().GetCommandList()->SetDescriptorHeaps(2, heaps);
+			core.GetDirectCommandContext()->GetCommandList()->SetDescriptorHeaps(2, heaps);
 		}
 
 	}
@@ -73,7 +73,7 @@ namespace GameSmith {
 		}
 
 		if (m_CmdType == DirectX12QueueType::Direct) {
-			core.GetDirectCommandContext().GetCommandList()->SetGraphicsRootDescriptorTable(root.GetSRVSlot(stage), m_ProductionViewHeap->GetGPUReference(freeSlot));
+			core.GetDirectCommandContext()->GetCommandList()->SetGraphicsRootDescriptorTable(root.GetSRVSlot(stage), m_ProductionViewHeap->GetGPUReference(freeSlot));
 		}
 	
 		
@@ -111,7 +111,7 @@ namespace GameSmith {
 		
 
 		if (m_CmdType == DirectX12QueueType::Direct) {
-			core.GetDirectCommandContext().GetCommandList()->SetGraphicsRootDescriptorTable(root.GetCBVSlot(stage), m_ProductionViewHeap->GetGPUReference(freeSlot));
+			core.GetDirectCommandContext()->GetCommandList()->SetGraphicsRootDescriptorTable(root.GetCBVSlot(stage), m_ProductionViewHeap->GetGPUReference(freeSlot));
 		}
 	}
 
@@ -144,7 +144,7 @@ namespace GameSmith {
 		}
 
 		if (m_CmdType == DirectX12QueueType::Direct) {
-			core.GetDirectCommandContext().GetCommandList()->SetGraphicsRootDescriptorTable(root.GetUAVSlot(stage), m_ProductionViewHeap->GetGPUReference(freeSlot));
+			core.GetDirectCommandContext()->GetCommandList()->SetGraphicsRootDescriptorTable(root.GetUAVSlot(stage), m_ProductionViewHeap->GetGPUReference(freeSlot));
 		}
 		
 	}
@@ -180,7 +180,7 @@ namespace GameSmith {
 
 
 		if (m_CmdType == DirectX12QueueType::Direct) {
-			core.GetDirectCommandContext().GetCommandList()->SetGraphicsRootDescriptorTable(root.GetSamplerSlot(stage), m_ProductionSamplerHeap->GetGPUReference(freeSlot));
+			core.GetDirectCommandContext()->GetCommandList()->SetGraphicsRootDescriptorTable(root.GetSamplerSlot(stage), m_ProductionSamplerHeap->GetGPUReference(freeSlot));
 		}
 	}
 
@@ -222,19 +222,19 @@ namespace GameSmith {
 	void DirectX12HeapDescriptorState::ReallocateViewHeap(UINT requiredDescriptors)
 	{
 		auto& core = DirectX12Core::GetCore();
-		auto& heapDB = core.GetHeapDatabase();
+		auto heapDB = core.GetHeapDatabase();
 
 		if (m_ProductionViewHeap.get() != nullptr) {
 			m_ProductionViewHeap->Free();
 		}
 		
-		m_ProductionViewHeap = heapDB.AllocateHeap(requiredDescriptors, DescriptorHeapType::CBVSRVUAV, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE);
+		m_ProductionViewHeap = heapDB->AllocateHeap(requiredDescriptors, DescriptorHeapType::CBVSRVUAV, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE);
 
 		m_ViewHeapSize = requiredDescriptors;
 		m_CurrentViewFreeSlot = 0;
 
 		// TODO: MAKE THIS WORK FOR MORE THAN JUST DIRECT CONTEXT
-		core.GetDirectCommandContext().GetStateManager().NewDescriptorHeap();
+		core.GetDirectCommandContext()->GetStateManager().NewDescriptorHeap();
 
 		AttachHeap();
 	}
@@ -242,19 +242,19 @@ namespace GameSmith {
 	void DirectX12HeapDescriptorState::ReallocateSamplerHeap(UINT requiredDescriptors)
 	{
 		auto& core = DirectX12Core::GetCore();
-		auto& heapDB = core.GetHeapDatabase();
+		auto heapDB = core.GetHeapDatabase();
 
 		if (m_ProductionSamplerHeap != nullptr) {
 			m_ProductionSamplerHeap->Free();
 		}
 
-		m_ProductionSamplerHeap = heapDB.AllocateHeap(requiredDescriptors, DescriptorHeapType::SAMPLER, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE);
+		m_ProductionSamplerHeap = heapDB->AllocateHeap(requiredDescriptors, DescriptorHeapType::SAMPLER, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE);
 
 		m_SamplerHeapSize = requiredDescriptors;
 		m_CurrentSamplerFreeSlot = 0;
 
 		// TODO: MAKE THIS WORK FOR MORE THAN JUST DIRECT CONTEXT
-		core.GetDirectCommandContext().GetStateManager().NewDescriptorHeap();
+		core.GetDirectCommandContext()->GetStateManager().NewDescriptorHeap();
 
 		AttachHeap();
 	}

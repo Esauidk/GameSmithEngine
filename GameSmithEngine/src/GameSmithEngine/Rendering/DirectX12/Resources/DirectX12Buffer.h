@@ -14,8 +14,8 @@ namespace GameSmith {
 
 			auto& core = DirectX12Core::GetCore();
 			auto pDevice = core.GetDevice();
-			auto& copyContext = core.GetCopyCommandContext();
-			auto& pCommandList = copyContext.GetCommandList();
+			auto copyContext = core.GetCopyCommandContext();
+			auto& pCommandList = copyContext->GetCommandList();
 
 			// Define heap details
 			CD3DX12_HEAP_PROPERTIES defaultHeapProperties(D3D12_HEAP_TYPE_DEFAULT);
@@ -59,7 +59,7 @@ namespace GameSmith {
 
 			UpdateSubresources((&pCommandList), gpuBuffer.Get(), cpuBuffer.Get(), 0, 0, 1, &data);
 
-			copyContext.FinalizeCommandList();
+			copyContext->FinalizeCommandList();
 
 			m_GpuBuffer = Ref<DirectX12Resource>(new DirectX12Resource(gpuBuffer.Get(), D3D12_RESOURCE_STATE_COPY_DEST));
 			m_CpuBuffer = Ref<DirectX12Resource>(new DirectX12Resource(cpuBuffer.Get(), D3D12_RESOURCE_STATE_GENERIC_READ));
@@ -124,8 +124,8 @@ namespace GameSmith {
 		void SetUploadGPUBlock() {
 			if (m_Uploaded) {
 				auto& core = DirectX12Core::GetCore();
-				core.InitializeQueueWait(DirectX12QueueType::Direct, DirectX12QueueType::Copy, core.GetDirectCommandContext().GetLastSubmissionID());
-				core.GetCopyCommandContext().RequestWait(DirectX12QueueType::Direct);
+				core.InitializeQueueWait(DirectX12QueueType::Direct, DirectX12QueueType::Copy, core.GetDirectCommandContext()->GetLastSubmissionID());
+				core.GetCopyCommandContext()->RequestWait(DirectX12QueueType::Direct);
 				m_Uploaded = false;
 			}
 			
@@ -141,8 +141,8 @@ namespace GameSmith {
 			GE_CORE_ASSERT(byteSize <= m_BufferSize, "Data passed in won't fit in buffer");
 
 			auto& core = DirectX12Core::GetCore();
-			auto& copyContext = core.GetCopyCommandContext();
-			auto& pCommandList = copyContext.GetCommandList();
+			auto copyContext = core.GetCopyCommandContext();
+			auto& pCommandList = copyContext->GetCommandList();
 			// Store the data inside
 			D3D12_SUBRESOURCE_DATA data = {};
 			data.pData = reinterpret_cast<BYTE*>(newData);
@@ -150,7 +150,7 @@ namespace GameSmith {
 			data.SlicePitch = data.RowPitch;
 
 			UpdateSubresources((&pCommandList), m_GpuBuffer->GetResource(), m_CpuBuffer->GetResource(), 0, 0, 1, &data);
-			copyContext.FinalizeCommandList();
+			copyContext->FinalizeCommandList();
 			m_Uploaded = true;
 		}
 

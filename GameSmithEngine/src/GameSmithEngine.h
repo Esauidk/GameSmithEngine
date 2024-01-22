@@ -18,6 +18,7 @@
 #include "GameSmithEngine/Rendering/RenderAgnostics/RenderComponents/VertexBuffer.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/RenderComponents/IndexBuffer.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/RenderComponents/ConstantBuffer.h"
+#include "GameSmithEngine/Rendering/RenderAgnostics/RenderComponents/Texture.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/RenderComponents/Shader.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/RenderComponents/Topology.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/RenderComponents/PipelineStateInitializer.h"

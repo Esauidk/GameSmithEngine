@@ -146,6 +146,7 @@
   <ItemGroup>
     <ClInclude Include="src\GameSmithEngine\EntitySystem\GameplayUpdater.h" />
     <ClInclude Include="src\GameSmithEngine\EntitySystem\GameObjectManager.h" />
+    <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12RenderTexture.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\Resources\Util\DirectX12BarrierWrapper.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderWorkflow.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\Workflows\ForwardRender.h" />
@@ -669,6 +670,7 @@
   <ItemGroup>
     <ClCompile Include="src\GameSmithEngine\EntitySystem\GameplayUpdater.cpp" />
     <ClCompile Include="src\GameSmithEngine\EntitySystem\GameObjectManager.cpp" />
+    <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12RenderTexture.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\Workflows\ForwardRender.cpp" />
     <ClCompile Include="src\GameSmithEngine\ResourceAssets\GameChunkAsset.cpp" />
     <ClCompile Include="src\GameSmithEngine\GameChunkSystem\GameChunk.cpp" />
@@ -733,6 +735,12 @@
     <ProjectReference Include="third-party\imgui\ImGui.vcxproj">
       <Project>{C0FF640D-2C14-8DBE-F595-301E616989EF}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Pixel\BlinnPhongPixelShader.hlsl">
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+    </FxCompile>
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

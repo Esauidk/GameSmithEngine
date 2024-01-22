@@ -196,14 +196,14 @@ void TestRenderLayer::OnUpdate() {
 	renderAPI->SetTopology(type, false);
 
 	auto& core = GameSmith::DirectX12Core::GetCore();
-	core.GetDirectCommandContext().GetStateManager().BindState();
+	core.GetDirectCommandContext()->GetStateManager().BindState();
 	D3D12_VERTEX_BUFFER_VIEW view = GameSmith::CastPtr<GameSmith::DirectX12VertexBuffer>(vBuff)->GenerateView();
 	D3D12_VERTEX_BUFFER_VIEW view1 = GameSmith::CastPtr<GameSmith::DirectX12VertexBuffer>(vBuff2)->GenerateView();
-	core.GetDirectCommandContext().GetCommandList()->IASetVertexBuffers(0, 1, &view);
-	core.GetDirectCommandContext().GetCommandList()->DrawIndexedInstanced(3, 1, 0, 0, 0);
+	core.GetDirectCommandContext()->GetCommandList()->IASetVertexBuffers(0, 1, &view);
+	core.GetDirectCommandContext()->GetCommandList()->DrawIndexedInstanced(3, 1, 0, 0, 0);
 
-	core.GetDirectCommandContext().GetCommandList()->IASetVertexBuffers(0, 1, &view1);
-	core.GetDirectCommandContext().GetCommandList()->DrawIndexedInstanced(3, 1, 0, 0, 0);
+	core.GetDirectCommandContext()->GetCommandList()->IASetVertexBuffers(0, 1, &view1);
+	core.GetDirectCommandContext()->GetCommandList()->DrawIndexedInstanced(3, 1, 0, 0, 0);
 	
 	renderAPI->SubmitRecording();
 	

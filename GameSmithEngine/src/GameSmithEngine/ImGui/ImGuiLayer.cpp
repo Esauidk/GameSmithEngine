@@ -13,7 +13,7 @@
 
 namespace GameSmith {
 	ImGuiLayer::ImGuiLayer() : Layer("ImGui Layer") {
-		m_Heap = DirectX12Core::GetCore().GetHeapDatabase().AllocateHeap(1, DescriptorHeapType::CBVSRVUAV, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE, "IMGui Heap");
+		m_Heap = DirectX12Core::GetCore().GetHeapDatabase()->AllocateHeap(1, DescriptorHeapType::CBVSRVUAV, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE, "IMGui Heap");
 	}
 
 	ImGuiLayer::~ImGuiLayer() {
@@ -78,9 +78,9 @@ namespace GameSmith {
 		io.DisplaySize = ImVec2((float)window.GetWidth(), (float)window.GetHeight());
 		ImGui::Render();
 
-		auto& context = DirectX12Core::GetCore().GetDirectCommandContext();
-		auto& commandList = context.GetCommandList();
-		context.GetStateManager().BindRenderTargetsOnly();
+		auto context = DirectX12Core::GetCore().GetDirectCommandContext();
+		auto& commandList = context->GetCommandList();
+		context->GetStateManager().BindRenderTargetsOnly();
 
 		ID3D12DescriptorHeap* descriptorHeaps[] = {
 			m_Heap->GetHeapReference()
@@ -95,7 +95,7 @@ namespace GameSmith {
 			ImGui::RenderPlatformWindowsDefault(nullptr, (void*)(&commandList));
 		}
 
-		context.FinalizeCommandList();
+		context->FinalizeCommandList();
 	}
 
 };

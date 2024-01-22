@@ -57,7 +57,7 @@ namespace GameSmith {
 	void DirectX12DescriptorLoaderManager::AllocateHeap()
 	{
 		auto& core = DirectX12Core::GetCore();
-		Ref<DirectX12DescriptorHeap> heap = core.GetHeapDatabase().AllocateHeap(
+		Ref<DirectX12DescriptorHeap> heap = core.GetHeapDatabase()->AllocateHeap(
 			m_NumDescriptorsPerHeap,
 			m_Type,
 			D3D12_DESCRIPTOR_HEAP_FLAG_NONE,

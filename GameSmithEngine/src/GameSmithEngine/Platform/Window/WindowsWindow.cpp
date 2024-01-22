@@ -146,6 +146,30 @@ namespace GameSmith {
 		return m_Prop.VSync;
 	}
 
+	void WindowsWindow::SetFullWindowRender(bool enabled)
+	{
+		m_Prop.m_RenderFullWindow = enabled;
+	}
+
+	bool WindowsWindow::IsRenderingFullWindow() const
+	{
+		return m_Prop.m_RenderFullWindow;
+	}
+
+	void WindowsWindow::ChangeRenderLocation(float x, float y, float width, float height)
+	{
+		if (!m_Prop.m_RenderFullWindow) {
+			float resolvedW = MIN(width, m_Prop.Width);
+			float resolvedH = MIN(height, m_Prop.Height);
+			float resolvedX = MIN(MAX(x, 0), m_Prop.Width - resolvedW);
+			float resolvedY = MIN(MAX(y, 0), m_Prop.Height - resolvedH);
+			m_RenderContext->ResizeRenderSpace(resolvedX, resolvedY, resolvedW, resolvedH);
+		}
+		else {
+			GE_CORE_INFO("Rendering is set for full window mode, change render setting to render part of the window");
+		}
+	}
+
 	std::optional<int> WindowsWindow::ProcessMessages() noexcept {
 		MSG msg;
 		while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE)) {
@@ -328,7 +352,9 @@ namespace GameSmith {
 			unsigned int height = HIWORD(lParam);
 			m_Prop.Width = width;
 			m_Prop.Height = height;
-			m_RenderContext->Resize((float)width, (float)height);
+
+			m_RenderContext->Resize((float)width, (float)height, m_Prop.m_RenderFullWindow);
+			
 			WindowResizeEvent e(width, height);
 			m_Resized.Dispatch(e);
 		}

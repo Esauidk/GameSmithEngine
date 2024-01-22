@@ -9,4 +9,5 @@
 #include "GameSmithEngine/Rendering/DirectX12/RenderComponents/DirectX12ConstantBuffer.h"
 
 #include "GameSmithEngine/Rendering/DirectX12/RenderComponents/DirectX12Texture2D.h"
+#include "GameSmithEngine/Rendering/DirectX12/RenderComponents/DirectX12RenderTexture.h"
 #include "GameSmithEngine/Rendering/DirectX12/RenderComponents/DirectX12Sampler.h"
