@@ -1848,5 +1848,15 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Pixel\BlinnPhongPixelShader.hlsl" />
+    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Pixel\BasicRenderPS.hlsl" />
+    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Pixel\SamplePixelShader.hlsl" />
+    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Vertex\BasicRenderVS.hlsl" />
+    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Vertex\SampleVertexShader.hlsl" />
+    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Vertex\SampleVertexTesShader.hlsl" />
+    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Hull\BasicSubdivideHS.hlsl" />
+    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Domain\BasicRenderDS.hlsl" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="src\GameSmithEngine\Rendering\SampleShaders\Core.hlsli" />
   </ItemGroup>
 </Project>
