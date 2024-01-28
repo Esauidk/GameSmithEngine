@@ -14,6 +14,10 @@ private:
 	GameSmith::Connection<GameSmith::Transform> m_t3;
 
 	GameSmith::Ref<GameSmith::GameChunk> m_Chunk2;
+	GameSmith::Ref<GameSmith::RenderTexture> m_Tex;
+	GameSmith::Ref<GameSmith::TextureAsset> m_OutsideAsset;
+	GameSmith::Ref<GameSmith::Texture2D> m_OutsideTex;
+	D3D12_GPU_DESCRIPTOR_HANDLE m_GameView;
 
 	glm::vec3 pos1;
 	glm::vec3 rot1;
@@ -32,5 +36,11 @@ private:
 	bool switchPerp = false;
 	bool switchLight = false;
 	bool applyPartition2 = false;
+	bool doPartialRendering = false;
+
+	float renderX;
+	float renderY;
+	float renderWidth;
+	float renderHeight;
 };
 

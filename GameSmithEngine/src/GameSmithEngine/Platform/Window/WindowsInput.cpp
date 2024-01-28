@@ -53,7 +53,7 @@ namespace GameSmith {
 		POINT pt;
 		GetCursorPos(&pt);
 
-		auto window = static_cast<HWND>(Application::Get().GetWindow().GetNativeWindow());
+		auto window = static_cast<HWND>(Application::Get().GetWindow()->GetNativeWindow());
 		ScreenToClient(window, &pt);
 
 		return { (float)pt.x, (float)pt.y };

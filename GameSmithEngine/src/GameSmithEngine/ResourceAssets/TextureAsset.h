@@ -13,6 +13,9 @@ namespace GameSmith {
 		virtual void Destroy() override;
 
 		void SetGraphicsTexture(UINT texSlot, Stages stage);
+
+		//TODO: Remove, this is for testing
+		Ref<Texture2D> GetTexture() { return m_GraphicTex; }
 	private:
 		Ref<Texture2D> m_GraphicTex;
 	};

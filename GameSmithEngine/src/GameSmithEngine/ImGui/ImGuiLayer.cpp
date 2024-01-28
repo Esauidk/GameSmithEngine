@@ -12,8 +12,8 @@
 
 
 namespace GameSmith {
-	ImGuiLayer::ImGuiLayer() : Layer("ImGui Layer") {
-		m_Heap = DirectX12Core::GetCore().GetHeapDatabase()->AllocateHeap(1, DescriptorHeapType::CBVSRVUAV, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE, "IMGui Heap");
+	ImGuiLayer::ImGuiLayer() : Layer("ImGui Layer"), m_CurSlot(1) {
+		m_Heap = DirectX12Core::GetCore().GetHeapDatabase()->AllocateHeap(2, DescriptorHeapType::CBVSRVUAV, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE, "IMGui Heap");
 	}
 
 	ImGuiLayer::~ImGuiLayer() {
@@ -38,9 +38,9 @@ namespace GameSmith {
 		}
 
 		Application& app = Application::Get();
-		const Window& window = app.GetWindow();
+		const Window* window = app.GetWindow();
 
-		auto hwnd = (HWND)(window.GetNativeWindow());
+		auto hwnd = (HWND)(window->GetNativeWindow());
 		ImGui_ImplWin32_Init(hwnd);
 
 		ImGui_ImplDX12_Init(DirectX12Core::GetCore().GetDevice(),
@@ -62,6 +62,17 @@ namespace GameSmith {
 		ImGui::ShowDemoWindow(&show);
 	}
 
+	D3D12_GPU_DESCRIPTOR_HANDLE ImGuiLayer::GenerateTextureSpace(D3D12_CPU_DESCRIPTOR_HANDLE tex)
+	{
+		D3D12_CPU_DESCRIPTOR_HANDLE slot = m_Heap->GetCPUReference(m_CurSlot);
+		D3D12_GPU_DESCRIPTOR_HANDLE gpuSlot = m_Heap->GetGPUReference(m_CurSlot);
+		auto device = DirectX12Core::GetCore().GetDevice();
+		device->CopyDescriptorsSimple(1, slot, tex, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+
+		m_CurSlot++;
+		return gpuSlot;
+	}
+
 	void ImGuiLayer::Begin() const
 	{	
 		ImGui_ImplDX12_NewFrame();
@@ -71,11 +82,10 @@ namespace GameSmith {
 
 	void ImGuiLayer::End() const
 	{
-
 		ImGuiIO& io = ImGui::GetIO();
 		Application& app = Application::Get();
-		const Window& window = app.GetWindow();
-		io.DisplaySize = ImVec2((float)window.GetWidth(), (float)window.GetHeight());
+		const Window* window = app.GetWindow();
+		io.DisplaySize = ImVec2((float)window->GetWidth(), (float)window->GetHeight());
 		ImGui::Render();
 
 		auto context = DirectX12Core::GetCore().GetDirectCommandContext();
@@ -85,6 +95,7 @@ namespace GameSmith {
 		ID3D12DescriptorHeap* descriptorHeaps[] = {
 			m_Heap->GetHeapReference()
 		};
+
 		commandList->SetDescriptorHeaps(1, descriptorHeaps);
 
 		ImGui_ImplDX12_RenderDrawData(ImGui::GetDrawData(), &commandList);

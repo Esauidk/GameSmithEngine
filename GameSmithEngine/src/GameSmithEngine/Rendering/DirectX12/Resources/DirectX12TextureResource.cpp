@@ -23,6 +23,10 @@ namespace GameSmith {
 		auto copyContext = core.GetCopyCommandContext();
 		auto& pCommandList = copyContext->GetCommandList();
 
+		auto directContext = core.GetDirectCommandContext();
+		m_GpuBuffer->GetResourceStateTracker().TransitionBarrier(D3D12_RESOURCE_STATE_COPY_DEST, directContext);
+		directContext->FinalizeResourceBarriers();
+
 		D3D12_SUBRESOURCE_DATA dataDesc = {};
 		dataDesc.pData = reinterpret_cast<BYTE*>(data);
 		dataDesc.RowPitch = m_Metadata.width * m_Metadata.channels;
@@ -31,6 +35,7 @@ namespace GameSmith {
 		UpdateSubresources((&pCommandList), m_GpuBuffer->GetResource(), m_CpuBuffer->GetResource(), 0, 0, 1, &dataDesc);
 
 		copyContext->FinalizeCommandList();
+		m_GpuBuffer->GetResourceStateTracker().UndoTransition(directContext);
 		m_Uploaded = true;
 	}
 
@@ -38,6 +43,7 @@ namespace GameSmith {
 	{
 		if (m_Uploaded) {
 			auto& core = DirectX12Core::GetCore();
+			core.InitializeQueueWait(DirectX12QueueType::Direct, DirectX12QueueType::Copy, core.GetDirectCommandContext()->GetLastSubmissionID());
 			core.GetCopyCommandContext()->RequestWait(DirectX12QueueType::Direct);
 			m_Uploaded = false;
 		}
@@ -96,7 +102,7 @@ namespace GameSmith {
 			D3D12_HEAP_FLAG_NONE,
 			&textureDesc,
 			D3D12_RESOURCE_STATE_COMMON,
-			&clearValue,
+			extra == TextureMisc::Normal ? NULL : &clearValue,
 			IID_PPV_ARGS(&gpuBuffer)
 		));
 
@@ -120,7 +126,7 @@ namespace GameSmith {
 		GE_CORE_ASSERT(!res, "Failed to create CPU Buffer {0}");
 		cpuBuffer->SetName(nameConvert.c_str());
 
-		m_GpuBuffer = Ref<DirectX12Resource>(new DirectX12Resource(gpuBuffer.Get(), D3D12_RESOURCE_STATE_COPY_DEST));
+		m_GpuBuffer = Ref<DirectX12Resource>(new DirectX12Resource(gpuBuffer.Get(), D3D12_RESOURCE_STATE_COMMON));
 		m_CpuBuffer = Ref<DirectX12Resource>(new DirectX12Resource(cpuBuffer.Get(), D3D12_RESOURCE_STATE_GENERIC_READ));
 	}
 };

@@ -32,8 +32,9 @@ namespace GameSmith{
 		void Execute();
 
 		inline static Application& Get() { return *s_Instance; }
-		inline Window& GetWindow() { return *m_Window;}
+		inline Window* GetWindow() { return m_Window.get();}
 		inline Timer& GetTimer() { return m_Timer; }
+		inline ImGuiLayer* GetImGuiInstance() { return m_ImGuiLayer; }
 	private:
 		bool OnWindowClose(WindowCloseEvent& evn);
 	private:

@@ -2,6 +2,7 @@
 #include "GameSmithEngine/Core/Core.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/RenderComponents/Texture.h"
 #include "GameSmithEngine/Rendering/DirectX12/Resources/DirectX12TextureResource.h"
+#include "GameSmithEngine/Rendering/DirectX12/HeapStructures/DirectX12DescriptorLoaderHeapManager.h"
 
 namespace GameSmith {
 	enum class RTState {
@@ -29,8 +30,8 @@ namespace GameSmith {
 	private:
 		Scope<DirectX12TextureResource> m_TextureResource;
 		TextureMetadata m_Metadata;
-		D3D12_CPU_DESCRIPTOR_HANDLE m_RTDescriptor;
-		D3D12_CPU_DESCRIPTOR_HANDLE m_SRVDescriptor;
+		DirectX12LoaderDescriptor m_RTDescriptor;
+		DirectX12LoaderDescriptor m_SRVDescriptor;
 		RTState m_State;
 		RTState m_PrevState;
 	};

@@ -8,7 +8,7 @@
 #include "GameSmithEngine/Rendering/DirectX12/DirectX12Core.h"
 #include "GameSmithEngine/Rendering/DirectX12/RenderComponents/DirectX12VertexBuffer.h"
 
-TestRenderLayer::TestRenderLayer() : Layer("TestRender"), m_Cam(-1.6f, 1.6f, -0.9f, 0.9f), m_PerpCam(glm::pi<float>() / 3, (float)GameSmith::Application::Get().GetWindow().GetWidth(), (float)GameSmith::Application::Get().GetWindow().GetHeight()) {
+TestRenderLayer::TestRenderLayer() : Layer("TestRender"), m_Cam(-1.6f, 1.6f, -0.9f, 0.9f), m_PerpCam(glm::pi<float>() / 3, (float)GameSmith::Application::Get().GetWindow()->GetWidth(), (float)GameSmith::Application::Get().GetWindow()->GetHeight()) {
 	char buffer[MAX_PATH] = { 0 };
 	GetModuleFileNameA(NULL, buffer, MAX_PATH);
 	std::wstring::size_type pos = std::string(buffer).find_last_of("\\");

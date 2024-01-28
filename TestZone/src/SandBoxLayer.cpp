@@ -4,9 +4,16 @@
 
 #include "GameSmithEngine/ResourceManagement/ResourceAssetHelper.h"
 
+#include "GameSmithEngine/Rendering/DirectX12/RenderComponents/DirectX12RenderTexture.h"
+#include "GameSmithEngine/Rendering/DirectX12/RenderComponents/DirectX12Texture2D.h"
+
 #include "GameSmithEngine/Core/Log.h"
 
-SandBoxLayer::SandBoxLayer() : Layer("SandBox"), m_Cam(-1.6f, 1.6f, -0.9f, 0.9f), m_PerpCam(glm::pi<float>() / 3, (float)GameSmith::Application::Get().GetWindow().GetWidth(), (float)GameSmith::Application::Get().GetWindow().GetHeight())
+SandBoxLayer::SandBoxLayer() : Layer("SandBox"), m_Cam(-1.6f, 1.6f, -0.9f, 0.9f), m_PerpCam(glm::pi<float>() / 3, (float)GameSmith::Application::Get().GetWindow()->GetWidth(), (float)GameSmith::Application::Get().GetWindow()->GetHeight()),
+renderWidth((float)GameSmith::Application::Get().GetWindow()->GetWidth()),
+renderHeight((float)GameSmith::Application::Get().GetWindow()->GetHeight()),
+renderX(0),
+renderY(0)
 {
 	GameSmith::ResourceAssetWriter writer(500);
 	GameSmith::MaterialAssetMetadata meta;
@@ -79,8 +86,18 @@ SandBoxLayer::SandBoxLayer() : Layer("SandBox"), m_Cam(-1.6f, 1.6f, -0.9f, 0.9f)
 	m_t3 = object.lock()->GetTransform();
 	gameObjectPartition2.push_back(object);
 
+	auto renderManager = GameSmith::RenderingManager::GetInstance();
+	m_Tex = renderManager->GetRenderAPI()->CreateRenderTexture((float)GameSmith::Application::Get().GetWindow()->GetWidth(), (float)GameSmith::Application::Get().GetWindow()->GetHeight());
 	auto sceneManager = GameSmith::ChunkManager::GetInstance();
 
+	
+
+	m_OutsideAsset = instance->GetResource<GameSmith::TextureAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\download.png");
+	m_OutsideTex = m_OutsideAsset->GetTexture();
+
+
+	auto d3Tex = GameSmith::CastPtr<GameSmith::DirectX12Texture2D>(m_OutsideTex);
+	m_GameView = GameSmith::Application::Get().GetImGuiInstance()->GenerateTextureSpace(d3Tex->GetDescriptor());
 	GameSmith::Ref<GameSmith::GameChunk> chunk1 = GameSmith::Ref<GameSmith::GameChunk>(new GameSmith::GameChunk(gameObjectPartition1));
 	m_Chunk2 = GameSmith::Ref<GameSmith::GameChunk>(new GameSmith::GameChunk(gameObjectPartition2));
 	sceneManager->LoadChunk("Sample Chunk1", chunk1);
@@ -104,6 +121,17 @@ void SandBoxLayer::OnImGuiRender()
 	ImGui::InputFloat3("GameObject 3 Position", glm::value_ptr(pos3));
 	ImGui::InputFloat3("GameObject 3 Rotation", glm::value_ptr(rot3));
 	applyPartition2 =  ImGui::Button("Insert Partition 2");
+	ImGui::Text("Partial Screen Render Setting");
+	ImGui::Checkbox("Render Partial Screen", &doPartialRendering);
+	ImGui::InputFloat("RenderX", &renderX);
+	ImGui::InputFloat("RenderY", &renderY);
+	ImGui::InputFloat("RenderWidth", &renderWidth);
+	ImGui::InputFloat("RenderHeight", &renderHeight);
+	ImGui::Text("Hello");
+	/*auto d3Tex = GameSmith::CastPtr<GameSmith::DirectX12RenderTexture>(m_Tex);
+	d3Tex->ChangeState(GameSmith::RTState::READ);*/
+	ImGui::Image((ImTextureID)(m_GameView.ptr), ImVec2(m_Tex->GetWidth(), m_Tex->GetHeight()));
+	ImGui::Text("Hello");
 	ImGui::End();
 }
 
@@ -117,6 +145,26 @@ void SandBoxLayer::OnUpdate()
 	GameSmith::PointLight pLight;
 	pLight.SetLightPosition(lightPos);
 	pLight.SetLightColor(lightColor);
+
+	if (doPartialRendering) {
+		auto window = GameSmith::Application::Get().GetWindow();
+
+		if (window->IsRenderingFullWindow()) {
+			window->SetFullWindowRender(false);
+		}
+
+		m_PerpCam.SetWidth(renderWidth);
+		m_PerpCam.SetHeight(renderHeight);
+		window->ChangeRenderLocation(renderX, renderY, renderWidth, renderHeight);
+	}
+	else {
+		auto window = GameSmith::Application::Get().GetWindow();
+		if (!window->IsRenderingFullWindow()) {
+			window->SetFullWindowRender(true);
+			m_PerpCam.SetWidth(window->GetWidth());
+			m_PerpCam.SetHeight(window->GetHeight());
+		}
+	}
 
 	if (!switchPerp) {
 		if (!switchLight) {
