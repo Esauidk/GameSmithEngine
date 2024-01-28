@@ -3,7 +3,6 @@
 #include "GameSmithEngine/Rendering/DirectX12/Resources/DirectX12TextureResource.h"
 #include "GameSmithEngine/Rendering/DirectX12/HeapStructures/DirectX12DescriptorLoaderHeapManager.h"
 
-#include "stb_image.h"
 
 namespace GameSmith {
 	class DirectX12Texture2D : public Texture2D

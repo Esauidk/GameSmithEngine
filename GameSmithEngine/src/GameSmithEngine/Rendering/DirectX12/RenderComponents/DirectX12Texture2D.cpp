@@ -1,9 +1,9 @@
 #include "gepch.h"
 #include "DirectX12Texture2D.h"
-
 #include "GameSmithEngine/Core/Log.h"
-
 #include "GameSmithEngine/Rendering/DirectX12/DirectX12Core.h"
+
+#include "stb_image.h"
 
 namespace GameSmith {
 	DirectX12Texture2D::DirectX12Texture2D(char* data, UINT size)
