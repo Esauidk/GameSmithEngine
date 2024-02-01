@@ -32,6 +32,7 @@ namespace GameSmith {
 
 	class RenderTexture : public Texture {
 	public:
+		virtual void ClearTexture() = 0;
 		virtual const float* GetClearColor() const = 0;
 	};
 };

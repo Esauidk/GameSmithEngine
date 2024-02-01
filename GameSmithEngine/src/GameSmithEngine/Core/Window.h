@@ -55,7 +55,7 @@ namespace GameSmith {
 		static Window* Create(const WindowProps& props = WindowProps());
 
 		// Returns a list of event dispatchers, used when you want to subscribe to a Window event
-		inline std::vector<EventDispatcherBase*> GetDistpachers() const { return m_Dispatchers; }
+		inline const std::vector<EventDispatcherBase*>& GetDistpachers() const { return m_Dispatchers; }
 
 	protected:
 		RendererContext* m_RenderContext;

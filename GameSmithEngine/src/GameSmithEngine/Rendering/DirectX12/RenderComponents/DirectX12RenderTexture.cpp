@@ -32,21 +32,35 @@ namespace GameSmith {
 			case RTState::READ:
 				m_TextureResource->GetStateTracker().TransitionBarrier(D3D12_RESOURCE_STATE_PIXEL_SHADER_RESOURCE, context);
 				break;
-			case RTState::COPY:
+			case RTState::COPYSRC:
 				m_TextureResource->GetStateTracker().TransitionBarrier(D3D12_RESOURCE_STATE_COPY_SOURCE, context);
 				break;
+			case RTState::COPYDST:
+				m_TextureResource->GetStateTracker().TransitionBarrier(D3D12_RESOURCE_STATE_COPY_DEST, context);
+				break;
 			}
+			m_State = newState;
 		}
 	}
 
 	void DirectX12RenderTexture::CopyToResource(Ref<DirectX12Resource> otherResource, DirectX12CommandContextBase* context)
 	{
 		auto& list = context->GetCommandList();
-		otherResource->GetResourceStateTracker().TransitionBarrier(D3D12_RESOURCE_STATE_COPY_DEST, context);
-		ChangeState(RTState::COPY);
+		ChangeState(RTState::COPYSRC);
 		context->FinalizeResourceBarriers();
 		list->CopyResource(otherResource->GetResource(), m_TextureResource->GetResource());
 		ChangeState(m_PrevState);
+		context->FinalizeResourceBarriers();
+	}
+
+	void DirectX12RenderTexture::CopyToResource(Ref<DirectX12RenderTexture> otherTex, DirectX12CommandContextBase* context) {
+		auto& list = context->GetCommandList();
+		ChangeState(RTState::COPYSRC);
+		otherTex->ChangeState(RTState::COPYDST);
+		context->FinalizeResourceBarriers();
+		list->CopyResource(otherTex->m_TextureResource->GetResource(), m_TextureResource->GetResource());
+		ChangeState(m_PrevState);
+		otherTex->ChangeState(otherTex->m_PrevState);
 		context->FinalizeResourceBarriers();
 	}
 
@@ -55,6 +69,12 @@ namespace GameSmith {
 		m_Metadata.height = height;
 		m_TextureResource = Scope<DirectX12TextureResource>(new DirectX12TextureResource(m_Metadata, TextureType::Tex2D, TextureMisc::RT));
 		GenerateViews();
+	}
+
+	void DirectX12RenderTexture::ClearTexture()
+	{
+		auto context = DirectX12Core::GetCore().GetDirectCommandContext();
+		context->GetCommandList()->ClearRenderTargetView(m_RTDescriptor, m_Metadata.clearColor, 0, nullptr);
 	}
 
 	void DirectX12RenderTexture::GenerateViews()

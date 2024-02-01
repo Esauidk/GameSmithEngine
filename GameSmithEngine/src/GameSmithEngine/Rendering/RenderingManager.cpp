@@ -65,6 +65,19 @@ namespace GameSmith {
 		EndScene();
 		m_RenderAPI->CompleteFrameSubmissions();
 		m_PSOManager->CleanStateObjects();
+
+		EndFrameEvent e;
+		m_FrameEndDispatch.Dispatch(e);
+	}
+
+	void RenderingManager::ClearTextures()
+	{
+		while (!m_ClearOnSwap.empty()) {
+			auto tex = m_ClearOnSwap.front();
+			m_ClearOnSwap.pop();
+
+			tex->ClearTexture();
+		}
 	}
 
 	void RenderingManager::Submit(Ref<VertexBuffer> vBuff, Ref<IndexBuffer> iBuff, Ref<Material> mat)

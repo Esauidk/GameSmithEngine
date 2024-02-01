@@ -14,7 +14,8 @@ private:
 	GameSmith::Connection<GameSmith::Transform> m_t3;
 
 	GameSmith::Ref<GameSmith::GameChunk> m_Chunk2;
-	GameSmith::Ref<GameSmith::RenderTexture> m_Tex;
+	GameSmith::Ref<GameSmith::RenderTexture> m_RenderTex;
+	GameSmith::Ref<GameSmith::RenderTexture> m_GameTex;
 	GameSmith::Ref<GameSmith::TextureAsset> m_OutsideAsset;
 	GameSmith::Ref<GameSmith::Texture2D> m_OutsideTex;
 	D3D12_GPU_DESCRIPTOR_HANDLE m_GameView;

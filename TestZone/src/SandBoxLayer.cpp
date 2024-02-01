@@ -6,6 +6,7 @@
 
 #include "GameSmithEngine/Rendering/DirectX12/RenderComponents/DirectX12RenderTexture.h"
 #include "GameSmithEngine/Rendering/DirectX12/RenderComponents/DirectX12Texture2D.h"
+#include "GameSmithEngine/Rendering/DirectX12/DirectX12Core.h"
 
 #include "GameSmithEngine/Core/Log.h"
 
@@ -87,7 +88,10 @@ renderY(0)
 	gameObjectPartition2.push_back(object);
 
 	auto renderManager = GameSmith::RenderingManager::GetInstance();
-	m_Tex = renderManager->GetRenderAPI()->CreateRenderTexture((float)GameSmith::Application::Get().GetWindow()->GetWidth(), (float)GameSmith::Application::Get().GetWindow()->GetHeight());
+	m_RenderTex = renderManager->GetRenderAPI()->CreateRenderTexture((float)GameSmith::Application::Get().GetWindow()->GetWidth(), (float)GameSmith::Application::Get().GetWindow()->GetHeight());
+	m_GameTex = renderManager->GetRenderAPI()->CreateRenderTexture((float)GameSmith::Application::Get().GetWindow()->GetWidth(), (float)GameSmith::Application::Get().GetWindow()->GetHeight());
+	renderManager->GetRenderAPI()->SetRenderTexture(m_RenderTex, 0);
+	renderManager->SetFrameTexture(m_RenderTex);
 	auto sceneManager = GameSmith::ChunkManager::GetInstance();
 
 	
@@ -96,8 +100,8 @@ renderY(0)
 	m_OutsideTex = m_OutsideAsset->GetTexture();
 
 
-	auto d3Tex = GameSmith::CastPtr<GameSmith::DirectX12Texture2D>(m_OutsideTex);
-	m_GameView = GameSmith::Application::Get().GetImGuiInstance()->GenerateTextureSpace(d3Tex->GetDescriptor());
+	auto d3Tex = GameSmith::CastPtr<GameSmith::DirectX12RenderTexture>(m_RenderTex);
+	m_GameView = GameSmith::Application::Get().GetImGuiInstance()->GenerateTextureSpace(d3Tex->GetSRVHandle());
 	GameSmith::Ref<GameSmith::GameChunk> chunk1 = GameSmith::Ref<GameSmith::GameChunk>(new GameSmith::GameChunk(gameObjectPartition1));
 	m_Chunk2 = GameSmith::Ref<GameSmith::GameChunk>(new GameSmith::GameChunk(gameObjectPartition2));
 	sceneManager->LoadChunk("Sample Chunk1", chunk1);
@@ -130,7 +134,7 @@ void SandBoxLayer::OnImGuiRender()
 	ImGui::Text("Hello");
 	/*auto d3Tex = GameSmith::CastPtr<GameSmith::DirectX12RenderTexture>(m_Tex);
 	d3Tex->ChangeState(GameSmith::RTState::READ);*/
-	ImGui::Image((ImTextureID)(m_GameView.ptr), ImVec2(m_Tex->GetWidth(), m_Tex->GetHeight()));
+	ImGui::Image((ImTextureID)(m_GameView.ptr), ImVec2(m_RenderTex->GetWidth(), m_RenderTex->GetHeight()));
 	ImGui::Text("Hello");
 	ImGui::End();
 }
@@ -138,6 +142,12 @@ void SandBoxLayer::OnImGuiRender()
 void SandBoxLayer::OnUpdate()
 {
 	auto renderManager = GameSmith::RenderingManager::GetInstance();
+	renderManager->SetForClear(m_RenderTex);
+
+	auto d3GameTex = GameSmith::CastPtr<GameSmith::DirectX12RenderTexture>(m_GameTex);
+	auto d3RTTex = GameSmith::CastPtr<GameSmith::DirectX12RenderTexture>(m_RenderTex);
+	d3RTTex->CopyToResource(d3GameTex, GameSmith::DirectX12Core::GetCore().GetDirectCommandContext());
+
 	GameSmith::DirectionalLight light;
 	light.SetLightColor(lightColor);
 	light.SetLightDirection(lightDir);

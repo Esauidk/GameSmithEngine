@@ -7,6 +7,8 @@
 #include "GameSmithEngine/Rendering/DirectX12/Resources/DirectX12Resource.h"
 #include "GameSmithEngine/Rendering/DirectX12/RenderComponents/DirectX12RenderTexture.h"
 
+#include "GameSmithEngine/Rendering/RenderingManager.h"
+
 namespace GameSmith {
 
 	DirectX12Context::DirectX12Context(HWND window, unsigned int initialWidth, unsigned int initialHeight) : m_DBuffer(), m_TearingSupport(), m_Window(window), m_FrameWidth(initialWidth), m_FrameHeight(initialHeight) {}
@@ -90,9 +92,6 @@ namespace GameSmith {
 		}
 
 		m_DBuffer = Scope<DirectX12DepthBuffer>(new DirectX12DepthBuffer(device, m_FrameWidth, m_FrameHeight));
-		m_RenderTexture = Ref<DirectX12RenderTexture>(new DirectX12RenderTexture(m_FrameWidth, m_FrameHeight));
-		m_RenderTextureView.m_View = m_RenderTexture->GetRenderTargetHandle();
-		m_RenderTextureView.m_Format = DXGI_FORMAT_R8G8B8A8_UNORM;
 
 		InitializeBackBuffer();
 
@@ -118,7 +117,10 @@ namespace GameSmith {
 			core.SwappingFrame();
 		}
 
-		m_RenderTexture->CopyToResource(m_BackBuffer, context);
+		auto frameTex = RenderingManager::GetInstance()->GetTextureForFrame();
+		auto d3Frame = CastPtr<DirectX12RenderTexture>(frameTex);
+
+		d3Frame->CopyToResource(m_BackBuffer, context);
 		m_BackBuffer->GetResourceStateTracker().TransitionBarrier(D3D12_RESOURCE_STATE_PRESENT, context);
 		context->FinalizeCommandList();
 		context->SubmitCommandLists();
@@ -166,9 +168,6 @@ namespace GameSmith {
 			GE_CORE_ASSERT(!res, "Failed to create DirectX12 render target buffer");
 			device->CreateRenderTargetView(buffer.Get(), nullptr, m_RTV[i].m_View);
 		}
-
-		m_RenderTexture->UpdateSize((unsigned int)width, (unsigned int)height);
-		m_RenderTextureView.m_View = m_RenderTexture->GetRenderTargetHandle();
 
 		m_DBuffer->Resize(device, m_FrameWidth, m_FrameHeight);
 
@@ -224,12 +223,12 @@ namespace GameSmith {
 
 		m_BackBuffer = Ref<DirectX12Resource>(new DirectX12Resource(backBuffer, D3D12_RESOURCE_STATE_COMMON));
 		
-		m_BackBuffer->GetResourceStateTracker().TransitionBarrier(D3D12_RESOURCE_STATE_RENDER_TARGET, context);
-		m_RenderTexture->ChangeState(RTState::WRITE);
+		m_BackBuffer->GetResourceStateTracker().TransitionBarrier(D3D12_RESOURCE_STATE_COPY_DEST, context);
 		context->FinalizeResourceBarriers();
 
-		cmdList->ClearRenderTargetView(m_RenderTextureView.m_View, m_RenderTexture->GetClearColor(), 0, nullptr);
 		m_DBuffer->Clear(&cmdList, 1);
+		// TODO: from an ownership prespective having the context own clearing the textures, doesn't make sense. THis might be better as an event
+		RenderingManager::GetInstance()->ClearTextures();
 
 		context->FinalizeCommandList();
 		context->RequestWait(DirectX12QueueType::Direct);
@@ -240,7 +239,7 @@ namespace GameSmith {
 		DirectX12DepthTargetView depthView;
 		depthView.m_View = depthHandler;
 
-		context->GetStateManager().SetRenderTargets(m_RenderTextureView, 0, depthView);
+		context->GetStateManager().SetDepthTarget(depthView);
 
 	}
 

@@ -45,8 +45,6 @@ namespace GameSmith {
 		static const int m_BufferCount = 2;
 		
 		DirectX12RenderTargetView m_RTV[m_BufferCount];
-		Ref<DirectX12RenderTexture> m_RenderTexture;
-		DirectX12RenderTargetView m_RenderTextureView;
 		UINT m_CurrentBackBuffer;
 
 		unsigned int m_FrameWidth;
