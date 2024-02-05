@@ -59,7 +59,7 @@ namespace GameSmith {
 	void ImGuiLayer::OnImGuiRender()
 	{
 		static bool show = true;
-		ImGui::ShowDemoWindow(&show);
+		//ImGui::ShowDemoWindow(&show);
 	}
 
 	D3D12_GPU_DESCRIPTOR_HANDLE ImGuiLayer::GenerateTextureSpace(D3D12_CPU_DESCRIPTOR_HANDLE tex)

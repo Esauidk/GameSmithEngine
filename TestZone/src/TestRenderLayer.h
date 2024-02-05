@@ -5,8 +5,6 @@ public:
 	TestRenderLayer();
 	void OnImGuiRender() override;
 	void OnUpdate() override;
-	void EventSubscribe(const std::vector<GameSmith::EventDispatcherBase*>& dispatchers, bool overlay) override {}
-
 private:
 	GameSmith::Ref<GameSmith::VertexBuffer> vBuff;
 	GameSmith::Ref<GameSmith::VertexBuffer> vBuff2;

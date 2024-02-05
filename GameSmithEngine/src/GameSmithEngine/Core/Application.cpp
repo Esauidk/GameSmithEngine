@@ -14,15 +14,7 @@ namespace GameSmith {
 		GameSmith::WindowProps props;
 
 		m_Window = std::unique_ptr<Window>(Window::Create(props));
-		for (const std::vector<EventDispatcherBase*> dispatchers = m_Window->GetDistpachers(); auto dispatcher : dispatchers) {
-			
-			bool reg = RegisterEvent<WindowCloseEvent>(dispatcher, GE_BIND_EVENT_FN(Application, OnWindowClose), false);
-
-			if (reg) {
-				continue;
-			}
-		}
-
+		RegisterEvent<WindowCloseEvent>(&Window::s_Close, GE_BIND_EVENT_FN(Application::OnWindowClose, this), false);
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
 	}
@@ -35,13 +27,11 @@ namespace GameSmith {
 	void Application::PushLayer(Layer* layer) {
 		m_LayerStack.Push(layer);
 		layer->OnAttach();
-		layer->EventSubscribe(m_Window->GetDistpachers(), false);
 	}
 
 	void Application::PushOverlay(Layer* layer) {
 		m_LayerStack.PushSpecial(layer);
 		layer->OnAttach();
-		layer->EventSubscribe(m_Window->GetDistpachers(), true);
 	}
 
 	void Application::Execute() {

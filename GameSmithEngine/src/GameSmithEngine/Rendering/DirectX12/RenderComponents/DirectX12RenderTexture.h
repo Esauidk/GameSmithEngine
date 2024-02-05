@@ -29,6 +29,7 @@ namespace GameSmith {
 		UINT GetHeight() const override { return m_Metadata.height; };
 		void ClearTexture() override;
 		const float* GetClearColor() const override { return m_Metadata.clearColor; }
+		inline bool WindowResized(WindowResizeEvent& e) { UpdateSize(e.GetWidth(), e.GetHeight()); return false; };
 	private:
 		void GenerateViews();
 	private:

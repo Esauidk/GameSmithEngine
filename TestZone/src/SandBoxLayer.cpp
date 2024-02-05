@@ -90,6 +90,9 @@ renderY(0)
 	auto renderManager = GameSmith::RenderingManager::GetInstance();
 	m_RenderTex = renderManager->GetRenderAPI()->CreateRenderTexture((float)GameSmith::Application::Get().GetWindow()->GetWidth(), (float)GameSmith::Application::Get().GetWindow()->GetHeight());
 	m_GameTex = renderManager->GetRenderAPI()->CreateRenderTexture((float)GameSmith::Application::Get().GetWindow()->GetWidth(), (float)GameSmith::Application::Get().GetWindow()->GetHeight());
+	
+	GameSmith::RegisterEvent<GameSmith::WindowResizeEvent>(&GameSmith::Window::s_Resized, GE_BIND_EVENT_FN(GameSmith::RenderTexture::WindowResized, m_RenderTex.get()), false);
+	GameSmith::RegisterEvent<GameSmith::WindowResizeEvent>(&GameSmith::Window::s_Resized, GE_BIND_EVENT_FN(GameSmith::RenderTexture::WindowResized, m_GameTex.get()), false);
 	renderManager->GetRenderAPI()->SetRenderTexture(m_RenderTex, 0);
 	renderManager->SetFrameTexture(m_RenderTex);
 	auto sceneManager = GameSmith::ChunkManager::GetInstance();
@@ -100,7 +103,7 @@ renderY(0)
 	m_OutsideTex = m_OutsideAsset->GetTexture();
 
 
-	auto d3Tex = GameSmith::CastPtr<GameSmith::DirectX12RenderTexture>(m_RenderTex);
+	auto d3Tex = GameSmith::CastPtr<GameSmith::DirectX12RenderTexture>(m_GameTex);
 	m_GameView = GameSmith::Application::Get().GetImGuiInstance()->GenerateTextureSpace(d3Tex->GetSRVHandle());
 	GameSmith::Ref<GameSmith::GameChunk> chunk1 = GameSmith::Ref<GameSmith::GameChunk>(new GameSmith::GameChunk(gameObjectPartition1));
 	m_Chunk2 = GameSmith::Ref<GameSmith::GameChunk>(new GameSmith::GameChunk(gameObjectPartition2));
@@ -146,7 +149,12 @@ void SandBoxLayer::OnUpdate()
 
 	auto d3GameTex = GameSmith::CastPtr<GameSmith::DirectX12RenderTexture>(m_GameTex);
 	auto d3RTTex = GameSmith::CastPtr<GameSmith::DirectX12RenderTexture>(m_RenderTex);
+	auto context = GameSmith::DirectX12Core::GetCore().GetDirectCommandContext();
+	context->RequestWait(GameSmith::DirectX12QueueType::Direct);
+	context->SubmitCommandLists();
+
 	d3RTTex->CopyToResource(d3GameTex, GameSmith::DirectX12Core::GetCore().GetDirectCommandContext());
+	context->SubmitCommandLists();
 
 	GameSmith::DirectionalLight light;
 	light.SetLightColor(lightColor);

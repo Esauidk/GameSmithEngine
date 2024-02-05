@@ -12,6 +12,13 @@
 
 #include "GameSmithEngine/ImGui/ImGuiLayer.h"
 
+// ------------ Events --------------
+#include "GameSmithEngine/Events/ApplicationEvents.h"
+#include "GameSmithEngine/Events/KeyboardEvents.h"
+#include "GameSmithEngine/Events/MouseEvents.h"
+#include "GameSmithEngine/Events/RenderingEvents.h"
+#include "GameSmithEngine/Events/Event.h"
+
 // ------------Renderer---------------
 #include "GameSmithEngine/Rendering/RenderingManager.h"
 

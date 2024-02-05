@@ -1,4 +1,5 @@
 #pragma once
+#include "GameSmithEngine/Events/ApplicationEvents.h"
 
 namespace GameSmith {
 	struct TextureMetadata {
@@ -33,6 +34,7 @@ namespace GameSmith {
 	class RenderTexture : public Texture {
 	public:
 		virtual void ClearTexture() = 0;
+		virtual bool WindowResized(WindowResizeEvent& e) = 0;
 		virtual const float* GetClearColor() const = 0;
 	};
 };

@@ -18,8 +18,6 @@ namespace GameSmith {
 		virtual void OnUpdate() {/* To allow inheritor classes to not implement any logic */ }
 		// Logic to perform when rendering the GUI
 		virtual void OnImGuiRender() {/* To allow inheritor classes to not implement any logic */ }
-		// Logic allow the layer to subscribe to events
-		virtual void EventSubscribe(const std::vector<EventDispatcherBase*>& dispatchers, bool overlay) {/* To allow inheritor classes to not implement any logic */ }
 		inline const std::string& GetName() const { return m_DebugName; }
 	protected:
 		std::string m_DebugName;

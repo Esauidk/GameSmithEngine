@@ -8,7 +8,24 @@
 
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+
 namespace GameSmith {
+
+	EventDispatcher<WindowCloseEvent> Window::s_Close;
+	EventDispatcher<WindowFocusEvent> Window::s_Focus;
+	EventDispatcher<WindowLostFocusEvent> Window::s_FocusLost;
+	EventDispatcher<WindowMovedEvent> Window::s_Moved;
+	EventDispatcher<WindowResizeEvent> Window::s_Resized;
+
+	EventDispatcher<KeyPressedEvent> Window::s_KeyPressed;
+	EventDispatcher<CharEvent> Window::s_Char;
+	EventDispatcher<KeyReleasedEvent> Window::s_KeyReleased;
+
+	EventDispatcher<MouseMoveEvent> Window::s_MouseMove;
+	EventDispatcher<MouseScrollEvent> Window::s_MouseScroll;
+	EventDispatcher<MouseButtonPressEvent> Window::s_MousePressed;
+	EventDispatcher<MouseButtonReleaseEvent> Window::s_MouseReleased;
+
 	WindowsWindow::WindowClass WindowsWindow::WindowClass::wndClass;
 
 	Window* Window::Create(const WindowProps& props) {
@@ -214,26 +231,26 @@ namespace GameSmith {
 		case WM_CLOSE:
 		{
 			WindowCloseEvent e;
-			m_Close.Dispatch(e);
+			s_Close.Dispatch(e);
 			PostQuitMessage(0);
 			return 0;
 		}
 		case WM_MOVE: 
 		{
 			WindowMovedEvent e;
-			m_Moved.Dispatch(e);
+			s_Moved.Dispatch(e);
 			break;
 		}
 		case WM_KILLFOCUS:
 		{
 			WindowLostFocusEvent e;
-			m_FocusLost.Dispatch(e);
+			s_FocusLost.Dispatch(e);
 			break;
 		}
 		case WM_SETFOCUS:
 		{
 			WindowFocusEvent e;
-			m_Focus.Dispatch(e);
+			s_Focus.Dispatch(e);
 			break;
 		}
 		case WM_SYSKEYDOWN:
@@ -248,7 +265,7 @@ namespace GameSmith {
 			}
 
 			KeyPressedEvent e(keyCode, m_Repeat);
-			m_KeyPressed.Dispatch(e);
+			s_KeyPressed.Dispatch(e);
 
 			break;
 		}
@@ -258,7 +275,7 @@ namespace GameSmith {
 
 			auto keyCode = static_cast<unsigned char>(wParam);
 			KeyReleasedEvent e(keyCode);
-			m_KeyReleased.Dispatch(e);
+			s_KeyReleased.Dispatch(e);
 			break;
 		}
 		case WM_CHAR:
@@ -266,7 +283,7 @@ namespace GameSmith {
 			
 			auto keyCode = static_cast<unsigned char>(wParam);
 			CharEvent e(keyCode);
-			m_Char.Dispatch(e);
+			s_Char.Dispatch(e);
 			break;
 		}
 		case WM_MOUSEMOVE:
@@ -276,7 +293,7 @@ namespace GameSmith {
 			const POINTS pt = MAKEPOINTS(lParam);
 			if (pt.x >= 0 && pt.x < (short)m_Prop.Width && pt.y >= 0 && pt.y < (short)m_Prop.Height) {
 				MouseMoveEvent e(pt.x, pt.y);
-				m_MouseMove.Dispatch(e);
+				s_MouseMove.Dispatch(e);
 
 				// Initiate MouseMove Event
 				if (!m_CapturingInput) {
@@ -300,7 +317,7 @@ namespace GameSmith {
 
 			m_LButtonDown = true;
 			MouseButtonPressEvent e(MouseButtonEvent::LEFT);
-			m_MousePressed.Dispatch(e);
+			s_MousePressed.Dispatch(e);
 			break;
 		}
 		case WM_RBUTTONDOWN:
@@ -308,7 +325,7 @@ namespace GameSmith {
 
 			m_RButtonDown = true;
 			MouseButtonPressEvent e(MouseButtonEvent::RIGHT);
-			m_MousePressed.Dispatch(e);
+			s_MousePressed.Dispatch(e);
 			break;
 		}
 		case WM_LBUTTONUP:
@@ -317,7 +334,7 @@ namespace GameSmith {
 			m_LButtonDown = false;
 			const POINTS pt = MAKEPOINTS(lParam);
 			MouseButtonReleaseEvent e(MouseButtonEvent::LEFT);
-			m_MouseReleased.Dispatch(e);
+			s_MouseReleased.Dispatch(e);
 			if (pt.x < 0 || pt.x >= (short)m_Prop.Width || pt.y < 0 || pt.y >= (short)m_Prop.Height) {
 				ReleaseCapture();
 			}
@@ -329,7 +346,7 @@ namespace GameSmith {
 			m_RButtonDown = false;
 			const POINTS pt = MAKEPOINTS(lParam);
 			MouseButtonReleaseEvent e(MouseButtonEvent::RIGHT);
-			m_MouseReleased.Dispatch(e);
+			s_MouseReleased.Dispatch(e);
 			if (pt.x < 0 || pt.x >= (short)m_Prop.Width || pt.y < 0 || pt.y >= (short)m_Prop.Height) {
 				ReleaseCapture();
 			}
@@ -343,7 +360,7 @@ namespace GameSmith {
 			const float delta = ((float)GET_WHEEL_DELTA_WPARAM(wParam)) / WHEEL_DELTA;
 
 			MouseScrollEvent e(delta, pt.x, pt.y);
-			m_MouseScroll.Dispatch(e);
+			s_MouseScroll.Dispatch(e);
 			break;
 		}
 		case WM_SIZE:
@@ -356,7 +373,7 @@ namespace GameSmith {
 			m_RenderContext->Resize((float)width, (float)height, m_Prop.m_RenderFullWindow);
 			
 			WindowResizeEvent e(width, height);
-			m_Resized.Dispatch(e);
+			s_Resized.Dispatch(e);
 		}
 		default:
 			return DefWindowProc(hWnd, msg, wParam, lParam);

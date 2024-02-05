@@ -54,32 +54,24 @@ namespace GameSmith {
 		// Instantiates an implementation of the Window Interface (recommended to use this instead of instantiating a specific implementation)
 		static Window* Create(const WindowProps& props = WindowProps());
 
-		// Returns a list of event dispatchers, used when you want to subscribe to a Window event
-		inline const std::vector<EventDispatcherBase*>& GetDistpachers() const { return m_Dispatchers; }
+	public:
+		// Event dispatchers that all windows can emit
+		static EventDispatcher<WindowCloseEvent> s_Close;
+		static EventDispatcher<WindowFocusEvent> s_Focus;
+		static EventDispatcher<WindowLostFocusEvent> s_FocusLost;
+		static EventDispatcher<WindowMovedEvent> s_Moved;
+		static EventDispatcher<WindowResizeEvent> s_Resized;
 
+		static EventDispatcher<KeyPressedEvent> s_KeyPressed;
+		static EventDispatcher<CharEvent> s_Char;
+		static EventDispatcher<KeyReleasedEvent> s_KeyReleased;
+
+		static EventDispatcher<MouseMoveEvent> s_MouseMove;
+		static EventDispatcher<MouseScrollEvent> s_MouseScroll;
+		static EventDispatcher<MouseButtonPressEvent> s_MousePressed;
+		static EventDispatcher<MouseButtonReleaseEvent> s_MouseReleased;
 	protected:
 		RendererContext* m_RenderContext;
-
-		EventDispatcher<WindowCloseEvent> m_Close;
-		EventDispatcher<WindowFocusEvent> m_Focus;
-		EventDispatcher<WindowLostFocusEvent> m_FocusLost;
-		EventDispatcher<WindowMovedEvent> m_Moved;
-		EventDispatcher<WindowResizeEvent> m_Resized;
-
-		EventDispatcher<KeyPressedEvent> m_KeyPressed;
-		EventDispatcher<CharEvent> m_Char;
-		EventDispatcher<KeyReleasedEvent> m_KeyReleased;
-
-		EventDispatcher<MouseMoveEvent> m_MouseMove;
-		EventDispatcher<MouseScrollEvent> m_MouseScroll;
-		EventDispatcher<MouseButtonPressEvent> m_MousePressed;
-		EventDispatcher<MouseButtonReleaseEvent> m_MouseReleased;
-
-		const std::vector<EventDispatcherBase*> m_Dispatchers = { &m_Close, 
-			&m_Focus, &m_FocusLost, 
-			&m_Moved, &m_Resized, 
-			&m_KeyPressed, &m_Char, &m_KeyReleased, 
-			&m_MouseMove, &m_MouseScroll, &m_MousePressed, &m_MouseReleased };
 	};
 
 

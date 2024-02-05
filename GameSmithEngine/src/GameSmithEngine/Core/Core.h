@@ -34,7 +34,7 @@
 
 #define BIT(x) (1 << x)
 
-#define GE_BIND_EVENT_FN(classname, x) std::bind(&classname::x, this, std::placeholders::_1)
+#define GE_BIND_EVENT_FN(function, instance) std::bind(&function, instance, std::placeholders::_1)
 
 namespace GameSmith {
 	// An object smart reference that has sole ownership over a resource

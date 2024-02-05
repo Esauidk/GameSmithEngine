@@ -7,7 +7,6 @@ public:
 	SandBoxLayer();
 	void OnImGuiRender() override;
 	void OnUpdate() override;
-	void EventSubscribe(const std::vector<GameSmith::EventDispatcherBase*>& dispatchers, bool overlay) override {}
 private:
 	GameSmith::Connection<GameSmith::Transform> m_t1;
 	GameSmith::Connection<GameSmith::Transform> m_t2;
