@@ -8,6 +8,7 @@ namespace GameSmith {
 	class DirectX12Texture2D : public Texture2D
 	{
 	public:
+		friend class DirectX12RenderTexture;
 		DirectX12Texture2D(char* data, UINT size);
 
 		UINT GetWidth() const override { return m_Metadata.width; };

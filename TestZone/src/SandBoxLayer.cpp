@@ -137,7 +137,7 @@ void SandBoxLayer::OnImGuiRender()
 	ImGui::Text("Hello");
 	/*auto d3Tex = GameSmith::CastPtr<GameSmith::DirectX12RenderTexture>(m_Tex);
 	d3Tex->ChangeState(GameSmith::RTState::READ);*/
-	ImGui::Image((ImTextureID)(m_GameView.ptr), ImVec2(m_RenderTex->GetWidth(), m_RenderTex->GetHeight()));
+	ImGui::Image((ImTextureID)(m_GameView.ptr), ImVec2(m_GameTex->GetWidth() / 2, m_GameTex->GetHeight()/2));
 	ImGui::Text("Hello");
 	ImGui::End();
 }
@@ -147,14 +147,7 @@ void SandBoxLayer::OnUpdate()
 	auto renderManager = GameSmith::RenderingManager::GetInstance();
 	renderManager->SetForClear(m_RenderTex);
 
-	auto d3GameTex = GameSmith::CastPtr<GameSmith::DirectX12RenderTexture>(m_GameTex);
-	auto d3RTTex = GameSmith::CastPtr<GameSmith::DirectX12RenderTexture>(m_RenderTex);
-	auto context = GameSmith::DirectX12Core::GetCore().GetDirectCommandContext();
-	context->RequestWait(GameSmith::DirectX12QueueType::Direct);
-	context->SubmitCommandLists();
-
-	d3RTTex->CopyToResource(d3GameTex, GameSmith::DirectX12Core::GetCore().GetDirectCommandContext());
-	context->SubmitCommandLists();
+	m_RenderTex->CopyTexture(m_GameTex);
 
 	GameSmith::DirectionalLight light;
 	light.SetLightColor(lightColor);

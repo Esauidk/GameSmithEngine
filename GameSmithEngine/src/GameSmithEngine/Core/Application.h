@@ -20,7 +20,7 @@ namespace GameSmith{
 	class GE_API Application
 	{
 	public:
-		Application();
+		Application(std::string appName = "Game Smith Engine");
 		virtual ~Application() = default;
 
 		// Add a layer into the Engine Structure

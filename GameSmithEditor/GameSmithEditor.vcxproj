@@ -134,12 +134,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\EditorCoreLayer.cpp" />
+    <ClCompile Include="src\GameViewLayer.cpp" />
     <ClCompile Include="src\EditorApp.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameSmithEngine\GameSmithEngine.vcxproj">
       <Project>{1A2CD029-86B7-3DEE-8FC8-C0E2FBD299EE}</Project>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="src\EditorCoreLayer.h" />
+    <ClInclude Include="src\GameViewLayer.h" />
+    <ClInclude Include="src\EngineDependenciesOnly.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

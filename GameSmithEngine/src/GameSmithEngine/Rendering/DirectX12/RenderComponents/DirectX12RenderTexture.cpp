@@ -1,5 +1,6 @@
 #include "gepch.h"
 #include "DirectX12RenderTexture.h"
+#include "DirectX12Texture2D.h"
 
 #include "GameSmithEngine/Rendering/DirectX12/DirectX12Core.h"
 
@@ -40,6 +41,7 @@ namespace GameSmith {
 				break;
 			}
 			m_State = newState;
+			context->FinalizeResourceBarriers();
 		}
 	}
 
@@ -75,6 +77,44 @@ namespace GameSmith {
 	{
 		auto context = DirectX12Core::GetCore().GetDirectCommandContext();
 		context->GetCommandList()->ClearRenderTargetView(m_RTDescriptor, m_Metadata.clearColor, 0, nullptr);
+	}
+
+	void DirectX12RenderTexture::CopyTexture(Ref<Texture2D> tex)
+	{
+		// Need to make sure all queued draws are completed before copying
+		auto context = DirectX12Core::GetCore().GetDirectCommandContext();
+		context->RequestWait(GameSmith::DirectX12QueueType::Direct);
+		context->SubmitCommandLists();
+
+		auto& list = context->GetCommandList();
+		ChangeState(RTState::COPYSRC);
+		auto d3Tex = CastPtr<DirectX12Texture2D>(tex);
+		d3Tex->m_Resource->GetStateTracker().TransitionBarrier(D3D12_RESOURCE_STATE_COPY_DEST, context);
+		context->FinalizeResourceBarriers();
+		list->CopyResource(d3Tex->m_Resource->GetResource(), m_TextureResource->GetResource());
+		d3Tex->m_Resource->GetStateTracker().UndoTransition(context);
+		ChangeState(m_PrevState);
+		context->FinalizeResourceBarriers();
+		context->SubmitCommandLists();
+	}
+
+	void DirectX12RenderTexture::CopyTexture(Ref<RenderTexture> tex)
+	{
+		// Need to make sure all queued draws are completed before copying
+		auto context = DirectX12Core::GetCore().GetDirectCommandContext();
+		context->RequestWait(GameSmith::DirectX12QueueType::Direct);
+		context->SubmitCommandLists();
+
+		auto& list = context->GetCommandList();
+		ChangeState(RTState::COPYSRC);
+		auto d3Tex = CastPtr<DirectX12RenderTexture>(tex);
+		d3Tex->ChangeState(RTState::COPYDST);
+		context->FinalizeResourceBarriers();
+		list->CopyResource(d3Tex->m_TextureResource->GetResource(), m_TextureResource->GetResource());
+		ChangeState(m_PrevState);
+		d3Tex->ChangeState(d3Tex->m_PrevState);
+		context->FinalizeResourceBarriers();
+		context->SubmitCommandLists();
 	}
 
 	void DirectX12RenderTexture::GenerateViews()

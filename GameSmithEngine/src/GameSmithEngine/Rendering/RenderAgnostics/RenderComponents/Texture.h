@@ -34,6 +34,8 @@ namespace GameSmith {
 	class RenderTexture : public Texture {
 	public:
 		virtual void ClearTexture() = 0;
+		virtual void CopyTexture(Ref<Texture2D> tex) = 0;
+		virtual void CopyTexture(Ref<RenderTexture> tex) = 0;
 		virtual bool WindowResized(WindowResizeEvent& e) = 0;
 		virtual const float* GetClearColor() const = 0;
 	};
