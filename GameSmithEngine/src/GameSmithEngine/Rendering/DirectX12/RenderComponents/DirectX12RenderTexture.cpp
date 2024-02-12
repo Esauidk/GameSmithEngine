@@ -21,6 +21,22 @@ namespace GameSmith {
 		GenerateViews();
 	}
 
+	DirectX12RenderTexture::DirectX12RenderTexture(unsigned int width, unsigned int height, float* clearColor)
+	{
+		m_Metadata.channels = 3;
+		m_Metadata.height = height;
+		m_Metadata.width = width;
+		m_Metadata.mips = 1;
+		memcpy(m_Metadata.clearColor, clearColor, sizeof(float) * 4);
+
+		m_TextureResource = Scope<DirectX12TextureResource>(new DirectX12TextureResource(m_Metadata, TextureType::Tex2D, TextureMisc::RT));
+		auto& core = DirectX12Core::GetCore();
+		m_SRVDescriptor = core.GetDescriptorLoader(CBVSRVUAV).AllocateSlot();
+		m_RTDescriptor = core.GetDescriptorLoader(RT).AllocateSlot();
+
+		GenerateViews();
+	}
+
 	void DirectX12RenderTexture::ChangeState(RTState newState, bool force)
 	{
 		if (force || newState != m_State) {

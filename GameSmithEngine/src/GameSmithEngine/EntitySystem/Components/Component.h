@@ -12,7 +12,7 @@ namespace GameSmith {
 		Component(GameObject* gameObject, Transform* transform): m_Initialized(false), m_GameObject(gameObject), m_Transform(transform) {}
 		void Init() { if (!m_Initialized) { OnStart(); m_Initialized = true; } }
 		virtual void OnStart() = 0;
-		virtual void OnUpdate() = 0;
+		virtual void OnUpdate(float dt) = 0;
 		virtual void OnDestroy() = 0;
 		virtual int GetPriority() const = 0;
 

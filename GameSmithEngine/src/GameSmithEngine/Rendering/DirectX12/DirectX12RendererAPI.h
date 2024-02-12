@@ -28,6 +28,7 @@ namespace GameSmith {
 
 		virtual Ref<Texture2D> CreateTexture2D(char* data, UINT size) override;
 		virtual Ref<RenderTexture> CreateRenderTexture(unsigned int width, unsigned int height) override;
+		virtual Ref<RenderTexture> CreateRenderTexture(unsigned int width, unsigned int height, float* clearColor) override;;
 
 		virtual void SetRenderTexture(Ref<RenderTexture> rt, UINT index) override;
 		virtual void SetTexture2D(Ref<Texture2D> tex, UINT slot, Stages stage) override;

@@ -8,7 +8,7 @@ namespace GameSmith {
 		GE_CORE_INFO("Started Test Component");
 	}
 
-	void TestComponent::OnUpdate()
+	void TestComponent::OnUpdate(float dt)
 	{
 		GE_CORE_INFO("Updated Test Component");
 	}

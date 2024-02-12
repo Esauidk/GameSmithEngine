@@ -14,8 +14,6 @@ namespace GameSmith {
 		inline std::string GetName() { return m_Name; }
 		inline Connection<Transform> GetTransform() { return m_Transform; }
 
-		void OnUpdate();
-
 		template<typename T>
 		Connection<T> AddComponent() {
 			auto component = Ref<T>(new T(this, m_Transform.get()));

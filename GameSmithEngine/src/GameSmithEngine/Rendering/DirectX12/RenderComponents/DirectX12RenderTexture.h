@@ -15,6 +15,7 @@ namespace GameSmith {
 	class DirectX12RenderTexture : public RenderTexture {
 	public:
 		DirectX12RenderTexture(unsigned int width, unsigned int height);
+		DirectX12RenderTexture(unsigned int width, unsigned int height, float* clearColor);
 		void ChangeState(RTState newState, bool force = false);
 
 		inline D3D12_CPU_DESCRIPTOR_HANDLE GetRenderTargetHandle() { return m_RTDescriptor; }

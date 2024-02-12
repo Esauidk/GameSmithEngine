@@ -109,6 +109,11 @@ namespace GameSmith {
 		return Ref<RenderTexture>(new DirectX12RenderTexture(width, height));
 	}
 
+	Ref<RenderTexture> DirectX12RendererAPI::CreateRenderTexture(unsigned int width, unsigned int height, float* clearColor)
+	{
+		return Ref<RenderTexture>(new DirectX12RenderTexture(width, height, clearColor));
+	}
+
 	void DirectX12RendererAPI::SetRenderTexture(Ref<RenderTexture> rt, UINT index)
 	{
 		auto context = m_Core.GetDirectCommandContext();
@@ -144,7 +149,6 @@ namespace GameSmith {
 
 	void DirectX12RendererAPI::SetSampler(Ref<Sampler> sampler, Stages stage)
 	{
-		// TODO: Get Rid of Test code
 		auto context = m_Core.GetDirectCommandContext();
 		auto castSampler = CastPtr<DirectX12Sampler>(sampler);
 		D3D12_CPU_DESCRIPTOR_HANDLE descriptor = castSampler->GetDescriptor();

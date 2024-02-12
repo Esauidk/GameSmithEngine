@@ -57,7 +57,7 @@ namespace GameSmith {
 
 	void RenderingManager::EndScene()
 	{
-		
+		m_RenderAPI->SubmitRecording();
 	}
 
 	void RenderingManager::EndFrame()

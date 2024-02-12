@@ -10,7 +10,7 @@ namespace GameSmith {
 		GameplayUpdater();
 		static GameplayUpdater* GetInstance() { return s_Instance; }
 		void RunGameplayInit();
-		void RunGameplayUpdate();
+		void RunGameplayUpdate(float dt);
 		void Register(Connection<Component> comp) { m_InitQueue.push(comp);  m_RegisteredComponents.push_back(comp); }
 	private:
 		static GameplayUpdater* s_Instance;

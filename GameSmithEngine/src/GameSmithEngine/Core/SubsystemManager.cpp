@@ -17,13 +17,13 @@ namespace GameSmith {
 
 
 
-	void SubsystemManager::Update()
+	void SubsystemManager::Update(float dt)
 	{
 		m_ResourceManager.ScanResource();
 		m_GameObjectManager.CleanGameObjects();
 
 		m_GameplayUpdater.RunGameplayInit();
-		m_GameplayUpdater.RunGameplayUpdate();
+		m_GameplayUpdater.RunGameplayUpdate(dt);
 	}
 
 	void SubsystemManager::EndUpdate()

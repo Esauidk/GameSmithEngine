@@ -8,7 +8,7 @@ namespace GameSmith {
 	public:
 		MeshRenderer(GameObject* gameObject, Transform* transform) : Component(gameObject, transform) {}
 		virtual void OnStart() override {}
-		virtual void OnUpdate() override;
+		virtual void OnUpdate(float dt) override;
 		virtual void OnDestroy() override {}
 		virtual int GetPriority() const override { return 0; };
 

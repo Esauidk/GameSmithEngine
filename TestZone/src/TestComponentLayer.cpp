@@ -57,7 +57,6 @@ void TestComponentLayer::OnAttach()
 	glm::vec3 pos = trans.lock()->GetPosition();
 	GE_APP_INFO("GameObject location: x:{0}, y{1}, z{2}", pos.x, pos.y, pos.z);
 
-	gameObject.OnUpdate();
 	gameObject.RemoveComponent(testComp);
 }
 
@@ -68,7 +67,6 @@ void TestComponentLayer::OnImGuiRender()
 
 void TestComponentLayer::OnUpdate()
 {
-	gameObject.OnUpdate();
 
 	auto renderManager = GameSmith::RenderingManager::GetInstance();
 	renderManager->EndScene();

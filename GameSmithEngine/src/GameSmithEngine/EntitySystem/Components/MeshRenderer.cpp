@@ -6,7 +6,7 @@
 #include "GameSmithEngine/EntitySystem/GameObject.h"
 
 namespace GameSmith {
-	void MeshRenderer::OnUpdate()
+	void MeshRenderer::OnUpdate(float dt)
 	{
 		auto renderer = RenderingManager::GetInstance();
 

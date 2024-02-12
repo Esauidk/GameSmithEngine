@@ -11,7 +11,7 @@ namespace GameSmith {
 	public:
 		SubsystemManager();
 		~SubsystemManager();
-		void Update();
+		void Update(float dt);
 		void EndUpdate();
 	private:
 		ResourceManager m_ResourceManager;

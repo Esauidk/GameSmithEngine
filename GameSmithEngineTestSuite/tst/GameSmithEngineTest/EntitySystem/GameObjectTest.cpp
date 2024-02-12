@@ -51,12 +51,3 @@ TEST(GameObjectTest, RemoveComponent) {
 	gameObject.RemoveComponent<TestComponent>(test);
 	EXPECT_TRUE(gameObject.GetComponent<TestComponent>().expired());
 }
-
-TEST(GameObjectTest, UpdateComponent) {
-	GameSmith::GameObject gameObject("Test Object");
-
-	GameSmith::Connection<TestComponent> test;
-	EXPECT_NO_THROW(test = gameObject.AddComponent<TestComponent>());
-	EXPECT_NO_THROW(gameObject.OnUpdate());
-	EXPECT_EQ(test.lock()->GetUpdateCheck(), true);
-}

@@ -18,10 +18,12 @@ namespace GameSmith {
 		void OnImGuiRender() override;
 
 		D3D12_GPU_DESCRIPTOR_HANDLE GenerateTextureSpace(D3D12_CPU_DESCRIPTOR_HANDLE tex);
+		inline void SetDockspace(bool enabled) { m_DockEnabled = enabled; };
 		void Begin() const;
 		void End() const;
 	private:
 		Ref<DirectX12DescriptorHeap> m_Heap;
 		unsigned int m_CurSlot;
+		bool m_DockEnabled;
 	};
 };

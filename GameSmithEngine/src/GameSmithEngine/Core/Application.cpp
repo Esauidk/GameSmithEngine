@@ -38,17 +38,14 @@ namespace GameSmith {
 	void Application::Execute() {
 		m_Timer.Reset();
 		while (m_Running) {
-			GE_CORE_INFO("Staring update iteration");
-			m_Timer.Mark();
+			float dt = m_Timer.Mark();
 			m_Window->OnUpdate();
 
-			m_SubSystems.Update();
-			GE_CORE_INFO("Updaing Layers");
+			m_SubSystems.Update(dt);
 			for (Layer* layer : m_LayerStack) {
 				layer->OnUpdate();
 			}
 
-			GE_CORE_INFO("Rendering Layers");
 			m_ImGuiLayer->Begin();
 			for (Layer* layer : m_LayerStack) {
 				layer->OnImGuiRender();
@@ -56,7 +53,6 @@ namespace GameSmith {
 			m_ImGuiLayer->End();
 
 			m_SubSystems.EndUpdate();
-			GE_CORE_INFO("Ending update iteration");
 		}
 	}
 

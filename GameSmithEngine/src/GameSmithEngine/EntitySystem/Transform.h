@@ -15,6 +15,8 @@ namespace GameSmith {
 		inline void SetScale(glm::vec3 newScale) { m_Scale = newScale; UpdateMatrix(); }
 		inline glm::vec3 GetScale() const { return m_Scale; }
 
+		inline void SetCoordinateFrame(Transform* newFrame) { m_CoordinateFrame = newFrame; UpdateMatrix(); }
+
 		inline glm::mat4 GetModelMatrix() const { return glm::transpose(m_ModelMatrix); }
 	private:
 		void UpdateMatrix();
@@ -25,6 +27,8 @@ namespace GameSmith {
 		glm::vec3 m_Rotation;
 		glm::vec3 m_Scale;
 		glm::mat4 m_ModelMatrix;
+		// Has no ownership of this frame
+		Transform* m_CoordinateFrame;
 
 		glm::mat4 m_LastMatrix;
 	};

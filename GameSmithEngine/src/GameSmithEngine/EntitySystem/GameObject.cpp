@@ -6,11 +6,4 @@ namespace GameSmith {
 	const std::string GameObject::DEFAULT_GAMEOBJECT_NAME = "GameObject";
 
 	GameObject::GameObject(std::string name) : m_Name(name), m_Transform(new Transform()) {}
-
-	void GameObject::OnUpdate()
-	{
-		for (auto comp : m_Components) {
-			comp->OnUpdate();
-		}
-	}
 };

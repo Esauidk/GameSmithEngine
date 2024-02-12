@@ -24,7 +24,7 @@ namespace GameSmith {
 		}
 	}
 
-	void GameplayUpdater::RunGameplayUpdate()
+	void GameplayUpdater::RunGameplayUpdate(float dt)
 	{
 		if (std::is_heap(m_RegisteredComponents.begin(), m_RegisteredComponents.end(), ComponentCompare())) {
 			std::make_heap(m_RegisteredComponents.begin(), m_RegisteredComponents.end(), ComponentCompare());
@@ -35,7 +35,7 @@ namespace GameSmith {
 				it = m_RegisteredComponents.erase(it);
 			}
 			else {
-				it->lock()->OnUpdate();
+				it->lock()->OnUpdate(dt);
 				it++;
 			}
 		}

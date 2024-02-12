@@ -4,6 +4,7 @@ struct VertexShaderOutput
     float2 UV : UV_TEXCOORD;
     float3 WorldNormal : NORMAL;
     float3 WorldPos : WORLDPOS;
+    uint vert_Id : ID;
 };
 
 
@@ -14,9 +15,10 @@ cbuffer Instance : register(b1) {
 
 #include "../Core.hlsli"
     
-VertexShaderOutput main(DefaultVertexData input)
+VertexShaderOutput main(DefaultVertexData input, uint id : SV_VertexID)
 {
     VertexShaderOutput output;
+    output.vert_Id = id;
     output.WorldPos = mul(float4(input.Position, 1.0f), M).xyz;
     output.WorldNormal = mul(float4(input.Normal, 1.0f), M).xyz;
     output.Position = mul(float4(output.WorldPos, 1.0f), VP);

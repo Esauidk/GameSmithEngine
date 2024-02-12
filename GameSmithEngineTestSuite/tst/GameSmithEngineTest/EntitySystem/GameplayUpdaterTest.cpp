@@ -10,7 +10,7 @@ TEST(GameplayUpdaterTest, ComponentUpdate) {
 	EXPECT_FALSE(testComp->GetUpdateCheck());
 
 	updater.Register(testComp);
-	updater.RunGameplayUpdate();
+	updater.RunGameplayUpdate(0);
 
 	EXPECT_TRUE(testComp->GetUpdateCheck());
 }
@@ -38,5 +38,5 @@ TEST(GameplayUpdaterTest, NoExceptionOnComponentRemoval) {
 	updater.Register(testComp);
 	testComp = nullptr;
 
-	EXPECT_NO_THROW(updater.RunGameplayUpdate());
+	EXPECT_NO_THROW(updater.RunGameplayUpdate(0));
 }

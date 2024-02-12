@@ -1,10 +1,12 @@
 struct VertexShaderOutput
 {
-	float4 Position : SV_POSITION;
-	float2 UV : UV_TEXCOORD;
-	float3 WorldNormal : NORMAL;
-	float3 WorldPos : WORLDPOS;
+    float4 Position : SV_POSITION;
+    float2 UV : UV_TEXCOORD;
+    float3 WorldNormal : NORMAL;
+    float3 WorldPos : WORLDPOS;
+    uint vert_Id : ID;
 };
+
 
 cbuffer Instance : register(b1) {
 	matrix M;
