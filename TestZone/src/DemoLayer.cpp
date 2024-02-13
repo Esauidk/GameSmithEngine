@@ -113,8 +113,13 @@ DemoLayer::DemoLayer() : GameSmith::Layer("Demo Layer"), m_PerpCam(glm::pi<float
 void DemoLayer::OnImGuiRender()
 {
 	ImGui::Begin("Demo Setting");
+	ImGui::Text("Simulation Setting");
+	ImGui::SliderFloat("Time Scale", &m_TimeScale, 0, 2);
+	ImGui::Separator();
 	ImGui::Text("Game Object Setting");
 	ImGui::InputText("Mesh Location", m_MeshLocation, 500);
+	const char* Shaders[] = { "Blue Spread", "BlinnPhong" };
+	ImGui::ListBox("Select Shader", &m_ShaderItem, Shaders, 2);
 	m_CreateGameObject = ImGui::Button("Spawn GameObject");
 	ImGui::Separator();
 	ImGui::Text("Light Settings");
@@ -143,11 +148,24 @@ void DemoLayer::OnUpdate()
 		meshRef.lock()->SetMesh(mesh);
 
 		for (unsigned int i = 0; i < meshRef.lock()->GetMaterialSlots(); i++) {
-			auto matInstance = m_ColorMatAsset->CreateInstance();
+			GameSmith::Ref<GameSmith::Material> matInstance;
+			
+			switch (m_ShaderItem) {
+			case 0:
+				matInstance = m_ColorMatAsset->CreateInstance();
+				break;
+			case 1:
+				matInstance = m_LightMatAsset->CreateInstance();
+			}
+
 			meshRef.lock()->SetMaterial(i, matInstance);
 		}
 
 		m_GameObjects.push_back(object);
+	}
+
+	for (auto gameObject : m_GameObjects) {
+		gameObject.lock()->GetComponent<DemoScript>().lock()->SetTimeScale(m_TimeScale);
 	}
 
 	GameSmith::DirectionalLight light;
@@ -171,11 +189,11 @@ void DemoLayer::OnUpdate()
 void DemoScript::OnUpdate(float dt)
 {
 	auto orbit = m_t.GetRotation();
-	orbit += m_OribitSpeeds * dt;
+	orbit += m_OribitSpeeds * dt * m_TimeScale;
 	orbit = glm::mod(orbit, 2 * glm::pi<float>());
 	m_t.SetRotation(orbit);
 	auto localRot = m_Transform->GetRotation();
-	localRot += m_LocalSpeeds * dt;
+	localRot += m_LocalSpeeds * dt * m_TimeScale;
 	localRot = glm::mod(localRot, 2 * glm::pi<float>());
 	m_Transform->SetRotation(localRot);
 }

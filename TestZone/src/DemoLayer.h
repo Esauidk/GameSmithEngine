@@ -19,6 +19,8 @@ private:
 	glm::vec3 m_LightPos;
 	glm::vec3 m_LightDir;
 	glm::vec3 m_LightColor;
+	int m_ShaderItem = 0;
+	float m_TimeScale = 1;
 
 	char m_MeshLocation[500] = "";
 
@@ -44,6 +46,7 @@ public:
 	virtual void OnUpdate(float dt);
 	virtual void OnDestroy() override {}
 	virtual int GetPriority() const { return 0; }
+	inline void SetTimeScale(float scale) { m_TimeScale = scale; }
 	inline void SetOribitSpeeds(glm::vec3 speeds) { m_OribitSpeeds = speeds; }
 	inline void SetLocalRotationSpeed(glm::vec3 speeds) { m_LocalSpeeds = speeds; }
 	inline void SetOrigin(glm::vec3 newOrigin) { m_t.SetPosition(newOrigin); }
@@ -52,4 +55,5 @@ private:
 	GameSmith::Transform m_t;
 	glm::vec3 m_OribitSpeeds;
 	glm::vec3 m_LocalSpeeds;
+	float m_TimeScale = 1;
 };
