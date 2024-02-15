@@ -53,9 +53,9 @@ TEST(TransformTest, ComplicatedModelMatrix) {
 
 	glm::mat4 expectedMatrix = glm::transpose(glm::translate(glm::mat4(1), translation) *
 		glm::scale(glm::mat4(1), scale) *
+		glm::rotate(glm::mat4(1), rotation.z, glm::vec3(0, 0, 1)) *
 		glm::rotate(glm::mat4(1), rotation.x, glm::vec3(1, 0, 0)) *
-		glm::rotate(glm::mat4(1), rotation.y, glm::vec3(0, 1, 0)) *
-		glm::rotate(glm::mat4(1), rotation.z, glm::vec3(0, 0, 1)));
+		glm::rotate(glm::mat4(1), rotation.y, glm::vec3(0, 1, 0)));
 
 	EXPECT_EQ(trams.GetModelMatrix(), expectedMatrix);
 }
