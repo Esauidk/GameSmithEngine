@@ -108,6 +108,59 @@ DemoLayer::DemoLayer() : GameSmith::Layer("Demo Layer"), m_PerpCam(glm::pi<float
 	writer1.WriteClass<glm::vec4>(&color1);
 
 	m_ColorMatAsset = instance->GetResource<GameSmith::MaterialAsset>("ColorMat", writer1.GetBuffer(), writer1.GetBufferSize());
+
+	GameSmith::ResourceAssetWriter writer2(700);
+	meta.TetureCount = 1;
+	meta.ParamterCount = 1;
+	writer2.WriteClass<GameSmith::MaterialAssetMetadata>(&meta);
+	writer2.WriteClass<GameSmith::MaterialConfig>(&config);
+	writer2.WriteString(vs);
+	
+	std::string ps2("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\SamplePixelShader.cso");
+	writer2.WriteString(ps2);
+
+	paramName = "Model";
+	writer2.WriteString(paramName);
+	writer2.WriteClass<GameSmith::ShaderDataType>(&dataType);
+	writer2.WriteClass<glm::mat4>(&mat);
+
+	paramName = "texture";
+	writer2.WriteString(paramName);
+	std::string tex("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\thief.png");
+	writer2.WriteString(tex);
+
+	m_LummieThiefAsset = instance->GetResource<GameSmith::MaterialAsset>("LummieAsset", writer2.GetBuffer(), writer2.GetBufferSize());
+	auto render = GameSmith::RenderingManager::GetInstance()->GetRenderAPI();
+	auto sampler = render->CreateSampler(GameSmith::FilterType::Linear, GameSmith::PaddingMethod::Clamp);
+	render->SetSampler(sampler, GameSmith::Stages::STAGE_PIXEL);
+
+	GameSmith::ResourceAssetWriter writer3(700);
+	meta.TetureCount = 0;
+	meta.ParamterCount = 1;
+	writer3.WriteClass<GameSmith::MaterialAssetMetadata>(&meta);
+	writer3.WriteClass<GameSmith::MaterialConfig>(&config);
+	writer3.WriteString(vs);
+
+	std::string ps3("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\FlatColorPixelShader.cso");
+	writer3.WriteString(ps3);
+
+	paramName = "Model";
+	writer3.WriteString(paramName);
+	writer3.WriteClass<GameSmith::ShaderDataType>(&dataType);
+	writer3.WriteClass<glm::mat4>(&mat);
+
+	auto LightAsset = instance->GetResource<GameSmith::MaterialAsset>("LightAsset", writer3.GetBuffer(), writer3.GetBufferSize());
+
+	m_LightObject = GameSmith::GameObjectManager::GetInstance()->CreateGameObject(m_LightPos, glm::vec3(0, 0, 0));
+	auto meshRe = m_LightObject.lock()->AddComponent<GameSmith::MeshRenderer>();
+	auto mesh = GameSmith::ResourceManager::GetInstance()->GetResource<GameSmith::MeshAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\sphere.obj");
+	meshRe.lock()->SetMesh(mesh);
+
+	for (unsigned int i = 0; i < meshRe.lock()->GetMaterialSlots(); i++) {
+		GameSmith::Ref<GameSmith::Material> matInstance = LightAsset->CreateInstance();
+
+		meshRe.lock()->SetMaterial(i, matInstance);
+	}
 }
 
 void DemoLayer::OnImGuiRender()
@@ -117,10 +170,13 @@ void DemoLayer::OnImGuiRender()
 	ImGui::SliderFloat("Time Scale", &m_TimeScale, 0, 2);
 	ImGui::Separator();
 	ImGui::Text("Game Object Setting");
+	const char* Meshs[] = { "Custom Mesh", "Cybertruck", "Box", "Hat", "Pipe", "Icoshedron" };
+	ImGui::ListBox("Select GameObject", &m_MeshItem, Meshs, 6);
 	ImGui::InputText("Mesh Location", m_MeshLocation, 500);
-	const char* Shaders[] = { "Blue Spread", "BlinnPhong" };
-	ImGui::ListBox("Select Shader", &m_ShaderItem, Shaders, 2);
+	const char* Shaders[] = { "Blue Spread", "BlinnPhong", "LummieThief"};
+	ImGui::ListBox("Select Shader", &m_ShaderItem, Shaders, 3);
 	m_CreateGameObject = ImGui::Button("Spawn GameObject");
+	m_ClearGameObjects = ImGui::Button("Clear GameObject");
 	ImGui::Separator();
 	ImGui::Text("Light Settings");
 	ImGui::ColorEdit3("Light Color", glm::value_ptr(m_LightColor));
@@ -135,6 +191,18 @@ void DemoLayer::OnUpdate()
 	auto renderManager = GameSmith::RenderingManager::GetInstance();
 	renderManager->SetForClear(m_RenderTex);
 
+	if (m_ClearGameObjects) {
+		auto manager = GameSmith::GameObjectManager::GetInstance();
+		
+		for (auto object : m_GameObjects) {
+			manager->DestroyGameObject(object);
+		}
+
+		m_GameObjects.clear();
+	}
+
+	m_LightObject.lock()->GetTransform().lock()->SetPosition(m_LightPos);
+
 	if (m_CreateGameObject) {
 		auto object = GameSmith::GameObjectManager::GetInstance()->CreateGameObject(glm::vec3(0, 0, 0), glm::vec3(adist(rng), adist(rng), adist(rng)));
 		auto meshRef = object.lock()->AddComponent<GameSmith::MeshRenderer>();
@@ -144,7 +212,28 @@ void DemoLayer::OnUpdate()
 		demoScript.lock()->SetOrigin(glm::vec3(0, 0, 20));
 		demoScript.lock()->SetSphereSize(rdist(rng));
 
-		auto mesh = GameSmith::ResourceManager::GetInstance()->GetResource<GameSmith::MeshAsset>(m_MeshLocation);
+		GameSmith::Ref<GameSmith::MeshAsset> mesh;
+		switch (m_MeshItem) {
+		case 0:
+			mesh = GameSmith::ResourceManager::GetInstance()->GetResource<GameSmith::MeshAsset>(m_MeshLocation);
+			break;
+		case 1:
+			mesh = GameSmith::ResourceManager::GetInstance()->GetResource<GameSmith::MeshAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\cybertruck.obj");
+			break;
+		case 2:
+			mesh = GameSmith::ResourceManager::GetInstance()->GetResource<GameSmith::MeshAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\test.obj");
+			break;
+		case 3:
+			mesh = GameSmith::ResourceManager::GetInstance()->GetResource<GameSmith::MeshAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\hat_LP.obj");
+			break;
+		case 4:
+			mesh = GameSmith::ResourceManager::GetInstance()->GetResource<GameSmith::MeshAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\pvc_pipe_90.obj");
+			break;
+		case 5:
+			mesh = GameSmith::ResourceManager::GetInstance()->GetResource<GameSmith::MeshAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\icosahedron.obj");
+			break;
+		}
+
 		meshRef.lock()->SetMesh(mesh);
 
 		for (unsigned int i = 0; i < meshRef.lock()->GetMaterialSlots(); i++) {
@@ -156,6 +245,9 @@ void DemoLayer::OnUpdate()
 				break;
 			case 1:
 				matInstance = m_LightMatAsset->CreateInstance();
+				break;
+			case 2:
+				matInstance = m_LummieThiefAsset->CreateInstance();
 			}
 
 			meshRef.lock()->SetMaterial(i, matInstance);

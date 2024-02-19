@@ -1857,6 +1857,7 @@
     <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Hull\BasicSubdivideHS.hlsl" />
     <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Domain\BasicRenderDS.hlsl" />
     <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Pixel\RandomColorPS.hlsl" />
+    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Pixel\FlatColorPixelShader.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\GameSmithEngine\Rendering\SampleShaders\Core.hlsli" />

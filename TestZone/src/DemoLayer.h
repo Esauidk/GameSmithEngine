@@ -13,13 +13,17 @@ private:
 	GameSmith::PerspectiveCamera m_PerpCam;
 	GameSmith::Ref<GameSmith::RenderTexture> m_RenderTex;
 	std::vector<GameSmith::Connection<GameSmith::GameObject>> m_GameObjects;
+	GameSmith::Connection<GameSmith::GameObject> m_LightObject;
+	GameSmith::Connection<GameSmith::MeshRenderer> m_LightMesh;
 	GameSmith::Ref<GameSmith::MaterialAsset> m_LightMatAsset;
 	GameSmith::Ref<GameSmith::MaterialAsset> m_ColorMatAsset;
+	GameSmith::Ref<GameSmith::MaterialAsset> m_LummieThiefAsset;
 
 	glm::vec3 m_LightPos;
 	glm::vec3 m_LightDir;
 	glm::vec3 m_LightColor;
 	int m_ShaderItem = 0;
+	int m_MeshItem = 0;
 	float m_TimeScale = 1;
 
 	char m_MeshLocation[500] = "";
@@ -27,6 +31,7 @@ private:
 	// Flags
 	bool m_CreateGameObject = false;
 	bool m_SwitchLight = false;
+	bool m_ClearGameObjects = false;
 
 	// Rando paraneters
 	std::mt19937 rng{ std::random_device{}() };
