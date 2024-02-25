@@ -85,8 +85,6 @@ namespace GameSmith {
 		view.m_View = descriptor;
 		view.m_GPUAdd = add;
 
-		// GE_CORE_INFO("Attempting to Set With: {0}", descriptor.ptr);
-
 		UINT index;
 
 		if (constantType == ShaderConstantType::Global) {

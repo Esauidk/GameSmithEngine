@@ -4,10 +4,15 @@
 #include "GameSmithEngine/Events/KeyboardEvents.h"
 #include "GameSmithEngine/Events/MouseEvents.h"
 
-// TEMPORARY
 #include "GameSmithEngine/Rendering/DirectX12/HeapStructures/DirectX12HeapDataBase.h"
+#include "GameSmithEngine/Rendering/RenderAgnostics/RenderComponents/Texture.h"
 
 namespace GameSmith {
+	struct ImGuiTextureSpace {
+		void* gpuSpot;
+		unsigned int index;
+	};
+
 	// A layer representing a ImGUI overlay, a GUI on top of the basic window
 	class GE_API ImGuiLayer : public Layer {
 	public:
@@ -17,7 +22,7 @@ namespace GameSmith {
 		void OnDetach() override;
 		void OnImGuiRender() override;
 
-		D3D12_GPU_DESCRIPTOR_HANDLE GenerateTextureSpace(D3D12_CPU_DESCRIPTOR_HANDLE tex);
+		ImGuiTextureSpace GenerateTextureSpace(Ref<RenderTexture> tex);
 		inline void SetDockspace(bool enabled) { m_DockEnabled = enabled; };
 		void Begin() const;
 		void End() const;

@@ -19,6 +19,9 @@
     <Filter Include="src\GameSmithEngine\Events">
       <UniqueIdentifier>{F55D4CB1-E16D-F881-4A27-5DA03656E71A}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\GameSmithEngine\GameChunkSystem">
+      <UniqueIdentifier>{18674ECD-8420-B977-0D80-D35179386FE7}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\GameSmithEngine\ImGui">
       <UniqueIdentifier>{1BA9D8DE-876B-0C69-D01B-9BF53C1DE546}</UniqueIdentifier>
     </Filter>
@@ -81,6 +84,9 @@
     </Filter>
     <Filter Include="src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\SLab">
       <UniqueIdentifier>{22E63897-0EA6-C93B-77C3-B14663A2DC4D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GameSmithEngine\Rendering\Workflows">
+      <UniqueIdentifier>{BB9A11D1-272A-D3BB-3026-B4D39C340EC8}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\GameSmithEngine\ResourceAssets">
       <UniqueIdentifier>{DB29CFC8-C765-D232-3078-EA291CD37A4D}</UniqueIdentifier>
@@ -174,10 +180,16 @@
     <ClInclude Include="src\GameSmithEngine\EntitySystem\Components\TestComponent.h">
       <Filter>src\GameSmithEngine\EntitySystem\Components</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameSmithEngine\EntitySystem\Transform.h">
-      <Filter>src\GameSmithEngine\EntitySystem\Components</Filter>
-    </ClInclude>
     <ClInclude Include="src\GameSmithEngine\EntitySystem\GameObject.h">
+      <Filter>src\GameSmithEngine\EntitySystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\EntitySystem\GameObjectManager.h">
+      <Filter>src\GameSmithEngine\EntitySystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\EntitySystem\GameplayUpdater.h">
+      <Filter>src\GameSmithEngine\EntitySystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\EntitySystem\Transform.h">
       <Filter>src\GameSmithEngine\EntitySystem</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Events\ApplicationEvents.h">
@@ -191,6 +203,15 @@
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Events\MouseEvents.h">
       <Filter>src\GameSmithEngine\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\Events\RenderingEvents.h">
+      <Filter>src\GameSmithEngine\Events</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\GameChunkSystem\ChunkManager.h">
+      <Filter>src\GameSmithEngine\GameChunkSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\GameChunkSystem\GameChunk.h">
+      <Filter>src\GameSmithEngine\GameChunkSystem</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\ImGui\ImGuiLayer.h">
       <Filter>src\GameSmithEngine\ImGui</Filter>
@@ -249,6 +270,9 @@
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12PipelineState.h">
       <Filter>src\GameSmithEngine\Rendering\DirectX12\RenderComponents</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12RenderTexture.h">
+      <Filter>src\GameSmithEngine\Rendering\DirectX12\RenderComponents</Filter>
+    </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12RootSignature.h">
       <Filter>src\GameSmithEngine\Rendering\DirectX12\RenderComponents</Filter>
     </ClInclude>
@@ -277,6 +301,9 @@
       <Filter>src\GameSmithEngine\Rendering\DirectX12\Resources</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\Resources\Util\DirectX12BarrierTracker.h">
+      <Filter>src\GameSmithEngine\Rendering\DirectX12\Resources\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\Resources\Util\DirectX12BarrierWrapper.h">
       <Filter>src\GameSmithEngine\Rendering\DirectX12\Resources\Util</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\State\DirectX12HeapDescriptorState.h">
@@ -366,6 +393,9 @@
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\ShaderUtil.h">
       <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\Shaders</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\Rendering\RenderWorkflow.h">
+      <Filter>src\GameSmithEngine\Rendering</Filter>
+    </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Rendering\RendererAPI.h">
       <Filter>src\GameSmithEngine\Rendering</Filter>
     </ClInclude>
@@ -374,6 +404,12 @@
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderingManager.h">
       <Filter>src\GameSmithEngine\Rendering</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\Rendering\Workflows\ForwardRender.h">
+      <Filter>src\GameSmithEngine\Rendering\Workflows</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\ResourceAssets\GameChunkAsset.h">
+      <Filter>src\GameSmithEngine\ResourceAssets</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\ResourceAssets\MaterialAsset.h">
       <Filter>src\GameSmithEngine\ResourceAssets</Filter>
@@ -1467,9 +1503,6 @@
     <ClInclude Include="third-party\glm\glm\gtx\number_precision.hpp">
       <Filter>third-party\glm\glm\gtx</Filter>
     </ClInclude>
-    <ClInclude Include="third-party\glm\glm\gtx\number_precision.inl">
-      <Filter>third-party\glm\glm\gtx</Filter>
-    </ClInclude>
     <ClInclude Include="third-party\glm\glm\gtx\optimum_pow.hpp">
       <Filter>third-party\glm\glm\gtx</Filter>
     </ClInclude>
@@ -1668,16 +1701,6 @@
     <ClInclude Include="third-party\tinyobjloader\tiny_obj_loader.h">
       <Filter>third-party\tinyobjloader</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameSmithEngine\GameChunkSystem\ChunkManager.h" />
-    <ClInclude Include="src\GameSmithEngine\GameChunkSystem\GameChunk.h" />
-    <ClInclude Include="src\GameSmithEngine\ResourceAssets\GameChunkAsset.h" />
-    <ClInclude Include="src\GameSmithEngine\EntitySystem\GameObjectManager.h" />
-    <ClInclude Include="src\GameSmithEngine\EntitySystem\GameplayUpdater.h" />
-    <ClInclude Include="src\GameSmithEngine\Rendering\RenderWorkflow.h" />
-    <ClInclude Include="src\GameSmithEngine\Rendering\Workflows\ForwardRender.h" />
-    <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\Resources\Util\DirectX12BarrierWrapper.h" />
-    <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12RenderTexture.h" />
-    <ClInclude Include="src\GameSmithEngine\Events\RenderingEvents.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GameSmithEngine\Core\Application.cpp">
@@ -1701,11 +1724,23 @@
     <ClCompile Include="src\GameSmithEngine\EntitySystem\Components\TestComponent.cpp">
       <Filter>src\GameSmithEngine\EntitySystem\Components</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameSmithEngine\EntitySystem\Transform.cpp">
-      <Filter>src\GameSmithEngine\EntitySystem\Components</Filter>
-    </ClCompile>
     <ClCompile Include="src\GameSmithEngine\EntitySystem\GameObject.cpp">
       <Filter>src\GameSmithEngine\EntitySystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\EntitySystem\GameObjectManager.cpp">
+      <Filter>src\GameSmithEngine\EntitySystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\EntitySystem\GameplayUpdater.cpp">
+      <Filter>src\GameSmithEngine\EntitySystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\EntitySystem\Transform.cpp">
+      <Filter>src\GameSmithEngine\EntitySystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\GameChunkSystem\ChunkManager.cpp">
+      <Filter>src\GameSmithEngine\GameChunkSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\GameChunkSystem\GameChunk.cpp">
+      <Filter>src\GameSmithEngine\GameChunkSystem</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\ImGui\ImGuiBuild.cpp">
       <Filter>src\GameSmithEngine\ImGui</Filter>
@@ -1756,6 +1791,9 @@
       <Filter>src\GameSmithEngine\Rendering\DirectX12\RenderComponents</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12PipelineState.cpp">
+      <Filter>src\GameSmithEngine\Rendering\DirectX12\RenderComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12RenderTexture.cpp">
       <Filter>src\GameSmithEngine\Rendering\DirectX12\RenderComponents</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12RootSignature.cpp">
@@ -1809,6 +1847,12 @@
     <ClCompile Include="src\GameSmithEngine\Rendering\RenderingManager.cpp">
       <Filter>src\GameSmithEngine\Rendering</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\Rendering\Workflows\ForwardRender.cpp">
+      <Filter>src\GameSmithEngine\Rendering\Workflows</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\ResourceAssets\GameChunkAsset.cpp">
+      <Filter>src\GameSmithEngine\ResourceAssets</Filter>
+    </ClCompile>
     <ClCompile Include="src\GameSmithEngine\ResourceAssets\MaterialAsset.cpp">
       <Filter>src\GameSmithEngine\ResourceAssets</Filter>
     </ClCompile>
@@ -1839,25 +1883,18 @@
     <ClCompile Include="third-party\stb\std_image.cpp">
       <Filter>third-party\stb</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameSmithEngine\GameChunkSystem\ChunkManager.cpp" />
-    <ClCompile Include="src\GameSmithEngine\GameChunkSystem\GameChunk.cpp" />
-    <ClCompile Include="src\GameSmithEngine\ResourceAssets\GameChunkAsset.cpp" />
-    <ClCompile Include="src\GameSmithEngine\EntitySystem\GameObjectManager.cpp" />
-    <ClCompile Include="src\GameSmithEngine\EntitySystem\GameplayUpdater.cpp" />
-    <ClCompile Include="src\GameSmithEngine\Rendering\Workflows\ForwardRender.cpp" />
-    <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12RenderTexture.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Pixel\BlinnPhongPixelShader.hlsl" />
+    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Domain\BasicRenderDS.hlsl" />
+    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Hull\BasicSubdivideHS.hlsl" />
     <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Pixel\BasicRenderPS.hlsl" />
+    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Pixel\BlinnPhongPixelShader.hlsl" />
+    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Pixel\FlatColorPixelShader.hlsl" />
+    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Pixel\RandomColorPS.hlsl" />
     <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Pixel\SamplePixelShader.hlsl" />
     <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Vertex\BasicRenderVS.hlsl" />
     <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Vertex\SampleVertexShader.hlsl" />
     <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Vertex\SampleVertexTesShader.hlsl" />
-    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Hull\BasicSubdivideHS.hlsl" />
-    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Domain\BasicRenderDS.hlsl" />
-    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Pixel\RandomColorPS.hlsl" />
-    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Pixel\FlatColorPixelShader.hlsl" />
   </ItemGroup>
   <ItemGroup>
     <None Include="src\GameSmithEngine\Rendering\SampleShaders\Core.hlsli" />

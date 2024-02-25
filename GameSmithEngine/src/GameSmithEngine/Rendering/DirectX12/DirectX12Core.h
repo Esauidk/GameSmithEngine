@@ -13,10 +13,6 @@
 using Microsoft::WRL::ComPtr;
 
 namespace GameSmith {
-
-	/**
-	* 
-	**/
 	class DirectX12Core {
 	public:
 		static DirectX12Core& CreateCore();
@@ -44,10 +40,11 @@ namespace GameSmith {
 		void InitializeCPUQueueWait(DirectX12QueueType target);
 		// Tell the CPU to wait for some work to be complete on a specific queue
 		void InitializeCPUQueueWait(UINT fenceVal, DirectX12QueueType target);
+	public:
+		~DirectX12Core();
 	private:
 		DirectX12Core();
-		void Init();
-		void Destroy();
+		void InitResources();
 		DirectX12CommandQueue& FindQueue(DirectX12QueueType type);
 	private:
 		ComPtr<ID3D12Debug> m_Debug;

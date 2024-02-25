@@ -4,6 +4,8 @@
 #include "GameSmithEngine/Rendering/DirectX12/DirectX12Core.h"
 #include "GameSmithEngine/Rendering/DirectX12/DirectX12Context.h"
 #include "GameSmithEngine/Rendering/DirectX12/Util/third-party/d3dx12.h"
+#include "GameSmithEngine/Rendering/DirectX12/RenderComponents/DirectX12RenderTexture.h"
+
 #include "backends/imgui_impl_dx12.h"
 #include "backends/imgui_impl_win32.h"
 
@@ -62,15 +64,17 @@ namespace GameSmith {
 		//ImGui::ShowDemoWindow(&show);
 	}
 
-	D3D12_GPU_DESCRIPTOR_HANDLE ImGuiLayer::GenerateTextureSpace(D3D12_CPU_DESCRIPTOR_HANDLE tex)
+	ImGuiTextureSpace ImGuiLayer::GenerateTextureSpace(Ref<RenderTexture> tex)
 	{
 		D3D12_CPU_DESCRIPTOR_HANDLE slot = m_Heap->GetCPUReference(m_CurSlot);
 		D3D12_GPU_DESCRIPTOR_HANDLE gpuSlot = m_Heap->GetGPUReference(m_CurSlot);
 		auto device = DirectX12Core::GetCore().GetDevice();
-		device->CopyDescriptorsSimple(1, slot, tex, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 
+		auto d3Tex = CastPtr<DirectX12RenderTexture>(tex);
+		device->CopyDescriptorsSimple(1, slot, d3Tex->GetSRVHandle(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 		m_CurSlot++;
-		return gpuSlot;
+
+		return {(void*)gpuSlot.ptr, m_CurSlot - 1};
 	}
 
 	void ImGuiLayer::Begin() const

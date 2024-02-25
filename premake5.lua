@@ -179,10 +179,11 @@ project "GameSmithEditor"
 	}
 
 	includedirs{
+		"%{prj.name}/src",
 		"GameSmithEngine/third-party/spdlog/include",
 		"GameSmithEngine/src",
 		"%{IncludeDir.glm}",
-		"%{IncludeDir.ImGui}"
+		"%{IncludeDir.ImGui}",
 	}
 
 	links{

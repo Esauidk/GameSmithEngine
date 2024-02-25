@@ -1,35 +1,64 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="GameSmithEngine">
-      <UniqueIdentifier>{1A2CD029-86B7-3DEE-8FC8-C0E2FBD299EE}</UniqueIdentifier>
+    <Filter Include="GameSmithEngineTest">
+      <UniqueIdentifier>{DA750CB0-46D7-E9BD-CF44-30703BA5207D}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameSmithEngine\EntitySystem">
-      <UniqueIdentifier>{4B677892-3722-683E-E0D9-E088CC73B2CE}</UniqueIdentifier>
+    <Filter Include="GameSmithEngineTest\EntitySystem">
+      <UniqueIdentifier>{0B89CE1A-F7D9-B95C-203E-A81E0CEE4CC6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameSmithEngine\EntitySystem\Components">
-      <UniqueIdentifier>{804783B6-ECD6-44A1-F5D2-25B961E17FAD}</UniqueIdentifier>
+    <Filter Include="GameSmithEngineTest\EntitySystem\Components">
+      <UniqueIdentifier>{40D1A8B2-AC36-3C39-350F-DE11A17331A8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameSmithEngineTest\GameChunkSystem">
+      <UniqueIdentifier>{C1BBFC42-2D75-67ED-B6D4-81C7228D1D5D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameSmithEngineTest\Rendering">
+      <UniqueIdentifier>{A7D7C866-13F0-AF90-DC9C-3F2A4874442A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameSmithEngineTest\Rendering\RenderAgnostics">
+      <UniqueIdentifier>{414BCC0F-ADBB-CE88-76DA-4811E209078A}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameSmithEngineTest\Rendering\RenderAgnostics\LightingSystem">
+      <UniqueIdentifier>{0BB8D7EB-F722-98F7-A03E-FD5C8C885BDA}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameSmithEngineTest\Rendering\RenderAgnostics\LightingSystem\Sources">
+      <UniqueIdentifier>{7E6112A6-6AF8-545B-13AD-CB5BFF221B36}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="tst\GameSmithEngineTest\TestInclude.h">
-      <Filter>GameSmithEngine</Filter>
+    <ClInclude Include="tst\GameSmithEngineTest\EntitySystem\Components\TestComponent.h">
+      <Filter>GameSmithEngineTest\EntitySystem\Components</Filter>
     </ClInclude>
-    <ClInclude Include="tst\GameSmithEngineTest\EntitySystem\Components\TestComponent.h" />
+    <ClInclude Include="tst\GameSmithEngineTest\TestInclude.h">
+      <Filter>GameSmithEngineTest</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="tst\GameSmithEngineTest\EntitySystem\Components\TransformTest.cpp">
-      <Filter>GameSmithEngine\EntitySystem\Components</Filter>
+      <Filter>GameSmithEngineTest\EntitySystem\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="tst\GameSmithEngineTest\EntitySystem\GameObjectManagerTest.cpp">
+      <Filter>GameSmithEngineTest\EntitySystem</Filter>
     </ClCompile>
     <ClCompile Include="tst\GameSmithEngineTest\EntitySystem\GameObjectTest.cpp">
-      <Filter>GameSmithEngine\EntitySystem</Filter>
+      <Filter>GameSmithEngineTest\EntitySystem</Filter>
+    </ClCompile>
+    <ClCompile Include="tst\GameSmithEngineTest\EntitySystem\GameplayUpdaterTest.cpp">
+      <Filter>GameSmithEngineTest\EntitySystem</Filter>
+    </ClCompile>
+    <ClCompile Include="tst\GameSmithEngineTest\GameChunkSystem\GameChunkManagerTest.cpp">
+      <Filter>GameSmithEngineTest\GameChunkSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="tst\GameSmithEngineTest\GameChunkSystem\GameChunkTest.cpp">
+      <Filter>GameSmithEngineTest\GameChunkSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="tst\GameSmithEngineTest\Rendering\RenderAgnostics\LightingSystem\Sources\DirectionalLightTest.cpp">
+      <Filter>GameSmithEngineTest\Rendering\RenderAgnostics\LightingSystem\Sources</Filter>
+    </ClCompile>
+    <ClCompile Include="tst\GameSmithEngineTest\Rendering\RenderAgnostics\LightingSystem\Sources\PointLightTest.cpp">
+      <Filter>GameSmithEngineTest\Rendering\RenderAgnostics\LightingSystem\Sources</Filter>
     </ClCompile>
     <ClCompile Include="tst\TestEntry.cpp" />
-    <ClCompile Include="tst\GameSmithEngineTest\Rendering\RenderAgnostics\LightingSystem\Sources\PointLightTest.cpp" />
-    <ClCompile Include="tst\GameSmithEngineTest\Rendering\RenderAgnostics\LightingSystem\Sources\DirectionalLightTest.cpp" />
-    <ClCompile Include="tst\GameSmithEngineTest\EntitySystem\GameObjectManagerTest.cpp" />
-    <ClCompile Include="tst\GameSmithEngineTest\EntitySystem\GameplayUpdaterTest.cpp" />
-    <ClCompile Include="tst\GameSmithEngineTest\GameChunkSystem\GameChunkManagerTest.cpp" />
-    <ClCompile Include="tst\GameSmithEngineTest\GameChunkSystem\GameChunkTest.cpp" />
   </ItemGroup>
 </Project>

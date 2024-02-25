@@ -17,7 +17,7 @@ private:
 	GameSmith::Ref<GameSmith::RenderTexture> m_GameTex;
 	GameSmith::Ref<GameSmith::TextureAsset> m_OutsideAsset;
 	GameSmith::Ref<GameSmith::Texture2D> m_OutsideTex;
-	D3D12_GPU_DESCRIPTOR_HANDLE m_GameView;
+	GameSmith::ImGuiTextureSpace m_GameView;
 
 	glm::vec3 pos1;
 	glm::vec3 rot1;

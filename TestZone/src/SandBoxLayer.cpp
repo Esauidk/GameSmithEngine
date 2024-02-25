@@ -102,9 +102,7 @@ renderY(0)
 	m_OutsideAsset = instance->GetResource<GameSmith::TextureAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\download.png");
 	m_OutsideTex = m_OutsideAsset->GetTexture();
 
-
-	auto d3Tex = GameSmith::CastPtr<GameSmith::DirectX12RenderTexture>(m_GameTex);
-	m_GameView = GameSmith::Application::Get().GetImGuiInstance()->GenerateTextureSpace(d3Tex->GetSRVHandle());
+	m_GameView = GameSmith::Application::Get().GetImGuiInstance()->GenerateTextureSpace(m_GameTex);
 	GameSmith::Ref<GameSmith::GameChunk> chunk1 = GameSmith::Ref<GameSmith::GameChunk>(new GameSmith::GameChunk(gameObjectPartition1));
 	m_Chunk2 = GameSmith::Ref<GameSmith::GameChunk>(new GameSmith::GameChunk(gameObjectPartition2));
 	sceneManager->LoadChunk("Sample Chunk1", chunk1);
@@ -137,7 +135,7 @@ void SandBoxLayer::OnImGuiRender()
 	ImGui::Text("Hello");
 	/*auto d3Tex = GameSmith::CastPtr<GameSmith::DirectX12RenderTexture>(m_Tex);
 	d3Tex->ChangeState(GameSmith::RTState::READ);*/
-	ImGui::Image((ImTextureID)(m_GameView.ptr), ImVec2(m_GameTex->GetWidth() / 2, m_GameTex->GetHeight()/2));
+	ImGui::Image((ImTextureID)(m_GameView.gpuSpot), ImVec2(m_GameTex->GetWidth() / 2, m_GameTex->GetHeight()/2));
 	ImGui::Text("Hello");
 	ImGui::End();
 }

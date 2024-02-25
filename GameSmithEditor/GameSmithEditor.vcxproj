@@ -79,7 +79,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>GE_PLATFORM_WINDOWS;GE_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\GameSmithEngine\third-party\spdlog\include;..\GameSmithEngine\src;..\GameSmithEngine\third-party\glm;..\GameSmithEngine\third-party\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;..\GameSmithEngine\third-party\spdlog\include;..\GameSmithEngine\src;..\GameSmithEngine\third-party\glm;..\GameSmithEngine\third-party\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -96,7 +96,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>GE_PLATFORM_WINDOWS;GE_Release;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\GameSmithEngine\third-party\spdlog\include;..\GameSmithEngine\src;..\GameSmithEngine\third-party\glm;..\GameSmithEngine\third-party\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;..\GameSmithEngine\third-party\spdlog\include;..\GameSmithEngine\src;..\GameSmithEngine\third-party\glm;..\GameSmithEngine\third-party\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -117,7 +117,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>GE_PLATFORM_WINDOWS;GE_Dist;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>..\GameSmithEngine\third-party\spdlog\include;..\GameSmithEngine\src;..\GameSmithEngine\third-party\glm;..\GameSmithEngine\third-party\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;..\GameSmithEngine\third-party\spdlog\include;..\GameSmithEngine\src;..\GameSmithEngine\third-party\glm;..\GameSmithEngine\third-party\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -134,19 +134,19 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="src\EditorCoreLayer.cpp" />
-    <ClCompile Include="src\GameViewLayer.cpp" />
-    <ClCompile Include="src\EditorApp.cpp" />
+    <ClInclude Include="src\GameSmithEditor\EditorCoreLayer.h" />
+    <ClInclude Include="src\GameSmithEditor\EngineDependenciesOnly.h" />
+    <ClInclude Include="src\GameSmithEditor\Windows\GameViewLayer.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="src\GameSmithEditor\EditorApp.cpp" />
+    <ClCompile Include="src\GameSmithEditor\EditorCoreLayer.cpp" />
+    <ClCompile Include="src\GameSmithEditor\Windows\GameViewLayer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameSmithEngine\GameSmithEngine.vcxproj">
       <Project>{1A2CD029-86B7-3DEE-8FC8-C0E2FBD299EE}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ClInclude Include="src\EditorCoreLayer.h" />
-    <ClInclude Include="src\GameViewLayer.h" />
-    <ClInclude Include="src\EngineDependenciesOnly.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

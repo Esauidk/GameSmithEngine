@@ -83,7 +83,6 @@
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
-      <DisableSpecificWarnings>4996;%(DisableSpecificWarnings)</DisableSpecificWarnings>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -144,16 +143,6 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\GameSmithEngine\EntitySystem\GameplayUpdater.h" />
-    <ClInclude Include="src\GameSmithEngine\EntitySystem\GameObjectManager.h" />
-    <ClInclude Include="src\GameSmithEngine\Events\RenderingEvents.h" />
-    <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12RenderTexture.h" />
-    <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\Resources\Util\DirectX12BarrierWrapper.h" />
-    <ClInclude Include="src\GameSmithEngine\Rendering\RenderWorkflow.h" />
-    <ClInclude Include="src\GameSmithEngine\Rendering\Workflows\ForwardRender.h" />
-    <ClInclude Include="src\GameSmithEngine\ResourceAssets\GameChunkAsset.h" />
-    <ClInclude Include="src\GameSmithEngine\GameChunkSystem\GameChunk.h" />
-    <ClInclude Include="src\GameSmithEngine\GameChunkSystem\ChunkManager.h" />
     <ClInclude Include="src\GameSmithEngine.h" />
     <ClInclude Include="src\GameSmithEngine\Core\Application.h" />
     <ClInclude Include="src\GameSmithEngine\Core\Core.h" />
@@ -169,12 +158,17 @@
     <ClInclude Include="src\GameSmithEngine\EntitySystem\Components\Component.h" />
     <ClInclude Include="src\GameSmithEngine\EntitySystem\Components\MeshRenderer.h" />
     <ClInclude Include="src\GameSmithEngine\EntitySystem\Components\TestComponent.h" />
-    <ClInclude Include="src\GameSmithEngine\EntitySystem\Transform.h" />
     <ClInclude Include="src\GameSmithEngine\EntitySystem\GameObject.h" />
+    <ClInclude Include="src\GameSmithEngine\EntitySystem\GameObjectManager.h" />
+    <ClInclude Include="src\GameSmithEngine\EntitySystem\GameplayUpdater.h" />
+    <ClInclude Include="src\GameSmithEngine\EntitySystem\Transform.h" />
     <ClInclude Include="src\GameSmithEngine\Events\ApplicationEvents.h" />
     <ClInclude Include="src\GameSmithEngine\Events\Event.h" />
     <ClInclude Include="src\GameSmithEngine\Events\KeyboardEvents.h" />
     <ClInclude Include="src\GameSmithEngine\Events\MouseEvents.h" />
+    <ClInclude Include="src\GameSmithEngine\Events\RenderingEvents.h" />
+    <ClInclude Include="src\GameSmithEngine\GameChunkSystem\ChunkManager.h" />
+    <ClInclude Include="src\GameSmithEngine\GameChunkSystem\GameChunk.h" />
     <ClInclude Include="src\GameSmithEngine\ImGui\ImGuiLayer.h" />
     <ClInclude Include="src\GameSmithEngine\Platform\Window\WindowsInput.h" />
     <ClInclude Include="src\GameSmithEngine\Platform\Window\WindowsWindow.h" />
@@ -194,6 +188,7 @@
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12IndexBuffer.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12InputLayout.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12PipelineState.h" />
+    <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12RenderTexture.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12RootSignature.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12Sampler.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12Shader.h" />
@@ -204,6 +199,7 @@
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\Resources\DirectX12TextureResource.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\Resources\DirectX12Views.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\Resources\Util\DirectX12BarrierTracker.h" />
+    <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\Resources\Util\DirectX12BarrierWrapper.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\State\DirectX12HeapDescriptorState.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\State\DirectX12StateManager.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\Util\DirectX12Macos.h" />
@@ -233,9 +229,12 @@
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\SLab\SLab.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\ShaderParameter.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\ShaderUtil.h" />
+    <ClInclude Include="src\GameSmithEngine\Rendering\RenderWorkflow.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\RendererAPI.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\RendererContext.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderingManager.h" />
+    <ClInclude Include="src\GameSmithEngine\Rendering\Workflows\ForwardRender.h" />
+    <ClInclude Include="src\GameSmithEngine\ResourceAssets\GameChunkAsset.h" />
     <ClInclude Include="src\GameSmithEngine\ResourceAssets\MaterialAsset.h" />
     <ClInclude Include="src\GameSmithEngine\ResourceAssets\MeshAsset.h" />
     <ClInclude Include="src\GameSmithEngine\ResourceAssets\ShaderAsset.h" />
@@ -600,7 +599,6 @@
     <ClInclude Include="third-party\glm\glm\gtx\normalize_dot.hpp" />
     <ClInclude Include="third-party\glm\glm\gtx\normalize_dot.inl" />
     <ClInclude Include="third-party\glm\glm\gtx\number_precision.hpp" />
-    <ClInclude Include="third-party\glm\glm\gtx\number_precision.inl" />
     <ClInclude Include="third-party\glm\glm\gtx\optimum_pow.hpp" />
     <ClInclude Include="third-party\glm\glm\gtx\optimum_pow.inl" />
     <ClInclude Include="third-party\glm\glm\gtx\orthonormalize.hpp" />
@@ -669,13 +667,6 @@
     <ClInclude Include="third-party\tinyobjloader\tiny_obj_loader.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\GameSmithEngine\EntitySystem\GameplayUpdater.cpp" />
-    <ClCompile Include="src\GameSmithEngine\EntitySystem\GameObjectManager.cpp" />
-    <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12RenderTexture.cpp" />
-    <ClCompile Include="src\GameSmithEngine\Rendering\Workflows\ForwardRender.cpp" />
-    <ClCompile Include="src\GameSmithEngine\ResourceAssets\GameChunkAsset.cpp" />
-    <ClCompile Include="src\GameSmithEngine\GameChunkSystem\GameChunk.cpp" />
-    <ClCompile Include="src\GameSmithEngine\GameChunkSystem\ChunkManager.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\Application.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\Layer.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\Log.cpp" />
@@ -683,8 +674,12 @@
     <ClCompile Include="src\GameSmithEngine\Core\Timer.cpp" />
     <ClCompile Include="src\GameSmithEngine\EntitySystem\Components\MeshRenderer.cpp" />
     <ClCompile Include="src\GameSmithEngine\EntitySystem\Components\TestComponent.cpp" />
-    <ClCompile Include="src\GameSmithEngine\EntitySystem\Transform.cpp" />
     <ClCompile Include="src\GameSmithEngine\EntitySystem\GameObject.cpp" />
+    <ClCompile Include="src\GameSmithEngine\EntitySystem\GameObjectManager.cpp" />
+    <ClCompile Include="src\GameSmithEngine\EntitySystem\GameplayUpdater.cpp" />
+    <ClCompile Include="src\GameSmithEngine\EntitySystem\Transform.cpp" />
+    <ClCompile Include="src\GameSmithEngine\GameChunkSystem\ChunkManager.cpp" />
+    <ClCompile Include="src\GameSmithEngine\GameChunkSystem\GameChunk.cpp" />
     <ClCompile Include="src\GameSmithEngine\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\GameSmithEngine\ImGui\ImGuiLayer.cpp" />
     <ClCompile Include="src\GameSmithEngine\Platform\Window\WindowsInput.cpp" />
@@ -702,6 +697,7 @@
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12IndexBuffer.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12InputLayout.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12PipelineState.cpp" />
+    <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12RenderTexture.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12RootSignature.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12Sampler.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12Shader.cpp" />
@@ -719,6 +715,8 @@
     <ClCompile Include="src\GameSmithEngine\Rendering\RenderAgnostics\Camera\PerspectiveCamera.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\RenderAgnostics\MaterialSystem\Material.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\RenderingManager.cpp" />
+    <ClCompile Include="src\GameSmithEngine\Rendering\Workflows\ForwardRender.cpp" />
+    <ClCompile Include="src\GameSmithEngine\ResourceAssets\GameChunkAsset.cpp" />
     <ClCompile Include="src\GameSmithEngine\ResourceAssets\MaterialAsset.cpp" />
     <ClCompile Include="src\GameSmithEngine\ResourceAssets\MeshAsset.cpp" />
     <ClCompile Include="src\GameSmithEngine\ResourceAssets\ShaderAsset.cpp" />
@@ -739,12 +737,12 @@
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Domain\BasicRenderDS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Domain</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">Domain</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Domain</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Domain</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">Domain</ShaderType>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Domain</ShaderType>
     </FxCompile>
     <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Hull\BasicSubdivideHS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Hull</ShaderType>
@@ -763,8 +761,8 @@
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Pixel\BlinnPhongPixelShader.hlsl">
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
+      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">5.0</ShaderModel>
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
@@ -772,18 +770,18 @@
     </FxCompile>
     <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Pixel\FlatColorPixelShader.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Pixel\RandomColorPS.hlsl">
       <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">5.0</ShaderModel>
+      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
       <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
     </FxCompile>
     <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Pixel\SamplePixelShader.hlsl">

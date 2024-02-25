@@ -17,7 +17,7 @@ namespace GameSmith {
 
 		m_Core = Scope<DirectX12Core>(new DirectX12Core());
 
-		m_Core->Init();
+		m_Core->InitResources();
 
 		return GetCore();
 	}
@@ -66,7 +66,12 @@ namespace GameSmith {
 #endif
 	}
 
-	void DirectX12Core::Init()
+	DirectX12Core::~DirectX12Core()
+	{
+		InitializeCPUQueueWait(DirectX12QueueType::Direct);
+	}
+
+	void DirectX12Core::InitResources()
 	{
 		m_HeapDB = Scope<DirectX12HeapDatabase>(new DirectX12HeapDatabase());
 
@@ -82,11 +87,6 @@ namespace GameSmith {
 		m_Defaults.EmptyCBV.m_View = m_DescriptorLoaders[DescriptorHeapType::CBVSRVUAV].AllocateSlot();
 		m_Defaults.EmptySRV.m_View = m_DescriptorLoaders[DescriptorHeapType::CBVSRVUAV].AllocateSlot();
 		m_Defaults.EmptySampler.m_View = m_DescriptorLoaders[DescriptorHeapType::SAMPLER].AllocateSlot();
-	}
-
-	void DirectX12Core::Destroy()
-	{
-		InitializeCPUQueueWait(DirectX12QueueType::Direct);
 	}
 
 	DirectX12Core& DirectX12Core::GetCore() {
