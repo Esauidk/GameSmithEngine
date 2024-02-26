@@ -134,11 +134,13 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\GameSmithEditor\Windows\SimulationContentView.h" />
     <ClInclude Include="src\GameSmithEditor\EditorCoreLayer.h" />
     <ClInclude Include="src\GameSmithEditor\EngineDependenciesOnly.h" />
     <ClInclude Include="src\GameSmithEditor\Windows\GameViewLayer.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\GameSmithEditor\Windows\SimulationContentView.cpp" />
     <ClCompile Include="src\GameSmithEditor\EditorApp.cpp" />
     <ClCompile Include="src\GameSmithEditor\EditorCoreLayer.cpp" />
     <ClCompile Include="src\GameSmithEditor\Windows\GameViewLayer.cpp" />

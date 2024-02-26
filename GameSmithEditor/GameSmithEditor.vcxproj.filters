@@ -11,6 +11,7 @@
     <ClInclude Include="src\GameSmithEditor\Windows\GameViewLayer.h">
       <Filter>Windows</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameSmithEditor\Windows\SimulationContentView.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GameSmithEditor\EditorApp.cpp" />
@@ -18,5 +19,6 @@
     <ClCompile Include="src\GameSmithEditor\Windows\GameViewLayer.cpp">
       <Filter>Windows</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameSmithEditor\Windows\SimulationContentView.cpp" />
   </ItemGroup>
 </Project>

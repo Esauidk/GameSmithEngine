@@ -12,7 +12,7 @@ namespace GameSmith {
 		void ShutDown();
 		void CleanGameObjects();
 
-		Connection<GameObject> CreateGameObject(glm::vec3 startingPos, glm::vec3 startingRotation);
+		Connection<GameObject> CreateGameObject(glm::vec3 startingPos = glm::vec3(0), glm::vec3 startingRotation = glm::vec3(0));
 		Connection<GameObject> FindGameObject(std::string gameObjectName);
 		void DestroyGameObject(Connection<GameObject> object);
 

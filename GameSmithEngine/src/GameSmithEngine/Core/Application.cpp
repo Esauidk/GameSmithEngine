@@ -26,13 +26,11 @@ namespace GameSmith {
 	}
 
 	void Application::PushLayer(Layer* layer) {
-		m_LayerStack.Push(layer);
-		layer->OnAttach();
+		m_PendingLayers.push(layer);
 	}
 
 	void Application::PushOverlay(Layer* layer) {
-		m_LayerStack.PushSpecial(layer);
-		layer->OnAttach();
+		m_PendingSpecialLayers.push(layer);
 	}
 
 	void Application::Execute() {
@@ -42,6 +40,21 @@ namespace GameSmith {
 			m_Window->OnUpdate();
 
 			m_SubSystems.Update(dt);
+
+			while (!m_PendingLayers.empty()) {
+				auto layer = m_PendingLayers.front();
+				m_PendingLayers.pop();
+				layer->OnAttach();
+				m_LayerStack.Push(layer);
+			}
+
+			while (!m_PendingSpecialLayers.empty()) {
+				auto layer = m_PendingSpecialLayers.front();
+				m_PendingSpecialLayers.pop();
+				layer->OnAttach();
+				m_LayerStack.PushSpecial(layer);
+			}
+
 			for (Layer* layer : m_LayerStack) {
 				layer->OnUpdate();
 			}

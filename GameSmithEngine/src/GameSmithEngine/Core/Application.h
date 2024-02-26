@@ -43,6 +43,8 @@ namespace GameSmith{
 		SubsystemManager m_SubSystems;
 
 		Scope<Window> m_Window;
+		std::queue<Layer*> m_PendingLayers;
+		std::queue<Layer*> m_PendingSpecialLayers;
 		ImGuiLayer* m_ImGuiLayer;
 		MixStack<Layer> m_LayerStack;
 

@@ -9,6 +9,7 @@ namespace GameSmithEditor {
 		void OnImGuiRender() override;
 		void OnUpdate() override;
 	private:
+		GameSmith::Application& m_App;
 		GameSmith::Ref<GameSmith::RenderTexture> m_EditorScreen;
 	};
 };
