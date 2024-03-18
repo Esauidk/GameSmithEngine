@@ -58,18 +58,24 @@
     <IntDir>..\bin-int\Debug-windows-x86_64\GameSmithEngine\</IntDir>
     <TargetName>GameSmithEngine</TargetName>
     <TargetExt>.lib</TargetExt>
+    <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
+    <ClangTidyChecks>clang-analyzer-*</ClangTidyChecks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>..\bin\Release-windows-x86_64\GameSmithEngine\</OutDir>
     <IntDir>..\bin-int\Release-windows-x86_64\GameSmithEngine\</IntDir>
     <TargetName>GameSmithEngine</TargetName>
     <TargetExt>.lib</TargetExt>
+    <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
+    <ClangTidyChecks>clang-analyzer-*</ClangTidyChecks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
     <OutDir>..\bin\Dist-windows-x86_64\GameSmithEngine\</OutDir>
     <IntDir>..\bin-int\Dist-windows-x86_64\GameSmithEngine\</IntDir>
     <TargetName>GameSmithEngine</TargetName>
     <TargetExt>.lib</TargetExt>
+    <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
+    <ClangTidyChecks>clang-analyzer-*</ClangTidyChecks>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>

@@ -71,7 +71,7 @@ namespace GameSmith {
 		static EventDispatcher<MouseButtonPressEvent> s_MousePressed;
 		static EventDispatcher<MouseButtonReleaseEvent> s_MouseReleased;
 	protected:
-		RendererContext* m_RenderContext;
+		RendererContext* m_RenderContext = nullptr;
 	};
 
 

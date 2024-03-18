@@ -2,6 +2,7 @@
 // TODO: Don't manually import each layer/window
 #include "Windows/GameViewLayer.h"
 #include "Windows/SimulationContentView.h"
+#include "Windows/GameObjectDetails.h"
 #include "imgui.h"
 
 namespace GameSmithEditor {
@@ -30,9 +31,15 @@ namespace GameSmithEditor {
 				if (ImGui::MenuItem("Game View")) {
 					m_App.PushLayer(new GameViewLayer(m_EditorScreen));
 				}
+
 				if (ImGui::MenuItem("Simulation Content View")) {
-					m_App.PushLayer(new SmulationContentView());
+					m_App.PushLayer(new SimulationContentView());
 				}
+
+				if (ImGui::MenuItem("Game Object Details")) {
+					m_App.PushLayer(new GameObjectDetails());
+				}
+
 				ImGui::EndMenu();
 			}
 			

@@ -1,11 +1,11 @@
 #pragma once
-
 #include "GameSmithEngine/Rendering/RenderAgnostics/RenderComponents/Texture.h"
 
 namespace GameSmith {
 	// Represents a Render Display (swap chain or other architecture) along with metadata related to the display
 	class RendererContext {
 	public:
+		virtual ~RendererContext() = default;
 		// Initialize: Any initialization to be done with this renderer
 		virtual void Init() = 0;
 		

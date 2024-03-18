@@ -32,7 +32,7 @@ namespace GameSmith {
 		return new WindowsWindow(props);
 	}
 
-	WindowsWindow::WindowClass::WindowClass() noexcept{
+	WindowsWindow::WindowClass::WindowClass() noexcept {
 		hInst = GetModuleHandle(nullptr);
 
 		WNDCLASSEX wc = { 0 };
@@ -51,7 +51,7 @@ namespace GameSmith {
 		RegisterClassEx(&wc);
 	}
 
-	WindowsWindow::WindowClass::~WindowClass() {
+	WindowsWindow::WindowClass::~WindowClass() noexcept {
 		UnregisterClass(wndClassName, GetInstance());
 	}
 
@@ -80,7 +80,7 @@ namespace GameSmith {
 
 
 		//Creating Rect
-		RECT wr;
+		RECT wr = {};
 		wr.left = 100;
 		wr.right = props.Width + wr.left;
 		wr.top = 100;
@@ -374,6 +374,7 @@ namespace GameSmith {
 			
 			WindowResizeEvent e(width, height);
 			s_Resized.Dispatch(e);
+			break;
 		}
 		default:
 			return DefWindowProc(hWnd, msg, wParam, lParam);

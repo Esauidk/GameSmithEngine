@@ -2,7 +2,9 @@
 #include "imgui.h"
 
 namespace GameSmithEditor {
-	void SmulationContentView::OnImGuiRender()
+	GameSmith::Connection<GameSmith::GameObject> SimulationContentView::m_SelectedObjected = GameSmith::Connection<GameSmith::GameObject>();
+
+	void SimulationContentView::OnImGuiRender()
 	{
 		ImGui::Begin("Simulation Content View");
 		if (ImGui::Button("Create GameObject")) {
@@ -16,6 +18,8 @@ namespace GameSmithEditor {
 		for (int i = 0; i < m_NamesStd.size(); i++) {
 			bool selected = (m_Selection == i);
 			if (ImGui::Selectable(m_NamesStd[i].c_str(), selected)) {
+				auto gm = GameSmith::GameObjectManager::GetInstance();
+				m_SelectedObjected = gm->FindGameObject(m_NamesStd[i]);
 				m_Selection = i;
 			}
 
@@ -27,7 +31,7 @@ namespace GameSmithEditor {
 		ImGui::End();
 	}
 
-	void SmulationContentView::OnUpdate()
+	void SimulationContentView::OnUpdate()
 	{
 	}
 };

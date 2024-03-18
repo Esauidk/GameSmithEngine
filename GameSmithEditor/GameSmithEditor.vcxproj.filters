@@ -12,6 +12,7 @@
       <Filter>Windows</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEditor\Windows\SimulationContentView.h" />
+    <ClInclude Include="src\GameSmithEditor\Windows\GameObjectDetails.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GameSmithEditor\EditorApp.cpp" />
@@ -20,5 +21,6 @@
       <Filter>Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEditor\Windows\SimulationContentView.cpp" />
+    <ClCompile Include="src\GameSmithEditor\Windows\GameObjectDetails.cpp" />
   </ItemGroup>
 </Project>

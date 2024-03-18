@@ -12,7 +12,7 @@ namespace GameSmith {
 		virtual void Init() override;
 		virtual void Destroy() override;
 
-		inline Ref<Shader> GetShader() { return m_Shader != nullptr ? m_Shader : nullptr; }
+		inline Ref<Shader> GetShader() const { return m_Shader != nullptr ? m_Shader : nullptr; }
 	private:
 		Ref<Shader> m_Shader;
 	};

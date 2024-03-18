@@ -39,8 +39,8 @@ namespace GameSmith {
 			return oss.str();
 		}
 
-		inline unsigned int GetWidth() { return m_Width; }
-		inline unsigned int GetHeight() { return m_Height; }
+		inline unsigned int GetWidth() const { return m_Width; }
+		inline unsigned int GetHeight() const { return m_Height; }
 	protected:
 		CATEGORY_TYPE(EventCategory::APP_EVENT)
 	private:

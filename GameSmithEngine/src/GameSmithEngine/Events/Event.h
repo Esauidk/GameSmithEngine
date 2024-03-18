@@ -106,7 +106,7 @@ namespace GameSmith {
 				auto test = m_listeners.begin();
 				auto iter = m_listeners.end();
 
-				for (iter; iter != m_listeners.begin();) {
+				for (; iter != m_listeners.begin();) {
 					Eventfn* fn = *(--iter);
 					bool handled = (*fn)(*(T*)&evn);
 					if (handled) {

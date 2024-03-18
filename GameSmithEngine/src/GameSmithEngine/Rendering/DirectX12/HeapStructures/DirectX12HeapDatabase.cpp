@@ -17,6 +17,8 @@ namespace GameSmith {
 			return D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
 		case DescriptorHeapType::SAMPLER:
 			return D3D12_DESCRIPTOR_HEAP_TYPE_SAMPLER;
+		default:
+			break;
 		}
 
 		return D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV;
@@ -60,7 +62,7 @@ namespace GameSmith {
 	void DirectX12HeapDatabase::FrameEnded()
 	{
 		for (auto it = m_AvailableHeaps.begin(); it != m_AvailableHeaps.end();) {
-			auto heap = *it;
+			auto& heap = *it;
 			if (!heap->IsReserved()) {
 				if (heap->UsedInFrame()) {
 					heap->EndFrame();
@@ -91,7 +93,8 @@ namespace GameSmith {
 		m_CpuStartPos(m_CurrentHeap->GetCPUDescriptorHandleForHeapStart()),
 		m_GpuStartPos((flags& D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE) ? m_CurrentHeap->GetGPUDescriptorHandleForHeapStart() : D3D12_GPU_DESCRIPTOR_HANDLE{}),
 		m_Reserve(true),
-		m_UsedInCurrentFrame(true)
+		m_UsedInCurrentFrame(true),
+		m_FramesSinceLastUse(0)
 	{
 	}
 };

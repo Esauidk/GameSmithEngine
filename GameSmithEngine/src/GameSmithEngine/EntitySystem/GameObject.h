@@ -57,6 +57,18 @@ namespace GameSmith {
 				}
 			}
 		}
+
+		template<typename T>
+		void GetComponents(std::vector<Connection<T>>* outContainer) {
+
+			for (Ref<Component> comp : m_Components) {
+				auto cast = CastPtr<T>(comp);
+				if (cast != nullptr) {
+					outContainer->push_back(cast);
+				}
+			}
+		}
+
 	public:
 		const static std::string DEFAULT_GAMEOBJECT_NAME;
 	private:

@@ -1,5 +1,4 @@
 #pragma once
-// TODO: Fix project settings to have game editor folder in include directory
 #include "GameSmithEditor/EngineDependenciesOnly.h"
 
 
