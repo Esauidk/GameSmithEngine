@@ -16,7 +16,7 @@ namespace GameSmith {
 			unsigned int size = m_Mesh->GetSubMeshSize();
 			for (unsigned int i = 0; i < size; i++) {
 				if (changed) {
-					auto modelMatrix = m_Materials[i]->GetParameter<ShaderParameterMatrix>("Model");
+					auto modelMatrix = m_Materials[i]->GetParameter<MatrixContainor>("Model");
 					modelMatrix->SetData(model);
 				}
 				

@@ -2,6 +2,8 @@
 
 #include "Core.h"
 
+#pragma warning(disable: 4996)
+
 // To avoid SPDLog from defining this
 #define SPDLOG_ACTIVE_LEVEL 0
 

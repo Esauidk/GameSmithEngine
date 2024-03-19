@@ -38,6 +38,6 @@ namespace GameSmith {
 		std::hash<std::string> hasher;
 		std::string bytecode(data, size);
 
-		m_Hash = hasher(bytecode);
+		m_Hash = (unsigned int)hasher(bytecode);
 	}
 };

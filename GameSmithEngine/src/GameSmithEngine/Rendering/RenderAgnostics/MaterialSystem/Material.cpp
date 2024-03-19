@@ -7,7 +7,7 @@ namespace GameSmith {
 	Material::Material(ShaderSet shaders, MaterialConfig config,
 		std::vector<std::string> order,
 		std::vector<std::string> textureOrder,
-		std::unordered_map<std::string, Ref<ShaderParameter>> paramters,
+		std::unordered_map<std::string, Ref<ParameterContainer>> paramters,
 		std::unordered_map<std::string, Ref<TextureAsset>> textures) :
 		m_Shaders(shaders),
 		m_Config(config),
@@ -43,7 +43,7 @@ namespace GameSmith {
 		m_TextureKeys(oldMat.m_TextureKeys),
 		m_Textures(oldMat.m_Textures)
 	{
-		std::unordered_map<std::string, Ref<ShaderParameter>> copyMap;
+		std::unordered_map<std::string, Ref<ParameterContainer>> copyMap;
 		for (auto entry : oldMat.m_Paramters) {
 			copyMap.insert({ entry.first, entry.second->MakeCopy() });
 		}

@@ -16,7 +16,7 @@ namespace GameSmith {
 		Material(ShaderSet shaders, MaterialConfig config,
 			std::vector<std::string> parameterOrder,
 			std::vector<std::string> textureOrder,
-			std::unordered_map<std::string, Ref<ShaderParameter>> paramters,
+			std::unordered_map<std::string, Ref<ParameterContainer>> paramters,
 			std::unordered_map<std::string, Ref<TextureAsset>> textures);
 
 		Material(Material& oldMat);
@@ -44,7 +44,7 @@ namespace GameSmith {
 		MaterialConfig m_Config;
 		std::vector<std::string> m_ParameterKeys;
 		std::vector<std::string> m_TextureKeys;
-		std::unordered_map<std::string, Ref<ShaderParameter>> m_Paramters;
+		std::unordered_map<std::string, Ref<ParameterContainer>> m_Paramters;
 		std::unordered_map<std::string, Ref<TextureAsset>> m_Textures;
 
 		unsigned int m_ParameterByteTotal;

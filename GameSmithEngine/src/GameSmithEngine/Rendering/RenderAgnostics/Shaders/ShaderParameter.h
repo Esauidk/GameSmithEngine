@@ -42,144 +42,144 @@ namespace GameSmith {
 		}
 	}
 
-	class ShaderParameter {
+	class ParameterContainer {
 	public:
-		inline ShaderParameter(std::string name, ShaderDataType type) : m_Name(name), m_Type(type) {}
+		inline ParameterContainer(std::string name, ShaderDataType type) : m_Name(name), m_Type(type) {}
 
 		inline std::string GetName() { return m_Name; }
 		inline ShaderDataType GetType() { return m_Type; }
 		inline UINT GetSize() { return GetParameterSize(m_Type); }
 		virtual char* GetCharData() = 0;
 		virtual void ResetData() = 0;
-		virtual Ref<ShaderParameter> MakeCopy() = 0;
+		virtual Ref<ParameterContainer> MakeCopy() = 0;
 		
 	private:
 		std::string m_Name;
 		ShaderDataType m_Type;
 	};
 
-	class ShaderParameterInt : public ShaderParameter {
+	class IntContainer : public ParameterContainer {
 	public:
-		ShaderParameterInt(std::string name) : ShaderParameter(name, ShaderDataType::Int), m_Data(0)  {}
-		ShaderParameterInt(std::string name, int data) : ShaderParameter(name, ShaderDataType::Int), m_Data(data) {}
+		IntContainer(std::string name) : ParameterContainer(name, ShaderDataType::Int), m_Data(0)  {}
+		IntContainer(std::string name, int data) : ParameterContainer(name, ShaderDataType::Int), m_Data(data) {}
 		inline const int& GetData() { return m_Data; }
 		inline void SetData(int updated) { m_Data = updated; }
 		inline virtual char* GetCharData() override { return (char*)&m_Data; };
 		inline virtual void ResetData() override {}
-		inline virtual Ref<ShaderParameter> MakeCopy() override { return Ref<ShaderParameter>(new ShaderParameterInt(GetName(), m_Data)); }
+		inline virtual Ref<ParameterContainer> MakeCopy() override { return Ref<ParameterContainer>(new IntContainer(GetName(), m_Data)); }
 	private:
 		int m_Data;
 	};
 
-	class ShaderParameterInt2 : public ShaderParameter {
+	class Int2Container : public ParameterContainer {
 	public:
-		ShaderParameterInt2(std::string name) : ShaderParameter(name, ShaderDataType::Int2), m_Data() {}
-		ShaderParameterInt2(std::string name, int* data) : ShaderParameter(name, ShaderDataType::Int2) { memcpy(m_Data, data, sizeof(int) * 2); }
+		Int2Container(std::string name) : ParameterContainer(name, ShaderDataType::Int2), m_Data() {}
+		Int2Container(std::string name, int* data) : ParameterContainer(name, ShaderDataType::Int2) { memcpy(m_Data, data, sizeof(int) * 2); }
 		virtual char* GetCharData() override { return (char*)&m_Data; };
 		inline const int* GetData() { return m_Data; }
 		inline void SetData(int* updated) { memcpy(m_Data, updated, GetSize()); }
 		inline virtual void ResetData() override {}
-		inline virtual Ref<ShaderParameter> MakeCopy() override { return Ref<ShaderParameter>(new ShaderParameterInt2(GetName(), m_Data)); }
+		inline virtual Ref<ParameterContainer> MakeCopy() override { return Ref<ParameterContainer>(new Int2Container(GetName(), m_Data)); }
 	private:
 		int m_Data[2];
 	};
 
-	class ShaderParameterInt3 : public ShaderParameter {
+	class Int3Container : public ParameterContainer {
 	public:
-		ShaderParameterInt3(std::string name) : ShaderParameter(name, ShaderDataType::Int3), m_Data() {}
-		ShaderParameterInt3(std::string name, int* data) : ShaderParameter(name, ShaderDataType::Int3) { memcpy(m_Data, data, sizeof(int) * 3); }
+		Int3Container(std::string name) : ParameterContainer(name, ShaderDataType::Int3), m_Data() {}
+		Int3Container(std::string name, int* data) : ParameterContainer(name, ShaderDataType::Int3) { memcpy(m_Data, data, sizeof(int) * 3); }
 		inline virtual char* GetCharData() override { return (char*)&m_Data; };
 		inline const int* GetData() { return m_Data; }
 		inline void SetData(int* updated) { memcpy(m_Data, updated, GetSize()); }
 		inline virtual void ResetData() override {}
-		inline virtual Ref<ShaderParameter> MakeCopy() override { return Ref<ShaderParameter>(new ShaderParameterInt3(GetName(), m_Data)); }
+		inline virtual Ref<ParameterContainer> MakeCopy() override { return Ref<ParameterContainer>(new Int3Container(GetName(), m_Data)); }
 	private:
 		 int m_Data[3];
 	};
 
-	class ShaderParameterFloat : public ShaderParameter {
+	class FloatContainer : public ParameterContainer {
 	public:
-		ShaderParameterFloat(std::string name) : ShaderParameter(name, ShaderDataType::Float), m_Data(0) {}
-		ShaderParameterFloat(std::string name, glm::vec1& data) : ShaderParameter(name, ShaderDataType::Float), m_Data(data) {}
+		FloatContainer(std::string name) : ParameterContainer(name, ShaderDataType::Float), m_Data(0) {}
+		FloatContainer(std::string name, glm::vec1& data) : ParameterContainer(name, ShaderDataType::Float), m_Data(data) {}
 		inline virtual char* GetCharData() override { return (char*)&m_Data; };
 		inline const glm::vec1& GetData() { return m_Data; }
 		inline void SetData(glm::vec1& updated) { m_Data = updated; }
 		inline virtual void ResetData() override {}
-		inline virtual Ref<ShaderParameter> MakeCopy() override { return Ref<ShaderParameter>(new ShaderParameterFloat(GetName(), m_Data)); }
+		inline virtual Ref<ParameterContainer> MakeCopy() override { return Ref<ParameterContainer>(new FloatContainer(GetName(), m_Data)); }
 	private:
 		glm::vec1 m_Data;
 	};
 
-	class ShaderParameterFloat2 : public ShaderParameter {
+	class Float2Container : public ParameterContainer {
 	public:
-		ShaderParameterFloat2(std::string name) : ShaderParameter(name, ShaderDataType::Float2), m_Data(0, 0) {}
-		ShaderParameterFloat2(std::string name, glm::vec2& data) : ShaderParameter(name, ShaderDataType::Float2), m_Data(data) {}
+		Float2Container(std::string name) : ParameterContainer(name, ShaderDataType::Float2), m_Data(0, 0) {}
+		Float2Container(std::string name, glm::vec2& data) : ParameterContainer(name, ShaderDataType::Float2), m_Data(data) {}
 		inline virtual char* GetCharData() override { return (char*)&m_Data; };
 		inline const glm::vec2& GetData() { return m_Data; }
 		inline void SetData(glm::vec2& updated) { m_Data = updated; }
 		inline virtual void ResetData() override {}
-		inline virtual Ref<ShaderParameter> MakeCopy() override { return Ref<ShaderParameter>(new ShaderParameterFloat2(GetName(), m_Data)); }
+		inline virtual Ref<ParameterContainer> MakeCopy() override { return Ref<ParameterContainer>(new Float2Container(GetName(), m_Data)); }
 	private:
 		glm::vec2 m_Data;
 	};
 
-	class ShaderParameterFloat3 : public ShaderParameter {
+	class Float3Container : public ParameterContainer {
 	public:
-		ShaderParameterFloat3(std::string name) : ShaderParameter(name, ShaderDataType::Float3), m_Data(0, 0, 0) {}
-		ShaderParameterFloat3(std::string name, glm::vec3& data) : ShaderParameter(name, ShaderDataType::Float3), m_Data(data) {}
+		Float3Container(std::string name) : ParameterContainer(name, ShaderDataType::Float3), m_Data(0, 0, 0) {}
+		Float3Container(std::string name, glm::vec3& data) : ParameterContainer(name, ShaderDataType::Float3), m_Data(data) {}
 		inline virtual char* GetCharData() override { return (char*)&m_Data; };
 		inline const glm::vec3& GetData() { return m_Data; }
 		inline void SetData(glm::vec3& updated) { m_Data = updated; }
 		inline virtual void ResetData() override {}
-		inline virtual Ref<ShaderParameter> MakeCopy() override { return Ref<ShaderParameter>(new ShaderParameterFloat3(GetName(), m_Data)); }
+		inline virtual Ref<ParameterContainer> MakeCopy() override { return Ref<ParameterContainer>(new Float3Container(GetName(), m_Data)); }
 	private:
 		glm::vec3 m_Data;
 	};
 
-	class ShaderParameterFloat4 : public ShaderParameter {
+	class Float4Containor : public ParameterContainer {
 	public:
-		ShaderParameterFloat4(std::string name) : ShaderParameter(name, ShaderDataType::Float4), m_Data(0, 0, 0, 0) {}
-		ShaderParameterFloat4(std::string name, glm::vec4& data) : ShaderParameter(name, ShaderDataType::Float4), m_Data(data) {}
+		Float4Containor(std::string name) : ParameterContainer(name, ShaderDataType::Float4), m_Data(0, 0, 0, 0) {}
+		Float4Containor(std::string name, glm::vec4& data) : ParameterContainer(name, ShaderDataType::Float4), m_Data(data) {}
 		inline virtual char* GetCharData() override { return (char*)&m_Data; };
 		inline const glm::vec4& GetData() { return m_Data; }
 		inline void SetData(glm::vec4& updated) { m_Data = updated; }
 		inline virtual void ResetData() override {}
-		inline virtual Ref<ShaderParameter> MakeCopy() override { return Ref<ShaderParameter>(new ShaderParameterFloat4(GetName(), m_Data)); }
+		inline virtual Ref<ParameterContainer> MakeCopy() override { return Ref<ParameterContainer>(new Float4Containor(GetName(), m_Data)); }
 	private:
 		glm::vec4 m_Data;
 	};
 
-	class ShaderParameterMatrix : public ShaderParameter {
+	class MatrixContainor : public ParameterContainer {
 	public:
-		ShaderParameterMatrix(std::string name) : ShaderParameter(name, ShaderDataType::Matrix), m_Data(0) {}
-		ShaderParameterMatrix(std::string name, glm::mat4& data) : ShaderParameter(name, ShaderDataType::Matrix), m_Data(data) {}
+		MatrixContainor(std::string name) : ParameterContainer(name, ShaderDataType::Matrix), m_Data(0) {}
+		MatrixContainor(std::string name, glm::mat4& data) : ParameterContainer(name, ShaderDataType::Matrix), m_Data(data) {}
 		inline virtual char* GetCharData() override { return (char*)glm::value_ptr(m_Data); };
 		inline const glm::mat4& GetData() { return m_Data; }
 		inline void SetData(glm::mat4& updated) { m_Data = updated; }
 		inline virtual void ResetData() override {}
-		inline virtual Ref<ShaderParameter> MakeCopy() override { return Ref<ShaderParameter>(new ShaderParameterMatrix(GetName(), m_Data)); }
+		inline virtual Ref<ParameterContainer> MakeCopy() override { return Ref<ParameterContainer>(new MatrixContainor(GetName(), m_Data)); }
 	private:
 		glm::mat4 m_Data;
 	};
 
-	static Ref<ShaderParameter> ConvertToParameter(std::string name, ShaderDataType type, char* data) {
+	static Ref<ParameterContainer> ConvertToParameter(std::string name, ShaderDataType type, char* data) {
 		switch (type) {
 		case ShaderDataType::Matrix:
-			return Ref<ShaderParameter>(new ShaderParameterMatrix(name, *((glm::mat4*)data)));
+			return Ref<ParameterContainer>(new MatrixContainor(name, *((glm::mat4*)data)));
 		case ShaderDataType::Float4:
-			return Ref<ShaderParameter>(new ShaderParameterFloat4(name, *((glm::vec4*)data)));
+			return Ref<ParameterContainer>(new Float4Containor(name, *((glm::vec4*)data)));
 		case ShaderDataType::Float:
-			return Ref<ShaderParameter>(new ShaderParameterFloat(name, *((glm::vec1*)data)));
+			return Ref<ParameterContainer>(new FloatContainer(name, *((glm::vec1*)data)));
 		case ShaderDataType::Float2:
-			return Ref<ShaderParameter>(new ShaderParameterFloat2(name, *((glm::vec2*)data)));
+			return Ref<ParameterContainer>(new Float2Container(name, *((glm::vec2*)data)));
 		case ShaderDataType::Float3:
-			return Ref<ShaderParameter>(new ShaderParameterFloat3(name, *((glm::vec3*)data)));
+			return Ref<ParameterContainer>(new Float3Container(name, *((glm::vec3*)data)));
 		case ShaderDataType::Int:
-			return Ref<ShaderParameter>(new ShaderParameterInt(name, *((int*)data)));
+			return Ref<ParameterContainer>(new IntContainer(name, *((int*)data)));
 		case ShaderDataType::Int2:
-			return Ref<ShaderParameter>(new ShaderParameterInt2(name, (int*)data));
+			return Ref<ParameterContainer>(new Int2Container(name, (int*)data));
 		case ShaderDataType::Int3:
-			return Ref<ShaderParameter>(new ShaderParameterInt3(name, (int*)data));
+			return Ref<ParameterContainer>(new Int3Container(name, (int*)data));
 		default:
 			return 0;
 		}

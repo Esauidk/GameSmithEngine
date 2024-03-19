@@ -43,7 +43,7 @@ namespace GameSmith {
 		
 		std::vector<std::string> parameterNames;
 		std::vector<std::string> textureNames;
-		std::unordered_map<std::string, Ref<ShaderParameter>> parameterMap;
+		std::unordered_map<std::string, Ref<ParameterContainer>> parameterMap;
 		std::unordered_map<std::string, Ref<TextureAsset>> textureMap;
 
 		for (unsigned int i = 0; i < metadata->ParamterCount; i++) {
@@ -53,7 +53,7 @@ namespace GameSmith {
 			unsigned int dataSize = GetParameterSize(*dataType);
 			char* data = reader.GetBytes(dataSize);
 
-			Ref<ShaderParameter> parm = ConvertToParameter(paramName, *dataType, data);
+			Ref<ParameterContainer> parm = ConvertToParameter(paramName, *dataType, data);
 
 			parameterNames.push_back(paramName);
 			parameterMap.insert({ paramName, parm });
