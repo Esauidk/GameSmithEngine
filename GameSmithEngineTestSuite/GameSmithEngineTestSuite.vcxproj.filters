@@ -60,5 +60,6 @@
       <Filter>GameSmithEngineTest\Rendering\RenderAgnostics\LightingSystem\Sources</Filter>
     </ClCompile>
     <ClCompile Include="tst\TestEntry.cpp" />
+    <ClCompile Include="tst\GameSmithEngineTest\Utilities\ExposedVariableRegistryTest.cpp" />
   </ItemGroup>
 </Project>

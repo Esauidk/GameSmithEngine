@@ -140,6 +140,7 @@
     <ClCompile Include="tst\GameSmithEngineTest\GameChunkSystem\GameChunkTest.cpp" />
     <ClCompile Include="tst\GameSmithEngineTest\Rendering\RenderAgnostics\LightingSystem\Sources\DirectionalLightTest.cpp" />
     <ClCompile Include="tst\GameSmithEngineTest\Rendering\RenderAgnostics\LightingSystem\Sources\PointLightTest.cpp" />
+    <ClCompile Include="tst\GameSmithEngineTest\Utilities\ExposedVariableRegistryTest.cpp" />
     <ClCompile Include="tst\TestEntry.cpp" />
   </ItemGroup>
   <ItemGroup>

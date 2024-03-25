@@ -1,6 +1,6 @@
 #pragma once
 #include <gepch.h>
-#include "GameSmithEngine/Rendering/RenderAgnostics/Shaders/ShaderParameter.h"
+#include "GameSmithEngine/Utilities/ParameterContainer.h"
 
 namespace GameSmith {
 	class SLabMetadata {

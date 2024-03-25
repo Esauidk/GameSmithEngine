@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameSmithEngine/Core/Core.h"
+#include "GameSmithEngine/Utilities/ExposedVariableRegistry.h"
 
 namespace GameSmith {
 	class GameObject;
@@ -16,12 +17,15 @@ namespace GameSmith {
 		virtual void OnDestroy() = 0;
 		virtual int GetPriority() const = 0;
 
+		void BootstrapRegistry(std::unordered_map<std::string, Ref<ParameterContainer>> variableEntries) { m_Registry.BootstrapFromValueMap(variableEntries); }
+		void GenerateVariableEntries(std::unordered_map<std::string, Ref<ParameterContainer>>& outMap) { m_Registry.GenerateVariableMap(outMap); }
 		GameObject* GetGameObject() { return m_GameObject; }
 		Transform* GetTransform() { return m_Transform; }
 	protected:
 		bool m_Initialized;
 		GameObject* m_GameObject;
 		Transform* m_Transform;
+		ExposedVariableRegistry m_Registry;
 	};
 
 	struct ComponentCompare {

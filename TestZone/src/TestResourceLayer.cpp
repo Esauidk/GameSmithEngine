@@ -21,8 +21,8 @@ TestResourceLayer::TestResourceLayer()
 	std::string paramName("color");
 	writer.WriteString(paramName);
 
-	GameSmith::ShaderDataType dataType = GameSmith::ShaderDataType::Float3;
-	writer.WriteClass<GameSmith::ShaderDataType>(&dataType);
+	GameSmith::ContainerDataType dataType = GameSmith::ContainerDataType::Float3;
+	writer.WriteClass<GameSmith::ContainerDataType>(&dataType);
 
 	glm::vec3 mat(2, 5, 1);
 	writer.WriteClass<glm::vec3>(&mat);

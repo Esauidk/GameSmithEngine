@@ -49,7 +49,7 @@ namespace GameSmith {
 		for (unsigned int i = 0; i < metadata->ParamterCount; i++) {
 			GE_CORE_INFO("Loading parameter {0}", i);
 			std::string paramName = reader.GetString();
-			ShaderDataType* dataType = reader.ReadClass<ShaderDataType>();
+			ContainerDataType* dataType = reader.ReadClass<ContainerDataType>();
 			unsigned int dataSize = GetParameterSize(*dataType);
 			char* data = reader.GetBytes(dataSize);
 

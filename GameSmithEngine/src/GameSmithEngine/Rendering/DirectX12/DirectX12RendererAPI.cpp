@@ -191,9 +191,9 @@ namespace GameSmith {
 		);
 
 		BufferLayoutBuilder layout = { 
-			{"POSITION", ShaderDataType::Float3}, 
-			{"UV_TEXCOORD", ShaderDataType::Float2}, 
-			{"NORMAL", ShaderDataType::Float3} 
+			{"POSITION", ContainerDataType::Float3}, 
+			{"UV_TEXCOORD", ContainerDataType::Float2}, 
+			{"NORMAL", ContainerDataType::Float3} 
 		};
 		DirectX12InputLayout dxLayout(layout);
 		DirectX12PipelineArgs args = {

@@ -42,7 +42,6 @@
 
 // Material System
 #include "GameSmithEngine/Rendering/RenderAgnostics/MaterialSystem/Material.h"
-#include "GameSmithEngine/Rendering/RenderAgnostics/Shaders/ShaderParameter.h"
 // -------------------------------------
 
 // ----------- Entity System -------------
@@ -67,6 +66,10 @@
 #include "GameSmithEngine/ResourceAssets/MaterialAsset.h"
 #include "GameSmithEngine/ResourceAssets/ShaderAsset.h"
 #include "GameSmithEngine/ResourceAssets/MeshAsset.h"
+
+
+// -------------- Utilities ----------------
+#include "GameSmithEngine/Utilities/ParameterContainer.h"
 
 #ifndef ENTRY_USED
 // ENTRY POINT TO GAME ENGINE

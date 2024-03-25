@@ -30,8 +30,8 @@ void TestComponentLayer::OnAttach()
 	std::string paramName("Model");
 	writer.WriteString(paramName);
 
-	GameSmith::ShaderDataType dataType = GameSmith::ShaderDataType::Matrix;
-	writer.WriteClass<GameSmith::ShaderDataType>(&dataType);
+	GameSmith::ContainerDataType dataType = GameSmith::ContainerDataType::Matrix;
+	writer.WriteClass<GameSmith::ContainerDataType>(&dataType);
 
 	glm::mat4 mat;
 	writer.WriteClass<glm::mat4>(&mat);

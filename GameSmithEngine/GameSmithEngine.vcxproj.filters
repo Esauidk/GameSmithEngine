@@ -387,7 +387,7 @@
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\SLab\SLab.h">
       <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\SLab</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\ShaderParameter.h">
+    <ClInclude Include="src\GameSmithEngine\Utilities\ParameterContainer.h">
       <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\ShaderUtil.h">
@@ -1701,6 +1701,7 @@
     <ClInclude Include="third-party\tinyobjloader\tiny_obj_loader.h">
       <Filter>third-party\tinyobjloader</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\Utilities\ExposedVariableRegistry.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GameSmithEngine\Core\Application.cpp">
@@ -1883,6 +1884,7 @@
     <ClCompile Include="third-party\stb\std_image.cpp">
       <Filter>third-party\stb</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\Utilities\ExposedVariableRegistry.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Domain\BasicRenderDS.hlsl" />

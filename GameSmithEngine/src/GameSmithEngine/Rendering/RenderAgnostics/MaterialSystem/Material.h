@@ -1,9 +1,9 @@
 #pragma once
-#include "GameSmithEngine/Rendering/RenderAgnostics/Shaders/ShaderParameter.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/RenderComponents/ConstantBuffer.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/RenderComponents/PipelineStateObject.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/RenderComponents/PipelineStateInitializer.h"
 #include "GameSmithEngine/ResourceAssets/TextureAsset.h"
+#include "GameSmithEngine/Utilities/ParameterContainer.h"
 #include "GameSmithEngine/Core/Log.h"
 
 namespace GameSmith {

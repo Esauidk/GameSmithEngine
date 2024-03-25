@@ -1,12 +1,12 @@
 #pragma once
 
-#include "GameSmithEngine/Rendering/RenderAgnostics/Shaders/ShaderParameter.h"
+#include "GameSmithEngine/Utilities/ParameterContainer.h"
 
 namespace GameSmith {
 	// A definition that can be used to define a piece or all of vertex data
 	struct BufferElement {
 		std::string SemanticName;
-		ShaderDataType Type;
+		ContainerDataType Type;
 	};
 
 	// A class that is used to define vertex data before translating into a Render API format

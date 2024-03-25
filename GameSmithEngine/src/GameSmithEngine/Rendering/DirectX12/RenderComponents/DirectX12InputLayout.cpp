@@ -9,31 +9,31 @@ namespace GameSmith {
 		UINT index = 0;
 		for (const auto& element : layout) {
 			switch (element.Type) {
-			case ShaderDataType::Float:
+			case ContainerDataType::Float:
 				m_Desc[index] = { element.SemanticName.c_str(), 0, DXGI_FORMAT_R32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 };
 				break;
-			case ShaderDataType::Float2:
+			case ContainerDataType::Float2:
 				m_Desc[index] = { element.SemanticName.c_str(), 0, DXGI_FORMAT_R32G32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 };
 				break;
-			case ShaderDataType::Float3:
+			case ContainerDataType::Float3:
 				m_Desc[index] = { element.SemanticName.c_str(), 0, DXGI_FORMAT_R32G32B32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 };
 				break;
-			case ShaderDataType::Float4:
+			case ContainerDataType::Float4:
 				m_Desc[index] = { element.SemanticName.c_str(), 0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 };
 				break;
-			case ShaderDataType::Int:
+			case ContainerDataType::Int:
 				m_Desc[index] = { element.SemanticName.c_str(), 0, DXGI_FORMAT_R32_SINT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 };
 				break;
-			case ShaderDataType::Int2:
+			case ContainerDataType::Int2:
 				m_Desc[index] = { element.SemanticName.c_str(), 0, DXGI_FORMAT_R32G32_SINT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 };
 				break;
-			case ShaderDataType::Int3:
+			case ContainerDataType::Int3:
 				m_Desc[index] = { element.SemanticName.c_str(), 0, DXGI_FORMAT_R32G32B32_SINT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 };
 				break;
-			case ShaderDataType::Int4:
+			case ContainerDataType::Int4:
 				m_Desc[index] = { element.SemanticName.c_str(), 0, DXGI_FORMAT_R32G32B32_SINT, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 };
 				break;
-			case ShaderDataType::Bool:
+			case ContainerDataType::Bool:
 				m_Desc[index] = { element.SemanticName.c_str(), 0, DXGI_FORMAT_R8_TYPELESS, 0, D3D12_APPEND_ALIGNED_ELEMENT, D3D12_INPUT_CLASSIFICATION_PER_VERTEX_DATA, 0 };
 				break;
 			default:

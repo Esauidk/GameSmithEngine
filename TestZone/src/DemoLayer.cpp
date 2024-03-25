@@ -33,8 +33,8 @@ DemoLayer::DemoLayer() : GameSmith::Layer("Demo Layer"), m_PerpCam(glm::pi<float
 	std::string paramName("Model");
 	writer.WriteString(paramName);
 
-	GameSmith::ShaderDataType dataType = GameSmith::ShaderDataType::Matrix;
-	writer.WriteClass<GameSmith::ShaderDataType>(&dataType);
+	GameSmith::ContainerDataType dataType = GameSmith::ContainerDataType::Matrix;
+	writer.WriteClass<GameSmith::ContainerDataType>(&dataType);
 
 	glm::mat4 mat;
 	writer.WriteClass<glm::mat4>(&mat);
@@ -54,56 +54,56 @@ DemoLayer::DemoLayer() : GameSmith::Layer("Demo Layer"), m_PerpCam(glm::pi<float
 	writer1.WriteString(ps1);
 
 	writer1.WriteString(paramName);
-	writer1.WriteClass<GameSmith::ShaderDataType>(&dataType);
+	writer1.WriteClass<GameSmith::ContainerDataType>(&dataType);
 	writer1.WriteClass<glm::mat4>(&mat);
 
-	GameSmith::ShaderDataType dataType1 = GameSmith::ShaderDataType::Float4;
+	GameSmith::ContainerDataType dataType1 = GameSmith::ContainerDataType::Float4;
 
 	paramName = "Color1";
 	writer1.WriteString(paramName);
-	writer1.WriteClass<GameSmith::ShaderDataType>(&dataType1);
+	writer1.WriteClass<GameSmith::ContainerDataType>(&dataType1);
 	glm::vec4 color1(0.0f, 1.0f, 0.0f, 1.0f);
 	writer1.WriteClass<glm::vec4>(&color1);
 
 	paramName = "Color2";
 	writer1.WriteString(paramName);
-	writer1.WriteClass<GameSmith::ShaderDataType>(&dataType1);
+	writer1.WriteClass<GameSmith::ContainerDataType>(&dataType1);
 	color1 = { 1.0f, 0.0f, 0.0f, 1.0f };
 	writer1.WriteClass<glm::vec4>(&color1);
 
 	 paramName = "Color3";
 	writer1.WriteString(paramName);
-	writer1.WriteClass<GameSmith::ShaderDataType>(&dataType1);
+	writer1.WriteClass<GameSmith::ContainerDataType>(&dataType1);
 	color1 = { 0.0f, 0.0f, 1.0f, 1.0f };
 	writer1.WriteClass<glm::vec4>(&color1);
 
 	paramName = "Color4";
 	writer1.WriteString(paramName);
-	writer1.WriteClass<GameSmith::ShaderDataType>(&dataType1);
+	writer1.WriteClass<GameSmith::ContainerDataType>(&dataType1);
 	color1 = { 1.0f, 1.0f, 0.0f, 1.0f };
 	writer1.WriteClass<glm::vec4>(&color1);
 
 	paramName = "Color5";
 	writer1.WriteString(paramName);
-	writer1.WriteClass<GameSmith::ShaderDataType>(&dataType1);
+	writer1.WriteClass<GameSmith::ContainerDataType>(&dataType1);
 	color1 = { 1.0f, 0.0f, 1.0f, 1.0f };
 	writer1.WriteClass<glm::vec4>(&color1);
 
 	paramName = "Color6";
 	writer1.WriteString(paramName);
-	writer1.WriteClass<GameSmith::ShaderDataType>(&dataType1);
+	writer1.WriteClass<GameSmith::ContainerDataType>(&dataType1);
 	color1 = { 0.0f, 1.0f, 1.0f, 1.0f };
 	writer1.WriteClass<glm::vec4>(&color1);
 
 	paramName = "Color7";
 	writer1.WriteString(paramName);
-	writer1.WriteClass<GameSmith::ShaderDataType>(&dataType1);
+	writer1.WriteClass<GameSmith::ContainerDataType>(&dataType1);
 	color1 = { 1.0f, 1.0f, 1.0f, 1.0f };
 	writer1.WriteClass<glm::vec4>(&color1);
 
 	paramName = "Color8";
 	writer1.WriteString(paramName);
-	writer1.WriteClass<GameSmith::ShaderDataType>(&dataType1);
+	writer1.WriteClass<GameSmith::ContainerDataType>(&dataType1);
 	color1 = { 0.0f, 0.0f, 0.0f, 1.0f };
 	writer1.WriteClass<glm::vec4>(&color1);
 
@@ -121,7 +121,7 @@ DemoLayer::DemoLayer() : GameSmith::Layer("Demo Layer"), m_PerpCam(glm::pi<float
 
 	paramName = "Model";
 	writer2.WriteString(paramName);
-	writer2.WriteClass<GameSmith::ShaderDataType>(&dataType);
+	writer2.WriteClass<GameSmith::ContainerDataType>(&dataType);
 	writer2.WriteClass<glm::mat4>(&mat);
 
 	paramName = "texture";
@@ -146,7 +146,7 @@ DemoLayer::DemoLayer() : GameSmith::Layer("Demo Layer"), m_PerpCam(glm::pi<float
 
 	paramName = "Model";
 	writer3.WriteString(paramName);
-	writer3.WriteClass<GameSmith::ShaderDataType>(&dataType);
+	writer3.WriteClass<GameSmith::ContainerDataType>(&dataType);
 	writer3.WriteClass<glm::mat4>(&mat);
 
 	auto LightAsset = instance->GetResource<GameSmith::MaterialAsset>("LightAsset", writer3.GetBuffer(), writer3.GetBufferSize());
