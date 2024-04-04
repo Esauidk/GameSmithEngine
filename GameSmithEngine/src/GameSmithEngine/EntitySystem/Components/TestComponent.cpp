@@ -10,7 +10,7 @@ namespace GameSmith {
 
 	void TestComponent::OnUpdate(float dt)
 	{
-		GE_CORE_INFO("Updated Test Component");
+		GE_CORE_INFO("{0}", testExposedVariable);
 	}
 
 	void TestComponent::OnDestroy()

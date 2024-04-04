@@ -10,6 +10,7 @@ public:
 	bool GetInitCheck() { return m_InitRan; }
 	bool GetUpdateCheck() { return m_UpdateRan; }
 	virtual int GetPriority() const { return 0; }
+	virtual std::string GetName() const override { return "Test Component"; }
 private:
 	bool m_InitRan;
 	bool m_UpdateRan;

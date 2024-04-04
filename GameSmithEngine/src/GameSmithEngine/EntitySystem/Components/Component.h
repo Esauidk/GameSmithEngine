@@ -16,9 +16,10 @@ namespace GameSmith {
 		virtual void OnUpdate(float dt) = 0;
 		virtual void OnDestroy() = 0;
 		virtual int GetPriority() const = 0;
+		virtual std::string GetName() const = 0;
 
 		void BootstrapRegistry(std::unordered_map<std::string, Ref<ParameterContainer>> variableEntries) { m_Registry.BootstrapFromValueMap(variableEntries); }
-		void GenerateVariableEntries(std::unordered_map<std::string, Ref<ParameterContainer>>& outMap) { m_Registry.GenerateVariableMap(outMap); }
+		void GenerateVariableEntries(std::unordered_map<std::string, Ref<ParameterContainer>>* outMap) { m_Registry.GenerateVariableMap(outMap); }
 		GameObject* GetGameObject() { return m_GameObject; }
 		Transform* GetTransform() { return m_Transform; }
 	protected:

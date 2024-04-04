@@ -2,11 +2,11 @@
 #include "ExposedVariableRegistry.h"
 
 namespace GameSmith {
-	void ExposedVariableRegistry::GenerateVariableMap(std::unordered_map<std::string, Ref<ParameterContainer>>& outMap)
+	void ExposedVariableRegistry::GenerateVariableMap(std::unordered_map<std::string, Ref<ParameterContainer>>* outMap)
 	{
 		for (auto& entry : m_Registry) {
 			auto container = CreateContainer(entry.first, entry.second.variableDataType);
-			outMap.insert({ container->GetName(), container });
+			outMap->insert({ container->GetName(), container });
 		}
 	}
 

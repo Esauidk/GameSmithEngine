@@ -50,6 +50,7 @@ public:
 	virtual void OnStart() override { }
 	virtual void OnUpdate(float dt);
 	virtual void OnDestroy() override {}
+	virtual std::string GetName() const override { return "Demo Script"; };
 	virtual int GetPriority() const { return 0; }
 	inline void SetTimeScale(float scale) { m_TimeScale = scale; }
 	inline void SetOribitSpeeds(glm::vec3 speeds) { m_OribitSpeeds = speeds; }
