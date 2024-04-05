@@ -97,6 +97,19 @@ namespace GameSmith {
 		 int m_Data[3];
 	};
 
+	class Int4Container : public ParameterContainer {
+	public:
+		Int4Container(std::string name) : ParameterContainer(name, ContainerDataType::Int4), m_Data() {}
+		Int4Container(std::string name, int* data) : ParameterContainer(name, ContainerDataType::Int4) { memcpy(m_Data, data, sizeof(int) * 4); }
+		inline virtual char* GetCharData() override { return (char*)&m_Data; };
+		inline const int* GetData() { return m_Data; }
+		inline void SetData(int* updated) { memcpy(m_Data, updated, GetSize()); }
+		inline virtual void ResetData() override {}
+		inline virtual Ref<ParameterContainer> MakeCopy() override { return Ref<ParameterContainer>(new Int3Container(GetName(), m_Data)); }
+	private:
+		int m_Data[4];
+	};
+
 	class FloatContainer : public ParameterContainer {
 	public:
 		FloatContainer(std::string name) : ParameterContainer(name, ContainerDataType::Float), m_Data(0) {}
@@ -203,6 +216,8 @@ namespace GameSmith {
 			return Ref<ParameterContainer>(new Int2Container(name));
 		case ContainerDataType::Int3:
 			return Ref<ParameterContainer>(new Int3Container(name));
+		case ContainerDataType::Int4:
+			return Ref<ParameterContainer>(new Int4Container(name));
 		default:
 			return 0;
 		}
