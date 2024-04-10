@@ -1702,6 +1702,7 @@
       <Filter>third-party\tinyobjloader</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Utilities\ExposedVariableRegistry.h" />
+    <ClInclude Include="src\GameSmithEngine\EntitySystem\Components\ComponentFactory.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GameSmithEngine\Core\Application.cpp">
@@ -1885,6 +1886,7 @@
       <Filter>third-party\stb</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\Utilities\ExposedVariableRegistry.cpp" />
+    <ClCompile Include="src\GameSmithEngine\EntitySystem\Components\ComponentFactory.cpp" />
   </ItemGroup>
   <ItemGroup>
     <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Domain\BasicRenderDS.hlsl" />

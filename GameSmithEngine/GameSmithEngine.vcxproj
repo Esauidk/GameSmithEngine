@@ -149,6 +149,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\GameSmithEngine\EntitySystem\Components\ComponentFactory.h" />
     <ClInclude Include="src\GameSmithEngine\Utilities\ExposedVariableRegistry.h" />
     <ClInclude Include="src\GameSmithEngine.h" />
     <ClInclude Include="src\GameSmithEngine\Core\Application.h" />
@@ -674,6 +675,7 @@
     <ClInclude Include="third-party\tinyobjloader\tiny_obj_loader.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\GameSmithEngine\EntitySystem\Components\ComponentFactory.cpp" />
     <ClCompile Include="src\GameSmithEngine\Utilities\ExposedVariableRegistry.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\Application.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\Layer.cpp" />

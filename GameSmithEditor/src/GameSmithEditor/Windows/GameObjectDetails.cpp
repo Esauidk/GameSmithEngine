@@ -60,18 +60,28 @@ namespace GameSmithEditor {
 
 			if (ImGui::BeginPopupModal("Component Picker")) {
 				if (ImGui::BeginListBox("Component Options", ImVec2(ImGui::GetWindowWidth(), ImGui::GetWindowHeight() * 0.5f))) {
-					if (ImGui::Selectable("Test Component", false)) {
+					auto compRegistry = GameSmith::ComponentRegistry::GetInstance();
+					std::vector<std::string> availableComps;
+					compRegistry->ListRegisteredComponents(&availableComps);
+
+					for (auto entry : availableComps) {
+						if (ImGui::Selectable(entry.c_str(), entry == m_CurCompSelection)) {
+							m_CurCompSelection = entry;
+						}
 					}
+
+					
 					ImGui::EndListBox();
 				}
 
 				if (ImGui::Button("Add", ImVec2(120, 0))) { 
-					auto newComponent = m_Object.lock()->AddComponent<GameSmith::TestComponent>();
+					auto newComponent = m_Object.lock()->AddComponent(m_CurCompSelection);
 					m_Components.push_back(newComponent);
 					std::unordered_map<std::string, GameSmith::Ref<GameSmith::ParameterContainer>> compMap;
 					newComponent.lock()->GenerateVariableEntries(&compMap);
 					m_ExposedVariables.insert({ newComponent.lock()->GetName(), compMap });
 
+					m_CurCompSelection = "";
 					ImGui::CloseCurrentPopup(); 
 				}
 				ImGui::SameLine(ImGui::GetWindowWidth()-ImGui::GetCursorPosX() - 120);
