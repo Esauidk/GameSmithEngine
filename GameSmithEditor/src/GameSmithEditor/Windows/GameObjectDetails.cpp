@@ -1,5 +1,6 @@
 #include "GameObjectDetails.h"
 #include "SimulationContentView.h"
+#include "GameSmithEditor//CustomWidgets/ReferenceInputWidget.h"
 #include "imgui.h"
 
 namespace GameSmithEditor {
@@ -37,9 +38,21 @@ namespace GameSmithEditor {
 	void GameObjectDetails::OnImGuiRender()
 	{
 		ImGui::Begin("GameObject Details");
+		InputReference();
 		if (!m_Object.expired()) {
-			if (!m_Object.expired() && ImGui::CollapsingHeader("Transform")) {
+			if (ImGui::CollapsingHeader("Transform")) {
+				auto lockTransform = m_Object.lock()->GetTransform().lock();
+				glm::vec3 pos = lockTransform->GetPosition();
+				glm::vec3 rot = lockTransform->GetRotation();
+				glm::vec3 scale = lockTransform->GetScale();
 
+				ImGui::InputFloat3("Position", glm::value_ptr(pos));
+				ImGui::InputFloat3("Rotation", glm::value_ptr(rot));
+				ImGui::InputFloat3("Scale", glm::value_ptr(scale));
+
+				lockTransform->SetPosition(pos);
+				lockTransform->SetRotation(rot);
+				lockTransform->SetScale(scale);
 			}
 
 			for (auto comp : m_Components) {
@@ -75,11 +88,24 @@ namespace GameSmithEditor {
 				}
 
 				if (ImGui::Button("Add", ImVec2(120, 0))) { 
-					auto newComponent = m_Object.lock()->AddComponent(m_CurCompSelection);
+					auto newComponent = m_Object.lock()->AddComponent(m_CurCompSelection).lock();
 					m_Components.push_back(newComponent);
 					std::unordered_map<std::string, GameSmith::Ref<GameSmith::ParameterContainer>> compMap;
-					newComponent.lock()->GenerateVariableEntries(&compMap);
-					m_ExposedVariables.insert({ newComponent.lock()->GetName(), compMap });
+					newComponent->GenerateVariableEntries(&compMap);
+					m_ExposedVariables.insert({ newComponent->GetName(), compMap });
+
+					// TODO: Temporary
+					if (m_CurCompSelection == "MeshRenderer") {
+						auto renderer = GameSmith::CastPtr<GameSmith::MeshRenderer>(newComponent);
+						renderer->SetMesh(GameSmith::ResourceManager::GetInstance()->GetResource<GameSmith::MeshAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\test.obj"));
+
+						auto mat = GameSmith::ResourceManager::GetInstance()->GetResource<GameSmith::MaterialAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\ColorMat.mat");
+						for (unsigned int i = 0; i < renderer->GetMaterialSlots(); i++) {
+							renderer->SetMaterial(i, mat->CreateInstance());
+						}
+
+
+					}
 
 					m_CurCompSelection = "";
 					ImGui::CloseCurrentPopup(); 

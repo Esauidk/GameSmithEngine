@@ -1,5 +1,6 @@
 #include "gepch.h"
 #include "ResourceAssetHelper.h"
+#include "GameSmithEngine/Core/Log.h"
 
 namespace GameSmith {
 	std::string ResourceAssetReader::GetString()
@@ -35,6 +36,16 @@ namespace GameSmith {
 	void ResourceAssetWriter::WriteByte(char* bytes, unsigned int byteCount)
 	{
 		memcpy(m_CurPtr, bytes, byteCount);
+	}
+
+	void ResourceAssetWriter::CommitToFile(std::string destination)
+	{
+		std::fstream pFile(destination, std::ios::out | std::ios::binary | std::ios::ate);
+		GE_CORE_ASSERT(pFile.is_open(), std::format("Asset file {0} cannot be opened", destination));
+
+		pFile.seekg(0, pFile.beg);
+		pFile.write(m_Buffer.get(), m_CurPtr - m_Buffer.get());
+		pFile.close();
 	}
 };
 

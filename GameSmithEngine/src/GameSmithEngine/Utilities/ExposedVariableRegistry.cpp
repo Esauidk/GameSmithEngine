@@ -5,7 +5,7 @@ namespace GameSmith {
 	void ExposedVariableRegistry::GenerateVariableMap(std::unordered_map<std::string, Ref<ParameterContainer>>* outMap)
 	{
 		for (auto& entry : m_Registry) {
-			auto container = CreateContainer(entry.first, entry.second.variableDataType);
+			auto container = ConvertToParameter(entry.first, entry.second.variableDataType, (char*)entry.second.originalVariableRef);
 			outMap->insert({ container->GetName(), container });
 		}
 	}

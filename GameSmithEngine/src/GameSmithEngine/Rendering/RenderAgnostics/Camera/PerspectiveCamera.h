@@ -5,9 +5,11 @@ namespace GameSmith {
 	class PerspectiveCamera : public Camera
 	{
 	public:
-		PerspectiveCamera(float FOV, float width, float height, float zNear = 0.2f, float zFar = 500.0f);
+		PerspectiveCamera(float width, float height, float FOV = glm::radians(60.0f), float zNear = 0.2f, float zFar = 500.0f);
+		PerspectiveCamera(float FOV = glm::radians(60.0f), float zNear = 0.2f, float zFar = 500.0f);
 		void SetWidth(float width);
 		void SetHeight(float height);
+		void SetFOV(float fov);
 	private:
 		void UpdateProjectionMatrix();
 	private:

@@ -4,7 +4,7 @@
 
 #include "GameSmithEngine/ResourceManagement/ResourceAssetHelper.h"
 
-DemoLayer::DemoLayer() : GameSmith::Layer("Demo Layer"), m_PerpCam(glm::pi<float>() / 3, (float)GameSmith::Application::Get().GetWindow()->GetWidth(), (float)GameSmith::Application::Get().GetWindow()->GetHeight())
+DemoLayer::DemoLayer() : GameSmith::Layer("Demo Layer"), m_PerpCam((float)GameSmith::Application::Get().GetWindow()->GetWidth(), (float)GameSmith::Application::Get().GetWindow()->GetHeight(), glm::pi<float>() / 3, 0, 500.0f)
 {
 	auto renderManager = GameSmith::RenderingManager::GetInstance();
 	float color[4] = { 0.07f, 0.0f, 0.12f, 1.0f };
@@ -107,7 +107,8 @@ DemoLayer::DemoLayer() : GameSmith::Layer("Demo Layer"), m_PerpCam(glm::pi<float
 	color1 = { 0.0f, 0.0f, 0.0f, 1.0f };
 	writer1.WriteClass<glm::vec4>(&color1);
 
-	m_ColorMatAsset = instance->GetResource<GameSmith::MaterialAsset>("ColorMat", writer1.GetBuffer(), writer1.GetBufferSize());
+	writer1.CommitToFile("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\ColorMat.mat");
+	m_ColorMatAsset = instance->GetResource<GameSmith::MaterialAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\ColorMat.mat");
 
 	GameSmith::ResourceAssetWriter writer2(700);
 	meta.TetureCount = 1;
@@ -128,6 +129,8 @@ DemoLayer::DemoLayer() : GameSmith::Layer("Demo Layer"), m_PerpCam(glm::pi<float
 	writer2.WriteString(paramName);
 	std::string tex("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\thief.png");
 	writer2.WriteString(tex);
+
+
 
 	m_LummieThiefAsset = instance->GetResource<GameSmith::MaterialAsset>("LummieAsset", writer2.GetBuffer(), writer2.GetBufferSize());
 	auto render = GameSmith::RenderingManager::GetInstance()->GetRenderAPI();

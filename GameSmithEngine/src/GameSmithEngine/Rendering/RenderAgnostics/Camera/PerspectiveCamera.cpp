@@ -1,8 +1,9 @@
 #include "gepch.h"
 #include "PerspectiveCamera.h"
+#include "GameSmithEngine/Core/Application.h"
 
 namespace GameSmith {
-	PerspectiveCamera::PerspectiveCamera(float FOV, float width, float height, float zNear, float zFar) : Camera()
+	PerspectiveCamera::PerspectiveCamera(float width, float height, float FOV, float zNear, float zFar) : Camera()
 	{
 		m_FOV = FOV;
 		m_Width = width;
@@ -10,6 +11,19 @@ namespace GameSmith {
 		m_ZNear = zNear;
 		m_ZFar = zFar;
 		
+		UpdateProjectionMatrix();
+	}
+
+	PerspectiveCamera::PerspectiveCamera(float FOV, float zNear, float zFar)
+	{
+		m_FOV = FOV;
+		m_ZNear = zNear;
+		m_ZFar = zFar;
+
+		auto wnd = Application::Get().GetWindow();
+		m_Width = (float)wnd->GetWidth();
+		m_Height = (float)wnd->GetHeight();
+
 		UpdateProjectionMatrix();
 	}
 
@@ -22,6 +36,12 @@ namespace GameSmith {
 	void PerspectiveCamera::SetHeight(float height)
 	{
 		m_Height = height;
+		UpdateProjectionMatrix();
+	}
+
+	void PerspectiveCamera::SetFOV(float fov)
+	{
+		m_FOV = fov;
 		UpdateProjectionMatrix();
 	}
 

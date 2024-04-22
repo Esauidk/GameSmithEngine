@@ -1,4 +1,8 @@
 #include "EditorCoreLayer.h"
+
+//TODO: Temporary, remove after demo
+#include "SampleComponents/OrbitScript.h"
+
 // TODO: Don't manually import each layer/window
 #include "Windows/GameViewLayer.h"
 #include "Windows/SimulationContentView.h"
@@ -6,6 +10,12 @@
 #include "imgui.h"
 
 namespace GameSmithEditor {
+	// TODO: Temporary, remove after demo
+	static void RegisterSampleComponents() {
+		auto registry = GameSmith::ComponentRegistry::GetInstance();
+		registry->RegisterComponent("OrbitScript", [](GameSmith::GameObject* g, GameSmith::Transform* t) {return (GameSmith::Component*)new OrbitScript(g, t); });
+	}
+
 	EditorCoreLayer::EditorCoreLayer() : GameSmith::Layer("Editor Core"), m_App(GameSmith::Application::Get())
 	{
 		m_App.GetImGuiInstance()->SetDockspace(true);
@@ -17,6 +27,9 @@ namespace GameSmithEditor {
 		GameSmith::RegisterEvent<GameSmith::WindowResizeEvent>(&GameSmith::Window::s_Resized, GE_BIND_EVENT_FN(GameSmith::RenderTexture::WindowResized, m_EditorScreen.get()), false);
 		renderManager->GetRenderAPI()->SetRenderTexture(m_EditorScreen, 0);
 		renderManager->SetFrameTexture(m_EditorScreen);
+
+		// TODO: Temporary, remove after demo
+		RegisterSampleComponents();
 	}
 
 	void EditorCoreLayer::OnImGuiRender()

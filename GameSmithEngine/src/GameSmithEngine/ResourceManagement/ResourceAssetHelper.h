@@ -36,6 +36,7 @@ namespace GameSmith {
 		}
 
 		void WriteByte(char* bytes, unsigned int byteCount);
+		void CommitToFile(std::string destination);
 
 		inline char* GetBuffer() { return m_Buffer.get(); }
 		inline unsigned int GetBufferSize() { return m_BufferSize; }

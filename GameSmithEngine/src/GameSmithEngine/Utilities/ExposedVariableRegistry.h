@@ -2,9 +2,14 @@
 #include "ParameterContainer.h"
 
 namespace GameSmith {
+	enum ExposedVariableFlags {
+		Asset = 0x1
+	};
+
 	struct ExposedVariableEntry {
 		void* originalVariableRef;
 		ContainerDataType variableDataType;
+		unsigned int flags;
 	};
 
 	class ExposedVariableRegistry

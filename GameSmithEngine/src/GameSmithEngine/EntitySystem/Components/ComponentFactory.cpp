@@ -4,6 +4,7 @@
 
 #include "MeshRenderer.h"
 #include "TestComponent.h"
+#include "CameraComponent.h"
 
 
 namespace GameSmith {
@@ -28,6 +29,7 @@ namespace GameSmith {
 	{
 		RegisterComponent("MeshRenderer", [](GameObject* g, Transform* t) {return new MeshRenderer(g, t); });
 		RegisterComponent("TestComponent", [](GameObject* g, Transform* t) {return new TestComponent(g, t); });
+		RegisterComponent("CameraComponent", [](GameObject* g, Transform* t) {return new CameraComponent(g, t); });
 	}
 };
 

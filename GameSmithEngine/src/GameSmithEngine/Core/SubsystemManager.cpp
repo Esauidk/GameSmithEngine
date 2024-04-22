@@ -24,6 +24,8 @@ namespace GameSmith {
 
 		m_GameplayUpdater.RunGameplayInit();
 		m_GameplayUpdater.RunGameplayUpdate(dt);
+
+		m_EntityRenderPreparer.SendForRendering();
 	}
 
 	void SubsystemManager::EndUpdate()

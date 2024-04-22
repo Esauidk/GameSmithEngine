@@ -10,7 +10,7 @@
 
 #include "GameSmithEngine/Core/Log.h"
 
-SandBoxLayer::SandBoxLayer() : Layer("SandBox"), m_Cam(-1.6f, 1.6f, -0.9f, 0.9f), m_PerpCam(glm::pi<float>() / 3, (float)GameSmith::Application::Get().GetWindow()->GetWidth(), (float)GameSmith::Application::Get().GetWindow()->GetHeight()),
+SandBoxLayer::SandBoxLayer() : Layer("SandBox"), m_Cam(-1.6f, 1.6f, -0.9f, 0.9f), m_PerpCam((float)GameSmith::Application::Get().GetWindow()->GetWidth(), (float)GameSmith::Application::Get().GetWindow()->GetHeight(), glm::pi<float>() / 3, 0, 500.0f),
 renderWidth((float)GameSmith::Application::Get().GetWindow()->GetWidth()),
 renderHeight((float)GameSmith::Application::Get().GetWindow()->GetHeight()),
 renderX(0),

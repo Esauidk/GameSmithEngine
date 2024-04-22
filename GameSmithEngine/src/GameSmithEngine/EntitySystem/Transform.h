@@ -15,18 +15,22 @@ namespace GameSmith {
 		inline void SetScale(glm::vec3 newScale) { m_Scale = newScale; UpdateMatrix(); }
 		inline glm::vec3 GetScale() const { return m_Scale; }
 
-		inline void SetCoordinateFrame(Transform* newFrame) { m_CoordinateFrame = newFrame; UpdateMatrix(); }
+		inline void SetCoordinateFrame(Transform* newFrame) { m_CoordinateFrame = newFrame; newFrame->AddChildrenCoordinateFrame(this); UpdateMatrix(); }
+		inline void AddChildrenCoordinateFrame(Transform* newFrame) { m_ChildrenFrames.push_back(newFrame); }
+		void RemoveChildCoordinateFrame(Transform* oldFrame);
 
 		inline glm::mat4 GetModelMatrix() const { return glm::transpose(m_ModelMatrix); }
 	private:
 		void UpdateMatrix();
 	private:
+		std::vector<Transform*> m_ChildrenFrames;
 		bool m_Changed;
 
 		glm::vec3 m_Position;
 		glm::vec3 m_Rotation;
 		glm::vec3 m_Scale;
 		glm::mat4 m_ModelMatrix;
+
 		// Has no ownership of this frame
 		Transform* m_CoordinateFrame;
 

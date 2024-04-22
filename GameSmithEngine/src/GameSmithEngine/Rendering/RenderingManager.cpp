@@ -47,7 +47,7 @@ namespace GameSmith {
 		}
 		else {
 			m_SceneData.LightWorldPos = glm::vec4(1, 0, 1, 0);
-			m_SceneData.MainLightColor = glm::vec3(1, 1, 1);
+			m_SceneData.MainLightColor = glm::vec3(0, 0, 0);
 		}
 		
 		m_SceneDataGPU->UpdateData((BYTE*)&m_SceneData, sizeof(m_SceneData));
