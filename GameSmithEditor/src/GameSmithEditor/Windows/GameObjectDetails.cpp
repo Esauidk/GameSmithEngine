@@ -38,8 +38,29 @@ namespace GameSmithEditor {
 	void GameObjectDetails::OnImGuiRender()
 	{
 		ImGui::Begin("GameObject Details");
-		InputReference();
+		//InputReference();
 		if (!m_Object.expired()) {
+			auto name = m_Object.lock()->GetName();
+			memcpy(m_InputName, name.c_str(), name.size());
+			ImGui::PushItemWidth(ImGui::GetWindowWidth() / 2);
+			ImGui::SameLine();
+			ImGui::InputText("##GameObjectName", m_InputName, GAMEOBJECT_NAME_SIZE);
+			if (ImGui::IsItemDeactivatedAfterEdit()) {
+				m_Object.lock()->SetName(std::string(m_InputName, GAMEOBJECT_NAME_SIZE));
+			}
+			ImGui::PopItemWidth();
+			ImGui::SameLine();
+			
+			
+			ImGuiStyle& style = ImGui::GetStyle();
+			auto defaultStyle = style.Colors[ImGuiCol_Button];
+			style.Colors[ImGuiCol_Button] = ImVec4(0.95, 0.125, 0.344, 1);
+			if (ImGui::Button("Delete")) {
+				GameSmith::GameObjectManager::GetInstance()->DestroyGameObject(m_Object);
+			}
+			style.Colors[ImGuiCol_Button] = defaultStyle;
+
+			ImGui::Separator();
 			if (ImGui::CollapsingHeader("Transform")) {
 				auto lockTransform = m_Object.lock()->GetTransform().lock();
 				glm::vec3 pos = lockTransform->GetPosition();

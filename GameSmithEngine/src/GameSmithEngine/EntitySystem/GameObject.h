@@ -12,6 +12,7 @@ namespace GameSmith {
 	public:
 		GameObject(std::string name = DEFAULT_GAMEOBJECT_NAME);
 		inline std::string GetName() { return m_Name; }
+		void SetName(std::string newName);
 		inline Connection<Transform> GetTransform() { return m_Transform; }
 
 		Connection<Component> AddComponent(std::string componentName);
@@ -70,6 +71,7 @@ namespace GameSmith {
 				}
 			}
 		}
+
 
 	public:
 		const static std::string DEFAULT_GAMEOBJECT_NAME;

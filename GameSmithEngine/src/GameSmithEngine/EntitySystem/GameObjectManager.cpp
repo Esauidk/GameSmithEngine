@@ -65,6 +65,20 @@ namespace GameSmith {
 		}
 	}
 
+	void GameObjectManager::GetGameObjects(std::vector<Connection<GameObject>>* outObjects)
+	{
+		for (auto object : m_Objects) {
+			outObjects->push_back(object.second);
+		}
+	}
+
+	void GameObjectManager::GetGameObjectNames(std::vector<std::string>* outNames)
+	{
+		for (auto object : m_Objects) {
+			outNames->push_back(object.second->GetName());
+		}
+	}
+
 	void GameObjectManager::DestroyGameObject(Connection<GameObject> object)
 	{
 		if (!object.expired()) {
@@ -73,6 +87,18 @@ namespace GameSmith {
 				auto item = m_Objects.find(temp->GetName());
 				m_ToBeDeleted.push(item->second);
 				m_Objects.erase(item);
+			}
+		}
+	}
+
+	void GameObjectManager::UpdateGameObjectName(std::string gameObjectName, Connection<GameObject> targetObject)
+	{
+		if (!targetObject.expired()) {
+			auto temp = targetObject.lock();
+			if (temp.get() != nullptr && m_Objects.contains(temp->GetName())) {
+				auto item = m_Objects.find(temp->GetName());
+				m_Objects.erase(item);
+				m_Objects.insert({ gameObjectName, item->second });
 			}
 		}
 	}

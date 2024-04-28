@@ -12,8 +12,6 @@ namespace GameSmithEditor {
 		static GameSmith::Connection<GameSmith::GameObject> m_SelectedObjected;
 		int m_Selection = 0;
 		std::vector<std::string> m_NamesStd;
-		std::vector<const char*> m_Objects;
-
 	};
 };
 

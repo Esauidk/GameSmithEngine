@@ -11,7 +11,6 @@ namespace GameSmithEditor {
 			auto gm = GameSmith::GameObjectManager::GetInstance();
 			auto object = gm->CreateGameObject();
 			m_NamesStd.push_back(object.lock()->GetName());
-			m_Objects.push_back(m_NamesStd[m_NamesStd.size() - 1].c_str());
 		}
 
 		ImGui::BeginListBox("Objects", ImVec2(ImGui::GetWindowWidth(), ImGui::GetWindowHeight()));
@@ -33,6 +32,9 @@ namespace GameSmithEditor {
 
 	void SimulationContentView::OnUpdate()
 	{
+		auto gameObjectMang = GameSmith::GameObjectManager::GetInstance();
+		m_NamesStd.clear();
+		gameObjectMang->GetGameObjectNames(&m_NamesStd);
 	}
 };
 
