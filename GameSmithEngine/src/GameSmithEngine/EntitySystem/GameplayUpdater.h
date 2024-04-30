@@ -9,12 +9,14 @@ namespace GameSmith {
 	public:
 		GameplayUpdater();
 		static GameplayUpdater* GetInstance() { return s_Instance; }
+		void FlushRegistration();
 		void RunGameplayInit();
 		void RunGameplayUpdate(float dt);
-		void Register(Connection<Component> comp) { m_InitQueue.push(comp);  m_RegisteredComponents.push_back(comp); }
+		void Register(Connection<Component> comp) { m_PendingRegistrations.push(comp); }
 	private:
 		static GameplayUpdater* s_Instance;
 
+		std::queue<Connection<Component>> m_PendingRegistrations;
 		std::priority_queue<Connection<Component>, std::vector<Connection<Component>>, ComponentCompare> m_InitQueue;
 		std::vector<Connection<Component>> m_RegisteredComponents;
 	};

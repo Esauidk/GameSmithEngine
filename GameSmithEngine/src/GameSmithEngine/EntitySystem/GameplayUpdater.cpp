@@ -11,6 +11,20 @@ namespace GameSmith {
 		}
 	}
 
+	void GameplayUpdater::FlushRegistration()
+	{
+		while (!m_PendingRegistrations.empty()) {
+			auto comp = m_PendingRegistrations.front();
+
+			if (!comp.expired()) {
+				m_InitQueue.push(comp);
+				m_RegisteredComponents.push_back(comp);
+			}
+
+			m_PendingRegistrations.pop();
+		}
+	}
+
 	void GameplayUpdater::RunGameplayInit()
 	{
 		while (!m_InitQueue.empty()) {

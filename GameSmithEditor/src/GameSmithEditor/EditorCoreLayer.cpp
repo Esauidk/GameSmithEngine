@@ -2,6 +2,7 @@
 
 //TODO: Temporary, remove after demo
 #include "SampleComponents/OrbitScript.h"
+#include "SampleComponents/BurstOrbitScript.h"
 
 // TODO: Don't manually import each layer/window
 #include "Windows/GameViewLayer.h"
@@ -13,7 +14,8 @@ namespace GameSmithEditor {
 	// TODO: Temporary, remove after demo
 	static void RegisterSampleComponents() {
 		auto registry = GameSmith::ComponentRegistry::GetInstance();
-		registry->RegisterComponent("OrbitScript", [](GameSmith::GameObject* g, GameSmith::Transform* t) {return (GameSmith::Component*)new OrbitScript(g, t); });
+		registry->RegisterComponent("OrbitScript", [](GameSmith::GameObject* g, GameSmith::Transform* t) {return new OrbitScript(g, t); });
+		registry->RegisterComponent("BurstOrbitScript", [](GameSmith::GameObject* g, GameSmith::Transform* t) {return new BurstOrbitScript(g, t); });
 	}
 
 	EditorCoreLayer::EditorCoreLayer() : GameSmith::Layer("Editor Core"), m_App(GameSmith::Application::Get())

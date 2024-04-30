@@ -15,6 +15,7 @@
     <ClInclude Include="src\GameSmithEditor\Windows\GameObjectDetails.h" />
     <ClInclude Include="src\GameSmithEditor\CustomWidgets\ReferenceInputWidget.h" />
     <ClInclude Include="src\GameSmithEditor\SampleComponents\OrbitScript.h" />
+    <ClInclude Include="src\GameSmithEditor\SampleComponents\BurstOrbitScript.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GameSmithEditor\EditorApp.cpp" />
@@ -26,5 +27,6 @@
     <ClCompile Include="src\GameSmithEditor\Windows\GameObjectDetails.cpp" />
     <ClCompile Include="src\GameSmithEditor\CustomWidgets\ReferenceInputWidget.cpp" />
     <ClCompile Include="src\GameSmithEditor\SampleComponents\OrbitScript.cpp" />
+    <ClCompile Include="src\GameSmithEditor\SampleComponents\BurstOrbitScript.cpp" />
   </ItemGroup>
 </Project>

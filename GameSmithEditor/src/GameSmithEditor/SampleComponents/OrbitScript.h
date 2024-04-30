@@ -2,7 +2,7 @@
 #include "GameSmithEditor/EngineDependenciesOnly.h"
 
 namespace GameSmithEditor {
-	class OrbitScript : GameSmith::Component {
+	class OrbitScript : public GameSmith::Component {
 	public:
 		OrbitScript(GameSmith::GameObject* gameObject, GameSmith::Transform* transform) : Component(gameObject, transform) {
 			m_Transform->SetCoordinateFrame(&m_t);
