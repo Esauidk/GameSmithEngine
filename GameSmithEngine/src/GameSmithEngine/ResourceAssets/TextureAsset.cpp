@@ -5,22 +5,31 @@
 
 
 namespace GameSmith {
-	void TextureAsset::Init()
+	Ref<char> TextureAsset::Serialize()
+	{
+		return Ref<char>();
+	}
+
+	void TextureAsset::Serialize(Ref<char> byteStream, unsigned int availableBytes)
+	{
+	}
+
+	unsigned int TextureAsset::RequireSpace() const
+	{
+		return 0;
+	}
+
+	void TextureAsset::Deserialize(char* inData, unsigned int size)
 	{
 		auto manager = RenderingManager::GetInstance();
-		
+
 		if (manager != nullptr) {
 			auto renderAPI = manager->GetRenderAPI();
-			m_GraphicTex = renderAPI->CreateTexture2D(GetResourceData(), GetResourceSize());
+			m_GraphicTex = renderAPI->CreateTexture2D(inData, size);
 		}
 		else {
 			GE_CORE_INFO("RenderManager Not Initialized: Not Allocating GPU Resources for Texture Asset");
 		}
-	}
-
-	void TextureAsset::Destroy()
-	{
-		m_GraphicTex = nullptr;
 	}
 
 	void TextureAsset::SetGraphicsTexture(UINT texSlot, Stages stage)

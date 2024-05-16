@@ -6,13 +6,27 @@
 #include "GameSmithEngine/ThirdPartySetups/TinyObj/TinyObjLoaderWrapper.h"
 
 namespace GameSmith {
-	void MeshAsset::Init()
+	Ref<char> MeshAsset::Serialize()
 	{
-		char* data = GetResourceData();
-		UINT size = GetResourceSize();
+		// TODO: Implement
+		return Ref<char>();
+	}
 
+	void MeshAsset::Serialize(Ref<char> byteStream, unsigned int availableBytes)
+	{
+		// TODO: Implement
+	}
+
+	unsigned int MeshAsset::RequireSpace() const
+	{
+		// TODO: Implement
+		return 0;
+	}
+
+	void MeshAsset::Deserialize(char* inData, unsigned int size)
+	{
 		tinyobj::ObjReader reader;
-		GE_CORE_ASSERT(reader.ParseFromString(data, ""), "Could not successfully parse .obj mesh file");
+		GE_CORE_ASSERT(reader.ParseFromString(inData, ""), "Could not successfully parse .obj mesh file");
 
 		auto& attrib = reader.GetAttrib();
 		auto& shapes = reader.GetShapes();
@@ -23,13 +37,13 @@ namespace GameSmith {
 		std::vector<unsigned int> indicies;
 		std::unordered_set<unsigned int> viewedIndicies;
 
-		for (size_t i = 0; i < attrib.vertices.size()/3; i++) {
+		for (size_t i = 0; i < attrib.vertices.size() / 3; i++) {
 			VertexStruct vertex;
-			
-			vertex.pos = { 
-				attrib.vertices[3 * i], 
-				attrib.vertices[(3 * i) + 1], 
-				attrib.vertices[(3 * i) + 2] 
+
+			vertex.pos = {
+				attrib.vertices[3 * i],
+				attrib.vertices[(3 * i) + 1],
+				attrib.vertices[(3 * i) + 2]
 			};
 			verticies.push_back(vertex);
 		}
@@ -70,7 +84,7 @@ namespace GameSmith {
 
 					viewedIndicies.insert(idx.vertex_index);
 				}
-				
+
 
 				indicies.push_back(idx.vertex_index);
 			}
@@ -82,19 +96,12 @@ namespace GameSmith {
 
 			m_SubMeshes.emplace_back(shapes[s].name, index);
 		}
-		
+
 		m_Vert = rManager->GetRenderAPI()->CreateVertexBuffer(
-			(BYTE*)verticies.data(), 
-			sizeof(VertexStruct), 
+			(BYTE*)verticies.data(),
+			sizeof(VertexStruct),
 			(int)verticies.size()
 		);
-	
-	}
-
-	void MeshAsset::Destroy()
-	{
-		m_Vert = nullptr;
-		m_SubMeshes.clear();
 	}
 
 };

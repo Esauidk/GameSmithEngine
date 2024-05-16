@@ -426,9 +426,6 @@
     <ClInclude Include="src\GameSmithEngine\ResourceAssets\TextureAsset.h">
       <Filter>src\GameSmithEngine\ResourceAssets</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameSmithEngine\ResourceManagement\Resource.h">
-      <Filter>src\GameSmithEngine\ResourceManagement</Filter>
-    </ClInclude>
     <ClInclude Include="src\GameSmithEngine\ResourceManagement\ResourceAssetHelper.h">
       <Filter>src\GameSmithEngine\ResourceManagement</Filter>
     </ClInclude>
@@ -1705,6 +1702,7 @@
     <ClInclude Include="src\GameSmithEngine\EntitySystem\Components\ComponentFactory.h" />
     <ClInclude Include="src\GameSmithEngine\EntitySystem\Components\CameraComponent.h" />
     <ClInclude Include="src\GameSmithEngine\EntitySystem\EnitityRenderPreparer.h" />
+    <ClInclude Include="src\GameSmithEngine\ResourceAssets\Serializable.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GameSmithEngine\Core\Application.cpp">

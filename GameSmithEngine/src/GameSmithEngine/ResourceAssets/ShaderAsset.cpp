@@ -4,15 +4,27 @@
 #include "GameSmithEngine/Rendering/RenderingManager.h"
 
 namespace GameSmith {
-	void ShaderAsset::Init()
+
+	Ref<char> ShaderAsset::Serialize()
 	{
-		auto renderAPI = RenderingManager::GetInstance()->GetRenderAPI();
-		m_Shader = renderAPI->LoadShader(GetResourceData(), GetResourceSize());
+		// TODO: Implement
+		return Ref<char>();
+	}
+	void ShaderAsset::Serialize(Ref<char> byteStream, unsigned int availableBytes)
+	{
+		// TODO: Implement
 	}
 
-	void ShaderAsset::Destroy()
+	unsigned int ShaderAsset::RequireSpace() const
 	{
-		m_Shader = nullptr;
+		// TODO: Implement
+		return 0;
+	}
+
+	void ShaderAsset::Deserialize(char* inData, unsigned int size)
+	{
+		auto renderAPI = RenderingManager::GetInstance()->GetRenderAPI();
+		m_Shader = renderAPI->LoadShader(inData, size);
 	}
 };
 

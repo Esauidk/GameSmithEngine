@@ -1,16 +1,18 @@
 #pragma once
 #include "GameSmithEngine/Core/Core.h"
-#include "GameSmithEngine/ResourceManagement/Resource.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/RenderComponents/Texture.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/Shaders/ShaderUtil.h"
+#include "Serializable.h"
 
 
 namespace GameSmith {
-	class TextureAsset : public Resource
+	class TextureAsset : public Serializeable
 	{
 	public:
-		virtual void Init() override;
-		virtual void Destroy() override;
+		virtual Ref<char> Serialize() override;
+		virtual void Serialize(Ref<char> byteStream, unsigned int availableBytes) override;
+		virtual unsigned int RequireSpace() const override;
+		virtual void Deserialize(char* inData, unsigned int size) override;
 
 		void SetGraphicsTexture(UINT texSlot, Stages stage);
 

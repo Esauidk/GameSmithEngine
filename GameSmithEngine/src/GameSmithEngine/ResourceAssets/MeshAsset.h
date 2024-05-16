@@ -1,6 +1,6 @@
 #pragma once
 #include "GameSmithEngine/Core/Core.h"
-#include "GameSmithEngine/ResourceManagement/Resource.h"
+#include "Serializable.h"
 
 namespace GameSmith {
 
@@ -12,11 +12,13 @@ namespace GameSmith {
 		Ref<IndexBuffer> m_Index;
 	};
 
-	class MeshAsset : public Resource
+	class MeshAsset : public Serializeable
 	{
 	public:
-		virtual void Init() override;
-		virtual void Destroy() override;
+		virtual Ref<char> Serialize() override;
+		virtual void Serialize(Ref<char> byteStream, unsigned int availableBytes) override;
+		virtual unsigned int RequireSpace() const override;
+		virtual void Deserialize(char* inData, unsigned int size) override;
 
 		inline Ref<VertexBuffer> GetVerticies() { return m_Vert; }
 		inline SubMesh GetSubMesh(unsigned int index) { return m_SubMeshes[index]; }

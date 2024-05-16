@@ -2,8 +2,9 @@
 #include "gepch.h"
 #include "GameSmithEngine/Core/Core.h"
 #include "GameSmithEngine/Core/Log.h"
-#include "Resource.h"
+#include "GameSmithEngine/ResourceAssets/Serializable.h"
 #include "ResourceLoaders/ResourceLoader.h"
+
 
 namespace GameSmith {
 	enum class ResourceLoaderType {
@@ -22,7 +23,7 @@ namespace GameSmith {
 		template<typename T>
 		Ref<T> GetResource(std::string asset) {
 			if (m_ResourceRegistry.contains(asset)) {
-				Ref<Resource> ptr = (*m_ResourceRegistry.find(asset)).second;
+				Ref<Serializeable> ptr = (*m_ResourceRegistry.find(asset)).second;
 				return CastPtr<T>(ptr);
 			}
 
@@ -31,10 +32,13 @@ namespace GameSmith {
 			char* data = m_Loader->LoadResource(asset, &size);
 
 			Ref<T> resource = Ref<T>(new T());
-			resource->AttachResource(data, size);
-			resource->Init();
+			resource->Deserialize(data, size);
+			//resource->AttachResource(data, size);
+			//resource->Init();
 
 			m_ResourceRegistry.insert({ asset, resource });
+
+			m_Loader->CleanResource(data);
 
 			return resource;
 		}
@@ -43,7 +47,7 @@ namespace GameSmith {
 		template<typename T>
 		Ref<T> GetResource(std::string key, char* inData, UINT size) {
 			if (m_ResourceRegistry.contains(key)) {
-				Ref<Resource> ptr = (*m_ResourceRegistry.find(key)).second;
+				Ref<Serializeable> ptr = (*m_ResourceRegistry.find(key)).second;
 				return CastPtr<T>(ptr);
 			}
 
@@ -51,10 +55,13 @@ namespace GameSmith {
 			char* data = m_Loader->LoadResource(inData, size);
 
 			Ref<T> resource = Ref<T>(new T());
-			resource->AttachResource(data, size);
-			resource->Init();
+			resource->Deserialize(data, size);
+			//resource->AttachResource(data, size);
+			//resource->Init();
 
 			m_ResourceRegistry.insert({ key, resource });
+
+			m_Loader->CleanResource(data);
 
 			return resource;
 		}
@@ -64,7 +71,7 @@ namespace GameSmith {
 	private:
 		static ResourceManager* s_Instance;
 
-		std::unordered_map<std::string, Ref<Resource>> m_ResourceRegistry;
+		std::unordered_map<std::string, Ref<Serializeable>> m_ResourceRegistry;
 		Ref<ResourceLoader> m_Loader;
 	};
 };

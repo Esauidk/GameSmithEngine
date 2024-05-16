@@ -40,8 +40,6 @@ namespace GameSmith {
 		while (it != m_ResourceRegistry.end()) {
 			if (it->second.use_count() == 1) {
 				GE_CORE_INFO("Erasing asset: {0}", it->first);
-				it->second->Destroy();
-				m_Loader->CleanResource(it->second->GetResourceData());
 
 				it = m_ResourceRegistry.erase(it);
 			}
