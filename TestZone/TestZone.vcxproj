@@ -140,6 +140,7 @@
     <ClInclude Include="src\TestComponentLayer.h" />
     <ClInclude Include="src\TestRenderLayer.h" />
     <ClInclude Include="src\TestResourceLayer.h" />
+    <ClInclude Include="src\TestingLayer.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\DemoLayer.cpp" />
@@ -148,6 +149,7 @@
     <ClCompile Include="src\TestComponentLayer.cpp" />
     <ClCompile Include="src\TestRenderLayer.cpp" />
     <ClCompile Include="src\TestResourceLayer.cpp" />
+    <ClCompile Include="src\TestingLayer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameSmithEngine\GameSmithEngine.vcxproj">

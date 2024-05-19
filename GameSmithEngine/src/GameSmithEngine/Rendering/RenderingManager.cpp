@@ -8,9 +8,9 @@
 namespace GameSmith {
 	RenderingManager* RenderingManager::s_Instance = nullptr;
 
-	RenderingManager::RenderingManager()
+	RenderingManager::RenderingManager(bool force)
 	{
-		if (s_Instance == nullptr) {
+		if (force || s_Instance == nullptr) {
 			s_Instance = this;
 		}
 	}

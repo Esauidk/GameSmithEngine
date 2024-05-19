@@ -12,7 +12,7 @@ namespace GameSmith {
 		return Ref<char>();
 	}
 
-	void MeshAsset::Serialize(Ref<char> byteStream, unsigned int availableBytes)
+	void MeshAsset::Serialize(char* byteStream, unsigned int availableBytes)
 	{
 		// TODO: Implement
 	}

@@ -58,21 +58,18 @@
     <IntDir>bin-int\Debug-windows-x86_64\GoogleTest\</IntDir>
     <TargetName>GoogleTest</TargetName>
     <TargetExt>.lib</TargetExt>
-    <EnableMicrosoftCodeAnalysis>false</EnableMicrosoftCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>bin\Release-windows-x86_64\GoogleTest\</OutDir>
     <IntDir>bin-int\Release-windows-x86_64\GoogleTest\</IntDir>
     <TargetName>GoogleTest</TargetName>
     <TargetExt>.lib</TargetExt>
-    <EnableMicrosoftCodeAnalysis>false</EnableMicrosoftCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
     <OutDir>bin\Dist-windows-x86_64\GoogleTest\</OutDir>
     <IntDir>bin-int\Dist-windows-x86_64\GoogleTest\</IntDir>
     <TargetName>GoogleTest</TargetName>
     <TargetExt>.lib</TargetExt>
-    <EnableMicrosoftCodeAnalysis>false</EnableMicrosoftCodeAnalysis>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>

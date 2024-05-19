@@ -16,6 +16,7 @@ namespace GameSmith {
 	class DirectX12Core {
 	public:
 		static DirectX12Core& CreateCore();
+		inline static void DestroyCore() { m_Core = nullptr; };
 		static DirectX12Core& GetCore();
 		inline ID3D12Device8* GetDevice() { return m_Device.Get(); }
 		inline IDXGIFactory5* GetFactory() { return m_Factory.Get(); }

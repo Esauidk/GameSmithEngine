@@ -33,8 +33,6 @@ namespace GameSmith {
 
 			Ref<T> resource = Ref<T>(new T());
 			resource->Deserialize(data, size);
-			//resource->AttachResource(data, size);
-			//resource->Init();
 
 			m_ResourceRegistry.insert({ asset, resource });
 
@@ -56,8 +54,6 @@ namespace GameSmith {
 
 			Ref<T> resource = Ref<T>(new T());
 			resource->Deserialize(data, size);
-			//resource->AttachResource(data, size);
-			//resource->Init();
 
 			m_ResourceRegistry.insert({ key, resource });
 

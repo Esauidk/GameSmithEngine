@@ -10,7 +10,7 @@ namespace GameSmith {
 		return Ref<char>();
 	}
 
-	void TextureAsset::Serialize(Ref<char> byteStream, unsigned int availableBytes)
+	void TextureAsset::Serialize(char* byteStream, unsigned int availableBytes)
 	{
 	}
 

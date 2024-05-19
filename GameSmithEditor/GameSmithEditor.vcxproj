@@ -59,7 +59,6 @@
     <IntDir>..\bin-int\Debug-windows-x86_64\GameSmithEditor\</IntDir>
     <TargetName>GameSmithEditor</TargetName>
     <TargetExt>.exe</TargetExt>
-    <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -67,7 +66,6 @@
     <IntDir>..\bin-int\Release-windows-x86_64\GameSmithEditor\</IntDir>
     <TargetName>GameSmithEditor</TargetName>
     <TargetExt>.exe</TargetExt>
-    <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
     <LinkIncremental>false</LinkIncremental>
@@ -75,7 +73,6 @@
     <IntDir>..\bin-int\Dist-windows-x86_64\GameSmithEditor\</IntDir>
     <TargetName>GameSmithEditor</TargetName>
     <TargetExt>.exe</TargetExt>
-    <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -138,23 +135,23 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\GameSmithEditor\CustomWidgets\ReferenceInputWidget.h" />
+    <ClInclude Include="src\GameSmithEditor\EditorCoreLayer.h" />
+    <ClInclude Include="src\GameSmithEditor\EngineDependenciesOnly.h" />
     <ClInclude Include="src\GameSmithEditor\SampleComponents\BurstOrbitScript.h" />
     <ClInclude Include="src\GameSmithEditor\SampleComponents\OrbitScript.h" />
     <ClInclude Include="src\GameSmithEditor\Windows\GameObjectDetails.h" />
-    <ClInclude Include="src\GameSmithEditor\Windows\SimulationContentView.h" />
-    <ClInclude Include="src\GameSmithEditor\EditorCoreLayer.h" />
-    <ClInclude Include="src\GameSmithEditor\EngineDependenciesOnly.h" />
     <ClInclude Include="src\GameSmithEditor\Windows\GameViewLayer.h" />
+    <ClInclude Include="src\GameSmithEditor\Windows\SimulationContentView.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GameSmithEditor\CustomWidgets\ReferenceInputWidget.cpp" />
+    <ClCompile Include="src\GameSmithEditor\EditorApp.cpp" />
+    <ClCompile Include="src\GameSmithEditor\EditorCoreLayer.cpp" />
     <ClCompile Include="src\GameSmithEditor\SampleComponents\BurstOrbitScript.cpp" />
     <ClCompile Include="src\GameSmithEditor\SampleComponents\OrbitScript.cpp" />
     <ClCompile Include="src\GameSmithEditor\Windows\GameObjectDetails.cpp" />
-    <ClCompile Include="src\GameSmithEditor\Windows\SimulationContentView.cpp" />
-    <ClCompile Include="src\GameSmithEditor\EditorApp.cpp" />
-    <ClCompile Include="src\GameSmithEditor\EditorCoreLayer.cpp" />
     <ClCompile Include="src\GameSmithEditor\Windows\GameViewLayer.cpp" />
+    <ClCompile Include="src\GameSmithEditor\Windows\SimulationContentView.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameSmithEngine\GameSmithEngine.vcxproj">

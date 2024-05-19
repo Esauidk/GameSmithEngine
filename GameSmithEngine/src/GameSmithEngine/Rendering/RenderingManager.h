@@ -15,7 +15,7 @@ namespace GameSmith {
 	class RenderingManager
 	{
 	public:
-		RenderingManager();
+		RenderingManager(bool force=false);
 		inline static RenderingManager* GetInstance() { return s_Instance; }
 
 		void Init();

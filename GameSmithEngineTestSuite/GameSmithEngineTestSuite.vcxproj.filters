@@ -25,6 +25,12 @@
     <Filter Include="GameSmithEngineTest\Rendering\RenderAgnostics\LightingSystem\Sources">
       <UniqueIdentifier>{7E6112A6-6AF8-545B-13AD-CB5BFF221B36}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameSmithEngineTest\ResourceAssets">
+      <UniqueIdentifier>{640D4150-5049-44BA-B95B-5CB1A5B6ECD4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameSmithEngineTest\Utilities">
+      <UniqueIdentifier>{C532292E-314B-1058-FAF7-9FF166CFA4F1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="tst\GameSmithEngineTest\EntitySystem\Components\TestComponent.h">
@@ -59,7 +65,12 @@
     <ClCompile Include="tst\GameSmithEngineTest\Rendering\RenderAgnostics\LightingSystem\Sources\PointLightTest.cpp">
       <Filter>GameSmithEngineTest\Rendering\RenderAgnostics\LightingSystem\Sources</Filter>
     </ClCompile>
+    <ClCompile Include="tst\GameSmithEngineTest\ResourceAssets\ShaderAssetTest.cpp">
+      <Filter>GameSmithEngineTest\ResourceAssets</Filter>
+    </ClCompile>
+    <ClCompile Include="tst\GameSmithEngineTest\Utilities\ExposedVariableRegistryTest.cpp">
+      <Filter>GameSmithEngineTest\Utilities</Filter>
+    </ClCompile>
     <ClCompile Include="tst\TestEntry.cpp" />
-    <ClCompile Include="tst\GameSmithEngineTest\Utilities\ExposedVariableRegistryTest.cpp" />
   </ItemGroup>
 </Project>

@@ -8,6 +8,7 @@ namespace GameSmith {
 	{
 	public:
 		DirectX12RendererAPI();
+		virtual ~DirectX12RendererAPI() override;
 		inline virtual API GetAPI() override { return API::DirectX12; }
 
 		virtual void SetClearColor(const glm::vec4& color) override;

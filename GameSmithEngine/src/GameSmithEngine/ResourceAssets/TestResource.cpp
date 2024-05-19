@@ -9,7 +9,7 @@ namespace GameSmith {
 		return Ref<char>();
 	}
 
-	void TestResource::Serialize(Ref<char> byteStream, unsigned int availableBytes)
+	void TestResource::Serialize(char* byteStream, unsigned int availableBytes)
 	{
 		GE_CORE_INFO("Wrote Resource resource!");
 	}

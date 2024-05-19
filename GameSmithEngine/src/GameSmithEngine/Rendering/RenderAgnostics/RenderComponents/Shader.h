@@ -17,6 +17,8 @@ namespace GameSmith {
 	public:
 		virtual Stages GetShaderType() = 0;
 		virtual unsigned int GetHash() = 0;
+		virtual const char* GetRawByteCode() = 0;
+		virtual unsigned int GetByteCodeSize() = 0;
 	};
 };
 

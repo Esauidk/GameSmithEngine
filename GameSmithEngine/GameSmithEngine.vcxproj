@@ -58,24 +58,18 @@
     <IntDir>..\bin-int\Debug-windows-x86_64\GameSmithEngine\</IntDir>
     <TargetName>GameSmithEngine</TargetName>
     <TargetExt>.lib</TargetExt>
-    <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
-    <ClangTidyChecks>clang-analyzer-*</ClangTidyChecks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <OutDir>..\bin\Release-windows-x86_64\GameSmithEngine\</OutDir>
     <IntDir>..\bin-int\Release-windows-x86_64\GameSmithEngine\</IntDir>
     <TargetName>GameSmithEngine</TargetName>
     <TargetExt>.lib</TargetExt>
-    <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
-    <ClangTidyChecks>clang-analyzer-*</ClangTidyChecks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
     <OutDir>..\bin\Dist-windows-x86_64\GameSmithEngine\</OutDir>
     <IntDir>..\bin-int\Dist-windows-x86_64\GameSmithEngine\</IntDir>
     <TargetName>GameSmithEngine</TargetName>
     <TargetExt>.lib</TargetExt>
-    <EnableClangTidyCodeAnalysis>true</EnableClangTidyCodeAnalysis>
-    <ClangTidyChecks>clang-analyzer-*</ClangTidyChecks>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
@@ -149,11 +143,6 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\GameSmithEngine\EntitySystem\Components\CameraComponent.h" />
-    <ClInclude Include="src\GameSmithEngine\EntitySystem\Components\ComponentFactory.h" />
-    <ClInclude Include="src\GameSmithEngine\EntitySystem\EnitityRenderPreparer.h" />
-    <ClInclude Include="src\GameSmithEngine\ResourceAssets\Serializable.h" />
-    <ClInclude Include="src\GameSmithEngine\Utilities\ExposedVariableRegistry.h" />
     <ClInclude Include="src\GameSmithEngine.h" />
     <ClInclude Include="src\GameSmithEngine\Core\Application.h" />
     <ClInclude Include="src\GameSmithEngine\Core\Core.h" />
@@ -166,9 +155,12 @@
     <ClInclude Include="src\GameSmithEngine\Core\SubsystemManager.h" />
     <ClInclude Include="src\GameSmithEngine\Core\Timer.h" />
     <ClInclude Include="src\GameSmithEngine\Core\Window.h" />
+    <ClInclude Include="src\GameSmithEngine\EntitySystem\Components\CameraComponent.h" />
     <ClInclude Include="src\GameSmithEngine\EntitySystem\Components\Component.h" />
+    <ClInclude Include="src\GameSmithEngine\EntitySystem\Components\ComponentFactory.h" />
     <ClInclude Include="src\GameSmithEngine\EntitySystem\Components\MeshRenderer.h" />
     <ClInclude Include="src\GameSmithEngine\EntitySystem\Components\TestComponent.h" />
+    <ClInclude Include="src\GameSmithEngine\EntitySystem\EnitityRenderPreparer.h" />
     <ClInclude Include="src\GameSmithEngine\EntitySystem\GameObject.h" />
     <ClInclude Include="src\GameSmithEngine\EntitySystem\GameObjectManager.h" />
     <ClInclude Include="src\GameSmithEngine\EntitySystem\GameplayUpdater.h" />
@@ -238,7 +230,6 @@
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\RenderComponents\Topology.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\RenderComponents\VertexBuffer.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\SLab\SLab.h" />
-    <ClInclude Include="src\GameSmithEngine\Utilities\ParameterContainer.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\ShaderUtil.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderWorkflow.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\RendererAPI.h" />
@@ -248,6 +239,7 @@
     <ClInclude Include="src\GameSmithEngine\ResourceAssets\GameChunkAsset.h" />
     <ClInclude Include="src\GameSmithEngine\ResourceAssets\MaterialAsset.h" />
     <ClInclude Include="src\GameSmithEngine\ResourceAssets\MeshAsset.h" />
+    <ClInclude Include="src\GameSmithEngine\ResourceAssets\Serializable.h" />
     <ClInclude Include="src\GameSmithEngine\ResourceAssets\ShaderAsset.h" />
     <ClInclude Include="src\GameSmithEngine\ResourceAssets\TestResource.h" />
     <ClInclude Include="src\GameSmithEngine\ResourceAssets\TextureAsset.h" />
@@ -257,6 +249,8 @@
     <ClInclude Include="src\GameSmithEngine\ResourceManagement\ResourceManager.h" />
     <ClInclude Include="src\GameSmithEngine\ThirdPartySetups\GLM\GLMDefines.h" />
     <ClInclude Include="src\GameSmithEngine\ThirdPartySetups\TinyObj\TinyObjLoaderWrapper.h" />
+    <ClInclude Include="src\GameSmithEngine\Utilities\ExposedVariableRegistry.h" />
+    <ClInclude Include="src\GameSmithEngine\Utilities\ParameterContainer.h" />
     <ClInclude Include="src\gepch.h" />
     <ClInclude Include="third-party\glm\glm\common.hpp" />
     <ClInclude Include="third-party\glm\glm\detail\_features.hpp" />
@@ -677,17 +671,16 @@
     <ClInclude Include="third-party\tinyobjloader\tiny_obj_loader.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\GameSmithEngine\EntitySystem\Components\CameraComponent.cpp" />
-    <ClCompile Include="src\GameSmithEngine\EntitySystem\Components\ComponentFactory.cpp" />
-    <ClCompile Include="src\GameSmithEngine\EntitySystem\EnitityRenderPreparer.cpp" />
-    <ClCompile Include="src\GameSmithEngine\Utilities\ExposedVariableRegistry.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\Application.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\Layer.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\Log.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\SubsystemManager.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\Timer.cpp" />
+    <ClCompile Include="src\GameSmithEngine\EntitySystem\Components\CameraComponent.cpp" />
+    <ClCompile Include="src\GameSmithEngine\EntitySystem\Components\ComponentFactory.cpp" />
     <ClCompile Include="src\GameSmithEngine\EntitySystem\Components\MeshRenderer.cpp" />
     <ClCompile Include="src\GameSmithEngine\EntitySystem\Components\TestComponent.cpp" />
+    <ClCompile Include="src\GameSmithEngine\EntitySystem\EnitityRenderPreparer.cpp" />
     <ClCompile Include="src\GameSmithEngine\EntitySystem\GameObject.cpp" />
     <ClCompile Include="src\GameSmithEngine\EntitySystem\GameObjectManager.cpp" />
     <ClCompile Include="src\GameSmithEngine\EntitySystem\GameplayUpdater.cpp" />
@@ -739,6 +732,7 @@
     <ClCompile Include="src\GameSmithEngine\ResourceManagement\ResourceAssetHelper.cpp" />
     <ClCompile Include="src\GameSmithEngine\ResourceManagement\ResourceLoaders\HeapResourceLoader.cpp" />
     <ClCompile Include="src\GameSmithEngine\ResourceManagement\ResourceManager.cpp" />
+    <ClCompile Include="src\GameSmithEngine\Utilities\ExposedVariableRegistry.cpp" />
     <ClCompile Include="src\gepch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>
@@ -748,91 +742,6 @@
     <ProjectReference Include="third-party\imgui\ImGui.vcxproj">
       <Project>{C0FF640D-2C14-8DBE-F595-301E616989EF}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Domain\BasicRenderDS.hlsl">
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">5.0</ShaderModel>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Domain</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">Domain</ShaderType>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Domain</ShaderType>
-    </FxCompile>
-    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Hull\BasicSubdivideHS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Hull</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">Hull</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Hull</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
-    </FxCompile>
-    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Pixel\BasicRenderPS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">Pixel</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
-    </FxCompile>
-    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Pixel\BlinnPhongPixelShader.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">Pixel</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
-    </FxCompile>
-    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Pixel\FlatColorPixelShader.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">Pixel</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
-    </FxCompile>
-    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Pixel\RandomColorPS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">Pixel</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
-    </FxCompile>
-    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Pixel\SamplePixelShader.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Pixel</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">Pixel</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Pixel</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
-    </FxCompile>
-    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Vertex\BasicRenderVS.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">Vertex</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
-    </FxCompile>
-    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Vertex\SampleVertexShader.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">Vertex</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
-    </FxCompile>
-    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Vertex\SampleVertexTesShader.hlsl">
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Vertex</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">Vertex</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">5.0</ShaderModel>
-      <ShaderType Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Vertex</ShaderType>
-      <ShaderModel Condition="'$(Configuration)|$(Platform)'=='Release|x64'">5.0</ShaderModel>
-    </FxCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="src\GameSmithEngine\Rendering\SampleShaders\Core.hlsli" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

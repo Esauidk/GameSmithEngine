@@ -19,7 +19,17 @@ namespace GameSmith {
 			return Stages::STAGE_NUM; 
 		}
 
-		virtual unsigned int GetHash() { return m_Hash; }
+		inline virtual unsigned int GetHash() override { return m_Hash; }
+
+
+		inline virtual const char* GetRawByteCode() override {
+			return (char*)m_Blob->GetBufferPointer();
+		};
+
+		inline virtual unsigned int GetByteCodeSize() override { 
+			return (unsigned int)m_Blob->GetBufferSize();
+		};
+
 	private:
 		void GenerateHash();
 	private:

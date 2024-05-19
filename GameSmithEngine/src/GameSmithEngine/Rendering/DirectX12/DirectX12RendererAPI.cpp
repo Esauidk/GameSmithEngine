@@ -8,6 +8,11 @@ namespace GameSmith {
 	{
 	}
 
+	DirectX12RendererAPI::~DirectX12RendererAPI()
+	{
+		m_Core.DestroyCore();
+	}
+
 	void DirectX12RendererAPI::SetClearColor(const glm::vec4& color)
 	{
 	}

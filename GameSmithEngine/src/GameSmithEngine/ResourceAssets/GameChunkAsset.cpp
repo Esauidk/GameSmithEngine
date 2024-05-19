@@ -8,7 +8,7 @@ namespace GameSmith {
 		return Ref<char>();
 	}
 
-	void GameChunkAsset::Serialize(Ref<char> byteStream, unsigned int availableBytes)
+	void GameChunkAsset::Serialize(char* byteStream, unsigned int availableBytes)
 	{
 		// TODO: Implement
 	}

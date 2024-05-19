@@ -21,6 +21,8 @@ namespace GameSmith {
 		enum class API {
 			None = 0, DirectX12 = 1
 		};
+
+		virtual ~RendererAPI() {};
 		
 		virtual void Clear() = 0;
 		virtual void SetClearColor(const glm::vec4& color) = 0;

@@ -106,6 +106,9 @@
     <Filter Include="src\GameSmithEngine\ThirdPartySetups\TinyObj">
       <UniqueIdentifier>{3D57B3DF-296A-B338-D253-9025BE455086}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\GameSmithEngine\Utilities">
+      <UniqueIdentifier>{DCE80E8F-4801-F6B8-11AE-85527D858A52}</UniqueIdentifier>
+    </Filter>
     <Filter Include="third-party">
       <UniqueIdentifier>{9DC1EB7C-0977-6472-926B-5E49FE1F5B76}</UniqueIdentifier>
     </Filter>
@@ -171,7 +174,13 @@
     <ClInclude Include="src\GameSmithEngine\Core\Window.h">
       <Filter>src\GameSmithEngine\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\EntitySystem\Components\CameraComponent.h">
+      <Filter>src\GameSmithEngine\EntitySystem\Components</Filter>
+    </ClInclude>
     <ClInclude Include="src\GameSmithEngine\EntitySystem\Components\Component.h">
+      <Filter>src\GameSmithEngine\EntitySystem\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\EntitySystem\Components\ComponentFactory.h">
       <Filter>src\GameSmithEngine\EntitySystem\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\EntitySystem\Components\MeshRenderer.h">
@@ -179,6 +188,9 @@
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\EntitySystem\Components\TestComponent.h">
       <Filter>src\GameSmithEngine\EntitySystem\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\EntitySystem\EnitityRenderPreparer.h">
+      <Filter>src\GameSmithEngine\EntitySystem</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\EntitySystem\GameObject.h">
       <Filter>src\GameSmithEngine\EntitySystem</Filter>
@@ -387,9 +399,6 @@
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\SLab\SLab.h">
       <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\SLab</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameSmithEngine\Utilities\ParameterContainer.h">
-      <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\Shaders</Filter>
-    </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\ShaderUtil.h">
       <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\Shaders</Filter>
     </ClInclude>
@@ -415,6 +424,9 @@
       <Filter>src\GameSmithEngine\ResourceAssets</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\ResourceAssets\MeshAsset.h">
+      <Filter>src\GameSmithEngine\ResourceAssets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\ResourceAssets\Serializable.h">
       <Filter>src\GameSmithEngine\ResourceAssets</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\ResourceAssets\ShaderAsset.h">
@@ -443,6 +455,12 @@
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\ThirdPartySetups\TinyObj\TinyObjLoaderWrapper.h">
       <Filter>src\GameSmithEngine\ThirdPartySetups\TinyObj</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\Utilities\ExposedVariableRegistry.h">
+      <Filter>src\GameSmithEngine\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\Utilities\ParameterContainer.h">
+      <Filter>src\GameSmithEngine\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="src\gepch.h">
       <Filter>src</Filter>
@@ -1698,11 +1716,6 @@
     <ClInclude Include="third-party\tinyobjloader\tiny_obj_loader.h">
       <Filter>third-party\tinyobjloader</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameSmithEngine\Utilities\ExposedVariableRegistry.h" />
-    <ClInclude Include="src\GameSmithEngine\EntitySystem\Components\ComponentFactory.h" />
-    <ClInclude Include="src\GameSmithEngine\EntitySystem\Components\CameraComponent.h" />
-    <ClInclude Include="src\GameSmithEngine\EntitySystem\EnitityRenderPreparer.h" />
-    <ClInclude Include="src\GameSmithEngine\ResourceAssets\Serializable.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GameSmithEngine\Core\Application.cpp">
@@ -1720,11 +1733,20 @@
     <ClCompile Include="src\GameSmithEngine\Core\Timer.cpp">
       <Filter>src\GameSmithEngine\Core</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\EntitySystem\Components\CameraComponent.cpp">
+      <Filter>src\GameSmithEngine\EntitySystem\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\EntitySystem\Components\ComponentFactory.cpp">
+      <Filter>src\GameSmithEngine\EntitySystem\Components</Filter>
+    </ClCompile>
     <ClCompile Include="src\GameSmithEngine\EntitySystem\Components\MeshRenderer.cpp">
       <Filter>src\GameSmithEngine\EntitySystem\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\EntitySystem\Components\TestComponent.cpp">
       <Filter>src\GameSmithEngine\EntitySystem\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\EntitySystem\EnitityRenderPreparer.cpp">
+      <Filter>src\GameSmithEngine\EntitySystem</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\EntitySystem\GameObject.cpp">
       <Filter>src\GameSmithEngine\EntitySystem</Filter>
@@ -1879,30 +1901,14 @@
     <ClCompile Include="src\GameSmithEngine\ResourceManagement\ResourceManager.cpp">
       <Filter>src\GameSmithEngine\ResourceManagement</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\Utilities\ExposedVariableRegistry.cpp">
+      <Filter>src\GameSmithEngine\Utilities</Filter>
+    </ClCompile>
     <ClCompile Include="src\gepch.cpp">
       <Filter>src</Filter>
     </ClCompile>
     <ClCompile Include="third-party\stb\std_image.cpp">
       <Filter>third-party\stb</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameSmithEngine\Utilities\ExposedVariableRegistry.cpp" />
-    <ClCompile Include="src\GameSmithEngine\EntitySystem\Components\ComponentFactory.cpp" />
-    <ClCompile Include="src\GameSmithEngine\EntitySystem\Components\CameraComponent.cpp" />
-    <ClCompile Include="src\GameSmithEngine\EntitySystem\EnitityRenderPreparer.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Domain\BasicRenderDS.hlsl" />
-    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Hull\BasicSubdivideHS.hlsl" />
-    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Pixel\BasicRenderPS.hlsl" />
-    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Pixel\BlinnPhongPixelShader.hlsl" />
-    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Pixel\FlatColorPixelShader.hlsl" />
-    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Pixel\RandomColorPS.hlsl" />
-    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Pixel\SamplePixelShader.hlsl" />
-    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Vertex\BasicRenderVS.hlsl" />
-    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Vertex\SampleVertexShader.hlsl" />
-    <FxCompile Include="src\GameSmithEngine\Rendering\SampleShaders\Vertex\SampleVertexTesShader.hlsl" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="src\GameSmithEngine\Rendering\SampleShaders\Core.hlsli" />
   </ItemGroup>
 </Project>

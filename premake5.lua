@@ -150,11 +150,16 @@ project "GameSmithEngineTestSuite"
 			"GE_PLATFORM_WINDOWS"
 		}
 
+		postbuildcommands{
+			("{COPYDIR} \"%{prj.location}resources\" \"%{cfg.buildtarget.directory}resources\"")
+		}
+
 
 	filter "system:windows"
 	systemversion "latest"
 	filter "configurations:Debug"
 	defines "GE_DEBUG"
+	defines "TEST_RESOURCES=\"resources\""
 	runtime "Debug"
 	symbols "on"
 

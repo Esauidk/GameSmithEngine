@@ -11,7 +11,7 @@ namespace GameSmith {
 
 		// Serializes the interface implementor
 		// Appends the serialization of the implementor to the byte stream
-		virtual void Serialize(Ref<char> byteStream, unsigned int availableBytes) = 0;
+		virtual void Serialize(char* byteStream, unsigned int availableBytes) = 0;
 
 		// Returns the amount of bytes required to serialize the interface implementor
 		virtual unsigned int RequireSpace() const = 0;

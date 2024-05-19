@@ -1,32 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="CustomWidgets">
+      <UniqueIdentifier>{B76BC48E-232C-40C5-EC66-894258E684A1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="SampleComponents">
+      <UniqueIdentifier>{CD946AAA-B98D-89FC-E2BF-6E81CE176908}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Windows">
       <UniqueIdentifier>{5032B729-BC11-36C5-C529-C19B31889C26}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\GameSmithEditor\CustomWidgets\ReferenceInputWidget.h">
+      <Filter>CustomWidgets</Filter>
+    </ClInclude>
     <ClInclude Include="src\GameSmithEditor\EditorCoreLayer.h" />
     <ClInclude Include="src\GameSmithEditor\EngineDependenciesOnly.h" />
+    <ClInclude Include="src\GameSmithEditor\SampleComponents\BurstOrbitScript.h">
+      <Filter>SampleComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEditor\SampleComponents\OrbitScript.h">
+      <Filter>SampleComponents</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEditor\Windows\GameObjectDetails.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
     <ClInclude Include="src\GameSmithEditor\Windows\GameViewLayer.h">
       <Filter>Windows</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameSmithEditor\Windows\SimulationContentView.h" />
-    <ClInclude Include="src\GameSmithEditor\Windows\GameObjectDetails.h" />
-    <ClInclude Include="src\GameSmithEditor\CustomWidgets\ReferenceInputWidget.h" />
-    <ClInclude Include="src\GameSmithEditor\SampleComponents\OrbitScript.h" />
-    <ClInclude Include="src\GameSmithEditor\SampleComponents\BurstOrbitScript.h" />
+    <ClInclude Include="src\GameSmithEditor\Windows\SimulationContentView.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\GameSmithEditor\CustomWidgets\ReferenceInputWidget.cpp">
+      <Filter>CustomWidgets</Filter>
+    </ClCompile>
     <ClCompile Include="src\GameSmithEditor\EditorApp.cpp" />
     <ClCompile Include="src\GameSmithEditor\EditorCoreLayer.cpp" />
+    <ClCompile Include="src\GameSmithEditor\SampleComponents\BurstOrbitScript.cpp">
+      <Filter>SampleComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEditor\SampleComponents\OrbitScript.cpp">
+      <Filter>SampleComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEditor\Windows\GameObjectDetails.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
     <ClCompile Include="src\GameSmithEditor\Windows\GameViewLayer.cpp">
       <Filter>Windows</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameSmithEditor\Windows\SimulationContentView.cpp" />
-    <ClCompile Include="src\GameSmithEditor\Windows\GameObjectDetails.cpp" />
-    <ClCompile Include="src\GameSmithEditor\CustomWidgets\ReferenceInputWidget.cpp" />
-    <ClCompile Include="src\GameSmithEditor\SampleComponents\OrbitScript.cpp" />
-    <ClCompile Include="src\GameSmithEditor\SampleComponents\BurstOrbitScript.cpp" />
+    <ClCompile Include="src\GameSmithEditor\Windows\SimulationContentView.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
