@@ -165,6 +165,7 @@ project "GameSmithEngineTestSuite"
 
 	filter "configurations:Release"
 	defines "GE_Release"
+	defines "TEST_RESOURCES=\"resources\""
 	runtime "Release"
 	optimize "on"
 
