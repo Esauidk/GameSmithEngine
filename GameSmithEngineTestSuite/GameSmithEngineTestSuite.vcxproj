@@ -98,7 +98,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>GE_PLATFORM_WINDOWS;GE_Release;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GE_PLATFORM_WINDOWS;GE_Release;TEST_RESOURCES="resources";%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>tst;..\GameSmithEngine\third-party\spdlog\include;..\GameSmithEngine\src;..\GameSmithEngine\third-party\glm;..\third-party\googletest\googletest\include;..\third-party\googletest\googletest\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
