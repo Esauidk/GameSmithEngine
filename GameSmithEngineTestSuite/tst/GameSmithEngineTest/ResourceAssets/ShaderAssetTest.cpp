@@ -2,7 +2,7 @@
 
 #include "GameSmithEngineTest/TestInclude.h"
 
-static char* loadFile(std::string file, unsigned int* outSize) {
+static GameSmith::Ref<char> loadFile(std::string file, unsigned int* outSize) {
 	std::fstream pFile(file, std::ios::in | std::ios::binary | std::ios::ate);
 	GE_CORE_ASSERT(pFile.is_open(), std::format("Asset file {0} cannot be opened", file));
 
@@ -14,84 +14,55 @@ static char* loadFile(std::string file, unsigned int* outSize) {
 	pFile.read(buf, *outSize);
 	pFile.close();
 
-	return buf;
+	return GameSmith::Ref<char>(buf);
 }
+
+static unsigned int testShaderSize;
+static GameSmith::Ref<char> testShader = loadFile(std::format("{0}{1}", TEST_RESOURCES, "/shaders/SampleVertexShader.cso"), &testShaderSize);
 
 TEST(ShaderAssetTest, Deserialize) {
 	GameSmith::RenderingManager manager(true);
 	manager.Init();
 
-	std::string shaderPath = TEST_RESOURCES;
-	shaderPath += "/shaders/SampleVertexShader.cso";
-	
-	unsigned size;
-	char* file = loadFile(shaderPath, &size);
-
 	GameSmith::ShaderAsset asset;
-	EXPECT_NO_THROW(asset.Deserialize(file, size));
-
-	delete[] file;
+	EXPECT_NO_THROW(asset.Deserialize(testShader.get(), testShaderSize));
 }
 
 TEST(ShaderAssetTest, SerializeNew) {
 	GameSmith::RenderingManager manager(true);
 	manager.Init();
 
-	std::string shaderPath = TEST_RESOURCES;
-	shaderPath += "/shaders/SampleVertexShader.cso";
-
-	unsigned size;
-	char* file = loadFile(shaderPath, &size);
-
 	GameSmith::ShaderAsset asset;
-	EXPECT_NO_THROW(asset.Deserialize(file, size));
+	EXPECT_NO_THROW(asset.Deserialize(testShader.get(), testShaderSize));
 
 	GameSmith::Ref<char> serial = asset.Serialize();
 
-	for (unsigned int i = 0; i < size; i++) {
-		EXPECT_EQ(*(file + i), *(serial.get() + i));
+	for (unsigned int i = 0; i < testShaderSize; i++) {
+		EXPECT_EQ(*(testShader.get() + i), *(serial.get() + i));
 	}
-
-	delete[] file;
 }
 
 TEST(ShaderAssetTest, SerializeAppend) {
 	GameSmith::RenderingManager manager(true);
 	manager.Init();
 
-	std::string shaderPath = TEST_RESOURCES;
-	shaderPath += "/shaders/SampleVertexShader.cso";
-
-	unsigned size;
-	char* file = loadFile(shaderPath, &size);
-
 	GameSmith::ShaderAsset asset;
-	EXPECT_NO_THROW(asset.Deserialize(file, size));
+	EXPECT_NO_THROW(asset.Deserialize(testShader.get(), testShaderSize));
 
-	GameSmith::Ref<char> serial = GameSmith::Ref<char>(new char[size + 5]);
-	asset.Serialize(serial.get() + 5, size);
+	GameSmith::Ref<char> serial = GameSmith::Ref<char>(new char[testShaderSize + 5]);
+	asset.Serialize(serial.get() + 5, testShaderSize);
 
-	for (unsigned int i = 0; i < size; i++) {
-		EXPECT_EQ(*(file + i), *(serial.get() + i + 5));
+	for (unsigned int i = 0; i < testShaderSize; i++) {
+		EXPECT_EQ(*(testShader.get() + i), *(serial.get() + i + 5));
 	}
-
-	delete[] file;
 }
 
 TEST(ShaderAssetTest, GetRequiredSize) {
 	GameSmith::RenderingManager manager(true);
 	manager.Init();
 
-	std::string shaderPath = TEST_RESOURCES;
-	shaderPath += "/shaders/SampleVertexShader.cso";
-
-	unsigned size;
-	char* file = loadFile(shaderPath, &size);
-
 	GameSmith::ShaderAsset asset;
-	EXPECT_NO_THROW(asset.Deserialize(file, size));
+	EXPECT_NO_THROW(asset.Deserialize(testShader.get(), testShaderSize));
 
-	EXPECT_EQ(size, asset.RequireSpace());
-
-	delete[] file;
+	EXPECT_EQ(testShaderSize, asset.RequireSpace());
 }
