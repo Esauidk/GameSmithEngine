@@ -67,4 +67,4 @@ jobs:
       
     - name: Run tests
       working-directory: bin/${{env.BUILD_CONFIGURATION}}-windows-x86_64/GameSmithEngineTestSuite/
-      run: dir
+      run: ./GameSmithEngineTestSuite.exe
