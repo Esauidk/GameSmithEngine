@@ -67,7 +67,10 @@ jobs:
       
     - name: Move to test directory
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: cd bin/${{env.BUILD_CONFIGURATION}}-windows-x86_64/GameSmithEngineTestSuite/
+      run: cd bin/${{env.BUILD_CONFIGURATION}}-windows-x86_64/GameSmithEngineTestSuite/ && dir
+
+    - name: Check directory
+      run: dir
       
     - name: Run tests
       run: GameSmithEngineTestSuite.exe
