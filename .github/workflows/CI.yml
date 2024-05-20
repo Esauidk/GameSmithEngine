@@ -18,7 +18,7 @@ env:
   # Configuration type to build.
   # You can convert this to a build matrix if you need coverage of multiple configuration types.
   # https://docs.github.com/actions/learn-github-actions/managing-complex-workflows#using-a-build-matrix
-  BUILD_CONFIGURATION: Debug
+  BUILD_CONFIGURATION: Release
 
 permissions:
   contents: read
@@ -69,4 +69,4 @@ jobs:
       
     - name: Run tests
       working-directory: bin/${{env.BUILD_CONFIGURATION}}-windows-x86_64/GameSmithEngineTestSuite/
-      run: start GameSmithEngineTestSuite.exe
+      run: GameSmithEngineTestSuite.exe
