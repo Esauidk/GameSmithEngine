@@ -68,4 +68,4 @@ jobs:
       
     - name: Run tests
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: cd /bin/${{env.BUILD_CONFIGURATION}}-windows-x86_64/GameSmithEngineTestSuite/ && start GameSmithEngineTestSuite.exe
+      run: cd bin/${{env.BUILD_CONFIGURATION}}-windows-x86_64/GameSmithEngineTestSuite/ && start GameSmithEngineTestSuite.exe
