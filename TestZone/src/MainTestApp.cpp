@@ -1,9 +1,9 @@
 #include <GameSmithEngine.h>
-#include "TestRenderLayer.h"
-#include "TestResourceLayer.h"
-#include "TestComponentLayer.h"
-#include "SandBoxLayer.h"
-#include "DemoLayer.h"
+//#include "TestRenderLayer.h"
+//#include "TestResourceLayer.h"
+//#include "TestComponentLayer.h"
+//#include "SandBoxLayer.h"
+//#include "DemoLayer.h"
 #include "TestingLayer.h"
 
 class TestZone : public GameSmith::Application {

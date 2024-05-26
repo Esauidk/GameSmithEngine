@@ -3,18 +3,16 @@
 #include "Serializable.h"
 
 namespace GameSmith {
-	struct MaterialAssetMetadata {
-		unsigned int ParamterCount;
-		unsigned int TetureCount;
-		struct ShaderMetadata {
-			bool UsedShader = false;
-			unsigned int stringLength = 0;
-		}Shaders[STAGE_NUM];
-	};
-
 	class MaterialAsset : public Serializeable
 	{
 	public:
+		MaterialAsset() = default;
+		MaterialAsset(
+			std::vector<std::pair<std::string, Stages>>& shaderPaths,
+			std::vector<std::pair<std::string, std::string>>& texturePaths,
+			std::vector<std::pair<std::string, ContainerDataType>>& variables
+		);
+
 		static Ref<Material> ReadAsset(char* assetData, unsigned int assetSize);
 
 		virtual Ref<char> Serialize() override;
@@ -24,7 +22,20 @@ namespace GameSmith {
 
 		Ref<Material> CreateInstance();
 	private:
+		struct MaterialAssetMetadata {
+			unsigned int ParamterCount;
+			unsigned int TetureCount;
+			struct ShaderMetadata {
+				bool UsedShader = false;
+			}Shaders[STAGE_NUM];
+		};
+
 		Ref<Material> m_GlobalVer;
+
+		MaterialAssetMetadata m_Metadata;
+		std::string m_ShaderPaths[STAGE_NUM];
+
+		std::vector<std::string> m_TexturePaths;
 	};
 };
 

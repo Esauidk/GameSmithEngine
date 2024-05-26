@@ -166,7 +166,7 @@ namespace GameSmith {
 
 	class MatrixContainor : public ParameterContainer {
 	public:
-		MatrixContainor(std::string name, unsigned int flags = 0) : ParameterContainer(name, ContainerDataType::Matrix, flags), m_Data(0) {}
+		MatrixContainor(std::string name, unsigned int flags = 0) : ParameterContainer(name, ContainerDataType::Matrix, flags), m_Data(1) {}
 		MatrixContainor(std::string name, glm::mat4& data, unsigned int flags = 0) : ParameterContainer(name, ContainerDataType::Matrix), m_Data(data) {}
 		inline virtual char* GetCharData() override { return (char*)glm::value_ptr(m_Data); };
 		inline const glm::mat4& GetData() { return m_Data; }

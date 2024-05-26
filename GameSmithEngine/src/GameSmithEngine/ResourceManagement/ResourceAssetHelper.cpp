@@ -36,6 +36,7 @@ namespace GameSmith {
 	void ResourceAssetWriter::WriteByte(char* bytes, unsigned int byteCount)
 	{
 		memcpy(m_CurPtr, bytes, byteCount);
+		m_CurPtr += byteCount;
 	}
 
 	void ResourceAssetWriter::CommitToFile(std::string destination)

@@ -14,12 +14,12 @@ DemoLayer::DemoLayer() : GameSmith::Layer("Demo Layer"), m_PerpCam((float)GameSm
 	renderManager->SetFrameTexture(m_RenderTex);
 
 	GameSmith::ResourceAssetWriter writer(500);
-	GameSmith::MaterialAssetMetadata meta;
+	/*GameSmith::MaterialAssetMetadata meta;
 	meta.ParamterCount = 1;
 	meta.TetureCount = 0;
 	meta.Shaders[GameSmith::Stages::STAGE_VERTEX].UsedShader = true;
 	meta.Shaders[GameSmith::Stages::STAGE_PIXEL].UsedShader = true;
-	writer.WriteClass<GameSmith::MaterialAssetMetadata>(&meta);
+	writer.WriteClass<GameSmith::MaterialAssetMetadata>(&meta);*/
 
 	GameSmith::MaterialConfig config;
 	writer.WriteClass<GameSmith::MaterialConfig>(&config);
@@ -45,8 +45,8 @@ DemoLayer::DemoLayer() : GameSmith::Layer("Demo Layer"), m_PerpCam((float)GameSm
 	m_LightMatAsset = instance->GetResource<GameSmith::MaterialAsset>("MaterialComp", writer.GetBuffer(), writer.GetBufferSize());
 
 	GameSmith::ResourceAssetWriter writer1(700);
-	meta.ParamterCount = 9;
-	writer1.WriteClass<GameSmith::MaterialAssetMetadata>(&meta);
+	//meta.ParamterCount = 9;
+	//writer1.WriteClass<GameSmith::MaterialAssetMetadata>(&meta);
 	writer1.WriteClass<GameSmith::MaterialConfig>(&config);
 	writer1.WriteString(vs);
 
@@ -111,11 +111,11 @@ DemoLayer::DemoLayer() : GameSmith::Layer("Demo Layer"), m_PerpCam((float)GameSm
 	m_ColorMatAsset = instance->GetResource<GameSmith::MaterialAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\ColorMat.mat");
 
 	GameSmith::ResourceAssetWriter writer2(700);
-	meta.TetureCount = 1;
+	/*meta.TetureCount = 1;
 	meta.ParamterCount = 1;
 	writer2.WriteClass<GameSmith::MaterialAssetMetadata>(&meta);
 	writer2.WriteClass<GameSmith::MaterialConfig>(&config);
-	writer2.WriteString(vs);
+	writer2.WriteString(vs);*/
 	
 	std::string ps2("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\SamplePixelShader.cso");
 	writer2.WriteString(ps2);
@@ -138,11 +138,11 @@ DemoLayer::DemoLayer() : GameSmith::Layer("Demo Layer"), m_PerpCam((float)GameSm
 	render->SetSampler(sampler, GameSmith::Stages::STAGE_PIXEL);
 
 	GameSmith::ResourceAssetWriter writer3(700);
-	meta.TetureCount = 0;
+	/*meta.TetureCount = 0;
 	meta.ParamterCount = 1;
 	writer3.WriteClass<GameSmith::MaterialAssetMetadata>(&meta);
 	writer3.WriteClass<GameSmith::MaterialConfig>(&config);
-	writer3.WriteString(vs);
+	writer3.WriteString(vs);*/
 
 	std::string ps3("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\FlatColorPixelShader.cso");
 	writer3.WriteString(ps3);

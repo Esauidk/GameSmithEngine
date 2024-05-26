@@ -4,11 +4,11 @@
 #include "GameSmithEngine/Rendering/RenderingManager.h"
 
 namespace GameSmith {
-	Material::Material(ShaderSet shaders, MaterialConfig config,
-		std::vector<std::string> order,
-		std::vector<std::string> textureOrder,
-		std::unordered_map<std::string, Ref<ParameterContainer>> paramters,
-		std::unordered_map<std::string, Ref<TextureAsset>> textures) :
+	Material::Material(ShaderSet& shaders, MaterialConfig& config,
+		std::vector<std::string>& order,
+		std::vector<std::string>& textureOrder,
+		std::unordered_map<std::string, Ref<ParameterContainer>>& paramters,
+		std::unordered_map<std::string, Ref<TextureAsset>>& textures) :
 		m_Shaders(shaders),
 		m_Config(config),
 		m_ParameterKeys(order),

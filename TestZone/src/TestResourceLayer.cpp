@@ -6,11 +6,11 @@
 TestResourceLayer::TestResourceLayer()
 {
 	GameSmith::ResourceAssetWriter writer(500);
-	GameSmith::MaterialAssetMetadata meta;
+	/*GameSmith::MaterialAssetMetadata meta;
 	meta.ParamterCount = 1;
 	meta.TetureCount = 1;
 	meta.Shaders[GameSmith::Stages::STAGE_VERTEX].UsedShader = true;
-	writer.WriteClass<GameSmith::MaterialAssetMetadata>(&meta);
+	writer.WriteClass<GameSmith::MaterialAssetMetadata>(&meta);*/
 
 	GameSmith::MaterialConfig config;
 	writer.WriteClass<GameSmith::MaterialConfig>(&config);

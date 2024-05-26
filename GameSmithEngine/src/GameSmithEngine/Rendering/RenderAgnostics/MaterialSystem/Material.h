@@ -12,12 +12,13 @@ namespace GameSmith {
 
 	class Material
 	{
+		friend class MaterialAsset;
 	public:
-		Material(ShaderSet shaders, MaterialConfig config,
-			std::vector<std::string> parameterOrder,
-			std::vector<std::string> textureOrder,
-			std::unordered_map<std::string, Ref<ParameterContainer>> paramters,
-			std::unordered_map<std::string, Ref<TextureAsset>> textures);
+		Material(ShaderSet& shaders, MaterialConfig& config,
+			std::vector<std::string>& parameterOrder,
+			std::vector<std::string>& textureOrder,
+			std::unordered_map<std::string, Ref<ParameterContainer>>& paramters,
+			std::unordered_map<std::string, Ref<TextureAsset>>& textures);
 
 		Material(Material& oldMat);
 
@@ -39,6 +40,11 @@ namespace GameSmith {
 
 		void SetTexture(std::string textureName, Ref<TextureAsset> newTexture);
 		void ApplyMaterial();
+
+		inline const ShaderSet& GetShaderSet() { return m_Shaders; }
+	private:
+		const std::unordered_map<std::string, Ref<ParameterContainer>>& DumpCurrentParameterMap() { return m_Paramters; }
+		const std::vector<std::string>& DumpParameterOrder() { return m_ParameterKeys; }
 	private:
 		ShaderSet m_Shaders;
 		MaterialConfig m_Config;
