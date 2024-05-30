@@ -1,7 +1,7 @@
 #pragma once
 #include "Component.h"
 #include "GameSmithEngine/ResourceAssets/MeshAsset.h"
-#include "GameSmithEngine/Rendering/RenderAgnostics/MaterialSystem/Material.h"
+#include "GameSmithEngine/ResourceAssets/MaterialAsset.h"
 
 namespace GameSmith {
 	class MeshRenderer : public Component {
@@ -14,10 +14,15 @@ namespace GameSmith {
 		virtual std::string GetName() const override { return "MeshRenderer"; };
 
 		void SetMesh(Ref<MeshAsset> newMesh) { m_Mesh = newMesh; m_Materials.resize(m_Mesh->GetSubMeshSize()); }
-		void SetMaterial(unsigned int index, Ref<Material> mat) { m_Materials[index] = mat; };
+		void SetMaterial(unsigned int index, Ref<MaterialAsset> mat) { m_Materials[index] = { mat->CreateInstance(), mat }; };
 		unsigned int GetMaterialSlots() { return m_Mesh->GetSubMeshSize(); }
+
+		virtual Ref<char> Serialize() override;
+		virtual void Serialize(char* byteStream, unsigned int availableBytes) override;
+		virtual unsigned int RequireSpace() const override;
+		virtual void Deserialize(char* inData, unsigned int size) override;
 	private:
 		Ref<MeshAsset> m_Mesh;
-		std::vector<Ref<Material>> m_Materials;
+		std::vector<std::pair<Ref<Material>, Ref<MaterialAsset>>> m_Materials;
 	};
 };

@@ -25,7 +25,8 @@ namespace GameSmith {
 
 		for (unsigned int i = 0; i < STAGE_NUM; i++) {
 			if (m_Metadata.Shaders[i].UsedShader) {
-				writer.WriteString(m_ShaderPaths[i]);
+				idData shaderID = m_ShaderIds[i].getData();
+				writer.WriteClass<idData>(&shaderID);
 			}
 		}
 
@@ -42,14 +43,15 @@ namespace GameSmith {
 		}
 
 
-		for (std::string& texture : m_TexturePaths) {
-			writer.WriteString(texture);
+		for (auto& texture : m_TextureIds) {
+			writer.WriteString(texture.first);
+			idData texID = texture.second.getData();
+			writer.WriteClass<idData>(&texID);
 		}
 
 		writer.CommitToFile("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\TestMat.mat");
 		
-		// TODO: Implement
-		return Ref<char>();
+		return writer.GetBuffer();
 	}
 
 	void MaterialAsset::Serialize(char* byteStream, unsigned int availableBytes)
@@ -67,29 +69,30 @@ namespace GameSmith {
 	{
 		ResourceAssetReader reader(inData, size);
 
-		MaterialAssetMetadata* metadata = reader.ReadClass<MaterialAssetMetadata>();
+		MaterialAssetMetadata* matMetadata = reader.ReadClass<MaterialAssetMetadata>();
 		MaterialConfig* config = reader.ReadClass<MaterialConfig>();
 
-		m_Metadata = *metadata;
+		m_Metadata = *matMetadata;
 
 		auto instance = ResourceManager::GetInstance();
 
 		ShaderSet shaders;
 		for (unsigned int i = 0; i < STAGE_NUM; i++) {
 			Stages stage = (Stages)i;
-			if (metadata->Shaders[i].UsedShader) {
-				auto shaderPath = reader.GetString();
-				shaders.shaders[i] = instance->GetResource<ShaderAsset>(shaderPath);
-				m_ShaderPaths[i] = shaderPath;
+			if (matMetadata->Shaders[i].UsedShader) {
+				auto shaderId = reader.ReadClass<idData>();
+				ID newId(*shaderId);
+				shaders.shaders[i] = instance->GetResource<ShaderAsset>(newId);
+				m_ShaderIds[i] = newId;
 			}
 		}
 
 		std::vector<std::string> parameterNames;
 		std::vector<std::string> textureNames;
 		std::unordered_map<std::string, Ref<ParameterContainer>> parameterMap;
-		std::unordered_map<std::string, Ref<TextureAsset>> textureMap;
+		std::unordered_map<std::string, Ref<Texture2D>> textureMap;
 
-		for (unsigned int i = 0; i < metadata->ParamterCount; i++) {
+		for (unsigned int i = 0; i < matMetadata->ParamterCount; i++) {
 			GE_CORE_INFO("Loading parameter {0}", i);
 			std::string paramName = reader.GetString();
 			ContainerDataType* dataType = reader.ReadClass<ContainerDataType>();
@@ -102,16 +105,17 @@ namespace GameSmith {
 			parameterMap.insert({ paramName, parm });
 		}
 
-		for (unsigned int i = 0; i < metadata->TetureCount; i++) {
+		for (unsigned int i = 0; i < matMetadata->TetureCount; i++) {
 			GE_CORE_INFO("Loading texture {0}", i);
 
 			std::string texName = reader.GetString();
-			std::string texPath = reader.GetString();
-			m_TexturePaths.push_back(texPath);
-			Ref<TextureAsset> tex = instance->GetResource<TextureAsset>(texPath);
+			auto texId = reader.ReadClass<idData>();
+			ID newID(*texId);
+			m_TextureIds.push_back({ texName, newID });
+			Ref<TextureAsset> tex = instance->GetResource<TextureAsset>(newID);
 
 			textureNames.push_back(texName);
-			textureMap.insert({ texName, tex });
+			textureMap.insert({ texName, tex->GetTexture() });
 		}
 
 		m_GlobalVer =  Ref<Material>(new Material(shaders, *config, parameterNames, textureNames, parameterMap, textureMap));
@@ -123,32 +127,33 @@ namespace GameSmith {
 	}
 
 	MaterialAsset::MaterialAsset(
-		std::vector<std::pair<std::string, Stages>>& shaderPaths, 
-		std::vector<std::pair<std::string, std::string>>& texturePaths,
-		std::vector<std::pair<std::string, ContainerDataType>>& variables)
+		std::vector<std::pair<ID, Stages>>& shaderIds,
+		std::vector<std::pair<std::string, ID>>& textureIds,
+		std::vector<std::pair<std::string, ContainerDataType>>& variables
+	)
 	{
-		GE_CORE_ASSERT(shaderPaths.size() <= STAGE_NUM, "More shader entries than there are stages");
+		GE_CORE_ASSERT(shaderIds.size() <= STAGE_NUM, "More shader entries than there are stages");
 
 		auto instance = ResourceManager::GetInstance();
 
 		ShaderSet shaders;
-		for (auto& entry : shaderPaths) {
+		for (auto& entry : shaderIds) {
 			GE_CORE_ASSERT(shaders.shaders[entry.second] == nullptr, "ShaderPath parameter passed has a double entry for a stage");
 
 			shaders.shaders[entry.second] = instance->GetResource<ShaderAsset>(entry.first);
-			m_ShaderPaths[entry.second] = entry.first;
+			m_ShaderIds[entry.second] = entry.first;
 
 			m_Metadata.Shaders[entry.second].UsedShader = true;
 		}
 
-		m_Metadata.TetureCount = (unsigned int)texturePaths.size();
+		m_Metadata.TetureCount = (unsigned int)textureIds.size();
 		std::vector<std::string> textureNames;
-		std::unordered_map<std::string, Ref<TextureAsset>> textureMap;
-		for (auto& textureEntry : texturePaths) {
-			m_TexturePaths.push_back(textureEntry.second);
+		std::unordered_map<std::string, Ref<Texture2D>> textureMap;
+		for (auto& textureEntry : textureIds) {
+			m_TextureIds.push_back({ textureEntry.first, textureEntry.second });
 			Ref<TextureAsset> tex = instance->GetResource<TextureAsset>(textureEntry.second);
 			textureNames.push_back(textureEntry.first);
-			textureMap.insert({ textureEntry.first, tex });
+			textureMap.insert({ textureEntry.first, tex->GetTexture() });
 		}
 
 		m_Metadata.ParamterCount = (unsigned int)variables.size();
@@ -162,53 +167,5 @@ namespace GameSmith {
 
 		MaterialConfig emptyConfig;
 		m_GlobalVer = Ref<Material>(new Material(shaders, emptyConfig, parameterNames, textureNames, parameterMap, textureMap));
-	}
-
-	Ref<Material> MaterialAsset::ReadAsset(char* assetData, unsigned int dataSize)
-	{
-		ResourceAssetReader reader(assetData, dataSize);
-
-		MaterialAssetMetadata* metadata = reader.ReadClass<MaterialAssetMetadata>();
-		MaterialConfig* config = reader.ReadClass<MaterialConfig>();
-
-		auto instance = ResourceManager::GetInstance();
-
-		ShaderSet shaders;
-		for (unsigned int i = 0; i < STAGE_NUM; i++) {
-			Stages stage = (Stages)i;
-			if (metadata->Shaders[i].UsedShader) {
-				shaders.shaders[i] = instance->GetResource<ShaderAsset>(reader.GetString());
-			}
-		}
-		
-		std::vector<std::string> parameterNames;
-		std::vector<std::string> textureNames;
-		std::unordered_map<std::string, Ref<ParameterContainer>> parameterMap;
-		std::unordered_map<std::string, Ref<TextureAsset>> textureMap;
-
-		for (unsigned int i = 0; i < metadata->ParamterCount; i++) {
-			GE_CORE_INFO("Loading parameter {0}", i);
-			std::string paramName = reader.GetString();
-			ContainerDataType* dataType = reader.ReadClass<ContainerDataType>();
-			unsigned int dataSize = GetParameterSize(*dataType);
-			char* data = reader.GetBytes(dataSize);
-
-			Ref<ParameterContainer> parm = ConvertToParameter(paramName, *dataType, data);
-
-			parameterNames.push_back(paramName);
-			parameterMap.insert({ paramName, parm });
-		}
-
-		for (unsigned int i = 0; i < metadata->TetureCount; i++) {
-			GE_CORE_INFO("Loading texture {0}", i);
-
-			std::string texName = reader.GetString();
-			Ref<TextureAsset> tex = instance->GetResource<TextureAsset>(reader.GetString());
-
-			textureNames.push_back(texName);
-			textureMap.insert({ texName, tex });
-		}
-
-		return Ref<Material>(new Material(shaders, *config, parameterNames, textureNames, parameterMap, textureMap));
 	}
 };

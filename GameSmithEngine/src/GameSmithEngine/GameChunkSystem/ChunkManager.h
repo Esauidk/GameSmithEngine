@@ -12,18 +12,18 @@ namespace GameSmith {
 		void Init();
 		void ShutDown() {};
 
-		void LoadChunk(std::string sceneAsset);
+		void LoadChunk(ID sceneAsset);
 		// Visible for testing
-		void LoadChunk(std::string sceneAsset, Ref<GameChunk> gameChunk);
+		void LoadChunk(ID sceneAsset, Ref<GameChunk> gameChunk);
 
-		void AppendChunk(std::string chunkAsset);
+		void AppendChunk(ID chunkAsset);
 		// Visible for testing
-		void AppendChunk(std::string chunkName, Ref<GameChunk> gameChunk);
+		void AppendChunk(ID chunkName, Ref<GameChunk> gameChunk);
 
 	private:
 		static ChunkManager* s_Instance;
 
-		std::unordered_map<std::string, Ref<GameChunk>> m_LoadedChunks;
+		std::unordered_map<ID, Ref<GameChunk>, ID> m_LoadedChunks;
 	};
 };
 

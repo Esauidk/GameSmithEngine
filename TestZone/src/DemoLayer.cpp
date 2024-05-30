@@ -42,7 +42,7 @@ DemoLayer::DemoLayer() : GameSmith::Layer("Demo Layer"), m_PerpCam((float)GameSm
 
 	auto instance = GameSmith::ResourceManager::GetInstance();
 
-	m_LightMatAsset = instance->GetResource<GameSmith::MaterialAsset>("MaterialComp", writer.GetBuffer(), writer.GetBufferSize());
+	m_LightMatAsset = instance->GetResource<GameSmith::MaterialAsset>(5, writer.GetBuffer(), writer.GetBufferSize());
 
 	GameSmith::ResourceAssetWriter writer1(700);
 	//meta.ParamterCount = 9;
@@ -108,7 +108,7 @@ DemoLayer::DemoLayer() : GameSmith::Layer("Demo Layer"), m_PerpCam((float)GameSm
 	writer1.WriteClass<glm::vec4>(&color1);
 
 	writer1.CommitToFile("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\ColorMat.mat");
-	m_ColorMatAsset = instance->GetResource<GameSmith::MaterialAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\ColorMat.mat");
+	m_ColorMatAsset = instance->GetResource<GameSmith::MaterialAsset>(0);
 
 	GameSmith::ResourceAssetWriter writer2(700);
 	/*meta.TetureCount = 1;
@@ -132,7 +132,7 @@ DemoLayer::DemoLayer() : GameSmith::Layer("Demo Layer"), m_PerpCam((float)GameSm
 
 
 
-	m_LummieThiefAsset = instance->GetResource<GameSmith::MaterialAsset>("LummieAsset", writer2.GetBuffer(), writer2.GetBufferSize());
+	m_LummieThiefAsset = instance->GetResource<GameSmith::MaterialAsset>(8, writer2.GetBuffer(), writer2.GetBufferSize());
 	auto render = GameSmith::RenderingManager::GetInstance()->GetRenderAPI();
 	auto sampler = render->CreateSampler(GameSmith::FilterType::Linear, GameSmith::PaddingMethod::Clamp);
 	render->SetSampler(sampler, GameSmith::Stages::STAGE_PIXEL);
@@ -152,17 +152,15 @@ DemoLayer::DemoLayer() : GameSmith::Layer("Demo Layer"), m_PerpCam((float)GameSm
 	writer3.WriteClass<GameSmith::ContainerDataType>(&dataType);
 	writer3.WriteClass<glm::mat4>(&mat);
 
-	auto LightAsset = instance->GetResource<GameSmith::MaterialAsset>("LightAsset", writer3.GetBuffer(), writer3.GetBufferSize());
+	auto LightAsset = instance->GetResource<GameSmith::MaterialAsset>(9, writer3.GetBuffer(), writer3.GetBufferSize());
 
 	m_LightObject = GameSmith::GameObjectManager::GetInstance()->CreateGameObject(m_LightPos, glm::vec3(0, 0, 0));
 	auto meshRe = m_LightObject.lock()->AddComponent<GameSmith::MeshRenderer>();
-	auto mesh = GameSmith::ResourceManager::GetInstance()->GetResource<GameSmith::MeshAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\sphere.obj");
+	auto mesh = GameSmith::ResourceManager::GetInstance()->GetResource<GameSmith::MeshAsset>(20);
 	meshRe.lock()->SetMesh(mesh);
 
 	for (unsigned int i = 0; i < meshRe.lock()->GetMaterialSlots(); i++) {
-		GameSmith::Ref<GameSmith::Material> matInstance = LightAsset->CreateInstance();
-
-		meshRe.lock()->SetMaterial(i, matInstance);
+		meshRe.lock()->SetMaterial(i, LightAsset);
 	}
 }
 
@@ -217,7 +215,7 @@ void DemoLayer::OnUpdate()
 
 		GameSmith::Ref<GameSmith::MeshAsset> mesh;
 		switch (m_MeshItem) {
-		case 0:
+		/*case 0:
 			mesh = GameSmith::ResourceManager::GetInstance()->GetResource<GameSmith::MeshAsset>(m_MeshLocation);
 			break;
 		case 1:
@@ -234,23 +232,23 @@ void DemoLayer::OnUpdate()
 			break;
 		case 5:
 			mesh = GameSmith::ResourceManager::GetInstance()->GetResource<GameSmith::MeshAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\icosahedron.obj");
-			break;
+			break;*/
 		}
 
 		meshRef.lock()->SetMesh(mesh);
 
 		for (unsigned int i = 0; i < meshRef.lock()->GetMaterialSlots(); i++) {
-			GameSmith::Ref<GameSmith::Material> matInstance;
+			GameSmith::Ref<GameSmith::MaterialAsset> matInstance;
 			
 			switch (m_ShaderItem) {
 			case 0:
-				matInstance = m_ColorMatAsset->CreateInstance();
+				matInstance = m_ColorMatAsset;
 				break;
 			case 1:
-				matInstance = m_LightMatAsset->CreateInstance();
+				matInstance = m_LightMatAsset;
 				break;
 			case 2:
-				matInstance = m_LummieThiefAsset->CreateInstance();
+				matInstance = m_LummieThiefAsset-;
 			}
 
 			meshRef.lock()->SetMaterial(i, matInstance);

@@ -19,7 +19,7 @@ namespace GameSmith {
 
 	void SubsystemManager::Update(float dt)
 	{
-		m_ResourceManager.ScanResource();
+		m_ResourceManager.CleanResources();
 		m_GameObjectManager.CleanGameObjects();
 
 		m_GameplayUpdater.RunGameplayInit();

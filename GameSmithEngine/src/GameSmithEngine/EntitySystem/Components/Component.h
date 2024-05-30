@@ -2,12 +2,13 @@
 
 #include "GameSmithEngine/Core/Core.h"
 #include "GameSmithEngine/Utilities/ExposedVariableRegistry.h"
+#include "GameSmithEngine/ResourceAssets/Serializable.h"
 
 namespace GameSmith {
 	class GameObject;
 	class Transform;
 
-	class Component {
+	class Component : public Serializeable {
 	public:
 		Component() = default;
 		Component(GameObject* gameObject, Transform* transform): m_Initialized(false), m_GameObject(gameObject), m_Transform(transform) {}

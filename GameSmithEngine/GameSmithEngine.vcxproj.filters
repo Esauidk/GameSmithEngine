@@ -459,6 +459,9 @@
     <ClInclude Include="src\GameSmithEngine\Utilities\ExposedVariableRegistry.h">
       <Filter>src\GameSmithEngine\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\Utilities\GUIDGenerator.h">
+      <Filter>src\GameSmithEngine\Utilities</Filter>
+    </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Utilities\ParameterContainer.h">
       <Filter>src\GameSmithEngine\Utilities</Filter>
     </ClInclude>
@@ -1902,6 +1905,9 @@
       <Filter>src\GameSmithEngine\ResourceManagement</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\Utilities\ExposedVariableRegistry.cpp">
+      <Filter>src\GameSmithEngine\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\Utilities\GUIDGenerator.cpp">
       <Filter>src\GameSmithEngine\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="src\gepch.cpp">

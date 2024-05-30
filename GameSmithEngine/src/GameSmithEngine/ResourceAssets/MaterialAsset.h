@@ -8,12 +8,10 @@ namespace GameSmith {
 	public:
 		MaterialAsset() = default;
 		MaterialAsset(
-			std::vector<std::pair<std::string, Stages>>& shaderPaths,
-			std::vector<std::pair<std::string, std::string>>& texturePaths,
+			std::vector<std::pair<ID, Stages>>& shaderIds,
+			std::vector<std::pair<std::string, ID>>& textureIds,
 			std::vector<std::pair<std::string, ContainerDataType>>& variables
 		);
-
-		static Ref<Material> ReadAsset(char* assetData, unsigned int assetSize);
 
 		virtual Ref<char> Serialize() override;
 		virtual void Serialize(char* byteStream, unsigned int availableBytes) override;
@@ -33,9 +31,9 @@ namespace GameSmith {
 		Ref<Material> m_GlobalVer;
 
 		MaterialAssetMetadata m_Metadata;
-		std::string m_ShaderPaths[STAGE_NUM];
+		ID m_ShaderIds[STAGE_NUM];
 
-		std::vector<std::string> m_TexturePaths;
+		std::vector<std::pair<std::string, ID>> m_TextureIds;
 	};
 };
 

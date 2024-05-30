@@ -46,4 +46,18 @@ namespace GameSmith {
 			// TODO: Insert setting of camera to rendering manager
 		}
 	}
+	Ref<char> CameraComponent::Serialize()
+	{
+		return Ref<char>();
+	}
+	void CameraComponent::Serialize(char* byteStream, unsigned int availableBytes)
+	{
+	}
+	unsigned int CameraComponent::RequireSpace() const
+	{
+		return 0;
+	}
+	void CameraComponent::Deserialize(char* inData, unsigned int size)
+	{
+	}
 };

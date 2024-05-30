@@ -250,6 +250,7 @@
     <ClInclude Include="src\GameSmithEngine\ThirdPartySetups\GLM\GLMDefines.h" />
     <ClInclude Include="src\GameSmithEngine\ThirdPartySetups\TinyObj\TinyObjLoaderWrapper.h" />
     <ClInclude Include="src\GameSmithEngine\Utilities\ExposedVariableRegistry.h" />
+    <ClInclude Include="src\GameSmithEngine\Utilities\GUIDGenerator.h" />
     <ClInclude Include="src\GameSmithEngine\Utilities\ParameterContainer.h" />
     <ClInclude Include="src\gepch.h" />
     <ClInclude Include="third-party\glm\glm\common.hpp" />
@@ -733,6 +734,7 @@
     <ClCompile Include="src\GameSmithEngine\ResourceManagement\ResourceLoaders\HeapResourceLoader.cpp" />
     <ClCompile Include="src\GameSmithEngine\ResourceManagement\ResourceManager.cpp" />
     <ClCompile Include="src\GameSmithEngine\Utilities\ExposedVariableRegistry.cpp" />
+    <ClCompile Include="src\GameSmithEngine\Utilities\GUIDGenerator.cpp" />
     <ClCompile Include="src\gepch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

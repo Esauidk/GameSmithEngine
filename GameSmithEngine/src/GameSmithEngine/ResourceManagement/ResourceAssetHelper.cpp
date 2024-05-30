@@ -12,6 +12,15 @@ namespace GameSmith {
 		return collectedString;
 	}
 
+	unsigned int ResourceAssetReader::GetUInt()
+	{
+		unsigned int val = *((unsigned int*)m_CurPtr);
+
+		m_CurPtr += sizeof(unsigned int);
+
+		return val;
+	}
+
 	char* ResourceAssetReader::GetBytes(unsigned int byteCount)
 	{
 		char* savePtr = m_CurPtr;
@@ -31,6 +40,12 @@ namespace GameSmith {
 		size_t length = str.length() + 1;
 		memcpy(m_CurPtr, str.c_str(), length);
 		m_CurPtr += length;
+	}
+
+	void ResourceAssetWriter::WriteUInt(unsigned int i)
+	{
+		memcpy(m_CurPtr, &i, sizeof(unsigned int));
+		m_CurPtr += sizeof(int);
 	}
 
 	void ResourceAssetWriter::WriteByte(char* bytes, unsigned int byteCount)

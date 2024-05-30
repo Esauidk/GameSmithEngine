@@ -12,3 +12,6 @@
 [submodule "GameSmithEngineTestSuite/third-party/googletest"]
 	path = third-party/googletest
 	url = git@github.com:google/googletest.git
+[submodule "GameSmithEngine/third-party/boost"]
+	path = GameSmithEngine/third-party/boost
+	url = git@github.com:boostorg/boost.git

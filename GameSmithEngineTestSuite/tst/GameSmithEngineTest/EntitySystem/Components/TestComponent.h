@@ -11,6 +11,11 @@ public:
 	bool GetUpdateCheck() { return m_UpdateRan; }
 	virtual int GetPriority() const { return 0; }
 	virtual std::string GetName() const override { return "Test Component"; }
+
+	virtual GameSmith::Ref<char> Serialize() override { return nullptr; }
+	virtual void Serialize(char* byteStream, unsigned int availableBytes) override {}
+	virtual unsigned int RequireSpace() const override { return 0; }
+	virtual void Deserialize(char* inData, unsigned int size) override {}
 private:
 	bool m_InitRan;
 	bool m_UpdateRan;

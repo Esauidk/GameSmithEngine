@@ -8,7 +8,7 @@ namespace GameSmith {
 		std::vector<std::string>& order,
 		std::vector<std::string>& textureOrder,
 		std::unordered_map<std::string, Ref<ParameterContainer>>& paramters,
-		std::unordered_map<std::string, Ref<TextureAsset>>& textures) :
+		std::unordered_map<std::string, Ref<Texture2D>>& textures) :
 		m_Shaders(shaders),
 		m_Config(config),
 		m_ParameterKeys(order),
@@ -64,7 +64,7 @@ namespace GameSmith {
 		m_PSO = renderManager->GetPSOManager()->RetrieveOrCreateStateObject(m_PSOSettings);
 	}
 
-	void Material::SetTexture(std::string textureName, Ref<TextureAsset> newTexture)
+	void Material::SetTexture(std::string textureName, Ref<Texture2D> newTexture)
 	{
 		GE_CORE_ASSERT(m_Textures.find(textureName) != m_Textures.end(), "Not a valid texutre in this material");
 		m_Textures.insert({ textureName, newTexture });
@@ -89,28 +89,29 @@ namespace GameSmith {
 
 		GE_CORE_ASSERT(renderManager != nullptr, "Render manager is not running! Required for material to be used");
 
-		renderManager->GetRenderAPI()->SetTopology(m_PSOSettings.toplopgyType, m_PSOSettings.tesselation);
+		auto renderAPI = renderManager->GetRenderAPI();
 
-		renderManager->GetRenderAPI()->SetGraphicsPipelineState(m_PSO);
+		renderAPI->SetTopology(m_PSOSettings.toplopgyType, m_PSOSettings.tesselation);
 
+		renderAPI->SetGraphicsPipelineState(m_PSO);
 
-		renderManager->GetRenderAPI()->SetConstantBuffer(m_GPULocation, STAGE_VERTEX, ShaderConstantType::Instance);
-		renderManager->GetRenderAPI()->SetConstantBuffer(m_GPULocation, STAGE_PIXEL, ShaderConstantType::Instance);
+		renderAPI->SetConstantBuffer(m_GPULocation, STAGE_VERTEX, ShaderConstantType::Instance);
+		renderAPI->SetConstantBuffer(m_GPULocation, STAGE_PIXEL, ShaderConstantType::Instance);
 
 		if (m_PSOSettings.tesselation) {
-			renderManager->GetRenderAPI()->SetConstantBuffer(m_GPULocation, STAGE_HULL, ShaderConstantType::Instance);
-			renderManager->GetRenderAPI()->SetConstantBuffer(m_GPULocation, STAGE_DOMAIN, ShaderConstantType::Instance);
+			renderAPI->SetConstantBuffer(m_GPULocation, STAGE_HULL, ShaderConstantType::Instance);
+			renderAPI->SetConstantBuffer(m_GPULocation, STAGE_DOMAIN, ShaderConstantType::Instance);
 		}
 
 		UINT slot = 0;
 		for (auto& entry : m_TextureKeys) {
 			auto pair = m_Textures.find(entry);
-			pair->second->SetGraphicsTexture(slot, STAGE_VERTEX);
-			pair->second->SetGraphicsTexture(slot, STAGE_PIXEL);
+			renderAPI->SetTexture2D(pair->second, slot, STAGE_VERTEX);
+			renderAPI->SetTexture2D(pair->second, slot, STAGE_PIXEL);
 
 			if (m_PSOSettings.tesselation) {
-				pair->second->SetGraphicsTexture(slot, STAGE_HULL);
-				pair->second->SetGraphicsTexture(slot, STAGE_DOMAIN);
+				renderAPI->SetTexture2D(pair->second, slot, STAGE_HULL);
+				renderAPI->SetTexture2D(pair->second, slot, STAGE_DOMAIN);
 			}
 			slot++;
 		}

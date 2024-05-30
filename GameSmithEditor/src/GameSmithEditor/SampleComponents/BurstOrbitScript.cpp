@@ -13,11 +13,11 @@ namespace GameSmithEditor {
 		while (((int)m_Objs.size()) < m_NumObjs) {
 			auto gameObj = gameObjManager->CreateGameObject();
 			auto renderer = gameObj.lock()->AddComponent<GameSmith::MeshRenderer>().lock();
-			renderer->SetMesh(GameSmith::ResourceManager::GetInstance()->GetResource<GameSmith::MeshAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\test.obj"));
+			//renderer->SetMesh(GameSmith::ResourceManager::GetInstance()->GetResource<GameSmith::MeshAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\test.obj"));
 
-			auto mat = GameSmith::ResourceManager::GetInstance()->GetResource<GameSmith::MaterialAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\ColorMat.mat");
+			//auto mat = GameSmith::ResourceManager::GetInstance()->GetResource<GameSmith::MaterialAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\ColorMat.mat");
 			for (unsigned int i = 0; i < renderer->GetMaterialSlots(); i++) {
-				renderer->SetMaterial(i, mat->CreateInstance());
+				//renderer->SetMaterial(i, mat->CreateInstance());
 			}
 
 			auto orbitScript = gameObj.lock()->AddComponent<GameSmithEditor::OrbitScript>();

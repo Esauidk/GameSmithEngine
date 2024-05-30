@@ -118,11 +118,11 @@ namespace GameSmithEditor {
 					// TODO: Temporary
 					if (m_CurCompSelection == "MeshRenderer") {
 						auto renderer = GameSmith::CastPtr<GameSmith::MeshRenderer>(newComponent);
-						renderer->SetMesh(GameSmith::ResourceManager::GetInstance()->GetResource<GameSmith::MeshAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\test.obj"));
+						//renderer->SetMesh(GameSmith::ResourceManager::GetInstance()->GetResource<GameSmith::MeshAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\test.obj"));
 
-						auto mat = GameSmith::ResourceManager::GetInstance()->GetResource<GameSmith::MaterialAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\ColorMat.mat");
+						//auto mat = GameSmith::ResourceManager::GetInstance()->GetResource<GameSmith::MaterialAsset>("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\ColorMat.mat");
 						for (unsigned int i = 0; i < renderer->GetMaterialSlots(); i++) {
-							renderer->SetMaterial(i, mat->CreateInstance());
+							//renderer->SetMaterial(i, mat->CreateInstance());
 						}
 
 

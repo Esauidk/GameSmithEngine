@@ -11,6 +11,10 @@ namespace GameSmith {
 		Heap
 	};
 
+	struct ResourceFileMetadata {
+		idData ID;
+	};
+
 	class ResourceManager
 	{
 	public:
@@ -19,55 +23,72 @@ namespace GameSmith {
 
 		virtual void Init(ResourceLoaderType loaderType);
 		virtual void Shutdown();
-		// Need to figure out how to store multiple resource types while being able to initialize them during loading
+
 		template<typename T>
-		Ref<T> GetResource(std::string asset) {
-			if (m_ResourceRegistry.contains(asset)) {
-				Ref<Serializeable> ptr = (*m_ResourceRegistry.find(asset)).second;
+		Ref<T> GetResource(ID asset) {
+			if (m_ActiveResources.contains(asset)) {
+				Ref<Serializeable> ptr = (*m_ActiveResources.find(asset)).second;
 				return CastPtr<T>(ptr);
 			}
 
-			GE_CORE_INFO("Loading file: {0} into memory!", asset);
+			GE_CORE_ASSERT(m_ResourceRegistry.contains(asset), "No UUID entry for asset");
+			GE_CORE_INFO("Loading file into memory!");
 			UINT size;
-			char* data = m_Loader->LoadResource(asset, &size);
+			char* data = m_Loader->LoadResource(m_ResourceRegistry.find(asset)->second, &size);
+
+			unsigned int metaSize;
+			char* meta = m_Loader->LoadResource(m_ResourceRegistry.find(asset)->second + ".meta", &metaSize);
+
+			GE_CORE_ASSERT(metaSize == sizeof(ResourceFileMetadata), "Meta data of resource has been manipulated and does not match the expected size");
 
 			Ref<T> resource = Ref<T>(new T());
 			resource->Deserialize(data, size);
 
-			m_ResourceRegistry.insert({ asset, resource });
+			ResourceFileMetadata* metaPtr = (ResourceFileMetadata*)meta;
+			ID metaId(metaPtr->ID);
+
+			resource->SetId(metaId);
+
+			m_ActiveResources.insert({ asset, resource });
 
 			m_Loader->CleanResource(data);
+			m_Loader->CleanResource(meta);
 
 			return resource;
 		}
 
 		// Expected to be used only during testing
 		template<typename T>
-		Ref<T> GetResource(std::string key, char* inData, UINT size) {
-			if (m_ResourceRegistry.contains(key)) {
-				Ref<Serializeable> ptr = (*m_ResourceRegistry.find(key)).second;
+		Ref<T> GetResource(ID key, char* inData, UINT size) {
+			if (m_ActiveResources.contains(key)) {
+				Ref<Serializeable> ptr = (*m_ActiveResources.find(key)).second;
 				return CastPtr<T>(ptr);
 			}
 
-			GE_CORE_INFO("Copying data with key: {0} into memory!", key);
+			GE_CORE_INFO("Copying data into memory!");
 			char* data = m_Loader->LoadResource(inData, size);
 
 			Ref<T> resource = Ref<T>(new T());
 			resource->Deserialize(data, size);
 
-			m_ResourceRegistry.insert({ key, resource });
+			m_ActiveResources.insert({ key, resource });
 
 			m_Loader->CleanResource(data);
 
 			return resource;
 		}
 
-		void ScanResource();
+		void WriteResource(Ref<Serializeable> resource, std::string path);
+		ID ImportResource(std::string path);
+		void ScanResources();
+		void CleanResources();
 
 	private:
 		static ResourceManager* s_Instance;
 
-		std::unordered_map<std::string, Ref<Serializeable>> m_ResourceRegistry;
+		std::unordered_map<ID, Ref<Serializeable>, ID> m_ActiveResources;
+		std::unordered_map<ID, std::string, ID> m_ResourceRegistry;
+
 		Ref<ResourceLoader> m_Loader;
 	};
 };

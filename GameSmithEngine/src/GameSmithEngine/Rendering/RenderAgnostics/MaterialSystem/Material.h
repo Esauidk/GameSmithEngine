@@ -18,7 +18,7 @@ namespace GameSmith {
 			std::vector<std::string>& parameterOrder,
 			std::vector<std::string>& textureOrder,
 			std::unordered_map<std::string, Ref<ParameterContainer>>& paramters,
-			std::unordered_map<std::string, Ref<TextureAsset>>& textures);
+			std::unordered_map<std::string, Ref<Texture2D>>& textures);
 
 		Material(Material& oldMat);
 
@@ -38,7 +38,7 @@ namespace GameSmith {
 			return nullptr;
 		}
 
-		void SetTexture(std::string textureName, Ref<TextureAsset> newTexture);
+		void SetTexture(std::string textureName, Ref<Texture2D> newTexture);
 		void ApplyMaterial();
 
 		inline const ShaderSet& GetShaderSet() { return m_Shaders; }
@@ -51,7 +51,7 @@ namespace GameSmith {
 		std::vector<std::string> m_ParameterKeys;
 		std::vector<std::string> m_TextureKeys;
 		std::unordered_map<std::string, Ref<ParameterContainer>> m_Paramters;
-		std::unordered_map<std::string, Ref<TextureAsset>> m_Textures;
+		std::unordered_map<std::string, Ref<Texture2D>> m_Textures;
 
 		unsigned int m_ParameterByteTotal;
 		Ref<ConstantBuffer> m_GPULocation;

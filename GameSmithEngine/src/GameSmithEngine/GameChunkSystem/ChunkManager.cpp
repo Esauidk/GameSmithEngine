@@ -15,19 +15,19 @@ namespace GameSmith {
 		}
 	}
 
-	void ChunkManager::LoadChunk(std::string chunkAsset)
+	void ChunkManager::LoadChunk(ID chunkAsset)
 	{
 		m_LoadedChunks.clear();
 		AppendChunk(chunkAsset);
 	}
 
-	void ChunkManager::LoadChunk(std::string chunkAsset, Ref<GameChunk> gameChunk)
+	void ChunkManager::LoadChunk(ID chunkAsset, Ref<GameChunk> gameChunk)
 	{
 		m_LoadedChunks.clear();
 		AppendChunk(chunkAsset, gameChunk);
 	}
 
-	void ChunkManager::AppendChunk(std::string chunkAsset)
+	void ChunkManager::AppendChunk(ID chunkAsset)
 	{
 		if (!m_LoadedChunks.contains(chunkAsset)) {
 			auto resourceManager = ResourceManager::GetInstance();
@@ -38,7 +38,7 @@ namespace GameSmith {
 		}
 	}
 
-	void ChunkManager::AppendChunk(std::string chunkName, Ref<GameChunk> gameChunk)
+	void ChunkManager::AppendChunk(ID chunkName, Ref<GameChunk> gameChunk)
 	{
 		if (!m_LoadedChunks.contains(chunkName)){
 			m_LoadedChunks.insert({ chunkName, gameChunk });

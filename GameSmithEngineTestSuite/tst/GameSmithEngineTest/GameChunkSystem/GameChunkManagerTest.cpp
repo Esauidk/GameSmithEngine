@@ -12,7 +12,7 @@ TEST(GameChunkManagerTest, ChunkLoaded) {
 		std::vector<GameSmith::Connection<GameSmith::GameObject>> objects;
 		objects.push_back(gameObject);
 		auto chunk = GameSmith::Ref<GameSmith::GameChunk>(new GameSmith::GameChunk(objects));
-		chunkManager.LoadChunk("Test Chunk", chunk);
+		chunkManager.LoadChunk({0, 0, 0, 0}, chunk);
 	}
 	
 	manager.CleanGameObjects();
@@ -30,7 +30,7 @@ TEST(GameChunkManagerTest, ChunkOverloaded) {
 		std::vector<GameSmith::Connection<GameSmith::GameObject>> objects;
 		objects.push_back(gameObject);
 		auto chunk = GameSmith::Ref<GameSmith::GameChunk>(new GameSmith::GameChunk(objects));
-		chunkManager.LoadChunk("Test Chunk", chunk);
+		chunkManager.LoadChunk({ 0, 0, 0, 0 }, chunk);
 	}
 
 	manager.CleanGameObjects();
@@ -42,7 +42,7 @@ TEST(GameChunkManagerTest, ChunkOverloaded) {
 		std::vector<GameSmith::Connection<GameSmith::GameObject>> objects;
 		objects.push_back(gameObject1);
 		auto chunk = GameSmith::Ref<GameSmith::GameChunk>(new GameSmith::GameChunk(objects));
-		chunkManager.LoadChunk("Test Chunk", chunk);
+		chunkManager.LoadChunk({ 0, 0, 0, 0 }, chunk);
 	}
 
 	manager.CleanGameObjects();
@@ -60,7 +60,7 @@ TEST(GameChunkManagerTest, ChunkAppended) {
 		std::vector<GameSmith::Connection<GameSmith::GameObject>> objects;
 		objects.push_back(gameObject);
 		auto chunk = GameSmith::Ref<GameSmith::GameChunk>(new GameSmith::GameChunk(objects));
-		chunkManager.LoadChunk("Test Chunk", chunk);
+		chunkManager.LoadChunk({ 0, 0, 0, 0 }, chunk);
 	}
 
 	manager.CleanGameObjects();
@@ -72,7 +72,7 @@ TEST(GameChunkManagerTest, ChunkAppended) {
 		std::vector<GameSmith::Connection<GameSmith::GameObject>> objects;
 		objects.push_back(gameObject1);
 		auto chunk = GameSmith::Ref<GameSmith::GameChunk>(new GameSmith::GameChunk(objects));
-		chunkManager.AppendChunk("Test Chunk1", chunk);
+		chunkManager.AppendChunk({ 0, 0, 0, 1 }, chunk);
 	}
 
 	manager.CleanGameObjects();
@@ -92,7 +92,7 @@ TEST(GameChunkManagerTest, ChunkAppendedOverloaded) {
 		std::vector<GameSmith::Connection<GameSmith::GameObject>> objects;
 		objects.push_back(gameObject);
 		auto chunk = GameSmith::Ref<GameSmith::GameChunk>(new GameSmith::GameChunk(objects));
-		chunkManager.LoadChunk("Test Chunk", chunk);
+		chunkManager.LoadChunk({ 0, 0, 0, 0 }, chunk);
 	}
 
 	manager.CleanGameObjects();
@@ -105,7 +105,7 @@ TEST(GameChunkManagerTest, ChunkAppendedOverloaded) {
 		std::vector<GameSmith::Connection<GameSmith::GameObject>> objects;
 		objects.push_back(gameObject1);
 		auto chunk = GameSmith::Ref<GameSmith::GameChunk>(new GameSmith::GameChunk(objects));
-		chunkManager.AppendChunk("Test Chunk1", chunk);
+		chunkManager.AppendChunk({ 0, 0, 0, 1 }, chunk);
 	}
 
 	manager.CleanGameObjects();
@@ -118,7 +118,7 @@ TEST(GameChunkManagerTest, ChunkAppendedOverloaded) {
 		std::vector<GameSmith::Connection<GameSmith::GameObject>> objects;
 		objects.push_back(gameObject2);
 		auto chunk = GameSmith::Ref<GameSmith::GameChunk>(new GameSmith::GameChunk(objects));
-		chunkManager.LoadChunk("Test Chunk2", chunk);
+		chunkManager.LoadChunk({ 0, 0, 0, 2 }, chunk);
 	}
 
 	manager.CleanGameObjects();
