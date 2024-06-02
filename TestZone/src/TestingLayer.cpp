@@ -32,26 +32,23 @@ TestingLayer::TestingLayer() : GameSmith::Layer("Testing Layer")
 	int i = 0;
 
 	auto gm = GameSmith::GameObjectManager::GetInstance()->CreateGameObject();
-	auto meshRend = gm.lock()->AddComponent<GameSmith::MeshRenderer>().lock();
+	auto test = gm.lock()->AddComponent<GameSmith::TestComponent>().lock();
 
+	std::unordered_map<std::string, GameSmith::Ref<GameSmith::ParameterContainer>> variableEntries;
+	test->GenerateVariableEntries(&variableEntries);
 
-	auto meshID = GameSmith::ResourceManager::GetInstance()->ImportResource("C:\\Users\\esaus\\Documents\\Coding Projects\\test.obj");
-	auto meshAsset = GameSmith::ResourceManager::GetInstance()->GetResource<GameSmith::MeshAsset>(meshID);
-	auto matAsset = GameSmith::ResourceManager::GetInstance()->GetResource<GameSmith::MaterialAsset>(testMat->GetId());
-	meshRend->SetMesh(meshAsset);
+	auto entry = variableEntries.find("Test Variable1");
+	glm::vec1 val;
+	val.x = 10.0f;
+	GameSmith::CastPtr<GameSmith::FloatContainer>(entry->second)->SetData(val);
 
-	for (unsigned int i = 0; i < meshRend->GetMaterialSlots(); i++) {
-		meshRend->SetMaterial(i, matAsset);
-	}
-
-	GameSmith::ResourceManager::GetInstance()->WriteResource(meshRend, "C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\MeshRender.bin");
-
-	auto serial = meshRend->Serialize();
-
+	test->BootstrapRegistry(variableEntries);
+	GameSmith::Ref<char> reg = test->SerializeRegistry();
 
 	auto gm1 = GameSmith::GameObjectManager::GetInstance()->CreateGameObject();
-	auto meshRend1 = gm.lock()->AddComponent<GameSmith::MeshRenderer>().lock();
-	meshRend1->Deserialize(serial.get(), meshRend->RequireSpace());
+	auto test1 = gm.lock()->AddComponent<GameSmith::TestComponent>().lock();
+	test1->DeserializeRegistry(reg.get(), test->RegistrySerializationSize());
+
 	i = 1;
 }
 

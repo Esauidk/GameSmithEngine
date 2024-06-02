@@ -8,7 +8,7 @@ namespace GameSmith {
 	class GameObject;
 	class Transform;
 
-	class Component : public Serializeable {
+	class Component {
 	public:
 		Component() = default;
 		Component(GameObject* gameObject, Transform* transform): m_Initialized(false), m_GameObject(gameObject), m_Transform(transform) {}
@@ -19,10 +19,15 @@ namespace GameSmith {
 		virtual int GetPriority() const = 0;
 		virtual std::string GetName() const = 0;
 
-		void BootstrapRegistry(std::unordered_map<std::string, Ref<ParameterContainer>> variableEntries) { 
+		inline void BootstrapRegistry(std::unordered_map<std::string, Ref<ParameterContainer>>& variableEntries) { 
 			m_Registry.BootstrapFromValueMap(variableEntries); 
 			PostRegistryBootstrap(); 
 		}
+
+		inline unsigned int RegistrySerializationSize() { return m_Registry.RequireSpace(); }
+		inline Ref<char> SerializeRegistry() { return m_Registry.Serialize(); }
+		inline void DeserializeRegistry(char* inData, unsigned int bytes) { m_Registry.Deserialize(inData, bytes); }
+		
 
 		virtual void PostRegistryBootstrap() {};
 		void GenerateVariableEntries(std::unordered_map<std::string, Ref<ParameterContainer>>* outMap) { m_Registry.GenerateVariableMap(outMap); }

@@ -74,5 +74,22 @@ namespace GameSmith {
 
 	void ExposedVariableRegistry::Deserialize(char* inData, unsigned int size)
 	{
+		ResourceAssetReader reader(inData, size);
+		RegistrySerializeMetadata* meta = reader.ReadClass<RegistrySerializeMetadata>();
+
+		int i = 0;
+		while (i < meta->numVariables) {
+			std::string name = reader.GetString();
+			ContainerDataType* dataType = reader.ReadClass<ContainerDataType>();
+			unsigned int paramSize = GetParameterSize(*dataType);
+			if (m_Registry.contains(name)) {
+				auto entry = m_Registry.find(name);
+				memcpy(entry->second.originalVariableRef, reader.GetCurPtr(), paramSize);
+			}
+
+			reader.MoveForward(paramSize);
+			i++;
+		}
+		
 	}
 };

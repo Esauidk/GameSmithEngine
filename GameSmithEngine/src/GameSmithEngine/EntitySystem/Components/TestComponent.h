@@ -20,11 +20,6 @@ namespace GameSmith {
 		virtual void OnDestroy() override;
 		virtual int GetPriority() const override { return 0; };
 		virtual std::string GetName() const override { return "TestComponent"; };
-
-		virtual Ref<char> Serialize() override;
-		virtual void Serialize(char* byteStream, unsigned int availableBytes) override;
-		virtual unsigned int RequireSpace() const override;
-		virtual void Deserialize(char* inData, unsigned int size) override;
 	private:
 		float expose1 = 0;
 		glm::vec2 expose2 = {};

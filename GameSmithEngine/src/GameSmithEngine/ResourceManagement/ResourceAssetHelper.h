@@ -18,8 +18,8 @@ namespace GameSmith {
 			return ret;
 		}
 
+		void MoveForward(unsigned int numBytes) { m_CurPtr += MIN(numBytes, GetRemainingBytes()); }
 		char* GetBytes(unsigned int byteCount);
-
 		char* GetCurPtr() const { return m_CurPtr; }
 
 		unsigned int GetRemainingBytes() const { return (unsigned int)(m_EndPtr - m_CurPtr); }

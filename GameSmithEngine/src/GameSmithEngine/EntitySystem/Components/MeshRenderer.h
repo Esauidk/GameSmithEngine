@@ -17,10 +17,6 @@ namespace GameSmith {
 		void SetMaterial(unsigned int index, Ref<MaterialAsset> mat) { m_Materials[index] = { mat->CreateInstance(), mat }; };
 		unsigned int GetMaterialSlots() { return m_Mesh->GetSubMeshSize(); }
 
-		virtual Ref<char> Serialize() override;
-		virtual void Serialize(char* byteStream, unsigned int availableBytes) override;
-		virtual unsigned int RequireSpace() const override;
-		virtual void Deserialize(char* inData, unsigned int size) override;
 	private:
 		Ref<MeshAsset> m_Mesh;
 		std::vector<std::pair<Ref<Material>, Ref<MaterialAsset>>> m_Materials;

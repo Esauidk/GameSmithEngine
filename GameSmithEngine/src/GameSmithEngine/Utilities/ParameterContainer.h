@@ -195,6 +195,8 @@ namespace GameSmith {
 			return Ref<ParameterContainer>(new Int2Container(name, (int*)data, flags));
 		case ContainerDataType::Int3:
 			return Ref<ParameterContainer>(new Int3Container(name, (int*)data, flags));
+		case ContainerDataType::Int4:
+			return Ref<ParameterContainer>(new Int4Container(name, (int*)data, flags));
 		default:
 			return 0;
 		}

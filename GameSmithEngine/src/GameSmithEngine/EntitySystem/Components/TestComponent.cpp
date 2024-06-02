@@ -25,19 +25,5 @@ namespace GameSmith {
 	{
 		GE_CORE_INFO("Destroyed Test Component");
 	}
-	Ref<char> TestComponent::Serialize()
-	{
-		return Ref<char>();
-	}
-	void TestComponent::Serialize(char* byteStream, unsigned int availableBytes)
-	{
-	}
-	unsigned int TestComponent::RequireSpace() const
-	{
-		return 0;
-	}
-	void TestComponent::Deserialize(char* inData, unsigned int size)
-	{
-	}
 };
 
