@@ -2,8 +2,8 @@
 #include "MeshRenderer.h"
 #include "GameSmithEngine/EntitySystem/EnitityRenderPreparer.h"
 #include "GameSmithEngine/Core/Log.h"
-
-#include "GameSmithEngine/EntitySystem/GameObject.h"
+#include "GameSmithEngine/ResourceManagement/ResourceAssetHelper.h"
+#include "GameSmithEngine/ResourceManagement/ResourceManager.h"
 
 namespace GameSmith {
 	void MeshRenderer::OnUpdate(float dt)
@@ -35,7 +35,17 @@ namespace GameSmith {
 	}
 	Ref<char> MeshRenderer::Serialize()
 	{
-		return Ref<char>();
+		ResourceAssetWriter writer(RequireSpace());
+		auto meshID = m_Mesh->GetId().getData();
+		writer.WriteClass<idData>(&meshID);
+		for (auto mat : m_Materials) {
+			auto matID = mat.second->GetId().getData();
+			writer.WriteClass<idData>(&matID);
+		}
+
+		m_Registry.Serialize(writer.GetCurPtr(), writer.GetRemainingSpace());
+
+		return writer.GetBuffer();
 	}
 
 	void MeshRenderer::Serialize(char* byteStream, unsigned int availableBytes)
@@ -44,10 +54,35 @@ namespace GameSmith {
 
 	unsigned int MeshRenderer::RequireSpace() const
 	{
-		return 0;
+		unsigned int size = 0;
+		// The mesh asset id
+		size += sizeof(idData);
+		// The material asset iDs
+		size += ((unsigned int)m_Materials.size()) * sizeof(idData);
+		
+		size += m_Registry.RequireSpace();
+
+		return size;
 	}
 
 	void MeshRenderer::Deserialize(char* inData, unsigned int size)
 	{
+		ResourceAssetReader reader(inData, size);
+
+		auto meshID = reader.ReadClass<idData>();
+		auto resourceManager = ResourceManager::GetInstance();
+
+		auto meshAsset = resourceManager->GetResource<MeshAsset>(ID(*meshID));
+		SetMesh(meshAsset);
+
+		int i = 0;
+		while (i < m_Materials.size()) {
+			auto matID = reader.ReadClass<idData>();
+			auto materialAsset = resourceManager->GetResource<MaterialAsset>(ID(*matID));
+			SetMaterial(i, materialAsset);
+			i++;
+		}
+
+		m_Registry.Deserialize(reader.GetCurPtr(), reader.GetRemainingBytes());
 	}
 };

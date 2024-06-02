@@ -48,8 +48,6 @@ namespace GameSmith {
 			idData texID = texture.second.getData();
 			writer.WriteClass<idData>(&texID);
 		}
-
-		writer.CommitToFile("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\TestMat.mat");
 		
 		return writer.GetBuffer();
 	}
@@ -62,7 +60,32 @@ namespace GameSmith {
 	unsigned int MaterialAsset::RequireSpace() const
 	{
 		// TODO: Implement
-		return 700;
+		unsigned int size = 0;
+		size += sizeof(MaterialAssetMetadata);
+		size += sizeof(MaterialConfig);
+		for (unsigned int i = 0; i < STAGE_NUM; i++) {
+			if (m_Metadata.Shaders[i].UsedShader) {
+				size += sizeof(idData);
+			}
+		}
+
+		auto& map = m_GlobalVer->DumpCurrentParameterMap();
+		auto& order = m_GlobalVer->DumpParameterOrder();
+
+		for (const std::string& parm : order) {
+			const auto& entry = map.find(parm)->second;
+			size += (unsigned int)(parm.length()+1);
+			size += sizeof(ContainerDataType);
+			size += entry->GetSize();
+		}
+
+
+		for (auto& texture : m_TextureIds) {
+			size += (unsigned int)(texture.first.length()+1);
+			size += sizeof(idData);
+		}
+
+		return size;
 	}
 
 	void MaterialAsset::Deserialize(char* inData, unsigned int size)

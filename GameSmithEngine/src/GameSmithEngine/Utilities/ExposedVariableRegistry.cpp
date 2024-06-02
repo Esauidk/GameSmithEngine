@@ -1,5 +1,6 @@
 #include "gepch.h"
 #include "ExposedVariableRegistry.h"
+#include "GameSmithEngine/ResourceManagement/ResourceAssetHelper.h"
 
 namespace GameSmith {
 	void ExposedVariableRegistry::GenerateVariableMap(std::unordered_map<std::string, Ref<ParameterContainer>>* outMap)
@@ -18,5 +19,60 @@ namespace GameSmith {
 				memcpy(entry.second.originalVariableRef, variable->second->GetCharData(), variable->second->GetSize());
 			}
 		}
+	}
+
+	Ref<char> ExposedVariableRegistry::Serialize()
+	{
+		ResourceAssetWriter writer(RequireSpace());
+		
+		RegistrySerializeMetadata meta;
+		meta.numVariables = (unsigned int)m_Registry.size();
+
+		writer.WriteClass<RegistrySerializeMetadata>(&meta);
+
+		for (auto& entry : m_Registry) {
+			writer.WriteString(entry.first);
+			writer.WriteClass<ContainerDataType>(&(entry.second.variableDataType));
+			writer.WriteByte((char*)entry.second.originalVariableRef, GetParameterSize(entry.second.variableDataType));
+		}
+
+		return Ref<char>(writer.GetBuffer());
+	}
+
+	void ExposedVariableRegistry::Serialize(char* byteStream, unsigned int availableBytes)
+	{
+		GE_CORE_ASSERT(availableBytes >= RequireSpace(), "There's not enough space to serialize the ExposedVariableRegistry");
+
+		ResourceAssetWriter writer(byteStream, availableBytes);
+
+		RegistrySerializeMetadata meta;
+		meta.numVariables = (unsigned int)m_Registry.size();
+
+		writer.WriteClass<RegistrySerializeMetadata>(&meta);
+
+		for (auto& entry : m_Registry) {
+			writer.WriteString(entry.first);
+			writer.WriteClass<ContainerDataType>(&(entry.second.variableDataType));
+			writer.WriteByte((char*)entry.second.originalVariableRef, GetParameterSize(entry.second.variableDataType));
+		}
+
+	}
+
+	unsigned int ExposedVariableRegistry::RequireSpace() const
+	{
+		unsigned int size = 0;
+		size += sizeof(RegistrySerializeMetadata);
+
+		for (auto& entry : m_Registry) {
+			size += (unsigned int)(entry.first.length() + 1);
+			size += sizeof(ContainerDataType);
+			size += GetParameterSize(entry.second.variableDataType);
+		}
+
+		return size;
+	}
+
+	void ExposedVariableRegistry::Deserialize(char* inData, unsigned int size)
+	{
 	}
 };

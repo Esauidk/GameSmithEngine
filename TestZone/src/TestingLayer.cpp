@@ -4,10 +4,8 @@ TestingLayer::TestingLayer() : GameSmith::Layer("Testing Layer")
 {
 
 
-	auto id1 = GameSmith::ResourceManager::GetInstance()->ImportResource("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\TestMat.mat");
 	auto id2 = GameSmith::ResourceManager::GetInstance()->ImportResource("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\SampleVertexShader.cso");
 	auto id3 = GameSmith::ResourceManager::GetInstance()->ImportResource("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\RandomColorPS.cso");
-
 
 	std::vector<std::pair<GameSmith::ID, GameSmith::Stages>> shaderIds;
 	std::vector<std::pair<std::string, GameSmith::ID>> textureIds;
@@ -31,10 +29,29 @@ TestingLayer::TestingLayer() : GameSmith::Layer("Testing Layer")
 
 	GameSmith::ResourceManager::GetInstance()->WriteResource(testMat, "C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\TestFileMat.mat");
 
-	auto mat1 = GameSmith::ResourceManager::GetInstance()->GetResource<GameSmith::MaterialAsset>(testMat->GetId());
 	int i = 0;
 
-	
+	auto gm = GameSmith::GameObjectManager::GetInstance()->CreateGameObject();
+	auto meshRend = gm.lock()->AddComponent<GameSmith::MeshRenderer>().lock();
+
+
+	auto meshID = GameSmith::ResourceManager::GetInstance()->ImportResource("C:\\Users\\esaus\\Documents\\Coding Projects\\test.obj");
+	auto meshAsset = GameSmith::ResourceManager::GetInstance()->GetResource<GameSmith::MeshAsset>(meshID);
+	auto matAsset = GameSmith::ResourceManager::GetInstance()->GetResource<GameSmith::MaterialAsset>(testMat->GetId());
+	meshRend->SetMesh(meshAsset);
+
+	for (unsigned int i = 0; i < meshRend->GetMaterialSlots(); i++) {
+		meshRend->SetMaterial(i, matAsset);
+	}
+
+	GameSmith::ResourceManager::GetInstance()->WriteResource(meshRend, "C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\MeshRender.bin");
+
+	auto serial = meshRend->Serialize();
+
+
+	auto gm1 = GameSmith::GameObjectManager::GetInstance()->CreateGameObject();
+	auto meshRend1 = gm.lock()->AddComponent<GameSmith::MeshRenderer>().lock();
+	meshRend1->Deserialize(serial.get(), meshRend->RequireSpace());
 	i = 1;
 }
 
