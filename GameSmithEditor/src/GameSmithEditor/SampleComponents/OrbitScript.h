@@ -24,11 +24,6 @@ namespace GameSmithEditor {
 		inline void SetOrigin(glm::vec3 newOrigin) { m_Origin = newOrigin; }
 		inline void SetSphereSize(float newRadius) { m_Radius = newRadius; }
 
-
-		virtual GameSmith::Ref<char> Serialize() override { return nullptr; }
-		virtual void Serialize(char* byteStream, unsigned int availableBytes) override {}
-		virtual unsigned int RequireSpace() const override { return 0; }
-		virtual void Deserialize(char* inData, unsigned int size) override {}
 	private:
 		GameSmith::Transform m_t;
 		glm::vec3 m_OribitSpeeds = {0,0,0};
