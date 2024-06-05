@@ -43,11 +43,11 @@ TestingLayer::TestingLayer() : GameSmith::Layer("Testing Layer")
 	GameSmith::CastPtr<GameSmith::FloatContainer>(entry->second)->SetData(val);
 
 	test->BootstrapRegistry(variableEntries);
-	GameSmith::Ref<char> reg = test->SerializeRegistry();
+	GameSmith::Ref<char> reg = gm.lock()->Serialize();
 
 	auto gm1 = GameSmith::GameObjectManager::GetInstance()->CreateGameObject();
-	auto test1 = gm.lock()->AddComponent<GameSmith::TestComponent>().lock();
-	test1->DeserializeRegistry(reg.get(), test->RegistrySerializationSize());
+	gm1.lock()->Deserialize(reg.get(), gm.lock()->RequireSpace());
+	auto gm_de = gm1.lock();
 
 	i = 1;
 }

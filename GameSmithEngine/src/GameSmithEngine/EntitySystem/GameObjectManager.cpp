@@ -45,8 +45,16 @@ namespace GameSmith {
 		}
 
 		Ref<GameObject> gameObject = Ref<GameObject>(new GameObject(objectName));
-		m_Objects.insert({ objectName, gameObject });
+		m_Objects.insert({ gameObject->GetId(), gameObject });
 		m_Counter++;
+
+		if (m_ObjectNames.contains(objectName)) {
+			auto entry = m_ObjectNames.find(objectName);
+			entry->second.insert(gameObject->GetId());
+		}
+		else {
+			m_ObjectNames.insert({ objectName, {gameObject->GetId()} });
+		}
 
 		auto transform = gameObject->GetTransform();
 		transform.lock()->SetPosition(startingPos);
@@ -57,8 +65,10 @@ namespace GameSmith {
 
 	Connection<GameObject> GameSmith::GameObjectManager::FindGameObject(std::string gameObjectName)
 	{
-		if (m_Objects.contains(gameObjectName)) {
-			return m_Objects.find(gameObjectName)->second;
+		// TODO: Fix this when a solution for String -> Is completed
+		if (m_ObjectNames.contains(gameObjectName)) {
+			auto& id = *(m_ObjectNames.find(gameObjectName)->second.begin());
+			return m_Objects.find(id)->second;
 		}
 		else {
 			return Connection<GameObject>();
@@ -74,8 +84,8 @@ namespace GameSmith {
 
 	void GameObjectManager::GetGameObjectNames(std::vector<std::string>* outNames)
 	{
-		for (auto object : m_Objects) {
-			outNames->push_back(object.second->GetName());
+		for (auto object : m_ObjectNames) {
+			outNames->push_back(object.first);
 		}
 	}
 
@@ -83,22 +93,47 @@ namespace GameSmith {
 	{
 		if (!object.expired()) {
 			auto temp = object.lock();
-			if (temp.get() != nullptr && m_Objects.contains(temp->GetName())) {
-				auto item = m_Objects.find(temp->GetName());
-				m_ToBeDeleted.push(item->second);
-				m_Objects.erase(item);
+			if (temp.get() != nullptr && m_Objects.contains(temp->GetId())) {
+				auto objItem = m_Objects.find(temp->GetId());
+				auto nameItem = m_ObjectNames.find(temp->GetName());
+
+				if (nameItem->second.contains(temp->GetId())) {
+					nameItem->second.erase(temp->GetId());
+
+					if (nameItem->second.size() == 0) {
+						m_ObjectNames.erase(temp->GetName());
+					}
+				}
+
+
+				m_ToBeDeleted.push(objItem->second);
+				m_Objects.erase(objItem);
 			}
 		}
 	}
 
-	void GameObjectManager::UpdateGameObjectName(std::string gameObjectName, Connection<GameObject> targetObject)
+	void GameObjectManager::UpdateGameObjectName(std::string newName, Connection<GameObject> targetObject)
 	{
 		if (!targetObject.expired()) {
 			auto temp = targetObject.lock();
-			if (temp.get() != nullptr && m_Objects.contains(temp->GetName())) {
-				auto item = m_Objects.find(temp->GetName());
-				m_Objects.erase(item);
-				m_Objects.insert({ gameObjectName, item->second });
+			if (temp.get() != nullptr && m_ObjectNames.contains(temp->GetName())) {
+				auto item = m_ObjectNames.find(temp->GetName());
+				
+				auto ID = temp->GetId(); 
+				if (item->second.contains(ID)) {
+					item->second.erase(ID);
+
+					if (item->second.size() == 0) {
+						m_ObjectNames.erase(temp->GetName());
+					}
+				}
+
+				if (m_ObjectNames.contains(newName)) {
+					m_ObjectNames.find(newName)->second.insert(ID);
+				}
+				else {
+					m_ObjectNames.insert({ newName, {ID} });
+				}
 			}
 		}
 	}

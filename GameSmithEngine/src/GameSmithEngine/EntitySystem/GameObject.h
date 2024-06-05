@@ -6,12 +6,14 @@
 #include "Components/Component.h"
 #include "GameplayUpdater.h"
 
+#include "GameSmithEngine/ResourceAssets/Serializable.h"
+
 
 namespace GameSmith {
-	class GameObject {
+	class GameObject : public Serializeable {
 	public:
 		GameObject(std::string name = DEFAULT_GAMEOBJECT_NAME);
-		inline std::string GetName() { return m_Name; }
+		inline std::string GetName() const { return m_Name; }
 		void SetName(std::string newName);
 		inline Connection<Transform> GetTransform() { return m_Transform; }
 
@@ -72,6 +74,14 @@ namespace GameSmith {
 			}
 		}
 
+		virtual Ref<char> Serialize() override;
+
+		virtual void Serialize(char* byteStream, unsigned int availableBytes) override;
+
+		virtual unsigned int RequireSpace() const override;
+
+		virtual void Deserialize(char* inData, unsigned int size) override;
+
 
 	public:
 		const static std::string DEFAULT_GAMEOBJECT_NAME;
@@ -79,5 +89,9 @@ namespace GameSmith {
 		std::string m_Name;
 		Ref<Transform> m_Transform;
 		std::vector<Ref<Component>> m_Components;
+
+		struct GameObjectSerialMetadata {
+			unsigned int numComponents;
+		};
 	};
 };

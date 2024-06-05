@@ -25,7 +25,7 @@ namespace GameSmith {
 		}
 
 		inline unsigned int RegistrySerializationSize() { return m_Registry.RequireSpace(); }
-		inline Ref<char> SerializeRegistry() { return m_Registry.Serialize(); }
+		inline void SerializeRegistry(char* byteStream, unsigned int availableBytes) { m_Registry.Serialize(byteStream, availableBytes); }
 		inline void DeserializeRegistry(char* inData, unsigned int bytes) { m_Registry.Deserialize(inData, bytes); }
 		
 

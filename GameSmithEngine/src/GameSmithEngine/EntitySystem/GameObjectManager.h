@@ -19,21 +19,23 @@ namespace GameSmith {
 		void DestroyGameObject(Connection<GameObject> object);
 	private:
 		friend class GameObjectProxy;
-		void UpdateGameObjectName(std::string gameObjectName, Connection<GameObject> targetObject);
+		void UpdateGameObjectName(std::string newName, Connection<GameObject> targetObject);
 	private:
 		static GameObjectManager* s_Instance;
 
 		unsigned int m_Counter = 0;
 
-		std::unordered_map<std::string, Ref<GameObject>> m_Objects;
+
+		std::unordered_map<ID, Ref<GameObject>, ID> m_Objects;
+		std::unordered_map<std::string, std::unordered_set<ID, ID>> m_ObjectNames;
 		std::queue<Ref<GameObject>> m_ToBeDeleted;
 	};
 
 	class GameObjectProxy {
 	private:
-		inline static void UpdateManagerStoredNames(std::string gameObjectName, Connection<GameObject> targetObject) {
+		inline static void UpdateManagerStoredNames(std::string newName, Connection<GameObject> targetObject) {
 			auto manager = GameObjectManager::GetInstance();
-			manager->UpdateGameObjectName(gameObjectName, targetObject);
+			manager->UpdateGameObjectName(newName, targetObject);
 		};
 
 		friend class GameObject;
