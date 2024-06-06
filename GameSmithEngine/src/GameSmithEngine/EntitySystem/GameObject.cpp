@@ -45,6 +45,9 @@ namespace GameSmith {
 
 		writer.WriteClass<GameObjectSerialMetadata>(&md);
 
+		m_Transform->Serialize(writer.GetCurPtr(), writer.GetRemainingSpace());
+		writer.MoveCurPtr(m_Transform->RequireSpace());
+
 		writer.WriteString(GetName());
 
 		for (auto comp : m_Components) {
@@ -57,12 +60,33 @@ namespace GameSmith {
 
 	void GameObject::Serialize(char* byteStream, unsigned int availableBytes)
 	{
+		unsigned int size = RequireSpace();
+		GE_CORE_ASSERT(availableBytes >= size, "Not enough space to serialize gameobject");
+
+		ResourceAssetWriter writer(byteStream, size);
+		
+		GameObjectSerialMetadata md;
+		md.numComponents = (unsigned int)m_Components.size();
+
+		writer.WriteClass<GameObjectSerialMetadata>(&md);
+
+		m_Transform->Serialize(writer.GetCurPtr(), writer.GetRemainingSpace());
+		writer.MoveCurPtr(m_Transform->RequireSpace());
+
+		writer.WriteString(GetName());
+
+		for (auto comp : m_Components) {
+			writer.WriteString(comp->GetName());
+			comp->SerializeRegistry(writer.GetCurPtr(), writer.GetRemainingSpace());
+		}
 
 	}
 
 	unsigned int GameObject::RequireSpace() const
 	{
 		unsigned int size = sizeof(GameObjectSerialMetadata);
+
+		size += m_Transform->RequireSpace();
 
 		size += (unsigned int)GetName().length() + 1;
 
@@ -76,9 +100,14 @@ namespace GameSmith {
 
 	void GameObject::Deserialize(char* inData, unsigned int size)
 	{
+		m_Components.clear();
+
 		ResourceAssetReader reader(inData, size);
 
 		auto md = reader.ReadClass<GameObjectSerialMetadata>();
+		m_Transform->Deserialize(reader.GetCurPtr(), reader.GetRemainingBytes());
+		reader.MoveForward(m_Transform->RequireSpace());
+
 		SetName(reader.GetString());
 
 		for (unsigned int i = 0; i < md->numComponents; i++) {

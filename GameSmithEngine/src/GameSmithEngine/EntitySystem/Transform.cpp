@@ -1,6 +1,8 @@
 #include "gepch.h"
 #include "Transform.h"
 
+#include "GameSmithEngine/ResourceManagement/ResourceAssetHelper.h"
+
 namespace GameSmith {
 	Transform::Transform() : m_Position(0, 0, 0), m_Rotation(0, 0, 0), m_Scale(1, 1, 1), m_CoordinateFrame(nullptr)
 	{
@@ -15,6 +17,48 @@ namespace GameSmith {
 				break;
 			}
 		}
+	}
+
+	Ref<char> Transform::Serialize()
+	{
+		ResourceAssetWriter writer(RequireSpace());
+
+		TransformSerializeData data;
+		data.Position = m_Position;
+		data.Rotation = m_Rotation;
+		data.Scale = m_Scale;
+
+		writer.WriteClass<TransformSerializeData>(&data);
+
+		return writer.GetBuffer();
+	}
+
+	void Transform::Serialize(char* byteStream, unsigned int availableBytes)
+	{
+		unsigned int reqSize = RequireSpace();
+		GE_CORE_ASSERT(availableBytes >= reqSize, "Unable to serialize transform, not enough space");
+
+		ResourceAssetWriter writer(byteStream, reqSize);
+		TransformSerializeData data;
+		data.Position = m_Position;
+		data.Rotation = m_Rotation;
+		data.Scale = m_Scale;
+
+		writer.WriteClass<TransformSerializeData>(&data);
+	}
+
+	unsigned int Transform::RequireSpace() const
+	{
+		return sizeof(TransformSerializeData);
+	}
+
+	void Transform::Deserialize(char* inData, unsigned int size)
+	{
+		ResourceAssetReader reader(inData, size);
+		auto data = reader.ReadClass<TransformSerializeData>();
+		SetPosition(data->Position);
+		SetRotation(data->Rotation);
+		SetScale(data->Scale);
 	}
 
 	void Transform::UpdateMatrix()

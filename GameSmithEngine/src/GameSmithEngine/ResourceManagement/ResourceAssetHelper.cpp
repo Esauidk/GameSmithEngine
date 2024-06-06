@@ -32,7 +32,7 @@ namespace GameSmith {
 	ResourceAssetWriter::ResourceAssetWriter(unsigned int byteSize) : m_Buffer(Ref<char>(new char[byteSize])), m_CurPtr(m_Buffer.get()), m_BufferSize(byteSize), m_outsideSrc(false)  {
 	}
 
-	ResourceAssetWriter::ResourceAssetWriter(char* ptr, unsigned int bufferSize) : m_Buffer(nullptr), m_CurPtr(ptr), m_BufferSize(bufferSize), m_outsideSrc(true)
+	ResourceAssetWriter::ResourceAssetWriter(char* ptr, unsigned int bufferSize) : m_Buffer(nullptr), m_OutSideStartPtr(ptr), m_CurPtr(ptr), m_BufferSize(bufferSize), m_outsideSrc(true)
 	{
 	}
 

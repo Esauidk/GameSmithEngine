@@ -1,9 +1,10 @@
 #pragma once
 #include "GameSmithEngine/ThirdPartySetups/GLM/GLMDefines.h"
 #include <glm/gtc/matrix_transform.hpp>
+#include "GameSmithEngine/ResourceAssets/Serializable.h"
 
 namespace GameSmith {
-	class Transform
+	class Transform : public Serializeable
 	{
 	public:
 		Transform();
@@ -20,6 +21,11 @@ namespace GameSmith {
 		void RemoveChildCoordinateFrame(Transform* oldFrame);
 
 		inline glm::mat4 GetModelMatrix() const { return glm::transpose(m_ModelMatrix); }
+
+		virtual Ref<char> Serialize() override;
+		virtual void Serialize(char* byteStream, unsigned int availableBytes) override;
+		virtual unsigned int RequireSpace() const override;
+		virtual void Deserialize(char* inData, unsigned int size) override;
 	private:
 		void UpdateMatrix();
 	private:
@@ -30,6 +36,12 @@ namespace GameSmith {
 		glm::vec3 m_Rotation;
 		glm::vec3 m_Scale;
 		glm::mat4 m_ModelMatrix;
+
+		struct TransformSerializeData {
+			glm::vec3 Position;
+			glm::vec3 Rotation;
+			glm::vec3 Scale;
+		};
 
 		// Has no ownership of this frame
 		Transform* m_CoordinateFrame;

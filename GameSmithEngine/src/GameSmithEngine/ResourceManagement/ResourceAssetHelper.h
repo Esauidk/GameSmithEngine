@@ -53,13 +53,14 @@ namespace GameSmith {
 		inline unsigned int GetBufferSize() const { return m_BufferSize; }
 		inline unsigned int GetRemainingSpace() const {
 			if (m_outsideSrc) { 
-				return 0; 
+				return m_BufferSize - (unsigned int) (m_CurPtr - m_OutSideStartPtr); 
 			} 
 			
-			return (unsigned int) (m_Buffer.get() - m_CurPtr);
+			return m_BufferSize - (unsigned int) (m_CurPtr - m_Buffer.get());
 		}
 	private:
 		Ref<char> m_Buffer;
+		char* m_OutSideStartPtr;
 		char* m_CurPtr;
 		unsigned int m_BufferSize;
 		bool m_outsideSrc;

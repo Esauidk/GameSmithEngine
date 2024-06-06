@@ -42,11 +42,18 @@ TestingLayer::TestingLayer() : GameSmith::Layer("Testing Layer")
 	val.x = 10.0f;
 	GameSmith::CastPtr<GameSmith::FloatContainer>(entry->second)->SetData(val);
 
+	gm.lock()->GetTransform().lock()->SetPosition({ 2, 5, 1 });
+
 	test->BootstrapRegistry(variableEntries);
+
+	unsigned int gmSpace = gm.lock()->RequireSpace();
+	char* stream = new char[gmSpace];
 	GameSmith::Ref<char> reg = gm.lock()->Serialize();
+	gm.lock()->Serialize(stream, gmSpace);
 
 	auto gm1 = GameSmith::GameObjectManager::GetInstance()->CreateGameObject();
 	gm1.lock()->Deserialize(reg.get(), gm.lock()->RequireSpace());
+	gm1.lock()->Deserialize(stream, gmSpace);
 	auto gm_de = gm1.lock();
 
 	i = 1;
