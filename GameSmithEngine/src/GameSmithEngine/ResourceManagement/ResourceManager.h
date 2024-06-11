@@ -78,7 +78,7 @@ namespace GameSmith {
 			return resource;
 		}
 
-		void WriteResource(Ref<Serializeable> resource, std::string path);
+		ID WriteResource(Ref<Serializeable> resource, std::string path);
 		ID ImportResource(std::string path);
 		void ScanResources();
 		void CleanResources();

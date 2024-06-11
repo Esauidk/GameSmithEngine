@@ -34,7 +34,7 @@ namespace GameSmith {
 	{
 	}
 
-	void ResourceManager::WriteResource(Ref<Serializeable> resource, std::string path)
+	ID ResourceManager::WriteResource(Ref<Serializeable> resource, std::string path)
 	{
 		std::fstream pFile(path, std::ios::out | std::ios::binary | std::ios::ate);
 		GE_CORE_ASSERT(pFile.is_open(), std::format("Asset file {0} cannot be opened", path));
@@ -57,6 +57,8 @@ namespace GameSmith {
 		metaFile.close();
 
 		m_ResourceRegistry.insert({ id, path });
+
+		return id;
 	}
 
 	ID ResourceManager::ImportResource(std::string path)

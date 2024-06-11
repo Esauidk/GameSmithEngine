@@ -2,30 +2,38 @@
 #include "GameChunkAsset.h"
 
 namespace GameSmith {
+	GameChunkAsset::GameChunkAsset(Ref<GameChunk> snapShot) : m_ChunkSerialization(snapShot->Serialize()), m_ByteSize(snapShot->RequireSpace())
+	{
+	}
+
 	Ref<char> GameChunkAsset::Serialize()
 	{
-		// TODO: Implement
-		return Ref<char>();
+		return m_ChunkSerialization;
 	}
 
 	void GameChunkAsset::Serialize(char* byteStream, unsigned int availableBytes)
 	{
-		// TODO: Implement
+		GE_CORE_ASSERT(availableBytes >= m_ByteSize, "Not enough space to serialize the game chunk asset");
+		memcpy(byteStream, m_ChunkSerialization.get(), m_ByteSize);
 	}
 
 	unsigned int GameChunkAsset::RequireSpace() const
 	{
-		// TODO: Implement
-		return 0;
+		return m_ByteSize;
 	}
 
 	void GameChunkAsset::Deserialize(char* inData, unsigned int size)
 	{
-		// TODO: Implement
+		m_ChunkSerialization = Ref<char>(new char[size]);
+		m_ByteSize = size;
+
+		memcpy(m_ChunkSerialization.get(), inData, size);
 	}
 
 	Ref<GameChunk> GameChunkAsset::GenerateInstance()
 	{
-		return Ref<GameChunk>();
+		Ref<GameChunk> chunk = Ref<GameChunk>(new GameChunk());
+		chunk->Deserialize(m_ChunkSerialization.get(), m_ByteSize);
+		return chunk;
 	}
 };

@@ -46,16 +46,19 @@ TestingLayer::TestingLayer() : GameSmith::Layer("Testing Layer")
 
 	test->BootstrapRegistry(variableEntries);
 
-	unsigned int gmSpace = gm.lock()->RequireSpace();
-	char* stream = new char[gmSpace];
-	GameSmith::Ref<char> reg = gm.lock()->Serialize();
-	gm.lock()->Serialize(stream, gmSpace);
 
 	auto gm1 = GameSmith::GameObjectManager::GetInstance()->CreateGameObject();
-	gm1.lock()->Deserialize(reg.get(), gm.lock()->RequireSpace());
-	gm1.lock()->Deserialize(stream, gmSpace);
-	auto gm_de = gm1.lock();
+	gm1.lock()->GetTransform().lock()->SetPosition({ 6, 8, 1 });
 
+	std::vector<GameSmith::Connection<GameSmith::GameObject>> objs;
+	objs.push_back(gm);
+	objs.push_back(gm1);
+
+	GameSmith::Ref<GameSmith::GameChunk> chunk = GameSmith::Ref<GameSmith::GameChunk>(new GameSmith::GameChunk(objs));
+	GameSmith::Ref<GameSmith::GameChunkAsset> chunkAsset = GameSmith::Ref<GameSmith::GameChunkAsset>(new GameSmith::GameChunkAsset(chunk));
+	auto id = GameSmith::ResourceManager::GetInstance()->WriteResource(chunkAsset, "C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\Test.chunk");
+	auto asset = GameSmith::ResourceManager::GetInstance()->GetResource<GameSmith::GameChunkAsset>(id);
+	asset->GenerateInstance();
 	i = 1;
 }
 
