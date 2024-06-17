@@ -64,5 +64,23 @@ namespace GameSmith {
 		pFile.write(m_Buffer.get(), m_CurPtr - m_Buffer.get());
 		pFile.close();
 	}
+
+	ResourceAssetReader ResourceAssetReader::ReadDirectlyFromFile(std::string fileName)
+	{
+		std::fstream pFile(fileName, std::ios::in | std::ios::binary | std::ios::ate);
+		GE_CORE_ASSERT(pFile.is_open(), std::format("File {0} cannot be opened", fileName));
+
+		unsigned int size = (UINT)pFile.tellg();
+		pFile.seekg(0, pFile.beg);
+
+		char* buf = new char[size];
+
+		pFile.read(buf, size);
+		pFile.close();
+
+		ResourceAssetReader reader(Ref<char>(buf), size);
+		
+		return reader;
+	}
 };
 

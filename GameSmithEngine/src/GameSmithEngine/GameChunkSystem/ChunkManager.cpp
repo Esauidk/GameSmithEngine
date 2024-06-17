@@ -19,12 +19,14 @@ namespace GameSmith {
 	{
 		m_LoadedChunks.clear();
 		AppendChunk(chunkAsset);
+		m_CurrentMainChunk = m_LoadedChunks[chunkAsset];
 	}
 
 	void ChunkManager::LoadChunk(ID chunkAsset, Ref<GameChunk> gameChunk)
 	{
 		m_LoadedChunks.clear();
 		AppendChunk(chunkAsset, gameChunk);
+		m_CurrentMainChunk = m_LoadedChunks[chunkAsset];
 	}
 
 	void ChunkManager::AppendChunk(ID chunkAsset)

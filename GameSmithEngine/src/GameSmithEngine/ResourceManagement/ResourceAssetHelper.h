@@ -6,6 +6,7 @@ namespace GameSmith {
 	class ResourceAssetReader {
 	public:
 		inline ResourceAssetReader(char* buffer, unsigned int byteSize) : m_CurPtr(buffer), m_EndPtr(buffer + byteSize) {}
+		inline ResourceAssetReader(Ref<char> buffer, unsigned int byteSize) : m_CurPtr(buffer.get()), m_EndPtr(buffer.get() + byteSize), m_OwnBuffer(buffer) {}
 		std::string GetString();
 		unsigned int GetUInt();
 
@@ -24,9 +25,11 @@ namespace GameSmith {
 
 		unsigned int GetRemainingBytes() const { return (unsigned int)(m_EndPtr - m_CurPtr); }
 
+		static ResourceAssetReader ReadDirectlyFromFile(std::string fileName);
 	private:
 		char* m_CurPtr;
 		char* m_EndPtr;
+		Ref<char> m_OwnBuffer;
 	};
 
 	class ResourceAssetWriter {

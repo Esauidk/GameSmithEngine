@@ -83,6 +83,8 @@ namespace GameSmith {
 		void ScanResources();
 		void CleanResources();
 
+		void SetAssestDirectory(std::string dir) { m_AssetDirectory = dir; }
+
 	private:
 		static ResourceManager* s_Instance;
 
@@ -90,6 +92,8 @@ namespace GameSmith {
 		std::unordered_map<ID, std::string, ID> m_ResourceRegistry;
 
 		Ref<ResourceLoader> m_Loader;
+
+		std::string m_AssetDirectory;
 	};
 };
 

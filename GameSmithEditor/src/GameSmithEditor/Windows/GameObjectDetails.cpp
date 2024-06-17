@@ -4,6 +4,9 @@
 #include "imgui.h"
 
 namespace GameSmithEditor {
+	WindowRegistrator<GameObjectDetails> GameObjectDetails::s_Registrator("GameObject Details");
+
+
 	static void GenerateVariableUI(GameSmith::Ref<GameSmith::ParameterContainer> container) {
 		auto name = container->GetName();
 

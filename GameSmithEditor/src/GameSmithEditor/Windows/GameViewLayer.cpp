@@ -2,7 +2,9 @@
 #include "imgui.h"
 
 namespace GameSmithEditor {
-	GameViewLayer::GameViewLayer(GameSmith::Ref<GameSmith::RenderTexture> screenTex) : GameSmith::Layer("Game View"), m_GameScreenTexture(screenTex)
+	WindowRegistrator<GameViewLayer> GameViewLayer::s_Registrator("Game View");
+
+	GameViewLayer::GameViewLayer() : GameSmith::Layer("Game View")
 	{
 		auto& app = GameSmith::Application::Get();
 		auto renderManager = GameSmith::RenderingManager::GetInstance();
@@ -21,7 +23,10 @@ namespace GameSmithEditor {
 
 	void GameViewLayer::OnUpdate()
 	{
-		m_GameScreenTexture->CopyTexture(m_GameViewTexture);
+		if (m_GameScreenTexture != nullptr) {
+			m_GameScreenTexture->CopyTexture(m_GameViewTexture);
+		}
+		
 	}
 };
 

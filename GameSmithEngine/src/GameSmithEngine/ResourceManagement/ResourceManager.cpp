@@ -4,6 +4,10 @@
 
 #include "ResourceLoaders/HeapResourceLoader.h"
 
+#include <filesystem>
+
+using recursive_directory_iterator = std::filesystem::recursive_directory_iterator;
+
 namespace GameSmith {
 	ResourceManager* ResourceManager::s_Instance = nullptr;
 
@@ -83,10 +87,28 @@ namespace GameSmith {
 
 	void ResourceManager::ScanResources()
 	{
-		//TODO: Add actual logic to scan resources available
-		m_ResourceRegistry.insert({ {0, 0, 0, 0}, "C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\TestMat.mat" });
-		m_ResourceRegistry.insert({ {1,1,1,1}, "C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\SampleVertexShader.cso" });
-		m_ResourceRegistry.insert({ {2,2,2,2}, "C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\RandomColorPS.cso" });
+		if (m_AssetDirectory != "") {
+			for (const auto& dirEntry : recursive_directory_iterator(m_AssetDirectory)) {
+				if (dirEntry.is_regular_file()) {
+					std::string fileName = dirEntry.path().filename().string();
+					std::string path = dirEntry.path().string();
+
+					if (std::filesystem::exists(path + ".meta")) {
+						unsigned int metaSize;
+						char* meta = m_Loader->LoadResource(path + ".meta", &metaSize);
+						ResourceFileMetadata* metaPtr = (ResourceFileMetadata*)meta;
+						ID metaId(metaPtr->ID);
+
+						if (!m_ResourceRegistry.contains(metaId)) {
+							m_ResourceRegistry.insert({ metaId, path });
+						}
+					}
+					 
+					std::cout << dirEntry << std::endl;
+				}
+				
+			}
+		}
 	}
 
 	void ResourceManager::CleanResources()

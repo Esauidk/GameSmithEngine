@@ -1,8 +1,10 @@
 #include "SimulationContentView.h"
 #include "imgui.h"
+#include "GameSmithEditor/EditorCoreLayer.h"
 
 namespace GameSmithEditor {
 	GameSmith::Connection<GameSmith::GameObject> SimulationContentView::m_SelectedObjected = GameSmith::Connection<GameSmith::GameObject>();
+	WindowRegistrator<SimulationContentView> SimulationContentView::s_Registrator("Simulation Content View");
 
 	void SimulationContentView::OnImGuiRender()
 	{
@@ -10,7 +12,15 @@ namespace GameSmithEditor {
 		if (ImGui::Button("Create GameObject")) {
 			auto gm = GameSmith::GameObjectManager::GetInstance();
 			auto object = gm->CreateGameObject();
+			auto chunkManager = GameSmith::ChunkManager::GetInstance();
+			chunkManager->GetCurrentMainChunk().lock()->AddObjectToChunk(object);
 			m_NamesStd.push_back(object.lock()->GetName());
+		}
+
+		ImGui::SameLine();
+
+		if (ImGui::Button("Save Chunk")) {
+
 		}
 
 		ImGui::BeginListBox("Objects", ImVec2(ImGui::GetWindowWidth(), ImGui::GetWindowHeight()));

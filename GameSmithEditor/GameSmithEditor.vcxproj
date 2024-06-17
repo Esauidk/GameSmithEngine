@@ -134,6 +134,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\GameSmithEditor\Windows\AccessibleWindows.h" />
+    <ClInclude Include="src\GameSmithEditor\Windows\AssetDatabaseWindow.h" />
+    <ClInclude Include="src\GameSmithEditor\Core\GameProject.h" />
     <ClInclude Include="src\GameSmithEditor\CustomWidgets\ReferenceInputWidget.h" />
     <ClInclude Include="src\GameSmithEditor\EditorCoreLayer.h" />
     <ClInclude Include="src\GameSmithEditor\EngineDependenciesOnly.h" />
@@ -142,8 +145,13 @@
     <ClInclude Include="src\GameSmithEditor\Windows\GameObjectDetails.h" />
     <ClInclude Include="src\GameSmithEditor\Windows\GameViewLayer.h" />
     <ClInclude Include="src\GameSmithEditor\Windows\SimulationContentView.h" />
+    <ClInclude Include="src\GameSmithEditor\Utils\SystemCallUtils.h" />
+    <ClInclude Include="src\GameSmithEditor\Windows\Utils\WindowRegistrator.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\GameSmithEditor\Windows\AccessibleWindows.cpp" />
+    <ClCompile Include="src\GameSmithEditor\Windows\AssetDatabaseWindow.cpp" />
+    <ClCompile Include="src\GameSmithEditor\Core\GameProject.cpp" />
     <ClCompile Include="src\GameSmithEditor\CustomWidgets\ReferenceInputWidget.cpp" />
     <ClCompile Include="src\GameSmithEditor\EditorApp.cpp" />
     <ClCompile Include="src\GameSmithEditor\EditorCoreLayer.cpp" />
@@ -152,6 +160,7 @@
     <ClCompile Include="src\GameSmithEditor\Windows\GameObjectDetails.cpp" />
     <ClCompile Include="src\GameSmithEditor\Windows\GameViewLayer.cpp" />
     <ClCompile Include="src\GameSmithEditor\Windows\SimulationContentView.cpp" />
+    <ClCompile Include="src\GameSmithEditor\Utils\SystemCallUtils.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameSmithEngine\GameSmithEngine.vcxproj">

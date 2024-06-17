@@ -12,7 +12,6 @@ namespace GameSmith {
 	// Intertface for a class that can be serialize/deserialized
 	class Serializeable {
 	public:
-		// TODO: Get a cross-platform way to generate GUIDs
 		Serializeable() : m_ID(GUIDGenerator::GenerateID()){}
 
 		// Serialize the interface implementor

@@ -20,10 +20,13 @@ namespace GameSmith {
 		// Visible for testing
 		void AppendChunk(ID chunkName, Ref<GameChunk> gameChunk);
 
+		inline Connection<GameChunk> GetCurrentMainChunk() { return m_CurrentMainChunk; }
+
 	private:
 		static ChunkManager* s_Instance;
 
 		std::unordered_map<ID, Ref<GameChunk>, ID> m_LoadedChunks;
+		Ref<GameChunk> m_CurrentMainChunk;
 	};
 };
 

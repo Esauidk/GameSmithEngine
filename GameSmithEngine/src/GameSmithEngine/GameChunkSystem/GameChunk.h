@@ -8,7 +8,8 @@ namespace GameSmith {
 	{
 	public:
 		GameChunk() = default;
-		GameChunk(std::vector<Connection<GameObject>> objects) : m_GameObjects(objects) {};
+		GameChunk(std::vector<Connection<GameObject>>& objects) : m_GameObjects(objects) {};
+		inline void AddObjectToChunk(Connection<GameObject> object) { m_GameObjects.push_back(object); }
 		~GameChunk();
 
 		virtual Ref<char> Serialize() override;

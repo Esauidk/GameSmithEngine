@@ -32,6 +32,11 @@
     <ClInclude Include="src\GameSmithEditor\Windows\SimulationContentView.h">
       <Filter>Windows</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameSmithEditor\Core\GameProject.h" />
+    <ClInclude Include="src\GameSmithEditor\Utils\SystemCallUtils.h" />
+    <ClInclude Include="src\GameSmithEditor\Windows\AssetDatabaseWindow.h" />
+    <ClInclude Include="src\GameSmithEditor\Windows\AccessibleWindows.h" />
+    <ClInclude Include="src\GameSmithEditor\Windows\Utils\WindowRegistrator.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GameSmithEditor\CustomWidgets\ReferenceInputWidget.cpp">
@@ -54,5 +59,9 @@
     <ClCompile Include="src\GameSmithEditor\Windows\SimulationContentView.cpp">
       <Filter>Windows</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameSmithEditor\Core\GameProject.cpp" />
+    <ClCompile Include="src\GameSmithEditor\Utils\SystemCallUtils.cpp" />
+    <ClCompile Include="src\GameSmithEditor\Windows\AssetDatabaseWindow.cpp" />
+    <ClCompile Include="src\GameSmithEditor\Windows\AccessibleWindows.cpp" />
   </ItemGroup>
 </Project>

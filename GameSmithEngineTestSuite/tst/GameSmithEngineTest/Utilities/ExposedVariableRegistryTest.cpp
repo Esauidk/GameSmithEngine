@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
 
-#include "GameSmithEngine/Utilities/ExposedVariableRegistry.h""
+#include "GameSmithEngine/Utilities/ExposedVariableRegistry.h"
 
 TEST(ExposedVariableRegistryTest, GenerateVariableMapNoVariable) {
 	std::unordered_map<std::string, GameSmith::Ref<GameSmith::ParameterContainer>> testMap;
