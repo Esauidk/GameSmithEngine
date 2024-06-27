@@ -6,6 +6,7 @@
 namespace GameSmithEditor {
 	class SimulationContentView : public GameSmith::Layer {
 	public:
+		SimulationContentView() : GameSmith::Layer("SimulationContentView") {}
 		void OnImGuiRender() override;
 		void OnUpdate() override;
 		static inline GameSmith::Connection<GameSmith::GameObject> GetCurrentObject() { return m_SelectedObjected; }

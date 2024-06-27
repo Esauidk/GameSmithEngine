@@ -3,8 +3,8 @@
 #include "GameSmithEngine/ResourceManagement/ResourceAssetHelper.h"
 
 namespace GameSmithEditor {
-	const std::string GameProject::s_Folders[] = {"Assets", "Cache"};
-	const unsigned int GameProject::s_FolderCount = 2;
+	const std::string GameProject::s_Folders[] = {"Assets", "Cache", "Src"};
+	const unsigned int GameProject::s_FolderCount = 3;
 
 	GameSmith::Ref<GameProject> GameProject::s_CurProject = nullptr;
 

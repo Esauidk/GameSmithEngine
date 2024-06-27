@@ -7,6 +7,7 @@ namespace GameSmithEditor {
 	class GameObjectDetails : public GameSmith::Layer
 	{
 	public:
+		GameObjectDetails() : GameSmith::Layer("GameObjectDetails") {}
 		void OnImGuiRender() override;
 		void OnUpdate() override;
 	private:

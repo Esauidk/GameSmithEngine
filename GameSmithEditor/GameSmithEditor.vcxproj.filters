@@ -1,17 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
+    <Filter Include="Core">
+      <UniqueIdentifier>{2EB4837C-1AEB-840D-C3D7-6A10AFED000F}</UniqueIdentifier>
+    </Filter>
     <Filter Include="CustomWidgets">
       <UniqueIdentifier>{B76BC48E-232C-40C5-EC66-894258E684A1}</UniqueIdentifier>
     </Filter>
     <Filter Include="SampleComponents">
       <UniqueIdentifier>{CD946AAA-B98D-89FC-E2BF-6E81CE176908}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{F68B420E-62A0-6ABF-2B22-0E1F97F566F0}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Windows">
       <UniqueIdentifier>{5032B729-BC11-36C5-C529-C19B31889C26}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Windows\Utils">
+      <UniqueIdentifier>{B0AFEDB8-1C70-69EF-E5AA-B26C512AAECB}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\GameSmithEditor\Core\GameProject.h">
+      <Filter>Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\GameSmithEditor\CustomWidgets\ReferenceInputWidget.h">
       <Filter>CustomWidgets</Filter>
     </ClInclude>
@@ -23,6 +35,15 @@
     <ClInclude Include="src\GameSmithEditor\SampleComponents\OrbitScript.h">
       <Filter>SampleComponents</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameSmithEditor\Utils\SystemCallUtils.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEditor\Windows\AccessibleWindows.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEditor\Windows\AssetDatabaseWindow.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
     <ClInclude Include="src\GameSmithEditor\Windows\GameObjectDetails.h">
       <Filter>Windows</Filter>
     </ClInclude>
@@ -32,13 +53,14 @@
     <ClInclude Include="src\GameSmithEditor\Windows\SimulationContentView.h">
       <Filter>Windows</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameSmithEditor\Core\GameProject.h" />
-    <ClInclude Include="src\GameSmithEditor\Utils\SystemCallUtils.h" />
-    <ClInclude Include="src\GameSmithEditor\Windows\AssetDatabaseWindow.h" />
-    <ClInclude Include="src\GameSmithEditor\Windows\AccessibleWindows.h" />
-    <ClInclude Include="src\GameSmithEditor\Windows\Utils\WindowRegistrator.h" />
+    <ClInclude Include="src\GameSmithEditor\Windows\Utils\WindowRegistrator.h">
+      <Filter>Windows\Utils</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\GameSmithEditor\Core\GameProject.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
     <ClCompile Include="src\GameSmithEditor\CustomWidgets\ReferenceInputWidget.cpp">
       <Filter>CustomWidgets</Filter>
     </ClCompile>
@@ -50,6 +72,15 @@
     <ClCompile Include="src\GameSmithEditor\SampleComponents\OrbitScript.cpp">
       <Filter>SampleComponents</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameSmithEditor\Utils\SystemCallUtils.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEditor\Windows\AccessibleWindows.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEditor\Windows\AssetDatabaseWindow.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
     <ClCompile Include="src\GameSmithEditor\Windows\GameObjectDetails.cpp">
       <Filter>Windows</Filter>
     </ClCompile>
@@ -59,9 +90,5 @@
     <ClCompile Include="src\GameSmithEditor\Windows\SimulationContentView.cpp">
       <Filter>Windows</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameSmithEditor\Core\GameProject.cpp" />
-    <ClCompile Include="src\GameSmithEditor\Utils\SystemCallUtils.cpp" />
-    <ClCompile Include="src\GameSmithEditor\Windows\AssetDatabaseWindow.cpp" />
-    <ClCompile Include="src\GameSmithEditor\Windows\AccessibleWindows.cpp" />
   </ItemGroup>
 </Project>

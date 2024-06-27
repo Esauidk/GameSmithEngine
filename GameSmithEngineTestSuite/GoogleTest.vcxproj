@@ -15,27 +15,27 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{4416C285-303B-1106-5986-F695450A1024}</ProjectGuid>
+    <ProjectGuid>{A2790B43-8E31-4D90-F738-26ECE30FE880}</ProjectGuid>
     <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>GameSmithEngineTestSuite</RootNamespace>
+    <RootNamespace>GoogleTest</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'" Label="Configuration">
-    <ConfigurationType>Application</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v143</PlatformToolset>
@@ -54,32 +54,29 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LinkIncremental>true</LinkIncremental>
-    <OutDir>bin\Debug-windows-x86_64\GameSmithEngineTestSuite\</OutDir>
-    <IntDir>bin-int\Debug-windows-x86_64\GameSmithEngineTestSuite\</IntDir>
-    <TargetName>GameSmithEngineTestSuite</TargetName>
-    <TargetExt>.exe</TargetExt>
+    <OutDir>bin\Debug-windows-x86_64\GoogleTest\</OutDir>
+    <IntDir>bin-int\Debug-windows-x86_64\GoogleTest\</IntDir>
+    <TargetName>GoogleTest</TargetName>
+    <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LinkIncremental>false</LinkIncremental>
-    <OutDir>bin\Release-windows-x86_64\GameSmithEngineTestSuite\</OutDir>
-    <IntDir>bin-int\Release-windows-x86_64\GameSmithEngineTestSuite\</IntDir>
-    <TargetName>GameSmithEngineTestSuite</TargetName>
-    <TargetExt>.exe</TargetExt>
+    <OutDir>bin\Release-windows-x86_64\GoogleTest\</OutDir>
+    <IntDir>bin-int\Release-windows-x86_64\GoogleTest\</IntDir>
+    <TargetName>GoogleTest</TargetName>
+    <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
-    <LinkIncremental>true</LinkIncremental>
-    <OutDir>bin\Dist-windows-x86_64\GameSmithEngineTestSuite\</OutDir>
-    <IntDir>bin-int\Dist-windows-x86_64\GameSmithEngineTestSuite\</IntDir>
-    <TargetName>GameSmithEngineTestSuite</TargetName>
-    <TargetExt>.exe</TargetExt>
+    <OutDir>bin\Dist-windows-x86_64\GoogleTest\</OutDir>
+    <IntDir>bin-int\Dist-windows-x86_64\GoogleTest\</IntDir>
+    <TargetName>GoogleTest</TargetName>
+    <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>GE_PLATFORM_WINDOWS;GE_DEBUG;TEST_RESOURCES="resources";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>tst;..\GameSmithEngine\src;..\GameSmithEngine\third-party\spdlog\include;..\GameSmithEngine\third-party\glm;..\third-party\googletest\googletest\include;..\third-party\googletest\googletest\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>GE_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\third-party\googletest\googletest\include;..\third-party\googletest\googletest;..\third-party\googletest\googlemock\include;..\third-party\googletest\googlemock;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -87,19 +84,16 @@
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
-    <PostBuildEvent>
-      <Command>xcopy /Q /E /Y /I "$(ProjectDir)resources" "$(TargetDir)resources"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>GE_PLATFORM_WINDOWS;GE_Release;TEST_RESOURCES="resources";%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>tst;..\GameSmithEngine\src;..\GameSmithEngine\third-party\spdlog\include;..\GameSmithEngine\third-party\glm;..\third-party\googletest\googletest\include;..\third-party\googletest\googletest\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <PreprocessorDefinitions>GE_Release;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>..\third-party\googletest\googletest\include;..\third-party\googletest\googletest;..\third-party\googletest\googlemock\include;..\third-party\googletest\googlemock;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -110,56 +104,28 @@
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
-    <PostBuildEvent>
-      <Command>xcopy /Q /E /Y /I "$(ProjectDir)resources" "$(TargetDir)resources"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>GE_PLATFORM_WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>tst;..\GameSmithEngine\src;..\GameSmithEngine\third-party\spdlog\include;..\GameSmithEngine\third-party\glm;..\third-party\googletest\googletest\include;..\third-party\googletest\googletest\src;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\third-party\googletest\googletest\include;..\third-party\googletest\googletest;..\third-party\googletest\googlemock\include;..\third-party\googletest\googlemock;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreaded</RuntimeLibrary>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
     </Link>
-    <PostBuildEvent>
-      <Command>xcopy /Q /E /Y /I "$(ProjectDir)resources" "$(TargetDir)resources"</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="tst\GameSmithEngineTest\EntitySystem\Components\TestComponent.h" />
-    <ClInclude Include="tst\GameSmithEngineTest\TestInclude.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <ClCompile Include="tst\GameSmithEngineTest\EntitySystem\Components\TransformTest.cpp" />
-    <ClCompile Include="tst\GameSmithEngineTest\EntitySystem\GameObjectManagerTest.cpp" />
-    <ClCompile Include="tst\GameSmithEngineTest\EntitySystem\GameObjectTest.cpp" />
-    <ClCompile Include="tst\GameSmithEngineTest\EntitySystem\GameplayUpdaterTest.cpp" />
-    <ClCompile Include="tst\GameSmithEngineTest\GameChunkSystem\GameChunkManagerTest.cpp" />
-    <ClCompile Include="tst\GameSmithEngineTest\GameChunkSystem\GameChunkTest.cpp" />
-    <ClCompile Include="tst\GameSmithEngineTest\Rendering\RenderAgnostics\LightingSystem\Sources\DirectionalLightTest.cpp" />
-    <ClCompile Include="tst\GameSmithEngineTest\Rendering\RenderAgnostics\LightingSystem\Sources\PointLightTest.cpp" />
-    <ClCompile Include="tst\GameSmithEngineTest\ResourceAssets\ShaderAssetTest.cpp" />
-    <ClCompile Include="tst\GameSmithEngineTest\Utilities\ExposedVariableRegistryTest.cpp" />
-    <ClCompile Include="tst\TestEntry.cpp" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\GameSmithEngine\GameSmithEngine.vcxproj">
-      <Project>{1A2CD029-86B7-3DEE-8FC8-C0E2FBD299EE}</Project>
-    </ProjectReference>
-    <ProjectReference Include="GoogleTest.vcxproj">
-      <Project>{A2790B43-8E31-4D90-F738-26ECE30FE880}</Project>
-    </ProjectReference>
+    <ClCompile Include="..\third-party\googletest\googlemock\src\gmock-all.cc" />
+    <ClCompile Include="..\third-party\googletest\googletest\src\gtest-all.cc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

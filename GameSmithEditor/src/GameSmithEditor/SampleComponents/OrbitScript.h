@@ -17,7 +17,7 @@ namespace GameSmithEditor {
 		virtual void OnUpdate(float dt);
 		virtual void OnDestroy() override {}
 		virtual std::string GetName() const override { return "Demo Script"; };
-		virtual int GetPriority() const { return 0; }
+		virtual int GetPriority() const override { return 0; }
 		inline void SetTimeScale(float scale) { m_TimeScale = scale; }
 		inline void SetOribitSpeeds(glm::vec3 speeds) { m_OribitSpeeds = speeds; }
 		inline void SetLocalRotationSpeed(glm::vec3 speeds) { m_LocalSpeeds = speeds; }

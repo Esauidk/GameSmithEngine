@@ -54,20 +54,20 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>..\bin\Debug-windows-x86_64\GameSmithEngine\</OutDir>
-    <IntDir>..\bin-int\Debug-windows-x86_64\GameSmithEngine\</IntDir>
+    <OutDir>bin\Debug-windows-x86_64\GameSmithEngine\</OutDir>
+    <IntDir>bin-int\Debug-windows-x86_64\GameSmithEngine\</IntDir>
     <TargetName>GameSmithEngine</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>..\bin\Release-windows-x86_64\GameSmithEngine\</OutDir>
-    <IntDir>..\bin-int\Release-windows-x86_64\GameSmithEngine\</IntDir>
+    <OutDir>bin\Release-windows-x86_64\GameSmithEngine\</OutDir>
+    <IntDir>bin-int\Release-windows-x86_64\GameSmithEngine\</IntDir>
     <TargetName>GameSmithEngine</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
-    <OutDir>..\bin\Dist-windows-x86_64\GameSmithEngine\</OutDir>
-    <IntDir>..\bin-int\Dist-windows-x86_64\GameSmithEngine\</IntDir>
+    <OutDir>bin\Dist-windows-x86_64\GameSmithEngine\</OutDir>
+    <IntDir>bin-int\Dist-windows-x86_64\GameSmithEngine\</IntDir>
     <TargetName>GameSmithEngine</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
@@ -89,7 +89,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Debug-windows-x86_64\GameSmithEngine\**.cso\ (xcopy /Q /E /Y /I ..\bin\Debug-windows-x86_64\GameSmithEngine\**.cso ..\bin\Debug-windows-x86_64\TestZone &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Debug-windows-x86_64\GameSmithEngine\**.cso ..\bin\Debug-windows-x86_64\TestZone &gt; nul)</Command>
+      <Command>IF EXIST bin\Debug-windows-x86_64\GameSmithEngine\**.cso\ (xcopy /Q /E /Y /I bin\Debug-windows-x86_64\GameSmithEngine\**.cso ..\bin\Debug-windows-x86_64\TestZone &gt; nul) ELSE (xcopy /Q /Y /I bin\Debug-windows-x86_64\GameSmithEngine\**.cso ..\bin\Debug-windows-x86_64\TestZone &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -114,7 +114,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Release-windows-x86_64\GameSmithEngine\**.cso\ (xcopy /Q /E /Y /I ..\bin\Release-windows-x86_64\GameSmithEngine\**.cso ..\bin\Release-windows-x86_64\TestZone &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Release-windows-x86_64\GameSmithEngine\**.cso ..\bin\Release-windows-x86_64\TestZone &gt; nul)</Command>
+      <Command>IF EXIST bin\Release-windows-x86_64\GameSmithEngine\**.cso\ (xcopy /Q /E /Y /I bin\Release-windows-x86_64\GameSmithEngine\**.cso ..\bin\Release-windows-x86_64\TestZone &gt; nul) ELSE (xcopy /Q /Y /I bin\Release-windows-x86_64\GameSmithEngine\**.cso ..\bin\Release-windows-x86_64\TestZone &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
@@ -139,7 +139,7 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Dist-windows-x86_64\GameSmithEngine\**.cso\ (xcopy /Q /E /Y /I ..\bin\Dist-windows-x86_64\GameSmithEngine\**.cso ..\bin\Dist-windows-x86_64\TestZone &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Dist-windows-x86_64\GameSmithEngine\**.cso ..\bin\Dist-windows-x86_64\TestZone &gt; nul)</Command>
+      <Command>IF EXIST bin\Dist-windows-x86_64\GameSmithEngine\**.cso\ (xcopy /Q /E /Y /I bin\Dist-windows-x86_64\GameSmithEngine\**.cso ..\bin\Dist-windows-x86_64\TestZone &gt; nul) ELSE (xcopy /Q /Y /I bin\Dist-windows-x86_64\GameSmithEngine\**.cso ..\bin\Dist-windows-x86_64\TestZone &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

@@ -20,6 +20,17 @@ namespace GameSmithEditor {
 		ImGui::SameLine();
 
 		if (ImGui::Button("Save Chunk")) {
+			auto assetManager = GameSmith::ResourceManager::GetInstance();
+			auto chunkManager = GameSmith::ChunkManager::GetInstance();
+			auto chunk = chunkManager->GetCurrentMainChunk().lock();
+			assetManager->WriteResource(chunk, "C:\\Users\\esaus\\Desktop\\TestProjectDir\\Assets\\Test2.chunk");
+			
+		}
+
+		if (ImGui::Button("Load Chunk")) {
+			auto assetManager = GameSmith::ResourceManager::GetInstance();
+			auto chunkManager = GameSmith::ChunkManager::GetInstance();
+			chunkManager->LoadChunk(GameSmith::ID(147063809, 30548, 17519, 1851296716170764188));
 
 		}
 
