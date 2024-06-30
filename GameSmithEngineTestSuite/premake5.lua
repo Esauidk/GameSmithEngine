@@ -3,8 +3,8 @@ project "GoogleTest"
 	language "C++"
 	cppdialect "C++20"
 	staticruntime "on"
-	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+	targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
 
 	files{
 		"%{wks.location}/third-party/googletest/googletest/src/gtest-all.cc",
@@ -37,8 +37,8 @@ project "GameSmithEngineTestSuite"
 	cppdialect "C++20"
 	staticruntime "on"
 
-	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+	targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
 
 	files{
 		"tst/**.h",

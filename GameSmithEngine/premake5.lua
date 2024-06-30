@@ -4,8 +4,8 @@ project "GameSmithEngine"
 	staticruntime "on"
 	cppdialect "C++20"
 
-	targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
+	targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
+	objdir ("%{wks.location}/bin-int/" .. outputdir .. "/%{prj.name}")
 
 	pchheader "gepch.h"
 	pchsource "src/gepch.cpp"
