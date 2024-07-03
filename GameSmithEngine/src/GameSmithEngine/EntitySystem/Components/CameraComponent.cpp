@@ -1,8 +1,11 @@
 #include "gepch.h"
 #include "CameraComponent.h"
 #include "GameSmithEngine/EntitySystem/EnitityRenderPreparer.h"
+#include "GameSmithEngine/EntitySystem/Components/ComponentFactory.h"
 
 namespace GameSmith {
+	GE_REGISTERCOMPONENT(CameraComponent)
+
 	CameraComponent* CameraComponent::s_ActiveCam = nullptr;
 
 	CameraComponent::CameraComponent(GameObject* gameObject, Transform* transform) : Component(gameObject, transform), m_CamType(CameraType::Perspective) {
@@ -15,6 +18,7 @@ namespace GameSmith {
 	
 	void CameraComponent::OnStart()
 	{
+
 	}
 
 	void CameraComponent::OnUpdate(float dt)

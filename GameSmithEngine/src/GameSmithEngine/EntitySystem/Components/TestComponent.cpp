@@ -1,8 +1,11 @@
 #include "gepch.h"
 #include "TestComponent.h"
 #include "GameSmithEngine/Core/Log.h"
+#include "GameSmithEngine/EntitySystem/Components/ComponentFactory.h"
 
 namespace GameSmith {
+	GE_REGISTERCOMPONENT(TestComponent)
+
 	void TestComponent::OnStart()
 	{
 		GE_CORE_INFO("Started Test Component");

@@ -49,9 +49,11 @@
 
 // Component System
 #include "GameSmithEngine/EntitySystem/Components/Component.h"
+#include "GameSmithEngine/EntitySystem/Components/ComponentFactory.h"
 #include "GameSmithEngine/EntitySystem/Transform.h"
 #include "GameSmithEngine/EntitySystem/Components/MeshRenderer.h"
 #include "GameSmithEngine/EntitySystem/Components/TestComponent.h"
+#include "GameSmithEngine/EntitySystem/Components/CameraComponent.h"
 // ------------------------------------------
 
 // ------------ Game Chunk Management -------------

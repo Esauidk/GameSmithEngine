@@ -3,6 +3,8 @@
 #include "OrbitScript.h"
 
 namespace GameSmithEditor {
+	GE_REGISTERCOMPONENT(BurstOrbitScript);
+
 	void BurstOrbitScript::OnUpdate(float dt)
 	{
 		if (m_NumObjs < 0) {

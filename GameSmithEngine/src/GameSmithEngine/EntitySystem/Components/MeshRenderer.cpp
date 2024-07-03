@@ -4,8 +4,11 @@
 #include "GameSmithEngine/Core/Log.h"
 #include "GameSmithEngine/ResourceManagement/ResourceAssetHelper.h"
 #include "GameSmithEngine/ResourceManagement/ResourceManager.h"
+#include "GameSmithEngine/EntitySystem/Components/ComponentFactory.h"
 
 namespace GameSmith {
+	GE_REGISTERCOMPONENT(MeshRenderer)
+
 	void MeshRenderer::OnUpdate(float dt)
 	{
 		auto renderPrep = EntityRenderPreparer::GetInstance();

@@ -2,11 +2,26 @@
 #include "gepch.h"
 #include "Component.h"
 
+#define GE_REGISTERCOMPONENT(ClassType) \
+	 static struct ClassType##RegisterAction { \
+		ClassType##RegisterAction() { \
+			GameSmith::ComponentRegistry::GetInstance()->RegisterComponent( \
+				#ClassType, [](GameSmith::GameObject* g, GameSmith::Transform* t) {return new ClassType(g, t); } \
+			); \
+		} \
+	}ClassType##Instance;
+
 namespace GameSmith {
 	class ComponentRegistry {
 	public:
 		ComponentRegistry();
-		inline static ComponentRegistry* GetInstance() { return s_Instance; }
+		inline static ComponentRegistry* GetInstance() { 
+			if (s_Instance == nullptr) {
+				s_Instance = Scope<ComponentRegistry>(new ComponentRegistry());
+			}
+
+			return s_Instance.get(); 
+		}
 
 		inline void RegisterComponent(
 			std::string className, 
@@ -15,9 +30,7 @@ namespace GameSmith {
 
 		void ListRegisteredComponents(std::vector<std::string>* outVec);
 	private:
-		void RegisterEngineComponents();
-	private:
-		static ComponentRegistry* s_Instance;
+		static Scope<ComponentRegistry> s_Instance;
 
 		std::unordered_map<std::string, std::function<Component* (GameObject*, Transform*)>> m_Generators;
 

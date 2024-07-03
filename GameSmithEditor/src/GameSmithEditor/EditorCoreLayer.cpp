@@ -17,13 +17,6 @@ namespace GameSmithEditor {
 
 	std::unordered_map<std::string, std::function<GameSmith::Layer* ()>> EditorCoreLayer::m_WindowRegistry;
 
-	// TODO: Temporary, remove after demo
-	static void RegisterSampleComponents() {
-		auto registry = GameSmith::ComponentRegistry::GetInstance();
-		registry->RegisterComponent("OrbitScript", [](GameSmith::GameObject* g, GameSmith::Transform* t) {return new OrbitScript(g, t); });
-		registry->RegisterComponent("BurstOrbitScript", [](GameSmith::GameObject* g, GameSmith::Transform* t) {return new BurstOrbitScript(g, t); });
-	}
-
 	EditorCoreLayer::EditorCoreLayer() : GameSmith::Layer("Editor Core"), m_App(GameSmith::Application::Get())
 	{
 		if (s_Instance == nullptr) {
@@ -38,9 +31,6 @@ namespace GameSmithEditor {
 			GameSmith::RegisterEvent<GameSmith::WindowResizeEvent>(&GameSmith::Window::s_Resized, GE_BIND_EVENT_FN(GameSmith::RenderTexture::WindowResized, m_EditorScreen.get()), false);
 			renderManager->GetRenderAPI()->SetRenderTexture(m_EditorScreen, 0);
 			renderManager->SetFrameTexture(m_EditorScreen);
-
-			// TODO: Temporary, remove after demo
-			RegisterSampleComponents();
 
 			// TODO: Temporary, remove after testing
 			auto chunkManager = GameSmith::ChunkManager::GetInstance();

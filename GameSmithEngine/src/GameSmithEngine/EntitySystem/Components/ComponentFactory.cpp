@@ -4,18 +4,13 @@
 
 #include "MeshRenderer.h"
 #include "TestComponent.h"
-#include "CameraComponent.h"
 
 
 namespace GameSmith {
-	ComponentRegistry* ComponentRegistry::s_Instance = nullptr;
+	Scope<ComponentRegistry> ComponentRegistry::s_Instance = nullptr;
 
 	ComponentRegistry::ComponentRegistry()
 	{
-		if (s_Instance == nullptr) {
-			s_Instance = this;
-			RegisterEngineComponents();
-		}
 	}
 
 	void ComponentRegistry::ListRegisteredComponents(std::vector<std::string>* outVec)
@@ -23,13 +18,6 @@ namespace GameSmith {
 		for (auto entry : m_Generators) {
 			outVec->push_back(entry.first);
 		}
-	}
-
-	void ComponentRegistry::RegisterEngineComponents()
-	{
-		RegisterComponent("MeshRenderer", [](GameObject* g, Transform* t) {return new MeshRenderer(g, t); });
-		RegisterComponent("TestComponent", [](GameObject* g, Transform* t) {return new TestComponent(g, t); });
-		RegisterComponent("CameraComponent", [](GameObject* g, Transform* t) {return new CameraComponent(g, t); });
 	}
 };
 

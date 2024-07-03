@@ -21,4 +21,6 @@ namespace GameSmith {
 		Ref<MeshAsset> m_Mesh;
 		std::vector<std::pair<Ref<Material>, Ref<MaterialAsset>>> m_Materials;
 	};
+
+	
 };

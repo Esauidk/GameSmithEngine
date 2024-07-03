@@ -143,6 +143,7 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\GameSmithEngine\ContentLibrarySystem\ContentLibraryManager.h" />
     <ClInclude Include="src\GameSmithEngine.h" />
     <ClInclude Include="src\GameSmithEngine\Core\Application.h" />
     <ClInclude Include="src\GameSmithEngine\Core\Core.h" />
@@ -672,6 +673,7 @@
     <ClInclude Include="third-party\tinyobjloader\tiny_obj_loader.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\GameSmithEngine\ContentLibrarySystem\ContentLibraryManager.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\Application.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\Layer.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\Log.cpp" />

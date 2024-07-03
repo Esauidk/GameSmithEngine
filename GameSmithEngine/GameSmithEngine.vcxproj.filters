@@ -1719,6 +1719,7 @@
     <ClInclude Include="third-party\tinyobjloader\tiny_obj_loader.h">
       <Filter>third-party\tinyobjloader</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\ContentLibrarySystem\ContentLibraryManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GameSmithEngine\Core\Application.cpp">
@@ -1916,5 +1917,6 @@
     <ClCompile Include="third-party\stb\std_image.cpp">
       <Filter>third-party\stb</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\ContentLibrarySystem\ContentLibraryManager.cpp" />
   </ItemGroup>
 </Project>

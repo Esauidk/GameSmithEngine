@@ -4,7 +4,6 @@
 #include "GameSmithEngine/EntitySystem/GameObjectManager.h"
 #include "GameSmithEngine/EntitySystem/GameplayUpdater.h"
 #include "GameSmithEngine/EntitySystem/EnitityRenderPreparer.h"
-#include "GameSmithEngine/EntitySystem/Components/ComponentFactory.h"
 #include "GameSmithEngine/GameChunkSystem/ChunkManager.h"
 
 namespace GameSmith {
@@ -22,7 +21,6 @@ namespace GameSmith {
 		GameObjectManager m_GameObjectManager;
 		GameplayUpdater m_GameplayUpdater;
 		EntityRenderPreparer m_EntityRenderPreparer;
-		ComponentRegistry m_ComponentRegistry;
 	};
 };
 
