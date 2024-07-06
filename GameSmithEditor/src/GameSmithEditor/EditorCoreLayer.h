@@ -1,6 +1,15 @@
 #pragma once
 #include "EngineDependenciesOnly.h"
 
+#define GETR_REGISTEREDITORWINDOW(ClassType) \
+	 static struct ClassType##RegisterAction { \
+		ClassType##RegisterAction() { \
+			GameSmithEditor::EditorCoreLayer::RegisterWindow( \
+				#ClassType, []() {return new ClassType(); } \
+			); \
+		} \
+	}ClassType##Instance;
+
 namespace GameSmithEditor {
 	class EditorCoreLayer : public GameSmith::Layer
 	{

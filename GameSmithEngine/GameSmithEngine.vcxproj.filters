@@ -7,6 +7,9 @@
     <Filter Include="src\GameSmithEngine">
       <UniqueIdentifier>{31533844-9DB4-1552-2622-5C0492824C11}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\GameSmithEngine\ContentLibrarySystem">
+      <UniqueIdentifier>{75801D93-61FD-10D6-8A7A-11EA7656AD69}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\GameSmithEngine\Core">
       <UniqueIdentifier>{291E2AB9-1543-7939-3E8E-5EC92A127857}</UniqueIdentifier>
     </Filter>
@@ -140,6 +143,12 @@
   <ItemGroup>
     <ClInclude Include="src\GameSmithEngine.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\ContentLibrarySystem\ContentLibraryManager.h">
+      <Filter>src\GameSmithEngine\ContentLibrarySystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\ContentLibrarySystem\DefaultContentLibrary.h">
+      <Filter>src\GameSmithEngine\ContentLibrarySystem</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Core\Application.h">
       <Filter>src\GameSmithEngine\Core</Filter>
@@ -1719,9 +1728,14 @@
     <ClInclude Include="third-party\tinyobjloader\tiny_obj_loader.h">
       <Filter>third-party\tinyobjloader</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameSmithEngine\ContentLibrarySystem\ContentLibraryManager.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\GameSmithEngine\ContentLibrarySystem\ContentLibraryManager.cpp">
+      <Filter>src\GameSmithEngine\ContentLibrarySystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\ContentLibrarySystem\DefaultContentLibrary.cpp">
+      <Filter>src\GameSmithEngine\ContentLibrarySystem</Filter>
+    </ClCompile>
     <ClCompile Include="src\GameSmithEngine\Core\Application.cpp">
       <Filter>src\GameSmithEngine\Core</Filter>
     </ClCompile>
@@ -1917,6 +1931,5 @@
     <ClCompile Include="third-party\stb\std_image.cpp">
       <Filter>third-party\stb</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameSmithEngine\ContentLibrarySystem\ContentLibraryManager.cpp" />
   </ItemGroup>
 </Project>

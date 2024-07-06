@@ -1,9 +1,10 @@
 #include "TestingLayer.h"
+#include "GameSmithEngine/ContentLibrarySystem/ContentLibraryManager.h"
 
 TestingLayer::TestingLayer() : GameSmith::Layer("Testing Layer")
 {
 
-	auto id1 = GameSmith::ResourceManager::GetInstance()->ImportResource("C:\\Users\\esaus\\Documents\\Coding Projects\\test.obj");
+	/*auto id1 = GameSmith::ResourceManager::GetInstance()->ImportResource("C:\\Users\\esaus\\Documents\\Coding Projects\\test.obj");
 	auto id2 = GameSmith::ResourceManager::GetInstance()->ImportResource("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\SampleVertexShader.cso");
 	auto id3 = GameSmith::ResourceManager::GetInstance()->ImportResource("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\RandomColorPS.cso");
 
@@ -59,7 +60,13 @@ TestingLayer::TestingLayer() : GameSmith::Layer("Testing Layer")
 	auto id = GameSmith::ResourceManager::GetInstance()->WriteResource(chunkAsset, "C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\Test.chunk");
 	auto asset = GameSmith::ResourceManager::GetInstance()->GetResource<GameSmith::GameChunkAsset>(id);
 	asset->GenerateInstance();
-	i = 1;
+	i = 1;*/
+
+	GameSmith::ContentLibraryManager mg;
+	mg.LoadContentLibrary("test");
+
+	auto con = GameSmith::GameObjectManager::GetInstance()->CreateGameObject();
+	con.lock()->AddComponent("FakeComp");
 }
 
 void TestingLayer::OnImGuiRender()

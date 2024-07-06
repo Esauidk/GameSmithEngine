@@ -16,9 +16,6 @@
     <Filter Include="Windows">
       <UniqueIdentifier>{5032B729-BC11-36C5-C529-C19B31889C26}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Windows\Utils">
-      <UniqueIdentifier>{B0AFEDB8-1C70-69EF-E5AA-B26C512AAECB}</UniqueIdentifier>
-    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\GameSmithEditor\Core\GameProject.h">
@@ -52,9 +49,6 @@
     </ClInclude>
     <ClInclude Include="src\GameSmithEditor\Windows\SimulationContentView.h">
       <Filter>Windows</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameSmithEditor\Windows\Utils\WindowRegistrator.h">
-      <Filter>Windows\Utils</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

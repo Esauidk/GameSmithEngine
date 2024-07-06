@@ -1,8 +1,10 @@
 #include "GameViewLayer.h"
 #include "imgui.h"
+#include "GameSmithEditor/EditorCoreLayer.h"
 
 namespace GameSmithEditor {
-	WindowRegistrator<GameViewLayer> GameViewLayer::s_Registrator("Game View");
+
+	GETR_REGISTEREDITORWINDOW(GameViewLayer);
 
 	GameViewLayer::GameViewLayer() : GameSmith::Layer("Game View")
 	{

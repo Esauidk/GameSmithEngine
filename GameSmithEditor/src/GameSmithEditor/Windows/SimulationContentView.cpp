@@ -4,7 +4,8 @@
 
 namespace GameSmithEditor {
 	GameSmith::Connection<GameSmith::GameObject> SimulationContentView::m_SelectedObjected = GameSmith::Connection<GameSmith::GameObject>();
-	WindowRegistrator<SimulationContentView> SimulationContentView::s_Registrator("Simulation Content View");
+
+	GETR_REGISTEREDITORWINDOW(SimulationContentView);
 
 	void SimulationContentView::OnImGuiRender()
 	{

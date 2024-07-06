@@ -1,7 +1,7 @@
 project "GameSmithEngine"
 	kind "StaticLib"
 	language "C++"
-	staticruntime "on"
+	staticruntime "off"
 	cppdialect "C++20"
 
 	targetdir ("%{wks.location}/bin/" .. outputdir .. "/%{prj.name}")
@@ -31,6 +31,11 @@ project "GameSmithEngine"
 
 	links{
 		"ImGui"
+	}
+
+	defines
+	{
+		"_CRT_SECURE_NO_WARNINGS"
 	}
 
 	filter "system:windows"

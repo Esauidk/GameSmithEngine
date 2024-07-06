@@ -15,18 +15,15 @@ namespace GameSmith {
 	class ComponentRegistry {
 	public:
 		ComponentRegistry();
-		inline static ComponentRegistry* GetInstance() { 
-			if (s_Instance == nullptr) {
-				s_Instance = Scope<ComponentRegistry>(new ComponentRegistry());
-			}
-
-			return s_Instance.get(); 
-		}
+		static ComponentRegistry* GetInstance();
 
 		inline void RegisterComponent(
 			std::string className, 
 			std::function<Component* (GameObject*, Transform*)> generator) 
-		{ m_Generators.insert({ className, generator }); }
+		{ 
+			int i = 0;
+			m_Generators.insert({ className, generator }); 
+		}
 
 		void ListRegisteredComponents(std::vector<std::string>* outVec);
 	private:
@@ -40,6 +37,7 @@ namespace GameSmith {
 	class ComponentFactory {
 	private:
 		static inline Ref<Component> GenerateComponent(std::string className, GameObject* go, Transform* t) {
+			auto i = ComponentRegistry::GetInstance();
 			auto generator = ComponentRegistry::s_Instance->m_Generators.find(className);
 			return Ref<Component>(generator->second(go, t));
 		}

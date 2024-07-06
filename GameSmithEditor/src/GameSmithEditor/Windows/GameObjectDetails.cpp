@@ -1,10 +1,12 @@
 #include "GameObjectDetails.h"
 #include "SimulationContentView.h"
-#include "GameSmithEditor//CustomWidgets/ReferenceInputWidget.h"
+#include "GameSmithEditor/CustomWidgets/ReferenceInputWidget.h"
 #include "imgui.h"
+#include "GameSmithEditor/EditorCoreLayer.h"
 
 namespace GameSmithEditor {
-	WindowRegistrator<GameObjectDetails> GameObjectDetails::s_Registrator("GameObject Details");
+
+	GETR_REGISTEREDITORWINDOW(GameObjectDetails);
 
 
 	static void GenerateVariableUI(GameSmith::Ref<GameSmith::ParameterContainer> container) {

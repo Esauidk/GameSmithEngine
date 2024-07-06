@@ -13,6 +13,17 @@ namespace GameSmith {
 	{
 	}
 
+	ComponentRegistry* ComponentRegistry::GetInstance() {
+		if (s_Instance == nullptr) {
+			s_Instance = Scope<ComponentRegistry>(new ComponentRegistry());
+		}
+
+		return s_Instance.get();
+	}
+	
+
+	
+
 	void ComponentRegistry::ListRegisteredComponents(std::vector<std::string>* outVec)
 	{
 		for (auto entry : m_Generators) {
