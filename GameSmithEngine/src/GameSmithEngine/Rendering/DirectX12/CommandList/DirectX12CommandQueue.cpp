@@ -47,7 +47,7 @@ namespace GameSmith {
 	ID3D12CommandAllocator* DirectX12CommandQueue::CreateCommandAllocator() {
 		ID3D12CommandAllocator* commandAllocator;
 		bool res = FAILED(m_Device->CreateCommandAllocator(m_CommandListType, IID_PPV_ARGS(&commandAllocator)));
-		GE_CORE_ASSERT(!res, "Failed to create command allocator of type {0}", m_CommandListType);
+		GE_CORE_ASSERT(!res, "Failed to create command allocator of type {0}", QueueString(m_Type));
 
 		return commandAllocator;
 	}
@@ -58,7 +58,7 @@ namespace GameSmith {
 		std::string name = QueueString(m_Type);
 		std::wstring wName = std::wstring(name.begin(), name.end());
 		commandList->SetName(wName.c_str());
-		GE_CORE_ASSERT(!res, "Failed to create a command list of type {0}", m_CommandListType);
+		GE_CORE_ASSERT(!res, "Failed to create a command list of type {0}", QueueString(m_Type));
 
 		return commandList;
 	}
