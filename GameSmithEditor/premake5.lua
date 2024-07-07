@@ -21,7 +21,13 @@ project "GameSmithEditor"
 	}
 
 	links{
+		"ImGui",
 		"GameSmithEngine"
+	}
+
+	defines
+	{
+		"GE_DYNAMIC_LINK"
 	}
 
 	filter "system:windows"

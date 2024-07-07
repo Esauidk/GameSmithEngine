@@ -1,12 +1,17 @@
 #pragma once
+#include "GameSmithEngine/Core/Core.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/MaterialSystem/Material.h"
 #include "Serializable.h"
 
 namespace GameSmith {
-	class MaterialAsset : public Serializeable
+	struct MaterialInfo {
+		std::vector<std::pair<std::string, ID>> TextureIds;
+	};
+
+	class GE_API MaterialAsset : public Serializeable
 	{
 	public:
-		MaterialAsset() = default;
+		MaterialAsset();
 		MaterialAsset(
 			std::vector<std::pair<ID, Stages>>& shaderIds,
 			std::vector<std::pair<std::string, ID>>& textureIds,
@@ -33,7 +38,7 @@ namespace GameSmith {
 		MaterialAssetMetadata m_Metadata;
 		ID m_ShaderIds[STAGE_NUM];
 
-		std::vector<std::pair<std::string, ID>> m_TextureIds;
+		Scope<MaterialInfo> m_MatInfo;
 	};
 };
 

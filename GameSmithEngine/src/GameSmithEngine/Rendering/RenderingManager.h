@@ -1,4 +1,5 @@
 #pragma once
+#include "GameSmithEngine/Core/Core.h"
 #include "RendererAPI.h"
 #include "PipelineStateObjectManager.h"
 #include "RenderWorkflow.h"
@@ -12,7 +13,7 @@
 namespace GameSmith {
 	// A class that can submit high level rendering commands (Taking a scene and drawing it to the screen)
 	// This can appear as handling some high level logic and then executing commands to perform low level logic related to Rendering
-	class RenderingManager
+	class GE_API RenderingManager
 	{
 	public:
 		RenderingManager(bool force=false);

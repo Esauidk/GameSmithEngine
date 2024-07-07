@@ -46,7 +46,7 @@ project "GameSmithEngineTestSuite"
 	}
 
 	links{
-		"GameSmithEngine",
+		"GameSmithEngineStatic",
 		"GoogleTest"
 	}
 	

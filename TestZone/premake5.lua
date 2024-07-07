@@ -25,6 +25,11 @@ project "TestZone"
 		"GameSmithEngine"
 	}
 
+	defines
+	{
+		"GE_DYNAMIC_LINK"
+	}
+
 	filter "system:windows"
 		systemversion "latest"
 

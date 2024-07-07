@@ -4,7 +4,7 @@
 namespace GameSmith {
 	GameObjectManager* GameObjectManager::s_Instance = nullptr;
 
-	GameObjectManager::GameObjectManager(bool override) {
+	GameObjectManager::GameObjectManager(bool override) : m_ObjectMaps(new GameObjectMap()) {
 		if (s_Instance == nullptr) {
 			s_Instance = this;
 		}
@@ -16,7 +16,7 @@ namespace GameSmith {
 	void GameObjectManager::Init()
 	{
 		m_Counter = 0;
-		m_Objects.clear();
+		m_ObjectMaps->objects.clear();
 		CleanGameObjects();
 	}
 
@@ -45,15 +45,15 @@ namespace GameSmith {
 		}
 
 		Ref<GameObject> gameObject = Ref<GameObject>(new GameObject(objectName));
-		m_Objects.insert({ gameObject->GetId(), gameObject });
+		m_ObjectMaps->objects.insert({ gameObject->GetId(), gameObject });
 		m_Counter++;
 
-		if (m_ObjectNames.contains(objectName)) {
-			auto entry = m_ObjectNames.find(objectName);
+		if (m_ObjectMaps->objectNames.contains(objectName)) {
+			auto entry = m_ObjectMaps->objectNames.find(objectName);
 			entry->second.insert(gameObject->GetId());
 		}
 		else {
-			m_ObjectNames.insert({ objectName, {gameObject->GetId()} });
+			m_ObjectMaps->objectNames.insert({ objectName, {gameObject->GetId()} });
 		}
 
 		auto transform = gameObject->GetTransform();
@@ -66,9 +66,9 @@ namespace GameSmith {
 	Connection<GameObject> GameSmith::GameObjectManager::FindGameObject(std::string gameObjectName)
 	{
 		// TODO: Fix this when a solution for String -> Is completed
-		if (m_ObjectNames.contains(gameObjectName)) {
-			auto& id = *(m_ObjectNames.find(gameObjectName)->second.begin());
-			return m_Objects.find(id)->second;
+		if (m_ObjectMaps->objectNames.contains(gameObjectName)) {
+			auto& id = *(m_ObjectMaps->objectNames.find(gameObjectName)->second.begin());
+			return m_ObjectMaps->objects.find(id)->second;
 		}
 		else {
 			return Connection<GameObject>();
@@ -77,14 +77,14 @@ namespace GameSmith {
 
 	void GameObjectManager::GetGameObjects(std::vector<Connection<GameObject>>* outObjects)
 	{
-		for (auto object : m_Objects) {
+		for (auto object : m_ObjectMaps->objects) {
 			outObjects->push_back(object.second);
 		}
 	}
 
 	void GameObjectManager::GetGameObjectNames(std::vector<std::string>* outNames)
 	{
-		for (auto object : m_ObjectNames) {
+		for (auto object : m_ObjectMaps->objectNames) {
 			outNames->push_back(object.first);
 		}
 	}
@@ -93,21 +93,21 @@ namespace GameSmith {
 	{
 		if (!object.expired()) {
 			auto temp = object.lock();
-			if (temp.get() != nullptr && m_Objects.contains(temp->GetId())) {
-				auto objItem = m_Objects.find(temp->GetId());
-				auto nameItem = m_ObjectNames.find(temp->GetName());
+			if (temp.get() != nullptr && m_ObjectMaps->objects.contains(temp->GetId())) {
+				auto objItem = m_ObjectMaps->objects.find(temp->GetId());
+				auto nameItem = m_ObjectMaps->objectNames.find(temp->GetName());
 
 				if (nameItem->second.contains(temp->GetId())) {
 					nameItem->second.erase(temp->GetId());
 
 					if (nameItem->second.size() == 0) {
-						m_ObjectNames.erase(temp->GetName());
+						m_ObjectMaps->objectNames.erase(temp->GetName());
 					}
 				}
 
 
 				m_ToBeDeleted.push(objItem->second);
-				m_Objects.erase(objItem);
+				m_ObjectMaps->objects.erase(objItem);
 			}
 		}
 	}
@@ -116,23 +116,23 @@ namespace GameSmith {
 	{
 		if (!targetObject.expired()) {
 			auto temp = targetObject.lock();
-			if (temp.get() != nullptr && m_ObjectNames.contains(temp->GetName())) {
-				auto item = m_ObjectNames.find(temp->GetName());
+			if (temp.get() != nullptr && m_ObjectMaps->objectNames.contains(temp->GetName())) {
+				auto item = m_ObjectMaps->objectNames.find(temp->GetName());
 				
 				auto ID = temp->GetId(); 
 				if (item->second.contains(ID)) {
 					item->second.erase(ID);
 
 					if (item->second.size() == 0) {
-						m_ObjectNames.erase(temp->GetName());
+						m_ObjectMaps->objectNames.erase(temp->GetName());
 					}
 				}
 
-				if (m_ObjectNames.contains(newName)) {
-					m_ObjectNames.find(newName)->second.insert(ID);
+				if (m_ObjectMaps->objectNames.contains(newName)) {
+					m_ObjectMaps->objectNames.find(newName)->second.insert(ID);
 				}
 				else {
-					m_ObjectNames.insert({ newName, {ID} });
+					m_ObjectMaps->objectNames.insert({ newName, {ID} });
 				}
 			}
 		}

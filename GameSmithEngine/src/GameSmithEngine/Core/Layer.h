@@ -1,11 +1,12 @@
 #pragma once
 
+#include "GameSmithEngine/Core/Core.h"
 #include "GameSmithEngine/Events/Event.h"
 
 namespace GameSmith {
 	// ABSTRACT CLASS
 	// The layer class is a abstract representation of a submodule that can be inserted in and out of active execution 
-	class Layer {
+	class GE_API Layer {
 	public:
 		Layer(const std::string& name = "Layer");
 		virtual ~Layer() = default;

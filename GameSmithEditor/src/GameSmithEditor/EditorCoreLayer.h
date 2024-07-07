@@ -15,6 +15,7 @@ namespace GameSmithEditor {
 	{
 	public:
 		EditorCoreLayer();
+		void OnAttach() override;
 		void OnImGuiRender() override;
 		void OnUpdate() override;
 

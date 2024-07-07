@@ -41,18 +41,18 @@ namespace GameSmith {
 
 			m_SubSystems.Update(dt);
 
-			while (!m_PendingLayers.empty()) {
-				auto layer = m_PendingLayers.front();
-				m_PendingLayers.pop();
-				layer->OnAttach();
-				m_LayerStack.Push(layer);
-			}
-
 			while (!m_PendingSpecialLayers.empty()) {
 				auto layer = m_PendingSpecialLayers.front();
 				m_PendingSpecialLayers.pop();
 				layer->OnAttach();
 				m_LayerStack.PushSpecial(layer);
+			}
+
+			while (!m_PendingLayers.empty()) {
+				auto layer = m_PendingLayers.front();
+				m_PendingLayers.pop();
+				layer->OnAttach();
+				m_LayerStack.Push(layer);
 			}
 
 			for (Layer* layer : m_LayerStack) {

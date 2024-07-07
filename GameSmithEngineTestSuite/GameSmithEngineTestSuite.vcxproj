@@ -154,8 +154,8 @@
     <ClCompile Include="tst\TestEntry.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\GameSmithEngine\GameSmithEngine.vcxproj">
-      <Project>{1A2CD029-86B7-3DEE-8FC8-C0E2FBD299EE}</Project>
+    <ProjectReference Include="..\GameSmithEngine\GameSmithEngineStatic.vcxproj">
+      <Project>{62CAB1E3-CE36-6DDE-972A-053C03568F46}</Project>
     </ProjectReference>
     <ProjectReference Include="GoogleTest.vcxproj">
       <Project>{A2790B43-8E31-4D90-F738-26ECE30FE880}</Project>

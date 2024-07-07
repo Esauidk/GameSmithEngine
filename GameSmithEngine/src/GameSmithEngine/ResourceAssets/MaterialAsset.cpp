@@ -43,7 +43,7 @@ namespace GameSmith {
 		}
 
 
-		for (auto& texture : m_TextureIds) {
+		for (auto& texture : m_MatInfo->TextureIds) {
 			writer.WriteString(texture.first);
 			idData texID = texture.second.getData();
 			writer.WriteClass<idData>(&texID);
@@ -80,7 +80,7 @@ namespace GameSmith {
 		}
 
 
-		for (auto& texture : m_TextureIds) {
+		for (auto& texture : m_MatInfo->TextureIds) {
 			size += (unsigned int)(texture.first.length()+1);
 			size += sizeof(idData);
 		}
@@ -134,7 +134,7 @@ namespace GameSmith {
 			std::string texName = reader.GetString();
 			auto texId = reader.ReadClass<idData>();
 			ID newID(*texId);
-			m_TextureIds.push_back({ texName, newID });
+			m_MatInfo->TextureIds.push_back({ texName, newID });
 			Ref<TextureAsset> tex = instance->GetResource<TextureAsset>(newID);
 
 			textureNames.push_back(texName);
@@ -149,11 +149,15 @@ namespace GameSmith {
 		return Ref<Material>(new Material(*m_GlobalVer));
 	}
 
+	MaterialAsset::MaterialAsset() : m_MatInfo(new MaterialInfo())
+	{
+	}
+
 	MaterialAsset::MaterialAsset(
 		std::vector<std::pair<ID, Stages>>& shaderIds,
 		std::vector<std::pair<std::string, ID>>& textureIds,
 		std::vector<std::pair<std::string, ContainerDataType>>& variables
-	)
+	) : m_MatInfo(new MaterialInfo())
 	{
 		GE_CORE_ASSERT(shaderIds.size() <= STAGE_NUM, "More shader entries than there are stages");
 
@@ -173,7 +177,7 @@ namespace GameSmith {
 		std::vector<std::string> textureNames;
 		std::unordered_map<std::string, Ref<Texture2D>> textureMap;
 		for (auto& textureEntry : textureIds) {
-			m_TextureIds.push_back({ textureEntry.first, textureEntry.second });
+			m_MatInfo->TextureIds.push_back({ textureEntry.first, textureEntry.second });
 			Ref<TextureAsset> tex = instance->GetResource<TextureAsset>(textureEntry.second);
 			textureNames.push_back(textureEntry.first);
 			textureMap.insert({ textureEntry.first, tex->GetTexture() });

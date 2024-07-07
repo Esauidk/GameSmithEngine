@@ -9,7 +9,7 @@ namespace GameSmith {
 		Orthographic
 	};
 
-	class CameraComponent : public Component {
+	class GE_API CameraComponent : public Component {
 	public:
 		CameraComponent(GameObject* gameObject, Transform* transform);
 		virtual void OnStart() override;

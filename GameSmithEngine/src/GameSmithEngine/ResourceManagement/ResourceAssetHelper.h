@@ -1,9 +1,10 @@
 #pragma once
 #include <gepch.h>
+#include "GameSmithEngine/Core/Core.h"
 #include "GameSmithEngine/Core/Log.h"
 
 namespace GameSmith {
-	class ResourceAssetReader {
+	class GE_API ResourceAssetReader {
 	public:
 		inline ResourceAssetReader(char* buffer, unsigned int byteSize) : m_CurPtr(buffer), m_EndPtr(buffer + byteSize) {}
 		inline ResourceAssetReader(Ref<char> buffer, unsigned int byteSize) : m_CurPtr(buffer.get()), m_EndPtr(buffer.get() + byteSize), m_OwnBuffer(buffer) {}
@@ -32,7 +33,7 @@ namespace GameSmith {
 		Ref<char> m_OwnBuffer;
 	};
 
-	class ResourceAssetWriter {
+	class GE_API ResourceAssetWriter {
 	public:
 		ResourceAssetWriter(unsigned int byteSize);
 		ResourceAssetWriter(char* ptr, unsigned int bufferSize);

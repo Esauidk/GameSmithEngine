@@ -4,7 +4,7 @@
 #include "GameSmithEngine/ResourceAssets/Serializable.h"
 
 namespace GameSmith {
-	class GameChunk : public Serializeable
+	class GE_API GameChunk : public Serializeable
 	{
 	public:
 		GameChunk() = default;

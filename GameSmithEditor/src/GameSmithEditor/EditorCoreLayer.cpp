@@ -22,7 +22,6 @@ namespace GameSmithEditor {
 		if (s_Instance == nullptr) {
 			s_Instance = this;
 
-			m_App.GetImGuiInstance()->SetDockspace(true);
 
 			auto renderManager = GameSmith::RenderingManager::GetInstance();
 			float color[4] = { 0.07f, 0.0f, 0.12f, 1.0f };
@@ -31,20 +30,29 @@ namespace GameSmithEditor {
 			GameSmith::RegisterEvent<GameSmith::WindowResizeEvent>(&GameSmith::Window::s_Resized, GE_BIND_EVENT_FN(GameSmith::RenderTexture::WindowResized, m_EditorScreen.get()), false);
 			renderManager->GetRenderAPI()->SetRenderTexture(m_EditorScreen, 0);
 			renderManager->SetFrameTexture(m_EditorScreen);
-
-			// TODO: Temporary, remove after testing
-			auto chunkManager = GameSmith::ChunkManager::GetInstance();
-			auto chunk = GameSmith::Ref<GameSmith::GameChunk>(new GameSmith::GameChunk());
-			chunkManager->LoadChunk(chunk->GetId(), chunk);
-
-			if (GameProject::IsLoaded()) {
-			
-			}
-			else {
-				
-			}
 		}
-		
+	}
+
+	void EditorCoreLayer::OnAttach()
+	{
+		auto ImGuiInstance = m_App.GetImGuiInstance();
+
+		ImGuiInstance->GetImGuiContext();
+		ImGui::SetCurrentContext(ImGuiInstance->GetImGuiContext());
+
+		ImGuiInstance->SetDockspace(true);
+
+		// TODO: Temporary, remove after testing
+		auto chunkManager = GameSmith::ChunkManager::GetInstance();
+		auto chunk = GameSmith::Ref<GameSmith::GameChunk>(new GameSmith::GameChunk());
+		chunkManager->LoadChunk(chunk->GetId(), chunk);
+
+		if (GameProject::IsLoaded()) {
+
+		}
+		else {
+
+		}
 	}
 
 	void EditorCoreLayer::OnImGuiRender()

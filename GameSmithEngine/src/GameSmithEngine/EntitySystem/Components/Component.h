@@ -8,7 +8,7 @@ namespace GameSmith {
 	class GameObject;
 	class Transform;
 
-	class Component {
+	class GE_API Component {
 	public:
 		Component() = default;
 		Component(GameObject* gameObject, Transform* transform): m_Initialized(false), m_GameObject(gameObject), m_Transform(transform) {}

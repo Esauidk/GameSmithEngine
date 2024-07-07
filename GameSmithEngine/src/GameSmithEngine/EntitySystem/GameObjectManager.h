@@ -1,9 +1,15 @@
 #pragma once
+#include "gepch.h"
 #include "GameObject.h"
 #include "GameSmithEngine/Core/Core.h"
 
 namespace GameSmith {
-	class GameObjectManager {
+	struct GameObjectMap {
+		std::unordered_map<ID, Ref<GameObject>, IDHasher> objects;
+		std::unordered_map<std::string, std::unordered_set<ID, IDHasher>> objectNames;
+	};
+
+	class GE_API GameObjectManager {
 	public:
 		GameObjectManager(bool override = false);
 		inline static GameObjectManager* GetInstance() { return s_Instance; }
@@ -25,9 +31,7 @@ namespace GameSmith {
 
 		unsigned int m_Counter = 0;
 
-
-		std::unordered_map<ID, Ref<GameObject>, ID> m_Objects;
-		std::unordered_map<std::string, std::unordered_set<ID, ID>> m_ObjectNames;
+		Scope<GameObjectMap> m_ObjectMaps;
 		std::queue<Ref<GameObject>> m_ToBeDeleted;
 	};
 

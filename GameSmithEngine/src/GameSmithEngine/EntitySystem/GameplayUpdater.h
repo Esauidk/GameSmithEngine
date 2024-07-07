@@ -4,7 +4,7 @@
 #include "GameSmithEngine/EntitySystem/Components/Component.h"
 
 namespace GameSmith {
-	class GameplayUpdater
+	class GE_API GameplayUpdater
 	{
 	public:
 		GameplayUpdater();

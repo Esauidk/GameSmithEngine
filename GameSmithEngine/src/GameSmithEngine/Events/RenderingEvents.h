@@ -2,7 +2,7 @@
 #include "Event.h"
 
 namespace GameSmith {
-	class EndFrameEvent : public Event {
+	class GE_API EndFrameEvent : public Event {
 	public:
 		EndFrameEvent() {};
 		std::string ToString() const override {

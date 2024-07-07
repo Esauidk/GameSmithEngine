@@ -1,3 +1,4 @@
+#include "GameSmithEngine/Core/Core.h"
 #include "GameSmithEngine/Events/Event.h"
 #include "GameSmithEngine/Events/ApplicationEvents.h"
 #include "GameSmithEngine/Events/MouseEvents.h"
@@ -27,7 +28,7 @@ namespace GameSmith {
 	// INTERFACE
 	// An abstract representation of a OS Window. This holds the responsibilitie of rendering a window to the screen
 	// and sending OS events relating to the Window.
-	class Window
+	class GE_API Window
 	{
 	public:
 		using EventFn = std::function<void(Event&)>;

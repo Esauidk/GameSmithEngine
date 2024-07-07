@@ -11,6 +11,7 @@
 
 #include "GameSmithEngine/Core/Application.h"
 #include "GameSmithEngine/Core/Log.h"
+#include "imgui.h"
 
 
 namespace GameSmith {
@@ -153,8 +154,6 @@ namespace GameSmith {
 
 	void ImGuiLayer::OnImGuiRender()
 	{
-		static bool show = true;
-		//ImGui::ShowDemoWindow(&show);
 	}
 
 	ImGuiTextureSpace ImGuiLayer::GenerateTextureSpace(Ref<RenderTexture> tex)
@@ -168,6 +167,11 @@ namespace GameSmith {
 		m_CurSlot++;
 
 		return {(void*)gpuSlot.ptr, m_CurSlot - 1};
+	}
+
+	ImGuiContext* ImGuiLayer::GetImGuiContext()
+	{
+		return ImGui::GetCurrentContext();
 	}
 
 	void ImGuiLayer::Begin() const

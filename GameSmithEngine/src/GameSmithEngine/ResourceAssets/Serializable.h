@@ -10,7 +10,7 @@ namespace GameSmith {
 	};
 
 	// Intertface for a class that can be serialize/deserialized
-	class Serializeable {
+	class GE_API Serializeable {
 	public:
 		Serializeable() : m_ID(GUIDGenerator::GenerateID()){}
 

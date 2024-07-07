@@ -15,27 +15,27 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{1A2CD029-86B7-3DEE-8FC8-C0E2FBD299EE}</ProjectGuid>
+    <ProjectGuid>{62CAB1E3-CE36-6DDE-972A-053C03568F46}</ProjectGuid>
     <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>GameSmithEngine</RootNamespace>
+    <RootNamespace>GameSmithEngineStatic</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'" Label="Configuration">
-    <ConfigurationType>DynamicLibrary</ConfigurationType>
+    <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
     <PlatformToolset>v143</PlatformToolset>
@@ -54,32 +54,29 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\bin\Debug-windows-x86_64\GameSmithEngine\</OutDir>
-    <IntDir>..\bin-int\Debug-windows-x86_64\GameSmithEngine\</IntDir>
-    <TargetName>GameSmithEngine</TargetName>
-    <TargetExt>.dll</TargetExt>
+    <OutDir>..\bin\Debug-windows-x86_64\GameSmithEngineStatic\</OutDir>
+    <IntDir>..\bin-int\Debug-windows-x86_64\GameSmithEngineStatic\</IntDir>
+    <TargetName>GameSmithEngineStatic</TargetName>
+    <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\bin\Release-windows-x86_64\GameSmithEngine\</OutDir>
-    <IntDir>..\bin-int\Release-windows-x86_64\GameSmithEngine\</IntDir>
-    <TargetName>GameSmithEngine</TargetName>
-    <TargetExt>.dll</TargetExt>
+    <OutDir>..\bin\Release-windows-x86_64\GameSmithEngineStatic\</OutDir>
+    <IntDir>..\bin-int\Release-windows-x86_64\GameSmithEngineStatic\</IntDir>
+    <TargetName>GameSmithEngineStatic</TargetName>
+    <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
-    <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\bin\Dist-windows-x86_64\GameSmithEngine\</OutDir>
-    <IntDir>..\bin-int\Dist-windows-x86_64\GameSmithEngine\</IntDir>
-    <TargetName>GameSmithEngine</TargetName>
-    <TargetExt>.dll</TargetExt>
+    <OutDir>..\bin\Dist-windows-x86_64\GameSmithEngineStatic\</OutDir>
+    <IntDir>..\bin-int\Dist-windows-x86_64\GameSmithEngineStatic\</IntDir>
+    <TargetName>GameSmithEngineStatic</TargetName>
+    <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>gepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GE_BUILD_DLL;GE_DYNAMIC_LINK;GE_PLATFORM_WINDOWS;GE_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GE_PLATFORM_WINDOWS;GE_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;third-party\spdlog\include;third-party\stb;third-party\imgui;third-party\glm;third-party\tinyobjloader;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -90,10 +87,9 @@
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <ImportLibrary>..\bin\Debug-windows-x86_64\GameSmithEngine\GameSmithEngine.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Debug-windows-x86_64\GameSmithEngine\**.cso\ (xcopy /Q /E /Y /I ..\bin\Debug-windows-x86_64\GameSmithEngine\**.cso ..\bin\Debug-windows-x86_64\TestZone &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Debug-windows-x86_64\GameSmithEngine\**.cso ..\bin\Debug-windows-x86_64\TestZone &gt; nul)</Command>
+      <Command>IF EXIST ..\bin\Debug-windows-x86_64\GameSmithEngineStatic\**.cso\ (xcopy /Q /E /Y /I ..\bin\Debug-windows-x86_64\GameSmithEngineStatic\**.cso ..\bin\Debug-windows-x86_64\TestZone &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Debug-windows-x86_64\GameSmithEngineStatic\**.cso ..\bin\Debug-windows-x86_64\TestZone &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -101,7 +97,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>gepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GE_BUILD_DLL;GE_DYNAMIC_LINK;GE_PLATFORM_WINDOWS;GE_Release;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GE_PLATFORM_WINDOWS;GE_Release;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;third-party\spdlog\include;third-party\stb;third-party\imgui;third-party\glm;third-party\tinyobjloader;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -116,10 +112,9 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <ImportLibrary>..\bin\Release-windows-x86_64\GameSmithEngine\GameSmithEngine.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Release-windows-x86_64\GameSmithEngine\**.cso\ (xcopy /Q /E /Y /I ..\bin\Release-windows-x86_64\GameSmithEngine\**.cso ..\bin\Release-windows-x86_64\TestZone &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Release-windows-x86_64\GameSmithEngine\**.cso ..\bin\Release-windows-x86_64\TestZone &gt; nul)</Command>
+      <Command>IF EXIST ..\bin\Release-windows-x86_64\GameSmithEngineStatic\**.cso\ (xcopy /Q /E /Y /I ..\bin\Release-windows-x86_64\GameSmithEngineStatic\**.cso ..\bin\Release-windows-x86_64\TestZone &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Release-windows-x86_64\GameSmithEngineStatic\**.cso ..\bin\Release-windows-x86_64\TestZone &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
@@ -127,7 +122,7 @@
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>gepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GE_BUILD_DLL;GE_DYNAMIC_LINK;GE_PLATFORM_WINDOWS;GE_Dist;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GE_PLATFORM_WINDOWS;GE_Dist;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;third-party\spdlog\include;third-party\stb;third-party\imgui;third-party\glm;third-party\tinyobjloader;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -142,10 +137,9 @@
       <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
-      <ImportLibrary>..\bin\Dist-windows-x86_64\GameSmithEngine\GameSmithEngine.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Dist-windows-x86_64\GameSmithEngine\**.cso\ (xcopy /Q /E /Y /I ..\bin\Dist-windows-x86_64\GameSmithEngine\**.cso ..\bin\Dist-windows-x86_64\TestZone &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Dist-windows-x86_64\GameSmithEngine\**.cso ..\bin\Dist-windows-x86_64\TestZone &gt; nul)</Command>
+      <Command>IF EXIST ..\bin\Dist-windows-x86_64\GameSmithEngineStatic\**.cso\ (xcopy /Q /E /Y /I ..\bin\Dist-windows-x86_64\GameSmithEngineStatic\**.cso ..\bin\Dist-windows-x86_64\TestZone &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Dist-windows-x86_64\GameSmithEngineStatic\**.cso ..\bin\Dist-windows-x86_64\TestZone &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

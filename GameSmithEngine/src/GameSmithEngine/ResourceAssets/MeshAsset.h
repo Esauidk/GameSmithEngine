@@ -12,7 +12,7 @@ namespace GameSmith {
 		Ref<IndexBuffer> m_Index;
 	};
 
-	class MeshAsset : public Serializeable
+	class GE_API MeshAsset : public Serializeable
 	{
 	public:
 		virtual Ref<char> Serialize() override;

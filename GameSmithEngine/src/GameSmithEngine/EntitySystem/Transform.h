@@ -1,10 +1,11 @@
 #pragma once
 #include "GameSmithEngine/ThirdPartySetups/GLM/GLMDefines.h"
 #include <glm/gtc/matrix_transform.hpp>
+#include "GameSmithEngine/Core/Core.h"
 #include "GameSmithEngine/ResourceAssets/Serializable.h"
 
 namespace GameSmith {
-	class Transform : public Serializeable
+	class GE_API Transform : public Serializeable
 	{
 	public:
 		Transform();

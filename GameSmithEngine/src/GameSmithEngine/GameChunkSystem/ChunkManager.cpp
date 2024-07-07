@@ -1,10 +1,13 @@
 #include "gepch.h"
 #include "ChunkManager.h"
-
 #include "GameSmithEngine/ResourceManagement/ResourceManager.h"
 
 namespace GameSmith {
 	ChunkManager* ChunkManager::s_Instance = nullptr;
+
+	ChunkManager::ChunkManager() : m_LoadedChunks(new ChunkMap())
+	{
+	}
 
 	void ChunkManager::Init()
 	{
@@ -17,33 +20,33 @@ namespace GameSmith {
 
 	void ChunkManager::LoadChunk(ID chunkAsset)
 	{
-		m_LoadedChunks.clear();
+		m_LoadedChunks->chunks.clear();
 		AppendChunk(chunkAsset);
-		m_CurrentMainChunk = m_LoadedChunks[chunkAsset];
+		m_CurrentMainChunk = m_LoadedChunks->chunks[chunkAsset];
 	}
 
 	void ChunkManager::LoadChunk(ID chunkAsset, Ref<GameChunk> gameChunk)
 	{
-		m_LoadedChunks.clear();
+		m_LoadedChunks->chunks.clear();
 		AppendChunk(chunkAsset, gameChunk);
-		m_CurrentMainChunk = m_LoadedChunks[chunkAsset];
+		m_CurrentMainChunk = m_LoadedChunks->chunks[chunkAsset];
 	}
 
 	void ChunkManager::AppendChunk(ID chunkAsset)
 	{
-		if (!m_LoadedChunks.contains(chunkAsset)) {
+		if (!m_LoadedChunks->chunks.contains(chunkAsset)) {
 			auto resourceManager = ResourceManager::GetInstance();
 
 			auto loadedAsset = resourceManager->GetResource<GameChunkAsset>(chunkAsset);
 
-			m_LoadedChunks.insert({ chunkAsset, loadedAsset->GenerateInstance() });
+			m_LoadedChunks->chunks.insert({ chunkAsset, loadedAsset->GenerateInstance() });
 		}
 	}
 
 	void ChunkManager::AppendChunk(ID chunkName, Ref<GameChunk> gameChunk)
 	{
-		if (!m_LoadedChunks.contains(chunkName)){
-			m_LoadedChunks.insert({ chunkName, gameChunk });
+		if (!m_LoadedChunks->chunks.contains(chunkName)){
+			m_LoadedChunks->chunks.insert({ chunkName, gameChunk });
 		}
 	}
 

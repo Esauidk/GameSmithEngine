@@ -4,7 +4,7 @@
 #include "GameSmithEngine/ResourceAssets/MaterialAsset.h"
 
 namespace GameSmith {
-	class MeshRenderer : public Component {
+	class GE_API MeshRenderer : public Component {
 	public:
 		MeshRenderer(GameObject* gameObject, Transform* transform) : Component(gameObject, transform) {}
 		virtual void OnStart() override {}

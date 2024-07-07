@@ -15,7 +15,7 @@
 
 namespace GameSmith {
 	// A logger class that allows the engine and clients to send types of logs to the console
-	class Log
+	class GE_API Log
 	{
 	public:
 		static void Init();

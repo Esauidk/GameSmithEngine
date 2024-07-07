@@ -78,7 +78,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>GE_PLATFORM_WINDOWS;GE_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GE_DYNAMIC_LINK;GE_PLATFORM_WINDOWS;GE_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\GameSmithEngine\src;..\GameSmithEngine\third-party\glm;..\GameSmithEngine\third-party\spdlog\include;..\GameSmithEngine\third-party\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -95,7 +95,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>GE_PLATFORM_WINDOWS;GE_Release;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GE_DYNAMIC_LINK;GE_PLATFORM_WINDOWS;GE_Release;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\GameSmithEngine\src;..\GameSmithEngine\third-party\glm;..\GameSmithEngine\third-party\spdlog\include;..\GameSmithEngine\third-party\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -116,7 +116,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>GE_PLATFORM_WINDOWS;GE_Dist;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GE_DYNAMIC_LINK;GE_PLATFORM_WINDOWS;GE_Dist;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>..\GameSmithEngine\src;..\GameSmithEngine\third-party\glm;..\GameSmithEngine\third-party\spdlog\include;..\GameSmithEngine\third-party\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>

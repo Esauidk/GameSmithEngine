@@ -20,7 +20,7 @@ namespace GameSmith {
 		}
 	}
 
-	ResourceManager::ResourceManager()
+	ResourceManager::ResourceManager() : m_ResourceMaps(new ResourceMaps())
 	{
 		if (s_Instance == nullptr) {
 			s_Instance = this;
@@ -60,7 +60,7 @@ namespace GameSmith {
 		metaFile.write((char*)&meta, sizeof(meta));
 		metaFile.close();
 
-		m_ResourceRegistry.insert({ id, path });
+		m_ResourceMaps->ResourceRegistry.insert({ id, path });
 
 		return id;
 	}
@@ -80,7 +80,7 @@ namespace GameSmith {
 		metaFile.write((char*)&meta, sizeof(meta));
 		metaFile.close();
 
-		m_ResourceRegistry.insert({ meta.ID, path });
+		m_ResourceMaps->ResourceRegistry.insert({ meta.ID, path });
 
 		return newID;
 	}
@@ -99,8 +99,8 @@ namespace GameSmith {
 						ResourceFileMetadata* metaPtr = (ResourceFileMetadata*)meta;
 						ID metaId(metaPtr->ID);
 
-						if (!m_ResourceRegistry.contains(metaId)) {
-							m_ResourceRegistry.insert({ metaId, path });
+						if (!m_ResourceMaps->ResourceRegistry.contains(metaId)) {
+							m_ResourceMaps->ResourceRegistry.insert({ metaId, path });
 						}
 					}
 					 
@@ -113,11 +113,11 @@ namespace GameSmith {
 
 	void ResourceManager::CleanResources()
 	{
-		auto it = m_ActiveResources.begin();
+		auto it = m_ResourceMaps->ActiveResources.begin();
 
-		while (it != m_ActiveResources.end()) {
+		while (it != m_ResourceMaps->ActiveResources.end()) {
 			if (it->second.use_count() == 1) {
-				it = m_ActiveResources.erase(it);
+				it = m_ResourceMaps->ActiveResources.erase(it);
 			}
 			else {
 				it++;

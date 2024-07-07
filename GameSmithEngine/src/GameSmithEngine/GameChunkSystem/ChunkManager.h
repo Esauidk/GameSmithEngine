@@ -1,14 +1,22 @@
 #pragma once
-
+#include "GameSmithEngine/Core/Core.h"
 #include "GameSmithEngine/Core/Log.h"
 #include "GameSmithEngine/GameChunkSystem/GameChunk.h"
 #include "GameSmithEngine/ResourceAssets/GameChunkAsset.h"
 
 namespace GameSmith {
-	class ChunkManager
+
+	struct ChunkMap
+	{
+		std::unordered_map<ID, Ref<GameChunk>, IDHasher> chunks;
+	};
+
+	class GE_API ChunkManager
 	{
 	public:
 		inline static ChunkManager* GetInstance() { return s_Instance; }
+		ChunkManager();
+
 		void Init();
 		void ShutDown() {};
 
@@ -25,9 +33,11 @@ namespace GameSmith {
 	private:
 		static ChunkManager* s_Instance;
 
-		std::unordered_map<ID, Ref<GameChunk>, ID> m_LoadedChunks;
+		Scope<ChunkMap> m_LoadedChunks;
 		Ref<GameChunk> m_CurrentMainChunk;
 	};
+
+	
 };
 
 

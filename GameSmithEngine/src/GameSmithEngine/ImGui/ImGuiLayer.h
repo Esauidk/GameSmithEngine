@@ -1,4 +1,5 @@
 #pragma once
+#include "GameSmithEngine/Core/Core.h"
 #include "GameSmithEngine/Core/Layer.h"
 #include "GameSmithEngine/Events/ApplicationEvents.h"
 #include "GameSmithEngine/Events/KeyboardEvents.h"
@@ -7,6 +8,7 @@
 #include "GameSmithEngine/Rendering/DirectX12/HeapStructures/DirectX12HeapDataBase.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/RenderComponents/Texture.h"
 
+struct ImGuiContext;
 namespace GameSmith {
 	struct ImGuiTextureSpace {
 		void* gpuSpot;
@@ -24,6 +26,8 @@ namespace GameSmith {
 
 		ImGuiTextureSpace GenerateTextureSpace(Ref<RenderTexture> tex);
 		inline void SetDockspace(bool enabled) { m_DockEnabled = enabled; };
+
+		ImGuiContext* GetImGuiContext();
 		void Begin() const;
 		void End() const;
 	private:

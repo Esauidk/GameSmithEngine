@@ -4,7 +4,7 @@
 #include "Serializable.h"
 
 namespace GameSmith {
-	class ShaderAsset : public Serializeable
+	class GE_API ShaderAsset : public Serializeable
 	{
 	public:
 		ShaderAsset() = default;

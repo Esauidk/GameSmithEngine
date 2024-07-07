@@ -12,7 +12,7 @@
 	}ClassType##Instance;
 
 namespace GameSmith {
-	class ComponentRegistry {
+	class GE_API ComponentRegistry {
 	public:
 		ComponentRegistry();
 		static ComponentRegistry* GetInstance();

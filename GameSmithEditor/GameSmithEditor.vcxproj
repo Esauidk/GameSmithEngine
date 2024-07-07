@@ -78,7 +78,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>GE_PLATFORM_WINDOWS;GE_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GE_DYNAMIC_LINK;GE_PLATFORM_WINDOWS;GE_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;..\GameSmithEngine\third-party\spdlog\include;..\GameSmithEngine\src;..\GameSmithEngine\third-party\glm;..\GameSmithEngine\third-party\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -95,7 +95,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>GE_PLATFORM_WINDOWS;GE_Release;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GE_DYNAMIC_LINK;GE_PLATFORM_WINDOWS;GE_Release;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;..\GameSmithEngine\third-party\spdlog\include;..\GameSmithEngine\src;..\GameSmithEngine\third-party\glm;..\GameSmithEngine\third-party\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -116,7 +116,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>GE_PLATFORM_WINDOWS;GE_Dist;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GE_DYNAMIC_LINK;GE_PLATFORM_WINDOWS;GE_Dist;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;..\GameSmithEngine\third-party\spdlog\include;..\GameSmithEngine\src;..\GameSmithEngine\third-party\glm;..\GameSmithEngine\third-party\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
@@ -162,6 +162,9 @@
     <ClCompile Include="src\GameSmithEditor\Windows\SimulationContentView.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\GameSmithEngine\third-party\imgui\ImGui.vcxproj">
+      <Project>{C0FF640D-2C14-8DBE-F595-301E616989EF}</Project>
+    </ProjectReference>
     <ProjectReference Include="..\GameSmithEngine\GameSmithEngine.vcxproj">
       <Project>{1A2CD029-86B7-3DEE-8FC8-C0E2FBD299EE}</Project>
     </ProjectReference>

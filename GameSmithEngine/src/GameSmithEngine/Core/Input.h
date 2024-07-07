@@ -1,10 +1,11 @@
 #pragma once
+#include "GameSmithEngine/Core/Core.h"
 
 namespace GameSmith {
 	// ABSTRACT CLASS
 	// This class lets you poll for inputs
 	// Implementors of this class need to implement protected methods according to their platforms
-	class Input {
+	class GE_API Input {
 	public:
 		inline static bool IsKeyPressed(int keycode) { return m_Instance->IsKeyPressedImpl(keycode); }
 
