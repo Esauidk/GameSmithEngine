@@ -32,7 +32,7 @@ namespace GameSmith {
 		idData m_Data;
 	};
 
-	class GUIDGenerator
+	class GE_API GUIDGenerator
 	{
 	public:
 		static ID GenerateID();

@@ -19,8 +19,8 @@ namespace GameSmith {
 	{
 	public:
 		static void Init();
-		inline static std::shared_ptr<spdlog::logger>& GetCoreLogger() { return p_CoreLogger; }
-		inline static std::shared_ptr<spdlog::logger>& GetAppLogger() { return p_AppLogger; }
+		static std::shared_ptr<spdlog::logger>& GetCoreLogger();
+		static std::shared_ptr<spdlog::logger>& GetAppLogger();
 	private:
 		static std::shared_ptr<spdlog::logger> p_CoreLogger;
 		static std::shared_ptr<spdlog::logger> p_AppLogger;

@@ -4,6 +4,7 @@
 
 #ifdef GE_PLATFORM_WINDOWS
 	#if GE_DYNAMIC_LINK
+		#pragma warning(disable: 4251)
 		#ifdef GE_BUILD_DLL
 			#define GE_API __declspec(dllexport)
 		#else

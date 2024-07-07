@@ -15,4 +15,14 @@ namespace GameSmith {
 		p_AppLogger = spdlog::stdout_color_mt("APPLICATION");
 		p_AppLogger->set_level(spdlog::level::trace);
 	}
+
+	std::shared_ptr<spdlog::logger>& Log::GetCoreLogger()
+	{
+		return p_CoreLogger;
+	}
+
+	std::shared_ptr<spdlog::logger>& Log::GetAppLogger()
+	{
+		return p_AppLogger;
+	}
 };
