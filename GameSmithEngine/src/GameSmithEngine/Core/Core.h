@@ -5,13 +5,17 @@
 #ifdef GE_PLATFORM_WINDOWS
 	#if GE_DYNAMIC_LINK
 		#pragma warning(disable: 4251)
+
 		#ifdef GE_BUILD_DLL
 			#define GE_API __declspec(dllexport)
 		#else
 			#define GE_API __declspec(dllimport)
 		#endif
+		
+		#define GE_EXPLCIT_EXPORT __declspec(dllexport)
 	#else
 		#define GE_API
+		#define GE_EXPLCIT_EXPORT
 	#endif
 #else
 	#error ONLY WINDOWS IS SUPPORTED!

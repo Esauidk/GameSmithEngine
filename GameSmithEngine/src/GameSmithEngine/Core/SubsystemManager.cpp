@@ -6,6 +6,7 @@ namespace GameSmith {
 		m_ResourceManager.Init(ResourceLoaderType::Heap);
 		m_RenderingManager.Init();
 		m_SceneManager.Init();
+		m_ContentLibraryManager.DiscoveryLibaries();
 	}
 
 	SubsystemManager::~SubsystemManager()

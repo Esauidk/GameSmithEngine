@@ -1,5 +1,4 @@
 #include "TestingLayer.h"
-#include "GameSmithEngine/ContentLibrarySystem/ContentLibraryManager.h"
 
 TestingLayer::TestingLayer() : GameSmith::Layer("Testing Layer")
 {
@@ -62,8 +61,8 @@ TestingLayer::TestingLayer() : GameSmith::Layer("Testing Layer")
 	asset->GenerateInstance();
 	i = 1;*/
 
-	GameSmith::ContentLibraryManager mg;
-	mg.LoadContentLibrary("test");
+	auto clib = GameSmith::ContentLibraryManager::GetInstance();
+	clib->LoadContentLibrary("GameProject.dll");
 
 	auto con = GameSmith::GameObjectManager::GetInstance()->CreateGameObject();
 	con.lock()->AddComponent("FakeComp");

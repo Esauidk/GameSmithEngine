@@ -5,6 +5,7 @@
 #include "GameSmithEngine/EntitySystem/GameplayUpdater.h"
 #include "GameSmithEngine/EntitySystem/EnitityRenderPreparer.h"
 #include "GameSmithEngine/GameChunkSystem/ChunkManager.h"
+#include "GameSmithEngine/ContentLibrarySystem/ContentLibraryManager.h"
 
 namespace GameSmith {
 	class SubsystemManager
@@ -21,6 +22,7 @@ namespace GameSmith {
 		GameObjectManager m_GameObjectManager;
 		GameplayUpdater m_GameplayUpdater;
 		EntityRenderPreparer m_EntityRenderPreparer;
+		ContentLibraryManager m_ContentLibraryManager;
 	};
 };
 
