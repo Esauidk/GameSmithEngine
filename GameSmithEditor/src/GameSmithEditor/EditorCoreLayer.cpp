@@ -4,7 +4,6 @@
 #include "SampleComponents/OrbitScript.h"
 #include "SampleComponents/BurstOrbitScript.h"
 
-// TODO: Don't manually import each layer/window
 #include "GameSmithEditor/Windows/AccessibleWindows.h"
 
 #include "imgui.h"
@@ -30,6 +29,8 @@ namespace GameSmithEditor {
 			GameSmith::RegisterEvent<GameSmith::WindowResizeEvent>(&GameSmith::Window::s_Resized, GE_BIND_EVENT_FN(GameSmith::RenderTexture::WindowResized, m_EditorScreen.get()), false);
 			renderManager->GetRenderAPI()->SetRenderTexture(m_EditorScreen, 0);
 			renderManager->SetFrameTexture(m_EditorScreen);
+
+			GameViewLayer::SetScreenTexture(m_EditorScreen);
 		}
 	}
 
@@ -76,19 +77,6 @@ namespace GameSmithEditor {
 					if (ImGui::MenuItem(windowEntry.first.c_str())) {
 						m_App.PushLayer(windowEntry.second());
 					}
-				}
-				if (ImGui::MenuItem("Game View")) {
-					auto gmView = new GameViewLayer();
-					gmView->SetScreenTexture(m_EditorScreen);
-					m_App.PushLayer(gmView);
-				}
-
-				if (ImGui::MenuItem("Simulation Content View")) {
-					m_App.PushLayer(new SimulationContentView());
-				}
-
-				if (ImGui::MenuItem("Game Object Details")) {
-					m_App.PushLayer(new GameObjectDetails());
 				}
 
 				ImGui::EndMenu();

@@ -5,12 +5,12 @@ namespace GameSmithEditor {
 	class GameViewLayer : public GameSmith::Layer {
 	public:
 		GameViewLayer();
-		inline void SetScreenTexture(GameSmith::Ref<GameSmith::RenderTexture> screenTex) { m_GameScreenTexture = screenTex; };
+		static inline void SetScreenTexture(GameSmith::Ref<GameSmith::RenderTexture> screenTex) { m_GameScreenTexture = screenTex; };
 		void OnImGuiRender() override;
 		void OnUpdate() override;
 	private:
+		static GameSmith::Ref<GameSmith::RenderTexture> m_GameScreenTexture;
 		GameSmith::Ref<GameSmith::RenderTexture> m_GameViewTexture;
-		GameSmith::Ref<GameSmith::RenderTexture> m_GameScreenTexture;
 		GameSmith::ImGuiTextureSpace m_GameViewHandle;
 	};
 };

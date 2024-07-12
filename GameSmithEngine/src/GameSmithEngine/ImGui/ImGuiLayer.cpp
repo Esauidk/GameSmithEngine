@@ -107,7 +107,7 @@ namespace GameSmith {
 	}
 
 	ImGuiLayer::ImGuiLayer() : Layer("ImGui Layer"), m_CurSlot(1), m_DockEnabled(false) {
-		m_Heap = DirectX12Core::GetCore().GetHeapDatabase()->AllocateHeap(2, DescriptorHeapType::CBVSRVUAV, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE, "IMGui Heap");
+		m_Heap = DirectX12Core::GetCore().GetHeapDatabase()->AllocateHeap(5, DescriptorHeapType::CBVSRVUAV, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE, "IMGui Heap");
 	}
 
 	ImGuiLayer::~ImGuiLayer() {

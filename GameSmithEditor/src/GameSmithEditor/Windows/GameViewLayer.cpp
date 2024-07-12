@@ -6,6 +6,8 @@ namespace GameSmithEditor {
 
 	GETR_REGISTEREDITORWINDOW(GameViewLayer);
 
+	GameSmith::Ref<GameSmith::RenderTexture> GameViewLayer::m_GameScreenTexture = nullptr;
+
 	GameViewLayer::GameViewLayer() : GameSmith::Layer("Game View")
 	{
 		auto& app = GameSmith::Application::Get();
