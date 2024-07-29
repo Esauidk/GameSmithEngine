@@ -16,6 +16,14 @@ namespace GameSmith {
 		return m_DeltaTime;
 	}
 
+	float Timer::MeasureWithoutMark()
+	{
+		const auto old = m_Last;
+		auto last = steady_clock::now();
+		const duration<float> frameTime = last - old;
+		return frameTime.count();
+	}
+
 	void Timer::Reset()
 	{
 		m_Last = steady_clock::now();

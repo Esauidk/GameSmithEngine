@@ -1,11 +1,12 @@
 #pragma once
-#include "GameSmithEditor/EngineDependenciesOnly.h"
+#include "GameSmithEngine.h"
 #include "vector"
+#include "EditorWindow.h"
 
 namespace GameSmithEditor {
-	class SimulationContentView : public GameSmith::Layer {
+	class SimulationContentView : public EditorWindow {
 	public:
-		SimulationContentView() : GameSmith::Layer("SimulationContentView") {}
+		SimulationContentView() : EditorWindow("SimulationContentView") {}
 		void OnImGuiRender() override;
 		void OnUpdate() override;
 		static inline GameSmith::Connection<GameSmith::GameObject> GetCurrentObject() { return m_SelectedObjected; }

@@ -61,6 +61,7 @@ namespace GameSmith {
 		metaFile.close();
 
 		m_ResourceMaps->ResourceRegistry.insert({ id, path });
+		m_ResourceMaps->ReverseResourceRegistry.insert({ path, meta.ID });
 
 		return id;
 	}
@@ -81,8 +82,18 @@ namespace GameSmith {
 		metaFile.close();
 
 		m_ResourceMaps->ResourceRegistry.insert({ meta.ID, path });
+		m_ResourceMaps->ReverseResourceRegistry.insert({ path, meta.ID });
 
 		return newID;
+	}
+
+	ID ResourceManager::GetAssetID(std::string path)
+	{
+		if (m_ResourceMaps->ReverseResourceRegistry.contains(path)) {
+			return m_ResourceMaps->ReverseResourceRegistry.find(path)->second;
+		}
+
+		return ID();
 	}
 
 	void ResourceManager::ScanResources()
@@ -101,10 +112,11 @@ namespace GameSmith {
 
 						if (!m_ResourceMaps->ResourceRegistry.contains(metaId)) {
 							m_ResourceMaps->ResourceRegistry.insert({ metaId, path });
+							m_ResourceMaps->ReverseResourceRegistry.insert({ path, metaId });
 						}
 					}
 					 
-					std::cout << dirEntry << std::endl;
+					GE_CORE_INFO(path);
 				}
 				
 			}

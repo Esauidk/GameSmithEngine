@@ -1,5 +1,5 @@
 #pragma once
-#include "GameSmithEditor/EngineDependenciesOnly.h"
+#include "GameSmithEngine.h"
 #include <random>
 
 namespace GameSmithEditor {

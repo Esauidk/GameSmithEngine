@@ -1,26 +1,27 @@
 #include "EditorCoreLayer.h"
 
 //TODO: Temporary, remove after demo
-#include "SampleComponents/OrbitScript.h"
-#include "SampleComponents/BurstOrbitScript.h"
+#include "GameSmithEditor/SampleComponents/OrbitScript.h"
+#include "GameSmithEditor/SampleComponents/BurstOrbitScript.h"
 
 #include "GameSmithEditor/Windows/AccessibleWindows.h"
 
 #include "imgui.h"
 #include "GameSmithEditor/Core/GameProject.h"
 
+#include "GameSmithEditor/Core/EditorMenu.h"
 #include "GameSmithEditor/Utils/SystemCallUtils.h"
 
 namespace GameSmithEditor {
 	EditorCoreLayer* EditorCoreLayer::s_Instance = nullptr;
-
-	std::unordered_map<std::string, std::function<GameSmith::Layer* ()>> EditorCoreLayer::m_WindowRegistry;
 
 	EditorCoreLayer::EditorCoreLayer() : GameSmith::Layer("Editor Core"), m_App(GameSmith::Application::Get())
 	{
 		if (s_Instance == nullptr) {
 			s_Instance = this;
 
+			auto contentMg = GameSmith::ContentLibraryManager::GetInstance();
+			contentMg->LoadAllLibraries();
 
 			auto renderManager = GameSmith::RenderingManager::GetInstance();
 			float color[4] = { 0.07f, 0.0f, 0.12f, 1.0f };
@@ -31,6 +32,8 @@ namespace GameSmithEditor {
 			renderManager->SetFrameTexture(m_EditorScreen);
 
 			GameViewLayer::SetScreenTexture(m_EditorScreen);
+
+			MenuRegistry::GetInstance()->RegisterMenuEntry("Files_Extra_Test", []() {GE_APP_INFO("HI"); });
 		}
 	}
 
@@ -43,11 +46,6 @@ namespace GameSmithEditor {
 
 		ImGuiInstance->SetDockspace(true);
 
-		// TODO: Temporary, remove after testing
-		auto chunkManager = GameSmith::ChunkManager::GetInstance();
-		auto chunk = GameSmith::Ref<GameSmith::GameChunk>(new GameSmith::GameChunk());
-		chunkManager->LoadChunk(chunk->GetId(), chunk);
-
 		if (GameProject::IsLoaded()) {
 
 		}
@@ -59,27 +57,38 @@ namespace GameSmithEditor {
 	void EditorCoreLayer::OnImGuiRender()
 	{
 		if (ImGui::BeginMainMenuBar()) {
-			if (ImGui::BeginMenu("File")) {
-				if (ImGui::MenuItem("New Project")) {
-					std::string rootFolder = PickFolderDialog("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone");
-					GameSmithEditor::GameProject::CreateProject("TestProjectDir", rootFolder);
+			std::vector<std::string> paths;
+			MenuExecutor::GetMenuPaths(&paths);
+
+			for (auto& menuItem : paths) {
+				std::vector<std::string> seperates;
+				std::istringstream ss(menuItem);
+
+				std::string s;
+				while (std::getline(ss, s, '_')) {
+					seperates.push_back(s);
 				}
 
-				if (ImGui::MenuItem("Load Project")) {
-					std::string rootFolder = PickFolderDialog("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone");
-					GameSmithEditor::GameProject::LoadProject(rootFolder);
-				}
-				ImGui::EndMenu();
-			}
-
-			if (ImGui::BeginMenu("Windows")) {
-				for (auto& windowEntry : m_WindowRegistry) {
-					if (ImGui::MenuItem(windowEntry.first.c_str())) {
-						m_App.PushLayer(windowEntry.second());
+				int size = seperates.size();
+				int menusCreated = 0;
+				for (int i = 0; i < size; i++) {
+					std::string& path = seperates[i];
+					if (i < size - 1) {
+						if (!ImGui::BeginMenu(path.c_str())) {
+							break;
+						}
+						menusCreated++;
+					}
+					else {
+						if (ImGui::MenuItem(path.c_str())) {
+							MenuExecutor::ExecuteCallBack(menuItem);
+						}
 					}
 				}
 
-				ImGui::EndMenu();
+				for (int i = 0; i < menusCreated; i++) {
+					ImGui::EndMenu();
+				}
 			}
 			
 			ImGui::EndMainMenuBar();
@@ -92,15 +101,4 @@ namespace GameSmithEditor {
 		auto renderManager = GameSmith::RenderingManager::GetInstance();
 		renderManager->SetForClear(m_EditorScreen);
 	}
-
-	void EditorCoreLayer::RegisterWindow(std::string windowName, std::function<GameSmith::Layer* ()> windowCreator)
-	{
-		if (m_WindowRegistry.contains(windowName)) {
-			GE_APP_WARN(std::format("There already exists a definition for the {0} window, overriting...", windowName));
-		}
-		
-		m_WindowRegistry.insert({ windowName, windowCreator });
-		
-	}
-
 };

@@ -22,8 +22,6 @@ namespace GameSmith {
 	}
 	
 
-	
-
 	void ComponentRegistry::ListRegisteredComponents(std::vector<std::string>* outVec)
 	{
 		for (auto entry : m_Generators) {

@@ -1,12 +1,13 @@
 #pragma once
-#include "GameSmithEditor/EngineDependenciesOnly.h"
+#include "GameSmithEngine.h"
+#include "EditorWindow.h"
 
 #define GAMEOBJECT_NAME_SIZE 500
 namespace GameSmithEditor {
-	class GameObjectDetails : public GameSmith::Layer
+	class GameObjectDetails : public EditorWindow
 	{
 	public:
-		GameObjectDetails() : GameSmith::Layer("GameObjectDetails") {}
+		GameObjectDetails() : EditorWindow("GameObjectDetails") {}
 		void OnImGuiRender() override;
 		void OnUpdate() override;
 	private:

@@ -1,8 +1,9 @@
 #pragma once
-#include "GameSmithEditor/EngineDependenciesOnly.h"
+#include "GameSmithEngine.h"
+#include "EditorWindow.h"
 
 namespace GameSmithEditor {
-	class GameViewLayer : public GameSmith::Layer {
+	class GameViewLayer : public EditorWindow {
 	public:
 		GameViewLayer();
 		static inline void SetScreenTexture(GameSmith::Ref<GameSmith::RenderTexture> screenTex) { m_GameScreenTexture = screenTex; };

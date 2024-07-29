@@ -61,11 +61,25 @@ TestingLayer::TestingLayer() : GameSmith::Layer("Testing Layer")
 	asset->GenerateInstance();
 	i = 1;*/
 
+	auto resourceMang = GameSmith::ResourceManager::GetInstance();
+	resourceMang->SetAssestDirectory("Assets");
+	resourceMang->ScanResources();
+
 	auto clib = GameSmith::ContentLibraryManager::GetInstance();
 	clib->LoadContentLibrary("GameProject.dll");
 
 	auto con = GameSmith::GameObjectManager::GetInstance()->CreateGameObject();
 	con.lock()->AddComponent("FakeComp");
+
+	auto renderManager = GameSmith::RenderingManager::GetInstance();
+	float color[4] = { 0.07f, 0.0f, 0.12f, 1.0f };
+	m_RenderTex = renderManager->GetRenderAPI()->CreateRenderTexture((float)GameSmith::Application::Get().GetWindow()->GetWidth(), (float)GameSmith::Application::Get().GetWindow()->GetHeight(), color);
+	GameSmith::RegisterEvent<GameSmith::WindowResizeEvent>(&GameSmith::Window::s_Resized, GE_BIND_EVENT_FN(GameSmith::RenderTexture::WindowResized, m_RenderTex.get()), false);
+	renderManager->GetRenderAPI()->SetRenderTexture(m_RenderTex, 0);
+	renderManager->SetFrameTexture(m_RenderTex);
+
+	auto chunkMang = GameSmith::ChunkManager::GetInstance();
+	chunkMang->LoadChunk(GameSmith::ID(2037171962, 44136, 18147, 1874979930048970142));
 }
 
 void TestingLayer::OnImGuiRender()
@@ -74,4 +88,6 @@ void TestingLayer::OnImGuiRender()
 
 void TestingLayer::OnUpdate()
 {
+	auto renderManager = GameSmith::RenderingManager::GetInstance();
+	renderManager->SetForClear(m_RenderTex);
 }

@@ -9,6 +9,7 @@ namespace GameSmith {
 		Timer();
 		// Mark the time that a frame completed, recording current state
 		float Mark();
+		float MeasureWithoutMark();
 		// Reset the timer as if time just started
 		void Reset();
 		// Get the total amount of time since the timer started recording (in seconds)

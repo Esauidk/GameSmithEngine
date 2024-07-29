@@ -14,7 +14,7 @@ namespace GameSmith {
 * Events: Momentary activities happening in the engine (ex: Mouse clicked)
 * Dispatcher: Notifier of events to listeners
 * A dispatcher will keep track of listeners for different events
-* Once events are fired the subset of listeners will be notifed
+* Once events are fired the set of listeners will be notifed
 */
 
 	enum class EventType {

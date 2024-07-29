@@ -118,9 +118,11 @@ namespace GameSmith {
 		}
 
 		auto frameTex = RenderingManager::GetInstance()->GetTextureForFrame();
-		auto d3Frame = CastPtr<DirectX12RenderTexture>(frameTex);
-
-		d3Frame->CopyToResource(m_BackBuffer, context);
+		if (frameTex != nullptr) {
+			auto d3Frame = CastPtr<DirectX12RenderTexture>(frameTex);
+			d3Frame->CopyToResource(m_BackBuffer, context);
+		}
+		
 		m_BackBuffer->GetResourceStateTracker().TransitionBarrier(D3D12_RESOURCE_STATE_PRESENT, context);
 		context->FinalizeCommandList();
 		context->SubmitCommandLists();

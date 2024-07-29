@@ -1,7 +1,6 @@
 #include "OrbitScript.h"
 
 namespace GameSmithEditor {
-	GE_REGISTERCOMPONENT(OrbitScript);
 
 	void OrbitScript::OnUpdate(float dt)
 	{

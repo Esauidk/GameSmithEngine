@@ -18,6 +18,7 @@ namespace GameSmith {
 	struct ResourceMaps {
 		std::unordered_map<ID, Ref<Serializeable>, IDHasher> ActiveResources;
 		std::unordered_map<ID, std::string, IDHasher> ResourceRegistry;
+		std::unordered_map<std::string, ID> ReverseResourceRegistry;
 	};
 
 	class GE_API ResourceManager
@@ -85,6 +86,8 @@ namespace GameSmith {
 
 		ID WriteResource(Ref<Serializeable> resource, std::string path);
 		ID ImportResource(std::string path);
+		ID GetAssetID(std::string path);
+
 		void ScanResources();
 		void CleanResources();
 

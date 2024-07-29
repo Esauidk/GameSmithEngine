@@ -1,12 +1,27 @@
 #include "GameProject.h"
 #include <filesystem>
 #include "GameSmithEngine/ResourceManagement/ResourceAssetHelper.h"
+#include "GameSmithEditor/Core/EditorMenu.h"
+#include "GameSmithEditor/Utils/SystemCallUtils.h"
 
 namespace GameSmithEditor {
+	REGISTER_EDITOR_MENU_OPTION(Files_CreateProject, &MenuCreateProject);
+	REGISTER_EDITOR_MENU_OPTION(Files_LoadProject, &MenuLoadProject);
+
 	const std::string GameProject::s_Folders[] = {"Assets", "Cache", "Src"};
 	const unsigned int GameProject::s_FolderCount = 3;
 
 	GameSmith::Ref<GameProject> GameProject::s_CurProject = nullptr;
+
+	void MenuCreateProject() {
+		std::string rootFolder = PickFolderDialog("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone");
+		GameSmithEditor::GameProject::CreateProject("TestProjectDir", rootFolder);
+	}
+
+	void MenuLoadProject() {
+		std::string rootFolder = PickFolderDialog("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone");
+		GameSmithEditor::GameProject::LoadProject(rootFolder);
+	}
 
 	static void SetupProjectResources() {
 		auto resourceManager = GameSmith::ResourceManager::GetInstance();

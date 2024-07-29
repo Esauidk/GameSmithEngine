@@ -1,3 +1,4 @@
+#pragma once
 #include "GameSmithEngine/Core/Core.h"
 #include "GameSmithEngine/Events/Event.h"
 #include "GameSmithEngine/Events/ApplicationEvents.h"

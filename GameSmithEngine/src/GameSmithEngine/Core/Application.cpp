@@ -18,6 +18,10 @@ namespace GameSmith {
 		RegisterEvent<WindowCloseEvent>(&Window::s_Close, GE_BIND_EVENT_FN(Application::OnWindowClose, this), false);
 		m_ImGuiLayer = new ImGuiLayer();
 		PushOverlay(m_ImGuiLayer);
+
+		m_Window->SetVSync(true);
+
+		m_FrameRateController.SetFrameRateLimiting(!m_Window->IsVSync());
 	}
 
 	bool Application::OnWindowClose(WindowCloseEvent& evn) {
@@ -36,7 +40,9 @@ namespace GameSmith {
 	void Application::Execute() {
 		m_Timer.Reset();
 		while (m_Running) {
+			m_FrameRateController.CheckAndPerformDelay();
 			float dt = m_Timer.Mark();
+
 			m_Window->OnUpdate();
 
 			m_SubSystems.Update(dt);

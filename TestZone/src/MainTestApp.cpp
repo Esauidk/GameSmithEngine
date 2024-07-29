@@ -1,3 +1,4 @@
+#define IMPORT_ENTRY
 #include <GameSmithEngine.h>
 #include "TestingLayer.h"
 

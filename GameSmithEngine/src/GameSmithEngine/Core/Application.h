@@ -8,6 +8,7 @@
 #include "GameSmithEngine/Core/MixStack.h"
 #include "GameSmithEngine/Core/Layer.h"
 #include "GameSmithEngine/Core/Timer.h"
+#include "GameSmithEngine/Core/FrameRateController.h"
 #include "GameSmithEngine/Core/SubsystemManager.h"
 
 #include "GameSmithEngine/ImGui/ImGuiLayer.h"
@@ -40,6 +41,7 @@ namespace GameSmith{
 	private:
 		bool m_Running = true;
 		Timer m_Timer;
+		FrameRateController m_FrameRateController;
 		SubsystemManager m_SubSystems;
 
 		Scope<Window> m_Window;

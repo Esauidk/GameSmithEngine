@@ -1,8 +1,11 @@
 #pragma once
 #include "gepch.h"
-#include "GameSmithEditor/EngineDependenciesOnly.h"
+#include "GameSmithEngine.h"
 
 namespace GameSmithEditor {
+	void MenuCreateProject();
+	void MenuLoadProject();
+
 	class GameProject
 	{
 	public:

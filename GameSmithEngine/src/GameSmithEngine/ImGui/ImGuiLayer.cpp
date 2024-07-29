@@ -154,6 +154,12 @@ namespace GameSmith {
 
 	void ImGuiLayer::OnImGuiRender()
 	{
+#ifdef GE_DEBUG
+		auto& timer = Application::Get().GetTimer();
+		ImGui::Begin("Game Stats");
+		ImGui::Text("FPS: %f", 1.0f / timer.GetDeltaTimeSeconds());
+		ImGui::End();
+#endif
 	}
 
 	ImGuiTextureSpace ImGuiLayer::GenerateTextureSpace(Ref<RenderTexture> tex)

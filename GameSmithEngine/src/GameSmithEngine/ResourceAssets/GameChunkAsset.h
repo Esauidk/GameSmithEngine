@@ -14,6 +14,8 @@ namespace GameSmith {
 		virtual unsigned int RequireSpace() const override;
 		virtual void Deserialize(char* inData, unsigned int size) override;
 
+		SERIAL_FILE(Game Chunk, chunk)
+
 		Ref<GameChunk> GenerateInstance();
 	private:
 		Ref<char> m_ChunkSerialization;

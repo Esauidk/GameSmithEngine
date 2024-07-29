@@ -23,9 +23,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\EngineDependenciesOnly.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="src\TestingLayer.h">
       <Filter>Header Files</Filter>
     </ClInclude>

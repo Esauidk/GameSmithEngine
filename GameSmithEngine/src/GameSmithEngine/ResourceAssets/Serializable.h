@@ -2,13 +2,12 @@
 #include "GameSmithEngine/Core/Core.h"
 #include "GameSmithEngine/Utilities/GUIDGenerator.h"
 
+#define SERIAL_FILE(FILE_TYPE, FILE_EXT) static std::string GetStaticFileExtension() {return #FILE_EXT;} \
+										static std::string GetStaticFileType() {return #FILE_TYPE;} \
+										virtual std::string GetFileExtension() const override {return GetStaticFileExtension();} \
+										virtual std::string GetFileType() const override {return GetStaticFileType();}
 
 namespace GameSmith {
-	struct SerializedMetadata {
-		unsigned int id;
-		std::string filePath;
-	};
-
 	// Intertface for a class that can be serialize/deserialized
 	class GE_API Serializeable {
 	public:
@@ -27,6 +26,9 @@ namespace GameSmith {
 
 		// Deserializes a byte array into the given class
 		virtual void Deserialize(char* inData, unsigned int size) = 0;
+
+		virtual std::string GetFileExtension() const { return "*"; }
+		virtual std::string GetFileType() const { return "Any"; }
 
 		inline const ID& GetId() { return m_ID; }
 		inline void SetId(ID& newId) { m_ID = newId; }

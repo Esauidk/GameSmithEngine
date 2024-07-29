@@ -1,14 +1,13 @@
 #include "GameViewLayer.h"
 #include "imgui.h"
-#include "GameSmithEditor/EditorCoreLayer.h"
 
 namespace GameSmithEditor {
 
-	GETR_REGISTEREDITORWINDOW(GameViewLayer);
+	REGISTER_WINDOW_DEFAULT_CALLBACK(Windows_GameViewLayer, GameViewLayer);
 
 	GameSmith::Ref<GameSmith::RenderTexture> GameViewLayer::m_GameScreenTexture = nullptr;
 
-	GameViewLayer::GameViewLayer() : GameSmith::Layer("Game View")
+	GameViewLayer::GameViewLayer() : EditorWindow("Game View")
 	{
 		auto& app = GameSmith::Application::Get();
 		auto renderManager = GameSmith::RenderingManager::GetInstance();
@@ -20,9 +19,12 @@ namespace GameSmithEditor {
 
 	void GameViewLayer::OnImGuiRender()
 	{
-		ImGui::Begin("Game View");
-		ImGui::Image((ImTextureID)m_GameViewHandle.gpuSpot, ImVec2(ImGui::GetWindowWidth(), ImGui::GetWindowHeight()));
-		ImGui::End();
+		if (ImGui::Begin("Game View")) {
+			ImGui::Image((ImTextureID)m_GameViewHandle.gpuSpot, ImVec2(ImGui::GetWindowWidth(), ImGui::GetWindowHeight()));
+			ImGui::End();
+		}
+		
+		
 	}
 
 	void GameViewLayer::OnUpdate()

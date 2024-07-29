@@ -34,6 +34,8 @@ namespace GameSmith {
 
 		void LoadContentLibrary(std::string libraryName);
 		void UnloadContentLibrary(std::string libraryName);
+
+		void LoadAllLibraries();
 	private:
 		std::unordered_map<std::string, DynamicLibraryDetails> m_Libraries;
 		static ContentLibraryManager* s_Instance;

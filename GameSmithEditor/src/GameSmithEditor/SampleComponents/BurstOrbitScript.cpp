@@ -1,9 +1,7 @@
 #include "BurstOrbitScript.h"
-
 #include "OrbitScript.h"
 
 namespace GameSmithEditor {
-	GE_REGISTERCOMPONENT(BurstOrbitScript);
 
 	void BurstOrbitScript::OnUpdate(float dt)
 	{

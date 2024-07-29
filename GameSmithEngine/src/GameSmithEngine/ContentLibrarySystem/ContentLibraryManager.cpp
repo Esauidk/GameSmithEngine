@@ -20,7 +20,7 @@ namespace GameSmith {
 
 	void ContentLibraryManager::DiscoveryLibaries()
 	{
-		for (const auto& dirEntry : recursive_directory_iterator("C:\\Users\\esaus\\Desktop\\TestProjectDir\\bin\\Debug-windows-x86_64\\GameProject")) {
+		for (const auto& dirEntry : recursive_directory_iterator("ContentLibraries")) {
 			if (dirEntry.is_regular_file()) {
 				std::string fileName = dirEntry.path().filename().string();
 				std::string path = dirEntry.path().string();
@@ -70,5 +70,12 @@ namespace GameSmith {
 #endif
 
 		libEntry->second.isLoaded = false;
+	}
+
+	void ContentLibraryManager::LoadAllLibraries()
+	{
+		for (auto& entry : m_Libraries) {
+			LoadContentLibrary(entry.first);
+		}
 	}
 };

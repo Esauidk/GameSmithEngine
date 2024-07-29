@@ -77,7 +77,7 @@
 // -------------- Utilities ----------------
 #include "GameSmithEngine/Utilities/ParameterContainer.h"
 
-#ifndef ENTRY_USED
+#ifdef IMPORT_ENTRY
 // ENTRY POINT TO GAME ENGINE
 #include "GameSmithEngine/Core/EntryPoint.h"
 #endif

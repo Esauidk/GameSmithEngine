@@ -89,7 +89,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Debug-windows-x86_64\GameSmithEngineStatic\**.cso\ (xcopy /Q /E /Y /I ..\bin\Debug-windows-x86_64\GameSmithEngineStatic\**.cso ..\bin\Debug-windows-x86_64\TestZone &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Debug-windows-x86_64\GameSmithEngineStatic\**.cso ..\bin\Debug-windows-x86_64\TestZone &gt; nul)</Command>
+      <Command>IF EXIST ..\bin\Debug-windows-x86_64\GameSmithEngineStatic\**.cso\ (xcopy /Q /E /Y /I ..\bin\Debug-windows-x86_64\GameSmithEngineStatic\**.cso ..\bin\Debug-windows-x86_64\TestZone &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Debug-windows-x86_64\GameSmithEngineStatic\**.cso ..\bin\Debug-windows-x86_64\TestZone &gt; nul)
+set GameSmithTargetDir=$(SolutionDir)/bin/Debug-windows-x86_64/$(ProjectName)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -114,7 +115,8 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Release-windows-x86_64\GameSmithEngineStatic\**.cso\ (xcopy /Q /E /Y /I ..\bin\Release-windows-x86_64\GameSmithEngineStatic\**.cso ..\bin\Release-windows-x86_64\TestZone &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Release-windows-x86_64\GameSmithEngineStatic\**.cso ..\bin\Release-windows-x86_64\TestZone &gt; nul)</Command>
+      <Command>IF EXIST ..\bin\Release-windows-x86_64\GameSmithEngineStatic\**.cso\ (xcopy /Q /E /Y /I ..\bin\Release-windows-x86_64\GameSmithEngineStatic\**.cso ..\bin\Release-windows-x86_64\TestZone &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Release-windows-x86_64\GameSmithEngineStatic\**.cso ..\bin\Release-windows-x86_64\TestZone &gt; nul)
+set GameSmithTargetDir=$(SolutionDir)/bin/Release-windows-x86_64/$(ProjectName)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
@@ -139,7 +141,8 @@
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Dist-windows-x86_64\GameSmithEngineStatic\**.cso\ (xcopy /Q /E /Y /I ..\bin\Dist-windows-x86_64\GameSmithEngineStatic\**.cso ..\bin\Dist-windows-x86_64\TestZone &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Dist-windows-x86_64\GameSmithEngineStatic\**.cso ..\bin\Dist-windows-x86_64\TestZone &gt; nul)</Command>
+      <Command>IF EXIST ..\bin\Dist-windows-x86_64\GameSmithEngineStatic\**.cso\ (xcopy /Q /E /Y /I ..\bin\Dist-windows-x86_64\GameSmithEngineStatic\**.cso ..\bin\Dist-windows-x86_64\TestZone &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Dist-windows-x86_64\GameSmithEngineStatic\**.cso ..\bin\Dist-windows-x86_64\TestZone &gt; nul)
+set GameSmithTargetDir=$(SolutionDir)/bin/Dist-windows-x86_64/$(ProjectName)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
