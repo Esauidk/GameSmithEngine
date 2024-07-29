@@ -64,7 +64,7 @@ Some **components** built into the engine currently:
 - Camera: Attaches a camera to a gameobject
 
 ## Game Smith Editor
-This is a simple application that links with the Game Engine DLL to enable creation of assets & content for a game compatible with the game smith engine. This is currently in a sandbox like state currently and can be used to visually test out user code
+This is a simple application that links with the Game Smith Engine DLL to enable creation of assets & content for a game compatible with the Game Smith Engine. This is currently in a sandbox like state and can be used to visually test out user code
 
 ## Game Smith Test Suite
 This is a google test suite application that runs a suite of unit tests made to test the correctness of code in the Game Smith Engine
