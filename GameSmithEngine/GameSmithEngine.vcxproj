@@ -149,13 +149,13 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\GameSmithEngine\Core\FrameRateController.h" />
     <ClInclude Include="src\GameSmithEngine.h" />
     <ClInclude Include="src\GameSmithEngine\ContentLibrarySystem\ContentLibraryManager.h" />
     <ClInclude Include="src\GameSmithEngine\ContentLibrarySystem\DefaultContentLibrary.h" />
     <ClInclude Include="src\GameSmithEngine\Core\Application.h" />
     <ClInclude Include="src\GameSmithEngine\Core\Core.h" />
     <ClInclude Include="src\GameSmithEngine\Core\EntryPoint.h" />
+    <ClInclude Include="src\GameSmithEngine\Core\FrameRateController.h" />
     <ClInclude Include="src\GameSmithEngine\Core\Input.h" />
     <ClInclude Include="src\GameSmithEngine\Core\KeyCodes.h" />
     <ClInclude Include="src\GameSmithEngine\Core\Layer.h" />
@@ -682,10 +682,10 @@
     <ClInclude Include="third-party\tinyobjloader\tiny_obj_loader.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\GameSmithEngine\Core\FrameRateController.cpp" />
     <ClCompile Include="src\GameSmithEngine\ContentLibrarySystem\ContentLibraryManager.cpp" />
     <ClCompile Include="src\GameSmithEngine\ContentLibrarySystem\DefaultContentLibrary.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\Application.cpp" />
+    <ClCompile Include="src\GameSmithEngine\Core\FrameRateController.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\Layer.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\Log.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\SubsystemManager.cpp" />

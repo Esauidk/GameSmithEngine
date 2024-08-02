@@ -159,6 +159,9 @@
     <ClInclude Include="src\GameSmithEngine\Core\EntryPoint.h">
       <Filter>src\GameSmithEngine\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\Core\FrameRateController.h">
+      <Filter>src\GameSmithEngine\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Core\Input.h">
       <Filter>src\GameSmithEngine\Core</Filter>
     </ClInclude>
@@ -1740,6 +1743,9 @@
       <Filter>src\GameSmithEngine\ContentLibrarySystem</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\Core\Application.cpp">
+      <Filter>src\GameSmithEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\Core\FrameRateController.cpp">
       <Filter>src\GameSmithEngine\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\Core\Layer.cpp">

@@ -18,13 +18,18 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\GameSmithEditor\Core\EditorCoreLayer.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEditor\Core\EditorMenu.h">
+      <Filter>Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\GameSmithEditor\Core\GameProject.h">
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEditor\CustomWidgets\ReferenceInputWidget.h">
       <Filter>CustomWidgets</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameSmithEditor\Core\EditorCoreLayer.h" />
     <ClInclude Include="src\GameSmithEditor\SampleComponents\BurstOrbitScript.h">
       <Filter>SampleComponents</Filter>
     </ClInclude>
@@ -40,6 +45,9 @@
     <ClInclude Include="src\GameSmithEditor\Windows\AssetDatabaseWindow.h">
       <Filter>Windows</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameSmithEditor\Windows\EditorWindow.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
     <ClInclude Include="src\GameSmithEditor\Windows\GameObjectDetails.h">
       <Filter>Windows</Filter>
     </ClInclude>
@@ -49,18 +57,23 @@
     <ClInclude Include="src\GameSmithEditor\Windows\SimulationContentView.h">
       <Filter>Windows</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameSmithEditor\Windows\EditorWindow.h" />
-    <ClInclude Include="src\GameSmithEditor\Core\EditorMenu.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\GameSmithEditor\Core\EditorApp.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEditor\Core\EditorCoreLayer.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEditor\Core\EditorMenu.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
     <ClCompile Include="src\GameSmithEditor\Core\GameProject.cpp">
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEditor\CustomWidgets\ReferenceInputWidget.cpp">
       <Filter>CustomWidgets</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameSmithEditor\Core\EditorApp.cpp" />
-    <ClCompile Include="src\GameSmithEditor\Core\EditorCoreLayer.cpp" />
     <ClCompile Include="src\GameSmithEditor\SampleComponents\BurstOrbitScript.cpp">
       <Filter>SampleComponents</Filter>
     </ClCompile>
@@ -82,6 +95,5 @@
     <ClCompile Include="src\GameSmithEditor\Windows\SimulationContentView.cpp">
       <Filter>Windows</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameSmithEditor\Core\EditorMenu.cpp" />
   </ItemGroup>
 </Project>

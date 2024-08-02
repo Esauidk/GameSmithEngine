@@ -89,8 +89,7 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Debug-windows-x86_64\GameSmithEngineStatic\**.cso\ (xcopy /Q /E /Y /I ..\bin\Debug-windows-x86_64\GameSmithEngineStatic\**.cso ..\bin\Debug-windows-x86_64\TestZone &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Debug-windows-x86_64\GameSmithEngineStatic\**.cso ..\bin\Debug-windows-x86_64\TestZone &gt; nul)
-set GameSmithTargetDir=$(SolutionDir)/bin/Debug-windows-x86_64/$(ProjectName)</Command>
+      <Command>IF EXIST ..\bin\Debug-windows-x86_64\GameSmithEngineStatic\**.cso\ (xcopy /Q /E /Y /I ..\bin\Debug-windows-x86_64\GameSmithEngineStatic\**.cso ..\bin\Debug-windows-x86_64\TestZone &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Debug-windows-x86_64\GameSmithEngineStatic\**.cso ..\bin\Debug-windows-x86_64\TestZone &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -115,8 +114,7 @@ set GameSmithTargetDir=$(SolutionDir)/bin/Debug-windows-x86_64/$(ProjectName)</C
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Release-windows-x86_64\GameSmithEngineStatic\**.cso\ (xcopy /Q /E /Y /I ..\bin\Release-windows-x86_64\GameSmithEngineStatic\**.cso ..\bin\Release-windows-x86_64\TestZone &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Release-windows-x86_64\GameSmithEngineStatic\**.cso ..\bin\Release-windows-x86_64\TestZone &gt; nul)
-set GameSmithTargetDir=$(SolutionDir)/bin/Release-windows-x86_64/$(ProjectName)</Command>
+      <Command>IF EXIST ..\bin\Release-windows-x86_64\GameSmithEngineStatic\**.cso\ (xcopy /Q /E /Y /I ..\bin\Release-windows-x86_64\GameSmithEngineStatic\**.cso ..\bin\Release-windows-x86_64\TestZone &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Release-windows-x86_64\GameSmithEngineStatic\**.cso ..\bin\Release-windows-x86_64\TestZone &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
@@ -141,8 +139,7 @@ set GameSmithTargetDir=$(SolutionDir)/bin/Release-windows-x86_64/$(ProjectName)<
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Dist-windows-x86_64\GameSmithEngineStatic\**.cso\ (xcopy /Q /E /Y /I ..\bin\Dist-windows-x86_64\GameSmithEngineStatic\**.cso ..\bin\Dist-windows-x86_64\TestZone &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Dist-windows-x86_64\GameSmithEngineStatic\**.cso ..\bin\Dist-windows-x86_64\TestZone &gt; nul)
-set GameSmithTargetDir=$(SolutionDir)/bin/Dist-windows-x86_64/$(ProjectName)</Command>
+      <Command>IF EXIST ..\bin\Dist-windows-x86_64\GameSmithEngineStatic\**.cso\ (xcopy /Q /E /Y /I ..\bin\Dist-windows-x86_64\GameSmithEngineStatic\**.cso ..\bin\Dist-windows-x86_64\TestZone &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Dist-windows-x86_64\GameSmithEngineStatic\**.cso ..\bin\Dist-windows-x86_64\TestZone &gt; nul)</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -152,6 +149,7 @@ set GameSmithTargetDir=$(SolutionDir)/bin/Dist-windows-x86_64/$(ProjectName)</Co
     <ClInclude Include="src\GameSmithEngine\Core\Application.h" />
     <ClInclude Include="src\GameSmithEngine\Core\Core.h" />
     <ClInclude Include="src\GameSmithEngine\Core\EntryPoint.h" />
+    <ClInclude Include="src\GameSmithEngine\Core\FrameRateController.h" />
     <ClInclude Include="src\GameSmithEngine\Core\Input.h" />
     <ClInclude Include="src\GameSmithEngine\Core\KeyCodes.h" />
     <ClInclude Include="src\GameSmithEngine\Core\Layer.h" />
@@ -681,6 +679,7 @@ set GameSmithTargetDir=$(SolutionDir)/bin/Dist-windows-x86_64/$(ProjectName)</Co
     <ClCompile Include="src\GameSmithEngine\ContentLibrarySystem\ContentLibraryManager.cpp" />
     <ClCompile Include="src\GameSmithEngine\ContentLibrarySystem\DefaultContentLibrary.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\Application.cpp" />
+    <ClCompile Include="src\GameSmithEngine\Core\FrameRateController.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\Layer.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\Log.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\SubsystemManager.cpp" />

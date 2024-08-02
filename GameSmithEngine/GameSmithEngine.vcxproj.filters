@@ -159,6 +159,9 @@
     <ClInclude Include="src\GameSmithEngine\Core\EntryPoint.h">
       <Filter>src\GameSmithEngine\Core</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\Core\FrameRateController.h">
+      <Filter>src\GameSmithEngine\Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Core\Input.h">
       <Filter>src\GameSmithEngine\Core</Filter>
     </ClInclude>
@@ -1731,7 +1734,6 @@
     <ClInclude Include="third-party\tinyobjloader\tiny_obj_loader.h">
       <Filter>third-party\tinyobjloader</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameSmithEngine\Core\FrameRateController.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GameSmithEngine\ContentLibrarySystem\ContentLibraryManager.cpp">
@@ -1741,6 +1743,9 @@
       <Filter>src\GameSmithEngine\ContentLibrarySystem</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\Core\Application.cpp">
+      <Filter>src\GameSmithEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\Core\FrameRateController.cpp">
       <Filter>src\GameSmithEngine\Core</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\Core\Layer.cpp">
@@ -1935,6 +1940,5 @@
     <ClCompile Include="third-party\stb\std_image.cpp">
       <Filter>third-party\stb</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameSmithEngine\Core\FrameRateController.cpp" />
   </ItemGroup>
 </Project>
