@@ -9,10 +9,8 @@
 
 namespace GameSmith {
 	// Intertface for a class that can be serialize/deserialized
-	class GE_API Serializeable {
+	class GE_API Serializeable : public IDObject {
 	public:
-		Serializeable() : m_ID(GUIDGenerator::GenerateID()){}
-
 		// Serialize the interface implementor
 		// Returns a pointer to a byte array containing the serialized class
 		virtual Ref<char> Serialize() = 0;
@@ -29,10 +27,5 @@ namespace GameSmith {
 
 		virtual std::string GetFileExtension() const { return "*"; }
 		virtual std::string GetFileType() const { return "Any"; }
-
-		inline const ID& GetId() { return m_ID; }
-		inline void SetId(ID& newId) { m_ID = newId; }
-	private:
-		ID m_ID;
 	};
 };

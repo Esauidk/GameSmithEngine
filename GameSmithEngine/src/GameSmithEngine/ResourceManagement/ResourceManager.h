@@ -53,7 +53,7 @@ namespace GameSmith {
 			ResourceFileMetadata* metaPtr = (ResourceFileMetadata*)meta;
 			ID metaId(metaPtr->ID);
 
-			resource->SetId(metaId);
+			resource->SetID(metaId);
 
 			m_ResourceMaps->ActiveResources.insert({ asset, resource });
 

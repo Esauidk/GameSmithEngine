@@ -3,7 +3,6 @@
 
 
 #include "MeshRenderer.h"
-#include "TestComponent.h"
 
 
 namespace GameSmith {

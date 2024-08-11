@@ -89,6 +89,12 @@ namespace GameSmithEditor {
 						auto parameter = entry.second;
 						GenerateVariableUI(parameter);
 					}
+
+					auto refMap = m_ExposedRefs.find(name)->second;
+					for (auto& entry : refMap) {
+						InputReference(entry.first, entry.second);
+					}
+
 				}
 			}
 
@@ -116,8 +122,11 @@ namespace GameSmithEditor {
 					auto newComponent = m_Object.lock()->AddComponent(m_CurCompSelection).lock();
 					m_Components.push_back(newComponent);
 					std::unordered_map<std::string, GameSmith::Ref<GameSmith::ParameterContainer>> compMap;
+					std::unordered_map<std::string, GameSmith::Ref<GameSmith::RefContainer>> refMap;
 					newComponent->GenerateVariableEntries(&compMap);
+					newComponent->GenerateReferenceEntries(&refMap);
 					m_ExposedVariables.insert({ newComponent->GetName(), compMap });
+					m_ExposedRefs.insert({ newComponent->GetName(), refMap });
 
 					// TODO: Temporary
 					if (m_CurCompSelection == "MeshRenderer") {
@@ -157,15 +166,18 @@ namespace GameSmithEditor {
 
 				for (auto comp : m_Components) {
 					std::unordered_map<std::string, GameSmith::Ref<GameSmith::ParameterContainer>> compMap;
+					std::unordered_map<std::string, GameSmith::Ref<GameSmith::RefContainer>> refMap;
 					comp.lock()->GenerateVariableEntries(&compMap);
+					comp.lock()->GenerateReferenceEntries(&refMap);
 					m_ExposedVariables.insert({ comp.lock()->GetName(), compMap });
+					m_ExposedRefs.insert({ comp.lock()->GetName(), refMap });
 				}
 			}
 		}
 		else {
 			for (auto comp : m_Components) {
 				std::unordered_map<std::string, GameSmith::Ref<GameSmith::ParameterContainer>>& compMap = m_ExposedVariables.find(comp.lock()->GetName())->second;
-				comp.lock()->BootstrapRegistry(compMap);
+				comp.lock()->BootstrapVariableRegistry(compMap);
 			}
 		}
 	}

@@ -2,9 +2,23 @@
 #include "TestComponent.h"
 #include "GameSmithEngine/Core/Log.h"
 #include "GameSmithEngine/EntitySystem/Components/ComponentFactory.h"
+#include "GameSmithEngine/EntitySystem/GameObject.h"
 
 namespace GameSmith {
 	GE_REGISTERCOMPONENT(TestComponent)
+
+	TestComponent::TestComponent(GameObject* gameObject, Transform* transform) : Component(gameObject, transform) {
+		m_Registry.AddExposedVariable("Test Variable1", (void*)&expose1, ContainerDataType::Float);
+		m_Registry.AddExposedVariable("Test Variable2", (void*)glm::value_ptr(expose2), ContainerDataType::Float2);
+		m_Registry.AddExposedVariable("Test Variable3", (void*)glm::value_ptr(expose3), ContainerDataType::Float3);
+		m_Registry.AddExposedVariable("Test Variable4", (void*)glm::value_ptr(expose4), ContainerDataType::Float4);
+		m_Registry.AddExposedVariable("Test Variable5", (void*)&expose5, ContainerDataType::Int);
+		m_Registry.AddExposedVariable("Test Variable6", (void*)&expose6, ContainerDataType::Int2);
+		m_Registry.AddExposedVariable("Test Variable7", (void*)&expose7, ContainerDataType::Int3);
+		m_Registry.AddExposedVariable("Test Variable8", (void*)&expose8, ContainerDataType::Int4);
+		m_Registry.AddExposedRef<GameObject>("TestRef", (Connection<GameSmith::IDObject>*) & m_TestRef);
+		m_Registry.AddExposedRef<TestComponent>("TestRef1", (Connection<GameSmith::IDObject>*) & m_TestCompRef);
+	}
 
 	void TestComponent::OnStart()
 	{

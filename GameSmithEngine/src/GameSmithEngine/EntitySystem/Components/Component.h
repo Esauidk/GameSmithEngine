@@ -8,7 +8,7 @@ namespace GameSmith {
 	class GameObject;
 	class Transform;
 
-	class GE_API Component {
+	class GE_API Component : public IDObject {
 	public:
 		Component() = default;
 		Component(GameObject* gameObject, Transform* transform): m_Initialized(false), m_GameObject(gameObject), m_Transform(transform) {}
@@ -19,9 +19,14 @@ namespace GameSmith {
 		virtual int GetPriority() const = 0;
 		virtual std::string GetName() const = 0;
 
-		inline void BootstrapRegistry(std::unordered_map<std::string, Ref<ParameterContainer>>& variableEntries) { 
+		inline void BootstrapVariableRegistry(std::unordered_map<std::string, Ref<ParameterContainer>>& variableEntries) { 
 			m_Registry.BootstrapFromValueMap(variableEntries); 
 			PostRegistryBootstrap(); 
+		}
+
+		inline void BootstrapReferenceRegistry(std::unordered_map<std::string, Ref<RefContainer>>& refEntries) {
+			m_Registry.BootstrapFromRefMap(refEntries);
+			PostRegistryBootstrap();
 		}
 
 		inline unsigned int RegistrySerializationSize() { return m_Registry.RequireSpace(); }
@@ -31,6 +36,7 @@ namespace GameSmith {
 
 		virtual void PostRegistryBootstrap() {};
 		void GenerateVariableEntries(std::unordered_map<std::string, Ref<ParameterContainer>>* outMap) { m_Registry.GenerateVariableMap(outMap); }
+		void GenerateReferenceEntries(std::unordered_map<std::string, Ref<RefContainer>>* outMap) { m_Registry.GenerateReferenceMap(outMap); }
 		GameObject* GetGameObject() { return m_GameObject; }
 		Transform* GetTransform() { return m_Transform; }
 	protected:

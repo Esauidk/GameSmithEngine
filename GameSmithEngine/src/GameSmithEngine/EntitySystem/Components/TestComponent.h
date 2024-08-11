@@ -2,19 +2,10 @@
 #include "Component.h"
 
 namespace GameSmith {
-	class TestComponent : public Component {
+	class GE_API TestComponent : public Component {
 	public:
-		TestComponent(GameObject* gameObject, Transform* transform) : Component(gameObject, transform) {
-			m_Registry.AddExposedVariable("Test Variable1", { (void*)&expose1, ContainerDataType::Float });
-			m_Registry.AddExposedVariable("Test Variable2", { (void*)glm::value_ptr(expose2), ContainerDataType::Float2 });
-			m_Registry.AddExposedVariable("Test Variable3", { (void*)glm::value_ptr(expose3), ContainerDataType::Float3 });
-			m_Registry.AddExposedVariable("Test Variable4", { (void*)glm::value_ptr(expose4), ContainerDataType::Float4 });
-			m_Registry.AddExposedVariable("Test Variable5", { (void*)&expose5, ContainerDataType::Int });
-			m_Registry.AddExposedVariable("Test Variable6", { (void*)&expose6, ContainerDataType::Int2 });
-			m_Registry.AddExposedVariable("Test Variable7", { (void*)&expose7, ContainerDataType::Int3 });
-			m_Registry.AddExposedVariable("Test Variable8", { (void*)&expose8, ContainerDataType::Int4 });
+		TestComponent(GameObject* gameObject, Transform* transform);
 
-		}
 		virtual void OnStart() override;
 		virtual void OnUpdate(float dt) override;
 		virtual void OnDestroy() override;
@@ -30,5 +21,7 @@ namespace GameSmith {
 		int expose6[2] = {0};
 		int expose7[3] = {0};
 		int expose8[4] = {0};
+		Connection<GameObject> m_TestRef;
+		Connection<TestComponent> m_TestCompRef;
 	};
 };

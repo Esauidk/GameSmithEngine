@@ -45,15 +45,15 @@ namespace GameSmith {
 		}
 
 		Ref<GameObject> gameObject = Ref<GameObject>(new GameObject(objectName));
-		m_ObjectMaps->objects.insert({ gameObject->GetId(), gameObject });
+		m_ObjectMaps->objects.insert({ gameObject->GetID(), gameObject });
 		m_Counter++;
 
 		if (m_ObjectMaps->objectNames.contains(objectName)) {
 			auto entry = m_ObjectMaps->objectNames.find(objectName);
-			entry->second.insert(gameObject->GetId());
+			entry->second.insert(gameObject->GetID());
 		}
 		else {
-			m_ObjectMaps->objectNames.insert({ objectName, {gameObject->GetId()} });
+			m_ObjectMaps->objectNames.insert({ objectName, {gameObject->GetID()} });
 		}
 
 		auto transform = gameObject->GetTransform();
@@ -93,12 +93,12 @@ namespace GameSmith {
 	{
 		if (!object.expired()) {
 			auto temp = object.lock();
-			if (temp.get() != nullptr && m_ObjectMaps->objects.contains(temp->GetId())) {
-				auto objItem = m_ObjectMaps->objects.find(temp->GetId());
+			if (temp.get() != nullptr && m_ObjectMaps->objects.contains(temp->GetID())) {
+				auto objItem = m_ObjectMaps->objects.find(temp->GetID());
 				auto nameItem = m_ObjectMaps->objectNames.find(temp->GetName());
 
-				if (nameItem->second.contains(temp->GetId())) {
-					nameItem->second.erase(temp->GetId());
+				if (nameItem->second.contains(temp->GetID())) {
+					nameItem->second.erase(temp->GetID());
 
 					if (nameItem->second.size() == 0) {
 						m_ObjectMaps->objectNames.erase(temp->GetName());
@@ -119,7 +119,7 @@ namespace GameSmith {
 			if (temp.get() != nullptr && m_ObjectMaps->objectNames.contains(temp->GetName())) {
 				auto item = m_ObjectMaps->objectNames.find(temp->GetName());
 				
-				auto ID = temp->GetId(); 
+				auto ID = temp->GetID(); 
 				if (item->second.contains(ID)) {
 					item->second.erase(ID);
 

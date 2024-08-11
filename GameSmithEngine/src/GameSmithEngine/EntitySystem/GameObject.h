@@ -10,6 +10,7 @@
 
 
 namespace GameSmith {
+
 	class GE_API GameObject : public Serializeable {
 	public:
 		GameObject(std::string name = DEFAULT_GAMEOBJECT_NAME);
@@ -89,6 +90,7 @@ namespace GameSmith {
 
 		struct GameObjectSerialMetadata {
 			unsigned int numComponents;
+			idData IDdata;
 		};
 	};
 };

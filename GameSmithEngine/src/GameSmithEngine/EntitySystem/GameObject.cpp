@@ -42,6 +42,7 @@ namespace GameSmith {
 		
 		GameObjectSerialMetadata md;
 		md.numComponents = (unsigned int)m_Components.size();
+		md.IDdata = GetID().getData();
 
 		writer.WriteClass<GameObjectSerialMetadata>(&md);
 
@@ -52,6 +53,8 @@ namespace GameSmith {
 
 		for (auto comp : m_Components) {
 			writer.WriteString(comp->GetName());
+			idData data = comp->GetID().getData();
+			writer.WriteClass<idData>(&data);
 			comp->SerializeRegistry(writer.GetCurPtr(), writer.GetRemainingSpace());
 		}
 
@@ -67,6 +70,7 @@ namespace GameSmith {
 		
 		GameObjectSerialMetadata md;
 		md.numComponents = (unsigned int)m_Components.size();
+		md.IDdata = GetID().getData();
 
 		writer.WriteClass<GameObjectSerialMetadata>(&md);
 
@@ -77,6 +81,8 @@ namespace GameSmith {
 
 		for (auto comp : m_Components) {
 			writer.WriteString(comp->GetName());
+			idData data = comp->GetID().getData();
+			writer.WriteClass<idData>(&data);
 			comp->SerializeRegistry(writer.GetCurPtr(), writer.GetRemainingSpace());
 		}
 
@@ -92,6 +98,7 @@ namespace GameSmith {
 
 		for (auto comp : m_Components) {
 			size += (unsigned int)comp->GetName().length() + 1;
+			size += sizeof(idData);
 			size += comp->RegistrySerializationSize();
 		}
 
@@ -105,6 +112,9 @@ namespace GameSmith {
 		ResourceAssetReader reader(inData, size);
 
 		auto md = reader.ReadClass<GameObjectSerialMetadata>();
+		ID newID(md->IDdata);
+		SetID(newID);
+
 		m_Transform->Deserialize(reader.GetCurPtr(), reader.GetRemainingBytes());
 		reader.MoveForward(m_Transform->RequireSpace());
 
@@ -112,8 +122,11 @@ namespace GameSmith {
 
 		for (unsigned int i = 0; i < md->numComponents; i++) {
 			auto compName = reader.GetString();
+			auto id = reader.ReadClass<idData>();
+			ID newID(*id);
 			auto comp = AddComponent(compName).lock();
 			comp->DeserializeRegistry(reader.GetCurPtr(), reader.GetRemainingBytes());
+			comp->SetID(newID);
 			reader.MoveForward(comp->RegistrySerializationSize());
 		}
 	}

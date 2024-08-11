@@ -14,6 +14,7 @@ namespace GameSmithEditor {
 		GameSmith::Connection<GameSmith::GameObject> m_Object;
 		std::vector<GameSmith::Connection<GameSmith::Component>> m_Components;
 		std::unordered_map<std::string, std::unordered_map<std::string, GameSmith::Ref<GameSmith::ParameterContainer>>> m_ExposedVariables;
+		std::unordered_map <std::string, std::unordered_map<std::string, GameSmith::Ref<GameSmith::RefContainer>>> m_ExposedRefs;
 		std::string m_CurCompSelection;
 		char m_InputName[GAMEOBJECT_NAME_SIZE] = "";
 	};

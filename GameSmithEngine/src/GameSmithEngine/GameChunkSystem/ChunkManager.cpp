@@ -16,7 +16,7 @@ namespace GameSmith {
 		if (s_Instance == nullptr) {
 			s_Instance = this;
 			auto chunk = GameSmith::Ref<GameSmith::GameChunk>(new GameSmith::GameChunk());
-			LoadChunk(chunk->GetId(), chunk);
+			LoadChunk(chunk->GetID(), chunk);
 		}
 	}
 

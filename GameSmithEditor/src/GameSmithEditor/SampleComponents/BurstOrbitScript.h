@@ -6,9 +6,9 @@ namespace GameSmithEditor {
 	class BurstOrbitScript : public GameSmith::Component {
 	public:
 		BurstOrbitScript(GameSmith::GameObject* gameObject, GameSmith::Transform* transform) : Component(gameObject, transform) {
-			m_Registry.AddExposedVariable("Num of Objects", { &m_NumObjs, GameSmith::ContainerDataType::Int });
-			m_Registry.AddExposedVariable("Origin Point", { glm::value_ptr(m_Center), GameSmith::ContainerDataType::Float3 });
-			m_Registry.AddExposedVariable("Time Scale", { &m_TimeScale, GameSmith::ContainerDataType::Float });
+			m_Registry.AddExposedVariable("Num of Objects", &m_NumObjs, GameSmith::ContainerDataType::Int);
+			m_Registry.AddExposedVariable("Origin Point", glm::value_ptr(m_Center), GameSmith::ContainerDataType::Float3);
+			m_Registry.AddExposedVariable("Time Scale", &m_TimeScale, GameSmith::ContainerDataType::Float);
 		}
 
 		virtual void OnStart() override { }

@@ -1,5 +1,7 @@
 #include "TestingLayer.h"
 
+GE_REGISTERCOMPONENT(TestLayerComponent)
+
 TestingLayer::TestingLayer() : GameSmith::Layer("Testing Layer")
 {
 
@@ -65,11 +67,44 @@ TestingLayer::TestingLayer() : GameSmith::Layer("Testing Layer")
 	resourceMang->SetAssestDirectory("Assets");
 	resourceMang->ScanResources();
 
-	auto clib = GameSmith::ContentLibraryManager::GetInstance();
-	clib->LoadContentLibrary("GameProject.dll");
-
 	auto con = GameSmith::GameObjectManager::GetInstance()->CreateGameObject();
-	con.lock()->AddComponent("FakeComp");
+	auto compe = con.lock()->AddComponent<GameSmith::TestComponent>();
+	std::unordered_map<std::string, GameSmith::Ref<GameSmith::ParameterContainer>> varEntries;
+	compe.lock()->GenerateVariableEntries(&varEntries);
+	auto v1 = varEntries.find("Test Variable1");
+	auto f1 = GameSmith::CastPtr<GameSmith::FloatContainer>(v1->second);
+	glm::vec1 rawf1(1.0f);
+	f1->SetData(rawf1);
+	compe.lock()->BootstrapVariableRegistry(varEntries);
+
+	auto con1 = GameSmith::GameObjectManager::GetInstance()->CreateGameObject();
+	auto comp = con1.lock()->AddComponent<TestLayerComponent>();
+
+	std::unordered_map<std::string, GameSmith::Ref<GameSmith::RefContainer>> refEntries;
+	comp.lock()->GenerateReferenceEntries(&refEntries);
+
+	auto entry = refEntries.find("TestRef");
+	entry->second->AssignRef(con, 0);
+	entry->second->AssignID(con.lock()->GetID());
+	comp.lock()->BootstrapReferenceRegistry(refEntries);
+
+
+	auto chunkMang = GameSmith::ChunkManager::GetInstance();
+	auto ch = chunkMang->GetCurrentMainChunk();
+	ch.lock()->AddObjectToChunk(con);
+	ch.lock()->AddObjectToChunk(con1);
+
+	auto fileLocation = std::format(
+		"{0}\\{1}.{2}", 
+		"C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone", 
+		"TestChunk", 
+		GameSmith::GameChunkAsset::GetStaticFileExtension()
+	);
+
+	auto chunkID = resourceMang->WriteResource(ch.lock(), fileLocation);
+	chunkMang->LoadChunk(chunkID);
+	auto loadedChunk = chunkMang->GetCurrentMainChunk();
+
 
 	auto renderManager = GameSmith::RenderingManager::GetInstance();
 	float color[4] = { 0.07f, 0.0f, 0.12f, 1.0f };
@@ -77,9 +112,6 @@ TestingLayer::TestingLayer() : GameSmith::Layer("Testing Layer")
 	GameSmith::RegisterEvent<GameSmith::WindowResizeEvent>(&GameSmith::Window::s_Resized, GE_BIND_EVENT_FN(GameSmith::RenderTexture::WindowResized, m_RenderTex.get()), false);
 	renderManager->GetRenderAPI()->SetRenderTexture(m_RenderTex, 0);
 	renderManager->SetFrameTexture(m_RenderTex);
-
-	auto chunkMang = GameSmith::ChunkManager::GetInstance();
-	chunkMang->LoadChunk(GameSmith::ID(2037171962, 44136, 18147, 1874979930048970142));
 }
 
 void TestingLayer::OnImGuiRender()

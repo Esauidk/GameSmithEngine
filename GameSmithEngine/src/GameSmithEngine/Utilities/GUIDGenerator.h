@@ -17,6 +17,7 @@ namespace GameSmith {
 		ID(idData externalData) : m_Data(externalData) {}
 		//ID operator=(ID& other) { return ID(other.m_Data.ID1, other.m_Data.ID2, m_Data.ID3, other.m_Data.ID4); }
 		void operator=(ID& other) { m_Data = other.m_Data; }
+		void operator=(const ID& other) { m_Data = other.m_Data; }
 
 		inline bool operator==(const ID& rhs) const {
 			return !(
@@ -36,6 +37,16 @@ namespace GameSmith {
 	{
 	public:
 		static ID GenerateID();
+	};
+
+	class GE_API IDObject {
+	public:
+		IDObject() : m_ID(GUIDGenerator::GenerateID()) {}
+		virtual ~IDObject() = default;
+		inline const ID& GetID() const { return m_ID; }
+		inline void SetID(ID& newID) { m_ID = newID; }
+	private:
+		ID m_ID;
 	};
 
 };

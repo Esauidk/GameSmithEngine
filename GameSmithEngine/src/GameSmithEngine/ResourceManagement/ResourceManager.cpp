@@ -47,7 +47,7 @@ namespace GameSmith {
 		GE_CORE_ASSERT(metaFile.is_open(), std::format("Asset file {0} cannot be opened", path));
 
 		auto serial = resource->Serialize();
-		auto id = resource->GetId();
+		auto id = resource->GetID();
 
 		pFile.seekg(0, pFile.beg);
 		pFile.write(serial.get(), resource->RequireSpace());

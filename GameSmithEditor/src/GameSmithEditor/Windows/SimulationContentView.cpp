@@ -2,6 +2,7 @@
 #include "imgui.h"
 #include "GameSmithEditor/Utils/SystemCallUtils.h"
 #include "GameSmithEditor/Core/GameProject.h"
+#include "GameSmithEditor/CustomWidgets/ReferenceInputWidget.h"
 
 namespace GameSmithEditor {
 	GameSmith::Connection<GameSmith::GameObject> SimulationContentView::m_SelectedObjected = GameSmith::Connection<GameSmith::GameObject>();
@@ -56,6 +57,13 @@ namespace GameSmithEditor {
 					auto gm = GameSmith::GameObjectManager::GetInstance();
 					m_SelectedObjected = gm->FindGameObject(m_NamesStd[i]);
 					m_Selection = i;
+				}
+
+				if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None)) {
+					auto gm = GameSmith::GameObjectManager::GetInstance();
+					auto g = gm->FindGameObject(m_NamesStd[i]);
+					ImGui::SetDragDropPayload(IMGUI_PAYLOAD_TYPE_GAMEOBJECT_REF, &g, sizeof(GameSmith::Connection<GameSmith::GameObject>));
+					ImGui::EndDragDropSource();
 				}
 
 				if (selected) {
