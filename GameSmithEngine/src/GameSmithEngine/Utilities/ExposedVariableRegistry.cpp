@@ -14,7 +14,7 @@ namespace GameSmith {
 	void ExposedVariableRegistry::GenerateReferenceMap(std::unordered_map<std::string, Ref<RefContainer>>* outMap)
 	{
 		for (auto& entry : m_RefRegistry) {
-			Ref<RefContainer> container = Ref<RefContainer>(new RefContainer(entry.second.conversionFunction, "test"));
+			Ref<RefContainer> container = Ref<RefContainer>(new RefContainer(entry.second.conversionFunction, entry.second.typeName));
 			container->AssignRef(*(entry.second.originalRefRef), entry.second.flag);
 			container->AssignID(entry.second.objectID);
 

@@ -11,11 +11,12 @@ namespace GameSmith {
 	class GE_API RefContainer {
 	public:
 		RefContainer(std::function<bool(Connection<IDObject>)> typeChecker, std::string typeName) : m_TypeCheckFunc(typeChecker), m_TypeName(typeName) {}
-		bool TypeCheck(Connection<IDObject> toTest) { return m_TypeCheckFunc(toTest); }
+		bool TypeCheck(Connection<IDObject> toTest) const { return m_TypeCheckFunc(toTest); }
 		void AssignRef(Connection<IDObject> toAssign, unsigned int flags);
 		void AssignID(ID id) { m_ExpectedID = id; }
-		ID GetCurrentRefID() { return m_ExpectedID; }
-		Connection<IDObject> GetCurrentRef() { return m_CopyRef; }
+		std::string GetTypeName() const { return m_TypeName; }
+		ID GetCurrentRefID() const { return m_ExpectedID; }
+		Connection<IDObject> GetCurrentRef() const { return m_CopyRef; }
 		unsigned int GetFlags() { return m_Flag; }
 	private:
 		std::function<bool(Connection<IDObject>)> m_TypeCheckFunc;
@@ -31,7 +32,7 @@ namespace GameSmith {
 		inline void AddExposedVariable(std::string variableName, void* entry, ContainerDataType entryType) { if (entry == nullptr) return; m_ValueRegistry.insert({ variableName, {entry, entryType} }); }
 
 		template<typename T>
-		inline void AddExposedRef(std::string refName, Connection<IDObject>* entry) { 
+		inline void AddExposedRef(std::string refName, Connection<IDObject>* entry, std::string typeName) { 
 			if (entry == nullptr) return;
 
 			m_RefRegistry.insert(
@@ -47,7 +48,8 @@ namespace GameSmith {
 						[](Connection<IDObject> curPtr)
 						{
 							return CastPtr<T>(curPtr.lock()) != nullptr;
-						}
+						},
+						typeName
 					} 
 				}
 			);

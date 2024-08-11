@@ -7,7 +7,7 @@ namespace GameSmithEditor {
 		bool found = false;
 		ImGui::Text(varName.c_str());
 		ImGui::SameLine();
-		std::string refInfo = "Empty";
+		std::string refInfo = std::format("{0}:{1}", "Empty", refCon->GetTypeName());
 		auto curRef = refCon->GetCurrentRef();
 		if (CastPtr<GameSmith::GameObject>(curRef.lock()) != nullptr) {
 			auto ptr = CastPtr<GameSmith::GameObject>(curRef.lock());

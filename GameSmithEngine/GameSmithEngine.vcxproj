@@ -261,6 +261,7 @@
     <ClInclude Include="src\GameSmithEngine\Utilities\ExposedVariableRegistry.h" />
     <ClInclude Include="src\GameSmithEngine\Utilities\GUIDGenerator.h" />
     <ClInclude Include="src\GameSmithEngine\Utilities\ParameterContainer.h" />
+    <ClInclude Include="src\GameSmithEngine\Utilities\UtilMacros.h" />
     <ClInclude Include="src\gepch.h" />
     <ClInclude Include="third-party\glm\glm\common.hpp" />
     <ClInclude Include="third-party\glm\glm\detail\_features.hpp" />
