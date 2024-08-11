@@ -45,7 +45,7 @@ namespace GameSmithEditor {
 		//InputReference();
 		if (!m_Object.expired()) {
 			auto name = m_Object.lock()->GetName();
-			memcpy(m_InputName, name.c_str(), name.size());
+			strcpy(m_InputName, name.c_str());
 			ImGui::PushItemWidth(ImGui::GetWindowWidth() / 2);
 			ImGui::SameLine();
 			ImGui::InputText("##GameObjectName", m_InputName, GAMEOBJECT_NAME_SIZE);
@@ -159,6 +159,7 @@ namespace GameSmithEditor {
 		if (m_Object.expired() || m_Object.lock().get() != object.lock().get()) {
 			m_Components.clear();
 			m_ExposedVariables.clear();
+			m_ExposedRefs.clear();
 
 			if (!object.expired()) {
 				object.lock()->GetComponents<GameSmith::Component>(&m_Components);
@@ -177,7 +178,9 @@ namespace GameSmithEditor {
 		else {
 			for (auto comp : m_Components) {
 				std::unordered_map<std::string, GameSmith::Ref<GameSmith::ParameterContainer>>& compMap = m_ExposedVariables.find(comp.lock()->GetName())->second;
+				std::unordered_map<std::string, GameSmith::Ref<GameSmith::RefContainer>>& refMap = m_ExposedRefs.find(comp.lock()->GetName())->second;
 				comp.lock()->BootstrapVariableRegistry(compMap);
+				comp.lock()->BootstrapReferenceRegistry(refMap);
 			}
 		}
 	}

@@ -37,6 +37,10 @@ namespace GameSmith {
 		GE_CORE_INFO("{0}, {1}", expose6[0], expose6[1]);
 		GE_CORE_INFO("{0}, {1}, {2}", expose7[0], expose7[1], expose7[2]);
 		GE_CORE_INFO("{0}, {1}, {2}, {3}", expose8[0], expose8[1], expose8[2], expose8[3]);
+
+		if (!m_TestRef.expired()) {
+			GE_CORE_INFO("GameObject Name: {0}", m_TestRef.lock()->GetName());
+		}
 	}
 
 	void TestComponent::OnDestroy()
