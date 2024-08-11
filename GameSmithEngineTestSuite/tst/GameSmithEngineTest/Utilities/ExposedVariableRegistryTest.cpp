@@ -17,8 +17,7 @@ TEST(ExposedVariableRegistryTest, GenerateVariableMapSingleEntry) {
 
 	EXPECT_EQ(testMap.size(), 0);
 	bool testVar;
-	GameSmith::ExposedVariableEntry entry = { &testVar, GameSmith::ContainerDataType::Int };
-	EXPECT_NO_THROW(registry.AddExposedVariable("TestVariable", entry));
+	EXPECT_NO_THROW(registry.AddExposedVariable("TestVariable", &testVar, GameSmith::ContainerDataType::Int));
 	
 	registry.GenerateVariableMap(&testMap);
 	EXPECT_EQ(testMap.size(), 1);
@@ -36,12 +35,10 @@ TEST(ExposedVariableRegistryTest, GenerateVariableMapMultipleEntry) {
 	EXPECT_EQ(testMap.size(), 0);
 
 	bool testVar1;
-	GameSmith::ExposedVariableEntry entry1 = { &testVar1, GameSmith::ContainerDataType::Int };
-	EXPECT_NO_THROW(registry.AddExposedVariable("TestVariable1", entry1));
+	EXPECT_NO_THROW(registry.AddExposedVariable("TestVariable1", &testVar1, GameSmith::ContainerDataType::Int));
 
 	int testVar2;
-	GameSmith::ExposedVariableEntry entry2 = { &testVar2, GameSmith::ContainerDataType::Int };
-	EXPECT_NO_THROW(registry.AddExposedVariable("TestVariable2", entry2));
+	EXPECT_NO_THROW(registry.AddExposedVariable("TestVariable2", &testVar2, GameSmith::ContainerDataType::Int));
 
 	registry.GenerateVariableMap(&testMap);
 	EXPECT_EQ(testMap.size(), 2);
@@ -63,8 +60,7 @@ TEST(ExposedVariableRegistryTest, AddExposedVariableNullReference) {
 	GameSmith::ExposedVariableRegistry registry;
 
 	EXPECT_EQ(testMap.size(), 0);
-	GameSmith::ExposedVariableEntry entry = { nullptr, GameSmith::ContainerDataType::Bool };
-	EXPECT_NO_THROW(registry.AddExposedVariable("TestVariable", entry));
+	EXPECT_NO_THROW(registry.AddExposedVariable("TestVariable", nullptr, GameSmith::ContainerDataType::Bool));
 
 	registry.GenerateVariableMap(&testMap);
 	EXPECT_EQ(testMap.size(), 0);
@@ -76,8 +72,7 @@ TEST(ExposedVariableRegistryTest, BootstrapVariableMapSingleVariable) {
 
 	EXPECT_EQ(testMap.size(), 0);
 	int testVar;
-	GameSmith::ExposedVariableEntry entry = { &testVar, GameSmith::ContainerDataType::Int };
-	EXPECT_NO_THROW(registry.AddExposedVariable("TestVariable", entry));
+	EXPECT_NO_THROW(registry.AddExposedVariable("TestVariable", &testVar, GameSmith::ContainerDataType::Int));
 
 	registry.GenerateVariableMap(&testMap);
 	EXPECT_EQ(testMap.size(), 1);
@@ -97,12 +92,10 @@ TEST(ExposedVariableRegistryTest, BootstrapVariableMapMultipleVariable) {
 
 	EXPECT_EQ(testMap.size(), 0);
 	int testVar;
-	GameSmith::ExposedVariableEntry entry = { &testVar, GameSmith::ContainerDataType::Int };
-	EXPECT_NO_THROW(registry.AddExposedVariable("TestVariable", entry));
+	EXPECT_NO_THROW(registry.AddExposedVariable("TestVariable", &testVar, GameSmith::ContainerDataType::Int));
 
 	int testVar1;
-	GameSmith::ExposedVariableEntry entry1 = { &testVar1, GameSmith::ContainerDataType::Int };
-	EXPECT_NO_THROW(registry.AddExposedVariable("TestVariable1", entry1));
+	EXPECT_NO_THROW(registry.AddExposedVariable("TestVariable1", &testVar1, GameSmith::ContainerDataType::Int));
 
 	registry.GenerateVariableMap(&testMap);
 	EXPECT_EQ(testMap.size(), 2);
