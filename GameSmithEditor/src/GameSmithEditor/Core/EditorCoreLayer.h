@@ -8,7 +8,7 @@ namespace GameSmithEditor {
 		EditorCoreLayer();
 		void OnAttach() override;
 		void OnImGuiRender() override;
-		void OnUpdate() override;
+		void OnUpdate(float dt) override;
 
 		template<typename W>
 		static void CreateEditorWindow() {

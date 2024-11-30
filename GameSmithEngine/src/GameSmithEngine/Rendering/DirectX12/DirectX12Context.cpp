@@ -5,7 +5,7 @@
 #include "GameSmithEngine/Rendering/DirectX12/DirectX12Core.h"
 #include "GameSmithEngine/Rendering/DirectX12/Resources/DirectX12Views.h"
 #include "GameSmithEngine/Rendering/DirectX12/Resources/DirectX12Resource.h"
-#include "GameSmithEngine/Rendering/DirectX12/RenderComponents/DirectX12RenderTexture.h"
+#include "GameSmithEngine/Rendering/DirectX12/RenderComponents/Texture/DirectX12RenderTexture.h"
 
 #include "GameSmithEngine/Rendering/RenderingManager.h"
 

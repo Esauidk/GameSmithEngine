@@ -6,10 +6,18 @@
 namespace GameSmith {
 	EntityRenderPreparer* EntityRenderPreparer::s_Instance = nullptr;
 
-	EntityRenderPreparer::EntityRenderPreparer()
+	void EntityRenderPreparer::Init()
 	{
 		if (s_Instance == nullptr) {
-			s_Instance = this;
+			s_Instance = new EntityRenderPreparer();
+		}
+	}
+
+	void EntityRenderPreparer::Shutdown()
+	{
+		if (s_Instance != nullptr) {
+			delete s_Instance;
+			s_Instance = nullptr;
 		}
 	}
 

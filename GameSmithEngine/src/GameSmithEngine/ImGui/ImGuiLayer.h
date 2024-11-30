@@ -24,14 +24,23 @@ namespace GameSmith {
 		void OnDetach() override;
 		void OnImGuiRender() override;
 
-		ImGuiTextureSpace GenerateTextureSpace(Ref<RenderTexture> tex);
+		const ImGuiTextureSpace* GenerateTextureSpace(Ref<Texture> tex);
 		inline void SetDockspace(bool enabled) { m_DockEnabled = enabled; };
 
 		ImGuiContext* GetImGuiContext();
-		void Begin() const;
+		void Begin();
 		void End() const;
 	private:
+		struct SpaceEntry {
+			Ref<ImGuiTextureSpace> space;
+			D3D12_CPU_DESCRIPTOR_HANDLE originalHandle;
+		};
+	private:
 		Ref<DirectX12DescriptorHeap> m_Heap;
+		std::vector<SpaceEntry> m_CurrentSpaces;
+
+		Ref<DirectX12DescriptorHeap> m_PreviousHeap;
+		std::queue<SpaceEntry> m_SpacesToMigrate;
 		unsigned int m_CurSlot;
 		bool m_DockEnabled;
 	};

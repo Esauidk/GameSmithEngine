@@ -51,6 +51,7 @@ namespace GameSmith {
 	using Ref = std::shared_ptr<T>;
 
 	// An object smart reference that does not claim ownership but keeps track of resource state
+	// NOTE: Forgetting to unlock a weak_ptr will produce undefined behavior overtime
 	template<typename T>
 	using Connection = std::weak_ptr<T>;
 

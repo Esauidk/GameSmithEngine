@@ -1,18 +1,17 @@
-#include "SimulationContentView.h"
+#include "ContentView.h"
 #include "imgui.h"
 #include "GameSmithEditor/Utils/SystemCallUtils.h"
 #include "GameSmithEditor/Core/GameProject.h"
 #include "GameSmithEditor/CustomWidgets/ReferenceInputWidget.h"
+#include "GameSmithEditor/Windows/Inspector.h"
 
 namespace GameSmithEditor {
-	GameSmith::Connection<GameSmith::GameObject> SimulationContentView::m_SelectedObjected = GameSmith::Connection<GameSmith::GameObject>();
+	REGISTER_WINDOW_DEFAULT_CALLBACK(Windows_ContentView, ContentView);
 
-	REGISTER_WINDOW_DEFAULT_CALLBACK(Windows_SimulationContentView, SimulationContentView);
-
-	void SimulationContentView::OnImGuiRender()
+	void ContentView::OnImGuiRender()
 	{
 		ImGui::SetNextWindowSizeConstraints(ImVec2(20, 20), ImVec2(FLT_MAX, FLT_MAX));
-		ImGui::Begin("Simulation Content View");
+		ImGui::Begin("Content View");
 		if (ImGui::Button("Create GameObject")) {
 			auto gm = GameSmith::GameObjectManager::GetInstance();
 			auto object = gm->CreateGameObject();
@@ -55,7 +54,7 @@ namespace GameSmithEditor {
 				bool selected = (m_Selection == i);
 				if (ImGui::Selectable(m_NamesStd[i].c_str(), selected)) {
 					auto gm = GameSmith::GameObjectManager::GetInstance();
-					m_SelectedObjected = gm->FindGameObject(m_NamesStd[i]);
+					Inspector::SetInspectedGameObject(gm->FindGameObject(m_NamesStd[i]));
 					m_Selection = i;
 				}
 
@@ -76,7 +75,7 @@ namespace GameSmithEditor {
 		ImGui::End();
 	}
 
-	void SimulationContentView::OnUpdate()
+	void ContentView::OnUpdate(float dt)
 	{
 		auto gameObjectMang = GameSmith::GameObjectManager::GetInstance();
 		m_NamesStd.clear();

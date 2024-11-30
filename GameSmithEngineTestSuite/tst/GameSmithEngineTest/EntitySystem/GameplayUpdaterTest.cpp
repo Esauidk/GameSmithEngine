@@ -3,21 +3,24 @@
 #include "Components/TestComponent.h"
 
 TEST(GameplayUpdaterTest, ComponentUpdate) {
-	GameSmith::GameplayUpdater updater;
+	GameSmith::GameplayUpdater::Init();
+	GameSmith::GameplayUpdater* updater = GameSmith::GameplayUpdater::GetInstance();
 
 	auto testComp = GameSmith::Ref<TestComponent>(new TestComponent(nullptr, nullptr));
 
 	EXPECT_FALSE(testComp->GetUpdateCheck());
 
-	updater.Register(testComp);
-	updater.FlushRegistration();
-	updater.RunGameplayUpdate(0);
+	updater->Register(testComp);
+	updater->FlushRegistration();
+	updater->RunGameplayUpdate(0);
 
 	EXPECT_TRUE(testComp->GetUpdateCheck());
+	GameSmith::GameplayUpdater::ShutDown();
 }
 
 TEST(GameplayUpdaterTest, ComponentRegistrationMidUpdate) {
-	GameSmith::GameplayUpdater updater;
+	GameSmith::GameplayUpdater::Init();
+	GameSmith::GameplayUpdater* updater = GameSmith::GameplayUpdater::GetInstance();
 
 	auto testComp = GameSmith::Ref<TestComponent>(new TestComponent(nullptr, nullptr));
 
@@ -43,42 +46,48 @@ TEST(GameplayUpdaterTest, ComponentRegistrationMidUpdate) {
 
 	EXPECT_FALSE(testComp->GetUpdateCheck());
 
-	auto testComp2 = GameSmith::Ref<FakeComponent>(new FakeComponent(nullptr, nullptr, &updater, testComp));
+	auto testComp2 = GameSmith::Ref<FakeComponent>(new FakeComponent(nullptr, nullptr, updater, testComp));
 	EXPECT_FALSE(testComp2->GetUpdateCheck());
 
-	updater.Register(testComp2);
-	updater.FlushRegistration();
-	ASSERT_NO_THROW(updater.RunGameplayUpdate(0));
+	updater->Register(testComp2);
+	updater->FlushRegistration();
+	ASSERT_NO_THROW(updater->RunGameplayUpdate(0));
 	EXPECT_TRUE(testComp2->GetUpdateCheck());
 
-	updater.FlushRegistration();
-	updater.RunGameplayUpdate(0);
+	updater->FlushRegistration();
+	updater->RunGameplayUpdate(0);
 	EXPECT_TRUE(testComp->GetUpdateCheck());
+
+	GameSmith::GameplayUpdater::ShutDown();
 }
 
 TEST(GameplayUpdaterTest, ComponentInit) {
-	GameSmith::GameplayUpdater updater;
+	GameSmith::GameplayUpdater::Init();
+	GameSmith::GameplayUpdater* updater = GameSmith::GameplayUpdater::GetInstance();
 
 	auto testComp = GameSmith::Ref<TestComponent>(new TestComponent(nullptr, nullptr));
 
 	EXPECT_FALSE(testComp->GetUpdateCheck());
 
-	updater.Register(testComp);
-	updater.FlushRegistration();
-	updater.RunGameplayInit();
+	updater->Register(testComp);
+	updater->FlushRegistration();
+	updater->RunGameplayInit();
 
 	EXPECT_TRUE(testComp->GetInitCheck());
+	GameSmith::GameplayUpdater::ShutDown();
 }
 
 TEST(GameplayUpdaterTest, NoExceptionOnComponentRemoval) {
-	GameSmith::GameplayUpdater updater;
+	GameSmith::GameplayUpdater::Init();
+	GameSmith::GameplayUpdater* updater = GameSmith::GameplayUpdater::GetInstance();
 
 	auto testComp = GameSmith::Ref<TestComponent>(new TestComponent(nullptr, nullptr));
 
 	EXPECT_FALSE(testComp->GetUpdateCheck());
 
-	updater.Register(testComp);
+	updater->Register(testComp);
 	testComp = nullptr;
 
-	EXPECT_NO_THROW(updater.RunGameplayUpdate(0));
+	EXPECT_NO_THROW(updater->RunGameplayUpdate(0));
+	GameSmith::GameplayUpdater::ShutDown();
 }

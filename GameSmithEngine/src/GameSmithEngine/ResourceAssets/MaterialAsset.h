@@ -1,14 +1,14 @@
 #pragma once
 #include "GameSmithEngine/Core/Core.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/MaterialSystem/Material.h"
-#include "Serializable.h"
+#include "Asset.h"
 
 namespace GameSmith {
 	struct MaterialInfo {
 		std::vector<std::pair<std::string, ID>> TextureIds;
 	};
 
-	class GE_API MaterialAsset : public Serializeable
+	class GE_API MaterialAsset : public Asset
 	{
 	public:
 		MaterialAsset();
@@ -22,6 +22,8 @@ namespace GameSmith {
 		virtual void Serialize(char* byteStream, unsigned int availableBytes) override;
 		virtual unsigned int RequireSpace() const override;
 		virtual void Deserialize(char* inData, unsigned int size) override;
+
+		SERIAL_FILE(Material, mat)
 
 		Ref<Material> CreateInstance();
 	private:

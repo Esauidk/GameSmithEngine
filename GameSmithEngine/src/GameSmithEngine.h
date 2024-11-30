@@ -45,6 +45,7 @@
 // -------------------------------------
 
 // ----------- Entity System -------------
+#include "GameSmithEngine/EntitySystem/GameObjectManager.h"
 #include "GameSmithEngine/EntitySystem/GameObject.h"
 
 // Component System
@@ -62,7 +63,7 @@
 // -------------------------------------------
 
 // -----------RescourceManagement-----------
-#include "GameSmithEngine/Rendering/RenderingManager.h"
+#include "GameSmithEngine/ResourceManagement/ResourceManager.h"
 #include "GameSmithEngine/ResourceAssets/TestResource.h"
 #include "GameSmithEngine/ResourceAssets/TextureAsset.h"
 #include "GameSmithEngine/ResourceAssets/MaterialAsset.h"

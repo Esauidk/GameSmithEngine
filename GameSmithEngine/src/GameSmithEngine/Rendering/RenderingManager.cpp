@@ -8,20 +8,20 @@
 namespace GameSmith {
 	RenderingManager* RenderingManager::s_Instance = nullptr;
 
-	RenderingManager::RenderingManager(bool force)
-	{
-		if (force || s_Instance == nullptr) {
-			s_Instance = this;
-		}
-	}
-
-	void RenderingManager::Init()
+	RenderingManager::RenderingManager()
 	{
 		m_RenderAPI = Scope<RendererAPI>(new DirectX12RendererAPI());
 		m_RenderWorkflow = Scope<RenderWorkflow>(new ForwardRender(m_RenderAPI.get()));
 		m_PSOManager = Scope<PipelineStateObjectManager>(new PipelineStateObjectManager(m_RenderAPI.get()));
 		m_SceneDataGPU = m_RenderAPI->CreateConstantBuffer(sizeof(GloablShaderData));
-		GE_CORE_INFO("Rendering Manager Loaded!");
+	}
+
+	void RenderingManager::Init()
+	{
+		if (s_Instance == nullptr) {
+			s_Instance = new RenderingManager();
+			GE_CORE_INFO("Rendering Manager Loaded!");
+		}
 	}
 
 	void RenderingManager::SetRenderWorkflow(RenderWorkflow* workflow)
@@ -31,8 +31,10 @@ namespace GameSmith {
 
 	void RenderingManager::ShutDown()
 	{
-		m_SceneDataGPU = nullptr;
-		m_RenderAPI = nullptr;
+		if (s_Instance != nullptr) {
+			delete s_Instance;
+			s_Instance = nullptr;
+		}
 	}
 
 	void RenderingManager::BeginScene(Camera* cam, LightSource* mainLight)

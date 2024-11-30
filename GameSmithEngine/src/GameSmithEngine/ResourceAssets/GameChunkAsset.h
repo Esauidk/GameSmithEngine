@@ -1,10 +1,10 @@
 #pragma once
 #include "GameSmithEngine/Core/Core.h"
 #include "GameSmithEngine/GameChunkSystem/GameChunk.h"
-#include "Serializable.h"
+#include "Asset.h"
 
 namespace GameSmith {
-	class GE_API GameChunkAsset : public Serializeable
+	class GE_API GameChunkAsset : public Asset
 	{
 	public:
 		GameChunkAsset() = default;

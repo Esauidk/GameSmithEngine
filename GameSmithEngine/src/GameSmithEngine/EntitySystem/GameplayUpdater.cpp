@@ -6,8 +6,20 @@ namespace GameSmith {
 
 	GameplayUpdater::GameplayUpdater()
 	{
+	}
+
+	void GameplayUpdater::Init()
+	{
 		if (s_Instance == nullptr) {
-			s_Instance = this;
+			s_Instance = new GameplayUpdater();
+		}
+	}
+
+	void GameplayUpdater::ShutDown()
+	{
+		if (s_Instance != nullptr) {
+			delete s_Instance;
+			s_Instance = nullptr;
 		}
 	}
 

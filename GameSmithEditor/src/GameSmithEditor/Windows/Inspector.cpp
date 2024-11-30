@@ -1,11 +1,13 @@
-#include "GameObjectDetails.h"
-#include "SimulationContentView.h"
+#include "Inspector.h"
+#include "ContentView.h"
 #include "GameSmithEditor/CustomWidgets/ReferenceInputWidget.h"
 #include "imgui.h"
 
 namespace GameSmithEditor {
 
-	REGISTER_WINDOW_DEFAULT_CALLBACK(Windows_GameObjectDetails, GameObjectDetails);
+	GameSmith::Connection<GameSmith::GameObject> Inspector::s_SelectedObject = GameSmith::Ref<GameSmith::GameObject>();
+
+	REGISTER_WINDOW_DEFAULT_CALLBACK(Windows_Inspector, Inspector);
 
 
 	static void GenerateVariableUI(GameSmith::Ref<GameSmith::ParameterContainer> container) {
@@ -39,10 +41,9 @@ namespace GameSmithEditor {
 		}
 	}
 
-	void GameObjectDetails::OnImGuiRender()
+	void Inspector::OnImGuiRender()
 	{
-		ImGui::Begin("GameObject Details");
-		//InputReference();
+		ImGui::Begin("Inspector");
 		if (!m_Object.expired()) {
 			auto name = m_Object.lock()->GetName();
 			strcpy(m_InputName, name.c_str());
@@ -54,17 +55,18 @@ namespace GameSmithEditor {
 			}
 			ImGui::PopItemWidth();
 			ImGui::SameLine();
-			
-			
+
+
 			ImGuiStyle& style = ImGui::GetStyle();
 			auto defaultStyle = style.Colors[ImGuiCol_Button];
-			style.Colors[ImGuiCol_Button] = ImVec4(0.95, 0.125, 0.344, 1);
+			style.Colors[ImGuiCol_Button] = ImVec4(0.95f, 0.125f, 0.344f, 1.0f);
 			if (ImGui::Button("Delete")) {
 				GameSmith::GameObjectManager::GetInstance()->DestroyGameObject(m_Object);
 			}
 			style.Colors[ImGuiCol_Button] = defaultStyle;
 
 			ImGui::Separator();
+
 			if (ImGui::CollapsingHeader("Transform")) {
 				auto lockTransform = m_Object.lock()->GetTransform().lock();
 				glm::vec3 pos = lockTransform->GetPosition();
@@ -95,6 +97,11 @@ namespace GameSmithEditor {
 						InputReference(entry.first, entry.second);
 					}
 
+					auto assetMap = m_ExposedAssets.find(name)->second;
+					for (auto& entry : assetMap) {
+						InputReference(entry.first, entry.second);
+					}
+
 				}
 			}
 
@@ -114,19 +121,22 @@ namespace GameSmithEditor {
 						}
 					}
 
-					
+
 					ImGui::EndListBox();
 				}
 
-				if (ImGui::Button("Add", ImVec2(120, 0))) { 
+				if (ImGui::Button("Add", ImVec2(120, 0))) {
 					auto newComponent = m_Object.lock()->AddComponent(m_CurCompSelection).lock();
 					m_Components.push_back(newComponent);
 					std::unordered_map<std::string, GameSmith::Ref<GameSmith::ParameterContainer>> compMap;
-					std::unordered_map<std::string, GameSmith::Ref<GameSmith::RefContainer>> refMap;
+					std::unordered_map<std::string, GameSmith::Ref<GameSmith::ConnectionContainer>> refMap;
+					std::unordered_map<std::string, GameSmith::Ref<GameSmith::AssetRefContainer>> assetMap;
 					newComponent->GenerateVariableEntries(&compMap);
-					newComponent->GenerateReferenceEntries(&refMap);
+					newComponent->GenerateConnectionEntries(&refMap);
+					newComponent->GenerateAssetEntries(&assetMap);
 					m_ExposedVariables.insert({ newComponent->GetName(), compMap });
 					m_ExposedRefs.insert({ newComponent->GetName(), refMap });
+					m_ExposedAssets.insert({ newComponent->GetName(), assetMap });
 
 					// TODO: Temporary
 					if (m_CurCompSelection == "MeshRenderer") {
@@ -142,9 +152,9 @@ namespace GameSmithEditor {
 					}
 
 					m_CurCompSelection = "";
-					ImGui::CloseCurrentPopup(); 
+					ImGui::CloseCurrentPopup();
 				}
-				ImGui::SameLine(ImGui::GetWindowWidth()-ImGui::GetCursorPosX() - 120);
+				ImGui::SameLine(ImGui::GetWindowWidth() - ImGui::GetCursorPosX() - 120);
 				if (ImGui::Button("Cancel", ImVec2(120, 0))) { ImGui::CloseCurrentPopup(); }
 				ImGui::EndPopup();
 			}
@@ -153,36 +163,45 @@ namespace GameSmithEditor {
 		ImGui::End();
 	}
 
-	void GameObjectDetails::OnUpdate()
+	void Inspector::OnUpdate(float dt)
 	{
-		auto object = SimulationContentView::GetCurrentObject();
-		if (m_Object.expired() || m_Object.lock().get() != object.lock().get()) {
+		if (!s_SelectedObject.expired() && (m_Object.expired() || m_Object.lock().get() != s_SelectedObject.lock().get())) {
 			m_Components.clear();
 			m_ExposedVariables.clear();
 			m_ExposedRefs.clear();
 
-			if (!object.expired()) {
-				object.lock()->GetComponents<GameSmith::Component>(&m_Components);
-				m_Object = object;
+			if (s_SelectedObject.lock().get()) {
+				m_Object = s_SelectedObject;
+				m_Object.lock()->GetComponents<GameSmith::Component>(&m_Components);
 
 				for (auto comp : m_Components) {
 					std::unordered_map<std::string, GameSmith::Ref<GameSmith::ParameterContainer>> compMap;
-					std::unordered_map<std::string, GameSmith::Ref<GameSmith::RefContainer>> refMap;
+					std::unordered_map<std::string, GameSmith::Ref<GameSmith::ConnectionContainer>> refMap;
+					std::unordered_map<std::string, GameSmith::Ref<GameSmith::AssetRefContainer>> assetMap;
 					comp.lock()->GenerateVariableEntries(&compMap);
-					comp.lock()->GenerateReferenceEntries(&refMap);
+					comp.lock()->GenerateConnectionEntries(&refMap);
+					comp.lock()->GenerateAssetEntries(&assetMap);
 					m_ExposedVariables.insert({ comp.lock()->GetName(), compMap });
 					m_ExposedRefs.insert({ comp.lock()->GetName(), refMap });
+					m_ExposedAssets.insert({ comp.lock()->GetName(), assetMap });
 				}
 			}
 		}
 		else {
 			for (auto comp : m_Components) {
 				std::unordered_map<std::string, GameSmith::Ref<GameSmith::ParameterContainer>>& compMap = m_ExposedVariables.find(comp.lock()->GetName())->second;
-				std::unordered_map<std::string, GameSmith::Ref<GameSmith::RefContainer>>& refMap = m_ExposedRefs.find(comp.lock()->GetName())->second;
+				std::unordered_map<std::string, GameSmith::Ref<GameSmith::ConnectionContainer>>& refMap = m_ExposedRefs.find(comp.lock()->GetName())->second;
+				std::unordered_map<std::string, GameSmith::Ref<GameSmith::AssetRefContainer>>& assetMap = m_ExposedAssets.find(comp.lock()->GetName())->second;
 				comp.lock()->BootstrapVariableRegistry(compMap);
-				comp.lock()->BootstrapReferenceRegistry(refMap);
+				comp.lock()->BootstrapConnectionRegistry(refMap);
+				comp.lock()->BootstrapAssetRegistry(assetMap);
 			}
 		}
+	}
+
+	void Inspector::SetInspectedGameObject(GameSmith::Connection<GameSmith::GameObject> object)
+	{
+		s_SelectedObject = object;
 	}
 };
 

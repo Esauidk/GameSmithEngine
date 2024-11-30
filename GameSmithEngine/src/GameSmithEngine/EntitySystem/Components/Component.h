@@ -24,8 +24,13 @@ namespace GameSmith {
 			PostRegistryBootstrap(); 
 		}
 
-		inline void BootstrapReferenceRegistry(std::unordered_map<std::string, Ref<RefContainer>>& refEntries) {
-			m_Registry.BootstrapFromRefMap(refEntries);
+		inline void BootstrapConnectionRegistry(std::unordered_map<std::string, Ref<ConnectionContainer>>& refEntries) {
+			m_Registry.BootstrapFromConnectionsMap(refEntries);
+			PostRegistryBootstrap();
+		}
+
+		inline void BootstrapAssetRegistry(std::unordered_map<std::string, Ref<AssetRefContainer>>& refEntries) {
+			m_Registry.BootstrapFromAssetMap(refEntries);
 			PostRegistryBootstrap();
 		}
 
@@ -33,10 +38,13 @@ namespace GameSmith {
 		inline void SerializeRegistry(char* byteStream, unsigned int availableBytes) { m_Registry.Serialize(byteStream, availableBytes); }
 		inline void DeserializeRegistry(char* inData, unsigned int bytes) { m_Registry.Deserialize(inData, bytes); }
 		
-
+		// Can be empty function
 		virtual void PostRegistryBootstrap() {};
+
 		void GenerateVariableEntries(std::unordered_map<std::string, Ref<ParameterContainer>>* outMap) { m_Registry.GenerateVariableMap(outMap); }
-		void GenerateReferenceEntries(std::unordered_map<std::string, Ref<RefContainer>>* outMap) { m_Registry.GenerateReferenceMap(outMap); }
+		void GenerateConnectionEntries(std::unordered_map<std::string, Ref<ConnectionContainer>>* outMap) { m_Registry.GenerateConnectionsMap(outMap); }
+		void GenerateAssetEntries(std::unordered_map<std::string, Ref<AssetRefContainer>>* outMap) { m_Registry.GenerateAssetMap(outMap); }
+
 		GameObject* GetGameObject() { return m_GameObject; }
 		Transform* GetTransform() { return m_Transform; }
 	protected:

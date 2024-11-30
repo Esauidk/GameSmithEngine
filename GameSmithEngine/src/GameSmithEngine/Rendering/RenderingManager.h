@@ -16,12 +16,11 @@ namespace GameSmith {
 	class GE_API RenderingManager
 	{
 	public:
-		RenderingManager(bool force=false);
 		inline static RenderingManager* GetInstance() { return s_Instance; }
 
-		void Init();
+		static void Init();
+		static void ShutDown();
 		void SetRenderWorkflow(RenderWorkflow* workflow);
-		void ShutDown();
 		void BeginScene(Camera* cam, LightSource* mainLight);
 		void EndScene();
 		void EndFrame();
@@ -38,6 +37,8 @@ namespace GameSmith {
 
 		// Returns a list of event dispatchers, used when you want to subscribe to a Window event
 		inline const std::vector<EventDispatcherBase*>& GetDistpachers() const { return m_Dispatchers; }
+	private:
+		RenderingManager();
 	private:
 		static RenderingManager* s_Instance;
 		Scope<RendererAPI> m_RenderAPI;

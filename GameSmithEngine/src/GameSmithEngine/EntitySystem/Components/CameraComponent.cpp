@@ -27,6 +27,7 @@ namespace GameSmith {
 
 		switch (m_CamType) {
 		case Perspective:
+		default:
 			renderPrep->AddCamera({ &m_PerpCam });
 			break;
 		case Orthographic:

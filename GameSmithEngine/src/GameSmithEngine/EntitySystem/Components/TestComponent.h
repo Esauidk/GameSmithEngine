@@ -2,6 +2,8 @@
 #include "Component.h"
 
 namespace GameSmith {
+	class GameChunkAsset;
+
 	class GE_API TestComponent : public Component {
 	public:
 		TestComponent(GameObject* gameObject, Transform* transform);
@@ -23,5 +25,6 @@ namespace GameSmith {
 		int expose8[4] = {0};
 		Connection<GameObject> m_TestRef;
 		Connection<TestComponent> m_TestCompRef;
+		Ref<GameChunkAsset> m_GameChunkAsset;
 	};
 };

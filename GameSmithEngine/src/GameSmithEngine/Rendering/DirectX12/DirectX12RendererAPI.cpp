@@ -136,7 +136,7 @@ namespace GameSmith {
 	{
 		auto context = m_Core.GetDirectCommandContext();
 		auto castTex2d = CastPtr<DirectX12Texture2D>(tex);
-		D3D12_CPU_DESCRIPTOR_HANDLE descriptor = castTex2d->GetDescriptor();
+		D3D12_CPU_DESCRIPTOR_HANDLE descriptor = castTex2d->GetSRVHandle();
 
 		DirectX12ShaderResourceView view;
 		view.m_View = descriptor;

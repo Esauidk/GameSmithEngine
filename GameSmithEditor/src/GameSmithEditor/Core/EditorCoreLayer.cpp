@@ -25,7 +25,7 @@ namespace GameSmithEditor {
 
 			auto renderManager = GameSmith::RenderingManager::GetInstance();
 			float color[4] = { 0.07f, 0.0f, 0.12f, 1.0f };
-			m_EditorScreen = renderManager->GetRenderAPI()->CreateRenderTexture((float)m_App.GetWindow()->GetWidth(), (float)m_App.GetWindow()->GetHeight(), color);
+			m_EditorScreen = renderManager->GetRenderAPI()->CreateRenderTexture(m_App.GetWindow()->GetWidth(), m_App.GetWindow()->GetHeight(), color);
 
 			GameSmith::RegisterEvent<GameSmith::WindowResizeEvent>(&GameSmith::Window::s_Resized, GE_BIND_EVENT_FN(GameSmith::RenderTexture::WindowResized, m_EditorScreen.get()), false);
 			renderManager->GetRenderAPI()->SetRenderTexture(m_EditorScreen, 0);
@@ -69,7 +69,7 @@ namespace GameSmithEditor {
 					seperates.push_back(s);
 				}
 
-				int size = seperates.size();
+				int size = (int)seperates.size();
 				int menusCreated = 0;
 				for (int i = 0; i < size; i++) {
 					std::string& path = seperates[i];
@@ -96,7 +96,7 @@ namespace GameSmithEditor {
 		
 	}
 
-	void EditorCoreLayer::OnUpdate()
+	void EditorCoreLayer::OnUpdate(float dt)
 	{
 		auto renderManager = GameSmith::RenderingManager::GetInstance();
 		renderManager->SetForClear(m_EditorScreen);

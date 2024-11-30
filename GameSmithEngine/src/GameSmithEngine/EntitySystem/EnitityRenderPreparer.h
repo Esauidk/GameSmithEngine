@@ -20,11 +20,14 @@ namespace GameSmith {
 	// This class collects information on which entities want to be renderered and prepares to make calls to the render manager
 	class EntityRenderPreparer {
 	public:
-		EntityRenderPreparer();
+		static void Init();
+		static void Shutdown();
 		static inline EntityRenderPreparer* GetInstance() { return s_Instance; }
 		void AddRenderRequest(RenderRequest req);
 		void AddCamera(RenderableCamera cam);
 		void SendForRendering();
+	private:
+		EntityRenderPreparer() = default;
 	private:
 		static EntityRenderPreparer* s_Instance;
 	private:

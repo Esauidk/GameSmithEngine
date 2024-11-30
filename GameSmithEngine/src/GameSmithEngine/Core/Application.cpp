@@ -4,12 +4,24 @@
 #include "Log.h"
 
 
+#include "GameSmithEngine/Core/Layers/ContentLibararyLayer.h"
+#include "GameSmithEngine/Core/Layers/EntitySystemLayer.h"
+#include "GameSmithEngine/Core/Layers/RenderLayer.h"
+#include "GameSmithEngine/Core/Layers/ResourceLayer.h"
+
+
 namespace GameSmith {
 	Application* Application::s_Instance = nullptr;
 
 	Application::Application(std::string appName) {
 		GE_CORE_ASSERT(!s_Instance, "Application already exists");
 		s_Instance = this;
+
+		// TODO Setup default layers
+		PushLayer(new ResourceLayer());
+		PushLayer(new ContentLibararyLayer());
+		PushLayer(new RenderLayer());
+		PushLayer(new EntitySystemLayer());
 
 		GameSmith::WindowProps props;
 		props.Title = appName;
@@ -24,28 +36,51 @@ namespace GameSmith {
 		m_FrameRateController.SetFrameRateLimiting(!m_Window->IsVSync());
 	}
 
+	Application::~Application()
+	{
+		for (Layer* layer : m_LayerStack) {
+			layer->OnDetach();
+		}
+	}
+
 	bool Application::OnWindowClose(WindowCloseEvent& evn) {
 		m_Running = false;
 		return true;
 	}
 
 	void Application::PushLayer(Layer* layer) {
-		m_PendingLayers.push(layer);
+		if (m_LoopStarted) {
+			m_PendingLayers.push(layer);
+		}
+		else {
+			layer->OnAttach();
+			m_LayerStack.Push(layer);
+		}
+		
 	}
 
 	void Application::PushOverlay(Layer* layer) {
-		m_PendingSpecialLayers.push(layer);
+		if (m_LoopStarted) {
+			m_PendingSpecialLayers.push(layer);
+		}
+		else {
+			layer->OnAttach();
+			m_LayerStack.PushSpecial(layer);
+		}
+		
 	}
 
 	void Application::Execute() {
 		m_Timer.Reset();
 		while (m_Running) {
+			if (!m_LoopStarted) {
+				m_LoopStarted = true;
+			}
+
 			m_FrameRateController.CheckAndPerformDelay();
 			float dt = m_Timer.Mark();
 
 			m_Window->OnUpdate();
-
-			m_SubSystems.Update(dt);
 
 			while (!m_PendingSpecialLayers.empty()) {
 				auto layer = m_PendingSpecialLayers.front();
@@ -62,7 +97,7 @@ namespace GameSmith {
 			}
 
 			for (Layer* layer : m_LayerStack) {
-				layer->OnUpdate();
+				layer->OnUpdate(dt);
 			}
 
 			m_ImGuiLayer->Begin();
@@ -70,8 +105,6 @@ namespace GameSmith {
 				layer->OnImGuiRender();
 			}
 			m_ImGuiLayer->End();
-
-			m_SubSystems.EndUpdate();
 		}
 	}
 

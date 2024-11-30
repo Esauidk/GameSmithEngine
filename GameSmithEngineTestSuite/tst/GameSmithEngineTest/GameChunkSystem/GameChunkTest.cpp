@@ -3,8 +3,9 @@
 #include "GameSmithEngine/GameChunkSystem/GameChunk.h"
 
 TEST(GameChunkTest, DeleteGameObjects) {
-	GameSmith::GameObjectManager manager(true);
-	auto gameObject = manager.CreateGameObject(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0));
+	GameSmith::GameObjectManager::Init();
+	GameSmith::GameObjectManager* manager = GameSmith::GameObjectManager::GetInstance();
+	auto gameObject = manager->CreateGameObject(glm::vec3(0, 0, 0), glm::vec3(0, 0, 0));
 	std::vector<GameSmith::Connection<GameSmith::GameObject>> objects;
 	objects.push_back(gameObject);
 	
@@ -12,7 +13,8 @@ TEST(GameChunkTest, DeleteGameObjects) {
 		GameSmith::GameChunk chunk(objects);
 	}
 
-	manager.CleanGameObjects();
+	manager->CleanGameObjects();
 
 	EXPECT_TRUE(gameObject.expired());
+	GameSmith::GameObjectManager::ShutDown();
 }

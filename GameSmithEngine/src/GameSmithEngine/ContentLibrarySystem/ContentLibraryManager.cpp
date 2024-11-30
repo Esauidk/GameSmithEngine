@@ -11,10 +11,20 @@ namespace GameSmith {
 
 	typedef ContentLibrary* (*ConnectLibraryFunc)();
 
-	ContentLibraryManager::ContentLibraryManager()
+	ContentLibraryManager::ContentLibraryManager(){}
+
+	void ContentLibraryManager::Init()
 	{
 		if (s_Instance == nullptr) {
-			s_Instance = this;
+			s_Instance = new ContentLibraryManager();
+		}
+	}
+
+	void ContentLibraryManager::Shutdown()
+	{
+		if (s_Instance != nullptr) {
+			delete s_Instance;
+			s_Instance = nullptr;
 		}
 	}
 

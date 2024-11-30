@@ -1,8 +1,8 @@
 #pragma once
-#include "Serializable.h"
+#include "Asset.h"
 
 namespace GameSmith {
-	class TestResource : public Serializeable
+	class TestResource : public Asset
 	{
 	public:
 		virtual Ref<char> Serialize() override;

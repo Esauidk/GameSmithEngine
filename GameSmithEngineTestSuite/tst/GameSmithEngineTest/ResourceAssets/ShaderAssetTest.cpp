@@ -21,16 +21,15 @@ static unsigned int testShaderSize;
 static GameSmith::Ref<char> testShader = loadFile(std::format("{0}{1}", TEST_RESOURCES, "/shaders/SampleVertexShader.cso"), &testShaderSize);
 
 TEST(ShaderAssetTest, Deserialize) {
-	GameSmith::RenderingManager manager(true);
-	manager.Init();
+	GameSmith::RenderingManager::Init();
 
 	GameSmith::ShaderAsset asset;
 	EXPECT_NO_THROW(asset.Deserialize(testShader.get(), testShaderSize));
+	GameSmith::RenderingManager::ShutDown();
 }
 
 TEST(ShaderAssetTest, SerializeNew) {
-	GameSmith::RenderingManager manager(true);
-	manager.Init();
+	GameSmith::RenderingManager::Init();
 
 	GameSmith::ShaderAsset asset;
 	EXPECT_NO_THROW(asset.Deserialize(testShader.get(), testShaderSize));
@@ -40,11 +39,11 @@ TEST(ShaderAssetTest, SerializeNew) {
 	for (unsigned int i = 0; i < testShaderSize; i++) {
 		EXPECT_EQ(*(testShader.get() + i), *(serial.get() + i));
 	}
+	GameSmith::RenderingManager::ShutDown();
 }
 
 TEST(ShaderAssetTest, SerializeAppend) {
-	GameSmith::RenderingManager manager(true);
-	manager.Init();
+	GameSmith::RenderingManager::Init();
 
 	GameSmith::ShaderAsset asset;
 	EXPECT_NO_THROW(asset.Deserialize(testShader.get(), testShaderSize));
@@ -55,14 +54,15 @@ TEST(ShaderAssetTest, SerializeAppend) {
 	for (unsigned int i = 0; i < testShaderSize; i++) {
 		EXPECT_EQ(*(testShader.get() + i), *(serial.get() + i + 5));
 	}
+	GameSmith::RenderingManager::ShutDown();
 }
 
 TEST(ShaderAssetTest, GetRequiredSize) {
-	GameSmith::RenderingManager manager(true);
-	manager.Init();
+	GameSmith::RenderingManager::Init();
 
 	GameSmith::ShaderAsset asset;
 	EXPECT_NO_THROW(asset.Deserialize(testShader.get(), testShaderSize));
 
 	EXPECT_EQ(testShaderSize, asset.RequireSpace());
+	GameSmith::RenderingManager::ShutDown();
 }

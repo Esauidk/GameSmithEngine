@@ -1,7 +1,10 @@
 #include "gepch.h"
 #include "GameChunkAsset.h"
+#include "AssetFactory.h"
 
 namespace GameSmith {
+	GE_REGISTERASSET(GameChunkAsset)
+
 	GameChunkAsset::GameChunkAsset(Ref<GameChunk> snapShot) : m_ChunkSerialization(snapShot->Serialize()), m_ByteSize(snapShot->RequireSpace())
 	{
 	}

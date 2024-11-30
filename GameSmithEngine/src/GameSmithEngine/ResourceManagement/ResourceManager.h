@@ -16,7 +16,8 @@ namespace GameSmith {
 	};
 
 	struct ResourceMaps {
-		std::unordered_map<ID, Ref<Serializeable>, IDHasher> ActiveResources;
+		std::unordered_map<ID, Ref<Serializeable>, IDHasher> ActiveIDResources;
+		std::unordered_map<std::string, Ref<Serializeable>> ActivePathResources;
 		std::unordered_map<ID, std::string, IDHasher> ResourceRegistry;
 		std::unordered_map<std::string, ID> ReverseResourceRegistry;
 	};
@@ -24,16 +25,15 @@ namespace GameSmith {
 	class GE_API ResourceManager
 	{
 	public:
-		ResourceManager();
 		inline static ResourceManager* GetInstance() { return s_Instance; }
 
-		virtual void Init(ResourceLoaderType loaderType);
-		virtual void Shutdown();
+		static void Init(ResourceLoaderType loaderType);
+		static void Shutdown();
 
 		template<typename T>
 		Ref<T> GetResource(ID asset) {
-			if (m_ResourceMaps->ActiveResources.contains(asset)) {
-				Ref<Serializeable> ptr = (*m_ResourceMaps->ActiveResources.find(asset)).second;
+			if (m_ResourceMaps->ActiveIDResources.contains(asset)) {
+				Ref<Serializeable> ptr = (*m_ResourceMaps->ActiveIDResources.find(asset)).second;
 				return CastPtr<T>(ptr);
 			}
 
@@ -55,7 +55,7 @@ namespace GameSmith {
 
 			resource->SetID(metaId);
 
-			m_ResourceMaps->ActiveResources.insert({ asset, resource });
+			m_ResourceMaps->ActiveIDResources.insert({ asset, resource });
 
 			m_Loader->CleanResource(data);
 			m_Loader->CleanResource(meta);
@@ -63,11 +63,36 @@ namespace GameSmith {
 			return resource;
 		}
 
+		Ref<Serializeable> GetResource(ID asset);
+
+		template<typename T>
+		Ref<T> GetResource(std::string asset) {
+			if (m_ResourceMaps->ActivePathResources.contains(asset)) {
+				Ref<Serializeable> ptr = (*m_ResourceMaps->ActivePathResources.find(asset)).second;
+				return CastPtr<T>(ptr);
+			}
+
+			GE_CORE_INFO("Loading file into memory!");
+			UINT size;
+			char* data = m_Loader->LoadResource(asset, &size);
+
+			Ref<T> resource = Ref<T>(new T());
+			resource->Deserialize(data, size);
+
+			m_ResourceMaps->ActivePathResources.insert({ asset, resource });
+
+			m_Loader->CleanResource(data);
+
+			return resource;
+		}
+
+		Ref<Serializeable> GetResource(std::string asset);
+
 		// Expected to be used only during testing
 		template<typename T>
 		Ref<T> GetResource(ID key, char* inData, UINT size) {
-			if (m_ResourceMaps->ActiveResources.contains(key)) {
-				Ref<Serializeable> ptr = (*m_ResourceMaps->ActiveResources.find(key)).second;
+			if (m_ResourceMaps->ActiveIDResources.contains(key)) {
+				Ref<Serializeable> ptr = (*m_ResourceMaps->ActiveIDResources.find(key)).second;
 				return CastPtr<T>(ptr);
 			}
 
@@ -77,7 +102,7 @@ namespace GameSmith {
 			Ref<T> resource = Ref<T>(new T());
 			resource->Deserialize(data, size);
 
-			m_ResourceMaps->ActiveResources.insert({ key, resource });
+			m_ResourceMaps->ActiveIDResources.insert({ key, resource });
 
 			m_Loader->CleanResource(data);
 
@@ -92,7 +117,8 @@ namespace GameSmith {
 		void CleanResources();
 
 		void SetAssestDirectory(std::string dir) { m_AssetDirectory = dir; }
-
+	private:
+		ResourceManager();
 	private:
 		static ResourceManager* s_Instance;
 

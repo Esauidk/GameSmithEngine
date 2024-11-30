@@ -1,6 +1,7 @@
 #pragma once
 #include "GameSmithEngine/Core/Core.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/RenderComponents/Texture.h"
+#include "GameSmithEngine/Rendering/DirectX12/RenderComponents/Texture/DirectX12Texture.h"
 #include "GameSmithEngine/Rendering/DirectX12/Resources/DirectX12TextureResource.h"
 #include "GameSmithEngine/Rendering/DirectX12/HeapStructures/DirectX12DescriptorLoaderHeapManager.h"
 
@@ -12,7 +13,7 @@ namespace GameSmith {
 		COPYDST
 	};
 
-	class DirectX12RenderTexture : public RenderTexture {
+	class DirectX12RenderTexture : public RenderTexture, public DirectX12Texture {
 	public:
 		DirectX12RenderTexture(unsigned int width, unsigned int height);
 		DirectX12RenderTexture(unsigned int width, unsigned int height, float* clearColor);

@@ -4,7 +4,7 @@
 class TestLayerComponent : public GameSmith::Component {
 public:
 	TestLayerComponent(GameSmith::GameObject* gameObject, GameSmith::Transform* transform) : Component(gameObject, transform) {
-		m_Registry.AddExposedRef<GameSmith::GameObject>("TestRef", (GameSmith::Connection<GameSmith::IDObject>*) & m_TestRef, CLASS_TO_STRING(GameSmith::GameObject));
+		m_Registry.AddExposedConnection<GameSmith::GameObject>("TestRef", (GameSmith::Connection<GameSmith::IDObject>*) & m_TestRef, CLASS_TO_STRING(GameSmith::GameObject));
 	}
 
 	virtual void OnStart() override {};
@@ -21,7 +21,7 @@ class TestingLayer : public GameSmith::Layer
 public:
 	TestingLayer();
 	void OnImGuiRender() override;
-	void OnUpdate() override;
+	void OnUpdate(float dt) override;
 private:
 	GameSmith::Ref<GameSmith::RenderTexture> m_RenderTex;
 };

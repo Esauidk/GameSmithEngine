@@ -16,7 +16,9 @@ namespace GameSmith {
 		// Logic to perform when layer is removed from the system
 		virtual void OnDetach() {/* To allow inheritor classes to not implement any logic */ }
 		// Logic to perform on every update cycle
-		virtual void OnUpdate() {/* To allow inheritor classes to not implement any logic */ }
+		virtual void OnUpdate(float dt) {/* To allow inheritor classes to not implement any logic */ }
+		// Logic to perform at the end of every update cycle
+		virtual void OnEndUpdate() {/* To allow inheritor classes to not implement any logic */ }
 		// Logic to perform when rendering the GUI
 		virtual void OnImGuiRender() {/* To allow inheritor classes to not implement any logic */ }
 		inline const std::string& GetName() const { return m_DebugName; }

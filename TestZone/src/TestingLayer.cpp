@@ -80,13 +80,13 @@ TestingLayer::TestingLayer() : GameSmith::Layer("Testing Layer")
 	auto con1 = GameSmith::GameObjectManager::GetInstance()->CreateGameObject();
 	auto comp = con1.lock()->AddComponent<TestLayerComponent>();
 
-	std::unordered_map<std::string, GameSmith::Ref<GameSmith::RefContainer>> refEntries;
-	comp.lock()->GenerateReferenceEntries(&refEntries);
+	std::unordered_map<std::string, GameSmith::Ref<GameSmith::ConnectionContainer>> refEntries;
+	comp.lock()->GenerateConnectionEntries(&refEntries);
 
 	auto entry = refEntries.find("TestRef");
-	entry->second->AssignRef(con, 0);
+	entry->second->AssignRef(con);
 	entry->second->AssignID(con.lock()->GetID());
-	comp.lock()->BootstrapReferenceRegistry(refEntries);
+	comp.lock()->BootstrapConnectionRegistry(refEntries);
 
 
 	auto chunkMang = GameSmith::ChunkManager::GetInstance();
@@ -108,7 +108,7 @@ TestingLayer::TestingLayer() : GameSmith::Layer("Testing Layer")
 
 	auto renderManager = GameSmith::RenderingManager::GetInstance();
 	float color[4] = { 0.07f, 0.0f, 0.12f, 1.0f };
-	m_RenderTex = renderManager->GetRenderAPI()->CreateRenderTexture((float)GameSmith::Application::Get().GetWindow()->GetWidth(), (float)GameSmith::Application::Get().GetWindow()->GetHeight(), color);
+	m_RenderTex = renderManager->GetRenderAPI()->CreateRenderTexture(GameSmith::Application::Get().GetWindow()->GetWidth(), GameSmith::Application::Get().GetWindow()->GetHeight(), color);
 	GameSmith::RegisterEvent<GameSmith::WindowResizeEvent>(&GameSmith::Window::s_Resized, GE_BIND_EVENT_FN(GameSmith::RenderTexture::WindowResized, m_RenderTex.get()), false);
 	renderManager->GetRenderAPI()->SetRenderTexture(m_RenderTex, 0);
 	renderManager->SetFrameTexture(m_RenderTex);
@@ -118,7 +118,7 @@ void TestingLayer::OnImGuiRender()
 {
 }
 
-void TestingLayer::OnUpdate()
+void TestingLayer::OnUpdate(float dt)
 {
 	auto renderManager = GameSmith::RenderingManager::GetInstance();
 	renderManager->SetForClear(m_RenderTex);

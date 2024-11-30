@@ -2,11 +2,11 @@
 #include "GameSmithEngine/Core/Core.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/RenderComponents/Texture.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/Shaders/ShaderUtil.h"
-#include "Serializable.h"
+#include "Asset.h"
 
 
 namespace GameSmith {
-	class TextureAsset : public Serializeable
+	class GE_API TextureAsset : public Asset
 	{
 	public:
 		virtual Ref<char> Serialize() override;

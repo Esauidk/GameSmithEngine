@@ -6,7 +6,11 @@
 #include "GameSmithEngine/ResourceManagement/ResourceManager.h"
 #include "GameSmithEngine/ResourceManagement/ResourceAssetHelper.h"
 
+#include "AssetFactory.h"
+
 namespace GameSmith {
+	GE_REGISTERASSET(MaterialAsset);
+
 	Ref<char> MaterialAsset::Serialize()
 	{
 		ResourceAssetWriter writer(RequireSpace());

@@ -4,7 +4,7 @@
 #include "GameSmithEngine/Rendering/DirectX12/DirectX12Core.h"
 #include "GameSmithEngine/Rendering/DirectX12/DirectX12Context.h"
 #include "GameSmithEngine/Rendering/DirectX12/Util/third-party/d3dx12.h"
-#include "GameSmithEngine/Rendering/DirectX12/RenderComponents/DirectX12RenderTexture.h"
+#include "GameSmithEngine/Rendering/DirectX12/RenderComponents/Texture/DirectX12Texture.h"
 
 #include "backends/imgui_impl_dx12.h"
 #include "backends/imgui_impl_win32.h"
@@ -12,6 +12,8 @@
 #include "GameSmithEngine/Core/Application.h"
 #include "GameSmithEngine/Core/Log.h"
 #include "imgui.h"
+
+#define HEAP_INCREASE 5
 
 
 namespace GameSmith {
@@ -107,7 +109,7 @@ namespace GameSmith {
 	}
 
 	ImGuiLayer::ImGuiLayer() : Layer("ImGui Layer"), m_CurSlot(1), m_DockEnabled(false) {
-		m_Heap = DirectX12Core::GetCore().GetHeapDatabase()->AllocateHeap(5, DescriptorHeapType::CBVSRVUAV, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE, "IMGui Heap");
+		m_Heap = DirectX12Core::GetCore().GetHeapDatabase()->AllocateHeap(50, DescriptorHeapType::CBVSRVUAV, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE, "IMGui Heap");
 	}
 
 	ImGuiLayer::~ImGuiLayer() {
@@ -162,17 +164,22 @@ namespace GameSmith {
 #endif
 	}
 
-	ImGuiTextureSpace ImGuiLayer::GenerateTextureSpace(Ref<RenderTexture> tex)
+	const ImGuiTextureSpace* ImGuiLayer::GenerateTextureSpace(Ref<Texture> tex)
 	{
 		D3D12_CPU_DESCRIPTOR_HANDLE slot = m_Heap->GetCPUReference(m_CurSlot);
 		D3D12_GPU_DESCRIPTOR_HANDLE gpuSlot = m_Heap->GetGPUReference(m_CurSlot);
 		auto device = DirectX12Core::GetCore().GetDevice();
 
-		auto d3Tex = CastPtr<DirectX12RenderTexture>(tex);
-		device->CopyDescriptorsSimple(1, slot, d3Tex->GetSRVHandle(), D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
+		auto d3Tex = CastPtr<DirectX12Texture>(tex);
+		auto texRef = d3Tex->GetSRVHandle();
+		device->CopyDescriptorsSimple(1, slot, texRef, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
 		m_CurSlot++;
 
-		return {(void*)gpuSlot.ptr, m_CurSlot - 1};
+		Ref<ImGuiTextureSpace> space = Ref<ImGuiTextureSpace>(new ImGuiTextureSpace());
+		*space = { (void*)gpuSlot.ptr, m_CurSlot - 1 };
+		m_CurrentSpaces.emplace_back(space, texRef);
+
+		return space.get();
 	}
 
 	ImGuiContext* ImGuiLayer::GetImGuiContext()
@@ -180,8 +187,29 @@ namespace GameSmith {
 		return ImGui::GetCurrentContext();
 	}
 
-	void ImGuiLayer::Begin() const
+	void ImGuiLayer::Begin()
 	{	
+		if (m_PreviousHeap != nullptr) {
+			auto device = DirectX12Core::GetCore().GetDevice();
+			while (!m_SpacesToMigrate.empty()) {
+				auto& entry = m_SpacesToMigrate.front();
+				device->CopyDescriptorsSimple(
+					1,
+					m_Heap->GetCPUReference(m_CurSlot),
+					entry.originalHandle,
+					D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV
+				);
+
+				entry.space->index = m_CurSlot;
+				entry.space->gpuSpot = (void*)m_Heap->GetGPUReference(m_CurSlot).ptr;
+
+				m_CurSlot++;
+				m_SpacesToMigrate.pop();
+			}
+			m_PreviousHeap->Free();
+			m_PreviousHeap = nullptr;
+		}
+
 		ImGui_ImplDX12_NewFrame();
 		ImGui_ImplWin32_NewFrame();
 		ImGui::NewFrame();

@@ -1,5 +1,5 @@
-#include "GameSmithEngine/Core/Application.h"
-#include "GameSmithEngine/Core/EntryPoint.h"
+#define IMPORT_ENTRY
+#include <GameSmithEngine.h>
 
 class GEMainGame : public GameSmith::Application {
 public:

@@ -38,7 +38,7 @@ namespace GameSmith {
 		DirectX12Core::GetCore().GetDevice()->CreateShaderResourceView(m_Resource->GetResource(), &desc, m_TempDescriptor);
 	}
 
-	D3D12_CPU_DESCRIPTOR_HANDLE DirectX12Texture2D::GetDescriptor()
+	D3D12_CPU_DESCRIPTOR_HANDLE DirectX12Texture2D::GetSRVHandle()
 	{
 		auto& core = DirectX12Core::GetCore();
 		if (m_Resource->GetStateTracker().GetState() == D3D12_RESOURCE_STATE_COPY_DEST) {

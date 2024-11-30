@@ -15,10 +15,9 @@ namespace GameSmith {
 	{
 	public:
 		inline static ChunkManager* GetInstance() { return s_Instance; }
-		ChunkManager();
 
-		void Init();
-		void ShutDown() {};
+		static void Init();
+		static void Shutdown();
 
 		void LoadChunk(ID sceneAsset);
 		// Visible for testing
@@ -29,7 +28,8 @@ namespace GameSmith {
 		void AppendChunk(ID chunkName, Ref<GameChunk> gameChunk);
 
 		inline Connection<GameChunk> GetCurrentMainChunk() { return m_CurrentMainChunk; }
-
+	private:
+		ChunkManager();
 	private:
 		static ChunkManager* s_Instance;
 

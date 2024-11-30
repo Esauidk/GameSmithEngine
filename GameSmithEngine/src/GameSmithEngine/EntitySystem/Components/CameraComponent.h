@@ -22,6 +22,7 @@ namespace GameSmith {
 		Camera* GetCamera() {
 			switch (m_CamType) {
 			case Perspective:
+			default:
 				return &m_PerpCam;
 			case Orthographic:
 				return &m_OrthoCam;

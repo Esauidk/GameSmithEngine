@@ -1,10 +1,10 @@
 #pragma once
 #include "GameSmithEngine/Core/Core.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/RenderComponents/Shader.h"
-#include "Serializable.h"
+#include "Asset.h"
 
 namespace GameSmith {
-	class GE_API ShaderAsset : public Serializeable
+	class GE_API ShaderAsset : public Asset
 	{
 	public:
 		ShaderAsset() = default;

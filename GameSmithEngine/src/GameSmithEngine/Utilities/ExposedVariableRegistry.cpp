@@ -11,11 +11,22 @@ namespace GameSmith {
 		}
 	}
 
-	void ExposedVariableRegistry::GenerateReferenceMap(std::unordered_map<std::string, Ref<RefContainer>>* outMap)
+	void ExposedVariableRegistry::GenerateConnectionsMap(std::unordered_map<std::string, Ref<ConnectionContainer>>* outMap)
 	{
-		for (auto& entry : m_RefRegistry) {
-			Ref<RefContainer> container = Ref<RefContainer>(new RefContainer(entry.second.conversionFunction, entry.second.typeName));
-			container->AssignRef(*(entry.second.originalRefRef), entry.second.flag);
+		for (auto& entry : m_ConnectionsRegistry) {
+			Ref<ConnectionContainer> container = Ref<ConnectionContainer>(new ObjectRefContainer(entry.second.conversionFunction, entry.second.typeName, entry.second.flag));
+			container->AssignRef(*(entry.second.originalRefRef));
+			container->AssignID(entry.second.objectID);
+
+			outMap->insert({ entry.first, container });
+		}
+	}
+
+	void ExposedVariableRegistry::GenerateAssetMap(std::unordered_map<std::string, Ref<AssetRefContainer>>* outMap)
+	{
+		for (auto& entry : m_AssetRegistry) {
+			Ref<AssetRefContainer> container = Ref<AssetRefContainer>(new ObjectRefContainer(entry.second.conversionFunction, entry.second.typeName, entry.second.flag));
+			container->AssignRef(*(entry.second.originalRefRef));
 			container->AssignID(entry.second.objectID);
 
 			outMap->insert({ entry.first, container });
@@ -32,14 +43,26 @@ namespace GameSmith {
 		}
 	}
 
-	void ExposedVariableRegistry::BootstrapFromRefMap(const std::unordered_map<std::string, Ref<RefContainer>>& inMap)
+	void ExposedVariableRegistry::BootstrapFromConnectionsMap(const std::unordered_map<std::string, Ref<ConnectionContainer>>& inMap)
 	{
-		for (auto& entry : m_RefRegistry) {
+		for (auto& entry : m_ConnectionsRegistry) {
 			if (inMap.contains(entry.first)) {
 				const auto& ref = inMap.find(entry.first);
 				entry.second.assignmentFunction(entry.second.originalRefRef, ref->second->GetCurrentRef());
 				entry.second.objectID = ref->second->GetCurrentRefID();
 				entry.second.flag = ref->second->GetFlags();;
+			}
+		}
+	}
+
+	void ExposedVariableRegistry::BootstrapFromAssetMap(const std::unordered_map<std::string, Ref<AssetRefContainer>>& inMap)
+	{
+		for (auto& entry : m_AssetRegistry) {
+			if (inMap.contains(entry.first)) {
+				const auto& ref = inMap.find(entry.first);
+				entry.second.assignmentFunction(entry.second.originalRefRef, ref->second->GetCurrentRef());
+				entry.second.objectID = ref->second->GetCurrentRefID();
+				entry.second.flag = ref->second->GetFlags();
 			}
 		}
 	}
@@ -50,7 +73,7 @@ namespace GameSmith {
 		
 		RegistrySerializeMetadata meta;
 		meta.numVariables = (unsigned int)m_ValueRegistry.size();
-		meta.numRefs = (unsigned int)m_RefRegistry.size();
+		meta.numRefs = (unsigned int)m_ConnectionsRegistry.size();
 
 		writer.WriteClass<RegistrySerializeMetadata>(&meta);
 
@@ -60,7 +83,7 @@ namespace GameSmith {
 			writer.WriteByte((char*)entry.second.originalVariableRef, GetParameterSize(entry.second.variableDataType));
 		}
 
-		for (auto& entry : m_RefRegistry) {
+		for (auto& entry : m_ConnectionsRegistry) {
 			writer.WriteString(entry.first);
 			idData rawId = entry.second.objectID.getData();
 			writer.WriteClass<idData>(&rawId);
@@ -78,7 +101,7 @@ namespace GameSmith {
 
 		RegistrySerializeMetadata meta;
 		meta.numVariables = (unsigned int)m_ValueRegistry.size();
-		meta.numRefs = (unsigned int)m_RefRegistry.size();
+		meta.numRefs = (unsigned int)m_ConnectionsRegistry.size();
 
 		writer.WriteClass<RegistrySerializeMetadata>(&meta);
 
@@ -88,7 +111,7 @@ namespace GameSmith {
 			writer.WriteByte((char*)entry.second.originalVariableRef, GetParameterSize(entry.second.variableDataType));
 		}
 
-		for (auto& entry : m_RefRegistry) {
+		for (auto& entry : m_ConnectionsRegistry) {
 			writer.WriteString(entry.first);
 			idData rawId = entry.second.objectID.getData();
 			writer.WriteClass<idData>(&rawId);
@@ -108,7 +131,7 @@ namespace GameSmith {
 			size += GetParameterSize(entry.second.variableDataType);
 		}
 
-		for (auto& entry : m_RefRegistry) {
+		for (auto& entry : m_ConnectionsRegistry) {
 			size += (unsigned int)(entry.first.length() + 1);
 			size += sizeof(idData);
 			size += sizeof(unsigned int);
@@ -122,7 +145,7 @@ namespace GameSmith {
 		ResourceAssetReader reader(inData, size);
 		RegistrySerializeMetadata* meta = reader.ReadClass<RegistrySerializeMetadata>();
 
-		int i = 0;
+		unsigned int i = 0;
 		while (i < meta->numVariables) {
 			std::string name = reader.GetString();
 			ContainerDataType* dataType = reader.ReadClass<ContainerDataType>();
@@ -142,23 +165,13 @@ namespace GameSmith {
 			std::string name = reader.GetString();
 			idData* rawID = reader.ReadClass<idData>();
 			unsigned int flags = reader.GetUInt();
-			if (m_RefRegistry.contains(name)) {
-				auto entry = m_RefRegistry.find(name);
+			if (m_ConnectionsRegistry.contains(name)) {
+				auto entry = m_ConnectionsRegistry.find(name);
 				entry->second.objectID = ID(*rawID);
 				entry->second.flag = flags;
 			}
 
 			i++;
 		}
-	}
-
-	void RefContainer::AssignRef(Connection<IDObject> toAssign, unsigned int flags)
-	{
-		if (!TypeCheck(toAssign)) {
-			return;
-		}
-
-		m_CopyRef = toAssign;
-		m_Flag = flags;
 	}
 };

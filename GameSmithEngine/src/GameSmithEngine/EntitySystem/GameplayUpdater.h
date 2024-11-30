@@ -7,12 +7,15 @@ namespace GameSmith {
 	class GE_API GameplayUpdater
 	{
 	public:
-		GameplayUpdater();
+		static void Init();
+		static void ShutDown();
 		static GameplayUpdater* GetInstance() { return s_Instance; }
 		void FlushRegistration();
 		void RunGameplayInit();
 		void RunGameplayUpdate(float dt);
 		void Register(Connection<Component> comp) { m_PendingRegistrations.push(comp); }
+	private:
+		GameplayUpdater();
 	private:
 		static GameplayUpdater* s_Instance;
 

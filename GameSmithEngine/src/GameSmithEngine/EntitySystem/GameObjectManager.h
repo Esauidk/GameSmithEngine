@@ -11,11 +11,13 @@ namespace GameSmith {
 
 	class GE_API GameObjectManager {
 	public:
+		// TODO: Remove this public exposure of the constructor
 		GameObjectManager(bool override = false);
 		inline static GameObjectManager* GetInstance() { return s_Instance; }
 
-		void Init();
-		void ShutDown();
+		static void Init();
+		static void ShutDown();
+
 		void CleanGameObjects();
 
 		Connection<GameObject> CreateGameObject(glm::vec3 startingPos = glm::vec3(0), glm::vec3 startingRotation = glm::vec3(0));
@@ -28,7 +30,7 @@ namespace GameSmith {
 		void UpdateGameObjectName(std::string newName, Connection<GameObject> targetObject);
 	private:
 		static GameObjectManager* s_Instance;
-
+	private:
 		unsigned int m_Counter = 0;
 
 		Scope<GameObjectMap> m_ObjectMaps;

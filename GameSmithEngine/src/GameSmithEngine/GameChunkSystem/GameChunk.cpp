@@ -2,6 +2,7 @@
 #include "GameChunk.h"
 #include "GameSmithEngine/EntitySystem/GameObjectManager.h"
 #include "GameSmithEngine/ResourceManagement/ResourceAssetHelper.h"
+#include "GameSmithEngine/ResourceManagement/ResourceManager.h"
 
 namespace GameSmith {
 	GameChunk::~GameChunk()
@@ -54,7 +55,7 @@ namespace GameSmith {
 
 	void GameChunk::Deserialize(char* inData, unsigned int size)
 	{
-		std::unordered_map<ID, Connection<IDObject>, IDHasher> collectedIDs;
+		std::unordered_map<ID, Ref<IDObject>, IDHasher> collectedIDs;
 		std::vector<Connection<Component>> createdComps;
 
 		ResourceAssetReader reader(inData, size);
@@ -63,15 +64,21 @@ namespace GameSmith {
 
 		auto gmManager = GameObjectManager::GetInstance();
 		for (unsigned int i = 0; i < metadata->gmCount; i++) {
+
+			// Create a game object (treat it as a fresh canvas)
 			auto gm = gmManager->CreateGameObject();
 
+			// Deserialize gameobject data into this blank gameobject
 			gm.lock()->Deserialize(reader.GetCurPtr(), reader.GetRemainingBytes());
-			collectedIDs.insert({ gm.lock()->GetID(), gm });
 
+			// Record the ID of this gameobject
+			collectedIDs.insert({ gm.lock()->GetID(), gm.lock() });
+
+			// Go through all deserialized component and store IDs and their references
 			std::vector<Connection<Component>> comps;
 			gm.lock()->GetComponents(&comps);
 			for (auto comp : comps) {
-				collectedIDs.insert({ comp.lock()->GetID(), comp });
+				collectedIDs.insert({ comp.lock()->GetID(), comp.lock() });
 				createdComps.push_back(comp);
 			}
 
@@ -80,18 +87,39 @@ namespace GameSmith {
 			m_GameObjects.push_back(gm);
 		}
 
+		// Go through each component and attempt to fill in references
 		for (auto& comp : createdComps) {
-			std::unordered_map<std::string, Ref<RefContainer>> refs;
-			comp.lock()->GenerateReferenceEntries(&refs);
+			std::unordered_map<std::string, Ref<ConnectionContainer>> connnectionRefs;
+			comp.lock()->GenerateConnectionEntries(&connnectionRefs);
 
-			for (auto& entry : refs) {
+			std::unordered_map<std::string, Ref<AssetRefContainer>> assetRefs;
+			comp.lock()->GenerateAssetEntries(&assetRefs);
+
+			for (auto& entry : connnectionRefs) {
 				if (collectedIDs.contains(entry.second->GetCurrentRefID())) {
 					auto foundEntry = collectedIDs.find(entry.second->GetCurrentRefID());
-					entry.second->AssignRef(foundEntry->second, 0);
+					entry.second->AssignRef(foundEntry->second);
+				}
+
+				// TODO Add case for serialized connection objects, i.e. GameObjects
+			}
+
+			for (auto& entry : assetRefs) {
+				if (collectedIDs.contains(entry.second->GetCurrentRefID())) {
+					auto foundEntry = collectedIDs.find(entry.second->GetCurrentRefID());
+					entry.second->AssignRef(CastPtr<Asset>(foundEntry->second));
+				}
+				else {
+					// Attempt to load asset
+					auto resourceManager = ResourceManager::GetInstance();
+					auto asset = resourceManager->GetResource(entry.second->GetCurrentRefID());
+					// TODO: Change resource manager to return asset class for default
+					entry.second->AssignRef(CastPtr<Asset>(asset));
+					collectedIDs.insert({ asset->GetID(), asset });
 				}
 			}
 
-			comp.lock()->BootstrapReferenceRegistry(refs);
+			comp.lock()->BootstrapConnectionRegistry(connnectionRefs);
 		}
 	}
 };

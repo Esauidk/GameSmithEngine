@@ -5,24 +5,26 @@ namespace GameSmith {
 	GameObjectManager* GameObjectManager::s_Instance = nullptr;
 
 	GameObjectManager::GameObjectManager(bool override) : m_ObjectMaps(new GameObjectMap()) {
-		if (s_Instance == nullptr) {
-			s_Instance = this;
-		}
-		else if (override) {
-			s_Instance = this;
-		}
 	}
 
 	void GameObjectManager::Init()
 	{
-		m_Counter = 0;
-		m_ObjectMaps->objects.clear();
-		CleanGameObjects();
+		if (s_Instance == nullptr) {
+			s_Instance = new GameObjectManager();
+			s_Instance->m_Counter = 0;
+			s_Instance->m_ObjectMaps->objects.clear();
+			s_Instance->CleanGameObjects();
+		}
+		
 	}
 
 	void GameObjectManager::ShutDown()
 	{
-		CleanGameObjects();
+		if (s_Instance != nullptr) {
+			s_Instance->CleanGameObjects();
+			delete s_Instance;
+			s_Instance = nullptr;
+		}
 	}
 
 	void GameObjectManager::CleanGameObjects()

@@ -27,7 +27,8 @@ namespace GameSmith {
 	class GE_API ContentLibraryManager
 	{
 	public:
-		ContentLibraryManager();
+		static void Init();
+		static void Shutdown();
 
 		inline static ContentLibraryManager* GetInstance() { return s_Instance; }
 		void DiscoveryLibaries();
@@ -36,6 +37,8 @@ namespace GameSmith {
 		void UnloadContentLibrary(std::string libraryName);
 
 		void LoadAllLibraries();
+	private:
+		ContentLibraryManager();
 	private:
 		std::unordered_map<std::string, DynamicLibraryDetails> m_Libraries;
 		static ContentLibraryManager* s_Instance;

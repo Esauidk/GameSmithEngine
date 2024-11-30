@@ -3,7 +3,7 @@
 #include "GameSmithEngine/Core/Log.h"
 #include "GameSmithEngine/EntitySystem/Components/ComponentFactory.h"
 #include "GameSmithEngine/EntitySystem/GameObject.h"
-#include "GameSmithEngine/Utilities/UtilMacros.h"
+#include "GameSmithEngine/ResourceAssets/GameChunkAsset.h"
 
 namespace GameSmith {
 	GE_REGISTERCOMPONENT(TestComponent)
@@ -17,8 +17,9 @@ namespace GameSmith {
 		m_Registry.AddExposedVariable("Test Variable6", (void*)&expose6, ContainerDataType::Int2);
 		m_Registry.AddExposedVariable("Test Variable7", (void*)&expose7, ContainerDataType::Int3);
 		m_Registry.AddExposedVariable("Test Variable8", (void*)&expose8, ContainerDataType::Int4);
-		m_Registry.AddExposedRef<GameObject>("TestRef", (Connection<GameSmith::IDObject>*) & m_TestRef, CLASS_TO_STRING(GameObject));
-		m_Registry.AddExposedRef<TestComponent>("TestRef1", (Connection<GameSmith::IDObject>*) & m_TestCompRef, CLASS_TO_STRING(TestComponent));
+		m_Registry.AddExposedConnection<GameObject>("TestRef", (Connection<GameSmith::IDObject>*) & m_TestRef, CLASS_TO_STRING(GameObject));
+		m_Registry.AddExposedConnection<TestComponent>("TestRef1", (Connection<GameSmith::IDObject>*) & m_TestCompRef, CLASS_TO_STRING(TestComponent));
+		m_Registry.AddExposedAsset<GameChunkAsset>("TestRef2", (Ref<GameSmith::Asset>*) & m_GameChunkAsset, CLASS_TO_STRING(GameChunkAsset));
 	}
 
 	void TestComponent::OnStart()

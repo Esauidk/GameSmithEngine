@@ -6,6 +6,8 @@
 
 #include <filesystem>
 
+#include "GameSmithEngine/ResourceAssets/AssetFactory.h"
+
 using recursive_directory_iterator = std::filesystem::recursive_directory_iterator;
 
 namespace GameSmith {
@@ -29,13 +31,21 @@ namespace GameSmith {
 
 	void ResourceManager::Init(ResourceLoaderType loaderType)
 	{
-		m_Loader = GetLoader(loaderType);
-		ScanResources();
-		GE_CORE_INFO("Resource Manager Loaded!");
+		if (s_Instance == nullptr) {
+			s_Instance = new ResourceManager();
+			s_Instance->m_Loader = GetLoader(loaderType);
+			s_Instance->ScanResources();
+			GE_CORE_INFO("Resource Manager Loaded!");
+		}
+		
 	}
 
 	void ResourceManager::Shutdown()
 	{
+		if (s_Instance != nullptr) {
+			delete s_Instance;
+			s_Instance = nullptr;
+		}
 	}
 
 	ID ResourceManager::WriteResource(Ref<Serializeable> resource, std::string path)
@@ -125,15 +135,82 @@ namespace GameSmith {
 
 	void ResourceManager::CleanResources()
 	{
-		auto it = m_ResourceMaps->ActiveResources.begin();
+		auto idIt = m_ResourceMaps->ActiveIDResources.begin();
 
-		while (it != m_ResourceMaps->ActiveResources.end()) {
-			if (it->second.use_count() == 1) {
-				it = m_ResourceMaps->ActiveResources.erase(it);
+		while (idIt != m_ResourceMaps->ActiveIDResources.end()) {
+			if (idIt->second.use_count() == 1) {
+				idIt = m_ResourceMaps->ActiveIDResources.erase(idIt);
 			}
 			else {
-				it++;
+				idIt++;
 			}
 		}
+
+		auto pathIt = m_ResourceMaps->ActivePathResources.begin();
+
+		while (pathIt != m_ResourceMaps->ActivePathResources.end()) {
+			if (pathIt->second.use_count() == 1) {
+				pathIt = m_ResourceMaps->ActivePathResources.erase(pathIt);
+			}
+			else {
+				pathIt++;
+			}
+		}
+	}
+
+	Ref<Serializeable> ResourceManager::GetResource(ID asset) {
+		if (m_ResourceMaps->ActiveIDResources.contains(asset)) {
+			return (*m_ResourceMaps->ActiveIDResources.find(asset)).second;
+		}
+
+		GE_CORE_ASSERT(m_ResourceMaps->ResourceRegistry.contains(asset), "No UUID entry for asset");
+		GE_CORE_INFO("Loading file into memory!");
+
+		std::string path = m_ResourceMaps->ResourceRegistry.find(asset)->second;
+
+		UINT size;
+		char* data = m_Loader->LoadResource(path, &size);
+
+		unsigned int metaSize;
+		char* meta = m_Loader->LoadResource(path + ".meta", &metaSize);
+
+		GE_CORE_ASSERT(metaSize == sizeof(ResourceFileMetadata), "Meta data of resource has been manipulated and does not match the expected size");
+
+
+		std::string ext = path.substr(path.find_last_of('.') + 1);
+		Ref<Serializeable> resource = AssetFactory::GenerateAsset(ext);
+		resource->Deserialize(data, size);
+
+		ResourceFileMetadata* metaPtr = (ResourceFileMetadata*)meta;
+		ID metaId(metaPtr->ID);
+
+		resource->SetID(metaId);
+
+		m_ResourceMaps->ActiveIDResources.insert({ asset, resource });
+
+		m_Loader->CleanResource(data);
+		m_Loader->CleanResource(meta);
+
+		return resource;
+	}
+
+	Ref<Serializeable> ResourceManager::GetResource(std::string asset) {
+		if (m_ResourceMaps->ActivePathResources.contains(asset)) {
+			return (*m_ResourceMaps->ActivePathResources.find(asset)).second;
+		}
+
+		GE_CORE_INFO("Loading file into memory!");
+		UINT size;
+		char* data = m_Loader->LoadResource(asset, &size);
+
+		std::string ext = asset.substr(asset.find_last_of('.') + 1);
+		Ref<Serializeable> resource = AssetFactory::GenerateAsset(ext);
+		resource->Deserialize(data, size);
+
+		m_ResourceMaps->ActivePathResources.insert({ asset, resource });
+
+		m_Loader->CleanResource(data);
+
+		return resource;
 	}
 };

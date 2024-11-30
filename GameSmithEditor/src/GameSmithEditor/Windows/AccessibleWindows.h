@@ -1,6 +1,6 @@
 #pragma once
-#include "GameObjectDetails.h"
+#include "Inspector.h"
 #include "GameViewLayer.h"
-#include "SimulationContentView.h"
+#include "ContentView.h"
 #include "AssetDatabaseWindow.h"
 

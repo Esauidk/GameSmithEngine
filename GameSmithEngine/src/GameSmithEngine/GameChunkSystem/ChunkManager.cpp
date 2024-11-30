@@ -7,16 +7,23 @@ namespace GameSmith {
 
 	ChunkManager::ChunkManager() : m_LoadedChunks(new ChunkMap())
 	{
+		auto chunk = GameSmith::Ref<GameSmith::GameChunk>(new GameSmith::GameChunk());
+		LoadChunk(chunk->GetID(), chunk);
 	}
 
 	void ChunkManager::Init()
 	{
-		GE_CORE_INFO("SceneManager Loaded");
-
 		if (s_Instance == nullptr) {
-			s_Instance = this;
-			auto chunk = GameSmith::Ref<GameSmith::GameChunk>(new GameSmith::GameChunk());
-			LoadChunk(chunk->GetID(), chunk);
+			s_Instance = new ChunkManager();
+			GE_CORE_INFO("SceneManager Loaded");
+		}
+	}
+
+	void ChunkManager::Shutdown()
+	{
+		if (s_Instance != nullptr) {
+			delete s_Instance;
+			s_Instance = nullptr;
 		}
 	}
 

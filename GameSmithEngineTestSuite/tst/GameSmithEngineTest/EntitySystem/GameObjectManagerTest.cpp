@@ -92,17 +92,18 @@ TEST(GameObjectManager, DeleteUntrackedGameObject) {
 }
 
 TEST(GameObjectManager, CleanOnShutDown) {
-	GameSmith::GameObjectManager manager;
+	GameSmith::GameObjectManager::Init();
+	GameSmith::GameObjectManager* manager = GameSmith::GameObjectManager::GetInstance();
 	glm::vec3 startPos(1, 2, 3);
 	glm::vec3 startRot(4, 5, 6);
 
-	manager.CreateGameObject(startPos, startRot);
-	auto gameObject = manager.FindGameObject(GameSmith::GameObject::DEFAULT_GAMEOBJECT_NAME);
+	manager->CreateGameObject(startPos, startRot);
+	auto gameObject = manager->FindGameObject(GameSmith::GameObject::DEFAULT_GAMEOBJECT_NAME);
 	EXPECT_NE(gameObject.lock().get(), nullptr);
 
-	manager.DestroyGameObject(gameObject);
-	EXPECT_EQ(manager.FindGameObject(GameSmith::GameObject::DEFAULT_GAMEOBJECT_NAME).lock().get(), nullptr);
+	manager->DestroyGameObject(gameObject);
+	EXPECT_EQ(manager->FindGameObject(GameSmith::GameObject::DEFAULT_GAMEOBJECT_NAME).lock().get(), nullptr);
 
-	EXPECT_NO_THROW(manager.ShutDown());
+	EXPECT_NO_THROW(GameSmith::GameObjectManager::ShutDown());
 	EXPECT_TRUE(gameObject.expired());
 }

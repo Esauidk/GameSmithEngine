@@ -9,7 +9,6 @@
 #include "GameSmithEngine/Core/Layer.h"
 #include "GameSmithEngine/Core/Timer.h"
 #include "GameSmithEngine/Core/FrameRateController.h"
-#include "GameSmithEngine/Core/SubsystemManager.h"
 
 #include "GameSmithEngine/ImGui/ImGuiLayer.h"
 
@@ -22,7 +21,7 @@ namespace GameSmith{
 	{
 	public:
 		Application(std::string appName = "Game Smith Engine");
-		virtual ~Application() = default;
+		virtual ~Application();
 
 		// Add a layer into the Engine Structure
 		void PushLayer(Layer* layer);
@@ -40,9 +39,9 @@ namespace GameSmith{
 		bool OnWindowClose(WindowCloseEvent& evn);
 	private:
 		bool m_Running = true;
+		bool m_LoopStarted = false;
 		Timer m_Timer;
-		FrameRateController m_FrameRateController;
-		SubsystemManager m_SubSystems;
+		FrameRateController m_FrameRateController;;
 
 		Scope<Window> m_Window;
 		std::queue<Layer*> m_PendingLayers;
