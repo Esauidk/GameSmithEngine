@@ -113,6 +113,8 @@ namespace GameSmith {
 
 		auto md = reader.ReadClass<GameObjectSerialMetadata>();
 		ID newID(md->IDdata);
+		auto con = GameObjectManager::GetInstance()->FindGameObject(m_Name);
+		GameObjectProxy::UpdateManagerStoredID(newID, con);
 		SetID(newID);
 
 		m_Transform->Deserialize(reader.GetCurPtr(), reader.GetRemainingBytes());

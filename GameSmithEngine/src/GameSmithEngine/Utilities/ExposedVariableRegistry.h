@@ -129,7 +129,8 @@ namespace GameSmith {
 	private:
 		struct RegistrySerializeMetadata {
 			unsigned int numVariables;
-			unsigned int numRefs;
+			unsigned int numConnections;
+			unsigned int numAssetRefs;
 		};
 
 		struct ExposedVariableEntry {

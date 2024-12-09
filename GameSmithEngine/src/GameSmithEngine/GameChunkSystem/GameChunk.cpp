@@ -120,6 +120,7 @@ namespace GameSmith {
 			}
 
 			comp.lock()->BootstrapConnectionRegistry(connnectionRefs);
+			comp.lock()->BootstrapAssetRegistry(assetRefs);
 		}
 	}
 };

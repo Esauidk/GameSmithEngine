@@ -73,7 +73,7 @@ namespace GameSmith {
 		
 		RegistrySerializeMetadata meta;
 		meta.numVariables = (unsigned int)m_ValueRegistry.size();
-		meta.numRefs = (unsigned int)m_ConnectionsRegistry.size();
+		meta.numConnections = (unsigned int)m_ConnectionsRegistry.size();
 
 		writer.WriteClass<RegistrySerializeMetadata>(&meta);
 
@@ -89,6 +89,16 @@ namespace GameSmith {
 			writer.WriteClass<idData>(&rawId);
 			writer.WriteUInt(entry.second.flag);
 		}
+
+		for (auto& entry : m_AssetRegistry) {
+			writer.WriteString(entry.first);
+			idData rawId = entry.second.objectID.getData();
+			writer.WriteClass<idData>(&rawId);
+			writer.WriteUInt(entry.second.flag);
+		}
+
+		// TODO: Test that doing this instead works
+		//Serialize(writer.GetCurPtr(), writer.GetBufferSize());
 
 		return Ref<char>(writer.GetBuffer());
 	}
@@ -101,7 +111,8 @@ namespace GameSmith {
 
 		RegistrySerializeMetadata meta;
 		meta.numVariables = (unsigned int)m_ValueRegistry.size();
-		meta.numRefs = (unsigned int)m_ConnectionsRegistry.size();
+		meta.numConnections = (unsigned int)m_ConnectionsRegistry.size();
+		meta.numAssetRefs = (unsigned int)m_AssetRegistry.size();
 
 		writer.WriteClass<RegistrySerializeMetadata>(&meta);
 
@@ -118,6 +129,12 @@ namespace GameSmith {
 			writer.WriteUInt(entry.second.flag);
 		}
 
+		for (auto& entry : m_AssetRegistry) {
+			writer.WriteString(entry.first);
+			idData rawId = entry.second.objectID.getData();
+			writer.WriteClass<idData>(&rawId);
+			writer.WriteUInt(entry.second.flag);
+		}
 	}
 
 	unsigned int ExposedVariableRegistry::RequireSpace() const
@@ -132,6 +149,12 @@ namespace GameSmith {
 		}
 
 		for (auto& entry : m_ConnectionsRegistry) {
+			size += (unsigned int)(entry.first.length() + 1);
+			size += sizeof(idData);
+			size += sizeof(unsigned int);
+		}
+
+		for (auto& entry : m_AssetRegistry) {
 			size += (unsigned int)(entry.first.length() + 1);
 			size += sizeof(idData);
 			size += sizeof(unsigned int);
@@ -161,12 +184,26 @@ namespace GameSmith {
 		
 
 		i = 0;
-		while (i < meta->numRefs) {
+		while (i < meta->numConnections) {
 			std::string name = reader.GetString();
 			idData* rawID = reader.ReadClass<idData>();
 			unsigned int flags = reader.GetUInt();
 			if (m_ConnectionsRegistry.contains(name)) {
 				auto entry = m_ConnectionsRegistry.find(name);
+				entry->second.objectID = ID(*rawID);
+				entry->second.flag = flags;
+			}
+
+			i++;
+		}
+
+		i = 0;
+		while (i < meta->numAssetRefs) {
+			std::string name = reader.GetString();
+			idData* rawID = reader.ReadClass<idData>();
+			unsigned int flags = reader.GetUInt();
+			if (m_AssetRegistry.contains(name)) {
+				auto entry = m_AssetRegistry.find(name);
 				entry->second.objectID = ID(*rawID);
 				entry->second.flag = flags;
 			}

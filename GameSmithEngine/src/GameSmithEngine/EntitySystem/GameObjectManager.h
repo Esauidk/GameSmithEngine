@@ -28,6 +28,7 @@ namespace GameSmith {
 	private:
 		friend class GameObjectProxy;
 		void UpdateGameObjectName(std::string newName, Connection<GameObject> targetObject);
+		void UpdateGameObjectID(ID newID, Connection<GameObject> targetObject);
 	private:
 		static GameObjectManager* s_Instance;
 	private:
@@ -43,6 +44,11 @@ namespace GameSmith {
 			auto manager = GameObjectManager::GetInstance();
 			manager->UpdateGameObjectName(newName, targetObject);
 		};
+
+		inline static void UpdateManagerStoredID(ID newID, Connection<GameObject> targetObject) {
+			auto manager = GameObjectManager::GetInstance();
+			manager->UpdateGameObjectID(newID, targetObject);
+		}
 
 		friend class GameObject;
 	};

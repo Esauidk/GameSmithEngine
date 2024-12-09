@@ -139,5 +139,30 @@ namespace GameSmith {
 			}
 		}
 	}
+
+	void GameObjectManager::UpdateGameObjectID(ID newID, Connection<GameObject> targetObject)
+	{
+		if (!targetObject.expired() && !m_ObjectMaps->objects.contains(newID)) {
+			auto temp = targetObject.lock();
+			if (temp.get() != nullptr) {
+				auto ID = temp->GetID();
+
+				if (m_ObjectMaps->objectNames.contains(temp->GetName())) {
+					auto item = m_ObjectMaps->objectNames.find(temp->GetName());
+					if (item->second.contains(ID)) {
+						item->second.erase(ID);
+					}
+
+					item->second.insert(newID);
+				}
+
+				if (m_ObjectMaps->objects.contains(ID)) {
+					m_ObjectMaps->objects.erase(ID);
+				}
+
+				m_ObjectMaps->objects.insert({ newID, temp });
+			}
+		}
+	}
 };
 
