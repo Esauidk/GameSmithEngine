@@ -4,11 +4,14 @@
 
 class TestZone : public GameSmith::Application {
 public:
-	TestZone() {
+	TestZone(GameSmith::ApplicationSpecs specs) : GameSmith::Application(specs) {
 		PushLayer(new TestingLayer());
 	}
 };
 
-GameSmith::Application* GameSmith::CreateApplication() {
-	return new TestZone();
+GameSmith::Application* GameSmith::CreateApplication(GameSmith::CommandLineArgs cmdArgs) {
+	GameSmith::ApplicationSpecs specs;
+	specs.CommandLineArgs = cmdArgs;
+
+	return new TestZone(specs);
 }

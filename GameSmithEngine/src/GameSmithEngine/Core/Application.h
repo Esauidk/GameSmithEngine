@@ -14,13 +14,23 @@
 
 
 
-namespace GameSmith{
+namespace GameSmith {
+	struct CommandLineArgs {
+		int Count = 0;
+		char** Args = nullptr;
+	};
+
+	struct ApplicationSpecs {
+		std::string Name = "Game Smith Engine";
+		CommandLineArgs CommandLineArgs;
+	};
+
 	// The class is the abstract representation of the Engine's structure
 	// Ex: Layers(Submodules), Execution Loop, OS Window, etc
 	class GE_API Application
 	{
 	public:
-		Application(std::string appName = "Game Smith Engine");
+		Application(ApplicationSpecs& appSpecs);
 		virtual ~Application();
 
 		// Add a layer into the Engine Structure
@@ -35,9 +45,12 @@ namespace GameSmith{
 		inline Window* GetWindow() { return m_Window.get();}
 		inline Timer& GetTimer() { return m_Timer; }
 		inline ImGuiLayer* GetImGuiInstance() { return m_ImGuiLayer; }
+		inline const ApplicationSpecs& GetApplicationSpecs() const { return m_AppSpecs; }
 	private:
 		bool OnWindowClose(WindowCloseEvent& evn);
 	private:
+		ApplicationSpecs m_AppSpecs;
+
 		bool m_Running = true;
 		bool m_LoopStarted = false;
 		Timer m_Timer;
@@ -55,7 +68,7 @@ namespace GameSmith{
 
 	// Needs to be defined by CLIENT
 	// This will tell the engine which application to use during the entry point phase
-	Application* CreateApplication();
+	Application* CreateApplication(CommandLineArgs cmdArgs);
 };
 
 

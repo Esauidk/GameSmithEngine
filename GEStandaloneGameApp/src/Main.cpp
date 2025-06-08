@@ -3,9 +3,12 @@
 
 class GEMainGame : public GameSmith::Application {
 public:
-	GEMainGame() : GameSmith::Application("GEMainGame") {}
+	GEMainGame(GameSmith::ApplicationSpecs specs) : GameSmith::Application(specs) {}
 };
 
-GameSmith::Application* GameSmith::CreateApplication() {
-	return new GEMainGame();
+GameSmith::Application* GameSmith::CreateApplication(GameSmith::CommandLineArgs cmdArgs) {
+	GameSmith::ApplicationSpecs specs;
+	specs.Name = "GEMainGame";
+	specs.CommandLineArgs = cmdArgs;
+	return new GEMainGame(specs);
 }

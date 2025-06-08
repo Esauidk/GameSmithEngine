@@ -13,7 +13,7 @@
 namespace GameSmith {
 	Application* Application::s_Instance = nullptr;
 
-	Application::Application(std::string appName) {
+	Application::Application(ApplicationSpecs& appSpecs) : m_AppSpecs(appSpecs) {
 		GE_CORE_ASSERT(!s_Instance, "Application already exists");
 		s_Instance = this;
 
@@ -24,7 +24,7 @@ namespace GameSmith {
 		PushLayer(new EntitySystemLayer());
 
 		GameSmith::WindowProps props;
-		props.Title = appName;
+		props.Title = appSpecs.Name;
 
 		m_Window = std::unique_ptr<Window>(Window::Create(props));
 		RegisterEvent<WindowCloseEvent>(&Window::s_Close, GE_BIND_EVENT_FN(Application::OnWindowClose, this), false);

@@ -2,9 +2,7 @@
 
 #ifdef GE_PLATFORM_WINDOWS
 
-extern GameSmith::Application* GameSmith::CreateApplication();
-
-
+extern GameSmith::Application* GameSmith::CreateApplication(GameSmith::CommandLineArgs cmdArgs);
 
 int main(int argc, char** argv) {
 
@@ -12,7 +10,7 @@ int main(int argc, char** argv) {
 	GameSmith::Log::Init();
 	GE_CORE_INFO("Initialized Log!");
 
-	GameSmith::Application* app = GameSmith::CreateApplication();
+	GameSmith::Application* app = GameSmith::CreateApplication({argc, argv});
 	app->Execute();
 	delete app;
 }
