@@ -6,7 +6,7 @@ namespace GameSmith {
 	class RenderWorkflow {
 	public:
 		RenderWorkflow(RendererAPI* api) : m_APIInstance(api) {}
-		virtual void Submit(Ref<VertexBuffer> vBuff, Ref<IndexBuffer> iBuff, Ref<Material> mat) = 0;
+		virtual void Submit(Ref<VertexBuffer> vBuff, Ref<IndexBuffer> iBuff, Ref<Material> mat) const = 0;
 	protected:
 		RendererAPI* m_APIInstance;
 	};

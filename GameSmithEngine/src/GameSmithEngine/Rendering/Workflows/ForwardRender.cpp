@@ -2,7 +2,7 @@
 #include "ForwardRender.h"
 
 namespace GameSmith {
-	void ForwardRender::Submit(Ref<VertexBuffer> vBuff, Ref<IndexBuffer> iBuff, Ref<Material> mat)
+	void ForwardRender::Submit(Ref<VertexBuffer> vBuff, Ref<IndexBuffer> iBuff, Ref<Material> mat) const
 	{
 		m_APIInstance->SetVertexBuffer(vBuff);
 		m_APIInstance->SetIndexBuffer(iBuff);
