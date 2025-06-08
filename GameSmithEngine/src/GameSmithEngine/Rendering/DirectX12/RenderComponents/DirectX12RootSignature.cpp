@@ -125,10 +125,5 @@ namespace GameSmith {
 			}
 		}
 	}
-
-	/*void DirectX12RootSignature::Bind() {
-		auto& cmdList = DirectX12Context::GetDirectCommandList();
-		cmdList->SetGraphicsRootSignature(m_Root.Get());
-	}*/
 };
 

@@ -219,11 +219,6 @@ namespace GameSmith {
 		stateRef->Create(args);
 
 		auto refData = Ref<DirectX12GraphicsPipelineState>(new DirectX12GraphicsPipelineState(stateRef, root));
-		// TODO: REMOVE THIS, Think of a way to ensure previous state pipelines don't get deleted
-		/*m_SavedPipelineObjects.push_back(refData);
-
-		auto& state = m_Core.GetDirectCommandContext().GetStateManager();
-		state.SetGraphicsPipelineState(refData);*/
 
 		return refData;
 	}

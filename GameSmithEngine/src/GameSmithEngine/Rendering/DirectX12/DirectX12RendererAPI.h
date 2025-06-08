@@ -45,10 +45,9 @@ namespace GameSmith {
 		virtual void SubmitRecording() override;
 		virtual void CompleteFrameSubmissions() override;
 
-		inline virtual void ClearCachedAssets() override { m_SavedPipelineObjects.clear(); }
+		inline virtual void ClearCachedAssets() override {  }
 	private:
 		DirectX12Core& m_Core;
-		std::vector<Ref<DirectX12GraphicsPipelineState>> m_SavedPipelineObjects;
 	};
 };
 
