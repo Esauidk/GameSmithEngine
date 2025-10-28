@@ -18,8 +18,22 @@ namespace GameSmith {
 	public:
 		inline static RenderingManager* GetInstance() { return s_Instance; }
 
+		/// <summary>
+		/// Intializes the inner state of the manager, must be called before making render calls
+		/// </summary>
 		static void Init();
+
+		/// <summary>
+		/// Tearsdown the manager's inner state, render calls will no longer work until Init() is called again
+		/// </summary>
 		static void ShutDown();
+
+		/// <summary>
+		/// Sets the render workflow to be used when processing a submission
+		/// 
+		/// Will take over ownership over workflow instance
+		/// </summary>
+		/// <param name="workflow"> A pointer to the workflow to use </param>
 		void SetRenderWorkflow(RenderWorkflow* workflow);
 		void BeginScene(Camera* cam, LightSource* mainLight);
 		void EndScene();
@@ -38,19 +52,37 @@ namespace GameSmith {
 		// Returns a list of event dispatchers, used when you want to subscribe to a Window event
 		inline const std::vector<EventDispatcherBase*>& GetDistpachers() const { return m_Dispatchers; }
 	private:
+		// Intentionally disable constructor for clients
 		RenderingManager();
 	private:
+		// Global reference to self
 		static RenderingManager* s_Instance;
+
+		// Render API Abstraction
 		Scope<RendererAPI> m_RenderAPI;
+
+		// Internal manager for PSOs 
 		Scope<PipelineStateObjectManager> m_PSOManager;
+
+		// The guideline workflow for how to handle a render submission
 		Scope<RenderWorkflow> m_RenderWorkflow;
+
+		// Shared data to use for all submissions
 		GloablShaderData m_SceneData;
+
+		// GPU memory for shared data
 		Ref<ConstantBuffer> m_SceneDataGPU;
+
+		// The texture to render submissions to
 		Ref<RenderTexture> m_FrameTexture;
+
+		// A list of textures to clear after a swap chain switch
 		std::queue<Ref<RenderTexture>> m_ClearOnSwap;
 
+		// A dispatcher to notify that a frame has ended
 		EventDispatcher<EndFrameEvent> m_FrameEndDispatch;
 
+		// List of dispatchers available
 		const std::vector<EventDispatcherBase*> m_Dispatchers = { &m_FrameEndDispatch};
 	};
 };

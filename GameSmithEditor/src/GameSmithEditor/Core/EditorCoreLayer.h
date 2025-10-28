@@ -1,11 +1,14 @@
 #pragma once
 #include "GameSmithEngine.h"
 
+#define EDITOR_WINDOW_TITLE "Game Smith Editor"
+
 namespace GameSmithEditor {
 	class EditorCoreLayer : public GameSmith::Layer
 	{
 	public:
 		EditorCoreLayer();
+
 		void OnAttach() override;
 		void OnImGuiRender() override;
 		void OnUpdate(float dt) override;

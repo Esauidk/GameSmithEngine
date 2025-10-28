@@ -45,10 +45,10 @@ namespace GameSmithEditor {
 		s_CurProject->SetRootFolder(projRoot);
 		s_CurProject->SetProjectName(projectName);
 
-		unsigned int size = (unsigned int)projectName.size() + 1;
-		GameSmith::ResourceAssetWriter writer(size);
-		writer.WriteString(projectName);
-		writer.CommitToFile(std::format("{0}\\{1}\\{2}.GameSmithPrj", projectPath, projectName, projectName));
+		auto buf = s_CurProject->Serialize();
+
+		GameSmith::ResourceAssetWriter writer(buf.get(), s_CurProject->RequireSpace());
+		writer.CommitToFile(std::format("{0}\\{1}\\{2}.{3}", projectPath, projectName, projectName, s_CurProject->GetFileExtension()));
 
 		SetupProjectResources();
 	}
@@ -57,16 +57,43 @@ namespace GameSmithEditor {
 	{
 		auto reader = GameSmith::ResourceAssetReader::ReadDirectlyFromFile(std::format("{0}\\{1}.GameSmithPrj", projectFolder, "TestProjectDir2"));
 
-		std::string prjName = reader.GetString();
-
 		if (s_CurProject == nullptr) {
 			s_CurProject = GameSmith::Scope<GameProject>(new GameProject());
 		}
 
 		s_CurProject->SetRootFolder(projectFolder);
-		s_CurProject->SetProjectName(prjName);
+		s_CurProject->Deserialize(reader.GetCurPtr(), reader.GetRemainingBytes());
 
 		SetupProjectResources();
+	}
+
+	GameSmith::Ref<char> GameProject::Serialize()
+	{
+		unsigned size = RequireSpace();
+		auto buf = GameSmith::Ref<char>(new char[size]);
+
+		Serialize(buf.get(), size);
+
+		return buf;
+	}
+
+	void GameProject::Serialize(char* byteStream, unsigned int availableBytes)
+	{
+		unsigned int size = RequireSpace();
+		GE_CORE_ASSERT(availableBytes >= size, "Not enough bytes to serialize GameProject structure");
+		GameSmith::ResourceAssetWriter writer(byteStream, availableBytes);
+		writer.WriteString(m_ProjectName);
+	}
+
+	unsigned int GameProject::RequireSpace() const
+	{
+		return (unsigned int)m_ProjectName.size() + 1;
+	}
+
+	void GameProject::Deserialize(char* inData, unsigned int size)
+	{
+		GameSmith::ResourceAssetReader reader(inData, size);
+		SetProjectName(reader.GetString());
 	}
 };
 

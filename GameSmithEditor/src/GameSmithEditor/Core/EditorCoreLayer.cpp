@@ -98,6 +98,16 @@ namespace GameSmithEditor {
 
 	void EditorCoreLayer::OnUpdate(float dt)
 	{
+		if (GameProject::IsLoaded()) {
+			std::string prjName = GameProject::GetProjectName();
+			std::string newWindowTitle = std::format("{} - {}", prjName, EDITOR_WINDOW_TITLE);
+
+			m_App.GetWindow()->SetTitle(newWindowTitle);
+		}
+		else {
+			m_App.GetWindow()->SetTitle(EDITOR_WINDOW_TITLE);
+		}
+
 		auto renderManager = GameSmith::RenderingManager::GetInstance();
 		renderManager->SetForClear(m_EditorScreen);
 	}

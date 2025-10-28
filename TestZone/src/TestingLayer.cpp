@@ -63,7 +63,7 @@ TestingLayer::TestingLayer() : GameSmith::Layer("Testing Layer")
 	asset->GenerateInstance();
 	i = 1;*/
 
-	auto resourceMang = GameSmith::ResourceManager::GetInstance();
+	/*auto resourceMang = GameSmith::ResourceManager::GetInstance();
 	resourceMang->SetAssestDirectory("Assets");
 	resourceMang->ScanResources();
 
@@ -111,7 +111,7 @@ TestingLayer::TestingLayer() : GameSmith::Layer("Testing Layer")
 	m_RenderTex = renderManager->GetRenderAPI()->CreateRenderTexture(GameSmith::Application::Get().GetWindow()->GetWidth(), GameSmith::Application::Get().GetWindow()->GetHeight(), color);
 	GameSmith::RegisterEvent<GameSmith::WindowResizeEvent>(&GameSmith::Window::s_Resized, GE_BIND_EVENT_FN(GameSmith::RenderTexture::WindowResized, m_RenderTex.get()), false);
 	renderManager->GetRenderAPI()->SetRenderTexture(m_RenderTex, 0);
-	renderManager->SetFrameTexture(m_RenderTex);
+	renderManager->SetFrameTexture(m_RenderTex);*/
 }
 
 void TestingLayer::OnImGuiRender()
@@ -120,6 +120,6 @@ void TestingLayer::OnImGuiRender()
 
 void TestingLayer::OnUpdate(float dt)
 {
-	auto renderManager = GameSmith::RenderingManager::GetInstance();
-	renderManager->SetForClear(m_RenderTex);
+	/*auto renderManager = GameSmith::RenderingManager::GetInstance();
+	renderManager->SetForClear(m_RenderTex);*/
 }

@@ -4,11 +4,14 @@
 
 class GEEditor : public GameSmith::Application {
 public:
-	GEEditor() : GameSmith::Application("Game Smith Editor") {
+	GEEditor(GameSmith::ApplicationSpecs& specs) : GameSmith::Application(specs) {
 		PushLayer(new GameSmithEditor::EditorCoreLayer());
 	}
 };
 
-GameSmith::Application* GameSmith::CreateApplication() {
-	return new GEEditor();
+GameSmith::Application* GameSmith::CreateApplication(GameSmith::CommandLineArgs cmdArgs) {
+	GameSmith::ApplicationSpecs specs;
+	specs.CommandLineArgs = cmdArgs;
+	specs.Name = EDITOR_WINDOW_TITLE;
+	return new GEEditor(specs);
 }

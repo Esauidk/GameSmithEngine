@@ -11,7 +11,7 @@ namespace GameSmithEditor {
 	void MenuCreateProject();
 	void MenuLoadProject();
 
-	class GameProject
+	class GameProject : public GameSmith::Serializeable
 	{
 	public:
 		static void CreateProject(std::string projectName, std::string projectPath);
@@ -22,6 +22,14 @@ namespace GameSmithEditor {
 		static std::string GetEditorResourceFolder() { return std::format("{0}\\{1}", s_CurProject->m_RootFolder, PROJECT_EDITOR_RESOURCE_FOLDER_NAME); }
 		static std::string GetProjectName() { return s_CurProject->m_ProjectName; }
 		static bool IsLoaded() { return s_CurProject != nullptr; }
+
+
+		virtual GameSmith::Ref<char> Serialize() override;
+		virtual void Serialize(char* byteStream, unsigned int availableBytes) override;
+		virtual unsigned int RequireSpace() const override;
+		virtual void Deserialize(char* inData, unsigned int size) override;
+
+		SERIAL_FILE(GameSmith Project, GameSmithPrj)
 
 	private:
 		GameProject() = default;
