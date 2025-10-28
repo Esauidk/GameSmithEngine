@@ -1761,6 +1761,8 @@
     <ClInclude Include="third-party\tinyobjloader\tiny_obj_loader.h">
       <Filter>third-party\tinyobjloader</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\Core\JobSystem\JobManager.h" />
+    <ClInclude Include="src\GameSmithEngine\Core\JobSystem\JobFiber.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GameSmithEngine\ContentLibrarySystem\ContentLibraryManager.cpp">
@@ -1979,5 +1981,7 @@
     <ClCompile Include="third-party\stb\std_image.cpp">
       <Filter>third-party\stb</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\Core\JobSystem\JobManager.cpp" />
+    <ClCompile Include="src\GameSmithEngine\Core\JobSystem\JobFiber.cpp" />
   </ItemGroup>
 </Project>

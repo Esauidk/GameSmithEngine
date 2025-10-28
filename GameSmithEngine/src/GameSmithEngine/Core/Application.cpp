@@ -10,6 +10,9 @@
 #include "GameSmithEngine/Core/Layers/ResourceLayer.h"
 
 
+#include "GameSmithEngine/Core/JobSystem/JobManager.h"
+
+
 namespace GameSmith {
 	Application* Application::s_Instance = nullptr;
 
@@ -34,6 +37,8 @@ namespace GameSmith {
 		m_Window->SetVSync(true);
 
 		m_FrameRateController.SetFrameRateLimiting(!m_Window->IsVSync());
+
+		JobManager::Init();
 	}
 
 	Application::~Application()

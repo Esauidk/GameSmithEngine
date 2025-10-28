@@ -15,12 +15,12 @@
 
 
 namespace GameSmith {
-	struct CommandLineArgs {
+	struct GE_API CommandLineArgs {
 		int Count = 0;
 		char** Args = nullptr;
 	};
 
-	struct ApplicationSpecs {
+	struct GE_API ApplicationSpecs {
 		std::string Name = "Game Smith Engine";
 		CommandLineArgs CommandLineArgs;
 	};
