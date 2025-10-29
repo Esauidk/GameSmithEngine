@@ -33,6 +33,8 @@ project "GameSmithEditor"
 	filter "system:windows"
 		systemversion "latest"
 
+		buildoptions { "/utf-8" }
+
 		defines{
 			"GE_PLATFORM_WINDOWS"
 		}
