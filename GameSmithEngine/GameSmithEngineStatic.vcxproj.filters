@@ -13,6 +13,9 @@
     <Filter Include="src\GameSmithEngine\Core">
       <UniqueIdentifier>{291E2AB9-1543-7939-3E8E-5EC92A127857}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\GameSmithEngine\Core\JobSystem">
+      <UniqueIdentifier>{D84F6B0B-C48B-6E75-2D9E-866C19F91690}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\GameSmithEngine\Core\Layers">
       <UniqueIdentifier>{C80CC0ED-34F0-CE2D-3DF3-FC69A955957E}</UniqueIdentifier>
     </Filter>
@@ -170,6 +173,12 @@
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Core\Input.h">
       <Filter>src\GameSmithEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\Core\JobSystem\JobFiber.h">
+      <Filter>src\GameSmithEngine\Core\JobSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\Core\JobSystem\JobManager.h">
+      <Filter>src\GameSmithEngine\Core\JobSystem</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Core\KeyCodes.h">
       <Filter>src\GameSmithEngine\Core</Filter>
@@ -509,9 +518,6 @@
     </ClInclude>
     <ClInclude Include="third-party\glm\glm\common.hpp">
       <Filter>third-party\glm\glm</Filter>
-    </ClInclude>
-    <ClInclude Include="third-party\glm\glm\detail\_features.hpp">
-      <Filter>third-party\glm\glm\detail</Filter>
     </ClInclude>
     <ClInclude Include="third-party\glm\glm\detail\_fixes.hpp">
       <Filter>third-party\glm\glm\detail</Filter>
@@ -1482,6 +1488,12 @@
     <ClInclude Include="third-party\glm\glm\gtx\io.inl">
       <Filter>third-party\glm\glm\gtx</Filter>
     </ClInclude>
+    <ClInclude Include="third-party\glm\glm\gtx\iteration.hpp">
+      <Filter>third-party\glm\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\glm\glm\gtx\iteration.inl">
+      <Filter>third-party\glm\glm\gtx</Filter>
+    </ClInclude>
     <ClInclude Include="third-party\glm\glm\gtx\log_base.hpp">
       <Filter>third-party\glm\glm\gtx</Filter>
     </ClInclude>
@@ -1653,6 +1665,12 @@
     <ClInclude Include="third-party\glm\glm\gtx\string_cast.inl">
       <Filter>third-party\glm\glm\gtx</Filter>
     </ClInclude>
+    <ClInclude Include="third-party\glm\glm\gtx\structured_bindings.hpp">
+      <Filter>third-party\glm\glm\gtx</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\glm\glm\gtx\structured_bindings.inl">
+      <Filter>third-party\glm\glm\gtx</Filter>
+    </ClInclude>
     <ClInclude Include="third-party\glm\glm\gtx\texture.hpp">
       <Filter>third-party\glm\glm\gtx</Filter>
     </ClInclude>
@@ -1774,6 +1792,12 @@
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\Core\FrameRateController.cpp">
       <Filter>src\GameSmithEngine\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\Core\JobSystem\JobFiber.cpp">
+      <Filter>src\GameSmithEngine\Core\JobSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\Core\JobSystem\JobManager.cpp">
+      <Filter>src\GameSmithEngine\Core\JobSystem</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\Core\Layer.cpp">
       <Filter>src\GameSmithEngine\Core</Filter>

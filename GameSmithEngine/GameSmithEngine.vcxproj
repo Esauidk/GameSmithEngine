@@ -84,6 +84,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -93,7 +94,7 @@
       <ImportLibrary>..\bin\Debug-windows-x86_64\GameSmithEngine\GameSmithEngine.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Debug-windows-x86_64\GameSmithEngine\**.cso\ (xcopy /Q /E /Y /I ..\bin\Debug-windows-x86_64\GameSmithEngine\**.cso ..\bin\Debug-windows-x86_64\TestZone &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Debug-windows-x86_64\GameSmithEngine\**.cso ..\bin\Debug-windows-x86_64\TestZone &gt; nul)</Command>
+      <Command>cmd /c xcopy "..\bin\Debug-windows-x86_64\GameSmithEngine\*" "$(SolutionDir)\bin\Debug-windows-x86_64\TestZone" /E /Y /I</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -109,6 +110,7 @@
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -119,7 +121,7 @@
       <ImportLibrary>..\bin\Release-windows-x86_64\GameSmithEngine\GameSmithEngine.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Release-windows-x86_64\GameSmithEngine\**.cso\ (xcopy /Q /E /Y /I ..\bin\Release-windows-x86_64\GameSmithEngine\**.cso ..\bin\Release-windows-x86_64\TestZone &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Release-windows-x86_64\GameSmithEngine\**.cso ..\bin\Release-windows-x86_64\TestZone &gt; nul)</Command>
+      <Command>cmd /c xcopy "..\bin\Release-windows-x86_64\GameSmithEngine\*" "$(SolutionDir)\bin\Release-windows-x86_64\TestZone" /E /Y /I</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
@@ -135,6 +137,7 @@
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -145,7 +148,7 @@
       <ImportLibrary>..\bin\Dist-windows-x86_64\GameSmithEngine\GameSmithEngine.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Dist-windows-x86_64\GameSmithEngine\**.cso\ (xcopy /Q /E /Y /I ..\bin\Dist-windows-x86_64\GameSmithEngine\**.cso ..\bin\Dist-windows-x86_64\TestZone &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Dist-windows-x86_64\GameSmithEngine\**.cso ..\bin\Dist-windows-x86_64\TestZone &gt; nul)</Command>
+      <Command>cmd /c xcopy "..\bin\Dist-windows-x86_64\GameSmithEngine\*" "$(SolutionDir)\bin\Dist-windows-x86_64\TestZone" /E /Y /I</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
@@ -272,7 +275,6 @@
     <ClInclude Include="src\GameSmithEngine\Utilities\UtilMacros.h" />
     <ClInclude Include="src\gepch.h" />
     <ClInclude Include="third-party\glm\glm\common.hpp" />
-    <ClInclude Include="third-party\glm\glm\detail\_features.hpp" />
     <ClInclude Include="third-party\glm\glm\detail\_fixes.hpp" />
     <ClInclude Include="third-party\glm\glm\detail\_noise.hpp" />
     <ClInclude Include="third-party\glm\glm\detail\_swizzle.hpp" />
@@ -596,6 +598,8 @@
     <ClInclude Include="third-party\glm\glm\gtx\intersect.inl" />
     <ClInclude Include="third-party\glm\glm\gtx\io.hpp" />
     <ClInclude Include="third-party\glm\glm\gtx\io.inl" />
+    <ClInclude Include="third-party\glm\glm\gtx\iteration.hpp" />
+    <ClInclude Include="third-party\glm\glm\gtx\iteration.inl" />
     <ClInclude Include="third-party\glm\glm\gtx\log_base.hpp" />
     <ClInclude Include="third-party\glm\glm\gtx\log_base.inl" />
     <ClInclude Include="third-party\glm\glm\gtx\matrix_cross_product.hpp" />
@@ -653,6 +657,8 @@
     <ClInclude Include="third-party\glm\glm\gtx\std_based_type.inl" />
     <ClInclude Include="third-party\glm\glm\gtx\string_cast.hpp" />
     <ClInclude Include="third-party\glm\glm\gtx\string_cast.inl" />
+    <ClInclude Include="third-party\glm\glm\gtx\structured_bindings.hpp" />
+    <ClInclude Include="third-party\glm\glm\gtx\structured_bindings.inl" />
     <ClInclude Include="third-party\glm\glm\gtx\texture.hpp" />
     <ClInclude Include="third-party\glm\glm\gtx\texture.inl" />
     <ClInclude Include="third-party\glm\glm\gtx\transform.hpp" />

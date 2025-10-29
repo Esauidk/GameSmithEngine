@@ -4,20 +4,24 @@
 #include "Components/TestComponent.h"
 
 TEST(GameObjectTest, AddComponent) {
+	GameSmith::GameplayUpdater::Init();
 	GameSmith::GameObject gameObject("Test Object");
 
 	GameSmith::Connection<TestComponent> test;
 	EXPECT_NO_THROW(test = gameObject.AddComponent<TestComponent>());
 	EXPECT_FALSE(test.expired());
+	GameSmith::GameplayUpdater::ShutDown();
 }
 
 TEST(GameObjectTest, GetComponent) {
+	GameSmith::GameplayUpdater::Init();
 	GameSmith::GameObject gameObject("Test Object");
 
 	GameSmith::Connection<TestComponent> test;
 	EXPECT_NO_THROW(gameObject.AddComponent<TestComponent>());
 	EXPECT_NO_THROW(test = gameObject.GetComponent<TestComponent>());
 	EXPECT_FALSE(test.expired());
+	GameSmith::GameplayUpdater::ShutDown();
 }
 
 TEST(GameObjectTest, GetComponentError) {
@@ -42,6 +46,7 @@ TEST(GameObjectTest, GetTransform) {
 }
 
 TEST(GameObjectTest, RemoveComponent) {
+	GameSmith::GameplayUpdater::Init();
 	GameSmith::GameObject gameObject("Test Object");
 
 	GameSmith::Connection<TestComponent> test;
@@ -50,4 +55,5 @@ TEST(GameObjectTest, RemoveComponent) {
 
 	gameObject.RemoveComponent<TestComponent>(test);
 	EXPECT_TRUE(gameObject.GetComponent<TestComponent>().expired());
+	GameSmith::GameplayUpdater::ShutDown();
 }

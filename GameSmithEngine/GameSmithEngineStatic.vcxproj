@@ -81,6 +81,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -105,6 +106,7 @@
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -130,6 +132,7 @@
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -151,6 +154,8 @@
     <ClInclude Include="src\GameSmithEngine\Core\EntryPoint.h" />
     <ClInclude Include="src\GameSmithEngine\Core\FrameRateController.h" />
     <ClInclude Include="src\GameSmithEngine\Core\Input.h" />
+    <ClInclude Include="src\GameSmithEngine\Core\JobSystem\JobFiber.h" />
+    <ClInclude Include="src\GameSmithEngine\Core\JobSystem\JobManager.h" />
     <ClInclude Include="src\GameSmithEngine\Core\KeyCodes.h" />
     <ClInclude Include="src\GameSmithEngine\Core\Layer.h" />
     <ClInclude Include="src\GameSmithEngine\Core\Layers\ContentLibararyLayer.h" />
@@ -264,7 +269,6 @@
     <ClInclude Include="src\GameSmithEngine\Utilities\UtilMacros.h" />
     <ClInclude Include="src\gepch.h" />
     <ClInclude Include="third-party\glm\glm\common.hpp" />
-    <ClInclude Include="third-party\glm\glm\detail\_features.hpp" />
     <ClInclude Include="third-party\glm\glm\detail\_fixes.hpp" />
     <ClInclude Include="third-party\glm\glm\detail\_noise.hpp" />
     <ClInclude Include="third-party\glm\glm\detail\_swizzle.hpp" />
@@ -588,6 +592,8 @@
     <ClInclude Include="third-party\glm\glm\gtx\intersect.inl" />
     <ClInclude Include="third-party\glm\glm\gtx\io.hpp" />
     <ClInclude Include="third-party\glm\glm\gtx\io.inl" />
+    <ClInclude Include="third-party\glm\glm\gtx\iteration.hpp" />
+    <ClInclude Include="third-party\glm\glm\gtx\iteration.inl" />
     <ClInclude Include="third-party\glm\glm\gtx\log_base.hpp" />
     <ClInclude Include="third-party\glm\glm\gtx\log_base.inl" />
     <ClInclude Include="third-party\glm\glm\gtx\matrix_cross_product.hpp" />
@@ -645,6 +651,8 @@
     <ClInclude Include="third-party\glm\glm\gtx\std_based_type.inl" />
     <ClInclude Include="third-party\glm\glm\gtx\string_cast.hpp" />
     <ClInclude Include="third-party\glm\glm\gtx\string_cast.inl" />
+    <ClInclude Include="third-party\glm\glm\gtx\structured_bindings.hpp" />
+    <ClInclude Include="third-party\glm\glm\gtx\structured_bindings.inl" />
     <ClInclude Include="third-party\glm\glm\gtx\texture.hpp" />
     <ClInclude Include="third-party\glm\glm\gtx\texture.inl" />
     <ClInclude Include="third-party\glm\glm\gtx\transform.hpp" />
@@ -687,6 +695,8 @@
     <ClCompile Include="src\GameSmithEngine\ContentLibrarySystem\DefaultContentLibrary.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\Application.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\FrameRateController.cpp" />
+    <ClCompile Include="src\GameSmithEngine\Core\JobSystem\JobFiber.cpp" />
+    <ClCompile Include="src\GameSmithEngine\Core\JobSystem\JobManager.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\Layer.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\Layers\ContentLibararyLayer.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\Layers\EntitySystemLayer.cpp" />

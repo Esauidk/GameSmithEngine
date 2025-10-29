@@ -47,8 +47,10 @@ project "GameSmithEngine"
 			"GE_PLATFORM_WINDOWS"
 		}
 
+		buildoptions { "/utf-8" }
+
 		postbuildcommands{
-			("{COPY} %{cfg.buildtarget.relpath}/../**.cso ../bin/" ..outputdir .. "/TestZone")
+			("cmd /c xcopy %[%{cfg.targetdir}/*] %[%{wks.location}/bin/" .. outputdir .. "/TestZone] /E /Y /I")
 		}
 		
 
@@ -109,6 +111,8 @@ project "GameSmithEngineStatic"
 
 	filter "system:windows"
 		systemversion "latest"
+
+		buildoptions { "/utf-8" }
 
 		defines{
 			"GE_PLATFORM_WINDOWS"
