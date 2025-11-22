@@ -121,6 +121,9 @@
     <Filter Include="src\GameSmithEngine\Utilities">
       <UniqueIdentifier>{DCE80E8F-4801-F6B8-11AE-85527D858A52}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\GameSmithEngine\Utilities\Locks">
+      <UniqueIdentifier>{276BE982-9324-542D-1C84-6E07883C0A9D}</UniqueIdentifier>
+    </Filter>
     <Filter Include="third-party">
       <UniqueIdentifier>{9DC1EB7C-0977-6472-926B-5E49FE1F5B76}</UniqueIdentifier>
     </Filter>
@@ -507,7 +510,13 @@
     <ClInclude Include="src\GameSmithEngine\Utilities\GUIDGenerator.h">
       <Filter>src\GameSmithEngine\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\Utilities\Locks\Spinlock.h">
+      <Filter>src\GameSmithEngine\Utilities\Locks</Filter>
+    </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Utilities\ParameterContainer.h">
+      <Filter>src\GameSmithEngine\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\Utilities\ThreadSafeQueue.h">
       <Filter>src\GameSmithEngine\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Utilities\UtilMacros.h">
@@ -1996,6 +2005,9 @@
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\Utilities\GUIDGenerator.cpp">
       <Filter>src\GameSmithEngine\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\Utilities\Locks\Spinlock.cpp">
+      <Filter>src\GameSmithEngine\Utilities\Locks</Filter>
     </ClCompile>
     <ClCompile Include="src\gepch.cpp">
       <Filter>src</Filter>

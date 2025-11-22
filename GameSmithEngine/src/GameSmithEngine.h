@@ -79,6 +79,8 @@
 #include "GameSmithEngine/Utilities/ParameterContainer.h"
 #include "GameSmithEngine/Utilities/UtilMacros.h"
 
+#include "GameSmithEngine/Core/JobSystem/JobManager.h"
+
 #ifdef IMPORT_ENTRY
 // ENTRY POINT TO GAME ENGINE
 #include "GameSmithEngine/Core/EntryPoint.h"

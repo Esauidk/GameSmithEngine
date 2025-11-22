@@ -5,6 +5,8 @@
 #include <atomic>
 #include "JobFiber.h"
 
+#include "GameSmithEngine/Utilities/ThreadSafeQueue.h"
+
 #define WORKER_THREAD_COUNT 6 // TODO: Make worker thread count static for now, come back and make it configurable
 #define JOB_MAX_PARAMETER_SIZE 1000
 
@@ -49,7 +51,7 @@ namespace GameSmith {
 			JobPriority priority
 		);
 
-		static JobManager* GetInstance();
+		inline static JobManager* GetInstance() { return s_Instance; };
 	private:
 		JobManager();
 		bool JobsAvailable();
@@ -59,9 +61,9 @@ namespace GameSmith {
 	private:
 		std::thread m_worker[WORKER_THREAD_COUNT];
 
-		std::queue<Job> m_HighQueue;
-		std::queue<Job> m_MediumQueue;
-		std::queue<Job> m_LowQueue;
+		ThreadSafeQueue<Job> m_HighQueue;
+		ThreadSafeQueue<Job> m_MediumQueue;
+		ThreadSafeQueue<Job> m_LowQueue;
 	};
 
 	void WorkerThreadFunction();

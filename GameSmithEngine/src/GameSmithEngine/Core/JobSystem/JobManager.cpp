@@ -17,7 +17,7 @@ namespace GameSmith {
 
 	bool JobManager::JobsAvailable()
 	{
-		return false;
+		return !m_HighQueue.IsEmpty() || !m_MediumQueue.IsEmpty() || !m_LowQueue.IsEmpty();
 	}
 
 	void JobManager::Init() {
@@ -50,27 +50,41 @@ namespace GameSmith {
 			memcpy(job.parameter, parameter, parameterSize);
 
 			job.counter = counter;
-		}
 
-		// TODO: Add to queue
+			switch (priority) {
+				case JobPriority::High: {
+					m_HighQueue.Push(job);
+					break;
+				}
+				case JobPriority::Medium: {
+					m_MediumQueue.Push(job);
+					break;
+				}
+				case JobPriority::Low: {
+					m_LowQueue.Push(job);
+					break;
+				}
+			}
+		}
 
 		return counter;
 	}
 
 	Job JobManager::GetNextJob()
 	{
+
+		// Pop from sleep list
+
+		if (!m_HighQueue.IsEmpty()) return m_HighQueue.Pop();
+
+		if (!m_MediumQueue.IsEmpty()) return m_MediumQueue.Pop();
+
+		if (!m_LowQueue.IsEmpty()) return m_LowQueue.Pop();
+
 		return Job();
 	}
 
-	JobManager* JobManager::GetInstance() {
-		// TODO: Create instance
-		return nullptr;
-	}
-
-	JobBatchCounter::JobBatchCounter(unsigned int batchSize)
-	{
-		m_Count.store(batchSize);
-	}
+	JobBatchCounter::JobBatchCounter(unsigned int batchSize) : m_Count(batchSize){}
 
 	void JobBatchCounter::Decrement()
 	{

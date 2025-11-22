@@ -2,9 +2,21 @@
 
 GE_REGISTERCOMPONENT(TestLayerComponent)
 
+struct TestStruct {
+	int val;
+};
+
+void Test(void* ptr) {
+	TestStruct* t = static_cast<TestStruct*>(ptr);
+
+	GE_APP_INFO("{0}", t->val);
+}
+
 TestingLayer::TestingLayer() : GameSmith::Layer("Testing Layer")
 {
-
+	TestStruct st = { 5 };
+	auto instance = GameSmith::JobManager::GetInstance();
+	instance->StartJobs(Test, &st, sizeof(TestStruct), 1, GameSmith::JobPriority::High);
 	/*auto id1 = GameSmith::ResourceManager::GetInstance()->ImportResource("C:\\Users\\esaus\\Documents\\Coding Projects\\test.obj");
 	auto id2 = GameSmith::ResourceManager::GetInstance()->ImportResource("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\SampleVertexShader.cso");
 	auto id3 = GameSmith::ResourceManager::GetInstance()->ImportResource("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\RandomColorPS.cso");
@@ -103,7 +115,7 @@ TestingLayer::TestingLayer() : GameSmith::Layer("Testing Layer")
 
 	auto chunkID = resourceMang->WriteResource(ch.lock(), fileLocation);
 	chunkMang->LoadChunk(chunkID);
-	auto loadedChunk = chunkMang->GetCurrentMainChunk();
+	auto loadedChunk = chunkMang->GetCurrentMainChunk();*/
 
 
 	auto renderManager = GameSmith::RenderingManager::GetInstance();
@@ -111,7 +123,7 @@ TestingLayer::TestingLayer() : GameSmith::Layer("Testing Layer")
 	m_RenderTex = renderManager->GetRenderAPI()->CreateRenderTexture(GameSmith::Application::Get().GetWindow()->GetWidth(), GameSmith::Application::Get().GetWindow()->GetHeight(), color);
 	GameSmith::RegisterEvent<GameSmith::WindowResizeEvent>(&GameSmith::Window::s_Resized, GE_BIND_EVENT_FN(GameSmith::RenderTexture::WindowResized, m_RenderTex.get()), false);
 	renderManager->GetRenderAPI()->SetRenderTexture(m_RenderTex, 0);
-	renderManager->SetFrameTexture(m_RenderTex);*/
+	renderManager->SetFrameTexture(m_RenderTex);
 }
 
 void TestingLayer::OnImGuiRender()
@@ -120,6 +132,6 @@ void TestingLayer::OnImGuiRender()
 
 void TestingLayer::OnUpdate(float dt)
 {
-	/*auto renderManager = GameSmith::RenderingManager::GetInstance();
-	renderManager->SetForClear(m_RenderTex);*/
+	auto renderManager = GameSmith::RenderingManager::GetInstance();
+	renderManager->SetForClear(m_RenderTex);
 }

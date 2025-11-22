@@ -17,6 +17,8 @@
 
 
 namespace GameSmith {
+	Ref<DirectX12DescriptorHeap> ImGuiLayer::m_Heap = nullptr;
+
 	static void SetupImGuiStyle()
 	{
 		// Moonlight style by Madam-Herta from ImThemes
@@ -48,7 +50,6 @@ namespace GameSmith {
 		style.GrabRounding = 20.0f;
 		style.TabRounding = 0.0f;
 		style.TabBorderSize = 0.0f;
-		style.TabMinWidthForCloseButton = 0.0f;
 		style.ColorButtonPosition = ImGuiDir_Right;
 		style.ButtonTextAlign = ImVec2(0.5f, 0.5f);
 		style.SelectableTextAlign = ImVec2(0.0f, 0.0f);
@@ -139,11 +140,23 @@ namespace GameSmith {
 		auto hwnd = (HWND)(window->GetNativeWindow());
 		ImGui_ImplWin32_Init(hwnd);
 
-		ImGui_ImplDX12_Init(DirectX12Core::GetCore().GetDevice(),
+		ImGui_ImplDX12_InitInfo init_info = {};
+		init_info.Device = DirectX12Core::GetCore().GetDevice();
+		init_info.CommandQueue = DirectX12Core::GetCore().GetDirectCommandContext()->GetQueue().GetCommandQueue();
+		init_info.NumFramesInFlight = 2;
+		init_info.RTVFormat = DXGI_FORMAT_R8G8B8A8_UNORM;
+		init_info.DSVFormat = DXGI_FORMAT_UNKNOWN;
+		init_info.SrvDescriptorHeap = m_Heap->GetHeapReference();
+		init_info.SrvDescriptorAllocFn = [](ImGui_ImplDX12_InitInfo*, D3D12_CPU_DESCRIPTOR_HANDLE* out_cpu_handle, D3D12_GPU_DESCRIPTOR_HANDLE* out_gpu_handle) {*out_cpu_handle = m_Heap->GetCPUReference(0); *out_gpu_handle = m_Heap->GetGPUReference(0); };
+		init_info.SrvDescriptorFreeFn = [](ImGui_ImplDX12_InitInfo*, D3D12_CPU_DESCRIPTOR_HANDLE cpu_handle, D3D12_GPU_DESCRIPTOR_HANDLE gpu_handle) {};
+
+
+		/*ImGui_ImplDX12_Init(DirectX12Core::GetCore().GetDevice(),
 			2,
 			DXGI_FORMAT_R8G8B8A8_UNORM,
 			m_Heap->GetHeapReference(),
-			m_Heap->GetCPUReference(0), m_Heap->GetGPUReference(0));
+			m_Heap->GetCPUReference(0), m_Heap->GetGPUReference(0));*/
+		ImGui_ImplDX12_Init(&init_info);
 
 		SetupImGuiStyle();
 	}
@@ -215,7 +228,7 @@ namespace GameSmith {
 		ImGui::NewFrame();
 
 		if (m_DockEnabled) {
-			ImGui::DockSpaceOverViewport(ImGui::GetMainViewport());
+			ImGui::DockSpaceOverViewport();
 		}
 		
 	}
