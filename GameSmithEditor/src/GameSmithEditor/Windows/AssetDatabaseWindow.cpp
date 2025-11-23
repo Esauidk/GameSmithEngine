@@ -75,7 +75,8 @@ namespace GameSmithEditor {
 					IconManager* iconManager = IconManager::GetInstance();
 					ImTextureID image;
 					if (isDir) {
-						image = iconManager->GetImGuiIcon("folder")->gpuSpot;
+						void* spot = iconManager->GetImGuiIcon("folder")->gpuSpot;
+						image = reinterpret_cast<ImTextureID>(spot);
 					}
 					else {
 						auto index = fileName.find_last_of(".");
@@ -86,7 +87,7 @@ namespace GameSmithEditor {
 							filePtr = iconManager->GetImGuiIcon("file");
 						}
 
-						image = filePtr->gpuSpot;
+						image = reinterpret_cast<ImTextureID>(filePtr->gpuSpot);
 					}
 
 					if (ImGui::ImageButton(fileName.c_str(), image, { thumbailSize, thumbailSize })) {
