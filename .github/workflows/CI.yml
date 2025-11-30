@@ -33,6 +33,7 @@ jobs:
           submodules: 'true'
           
     - name: Download latested MSBuild
+      shell: powershell
       run: wget "https://aka.ms/vs/stable/vs_BuildTools.exe" -o vs_buildtools.exe
 
     - name: Add MSBuild to PATH
