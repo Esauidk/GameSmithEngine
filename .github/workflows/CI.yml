@@ -55,6 +55,10 @@ jobs:
     - uses: actions/checkout@v3
       with:
           submodules: 'true'
+
+    - name: Install latest MSBuild
+      shell: powershell
+      run:  winget install -e --accept-source-agreements  --id Microsoft.VisualStudio.BuildTools --override "--passive --wait --add Microsoft.VisualStudio.Workload.VCTools --add Microsoft.VisualStudio.Component.Windows11SDK.Stable --add Microsoft.VisualStudio.Component.VC.Tools.x86.x64;includeRecommended"
           
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v2
@@ -68,13 +72,6 @@ jobs:
       # Add additional options to the MSBuild command line here (like platform or verbosity level).
       # See https://docs.microsoft.com/visualstudio/msbuild/msbuild-command-line-reference
       run: msbuild /m /p:Configuration=${{env.BUILD_CONFIGURATION}} ${{env.SOLUTION_FILE_PATH}}
-
-    - name: ls
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: ls
-    - name: pwd
-      working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: pwd
       
     - name: Run tests
       working-directory: bin/${{env.BUILD_CONFIGURATION}}-windows-x86_64/GameSmithEngineTestSuite/
