@@ -32,10 +32,13 @@ jobs:
       with:
           submodules: 'true'
           
-    - name: Download latested MSBuild
+    - name: Download latest MSBuild
       shell: powershell
       run: wget "https://aka.ms/vs/stable/vs_BuildTools.exe" -o vs_buildtools.exe
 
+    - name: Install latest MSBuild
+      run: vs_buildtools.exe --quiet --wait --norestart --nocache  --add Microsoft.VisualStudio.Workload.VCTools --add Microsoft.VisualStudio.Component.VC.Tools.x86.x64 --add Microsoft.VisualStudio.Component.Windows11SDK.Stable --includeRecommended
+      
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v2
 
