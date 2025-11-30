@@ -6,9 +6,22 @@ struct TestStruct {
 	int val;
 };
 
+struct TestStruct2 {
+	GameSmith::Ref<GameSmith::JobBatchCounter> waitMarker;
+	int val;
+};
+
 void Test(void* ptr) {
 	TestStruct* t = static_cast<TestStruct*>(ptr);
 
+	GE_APP_INFO("{0}", t->val);
+	GameSmith::WorkerCompleteCurrentJob();
+}
+
+void Test2(void* ptr) {
+	TestStruct2* t = static_cast<TestStruct2*>(ptr);
+
+	GameSmith::WorkerPauseCurrentJob(t->waitMarker);
 	GE_APP_INFO("{0}", t->val);
 }
 
@@ -16,7 +29,11 @@ TestingLayer::TestingLayer() : GameSmith::Layer("Testing Layer")
 {
 	TestStruct st = { 5 };
 	auto instance = GameSmith::JobManager::GetInstance();
-	instance->StartJobs(Test, &st, sizeof(TestStruct), 1, GameSmith::JobPriority::High);
+	auto marker = instance->StartJobs(Test, &st, sizeof(TestStruct), 10, GameSmith::JobPriority::High);
+
+	TestStruct2 st2 = { marker, 10 };
+	instance->StartJobs(Test2, &st2, sizeof(TestStruct2), 1, GameSmith::JobPriority::High);
+
 	/*auto id1 = GameSmith::ResourceManager::GetInstance()->ImportResource("C:\\Users\\esaus\\Documents\\Coding Projects\\test.obj");
 	auto id2 = GameSmith::ResourceManager::GetInstance()->ImportResource("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\SampleVertexShader.cso");
 	auto id3 = GameSmith::ResourceManager::GetInstance()->ImportResource("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\RandomColorPS.cso");

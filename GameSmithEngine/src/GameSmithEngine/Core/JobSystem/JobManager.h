@@ -6,6 +6,7 @@
 #include "JobFiber.h"
 
 #include "GameSmithEngine/Utilities/ThreadSafeQueue.h"
+#include "GameSmithEngine/Utilities/ThreadSafeVector.h"
 
 #define WORKER_THREAD_COUNT 6 // TODO: Make worker thread count static for now, come back and make it configurable
 #define JOB_MAX_PARAMETER_SIZE 1000
@@ -17,9 +18,14 @@ namespace GameSmith {
 		Low
 	};
 
+	enum class JobStatus {
+		Waiting,
+		Running
+	};
+
 	class JobBatchCounter {
-	friend class JobManager;
-	friend void WorkerThreadFunction();
+		friend class JobManager;
+		friend void WorkerThreadFunction();
 
 	private:
 		JobBatchCounter(unsigned int batchSize);
@@ -29,17 +35,25 @@ namespace GameSmith {
 		std::atomic<unsigned int> m_Count;
 	};
 
+	void WorkerThreadFunction();
+	void GE_API WorkerPauseCurrentJob(Ref<JobBatchCounter> marker);
+	void GE_API WorkerCompleteCurrentJob();
+
 	struct Job {
 		unsigned int batchIdex;
 		void (*jobFnc)(void*);
 		char parameter[JOB_MAX_PARAMETER_SIZE];
+		JobStatus status;
 		Ref<JobBatchCounter> counter;
 
 		JobFiber runningFiber = JobFiber::CreateEmptyJobFiber();
 	};
 
 	class GE_API JobManager {
+	// Allow the fiber workers to access private functions
 	friend void WorkerThreadFunction();
+	friend void GE_API WorkerPauseCurrentJob(Ref<JobBatchCounter> marker);
+
 	public:
 		static void Init();
 		static void Shutdown();
@@ -56,15 +70,20 @@ namespace GameSmith {
 		JobManager();
 		bool JobsAvailable();
 		Job GetNextJob();
+		void PauseJob(Job job, Ref<JobBatchCounter>);
+	private:
+		struct WaitingJob {
+			Ref<JobBatchCounter> counter;
+			Job job;
+		};
 	private:
 		static JobManager* s_Instance;
 	private:
-		std::thread m_worker[WORKER_THREAD_COUNT];
+		std::thread m_Worker[WORKER_THREAD_COUNT];
 
+		ThreadSafeVector<WaitingJob> m_WaitingJobs;
 		ThreadSafeQueue<Job> m_HighQueue;
 		ThreadSafeQueue<Job> m_MediumQueue;
 		ThreadSafeQueue<Job> m_LowQueue;
 	};
-
-	void WorkerThreadFunction();
 };

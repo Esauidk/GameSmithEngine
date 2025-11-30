@@ -26,19 +26,19 @@
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'" Label="Configuration">
     <ConfigurationType>DynamicLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v143</PlatformToolset>
+    <PlatformToolset>v145</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -274,6 +274,7 @@
     <ClInclude Include="src\GameSmithEngine\Utilities\Locks\Spinlock.h" />
     <ClInclude Include="src\GameSmithEngine\Utilities\ParameterContainer.h" />
     <ClInclude Include="src\GameSmithEngine\Utilities\ThreadSafeQueue.h" />
+    <ClInclude Include="src\GameSmithEngine\Utilities\ThreadSafeVector.h" />
     <ClInclude Include="src\GameSmithEngine\Utilities\UtilMacros.h" />
     <ClInclude Include="src\gepch.h" />
     <ClInclude Include="third-party\glm\glm\common.hpp" />

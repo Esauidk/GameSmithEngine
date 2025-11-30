@@ -26,6 +26,9 @@ namespace GameSmith {
 
 #ifdef GE_PLATFORM_WINDOWS
 		osFiber = ConvertThreadToFiber(nullptr);
+		if (osFiber == nullptr) {
+			GE_CORE_ERROR("Failed to convert thread to fiber {0}", GetLastError());
+		}
 #endif
 		return JobFiber(osFiber);
 	}

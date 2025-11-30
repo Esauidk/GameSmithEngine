@@ -11,13 +11,23 @@ namespace GameSmith {
 
 	JobManager::JobManager() {
 		for (int i = 0; i < WORKER_THREAD_COUNT; i++) {
-			m_worker[i] = std::thread(WorkerThreadFunction);
+			m_Worker[i] = std::move(std::thread(WorkerThreadFunction));
 		}
 	}
 
 	bool JobManager::JobsAvailable()
 	{
-		return !m_HighQueue.IsEmpty() || !m_MediumQueue.IsEmpty() || !m_LowQueue.IsEmpty();
+		for (size_t i = 0; i < m_WaitingJobs.Size(); i++) {
+			WaitingJob waitingJob = m_WaitingJobs.Get(i);
+			if (waitingJob.counter->GetCounter() <= 0) {
+				return true;
+			}
+		}
+
+		return
+			!m_HighQueue.IsEmpty() ||
+			!m_MediumQueue.IsEmpty() ||
+			!m_LowQueue.IsEmpty();
 	}
 
 	void JobManager::Init() {
@@ -47,6 +57,7 @@ namespace GameSmith {
 			Job job;
 			job.batchIdex = i;
 			job.jobFnc = jobFnc;
+			job.status = JobStatus::Waiting;
 			memcpy(job.parameter, parameter, parameterSize);
 
 			job.counter = counter;
@@ -72,16 +83,35 @@ namespace GameSmith {
 
 	Job JobManager::GetNextJob()
 	{
+		Job resJob = Job{};
 
 		// Pop from sleep list
+		for (size_t i = 0; i < m_WaitingJobs.Size(); i++) {
+			WaitingJob waitingJob = m_WaitingJobs.Get(i);
+			if (waitingJob.counter->GetCounter() <= 0) {
+				m_WaitingJobs.Remove(i);
+				resJob = waitingJob.job;
+				break;
+			}
+		}
 
-		if (!m_HighQueue.IsEmpty()) return m_HighQueue.Pop();
+		if (!m_HighQueue.IsEmpty()) resJob = m_HighQueue.Pop();
 
-		if (!m_MediumQueue.IsEmpty()) return m_MediumQueue.Pop();
+		if (!m_MediumQueue.IsEmpty()) resJob = m_MediumQueue.Pop();
 
-		if (!m_LowQueue.IsEmpty()) return m_LowQueue.Pop();
+		if (!m_LowQueue.IsEmpty()) resJob = m_LowQueue.Pop();
 
-		return Job();
+		resJob.status = JobStatus::Running;
+		return resJob;
+	}
+
+	void JobManager::PauseJob(Job job, Ref<JobBatchCounter> counter)
+	{
+		WaitingJob waitingJob;
+		waitingJob.counter = counter;
+		waitingJob.job = job;
+
+		m_WaitingJobs.PushBack(waitingJob);
 	}
 
 	JobBatchCounter::JobBatchCounter(unsigned int batchSize) : m_Count(batchSize){}
@@ -120,7 +150,7 @@ namespace GameSmith {
 			// We will come back to this worker loop fiber if 1) The job finished, 2) The job yielded
 			JobFiber::LoadJobFiber(g_CurJob.runningFiber);
 
-			if (!g_CurJob.runningFiber.isEmpty()) {
+			if (!g_CurJob.runningFiber.isEmpty() && g_CurJob.status != JobStatus::Waiting) {
 				// Clean up the fiber after it is done
 				JobFiber::DeleteJobFiber(g_CurJob.runningFiber);
 
@@ -133,6 +163,22 @@ namespace GameSmith {
 
 			GE_CORE_INFO("Finished processing a job");
 		}
+	}
+
+	void WorkerPauseCurrentJob(Ref<JobBatchCounter> marker)
+	{
+		GE_APP_ASSERT(!g_CurJob.runningFiber.isEmpty(), "This thread is not running a fiber job, there is nothing to pause");
+
+		auto instance = JobManager::GetInstance();
+		g_CurJob.status = JobStatus::Waiting;
+		instance->PauseJob(g_CurJob, marker);
+		JobFiber::LoadJobFiber(g_WorkerFiber);
+	}
+
+	void GE_API WorkerCompleteCurrentJob()
+	{
+		GE_APP_ASSERT(!g_CurJob.runningFiber.isEmpty(), "This thread is not running a fiber job, there is nothing to complete");
+		JobFiber::LoadJobFiber(g_WorkerFiber);
 	}
 };
 
