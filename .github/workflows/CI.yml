@@ -41,7 +41,7 @@ jobs:
       
     - name: Install latest MSBuild
       shell: powershell
-      run: ./vs_buildtools.exe --wait --norestart --nocache  --add Microsoft.VisualStudio.Workload.VCTools --add Microsoft.VisualStudio.Component.VC.Tools.x86.x64 --add Microsoft.VisualStudio.Component.Windows11SDK.Stable --includeRecommended
+      run:  winget install -e --id Microsoft.VisualStudio.BuildTools --override "--passive --wait --add Microsoft.VisualStudio.Workload.VCTools --add Microsoft.VisualStudio.Component.Windows11SDK.Stable --add Microsoft.VisualStudio.Component.VC.Tools.x86.x64;includeRecommended"
       
     - name: Add MSBuild to PATH
       uses: microsoft/setup-msbuild@v2
