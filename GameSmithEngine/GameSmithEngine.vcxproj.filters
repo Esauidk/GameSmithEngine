@@ -1789,6 +1789,7 @@
       <Filter>third-party\tinyobjloader</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Utilities\ThreadSafeVector.h" />
+    <ClInclude Include="src\GameSmithEngine\Core\JobSystem\JobUtils.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GameSmithEngine\ContentLibrarySystem\ContentLibraryManager.cpp">

@@ -35,15 +35,14 @@ namespace GameSmith {
 		std::atomic<unsigned int> m_Count;
 	};
 
+	// The main function workers use when idling for jobs
 	void WorkerThreadFunction();
-	void GE_API WorkerPauseCurrentJob(Ref<JobBatchCounter> marker);
-	void GE_API WorkerCompleteCurrentJob();
 
 	struct Job {
-		unsigned int batchIdex;
-		void (*jobFnc)(void*);
-		char parameter[JOB_MAX_PARAMETER_SIZE];
-		JobStatus status;
+		unsigned int batchIdex = 0;
+		void (*jobFnc)(JobStandardParamters, void*) = nullptr;
+		char customParameter[JOB_MAX_PARAMETER_SIZE] = {};
+		JobStatus status = JobStatus::Waiting;
 		Ref<JobBatchCounter> counter;
 
 		JobFiber runningFiber = JobFiber::CreateEmptyJobFiber();
@@ -58,7 +57,7 @@ namespace GameSmith {
 		static void Init();
 		static void Shutdown();
 		Ref<JobBatchCounter> StartJobs(
-			void (*jobFnc)(void*),
+			void (*jobFnc)(JobStandardParamters, void*),
 			void* parameter,
 			unsigned int parameterSize,
 			unsigned int numJobs,

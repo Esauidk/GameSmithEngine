@@ -80,6 +80,7 @@
 #include "GameSmithEngine/Utilities/UtilMacros.h"
 
 #include "GameSmithEngine/Core/JobSystem/JobManager.h"
+#include "GameSmithEngine/Core/JobSystem/JobUtils.h"
 
 #ifdef IMPORT_ENTRY
 // ENTRY POINT TO GAME ENGINE

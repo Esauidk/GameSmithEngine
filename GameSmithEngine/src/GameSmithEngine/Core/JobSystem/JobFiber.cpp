@@ -5,12 +5,13 @@
 #define FIBER_STACK_SIZE 1000
 
 namespace GameSmith {
-	JobFiber JobFiber::CreateJobFiber(void(*jobFnc)(void*), void* parm)
+	JobFiber JobFiber::CreateJobFiber(void(*jobFnc)(JobStandardParamters, void*), JobStandardParamters jobParms, void* customParm)
 	{
 		// Calling Fiber will own the lifetime of this pointer and to free it
 		FiberParameters* fParm = new FiberParameters;
 		fParm->jobFnc = jobFnc;
-		fParm->parm = parm;
+		fParm->jobParams = jobParms;
+		fParm->customParm = customParm;
 
 		void* osFiber = nullptr;
 #ifdef GE_PLATFORM_WINDOWS
@@ -60,7 +61,7 @@ namespace GameSmith {
 		FiberParameters stackFParm = *heapFParm;
 		delete heapFParm;
 
-		stackFParm.jobFnc(stackFParm.parm);
+		stackFParm.jobFnc(stackFParm.jobParams, stackFParm.customParm);
 	}
 };
 

@@ -1,14 +1,19 @@
 #pragma once
 
 namespace GameSmith {
+	struct JobStandardParamters {
+		unsigned int batchIndex;
+	};
+
 	struct FiberParameters {
-		void (*jobFnc)(void*);
-		void* parm;
+		void (*jobFnc)(JobStandardParamters, void*);
+		JobStandardParamters jobParams;
+		void* customParm;
 	};
 
 	class JobFiber {
 	public:
-		static JobFiber CreateJobFiber(void (*jobFnc)(void*), void* parm);
+		static JobFiber CreateJobFiber(void (*jobFnc)(JobStandardParamters, void*), JobStandardParamters jobParms, void* customParm);
 		static JobFiber ConvertThreadToJobFiber();
 		static void DeleteJobFiber(JobFiber fiber);
 		static void LoadJobFiber(JobFiber newFiber);

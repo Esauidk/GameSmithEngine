@@ -1,5 +1,6 @@
 #include "gepch.h"
 #include "GameSmithEngine/Core/Log.h"
+#include "JobUtils.h"
 #include "JobManager.h"
 
 namespace GameSmith {
@@ -43,7 +44,7 @@ namespace GameSmith {
 	}
 
 	Ref<JobBatchCounter> JobManager::StartJobs(
-		void(*jobFnc)(void*),
+		void(*jobFnc)(JobStandardParamters, void*),
 		void* parameter,
 		unsigned int parameterSize,
 		unsigned int numJobs,
@@ -58,7 +59,7 @@ namespace GameSmith {
 			job.batchIdex = i;
 			job.jobFnc = jobFnc;
 			job.status = JobStatus::Waiting;
-			memcpy(job.parameter, parameter, parameterSize);
+			memcpy(job.customParameter, parameter, parameterSize);
 
 			job.counter = counter;
 
@@ -142,8 +143,11 @@ namespace GameSmith {
 			g_CurJob = instance->GetNextJob();
 
 			if (g_CurJob.runningFiber.isEmpty()) {
+				JobStandardParamters jobParams;
+				jobParams.batchIndex = g_CurJob.batchIdex;
+
 				// Create a fiber on this thread for the job
-				g_CurJob.runningFiber = JobFiber::CreateJobFiber(g_CurJob.jobFnc, g_CurJob.parameter);
+				g_CurJob.runningFiber = JobFiber::CreateJobFiber(g_CurJob.jobFnc, jobParams, g_CurJob.customParameter);
 			}
 
 			// Switch over this thread to that fiber

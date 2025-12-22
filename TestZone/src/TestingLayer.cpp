@@ -11,18 +11,18 @@ struct TestStruct2 {
 	int val;
 };
 
-void Test(void* ptr) {
+void Test(GameSmith::JobStandardParamters jobParams, void* ptr) {
 	TestStruct* t = static_cast<TestStruct*>(ptr);
 
-	GE_APP_INFO("{0}", t->val);
+	GE_APP_INFO("{0}, {1}", jobParams.batchIndex, t->val);
 	GameSmith::WorkerCompleteCurrentJob();
 }
 
-void Test2(void* ptr) {
+void Test2(GameSmith::JobStandardParamters jobParams, void* ptr) {
 	TestStruct2* t = static_cast<TestStruct2*>(ptr);
 
 	GameSmith::WorkerPauseCurrentJob(t->waitMarker);
-	GE_APP_INFO("{0}", t->val);
+	GE_APP_INFO("{0}, {1}", jobParams.batchIndex ,t->val);
 }
 
 TestingLayer::TestingLayer() : GameSmith::Layer("Testing Layer")

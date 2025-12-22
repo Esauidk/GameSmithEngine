@@ -706,6 +706,7 @@
     <ClCompile Include="src\GameSmithEngine\Core\FrameRateController.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\JobSystem\JobFiber.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\JobSystem\JobManager.cpp" />
+    <ClInclude Include="src\GameSmithEngine\Core\JobSystem\JobUtils.h" />
     <ClCompile Include="src\GameSmithEngine\Core\Layer.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\Layers\ContentLibararyLayer.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\Layers\EntitySystemLayer.cpp" />
