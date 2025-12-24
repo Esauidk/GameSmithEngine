@@ -61,6 +61,7 @@ TestingLayer::TestingLayer() : GameSmith::Layer("Testing Layer")
 	GameSmith::ResourceManager::GetInstance()->WriteResource(testMat, "C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\TestFileMat.mat");
 
 	int i = 0;
+	*/
 
 	auto gm = GameSmith::GameObjectManager::GetInstance()->CreateGameObject();
 	auto test = gm.lock()->AddComponent<GameSmith::TestComponent>().lock();
@@ -75,13 +76,13 @@ TestingLayer::TestingLayer() : GameSmith::Layer("Testing Layer")
 
 	gm.lock()->GetTransform().lock()->SetPosition({ 2, 5, 1 });
 
-	test->BootstrapRegistry(variableEntries);
+	test->BootstrapVariableRegistry(variableEntries);
 
 
 	auto gm1 = GameSmith::GameObjectManager::GetInstance()->CreateGameObject();
 	gm1.lock()->GetTransform().lock()->SetPosition({ 6, 8, 1 });
 
-	std::vector<GameSmith::Connection<GameSmith::GameObject>> objs;
+	/*std::vector<GameSmith::Connection<GameSmith::GameObject>> objs;
 	objs.push_back(gm);
 	objs.push_back(gm1);
 

@@ -26,11 +26,11 @@ namespace GameSmith {
 	class JobBatchCounter {
 		friend class JobManager;
 		friend void WorkerThreadFunction();
-
+	public:
+		unsigned int GetCounter();
 	private:
 		JobBatchCounter(unsigned int batchSize);
 		void Decrement();
-		unsigned int GetCounter();
 	private:
 		std::atomic<unsigned int> m_Count;
 	};
@@ -67,8 +67,7 @@ namespace GameSmith {
 		inline static JobManager* GetInstance() { return s_Instance; };
 	private:
 		JobManager();
-		bool JobsAvailable();
-		Job GetNextJob();
+		bool GetNextJob(Job* outJob);
 		void PauseJob(Job job, Ref<JobBatchCounter>);
 	private:
 		struct WaitingJob {
@@ -80,9 +79,11 @@ namespace GameSmith {
 	private:
 		std::thread m_Worker[WORKER_THREAD_COUNT];
 
-		ThreadSafeVector<WaitingJob> m_WaitingJobs;
-		ThreadSafeQueue<Job> m_HighQueue;
-		ThreadSafeQueue<Job> m_MediumQueue;
-		ThreadSafeQueue<Job> m_LowQueue;
+
+		Spinlock m_JobLock;
+		std::vector<WaitingJob> m_WaitingJobs;
+		std::queue<Job> m_HighQueue;
+		std::queue<Job> m_MediumQueue;
+		std::queue<Job> m_LowQueue;
 	};
 };

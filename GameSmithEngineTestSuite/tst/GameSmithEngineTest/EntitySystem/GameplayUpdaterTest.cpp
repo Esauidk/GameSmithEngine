@@ -1,9 +1,11 @@
 #include "gtest/gtest.h"
 #include "GameSmithEngine/EntitySystem/GameplayUpdater.h"
+#include "GameSmithEngine/Core/JobSystem/JobManager.h"
 #include "Components/TestComponent.h"
 
 TEST(GameplayUpdaterTest, ComponentUpdate) {
 	GameSmith::GameplayUpdater::Init();
+	GameSmith::JobManager::Init();
 	GameSmith::GameplayUpdater* updater = GameSmith::GameplayUpdater::GetInstance();
 
 	auto testComp = GameSmith::Ref<TestComponent>(new TestComponent(nullptr, nullptr));
@@ -20,6 +22,7 @@ TEST(GameplayUpdaterTest, ComponentUpdate) {
 
 TEST(GameplayUpdaterTest, ComponentRegistrationMidUpdate) {
 	GameSmith::GameplayUpdater::Init();
+	GameSmith::JobManager::Init();
 	GameSmith::GameplayUpdater* updater = GameSmith::GameplayUpdater::GetInstance();
 
 	auto testComp = GameSmith::Ref<TestComponent>(new TestComponent(nullptr, nullptr));
@@ -63,6 +66,7 @@ TEST(GameplayUpdaterTest, ComponentRegistrationMidUpdate) {
 
 TEST(GameplayUpdaterTest, ComponentInit) {
 	GameSmith::GameplayUpdater::Init();
+	GameSmith::JobManager::Init();
 	GameSmith::GameplayUpdater* updater = GameSmith::GameplayUpdater::GetInstance();
 
 	auto testComp = GameSmith::Ref<TestComponent>(new TestComponent(nullptr, nullptr));
@@ -79,6 +83,7 @@ TEST(GameplayUpdaterTest, ComponentInit) {
 
 TEST(GameplayUpdaterTest, NoExceptionOnComponentRemoval) {
 	GameSmith::GameplayUpdater::Init();
+	GameSmith::JobManager::Init();
 	GameSmith::GameplayUpdater* updater = GameSmith::GameplayUpdater::GetInstance();
 
 	auto testComp = GameSmith::Ref<TestComponent>(new TestComponent(nullptr, nullptr));

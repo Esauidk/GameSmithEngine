@@ -16,21 +16,6 @@ namespace GameSmith {
 		}
 	}
 
-	bool JobManager::JobsAvailable()
-	{
-		for (size_t i = 0; i < m_WaitingJobs.Size(); i++) {
-			WaitingJob waitingJob = m_WaitingJobs.Get(i);
-			if (waitingJob.counter->GetCounter() <= 0) {
-				return true;
-			}
-		}
-
-		return
-			!m_HighQueue.IsEmpty() ||
-			!m_MediumQueue.IsEmpty() ||
-			!m_LowQueue.IsEmpty();
-	}
-
 	void JobManager::Init() {
 		if (s_Instance == nullptr) {
 			s_Instance = new JobManager();
@@ -54,6 +39,7 @@ namespace GameSmith {
 
 		Ref<JobBatchCounter> counter = Ref<JobBatchCounter>(new JobBatchCounter(numJobs));
 
+		m_JobLock.Lock();
 		for (unsigned int i = 0; i < numJobs; i++) {
 			Job job;
 			job.batchIdex = i;
@@ -62,48 +48,72 @@ namespace GameSmith {
 			memcpy(job.customParameter, parameter, parameterSize);
 
 			job.counter = counter;
-
 			switch (priority) {
 				case JobPriority::High: {
-					m_HighQueue.Push(job);
+					m_HighQueue.push(job);
 					break;
 				}
 				case JobPriority::Medium: {
-					m_MediumQueue.Push(job);
+					m_MediumQueue.push(job);
 					break;
 				}
 				case JobPriority::Low: {
-					m_LowQueue.Push(job);
+					m_LowQueue.push(job);
 					break;
 				}
 			}
 		}
+
+		m_JobLock.Unlock();
 
 		return counter;
 	}
 
-	Job JobManager::GetNextJob()
+	bool JobManager::GetNextJob(Job* outJob)
 	{
 		Job resJob = Job{};
 
+		bool foundJob = false;
+		
+		m_JobLock.Lock();
+
 		// Pop from sleep list
-		for (size_t i = 0; i < m_WaitingJobs.Size(); i++) {
-			WaitingJob waitingJob = m_WaitingJobs.Get(i);
+		for (size_t i = 0; i < m_WaitingJobs.size(); i++) {
+			WaitingJob waitingJob = m_WaitingJobs[i];
 			if (waitingJob.counter->GetCounter() <= 0) {
-				m_WaitingJobs.Remove(i);
+				m_WaitingJobs.erase(m_WaitingJobs.begin() + i);
 				resJob = waitingJob.job;
+				foundJob = true;
 				break;
 			}
 		}
 
-		if (!m_HighQueue.IsEmpty()) resJob = m_HighQueue.Pop();
+		if (!m_HighQueue.empty()) {
+			resJob = m_HighQueue.front();
+			m_HighQueue.pop();
+			foundJob = true;
+		}
 
-		if (!m_MediumQueue.IsEmpty()) resJob = m_MediumQueue.Pop();
+		if (!m_MediumQueue.empty()) {
+			resJob = m_MediumQueue.front();
+			m_MediumQueue.pop();
+			foundJob = true;
+		}
 
-		if (!m_LowQueue.IsEmpty()) resJob = m_LowQueue.Pop();
+		if (!m_LowQueue.empty()) {
+			resJob = m_LowQueue.front();
+			m_LowQueue.pop();
+			foundJob = true;
+		}
 
-		resJob.status = JobStatus::Running;
-		return resJob;
+		m_JobLock.Unlock();
+
+		if (foundJob) {
+			resJob.status = JobStatus::Running;
+			*outJob = resJob;
+		}
+
+		return foundJob;
 	}
 
 	void JobManager::PauseJob(Job job, Ref<JobBatchCounter> counter)
@@ -112,7 +122,9 @@ namespace GameSmith {
 		waitingJob.counter = counter;
 		waitingJob.job = job;
 
-		m_WaitingJobs.PushBack(waitingJob);
+		m_JobLock.Lock();
+		m_WaitingJobs.push_back(waitingJob);
+		m_JobLock.Unlock();
 	}
 
 	JobBatchCounter::JobBatchCounter(unsigned int batchSize) : m_Count(batchSize){}
@@ -135,12 +147,9 @@ namespace GameSmith {
 
 		auto instance = JobManager::GetInstance();
 		while (true) {
-			if (!instance->JobsAvailable()) {
-				GE_CORE_INFO("No jobs available, idling");
+			if (!instance->GetNextJob(&g_CurJob)) {
 				continue;
 			}
-
-			g_CurJob = instance->GetNextJob();
 
 			if (g_CurJob.runningFiber.isEmpty()) {
 				JobStandardParamters jobParams;

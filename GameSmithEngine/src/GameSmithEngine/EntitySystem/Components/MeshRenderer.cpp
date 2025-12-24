@@ -2,8 +2,6 @@
 #include "MeshRenderer.h"
 #include "GameSmithEngine/EntitySystem/EnitityRenderPreparer.h"
 #include "GameSmithEngine/Core/Log.h"
-#include "GameSmithEngine/ResourceManagement/ResourceAssetHelper.h"
-#include "GameSmithEngine/ResourceManagement/ResourceManager.h"
 #include "GameSmithEngine/EntitySystem/Components/ComponentFactory.h"
 
 namespace GameSmith {
