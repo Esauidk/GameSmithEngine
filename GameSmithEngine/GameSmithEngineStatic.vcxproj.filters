@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <Filter Include="src">
@@ -183,14 +183,14 @@
     <ClInclude Include="src\GameSmithEngine\Core\JobSystem\JobManager.h">
       <Filter>src\GameSmithEngine\Core\JobSystem</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\Core\JobSystem\JobUtils.h">
+      <Filter>src\GameSmithEngine\Core\JobSystem</Filter>
+    </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Core\KeyCodes.h">
       <Filter>src\GameSmithEngine\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Core\Layer.h">
       <Filter>src\GameSmithEngine\Core</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameSmithEngine\Core\Layers\ContentLibararyLayer.h">
-      <Filter>src\GameSmithEngine\Core\Layers</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Core\Layers\EntitySystemLayer.h">
       <Filter>src\GameSmithEngine\Core\Layers</Filter>
@@ -517,6 +517,9 @@
       <Filter>src\GameSmithEngine\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Utilities\ThreadSafeQueue.h">
+      <Filter>src\GameSmithEngine\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\Utilities\ThreadSafeVector.h">
       <Filter>src\GameSmithEngine\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Utilities\UtilMacros.h">
@@ -1810,9 +1813,6 @@
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\Core\Layer.cpp">
       <Filter>src\GameSmithEngine\Core</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameSmithEngine\Core\Layers\ContentLibararyLayer.cpp">
-      <Filter>src\GameSmithEngine\Core\Layers</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\Core\Layers\EntitySystemLayer.cpp">
       <Filter>src\GameSmithEngine\Core\Layers</Filter>

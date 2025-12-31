@@ -9,6 +9,7 @@ extern "C" GE_EXPLCIT_EXPORT GameSmith::ContentLibrary* ConnectToContentLibrary(
 
 namespace GameSmith {
 
+	typedef void* LibraryHandle;
 
 	class GE_API ContentLibrary {
 	public:
@@ -19,9 +20,8 @@ namespace GameSmith {
 	struct DynamicLibraryDetails {
 		std::string LibraryName = "";
 		std::string LibraryPath = "";
-		void* loadedLib = nullptr;
+		LibraryHandle loadedLib = nullptr;
 		Ref<ContentLibrary> ContentLib = nullptr;
-		bool isLoaded = false;
 	};
 
 	class GE_API ContentLibraryManager
@@ -30,13 +30,11 @@ namespace GameSmith {
 		static void Init();
 		static void Shutdown();
 
-		inline static ContentLibraryManager* GetInstance() { return s_Instance; }
-		void DiscoveryLibaries();
+		static ContentLibraryManager* GetInstance();
 
-		void LoadContentLibrary(std::string libraryName);
+		void LoadContentLibrary(std::string libraryName, std::string libraryPath);
 		void UnloadContentLibrary(std::string libraryName);
 
-		void LoadAllLibraries();
 	private:
 		ContentLibraryManager();
 	private:

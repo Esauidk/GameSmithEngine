@@ -19,8 +19,8 @@ namespace GameSmith {
 
 	void RenderLayer::OnUpdate(float dt)
 	{
-		auto renderPerparer = EntityRenderPreparer::GetInstance();
-		renderPerparer->SendForRendering();
+		auto renderPreparer = EntityRenderPreparer::GetInstance();
+		renderPreparer->SendForRendering();
 	}
 
 	void RenderLayer::OnEndUpdate()

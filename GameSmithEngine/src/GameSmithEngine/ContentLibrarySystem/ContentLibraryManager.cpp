@@ -2,9 +2,7 @@
 #include "ContentLibraryManager.h"
 #include "GameSmithEngine/Core/Log.h"
 
-#include <filesystem>
-
-using recursive_directory_iterator = std::filesystem::recursive_directory_iterator;
+#define CONNECT_LIBRARY_FUNC_NAME "ConnectToContentLibrary"
 
 namespace GameSmith {
 	ContentLibraryManager* ContentLibraryManager::s_Instance = nullptr;
@@ -28,49 +26,46 @@ namespace GameSmith {
 		}
 	}
 
-	void ContentLibraryManager::DiscoveryLibaries()
+	ContentLibraryManager* ContentLibraryManager::GetInstance()
 	{
-		for (const auto& dirEntry : recursive_directory_iterator("ContentLibraries")) {
-			if (dirEntry.is_regular_file()) {
-				std::string fileName = dirEntry.path().filename().string();
-				std::string path = dirEntry.path().string();
-
-				if (path.ends_with(".dll")) {
-					DynamicLibraryDetails details;
-					details.LibraryName = fileName;
-					details.LibraryPath = path;
-					m_Libraries.insert({ fileName, details });
-				}
-
-				std::cout << dirEntry << std::endl;
-			}
-
-		}
+		return s_Instance;
 	}
 
-	void ContentLibraryManager::LoadContentLibrary(std::string libraryName)
+	void ContentLibraryManager::LoadContentLibrary(std::string libraryName, std::string libraryPath)
 	{
-		GE_CORE_ASSERT(m_Libraries.contains(libraryName), "This DLL/ContentLibrary is not registered for use");
-		auto libEntry = m_Libraries.find(libraryName);
-		GE_CORE_ASSERT(!libEntry->second.isLoaded, "This DLL/ContentLibrary is already loaded");
+		GE_CORE_ASSERT(!m_Libraries.contains(libraryName), "This DLL/ContentLibrary is already loaded");
 
 #ifdef GE_PLATFORM_WINDOWS
-		auto module = LoadLibraryA(libEntry->second.LibraryPath.c_str());
-		libEntry->second.loadedLib = (void*)module;
+		DynamicLibraryDetails libDetails;
+		libDetails.LibraryName = libraryName;
+		libDetails.LibraryPath = libraryPath;
 
-		auto func = (ConnectLibraryFunc)GetProcAddress(module, "ConnectToContentLibrary");
-		libEntry->second.ContentLib = GameSmith::Ref<ContentLibrary>(func());
+		auto module = LoadLibraryA(libDetails.LibraryPath.c_str());
+		libDetails.loadedLib = (LibraryHandle)module;
+
+		if (module == nullptr) {
+			GE_CORE_ERROR("Failed to load library: {0}", libDetails.LibraryPath);
+			return;
+		}
+
+		auto func = (ConnectLibraryFunc)GetProcAddress(module, CONNECT_LIBRARY_FUNC_NAME);
+		if (func == nullptr) {
+			GE_CORE_ERROR("Failed to find function {0} in library: {1}", CONNECT_LIBRARY_FUNC_NAME, libDetails.LibraryPath);
+			FreeLibrary(module);
+			return;
+		}
+
+		libDetails.ContentLib = GameSmith::Ref<ContentLibrary>(func());
 #endif
+		libDetails.ContentLib->Init();
 
-		libEntry->second.isLoaded = true;
-		libEntry->second.ContentLib->Init();
+		m_Libraries[libraryName] = libDetails;
 	}
 
 	void ContentLibraryManager::UnloadContentLibrary(std::string libraryName)
 	{
-		GE_CORE_ASSERT(m_Libraries.contains(libraryName), "This DLL/ContentLibrary is not registered for use");
+		GE_CORE_ASSERT(m_Libraries.contains(libraryName), "This DLL/ContentLibrary is currently in use");
 		auto libEntry = m_Libraries.find(libraryName);
-		GE_CORE_ASSERT(libEntry->second.isLoaded, "This DLL/ContentLibrary is not loaded");
 
 		libEntry->second.ContentLib->Shutdown();
 		libEntry->second.ContentLib = nullptr;
@@ -78,14 +73,5 @@ namespace GameSmith {
 #ifdef GE_PLATFORM_WINDOWS
 		FreeLibrary((HMODULE)libEntry->second.loadedLib);
 #endif
-
-		libEntry->second.isLoaded = false;
-	}
-
-	void ContentLibraryManager::LoadAllLibraries()
-	{
-		for (auto& entry : m_Libraries) {
-			LoadContentLibrary(entry.first);
-		}
 	}
 };

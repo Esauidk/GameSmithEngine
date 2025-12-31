@@ -26,19 +26,19 @@
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v145</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v145</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'" Label="Configuration">
     <ConfigurationType>Application</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v145</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -55,22 +55,22 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\bin\Debug-windows-x86_64\GameSmithEngineTestSuite\</OutDir>
-    <IntDir>..\bin-int\Debug-windows-x86_64\GameSmithEngineTestSuite\</IntDir>
+    <OutDir>$(ProjectDir)..\bin\Debug-windows-x86_64\GameSmithEngineTestSuite\</OutDir>
+    <IntDir>$(ProjectDir)..\bin-int\Debug-windows-x86_64\GameSmithEngineTestSuite\</IntDir>
     <TargetName>GameSmithEngineTestSuite</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\bin\Release-windows-x86_64\GameSmithEngineTestSuite\</OutDir>
-    <IntDir>..\bin-int\Release-windows-x86_64\GameSmithEngineTestSuite\</IntDir>
+    <OutDir>$(ProjectDir)..\bin\Release-windows-x86_64\GameSmithEngineTestSuite\</OutDir>
+    <IntDir>$(ProjectDir)..\bin-int\Release-windows-x86_64\GameSmithEngineTestSuite\</IntDir>
     <TargetName>GameSmithEngineTestSuite</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\bin\Dist-windows-x86_64\GameSmithEngineTestSuite\</OutDir>
-    <IntDir>..\bin-int\Dist-windows-x86_64\GameSmithEngineTestSuite\</IntDir>
+    <OutDir>$(ProjectDir)..\bin\Dist-windows-x86_64\GameSmithEngineTestSuite\</OutDir>
+    <IntDir>$(ProjectDir)..\bin-int\Dist-windows-x86_64\GameSmithEngineTestSuite\</IntDir>
     <TargetName>GameSmithEngineTestSuite</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>

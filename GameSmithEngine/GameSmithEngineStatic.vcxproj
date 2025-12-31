@@ -26,19 +26,19 @@
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>true</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v145</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v145</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'" Label="Configuration">
     <ConfigurationType>StaticLibrary</ConfigurationType>
     <UseDebugLibraries>false</UseDebugLibraries>
     <CharacterSet>Unicode</CharacterSet>
-    <PlatformToolset>v145</PlatformToolset>
+    <PlatformToolset>v143</PlatformToolset>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
   <ImportGroup Label="ExtensionSettings">
@@ -54,20 +54,20 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
-    <OutDir>..\bin\Debug-windows-x86_64\GameSmithEngineStatic\</OutDir>
-    <IntDir>..\bin-int\Debug-windows-x86_64\GameSmithEngineStatic\</IntDir>
+    <OutDir>$(ProjectDir)..\bin\Debug-windows-x86_64\GameSmithEngineStatic\</OutDir>
+    <IntDir>$(ProjectDir)..\bin-int\Debug-windows-x86_64\GameSmithEngineStatic\</IntDir>
     <TargetName>GameSmithEngineStatic</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <OutDir>..\bin\Release-windows-x86_64\GameSmithEngineStatic\</OutDir>
-    <IntDir>..\bin-int\Release-windows-x86_64\GameSmithEngineStatic\</IntDir>
+    <OutDir>$(ProjectDir)..\bin\Release-windows-x86_64\GameSmithEngineStatic\</OutDir>
+    <IntDir>$(ProjectDir)..\bin-int\Release-windows-x86_64\GameSmithEngineStatic\</IntDir>
     <TargetName>GameSmithEngineStatic</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
-    <OutDir>..\bin\Dist-windows-x86_64\GameSmithEngineStatic\</OutDir>
-    <IntDir>..\bin-int\Dist-windows-x86_64\GameSmithEngineStatic\</IntDir>
+    <OutDir>$(ProjectDir)..\bin\Dist-windows-x86_64\GameSmithEngineStatic\</OutDir>
+    <IntDir>$(ProjectDir)..\bin-int\Dist-windows-x86_64\GameSmithEngineStatic\</IntDir>
     <TargetName>GameSmithEngineStatic</TargetName>
     <TargetExt>.lib</TargetExt>
   </PropertyGroup>
@@ -156,9 +156,9 @@
     <ClInclude Include="src\GameSmithEngine\Core\Input.h" />
     <ClInclude Include="src\GameSmithEngine\Core\JobSystem\JobFiber.h" />
     <ClInclude Include="src\GameSmithEngine\Core\JobSystem\JobManager.h" />
+    <ClInclude Include="src\GameSmithEngine\Core\JobSystem\JobUtils.h" />
     <ClInclude Include="src\GameSmithEngine\Core\KeyCodes.h" />
     <ClInclude Include="src\GameSmithEngine\Core\Layer.h" />
-    <ClInclude Include="src\GameSmithEngine\Core\Layers\ContentLibararyLayer.h" />
     <ClInclude Include="src\GameSmithEngine\Core\Layers\EntitySystemLayer.h" />
     <ClInclude Include="src\GameSmithEngine\Core\Layers\RenderLayer.h" />
     <ClInclude Include="src\GameSmithEngine\Core\Layers\ResourceLayer.h" />
@@ -268,6 +268,7 @@
     <ClInclude Include="src\GameSmithEngine\Utilities\Locks\Spinlock.h" />
     <ClInclude Include="src\GameSmithEngine\Utilities\ParameterContainer.h" />
     <ClInclude Include="src\GameSmithEngine\Utilities\ThreadSafeQueue.h" />
+    <ClInclude Include="src\GameSmithEngine\Utilities\ThreadSafeVector.h" />
     <ClInclude Include="src\GameSmithEngine\Utilities\UtilMacros.h" />
     <ClInclude Include="src\gepch.h" />
     <ClInclude Include="third-party\glm\glm\common.hpp" />
@@ -700,7 +701,6 @@
     <ClCompile Include="src\GameSmithEngine\Core\JobSystem\JobFiber.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\JobSystem\JobManager.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\Layer.cpp" />
-    <ClCompile Include="src\GameSmithEngine\Core\Layers\ContentLibararyLayer.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\Layers\EntitySystemLayer.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\Layers\RenderLayer.cpp" />
     <ClCompile Include="src\GameSmithEngine\Core\Layers\ResourceLayer.cpp" />

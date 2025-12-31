@@ -4,7 +4,6 @@
 #include "Log.h"
 
 
-#include "GameSmithEngine/Core/Layers/ContentLibararyLayer.h"
 #include "GameSmithEngine/Core/Layers/EntitySystemLayer.h"
 #include "GameSmithEngine/Core/Layers/RenderLayer.h"
 #include "GameSmithEngine/Core/Layers/ResourceLayer.h"
@@ -22,7 +21,6 @@ namespace GameSmith {
 
 		// TODO Setup default layers
 		PushLayer(new ResourceLayer());
-		PushLayer(new ContentLibararyLayer());
 		PushLayer(new RenderLayer());
 		PushLayer(new EntitySystemLayer());
 
