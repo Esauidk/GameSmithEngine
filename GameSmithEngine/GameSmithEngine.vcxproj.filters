@@ -1791,6 +1791,7 @@
     <ClInclude Include="third-party\tinyobjloader\tiny_obj_loader.h">
       <Filter>third-party\tinyobjloader</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\ContentLibrarySystem\ContentLibrary.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GameSmithEngine\ContentLibrarySystem\ContentLibraryManager.cpp">

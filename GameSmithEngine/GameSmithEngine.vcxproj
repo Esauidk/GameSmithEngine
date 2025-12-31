@@ -153,6 +153,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\GameSmithEngine.h" />
+    <ClInclude Include="src\GameSmithEngine\ContentLibrarySystem\ContentLibrary.h" />
     <ClInclude Include="src\GameSmithEngine\ContentLibrarySystem\ContentLibraryManager.h" />
     <ClInclude Include="src\GameSmithEngine\ContentLibrarySystem\DefaultContentLibrary.h" />
     <ClInclude Include="src\GameSmithEngine\Core\Application.h" />

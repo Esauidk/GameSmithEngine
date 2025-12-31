@@ -22,7 +22,8 @@ namespace GameSmith {
 			}
 		}
 
-		//ContentLibraryManager::GetInstance()->LoadContentLibrary("DefaultContentLibrary", "C:/Users/esaus/Documents/Coding Projects/GameSmithSampleGame/bin/Debug-windows-x86_64/DefaultGameProject/DefaultGameProject.dll");
+		ContentLibraryManager::GetInstance()->LoadContentLibrary("DefaultContentLibrary", "C:/Users/esaus/Documents/Coding Projects/GameSmithSampleGame/bin/Debug-windows-x86_64/DefaultGameProject/DefaultGameProject.dll");
+		ContentLibraryManager::GetInstance()->UnloadContentLibrary("DefaultContentLibrary");
 	}
 
 	void ResourceLayer::OnDetach()
