@@ -11,6 +11,6 @@ namespace GameSmith {
 	public:
 		virtual void Init() = 0;
 		virtual void Shutdown() = 0;
-		virtual ~ContentLibrary() = 0;
+		virtual ~ContentLibrary() = default;
 	};
 };
