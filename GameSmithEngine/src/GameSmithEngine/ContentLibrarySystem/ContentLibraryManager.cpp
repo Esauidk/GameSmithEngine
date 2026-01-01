@@ -11,10 +11,14 @@ namespace GameSmith {
 
 	ContentLibraryManager::ContentLibraryManager(){}
 
-	void ContentLibraryManager::Init()
+	void ContentLibraryManager::Init(const std::unordered_map<std::string, std::string>& startingLibraries)
 	{
 		if (s_Instance == nullptr) {
 			s_Instance = new ContentLibraryManager();
+
+			for (const auto& libEntry : startingLibraries) {
+				s_Instance->LoadContentLibrary(libEntry.first, libEntry.second);
+			}
 		}
 	}
 
@@ -23,6 +27,18 @@ namespace GameSmith {
 		if (s_Instance != nullptr) {
 			delete s_Instance;
 			s_Instance = nullptr;
+		}
+	}
+
+	ContentLibraryManager::~ContentLibraryManager()
+	{
+		std::vector<std::string> keys;
+		for (auto& libEntry : m_Libraries) {
+			keys.push_back(libEntry.first);
+		}
+
+		for (auto& key : keys) {
+			UnloadContentLibrary(key);
 		}
 	}
 
@@ -73,5 +89,6 @@ namespace GameSmith {
 #ifdef GE_PLATFORM_WINDOWS
 		FreeLibrary((HMODULE)libEntry->second.loadedLib);
 #endif
+		m_Libraries.erase(libEntry);
 	}
 };

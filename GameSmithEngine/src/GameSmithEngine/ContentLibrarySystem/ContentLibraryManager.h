@@ -16,8 +16,9 @@ namespace GameSmith {
 	class GE_API ContentLibraryManager
 	{
 	public:
-		static void Init();
+		static void Init(const std::unordered_map<std::string, std::string>& startingLibraries);
 		static void Shutdown();
+		~ContentLibraryManager();
 
 		static ContentLibraryManager* GetInstance();
 

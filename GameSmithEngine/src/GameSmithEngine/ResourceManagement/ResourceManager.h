@@ -20,6 +20,7 @@ namespace GameSmith {
 		std::unordered_map<std::string, Ref<Serializeable>> ActivePathResources;
 		std::unordered_map<ID, std::string, IDHasher> ResourceRegistry;
 		std::unordered_map<std::string, ID> ReverseResourceRegistry;
+		std::unordered_map<std::string, std::string> ContentLibraryRegistry;
 	};
 
 	class GE_API ResourceManager
@@ -88,6 +89,8 @@ namespace GameSmith {
 
 		Ref<Serializeable> GetResource(std::string asset);
 
+		const std::unordered_map<std::string, std::string>& GetContentLibrariesFiles() { return m_ResourceMaps->ContentLibraryRegistry; };
+
 		// Expected to be used only during testing
 		template<typename T>
 		Ref<T> GetResource(ID key, char* inData, UINT size) {
@@ -114,19 +117,21 @@ namespace GameSmith {
 		ID GetAssetID(std::string path);
 
 		void ScanResources();
+		void ScanContentLibraries();
 		void CleanResources();
 
 		void SetAssestDirectory(std::string dir) { m_AssetDirectory = dir; }
+		void SetContentLibraryDirectory(std::string dir) { m_ContentLibraryDirectory = dir; }
 	private:
 		ResourceManager();
 	private:
 		static ResourceManager* s_Instance;
 
 		Scope<ResourceMaps> m_ResourceMaps;
-
 		Ref<ResourceLoader> m_Loader;
 
 		std::string m_AssetDirectory;
+		std::string m_ContentLibraryDirectory;
 	};
 };
 

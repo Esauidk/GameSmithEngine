@@ -8,6 +8,9 @@
 
 #include "GameSmithEngine/ResourceAssets/AssetFactory.h"
 
+#define META_FILE_EXTENSION ".meta"
+#define CONTENT_LIBRARY_FILE_EXTENSION "dll"
+
 using recursive_directory_iterator = std::filesystem::recursive_directory_iterator;
 
 namespace GameSmith {
@@ -114,9 +117,9 @@ namespace GameSmith {
 					std::string fileName = dirEntry.path().filename().string();
 					std::string path = dirEntry.path().string();
 
-					if (std::filesystem::exists(path + ".meta")) {
+					if (std::filesystem::exists(path + META_FILE_EXTENSION)) {
 						unsigned int metaSize;
-						char* meta = m_Loader->LoadResource(path + ".meta", &metaSize);
+						char* meta = m_Loader->LoadResource(path + META_FILE_EXTENSION, &metaSize);
 						ResourceFileMetadata* metaPtr = (ResourceFileMetadata*)meta;
 						ID metaId(metaPtr->ID);
 
@@ -129,6 +132,24 @@ namespace GameSmith {
 					GE_CORE_INFO(path);
 				}
 				
+			}
+		}
+	}
+
+	void ResourceManager::ScanContentLibraries()
+	{
+		if (m_ContentLibraryDirectory != "") {
+			for (const auto& dirEntry : recursive_directory_iterator(m_ContentLibraryDirectory)) {
+				if (dirEntry.is_regular_file()) {
+					std::string fileName = dirEntry.path().filename().string();
+					std::string path = dirEntry.path().string();
+
+					std::string ext = path.substr(path.find_last_of('.') + 1);
+
+					if (ext.compare(CONTENT_LIBRARY_FILE_EXTENSION) == 0) {
+						m_ResourceMaps->ContentLibraryRegistry[fileName] = path;
+					}
+				}
 			}
 		}
 	}
@@ -172,7 +193,7 @@ namespace GameSmith {
 		char* data = m_Loader->LoadResource(path, &size);
 
 		unsigned int metaSize;
-		char* meta = m_Loader->LoadResource(path + ".meta", &metaSize);
+		char* meta = m_Loader->LoadResource(path + META_FILE_EXTENSION, &metaSize);
 
 		GE_CORE_ASSERT(metaSize == sizeof(ResourceFileMetadata), "Meta data of resource has been manipulated and does not match the expected size");
 
