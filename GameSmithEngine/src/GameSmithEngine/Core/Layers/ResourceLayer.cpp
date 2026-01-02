@@ -3,22 +3,34 @@
 #include "GameSmithEngine/ResourceManagement/ResourceManager.h"
 #include "GameSmithEngine/ContentLibrarySystem/ContentLibraryManager.h"
 
-// Temporary
-#include "GameSmithEngine/Core/Application.h"
+#include "CLI/CLI.hpp"
 
 namespace GameSmith {
-	void ResourceLayer::OnAttach()
+	void ResourceLayer::OnAttach(const ApplicationSpecs& specs)
 	{
 		ResourceManager::Init(ResourceLoaderType::Heap);
 
-		// TODO: Use more complex system for starting resource 
-		auto specs = Application::Get().GetApplicationSpecs();
-		if (specs.CommandLineArgs.Count >= 3) {
-			if (std::string(specs.CommandLineArgs.Args[1]) == "--contentDir") {
-				auto instance = ResourceManager::GetInstance();
-				instance->SetContentLibraryDirectory(specs.CommandLineArgs.Args[2]);
-				instance->ScanContentLibraries();
-			}
+		CLI::App app{ "Resource Layer Arguments" };
+
+		std::string assetDir = "";
+		std::string contentDir = "";
+		app.add_option("--assetDir", assetDir, "The directory to pull assets from");
+		app.add_option("--contentDir", contentDir, "The directory to pull content libraries from");
+
+		try {
+			app.parse(specs.CommandLineArgs.Count, specs.CommandLineArgs.Args);
+		}
+		catch (const CLI::ParseError &e) {
+			GE_CORE_WARN("Issue parsing resource layer arguments, {}", app.exit(e));
+		}
+
+		if (contentDir != "") {
+			ResourceManager::GetInstance()->SetContentLibraryDirectory(contentDir);
+			ResourceManager::GetInstance()->ScanContentLibraries();
+		}
+
+		if (assetDir != "") {
+			ResourceManager::GetInstance()->SetAssetDirectory(assetDir);
 		}
 
 		auto& contentLibs = ResourceManager::GetInstance()->GetContentLibrariesFiles();

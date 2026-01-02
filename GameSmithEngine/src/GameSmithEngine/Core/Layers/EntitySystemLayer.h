@@ -5,7 +5,7 @@ namespace GameSmith {
 	{
 	public:
 		EntitySystemLayer() : Layer("EntitySystemLayer") {};
-		virtual void OnAttach() override;
+		virtual void OnAttach(const ApplicationSpecs& specs) override;
 		virtual void OnDetach() override;
 		virtual void OnUpdate(float dt) override;
 	};

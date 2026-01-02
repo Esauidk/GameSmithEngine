@@ -120,7 +120,7 @@ namespace GameSmith {
 		void ScanContentLibraries();
 		void CleanResources();
 
-		void SetAssestDirectory(std::string dir) { m_AssetDirectory = dir; }
+		void SetAssetDirectory(std::string dir) { m_AssetDirectory = dir; }
 		void SetContentLibraryDirectory(std::string dir) { m_ContentLibraryDirectory = dir; }
 	private:
 		ResourceManager();

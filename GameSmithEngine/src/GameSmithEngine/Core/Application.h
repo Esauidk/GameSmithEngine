@@ -4,6 +4,7 @@
 #include "Window.h"
 #include "Timer.h"
 
+#include "GameSmithEngine/Core/ApplicationSpecs.h"
 #include "GameSmithEngine/Events/Event.h"
 #include "GameSmithEngine/Core/MixStack.h"
 #include "GameSmithEngine/Core/Layer.h"
@@ -15,16 +16,6 @@
 
 
 namespace GameSmith {
-	struct GE_API CommandLineArgs {
-		int Count = 0;
-		char** Args = nullptr;
-	};
-
-	struct GE_API ApplicationSpecs {
-		std::string Name = "Game Smith Engine";
-		CommandLineArgs CommandLineArgs;
-	};
-
 	// The class is the abstract representation of the Engine's structure
 	// Ex: Layers(Submodules), Execution Loop, OS Window, etc
 	class GE_API Application

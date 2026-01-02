@@ -127,6 +127,18 @@
     <Filter Include="third-party">
       <UniqueIdentifier>{9DC1EB7C-0977-6472-926B-5E49FE1F5B76}</UniqueIdentifier>
     </Filter>
+    <Filter Include="third-party\CLI11">
+      <UniqueIdentifier>{868CF990-F2A2-F726-3B1A-8348A76FC8AE}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="third-party\CLI11\include">
+      <UniqueIdentifier>{F9D9757B-659C-A905-AE4C-38921A4E82E3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="third-party\CLI11\include\CLI">
+      <UniqueIdentifier>{601B6F96-CC33-56C0-95E0-E55901B8EA59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="third-party\CLI11\include\CLI\impl">
+      <UniqueIdentifier>{612995D2-4D65-983C-B677-B033A2D24057}</UniqueIdentifier>
+    </Filter>
     <Filter Include="third-party\glm">
       <UniqueIdentifier>{6CD218AA-D85D-866E-E16E-09634D79E26E}</UniqueIdentifier>
     </Filter>
@@ -156,6 +168,9 @@
     <ClInclude Include="src\GameSmithEngine.h">
       <Filter>src</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\ContentLibrarySystem\ContentLibrary.h">
+      <Filter>src\GameSmithEngine\ContentLibrarySystem</Filter>
+    </ClInclude>
     <ClInclude Include="src\GameSmithEngine\ContentLibrarySystem\ContentLibraryManager.h">
       <Filter>src\GameSmithEngine\ContentLibrarySystem</Filter>
     </ClInclude>
@@ -163,6 +178,9 @@
       <Filter>src\GameSmithEngine\ContentLibrarySystem</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Core\Application.h">
+      <Filter>src\GameSmithEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\Core\ApplicationSpecs.h">
       <Filter>src\GameSmithEngine\Core</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Core\Core.h">
@@ -527,6 +545,90 @@
     </ClInclude>
     <ClInclude Include="src\gepch.h">
       <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\CLI11\include\CLI\App.hpp">
+      <Filter>third-party\CLI11\include\CLI</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\CLI11\include\CLI\Argv.hpp">
+      <Filter>third-party\CLI11\include\CLI</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\CLI11\include\CLI\CLI.hpp">
+      <Filter>third-party\CLI11\include\CLI</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\CLI11\include\CLI\Config.hpp">
+      <Filter>third-party\CLI11\include\CLI</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\CLI11\include\CLI\ConfigFwd.hpp">
+      <Filter>third-party\CLI11\include\CLI</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\CLI11\include\CLI\Encoding.hpp">
+      <Filter>third-party\CLI11\include\CLI</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\CLI11\include\CLI\Error.hpp">
+      <Filter>third-party\CLI11\include\CLI</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\CLI11\include\CLI\ExtraValidators.hpp">
+      <Filter>third-party\CLI11\include\CLI</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\CLI11\include\CLI\Formatter.hpp">
+      <Filter>third-party\CLI11\include\CLI</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\CLI11\include\CLI\FormatterFwd.hpp">
+      <Filter>third-party\CLI11\include\CLI</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\CLI11\include\CLI\Macros.hpp">
+      <Filter>third-party\CLI11\include\CLI</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\CLI11\include\CLI\Option.hpp">
+      <Filter>third-party\CLI11\include\CLI</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\CLI11\include\CLI\Split.hpp">
+      <Filter>third-party\CLI11\include\CLI</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\CLI11\include\CLI\StringTools.hpp">
+      <Filter>third-party\CLI11\include\CLI</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\CLI11\include\CLI\Timer.hpp">
+      <Filter>third-party\CLI11\include\CLI</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\CLI11\include\CLI\TypeTools.hpp">
+      <Filter>third-party\CLI11\include\CLI</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\CLI11\include\CLI\Validators.hpp">
+      <Filter>third-party\CLI11\include\CLI</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\CLI11\include\CLI\Version.hpp">
+      <Filter>third-party\CLI11\include\CLI</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\CLI11\include\CLI\impl\App_inl.hpp">
+      <Filter>third-party\CLI11\include\CLI\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\CLI11\include\CLI\impl\Argv_inl.hpp">
+      <Filter>third-party\CLI11\include\CLI\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\CLI11\include\CLI\impl\Config_inl.hpp">
+      <Filter>third-party\CLI11\include\CLI\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\CLI11\include\CLI\impl\Encoding_inl.hpp">
+      <Filter>third-party\CLI11\include\CLI\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\CLI11\include\CLI\impl\ExtraValidators_inl.hpp">
+      <Filter>third-party\CLI11\include\CLI\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\CLI11\include\CLI\impl\Formatter_inl.hpp">
+      <Filter>third-party\CLI11\include\CLI\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\CLI11\include\CLI\impl\Option_inl.hpp">
+      <Filter>third-party\CLI11\include\CLI\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\CLI11\include\CLI\impl\Split_inl.hpp">
+      <Filter>third-party\CLI11\include\CLI\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\CLI11\include\CLI\impl\StringTools_inl.hpp">
+      <Filter>third-party\CLI11\include\CLI\impl</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\CLI11\include\CLI\impl\Validators_inl.hpp">
+      <Filter>third-party\CLI11\include\CLI\impl</Filter>
     </ClInclude>
     <ClInclude Include="third-party\glm\glm\common.hpp">
       <Filter>third-party\glm\glm</Filter>
@@ -1791,7 +1893,6 @@
     <ClInclude Include="third-party\tinyobjloader\tiny_obj_loader.h">
       <Filter>third-party\tinyobjloader</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameSmithEngine\ContentLibrarySystem\ContentLibrary.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GameSmithEngine\ContentLibrarySystem\ContentLibraryManager.cpp">

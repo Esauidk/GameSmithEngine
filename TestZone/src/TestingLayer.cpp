@@ -94,7 +94,7 @@ TestingLayer::TestingLayer() : GameSmith::Layer("Testing Layer")
 	i = 1;*/
 
 	/*auto resourceMang = GameSmith::ResourceManager::GetInstance();
-	resourceMang->SetAssestDirectory("Assets");
+	resourceMang->SetAssetDirectory("Assets");
 	resourceMang->ScanResources();
 
 	auto con = GameSmith::GameObjectManager::GetInstance()->CreateGameObject();

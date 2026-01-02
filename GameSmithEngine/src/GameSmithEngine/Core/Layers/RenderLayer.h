@@ -6,7 +6,7 @@ namespace GameSmith {
 	{
 	public:
 		RenderLayer() : Layer("RenderLayer") {};
-		virtual void OnAttach() override;
+		virtual void OnAttach(const ApplicationSpecs& specs) override;
 		virtual void OnDetach() override;
 		virtual void OnUpdate(float dt) override;
 		virtual void OnEndUpdate() override;

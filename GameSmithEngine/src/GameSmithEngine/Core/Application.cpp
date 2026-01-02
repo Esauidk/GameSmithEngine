@@ -56,7 +56,7 @@ namespace GameSmith {
 			m_PendingLayers.push(layer);
 		}
 		else {
-			layer->OnAttach();
+			layer->OnAttach(m_AppSpecs);
 			m_LayerStack.Push(layer);
 		}
 		
@@ -67,7 +67,7 @@ namespace GameSmith {
 			m_PendingSpecialLayers.push(layer);
 		}
 		else {
-			layer->OnAttach();
+			layer->OnAttach(m_AppSpecs);
 			m_LayerStack.PushSpecial(layer);
 		}
 		
@@ -88,14 +88,14 @@ namespace GameSmith {
 			while (!m_PendingSpecialLayers.empty()) {
 				auto layer = m_PendingSpecialLayers.front();
 				m_PendingSpecialLayers.pop();
-				layer->OnAttach();
+				layer->OnAttach(m_AppSpecs);
 				m_LayerStack.PushSpecial(layer);
 			}
 
 			while (!m_PendingLayers.empty()) {
 				auto layer = m_PendingLayers.front();
 				m_PendingLayers.pop();
-				layer->OnAttach();
+				layer->OnAttach(m_AppSpecs);
 				m_LayerStack.Push(layer);
 			}
 

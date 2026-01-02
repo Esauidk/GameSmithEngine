@@ -18,7 +18,7 @@ namespace GameSmithEditor {
 		}
 	}
 
-	void AssetDatabaseWindow::OnAttach()
+	void AssetDatabaseWindow::OnAttach(const GameSmith::ApplicationSpecs& specs)
 	{
 		if (s_Count < 1) {
 			IconManager::Init();

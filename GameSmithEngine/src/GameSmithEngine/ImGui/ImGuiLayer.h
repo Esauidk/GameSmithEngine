@@ -20,7 +20,7 @@ namespace GameSmith {
 	public:
 		ImGuiLayer();
 		~ImGuiLayer();
-		void OnAttach() override;
+		void OnAttach(const ApplicationSpecs& specs) override;
 		void OnDetach() override;
 		void OnImGuiRender() override;
 

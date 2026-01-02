@@ -1,5 +1,6 @@
 #pragma once
 
+#include "GameSmithEngine/Core/ApplicationSpecs.h"
 #include "GameSmithEngine/Core/Core.h"
 #include "GameSmithEngine/Events/Event.h"
 
@@ -12,7 +13,7 @@ namespace GameSmith {
 		virtual ~Layer() = default;
 
 		// Logic to perform when layer is added to the system
-		virtual void OnAttach() {/* To allow inheritor classes to not implement any logic */ }
+		virtual void OnAttach(const ApplicationSpecs& specs) {/* To allow inheritor classes to not implement any logic */ }
 		// Logic to perform when layer is removed from the system
 		virtual void OnDetach() {/* To allow inheritor classes to not implement any logic */ }
 		// Logic to perform on every update cycle

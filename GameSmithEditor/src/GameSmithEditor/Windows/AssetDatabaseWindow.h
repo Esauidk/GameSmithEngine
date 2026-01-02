@@ -9,7 +9,7 @@ namespace GameSmithEditor {
 	{
 	public:
 		AssetDatabaseWindow();
-		void OnAttach() override;
+		void OnAttach(const GameSmith::ApplicationSpecs& specs) override;
 		void OnDetach() override;
 		void OnImGuiRender() override;
 	private:

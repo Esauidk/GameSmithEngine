@@ -5,7 +5,7 @@
 #include "GameSmithEngine/Rendering/RenderingManager.h"
 
 namespace GameSmith {
-	void RenderLayer::OnAttach()
+	void RenderLayer::OnAttach(const ApplicationSpecs& specs)
 	{
 		RenderingManager::Init();
 		EntityRenderPreparer::Init();

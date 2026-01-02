@@ -9,7 +9,7 @@ namespace GameSmithEditor {
 	public:
 		EditorCoreLayer();
 
-		void OnAttach() override;
+		void OnAttach(const GameSmith::ApplicationSpecs& specs) override;
 		void OnImGuiRender() override;
 		void OnUpdate(float dt) override;
 

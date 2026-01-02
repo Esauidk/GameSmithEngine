@@ -15,3 +15,6 @@
 [submodule "GameSmithEngine/third-party/boost"]
 	path = GameSmithEngine/third-party/boost
 	url = git@github.com:boostorg/boost.git
+[submodule "GameSmithEngine/third-party/CLI11"]
+	path = GameSmithEngine/third-party/CLI11
+	url = git@github.com:CLIUtils/CLI11.git

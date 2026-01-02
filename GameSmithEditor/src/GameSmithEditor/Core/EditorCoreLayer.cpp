@@ -20,9 +20,6 @@ namespace GameSmithEditor {
 		if (s_Instance == nullptr) {
 			s_Instance = this;
 
-			auto contentMg = GameSmith::ContentLibraryManager::GetInstance();
-			contentMg->LoadAllLibraries();
-
 			auto renderManager = GameSmith::RenderingManager::GetInstance();
 			float color[4] = { 0.07f, 0.0f, 0.12f, 1.0f };
 			m_EditorScreen = renderManager->GetRenderAPI()->CreateRenderTexture(m_App.GetWindow()->GetWidth(), m_App.GetWindow()->GetHeight(), color);
@@ -37,7 +34,7 @@ namespace GameSmithEditor {
 		}
 	}
 
-	void EditorCoreLayer::OnAttach()
+	void EditorCoreLayer::OnAttach(const GameSmith::ApplicationSpecs& specs)
 	{
 		auto ImGuiInstance = m_App.GetImGuiInstance();
 

@@ -116,7 +116,7 @@ namespace GameSmith {
 	ImGuiLayer::~ImGuiLayer() {
 	}
 
-	void ImGuiLayer::OnAttach() {
+	void ImGuiLayer::OnAttach(const ApplicationSpecs& specs) {
 		IMGUI_CHECKVERSION();
 
 		ImGui::CreateContext();
