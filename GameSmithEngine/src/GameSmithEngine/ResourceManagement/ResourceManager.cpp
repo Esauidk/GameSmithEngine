@@ -11,7 +11,8 @@
 #define META_FILE_EXTENSION ".meta"
 #define CONTENT_LIBRARY_FILE_EXTENSION "dll"
 
-using recursive_directory_iterator = std::filesystem::recursive_directory_iterator;
+namespace fs = std::filesystem;
+using recursive_directory_iterator = fs::recursive_directory_iterator;
 
 namespace GameSmith {
 	ResourceManager* ResourceManager::s_Instance = nullptr;
@@ -25,7 +26,7 @@ namespace GameSmith {
 		}
 	}
 
-	ResourceManager::ResourceManager() : m_ResourceMaps(new ResourceMaps())
+	ResourceManager::ResourceManager() : m_ResourceMaps(new ResourceMaps()), m_Loader(nullptr), m_AssetDirectory(fs::current_path().string()), m_ContentLibraryDirectory(fs::current_path().string())
 	{
 		if (s_Instance == nullptr) {
 			s_Instance = this;
