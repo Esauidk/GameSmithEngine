@@ -63,6 +63,6 @@ TEST(ShaderAssetTest, GetRequiredSize) {
 	GameSmith::ShaderAsset asset;
 	EXPECT_NO_THROW(asset.Deserialize(testShader.get(), testShaderSize));
 
-	EXPECT_EQ(testShaderSize, asset.RequireSpace());
+	EXPECT_EQ(testShaderSize, asset.RequiredSpace());
 	GameSmith::RenderingManager::ShutDown();
 }

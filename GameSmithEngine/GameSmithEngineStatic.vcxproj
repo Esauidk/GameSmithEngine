@@ -77,7 +77,7 @@
       <PrecompiledHeaderFile>gepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GE_PLATFORM_WINDOWS;GE_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;third-party\spdlog\include;third-party\stb;third-party\imgui;third-party\glm;third-party\tinyobjloader;third-party\CLI11\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;third-party\spdlog\include;third-party\stb;third-party\imgui;third-party\glm;third-party\tinyobjloader;third-party\CLI11\include;third-party\json\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
@@ -99,7 +99,7 @@
       <PrecompiledHeaderFile>gepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GE_PLATFORM_WINDOWS;GE_Release;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;third-party\spdlog\include;third-party\stb;third-party\imgui;third-party\glm;third-party\tinyobjloader;third-party\CLI11\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;third-party\spdlog\include;third-party\stb;third-party\imgui;third-party\glm;third-party\tinyobjloader;third-party\CLI11\include;third-party\json\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -125,7 +125,7 @@
       <PrecompiledHeaderFile>gepch.h</PrecompiledHeaderFile>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GE_PLATFORM_WINDOWS;GE_Dist;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;third-party\spdlog\include;third-party\stb;third-party\imgui;third-party\glm;third-party\tinyobjloader;third-party\CLI11\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;third-party\spdlog\include;third-party\stb;third-party\imgui;third-party\glm;third-party\tinyobjloader;third-party\CLI11\include;third-party\json\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <Optimization>Full</Optimization>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
@@ -252,6 +252,7 @@
     <ClInclude Include="src\GameSmithEngine\Rendering\Workflows\ForwardRender.h" />
     <ClInclude Include="src\GameSmithEngine\ResourceAssets\Asset.h" />
     <ClInclude Include="src\GameSmithEngine\ResourceAssets\AssetFactory.h" />
+    <ClInclude Include="src\GameSmithEngine\ResourceAssets\EngineInitAsset.h" />
     <ClInclude Include="src\GameSmithEngine\ResourceAssets\GameChunkAsset.h" />
     <ClInclude Include="src\GameSmithEngine\ResourceAssets\MaterialAsset.h" />
     <ClInclude Include="src\GameSmithEngine\ResourceAssets\MeshAsset.h" />
@@ -720,6 +721,52 @@
     <ClInclude Include="third-party\glm\glm\vec3.hpp" />
     <ClInclude Include="third-party\glm\glm\vec4.hpp" />
     <ClInclude Include="third-party\glm\glm\vector_relational.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\adl_serializer.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\byte_container_with_subtype.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\abi_macros.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\conversions\from_json.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\conversions\to_chars.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\conversions\to_json.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\exceptions.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\hash.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\input\binary_reader.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\input\input_adapters.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\input\json_sax.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\input\lexer.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\input\parser.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\input\position_t.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\iterators\internal_iterator.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\iterators\iter_impl.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\iterators\iteration_proxy.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\iterators\iterator_traits.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\iterators\json_reverse_iterator.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\iterators\primitive_iterator.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\json_custom_base_class.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\json_pointer.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\json_ref.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\macro_scope.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\macro_unscope.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\meta\call_std\begin.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\meta\call_std\end.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\meta\cpp_future.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\meta\detected.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\meta\identity_tag.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\meta\is_sax.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\meta\std_fs.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\meta\type_traits.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\meta\void_t.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\output\binary_writer.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\output\output_adapters.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\output\serializer.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\string_concat.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\string_escape.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\string_utils.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\detail\value_t.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\json.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\json_fwd.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\ordered_map.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\thirdparty\hedley\hedley.hpp" />
+    <ClInclude Include="third-party\json\include\nlohmann\thirdparty\hedley\hedley_undef.hpp" />
     <ClInclude Include="third-party\stb\stb_image.h" />
     <ClInclude Include="third-party\tinyobjloader\tiny_obj_loader.h" />
   </ItemGroup>
@@ -784,6 +831,7 @@
     <ClCompile Include="src\GameSmithEngine\Rendering\RenderingManager.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\Workflows\ForwardRender.cpp" />
     <ClCompile Include="src\GameSmithEngine\ResourceAssets\AssetFactory.cpp" />
+    <ClCompile Include="src\GameSmithEngine\ResourceAssets\EngineInitAsset.cpp" />
     <ClCompile Include="src\GameSmithEngine\ResourceAssets\GameChunkAsset.cpp" />
     <ClCompile Include="src\GameSmithEngine\ResourceAssets\MaterialAsset.cpp" />
     <ClCompile Include="src\GameSmithEngine\ResourceAssets\MeshAsset.cpp" />

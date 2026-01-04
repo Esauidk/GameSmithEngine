@@ -47,7 +47,7 @@ namespace GameSmithEditor {
 
 		auto buf = s_CurProject->Serialize();
 
-		GameSmith::ResourceAssetWriter writer(buf.get(), s_CurProject->RequireSpace());
+		GameSmith::BinaryStreamWriter writer(buf.get(), s_CurProject->RequiredSpace());
 		writer.CommitToFile(std::format("{0}\\{1}\\{2}.{3}", projectPath, projectName, projectName, s_CurProject->GetFileExtension()));
 
 		SetupProjectResources();
@@ -55,7 +55,7 @@ namespace GameSmithEditor {
 
 	void GameProject::LoadProject(std::string projectFolder)
 	{
-		auto reader = GameSmith::ResourceAssetReader::ReadDirectlyFromFile(std::format("{0}\\{1}.GameSmithPrj", projectFolder, "TestProjectDir2"));
+		auto reader = GameSmith::BinaryStreamReader::ReadDirectlyFromFile(std::format("{0}\\{1}.GameSmithPrj", projectFolder, "TestProjectDir2"));
 
 		if (s_CurProject == nullptr) {
 			s_CurProject = GameSmith::Scope<GameProject>(new GameProject());
@@ -69,7 +69,7 @@ namespace GameSmithEditor {
 
 	GameSmith::Ref<char> GameProject::Serialize()
 	{
-		unsigned size = RequireSpace();
+		unsigned size = RequiredSpace();
 		auto buf = GameSmith::Ref<char>(new char[size]);
 
 		Serialize(buf.get(), size);
@@ -79,20 +79,20 @@ namespace GameSmithEditor {
 
 	void GameProject::Serialize(char* byteStream, unsigned int availableBytes)
 	{
-		unsigned int size = RequireSpace();
+		unsigned int size = RequiredSpace();
 		GE_CORE_ASSERT(availableBytes >= size, "Not enough bytes to serialize GameProject structure");
-		GameSmith::ResourceAssetWriter writer(byteStream, availableBytes);
+		GameSmith::BinaryStreamWriter writer(byteStream, availableBytes);
 		writer.WriteString(m_ProjectName);
 	}
 
-	unsigned int GameProject::RequireSpace() const
+	unsigned int GameProject::RequiredSpace() const
 	{
 		return (unsigned int)m_ProjectName.size() + 1;
 	}
 
 	void GameProject::Deserialize(char* inData, unsigned int size)
 	{
-		GameSmith::ResourceAssetReader reader(inData, size);
+		GameSmith::BinaryStreamReader reader(inData, size);
 		SetProjectName(reader.GetString());
 	}
 };

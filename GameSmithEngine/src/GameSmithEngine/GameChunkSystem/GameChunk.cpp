@@ -16,7 +16,7 @@ namespace GameSmith {
 
 	Ref<char> GameChunk::Serialize()
 	{
-		ResourceAssetWriter writer(RequireSpace());
+		BinaryStreamWriter writer(RequiredSpace());
 
 		ChunkMetadata metadata = {};
 		for (auto& gm : m_GameObjects) {
@@ -28,7 +28,7 @@ namespace GameSmith {
 		for (auto& gm : m_GameObjects) {
 			if (!gm.expired()) {
 				gm.lock()->Serialize(writer.GetCurPtr(), writer.GetRemainingSpace());
-				writer.MoveCurPtr(gm.lock()->RequireSpace());
+				writer.MoveCurPtr(gm.lock()->RequiredSpace());
 			}
 		}
 
@@ -40,13 +40,13 @@ namespace GameSmith {
 	{
 	}
 
-	unsigned int GameChunk::RequireSpace() const
+	unsigned int GameChunk::RequiredSpace() const
 	{
 		unsigned int size = sizeof(ChunkMetadata);
 
 		for (auto& gm : m_GameObjects) {
 			if (!gm.expired()) {
-				size += gm.lock()->RequireSpace();
+				size += gm.lock()->RequiredSpace();
 			}
 		}
 
@@ -58,7 +58,7 @@ namespace GameSmith {
 		std::unordered_map<ID, Ref<IDObject>, IDHasher> collectedIDs;
 		std::vector<Connection<Component>> createdComps;
 
-		ResourceAssetReader reader(inData, size);
+		BinaryStreamReader reader(inData, size);
 
 		auto metadata = reader.ReadClass<ChunkMetadata>();
 
@@ -82,7 +82,7 @@ namespace GameSmith {
 				createdComps.push_back(comp);
 			}
 
-			reader.MoveForward(gm.lock()->RequireSpace());
+			reader.MoveForward(gm.lock()->RequiredSpace());
 
 			m_GameObjects.push_back(gm);
 		}

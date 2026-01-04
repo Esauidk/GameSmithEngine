@@ -38,7 +38,7 @@ namespace GameSmith {
 
 	Ref<char> GameObject::Serialize()
 	{
-		ResourceAssetWriter writer(RequireSpace());
+		BinaryStreamWriter writer(RequiredSpace());
 		
 		GameObjectSerialMetadata md;
 		md.numComponents = (unsigned int)m_Components.size();
@@ -47,7 +47,7 @@ namespace GameSmith {
 		writer.WriteClass<GameObjectSerialMetadata>(&md);
 
 		m_Transform->Serialize(writer.GetCurPtr(), writer.GetRemainingSpace());
-		writer.MoveCurPtr(m_Transform->RequireSpace());
+		writer.MoveCurPtr(m_Transform->RequiredSpace());
 
 		writer.WriteString(GetName());
 
@@ -63,10 +63,10 @@ namespace GameSmith {
 
 	void GameObject::Serialize(char* byteStream, unsigned int availableBytes)
 	{
-		unsigned int size = RequireSpace();
+		unsigned int size = RequiredSpace();
 		GE_CORE_ASSERT(availableBytes >= size, "Not enough space to serialize gameobject");
 
-		ResourceAssetWriter writer(byteStream, size);
+		BinaryStreamWriter writer(byteStream, size);
 		
 		GameObjectSerialMetadata md;
 		md.numComponents = (unsigned int)m_Components.size();
@@ -75,7 +75,7 @@ namespace GameSmith {
 		writer.WriteClass<GameObjectSerialMetadata>(&md);
 
 		m_Transform->Serialize(writer.GetCurPtr(), writer.GetRemainingSpace());
-		writer.MoveCurPtr(m_Transform->RequireSpace());
+		writer.MoveCurPtr(m_Transform->RequiredSpace());
 
 		writer.WriteString(GetName());
 
@@ -88,11 +88,11 @@ namespace GameSmith {
 
 	}
 
-	unsigned int GameObject::RequireSpace() const
+	unsigned int GameObject::RequiredSpace() const
 	{
 		unsigned int size = sizeof(GameObjectSerialMetadata);
 
-		size += m_Transform->RequireSpace();
+		size += m_Transform->RequiredSpace();
 
 		size += (unsigned int)GetName().length() + 1;
 
@@ -109,7 +109,7 @@ namespace GameSmith {
 	{
 		m_Components.clear();
 
-		ResourceAssetReader reader(inData, size);
+		BinaryStreamReader reader(inData, size);
 
 		auto md = reader.ReadClass<GameObjectSerialMetadata>();
 		ID newID(md->IDdata);
@@ -118,7 +118,7 @@ namespace GameSmith {
 		SetID(newID);
 
 		m_Transform->Deserialize(reader.GetCurPtr(), reader.GetRemainingBytes());
-		reader.MoveForward(m_Transform->RequireSpace());
+		reader.MoveForward(m_Transform->RequiredSpace());
 
 		SetName(reader.GetString());
 

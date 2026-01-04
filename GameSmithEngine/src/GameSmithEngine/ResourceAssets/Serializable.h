@@ -20,7 +20,7 @@ namespace GameSmith {
 		virtual void Serialize(char* byteStream, unsigned int availableBytes) = 0;
 
 		// Returns the amount of bytes required to serialize the interface implementor
-		virtual unsigned int RequireSpace() const = 0;
+		virtual unsigned int RequiredSpace() const = 0;
 
 		// Deserializes a byte array into the given class
 		virtual void Deserialize(char* inData, unsigned int size) = 0;

@@ -63,7 +63,7 @@ namespace GameSmith {
 		auto id = resource->GetID();
 
 		pFile.seekg(0, pFile.beg);
-		pFile.write(serial.get(), resource->RequireSpace());
+		pFile.write(serial.get(), resource->RequiredSpace());
 		pFile.close();
 
 		ResourceFileMetadata meta;

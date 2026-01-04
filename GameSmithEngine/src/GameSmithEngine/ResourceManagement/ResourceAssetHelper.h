@@ -4,10 +4,10 @@
 #include "GameSmithEngine/Core/Log.h"
 
 namespace GameSmith {
-	class GE_API ResourceAssetReader {
+	class GE_API BinaryStreamReader {
 	public:
-		inline ResourceAssetReader(char* buffer, unsigned int byteSize) : m_CurPtr(buffer), m_EndPtr(buffer + byteSize) {}
-		inline ResourceAssetReader(Ref<char> buffer, unsigned int byteSize) : m_CurPtr(buffer.get()), m_EndPtr(buffer.get() + byteSize), m_OwnBuffer(buffer) {}
+		inline BinaryStreamReader(char* buffer, unsigned int byteSize) : m_CurPtr(buffer), m_EndPtr(buffer + byteSize) {}
+		inline BinaryStreamReader(Ref<char> buffer, unsigned int byteSize) : m_CurPtr(buffer.get()), m_EndPtr(buffer.get() + byteSize), m_OwnBuffer(buffer) {}
 		std::string GetString();
 		unsigned int GetUInt();
 
@@ -26,17 +26,17 @@ namespace GameSmith {
 
 		unsigned int GetRemainingBytes() const { return (unsigned int)(m_EndPtr - m_CurPtr); }
 
-		static ResourceAssetReader ReadDirectlyFromFile(std::string fileName);
+		static BinaryStreamReader ReadDirectlyFromFile(std::string fileName);
 	private:
 		char* m_CurPtr;
 		char* m_EndPtr;
 		Ref<char> m_OwnBuffer;
 	};
 
-	class GE_API ResourceAssetWriter {
+	class GE_API BinaryStreamWriter {
 	public:
-		ResourceAssetWriter(unsigned int byteSize);
-		ResourceAssetWriter(char* ptr, unsigned int bufferSize);
+		BinaryStreamWriter(unsigned int byteSize);
+		BinaryStreamWriter(char* ptr, unsigned int bufferSize);
 		void WriteString(std::string str);
 		void WriteUInt(unsigned int i);
 

@@ -7,26 +7,26 @@ namespace GameSmith {
 
 	Ref<char> ShaderAsset::Serialize()
 	{
-		auto byteArray = Ref<char>(new char[RequireSpace()]);
+		auto byteArray = Ref<char>(new char[RequiredSpace()]);
 
-		memcpy(byteArray.get(), m_Shader->GetRawByteCode(), RequireSpace());
+		memcpy(byteArray.get(), m_Shader->GetRawByteCode(), RequiredSpace());
 
 		return byteArray;
 	}
 	void ShaderAsset::Serialize(char* byteStream, unsigned int availableBytes)
 	{
 		// TODO: Implement
-		auto requiredSize = RequireSpace();
+		auto requiredSize = RequiredSpace();
 
 		GE_CORE_ASSERT(
 			requiredSize <= availableBytes, 
 			"The given byte array (given: {0}) is not big enough to serialize this shader (required: {1})", 
 			availableBytes, requiredSize);
 
-		memcpy(byteStream, m_Shader->GetRawByteCode(), RequireSpace());
+		memcpy(byteStream, m_Shader->GetRawByteCode(), RequiredSpace());
 	}
 
-	unsigned int ShaderAsset::RequireSpace() const
+	unsigned int ShaderAsset::RequiredSpace() const
 	{
 		return m_Shader->GetByteCodeSize();
 	}

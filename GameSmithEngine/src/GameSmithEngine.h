@@ -69,6 +69,7 @@
 #include "GameSmithEngine/ResourceAssets/MaterialAsset.h"
 #include "GameSmithEngine/ResourceAssets/ShaderAsset.h"
 #include "GameSmithEngine/ResourceAssets/MeshAsset.h"
+#include "GameSmithEngine/ResourceAssets/EngineInitAsset.h"
 
 // -----------Content Library Management---------
 #include "GameSmithEngine/ContentLibrarySystem/ContentLibraryManager.h"

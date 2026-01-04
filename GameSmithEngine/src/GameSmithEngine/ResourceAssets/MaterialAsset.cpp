@@ -13,7 +13,7 @@ namespace GameSmith {
 
 	Ref<char> MaterialAsset::Serialize()
 	{
-		ResourceAssetWriter writer(RequireSpace());
+		BinaryStreamWriter writer(RequiredSpace());
 
 		writer.WriteClass<MaterialAssetMetadata>(&m_Metadata);
 		// Write Config
@@ -61,7 +61,7 @@ namespace GameSmith {
 		// TODO: Implement
 	}
 
-	unsigned int MaterialAsset::RequireSpace() const
+	unsigned int MaterialAsset::RequiredSpace() const
 	{
 		// TODO: Implement
 		unsigned int size = 0;
@@ -94,7 +94,7 @@ namespace GameSmith {
 
 	void MaterialAsset::Deserialize(char* inData, unsigned int size)
 	{
-		ResourceAssetReader reader(inData, size);
+		BinaryStreamReader reader(inData, size);
 
 		MaterialAssetMetadata* matMetadata = reader.ReadClass<MaterialAssetMetadata>();
 		MaterialConfig* config = reader.ReadClass<MaterialConfig>();

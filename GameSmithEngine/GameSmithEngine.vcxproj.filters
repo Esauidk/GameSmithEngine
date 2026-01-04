@@ -157,6 +157,42 @@
     <Filter Include="third-party\glm\glm\gtx">
       <UniqueIdentifier>{9D23CCD7-095B-146F-1265-78927E1B3B68}</UniqueIdentifier>
     </Filter>
+    <Filter Include="third-party\json">
+      <UniqueIdentifier>{86E334ED-72DC-533F-9B0E-39C48766334B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="third-party\json\include">
+      <UniqueIdentifier>{F930182D-E555-67AD-0EA1-4C3DFA2466CB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="third-party\json\include\nlohmann">
+      <UniqueIdentifier>{2335CDBC-8FA3-223C-D88C-DD3B443A18D8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="third-party\json\include\nlohmann\detail">
+      <UniqueIdentifier>{85A7D9B4-7124-CDF7-9AA1-CD0B867D698B}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="third-party\json\include\nlohmann\detail\conversions">
+      <UniqueIdentifier>{CD7BDCB2-B9BA-862E-623D-63604E5B3C99}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="third-party\json\include\nlohmann\detail\input">
+      <UniqueIdentifier>{643789E4-50B5-D97D-39AD-971525CA1BA6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="third-party\json\include\nlohmann\detail\iterators">
+      <UniqueIdentifier>{31E2121E-1D76-08C6-863A-627A72ED42B8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="third-party\json\include\nlohmann\detail\meta">
+      <UniqueIdentifier>{9B24C86B-0795-CAE4-D0B3-446D3CE302E6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="third-party\json\include\nlohmann\detail\meta\call_std">
+      <UniqueIdentifier>{30257B0A-1CCF-B019-05A0-B834F1E85008}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="third-party\json\include\nlohmann\detail\output">
+      <UniqueIdentifier>{05E02F84-711B-9047-7A10-0DD7E6CA1478}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="third-party\json\include\nlohmann\thirdparty">
+      <UniqueIdentifier>{3DE679D9-29F9-7932-D2E2-561FBED41680}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="third-party\json\include\nlohmann\thirdparty\hedley">
+      <UniqueIdentifier>{27E230E4-93F3-D88A-1C45-6BCA885562C4}</UniqueIdentifier>
+    </Filter>
     <Filter Include="third-party\stb">
       <UniqueIdentifier>{750619AA-E191-866E-EAA2-096356ADE26E}</UniqueIdentifier>
     </Filter>
@@ -481,6 +517,9 @@
       <Filter>src\GameSmithEngine\ResourceAssets</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\ResourceAssets\AssetFactory.h">
+      <Filter>src\GameSmithEngine\ResourceAssets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\ResourceAssets\EngineInitAsset.h">
       <Filter>src\GameSmithEngine\ResourceAssets</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\ResourceAssets\GameChunkAsset.h">
@@ -1887,6 +1926,144 @@
     <ClInclude Include="third-party\glm\glm\vector_relational.hpp">
       <Filter>third-party\glm\glm</Filter>
     </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\adl_serializer.hpp">
+      <Filter>third-party\json\include\nlohmann</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\byte_container_with_subtype.hpp">
+      <Filter>third-party\json\include\nlohmann</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\abi_macros.hpp">
+      <Filter>third-party\json\include\nlohmann\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\conversions\from_json.hpp">
+      <Filter>third-party\json\include\nlohmann\detail\conversions</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\conversions\to_chars.hpp">
+      <Filter>third-party\json\include\nlohmann\detail\conversions</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\conversions\to_json.hpp">
+      <Filter>third-party\json\include\nlohmann\detail\conversions</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\exceptions.hpp">
+      <Filter>third-party\json\include\nlohmann\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\hash.hpp">
+      <Filter>third-party\json\include\nlohmann\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\input\binary_reader.hpp">
+      <Filter>third-party\json\include\nlohmann\detail\input</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\input\input_adapters.hpp">
+      <Filter>third-party\json\include\nlohmann\detail\input</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\input\json_sax.hpp">
+      <Filter>third-party\json\include\nlohmann\detail\input</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\input\lexer.hpp">
+      <Filter>third-party\json\include\nlohmann\detail\input</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\input\parser.hpp">
+      <Filter>third-party\json\include\nlohmann\detail\input</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\input\position_t.hpp">
+      <Filter>third-party\json\include\nlohmann\detail\input</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\iterators\internal_iterator.hpp">
+      <Filter>third-party\json\include\nlohmann\detail\iterators</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\iterators\iter_impl.hpp">
+      <Filter>third-party\json\include\nlohmann\detail\iterators</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\iterators\iteration_proxy.hpp">
+      <Filter>third-party\json\include\nlohmann\detail\iterators</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\iterators\iterator_traits.hpp">
+      <Filter>third-party\json\include\nlohmann\detail\iterators</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\iterators\json_reverse_iterator.hpp">
+      <Filter>third-party\json\include\nlohmann\detail\iterators</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\iterators\primitive_iterator.hpp">
+      <Filter>third-party\json\include\nlohmann\detail\iterators</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\json_custom_base_class.hpp">
+      <Filter>third-party\json\include\nlohmann\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\json_pointer.hpp">
+      <Filter>third-party\json\include\nlohmann\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\json_ref.hpp">
+      <Filter>third-party\json\include\nlohmann\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\macro_scope.hpp">
+      <Filter>third-party\json\include\nlohmann\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\macro_unscope.hpp">
+      <Filter>third-party\json\include\nlohmann\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\meta\call_std\begin.hpp">
+      <Filter>third-party\json\include\nlohmann\detail\meta\call_std</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\meta\call_std\end.hpp">
+      <Filter>third-party\json\include\nlohmann\detail\meta\call_std</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\meta\cpp_future.hpp">
+      <Filter>third-party\json\include\nlohmann\detail\meta</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\meta\detected.hpp">
+      <Filter>third-party\json\include\nlohmann\detail\meta</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\meta\identity_tag.hpp">
+      <Filter>third-party\json\include\nlohmann\detail\meta</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\meta\is_sax.hpp">
+      <Filter>third-party\json\include\nlohmann\detail\meta</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\meta\std_fs.hpp">
+      <Filter>third-party\json\include\nlohmann\detail\meta</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\meta\type_traits.hpp">
+      <Filter>third-party\json\include\nlohmann\detail\meta</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\meta\void_t.hpp">
+      <Filter>third-party\json\include\nlohmann\detail\meta</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\output\binary_writer.hpp">
+      <Filter>third-party\json\include\nlohmann\detail\output</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\output\output_adapters.hpp">
+      <Filter>third-party\json\include\nlohmann\detail\output</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\output\serializer.hpp">
+      <Filter>third-party\json\include\nlohmann\detail\output</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\string_concat.hpp">
+      <Filter>third-party\json\include\nlohmann\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\string_escape.hpp">
+      <Filter>third-party\json\include\nlohmann\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\string_utils.hpp">
+      <Filter>third-party\json\include\nlohmann\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\detail\value_t.hpp">
+      <Filter>third-party\json\include\nlohmann\detail</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\json.hpp">
+      <Filter>third-party\json\include\nlohmann</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\json_fwd.hpp">
+      <Filter>third-party\json\include\nlohmann</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\ordered_map.hpp">
+      <Filter>third-party\json\include\nlohmann</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\thirdparty\hedley\hedley.hpp">
+      <Filter>third-party\json\include\nlohmann\thirdparty\hedley</Filter>
+    </ClInclude>
+    <ClInclude Include="third-party\json\include\nlohmann\thirdparty\hedley\hedley_undef.hpp">
+      <Filter>third-party\json\include\nlohmann\thirdparty\hedley</Filter>
+    </ClInclude>
     <ClInclude Include="third-party\stb\stb_image.h">
       <Filter>third-party\stb</Filter>
     </ClInclude>
@@ -2073,6 +2250,9 @@
       <Filter>src\GameSmithEngine\Rendering\Workflows</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\ResourceAssets\AssetFactory.cpp">
+      <Filter>src\GameSmithEngine\ResourceAssets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\ResourceAssets\EngineInitAsset.cpp">
       <Filter>src\GameSmithEngine\ResourceAssets</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\ResourceAssets\GameChunkAsset.cpp">

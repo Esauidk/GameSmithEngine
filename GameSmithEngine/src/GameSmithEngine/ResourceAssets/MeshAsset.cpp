@@ -17,7 +17,7 @@ namespace GameSmith {
 		// TODO: Implement
 	}
 
-	unsigned int MeshAsset::RequireSpace() const
+	unsigned int MeshAsset::RequiredSpace() const
 	{
 		// TODO: Implement
 		return 0;

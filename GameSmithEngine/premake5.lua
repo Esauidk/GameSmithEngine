@@ -18,7 +18,8 @@ project "GameSmithEngine"
 		"third-party/glm/glm/**.hpp",
 		"third-party/glm/glm/**.inl",
 		"third-party/tinyobjloader/**.h",
-		"third-party/CLI11/include/**.hpp"
+		"third-party/CLI11/include/**.hpp",
+		"third-party/json/include/**.hpp"
 	}
 
 	includedirs{
@@ -28,7 +29,8 @@ project "GameSmithEngine"
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.tinyobj}",
-		"%{IncludeDir.CLI11}"
+		"%{IncludeDir.CLI11}",
+		"%{IncludeDir.json}"
 	}
 
 	links{
@@ -91,7 +93,8 @@ project "GameSmithEngineStatic"
 		"third-party/glm/glm/**.hpp",
 		"third-party/glm/glm/**.inl",
 		"third-party/tinyobjloader/**.h",
-		"third-party/CLI11/include/**.hpp"
+		"third-party/CLI11/include/**.hpp",
+		"third-party/json/include/**.hpp"
 	}
 
 	includedirs{
@@ -101,7 +104,8 @@ project "GameSmithEngineStatic"
 		"%{IncludeDir.ImGui}",
 		"%{IncludeDir.glm}",
 		"%{IncludeDir.tinyobj}",
-		"%{IncludeDir.CLI11}"
+		"%{IncludeDir.CLI11}",
+		"%{IncludeDir.json}"
 	}
 
 	links{

@@ -14,7 +14,7 @@ namespace GameSmith {
 		GE_CORE_INFO("Wrote Resource resource!");
 	}
 
-	unsigned int TestResource::RequireSpace() const
+	unsigned int TestResource::RequiredSpace() const
 	{
 		return 0;
 	}

@@ -6,3 +6,4 @@ IncludeDir["tinyobj"] = "%{wks.location}/GameSmithEngine/third-party/tinyobjload
 IncludeDir["googletest"] = "%{wks.location}/third-party/googletest/googletest/include"
 IncludeDir["spdlog"] = "%{wks.location}/GameSmithEngine/third-party/spdlog/include"
 IncludeDir["CLI11"] = "%{wks.location}/GameSmithEngine/third-party/CLI11/include"
+IncludeDir["json"] = "%{wks.location}/GameSmithEngine/third-party/json/include"

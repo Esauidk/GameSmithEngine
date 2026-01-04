@@ -3,7 +3,7 @@
 #include "GameSmithEngine/Core/Log.h"
 
 namespace GameSmith {
-	std::string ResourceAssetReader::GetString()
+	std::string BinaryStreamReader::GetString()
 	{
 		std::string collectedString(m_CurPtr); 
 		
@@ -12,7 +12,7 @@ namespace GameSmith {
 		return collectedString;
 	}
 
-	unsigned int ResourceAssetReader::GetUInt()
+	unsigned int BinaryStreamReader::GetUInt()
 	{
 		unsigned int val = *((unsigned int*)m_CurPtr);
 
@@ -21,7 +21,7 @@ namespace GameSmith {
 		return val;
 	}
 
-	char* ResourceAssetReader::GetBytes(unsigned int byteCount)
+	char* BinaryStreamReader::GetBytes(unsigned int byteCount)
 	{
 		char* savePtr = m_CurPtr;
 		m_CurPtr += byteCount;
@@ -29,33 +29,33 @@ namespace GameSmith {
 	}
 
 
-	ResourceAssetWriter::ResourceAssetWriter(unsigned int byteSize) : m_Buffer(Ref<char>(new char[byteSize])), m_CurPtr(m_Buffer.get()), m_BufferSize(byteSize), m_outsideSrc(false)  {
+	BinaryStreamWriter::BinaryStreamWriter(unsigned int byteSize) : m_Buffer(Ref<char>(new char[byteSize])), m_CurPtr(m_Buffer.get()), m_BufferSize(byteSize), m_outsideSrc(false)  {
 	}
 
-	ResourceAssetWriter::ResourceAssetWriter(char* ptr, unsigned int bufferSize) : m_Buffer(nullptr), m_OutSideStartPtr(ptr), m_CurPtr(ptr), m_BufferSize(bufferSize), m_outsideSrc(true)
+	BinaryStreamWriter::BinaryStreamWriter(char* ptr, unsigned int bufferSize) : m_Buffer(nullptr), m_OutSideStartPtr(ptr), m_CurPtr(ptr), m_BufferSize(bufferSize), m_outsideSrc(true)
 	{
 	}
 
-	void ResourceAssetWriter::WriteString(std::string str)
+	void BinaryStreamWriter::WriteString(std::string str)
 	{
 		size_t length = str.length() + 1;
 		memcpy(m_CurPtr, str.c_str(), length);
 		m_CurPtr += length;
 	}
 
-	void ResourceAssetWriter::WriteUInt(unsigned int i)
+	void BinaryStreamWriter::WriteUInt(unsigned int i)
 	{
 		memcpy(m_CurPtr, &i, sizeof(unsigned int));
 		m_CurPtr += sizeof(int);
 	}
 
-	void ResourceAssetWriter::WriteByte(char* bytes, unsigned int byteCount)
+	void BinaryStreamWriter::WriteByte(char* bytes, unsigned int byteCount)
 	{
 		memcpy(m_CurPtr, bytes, byteCount);
 		m_CurPtr += byteCount;
 	}
 
-	void ResourceAssetWriter::CommitToFile(std::string destination)
+	void BinaryStreamWriter::CommitToFile(std::string destination)
 	{
 		std::fstream pFile(destination, std::ios::out | std::ios::binary | std::ios::ate);
 		GE_CORE_ASSERT(pFile.is_open(), std::format("Asset file {0} cannot be opened", destination));
@@ -65,7 +65,7 @@ namespace GameSmith {
 		pFile.close();
 	}
 
-	ResourceAssetReader ResourceAssetReader::ReadDirectlyFromFile(std::string fileName)
+	BinaryStreamReader BinaryStreamReader::ReadDirectlyFromFile(std::string fileName)
 	{
 		std::fstream pFile(fileName, std::ios::in | std::ios::binary | std::ios::ate);
 		GE_CORE_ASSERT(pFile.is_open(), std::format("File {0} cannot be opened", fileName));
@@ -78,7 +78,7 @@ namespace GameSmith {
 		pFile.read(buf, size);
 		pFile.close();
 
-		ResourceAssetReader reader(Ref<char>(buf), size);
+		BinaryStreamReader reader(Ref<char>(buf), size);
 		
 		return reader;
 	}

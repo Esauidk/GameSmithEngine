@@ -69,7 +69,7 @@ namespace GameSmith {
 
 	Ref<char> ExposedVariableRegistry::Serialize()
 	{
-		ResourceAssetWriter writer(RequireSpace());
+		BinaryStreamWriter writer(RequiredSpace());
 		
 		RegistrySerializeMetadata meta;
 		meta.numVariables = (unsigned int)m_ValueRegistry.size();
@@ -105,9 +105,9 @@ namespace GameSmith {
 
 	void ExposedVariableRegistry::Serialize(char* byteStream, unsigned int availableBytes)
 	{
-		GE_CORE_ASSERT(availableBytes >= RequireSpace(), "There's not enough space to serialize the ExposedVariableRegistry");
+		GE_CORE_ASSERT(availableBytes >= RequiredSpace(), "There's not enough space to serialize the ExposedVariableRegistry");
 
-		ResourceAssetWriter writer(byteStream, availableBytes);
+		BinaryStreamWriter writer(byteStream, availableBytes);
 
 		RegistrySerializeMetadata meta;
 		meta.numVariables = (unsigned int)m_ValueRegistry.size();
@@ -137,7 +137,7 @@ namespace GameSmith {
 		}
 	}
 
-	unsigned int ExposedVariableRegistry::RequireSpace() const
+	unsigned int ExposedVariableRegistry::RequiredSpace() const
 	{
 		unsigned int size = 0;
 		size += sizeof(RegistrySerializeMetadata);
@@ -165,7 +165,7 @@ namespace GameSmith {
 
 	void ExposedVariableRegistry::Deserialize(char* inData, unsigned int size)
 	{
-		ResourceAssetReader reader(inData, size);
+		BinaryStreamReader reader(inData, size);
 		RegistrySerializeMetadata* meta = reader.ReadClass<RegistrySerializeMetadata>();
 
 		unsigned int i = 0;

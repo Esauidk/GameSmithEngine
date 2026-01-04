@@ -82,6 +82,14 @@ TestingLayer::TestingLayer() : GameSmith::Layer("Testing Layer")
 	auto gm1 = GameSmith::GameObjectManager::GetInstance()->CreateGameObject();
 	gm1.lock()->GetTransform().lock()->SetPosition({ 6, 8, 1 });
 
+	GameSmith::Ref<GameSmith::EngineInitAsset> initAsset = GameSmith::Ref<GameSmith::EngineInitAsset>(new GameSmith::EngineInitAsset());
+	initAsset->SetAssetDirectory("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\Assets");
+	initAsset->SetContentDirectory("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\Content");
+	GameSmith::ResourceManager::GetInstance()->WriteResource(
+		initAsset,
+		"C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone\\EngineInit.json"
+	);
+
 	/*std::vector<GameSmith::Connection<GameSmith::GameObject>> objs;
 	objs.push_back(gm);
 	objs.push_back(gm1);

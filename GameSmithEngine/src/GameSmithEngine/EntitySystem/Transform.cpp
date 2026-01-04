@@ -1,6 +1,7 @@
 #include "gepch.h"
 #include "Transform.h"
 
+#include "GameSmithEngine/Core/Log.h"
 #include "GameSmithEngine/ResourceManagement/ResourceAssetHelper.h"
 
 namespace GameSmith {
@@ -21,7 +22,7 @@ namespace GameSmith {
 
 	Ref<char> Transform::Serialize()
 	{
-		ResourceAssetWriter writer(RequireSpace());
+		BinaryStreamWriter writer(RequiredSpace());
 
 		TransformSerializeData data;
 		data.Position = m_Position;
@@ -35,10 +36,10 @@ namespace GameSmith {
 
 	void Transform::Serialize(char* byteStream, unsigned int availableBytes)
 	{
-		unsigned int reqSize = RequireSpace();
+		unsigned int reqSize = RequiredSpace();
 		GE_CORE_ASSERT(availableBytes >= reqSize, "Unable to serialize transform, not enough space");
 
-		ResourceAssetWriter writer(byteStream, reqSize);
+		BinaryStreamWriter writer(byteStream, reqSize);
 		TransformSerializeData data;
 		data.Position = m_Position;
 		data.Rotation = m_Rotation;
@@ -47,14 +48,14 @@ namespace GameSmith {
 		writer.WriteClass<TransformSerializeData>(&data);
 	}
 
-	unsigned int Transform::RequireSpace() const
+	unsigned int Transform::RequiredSpace() const
 	{
 		return sizeof(TransformSerializeData);
 	}
 
 	void Transform::Deserialize(char* inData, unsigned int size)
 	{
-		ResourceAssetReader reader(inData, size);
+		BinaryStreamReader reader(inData, size);
 		auto data = reader.ReadClass<TransformSerializeData>();
 		SetPosition(data->Position);
 		SetRotation(data->Rotation);

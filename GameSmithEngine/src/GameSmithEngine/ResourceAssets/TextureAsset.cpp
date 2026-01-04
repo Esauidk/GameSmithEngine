@@ -14,7 +14,7 @@ namespace GameSmith {
 	{
 	}
 
-	unsigned int TextureAsset::RequireSpace() const
+	unsigned int TextureAsset::RequiredSpace() const
 	{
 		return 0;
 	}

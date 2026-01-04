@@ -5,7 +5,7 @@
 namespace GameSmith {
 	GE_REGISTERASSET(GameChunkAsset)
 
-	GameChunkAsset::GameChunkAsset(Ref<GameChunk> snapShot) : m_ChunkSerialization(snapShot->Serialize()), m_ByteSize(snapShot->RequireSpace())
+	GameChunkAsset::GameChunkAsset(Ref<GameChunk> snapShot) : m_ChunkSerialization(snapShot->Serialize()), m_ByteSize(snapShot->RequiredSpace())
 	{
 	}
 
@@ -20,7 +20,7 @@ namespace GameSmith {
 		memcpy(byteStream, m_ChunkSerialization.get(), m_ByteSize);
 	}
 
-	unsigned int GameChunkAsset::RequireSpace() const
+	unsigned int GameChunkAsset::RequiredSpace() const
 	{
 		return m_ByteSize;
 	}
