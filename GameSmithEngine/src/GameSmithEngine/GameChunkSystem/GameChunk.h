@@ -1,7 +1,7 @@
 #pragma once
 #include "GameSmithEngine/Core/Core.h"
 #include "GameSmithEngine/EntitySystem/GameObject.h"
-#include "GameSmithEngine/ResourceAssets/Serializable.h"
+#include "GameSmithEngine/SerializeableFiles/Serializable.h"
 
 namespace GameSmith {
 	class GE_API GameChunk : public Serializeable

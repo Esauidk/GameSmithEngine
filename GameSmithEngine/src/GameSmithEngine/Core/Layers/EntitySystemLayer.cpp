@@ -4,8 +4,6 @@
 #include "GameSmithEngine/EntitySystem/GameplayUpdater.h"
 #include "GameSmithEngine/GameChunkSystem/ChunkManager.h"
 
-#include "GameSmithEngine/ResourceManagement/ResourceManager.h"
-
 namespace GameSmith {
 	void EntitySystemLayer::OnAttach(const ApplicationSpecs& specs)
 	{

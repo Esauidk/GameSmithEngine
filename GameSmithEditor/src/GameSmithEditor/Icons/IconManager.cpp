@@ -72,7 +72,7 @@ namespace GameSmithEditor {
 			for (const auto& dirEntry : recursive_directory_iterator(editorIconRoot)) {
 				auto fileName = dirEntry.path().filename().string();
 				if (fileName.starts_with(fileExtention)) {
-					auto resourceManager = GameSmith::ResourceManager::GetInstance();
+					auto resourceManager = GameSmith::AssetManager::GetInstance();
 					auto icon = resourceManager->GetResource<GameSmith::TextureAsset>(dirEntry.path().string());
 					auto imGUITex = GameSmith::Application::Get().GetImGuiInstance()->GenerateTextureSpace(icon->GetTexture());
 					m_IconMap.insert({ fileExtention, {imGUITex, icon } });

@@ -1,9 +1,9 @@
 #pragma once
 #include "gepch.h"
-#include "GameSmithEngine/Rendering/RenderAgnostics/RenderComponents/VertexBuffer.h"
-#include "GameSmithEngine/Rendering/RenderAgnostics/RenderComponents/IndexBuffer.h"
-#include "GameSmithEngine/Rendering/RenderAgnostics/MaterialSystem/Material.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/Camera/Camera.h"
+#include "GameSmithEngine/Rendering/RenderAgnostics/MaterialSystem/Material.h"
+#include "GameSmithEngine/Rendering/RenderAgnostics/RenderComponents/IndexBuffer.h"
+#include "GameSmithEngine/Rendering/RenderAgnostics/RenderComponents/VertexBuffer.h"
 
 namespace GameSmith {
 	struct RenderRequest {

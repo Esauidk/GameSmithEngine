@@ -97,7 +97,7 @@ namespace GameSmithEditor {
 					}
 
 					if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None)) {
-						GameSmith::ResourceManager* rManager = GameSmith::ResourceManager::GetInstance();
+						GameSmith::AssetManager* rManager = GameSmith::AssetManager::GetInstance();
 						auto id = rManager->GetAssetID(path);
 						ImGui::SetDragDropPayload(IMGUI_PAYLOAD_TYPE_ASSET_REF, &id, sizeof(GameSmith::ID));
 						ImGui::EndDragDropSource();

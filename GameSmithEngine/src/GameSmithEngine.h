@@ -63,13 +63,13 @@
 // -------------------------------------------
 
 // -----------RescourceManagement-----------
-#include "GameSmithEngine/ResourceManagement/ResourceManager.h"
-#include "GameSmithEngine/ResourceAssets/TestResource.h"
-#include "GameSmithEngine/ResourceAssets/TextureAsset.h"
-#include "GameSmithEngine/ResourceAssets/MaterialAsset.h"
-#include "GameSmithEngine/ResourceAssets/ShaderAsset.h"
-#include "GameSmithEngine/ResourceAssets/MeshAsset.h"
-#include "GameSmithEngine/ResourceAssets/EngineInitAsset.h"
+#include "GameSmithEngine/ResourceManagement/AssetManager.h"
+#include "GameSmithEngine/SerializeableFiles/ResourceAssets/TestResource.h"
+#include "GameSmithEngine/SerializeableFiles/ResourceAssets/TextureAsset.h"
+#include "GameSmithEngine/SerializeableFiles/ResourceAssets/MaterialAsset.h"
+#include "GameSmithEngine/SerializeableFiles/ResourceAssets/ShaderAsset.h"
+#include "GameSmithEngine/SerializeableFiles/ResourceAssets/MeshAsset.h"
+#include "GameSmithEngine/SerializeableFiles/ResourceAssets/GameChunkAsset.h"
 
 // -----------Content Library Management---------
 #include "GameSmithEngine/ContentLibrarySystem/ContentLibraryManager.h"

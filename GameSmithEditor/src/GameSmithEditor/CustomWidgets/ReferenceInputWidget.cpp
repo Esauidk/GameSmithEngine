@@ -81,7 +81,7 @@ namespace GameSmithEditor {
 			if (const ImGuiPayload* payload = ImGui::AcceptDragDropPayload(IMGUI_PAYLOAD_TYPE_ASSET_REF)) {
 				GameSmith::ID* assetID = (GameSmith::ID*)(payload->Data);
 
-				auto resourceManager = GameSmith::ResourceManager::GetInstance();
+				auto resourceManager = GameSmith::AssetManager::GetInstance();
 				GameSmith::Ref<GameSmith::Serializeable> asset = resourceManager->GetResource(*assetID);
 				// TODO: Update resource manager to return asset classes
 				GameSmith::Ref<GameSmith::Asset> tmpUpgrade = CastPtr<GameSmith::Asset>(asset);

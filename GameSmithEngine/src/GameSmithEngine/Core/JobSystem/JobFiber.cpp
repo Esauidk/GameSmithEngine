@@ -1,6 +1,6 @@
 #include "gepch.h"
-#include "JobFiber.h"
 #include "GameSmithEngine/Core/Log.h"
+#include "JobFiber.h"
 
 #define FIBER_STACK_SIZE 1000
 

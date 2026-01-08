@@ -21,7 +21,7 @@ namespace GameSmithEditor {
 	}
 
 	static void SetupProjectResources() {
-		auto resourceManager = GameSmith::ResourceManager::GetInstance();
+		auto resourceManager = GameSmith::AssetManager::GetInstance();
 		resourceManager->SetAssetDirectory(GameProject::GetRootFolder());
 		resourceManager->ScanResources();
 	}

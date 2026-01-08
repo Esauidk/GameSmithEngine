@@ -1,7 +1,7 @@
 #pragma once
-#include "ParameterContainer.h"
-#include "GameSmithEngine/ResourceAssets/Asset.h"
+#include "GameSmithEngine/SerializeableFiles/ResourceAssets/Asset.h"
 #include "GameSmithEngine/Utilities/GUIDGenerator.h"
+#include "ParameterContainer.h"
 #include "UtilMacros.h"
 
 namespace GameSmith {

@@ -1,7 +1,7 @@
 #include "gepch.h"
-#include "TextureAsset.h"
 #include "GameSmithEngine/Core/Log.h"
 #include "GameSmithEngine/Rendering/RenderingManager.h"
+#include "TextureAsset.h"
 
 
 namespace GameSmith {

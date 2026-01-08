@@ -1,9 +1,9 @@
 #include "gepch.h"
-#include "MeshAsset.h"
 #include "GameSmithEngine/Core/Log.h"
-#include "GameSmithEngine/Rendering/RenderingManager.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/BasicStructs.h"
+#include "GameSmithEngine/Rendering/RenderingManager.h"
 #include "GameSmithEngine/ThirdPartySetups/TinyObj/TinyObjLoaderWrapper.h"
+#include "MeshAsset.h"
 
 namespace GameSmith {
 	Ref<char> MeshAsset::Serialize()

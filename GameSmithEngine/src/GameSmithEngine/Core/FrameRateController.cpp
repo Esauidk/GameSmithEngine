@@ -1,8 +1,6 @@
 #include "gepch.h"
 #include "FrameRateController.h"
 #include "Application.h"
-#include <thread>
-#include "Log.h"
 
 #pragma comment(lib, "winmm.lib")
 

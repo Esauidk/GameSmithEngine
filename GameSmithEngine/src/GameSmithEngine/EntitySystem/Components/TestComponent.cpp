@@ -1,9 +1,9 @@
 #include "gepch.h"
-#include "TestComponent.h"
 #include "GameSmithEngine/Core/Log.h"
 #include "GameSmithEngine/EntitySystem/Components/ComponentFactory.h"
 #include "GameSmithEngine/EntitySystem/GameObject.h"
-#include "GameSmithEngine/ResourceAssets/GameChunkAsset.h"
+#include "GameSmithEngine/SerializeableFiles/ResourceAssets/GameChunkAsset.h"
+#include "TestComponent.h"
 
 namespace GameSmith {
 	GE_REGISTERCOMPONENT(TestComponent)

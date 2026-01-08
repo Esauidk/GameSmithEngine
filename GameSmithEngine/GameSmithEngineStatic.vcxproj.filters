@@ -19,6 +19,12 @@
     <Filter Include="src\GameSmithEngine\Core\Layers">
       <UniqueIdentifier>{C80CC0ED-34F0-CE2D-3DF3-FC69A955957E}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\GameSmithEngine\EngineConfiguration">
+      <UniqueIdentifier>{4E1D5ADB-BAAC-1BC6-C3A8-FCDD2FB756D2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GameSmithEngine\EngineConfiguration\Configs">
+      <UniqueIdentifier>{666792BC-D2A2-F27F-DB97-6F0F475277B0}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\GameSmithEngine\EntitySystem">
       <UniqueIdentifier>{C21B6D71-AE6C-58B3-D7D0-4675C380EB1C}</UniqueIdentifier>
     </Filter>
@@ -100,14 +106,20 @@
     <Filter Include="src\GameSmithEngine\Rendering\Workflows">
       <UniqueIdentifier>{BB9A11D1-272A-D3BB-3026-B4D39C340EC8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="src\GameSmithEngine\ResourceAssets">
-      <UniqueIdentifier>{DB29CFC8-C765-D232-3078-EA291CD37A4D}</UniqueIdentifier>
-    </Filter>
     <Filter Include="src\GameSmithEngine\ResourceManagement">
       <UniqueIdentifier>{C579309D-B1CB-078D-9AEA-449D86DB2076}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\GameSmithEngine\ResourceManagement\ResourceLoaders">
       <UniqueIdentifier>{A6A854AD-9252-8ABC-7B23-92D7676C2AAB}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GameSmithEngine\SerializeableFiles">
+      <UniqueIdentifier>{8F1740DA-7B69-17CA-6488-54DA507930B3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GameSmithEngine\SerializeableFiles\GenericFileTypes">
+      <UniqueIdentifier>{70119463-DCF8-7E59-E5E6-80D5514D221C}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets">
+      <UniqueIdentifier>{79567AD4-E572-6CC5-AE4A-D9321A26D686}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\GameSmithEngine\ThirdPartySetups">
       <UniqueIdentifier>{2FAB3559-1B92-F750-C4E2-5D6EB0A870B7}</UniqueIdentifier>
@@ -266,6 +278,18 @@
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Core\Window.h">
       <Filter>src\GameSmithEngine\Core</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\EngineConfiguration\ConfigManager.h">
+      <Filter>src\GameSmithEngine\EngineConfiguration</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\EngineConfiguration\Configs\AssetManagementConfig.h">
+      <Filter>src\GameSmithEngine\EngineConfiguration\Configs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\EngineConfiguration\Configs\ContentLibraryConfig.h">
+      <Filter>src\GameSmithEngine\EngineConfiguration\Configs</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\EngineConfiguration\Configs\RenderingConfig.h">
+      <Filter>src\GameSmithEngine\EngineConfiguration\Configs</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\EntitySystem\Components\CameraComponent.h">
       <Filter>src\GameSmithEngine\EntitySystem\Components</Filter>
@@ -513,35 +537,8 @@
     <ClInclude Include="src\GameSmithEngine\Rendering\Workflows\ForwardRender.h">
       <Filter>src\GameSmithEngine\Rendering\Workflows</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameSmithEngine\ResourceAssets\Asset.h">
-      <Filter>src\GameSmithEngine\ResourceAssets</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameSmithEngine\ResourceAssets\AssetFactory.h">
-      <Filter>src\GameSmithEngine\ResourceAssets</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameSmithEngine\ResourceAssets\EngineInitAsset.h">
-      <Filter>src\GameSmithEngine\ResourceAssets</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameSmithEngine\ResourceAssets\GameChunkAsset.h">
-      <Filter>src\GameSmithEngine\ResourceAssets</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameSmithEngine\ResourceAssets\MaterialAsset.h">
-      <Filter>src\GameSmithEngine\ResourceAssets</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameSmithEngine\ResourceAssets\MeshAsset.h">
-      <Filter>src\GameSmithEngine\ResourceAssets</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameSmithEngine\ResourceAssets\Serializable.h">
-      <Filter>src\GameSmithEngine\ResourceAssets</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameSmithEngine\ResourceAssets\ShaderAsset.h">
-      <Filter>src\GameSmithEngine\ResourceAssets</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameSmithEngine\ResourceAssets\TestResource.h">
-      <Filter>src\GameSmithEngine\ResourceAssets</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameSmithEngine\ResourceAssets\TextureAsset.h">
-      <Filter>src\GameSmithEngine\ResourceAssets</Filter>
+    <ClInclude Include="src\GameSmithEngine\ResourceManagement\AssetManager.h">
+      <Filter>src\GameSmithEngine\ResourceManagement</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\ResourceManagement\ResourceAssetHelper.h">
       <Filter>src\GameSmithEngine\ResourceManagement</Filter>
@@ -552,8 +549,35 @@
     <ClInclude Include="src\GameSmithEngine\ResourceManagement\ResourceLoaders\ResourceLoader.h">
       <Filter>src\GameSmithEngine\ResourceManagement\ResourceLoaders</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameSmithEngine\ResourceManagement\ResourceManager.h">
-      <Filter>src\GameSmithEngine\ResourceManagement</Filter>
+    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\GenericFileTypes\JsonFile.h">
+      <Filter>src\GameSmithEngine\SerializeableFiles\GenericFileTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\Asset.h">
+      <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\AssetFactory.h">
+      <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\GameChunkAsset.h">
+      <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\MaterialAsset.h">
+      <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\MeshAsset.h">
+      <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderAsset.h">
+      <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\TestResource.h">
+      <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\TextureAsset.h">
+      <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\Serializable.h">
+      <Filter>src\GameSmithEngine\SerializeableFiles</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\ThirdPartySetups\GLM\GLMDefines.h">
       <Filter>src\GameSmithEngine\ThirdPartySetups\GLM</Filter>
@@ -2108,6 +2132,18 @@
     <ClCompile Include="src\GameSmithEngine\Core\Timer.cpp">
       <Filter>src\GameSmithEngine\Core</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\EngineConfiguration\ConfigManager.cpp">
+      <Filter>src\GameSmithEngine\EngineConfiguration</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\EngineConfiguration\Configs\AssetManagementConfig.cpp">
+      <Filter>src\GameSmithEngine\EngineConfiguration\Configs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\EngineConfiguration\Configs\ContentLibraryConfig.cpp">
+      <Filter>src\GameSmithEngine\EngineConfiguration\Configs</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\EngineConfiguration\Configs\RenderingConfig.cpp">
+      <Filter>src\GameSmithEngine\EngineConfiguration\Configs</Filter>
+    </ClCompile>
     <ClCompile Include="src\GameSmithEngine\EntitySystem\Components\CameraComponent.cpp">
       <Filter>src\GameSmithEngine\EntitySystem\Components</Filter>
     </ClCompile>
@@ -2249,29 +2285,8 @@
     <ClCompile Include="src\GameSmithEngine\Rendering\Workflows\ForwardRender.cpp">
       <Filter>src\GameSmithEngine\Rendering\Workflows</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameSmithEngine\ResourceAssets\AssetFactory.cpp">
-      <Filter>src\GameSmithEngine\ResourceAssets</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameSmithEngine\ResourceAssets\EngineInitAsset.cpp">
-      <Filter>src\GameSmithEngine\ResourceAssets</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameSmithEngine\ResourceAssets\GameChunkAsset.cpp">
-      <Filter>src\GameSmithEngine\ResourceAssets</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameSmithEngine\ResourceAssets\MaterialAsset.cpp">
-      <Filter>src\GameSmithEngine\ResourceAssets</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameSmithEngine\ResourceAssets\MeshAsset.cpp">
-      <Filter>src\GameSmithEngine\ResourceAssets</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameSmithEngine\ResourceAssets\ShaderAsset.cpp">
-      <Filter>src\GameSmithEngine\ResourceAssets</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameSmithEngine\ResourceAssets\TestResource.cpp">
-      <Filter>src\GameSmithEngine\ResourceAssets</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameSmithEngine\ResourceAssets\TextureAsset.cpp">
-      <Filter>src\GameSmithEngine\ResourceAssets</Filter>
+    <ClCompile Include="src\GameSmithEngine\ResourceManagement\AssetManager.cpp">
+      <Filter>src\GameSmithEngine\ResourceManagement</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\ResourceManagement\ResourceAssetHelper.cpp">
       <Filter>src\GameSmithEngine\ResourceManagement</Filter>
@@ -2279,8 +2294,29 @@
     <ClCompile Include="src\GameSmithEngine\ResourceManagement\ResourceLoaders\HeapResourceLoader.cpp">
       <Filter>src\GameSmithEngine\ResourceManagement\ResourceLoaders</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameSmithEngine\ResourceManagement\ResourceManager.cpp">
-      <Filter>src\GameSmithEngine\ResourceManagement</Filter>
+    <ClCompile Include="src\GameSmithEngine\SerializeableFiles\GenericFileTypes\JsonFile.cpp">
+      <Filter>src\GameSmithEngine\SerializeableFiles\GenericFileTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\AssetFactory.cpp">
+      <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\GameChunkAsset.cpp">
+      <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\MaterialAsset.cpp">
+      <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\MeshAsset.cpp">
+      <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderAsset.cpp">
+      <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\TestResource.cpp">
+      <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\TextureAsset.cpp">
+      <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\Utilities\ExposedVariableRegistry.cpp">
       <Filter>src\GameSmithEngine\Utilities</Filter>

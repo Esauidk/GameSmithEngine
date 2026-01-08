@@ -2,7 +2,7 @@
 #include "gepch.h"
 #include "GameSmithEngine/Core/Core.h"
 #include "GameSmithEngine/Core/Log.h"
-#include "GameSmithEngine/ResourceAssets/Serializable.h"
+#include "GameSmithEngine/SerializeableFiles/Serializable.h"
 #include "ResourceLoaders/ResourceLoader.h"
 
 
@@ -23,10 +23,10 @@ namespace GameSmith {
 		std::unordered_map<std::string, std::string> ContentLibraryRegistry;
 	};
 
-	class GE_API ResourceManager
+	class GE_API AssetManager
 	{
 	public:
-		inline static ResourceManager* GetInstance() { return s_Instance; }
+		inline static AssetManager* GetInstance() { return s_Instance; }
 
 		static void Init(ResourceLoaderType loaderType);
 		static void Shutdown();
@@ -117,21 +117,18 @@ namespace GameSmith {
 		ID GetAssetID(std::string path);
 
 		void ScanResources();
-		void ScanContentLibraries();
 		void CleanResources();
 
 		void SetAssetDirectory(std::string dir) { m_AssetDirectory = dir; }
-		void SetContentLibraryDirectory(std::string dir) { m_ContentLibraryDirectory = dir; }
 	private:
-		ResourceManager();
+		AssetManager();
 	private:
-		static ResourceManager* s_Instance;
+		static AssetManager* s_Instance;
 
 		Scope<ResourceMaps> m_ResourceMaps;
 		Ref<ResourceLoader> m_Loader;
 
 		std::string m_AssetDirectory;
-		std::string m_ContentLibraryDirectory;
 	};
 };
 

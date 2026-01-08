@@ -1,6 +1,6 @@
 #include "gepch.h"
-#include "GameChunkAsset.h"
 #include "AssetFactory.h"
+#include "GameChunkAsset.h"
 
 namespace GameSmith {
 	GE_REGISTERASSET(GameChunkAsset)

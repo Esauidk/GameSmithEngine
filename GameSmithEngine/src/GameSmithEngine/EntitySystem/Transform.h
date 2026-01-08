@@ -2,7 +2,7 @@
 #include "GameSmithEngine/ThirdPartySetups/GLM/GLMDefines.h"
 #include <glm/gtc/matrix_transform.hpp>
 #include "GameSmithEngine/Core/Core.h"
-#include "GameSmithEngine/ResourceAssets/Serializable.h"
+#include "GameSmithEngine/SerializeableFiles/Serializable.h"
 
 namespace GameSmith {
 	class GE_API Transform : public Serializeable

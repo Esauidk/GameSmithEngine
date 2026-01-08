@@ -1,6 +1,6 @@
 #pragma once
-#include "GameSmithEngine/Core/Core.h"
 #include "Asset.h"
+#include "GameSmithEngine/Core/Core.h"
 
 namespace GameSmith {
 

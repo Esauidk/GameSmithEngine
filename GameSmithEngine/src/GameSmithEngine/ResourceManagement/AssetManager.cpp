@@ -1,12 +1,12 @@
 #include "gepch.h"
-#include "ResourceManager.h"
+#include "AssetManager.h"
 #include "GameSmithEngine/Core/Log.h"
 
 #include "ResourceLoaders/HeapResourceLoader.h"
 
 #include <filesystem>
 
-#include "GameSmithEngine/ResourceAssets/AssetFactory.h"
+#include "GameSmithEngine/SerializeableFiles/ResourceAssets/AssetFactory.h"
 
 #define META_FILE_EXTENSION ".meta"
 #define CONTENT_LIBRARY_FILE_EXTENSION "dll"
@@ -15,7 +15,7 @@ namespace fs = std::filesystem;
 using recursive_directory_iterator = fs::recursive_directory_iterator;
 
 namespace GameSmith {
-	ResourceManager* ResourceManager::s_Instance = nullptr;
+	AssetManager* AssetManager::s_Instance = nullptr;
 
 	static Ref<ResourceLoader> GetLoader(ResourceLoaderType loaderType) {
 		switch (loaderType) {
@@ -26,25 +26,27 @@ namespace GameSmith {
 		}
 	}
 
-	ResourceManager::ResourceManager() : m_ResourceMaps(new ResourceMaps()), m_Loader(nullptr), m_AssetDirectory(fs::current_path().string()), m_ContentLibraryDirectory(fs::current_path().string())
+	AssetManager::AssetManager() : m_ResourceMaps(new ResourceMaps()), m_Loader(nullptr), m_AssetDirectory(fs::current_path().string())
 	{
 		if (s_Instance == nullptr) {
 			s_Instance = this;
 		}
+		
 	}
 
-	void ResourceManager::Init(ResourceLoaderType loaderType)
+	void AssetManager::Init(ResourceLoaderType loaderType)
 	{
 		if (s_Instance == nullptr) {
-			s_Instance = new ResourceManager();
+			s_Instance = new AssetManager();
 			s_Instance->m_Loader = GetLoader(loaderType);
 			s_Instance->ScanResources();
+
 			GE_CORE_INFO("Resource Manager Loaded!");
 		}
 		
 	}
 
-	void ResourceManager::Shutdown()
+	void AssetManager::Shutdown()
 	{
 		if (s_Instance != nullptr) {
 			delete s_Instance;
@@ -52,7 +54,7 @@ namespace GameSmith {
 		}
 	}
 
-	ID ResourceManager::WriteResource(Ref<Serializeable> resource, std::string path)
+	ID AssetManager::WriteResource(Ref<Serializeable> resource, std::string path)
 	{
 		std::fstream pFile(path, std::ios::out | std::ios::binary | std::ios::ate);
 		GE_CORE_ASSERT(pFile.is_open(), std::format("Asset file {0} cannot be opened", path));
@@ -80,7 +82,7 @@ namespace GameSmith {
 		return id;
 	}
 
-	ID ResourceManager::ImportResource(std::string path)
+	ID AssetManager::ImportResource(std::string path)
 	{
 		// TOOD: Add more to import logic, for now it's just ID assignment
 		std::fstream metaFile(path + ".meta", std::ios::out | std::ios::binary | std::ios::ate);
@@ -101,7 +103,7 @@ namespace GameSmith {
 		return newID;
 	}
 
-	ID ResourceManager::GetAssetID(std::string path)
+	ID AssetManager::GetAssetID(std::string path)
 	{
 		if (m_ResourceMaps->ReverseResourceRegistry.contains(path)) {
 			return m_ResourceMaps->ReverseResourceRegistry.find(path)->second;
@@ -110,7 +112,7 @@ namespace GameSmith {
 		return ID();
 	}
 
-	void ResourceManager::ScanResources()
+	void AssetManager::ScanResources()
 	{
 		if (m_AssetDirectory != "") {
 			for (const auto& dirEntry : recursive_directory_iterator(m_AssetDirectory)) {
@@ -120,6 +122,7 @@ namespace GameSmith {
 
 					if (std::filesystem::exists(path + META_FILE_EXTENSION)) {
 						unsigned int metaSize;
+						// Ptr leak? TODO: Review later
 						char* meta = m_Loader->LoadResource(path + META_FILE_EXTENSION, &metaSize);
 						ResourceFileMetadata* metaPtr = (ResourceFileMetadata*)meta;
 						ID metaId(metaPtr->ID);
@@ -129,33 +132,12 @@ namespace GameSmith {
 							m_ResourceMaps->ReverseResourceRegistry.insert({ path, metaId });
 						}
 					}
-					 
-					GE_CORE_INFO(path);
-				}
-				
-			}
-		}
-	}
-
-	void ResourceManager::ScanContentLibraries()
-	{
-		if (m_ContentLibraryDirectory != "") {
-			for (const auto& dirEntry : recursive_directory_iterator(m_ContentLibraryDirectory)) {
-				if (dirEntry.is_regular_file()) {
-					std::string fileName = dirEntry.path().filename().string();
-					std::string path = dirEntry.path().string();
-
-					std::string ext = path.substr(path.find_last_of('.') + 1);
-
-					if (ext.compare(CONTENT_LIBRARY_FILE_EXTENSION) == 0) {
-						m_ResourceMaps->ContentLibraryRegistry[fileName] = path;
-					}
 				}
 			}
 		}
 	}
 
-	void ResourceManager::CleanResources()
+	void AssetManager::CleanResources()
 	{
 		auto idIt = m_ResourceMaps->ActiveIDResources.begin();
 
@@ -180,7 +162,7 @@ namespace GameSmith {
 		}
 	}
 
-	Ref<Serializeable> ResourceManager::GetResource(ID asset) {
+	Ref<Serializeable> AssetManager::GetResource(ID asset) {
 		if (m_ResourceMaps->ActiveIDResources.contains(asset)) {
 			return (*m_ResourceMaps->ActiveIDResources.find(asset)).second;
 		}
@@ -216,7 +198,7 @@ namespace GameSmith {
 		return resource;
 	}
 
-	Ref<Serializeable> ResourceManager::GetResource(std::string asset) {
+	Ref<Serializeable> AssetManager::GetResource(std::string asset) {
 		if (m_ResourceMaps->ActivePathResources.contains(asset)) {
 			return (*m_ResourceMaps->ActivePathResources.find(asset)).second;
 		}

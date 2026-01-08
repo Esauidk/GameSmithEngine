@@ -1,7 +1,7 @@
 #include "gepch.h"
 #include "GameSmithEngine/Core/Log.h"
-#include "JobUtils.h"
 #include "JobManager.h"
+#include "JobUtils.h"
 
 namespace GameSmith {
 	thread_local JobFiber g_WorkerFiber = JobFiber::CreateEmptyJobFiber();

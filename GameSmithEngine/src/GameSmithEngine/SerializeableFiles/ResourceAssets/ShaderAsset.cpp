@@ -1,7 +1,7 @@
 #include "gepch.h"
-#include "ShaderAsset.h"
-#include "GameSmithEngine/Rendering/RenderingManager.h"
 #include "GameSmithEngine/Core/Log.h"
+#include "GameSmithEngine/Rendering/RenderingManager.h"
+#include "ShaderAsset.h"
 
 namespace GameSmith {
 

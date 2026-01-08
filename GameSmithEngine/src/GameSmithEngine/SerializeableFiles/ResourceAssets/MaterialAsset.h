@@ -1,7 +1,7 @@
 #pragma once
+#include "Asset.h"
 #include "GameSmithEngine/Core/Core.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/MaterialSystem/Material.h"
-#include "Asset.h"
 
 namespace GameSmith {
 	struct MaterialInfo {

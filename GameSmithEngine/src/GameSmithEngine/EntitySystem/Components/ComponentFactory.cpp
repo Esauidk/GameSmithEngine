@@ -2,9 +2,6 @@
 #include "ComponentFactory.h"
 
 
-#include "MeshRenderer.h"
-
-
 namespace GameSmith {
 	Scope<ComponentRegistry> ComponentRegistry::s_Instance = nullptr;
 

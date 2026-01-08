@@ -1,6 +1,6 @@
 #pragma once
-#include <queue>
 #include "Locks/Spinlock.h"
+#include <queue>
 
 namespace GameSmith {
 	template<typename T>

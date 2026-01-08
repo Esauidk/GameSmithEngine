@@ -1,10 +1,10 @@
 #include "gepch.h"
 #include "ImGuiLayer.h"
 
-#include "GameSmithEngine/Rendering/DirectX12/DirectX12Core.h"
 #include "GameSmithEngine/Rendering/DirectX12/DirectX12Context.h"
-#include "GameSmithEngine/Rendering/DirectX12/Util/third-party/d3dx12.h"
+#include "GameSmithEngine/Rendering/DirectX12/DirectX12Core.h"
 #include "GameSmithEngine/Rendering/DirectX12/RenderComponents/Texture/DirectX12Texture.h"
+#include "GameSmithEngine/Rendering/DirectX12/Util/third-party/d3dx12.h"
 
 #include "backends/imgui_impl_dx12.h"
 #include "backends/imgui_impl_win32.h"

@@ -1,8 +1,8 @@
 #include "gepch.h"
-#include "GameObject.h"
-#include "Transform.h"
 #include "Components/ComponentFactory.h"
+#include "GameObject.h"
 #include "GameObjectManager.h"
+#include "Transform.h"
 
 #include "GameSmithEngine/ResourceManagement/ResourceAssetHelper.h"
 

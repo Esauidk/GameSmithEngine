@@ -1,7 +1,7 @@
 #include "gepch.h"
 #include "CameraComponent.h"
-#include "GameSmithEngine/EntitySystem/EnitityRenderPreparer.h"
 #include "GameSmithEngine/EntitySystem/Components/ComponentFactory.h"
+#include "GameSmithEngine/EntitySystem/EnitityRenderPreparer.h"
 
 namespace GameSmith {
 	GE_REGISTERCOMPONENT(CameraComponent)

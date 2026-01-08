@@ -1,7 +1,7 @@
 #pragma once
 #include "Component.h"
-#include "GameSmithEngine/ResourceAssets/MeshAsset.h"
-#include "GameSmithEngine/ResourceAssets/MaterialAsset.h"
+#include "GameSmithEngine/SerializeableFiles/ResourceAssets/MaterialAsset.h"
+#include "GameSmithEngine/SerializeableFiles/ResourceAssets/MeshAsset.h"
 
 namespace GameSmith {
 	class GE_API MeshRenderer : public Component {

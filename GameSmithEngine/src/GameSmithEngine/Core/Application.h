@@ -1,15 +1,12 @@
 #pragma once
-
-#include "Core.h"
-#include "Window.h"
-#include "Timer.h"
-
 #include "GameSmithEngine/Core/ApplicationSpecs.h"
-#include "GameSmithEngine/Events/Event.h"
-#include "GameSmithEngine/Core/MixStack.h"
-#include "GameSmithEngine/Core/Layer.h"
-#include "GameSmithEngine/Core/Timer.h"
+#include "GameSmithEngine/Core/Core.h"
 #include "GameSmithEngine/Core/FrameRateController.h"
+#include "GameSmithEngine/Core/Layer.h"
+#include "GameSmithEngine/Core/MixStack.h"
+#include "GameSmithEngine/Core/Timer.h"
+#include "GameSmithEngine/Core/Window.h"
+#include "GameSmithEngine/Events/Event.h"
 
 #include "GameSmithEngine/ImGui/ImGuiLayer.h"
 

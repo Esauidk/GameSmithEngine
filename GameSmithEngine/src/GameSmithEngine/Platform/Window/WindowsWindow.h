@@ -1,8 +1,8 @@
 #pragma once
 
 #include "GameSmithEngine/Core/Window.h"
-#include "GameSmithEngine/Rendering/RendererContext.h"
 #include "GameSmithEngine/Events/Event.h"
+#include "GameSmithEngine/Rendering/RendererContext.h"
 
 namespace GameSmith {
 	// Windows OS implementation of Window abstract class

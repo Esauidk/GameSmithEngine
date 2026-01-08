@@ -1,7 +1,7 @@
 #pragma once
+#include "Asset.h"
 #include "GameSmithEngine/Core/Core.h"
 #include "GameSmithEngine/GameChunkSystem/GameChunk.h"
-#include "Asset.h"
 
 namespace GameSmith {
 	class GE_API GameChunkAsset : public Asset
@@ -19,6 +19,6 @@ namespace GameSmith {
 		Ref<GameChunk> GenerateInstance();
 	private:
 		Ref<char> m_ChunkSerialization;
-		unsigned int m_ByteSize;
+		unsigned int m_ByteSize = 0;
 	};
 };

@@ -1,6 +1,6 @@
 #pragma once
-#include "GameSmithEngine/Core/Core.h"
 #include "ContentLibraryManager.h"
+#include "GameSmithEngine/Core/Core.h"
 
 namespace GameSmith {
 	class GE_API DefaultContentLibrary : public ContentLibrary

@@ -1,7 +1,7 @@
 #pragma once
-#include "GameSmithEngine.h"
-#include "vector"
 #include "EditorWindow.h"
+#include "GameSmithEngine.h"
+#include <vector>
 
 namespace GameSmithEditor {
 	class ContentView : public EditorWindow {

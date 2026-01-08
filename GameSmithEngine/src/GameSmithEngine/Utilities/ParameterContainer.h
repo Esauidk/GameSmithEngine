@@ -1,8 +1,8 @@
 #pragma once
 #include <gepch.h>
+#include "GameSmithEngine/Core/Log.h"
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
-#include "GameSmithEngine/Core/Log.h"
 
 namespace GameSmith {
 	enum class ContainerDataType {

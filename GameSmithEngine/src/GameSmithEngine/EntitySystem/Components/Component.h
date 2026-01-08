@@ -2,7 +2,6 @@
 
 #include "GameSmithEngine/Core/Core.h"
 #include "GameSmithEngine/Utilities/ExposedVariableRegistry.h"
-#include "GameSmithEngine/ResourceAssets/Serializable.h"
 
 namespace GameSmith {
 	class GameObject;
@@ -10,7 +9,7 @@ namespace GameSmith {
 
 	class GE_API Component : public IDObject {
 	public:
-		Component() = default;
+		Component() = delete;
 		Component(GameObject* gameObject, Transform* transform): m_Initialized(false), m_GameObject(gameObject), m_Transform(transform) {}
 		void Init() { if (!m_Initialized) { OnStart(); m_Initialized = true; } }
 		virtual void OnStart() = 0;

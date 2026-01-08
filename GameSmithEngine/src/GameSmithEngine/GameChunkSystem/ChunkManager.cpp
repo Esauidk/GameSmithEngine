@@ -1,6 +1,8 @@
 #include "gepch.h"
 #include "ChunkManager.h"
-#include "GameSmithEngine/ResourceManagement/ResourceManager.h"
+
+#include "GameSmithEngine/ResourceManagement/AssetManager.h"
+#include "GameSmithEngine/SerializeableFiles/ResourceAssets/GameChunkAsset.h"
 
 namespace GameSmith {
 	ChunkManager* ChunkManager::s_Instance = nullptr;
@@ -44,7 +46,7 @@ namespace GameSmith {
 	void ChunkManager::AppendChunk(ID chunkAsset)
 	{
 		if (!m_LoadedChunks->chunks.contains(chunkAsset)) {
-			auto resourceManager = ResourceManager::GetInstance();
+			auto resourceManager = AssetManager::GetInstance();
 
 			auto loadedAsset = resourceManager->GetResource<GameChunkAsset>(chunkAsset);
 

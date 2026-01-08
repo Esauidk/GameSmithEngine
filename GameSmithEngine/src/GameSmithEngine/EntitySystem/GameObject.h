@@ -1,12 +1,12 @@
 #pragma once
 #include "gepch.h"
+#include "Components/Component.h"
+#include "GameplayUpdater.h"
 #include "GameSmithEngine/Core/Core.h"
 #include "GameSmithEngine/Core/Log.h"
 #include "GameSmithEngine/EntitySystem/Transform.h"
-#include "Components/Component.h"
-#include "GameplayUpdater.h"
 
-#include "GameSmithEngine/ResourceAssets/Asset.h"
+#include "GameSmithEngine/SerializeableFiles/ResourceAssets/Asset.h"
 
 
 namespace GameSmith {

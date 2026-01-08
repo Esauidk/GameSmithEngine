@@ -1,6 +1,6 @@
 #include "gepch.h"
-#include "TestResource.h"
 #include "GameSmithEngine/Core/Log.h"
+#include "TestResource.h"
 
 namespace GameSmith {
 	Ref<char> TestResource::Serialize()

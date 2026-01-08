@@ -1,7 +1,7 @@
 #pragma once
 
 #include <gepch.h>
-#include "GameSmithEngine/ResourceAssets/Serializable.h"
+#include "GameSmithEngine/SerializeableFiles/Serializable.h"
 
 #define GE_REGISTERASSET(ClassType) \
 	 static struct ClassType##RegisterAction { \
@@ -31,7 +31,7 @@ namespace GameSmith {
 	private:
 		static Ref<Serializeable> GenerateAsset(std::string ext);
 
-		friend class ResourceManager;
+		friend class AssetManager;
 	};
 };
 

@@ -1,6 +1,6 @@
 #pragma once
 #include "GameSmithEngine/Core/Core.h"
-#include "GameSmithEngine/ResourceAssets/ShaderAsset.h"
+#include "GameSmithEngine/SerializeableFiles/ResourceAssets/ShaderAsset.h"
 #include <glm/gtc/type_ptr.hpp>
 
 namespace GameSmith {

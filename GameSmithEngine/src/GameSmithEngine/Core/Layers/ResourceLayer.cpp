@@ -1,14 +1,14 @@
 #include "gepch.h"
-#include "ResourceLayer.h"
-#include "GameSmithEngine/ResourceManagement/ResourceManager.h"
 #include "GameSmithEngine/ContentLibrarySystem/ContentLibraryManager.h"
+#include "GameSmithEngine/ResourceManagement/AssetManager.h"
+#include "ResourceLayer.h"
 
 #include "CLI/CLI.hpp"
 
 namespace GameSmith {
 	void ResourceLayer::OnAttach(const ApplicationSpecs& specs)
 	{
-		ResourceManager::Init(ResourceLoaderType::Heap);
+		AssetManager::Init(ResourceLoaderType::Heap);
 
 		CLI::App app{ "Resource Layer Arguments" };
 
@@ -24,28 +24,23 @@ namespace GameSmith {
 			GE_CORE_WARN("Issue parsing resource layer arguments, {}", app.exit(e));
 		}
 
-		if (contentDir != "") {
-			ResourceManager::GetInstance()->SetContentLibraryDirectory(contentDir);
-			ResourceManager::GetInstance()->ScanContentLibraries();
-		}
-
 		if (assetDir != "") {
-			ResourceManager::GetInstance()->SetAssetDirectory(assetDir);
+			AssetManager::GetInstance()->SetAssetDirectory(assetDir);
 		}
 
-		auto& contentLibs = ResourceManager::GetInstance()->GetContentLibrariesFiles();
+		auto& contentLibs = AssetManager::GetInstance()->GetContentLibrariesFiles();
 		ContentLibraryManager::Init(contentLibs);
 	}
 
 	void ResourceLayer::OnDetach()
 	{
-		ResourceManager::Shutdown();
+		AssetManager::Shutdown();
 		ContentLibraryManager::Shutdown();
 	}
 
 	void ResourceLayer::OnUpdate(float dt)
 	{
-		auto rManager = ResourceManager::GetInstance();
+		auto rManager = AssetManager::GetInstance();
 		rManager->CleanResources();
 	}
 };

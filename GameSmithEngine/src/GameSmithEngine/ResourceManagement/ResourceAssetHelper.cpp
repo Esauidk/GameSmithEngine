@@ -1,6 +1,6 @@
 #include "gepch.h"
-#include "ResourceAssetHelper.h"
 #include "GameSmithEngine/Core/Log.h"
+#include "ResourceAssetHelper.h"
 
 namespace GameSmith {
 	std::string BinaryStreamReader::GetString()

@@ -1,10 +1,10 @@
 #include "gepch.h"
-#include "WindowsWindow.h"
-#include "resource.h"
-#include "imgui.h"
 #include "GameSmithEngine/Core/Log.h"
-#include "GameSmithEngine/Rendering/RenderingManager.h"
 #include "GameSmithEngine/Rendering/DirectX12/DirectX12Context.h"
+#include "GameSmithEngine/Rendering/RenderingManager.h"
+#include "imgui.h"
+#include "resource.h"
+#include "WindowsWindow.h"
 
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);

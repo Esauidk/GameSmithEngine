@@ -7,6 +7,7 @@
 #include "GameSmithEngine/Core/Layers/EntitySystemLayer.h"
 #include "GameSmithEngine/Core/Layers/RenderLayer.h"
 #include "GameSmithEngine/Core/Layers/ResourceLayer.h"
+#include "GameSmithEngine/EngineConfiguration/ConfigManager.h"
 
 
 #include "GameSmithEngine/Core/JobSystem/JobManager.h"
@@ -19,8 +20,10 @@ namespace GameSmith {
 		GE_CORE_ASSERT(!s_Instance, "Application already exists");
 		s_Instance = this;
 
+		ConfigManager::Init();
+
 		// TODO Setup default layers
-		PushLayer(new ResourceLayer());
+		PushLayer(new ResourceLayer()); // It is important that ResourceLayer is the first layer pushed as other layers may depend on it
 		PushLayer(new RenderLayer());
 		PushLayer(new EntitySystemLayer());
 
@@ -44,6 +47,8 @@ namespace GameSmith {
 		for (Layer* layer : m_LayerStack) {
 			layer->OnDetach();
 		}
+
+		ConfigManager::Shutdown();
 	}
 
 	bool Application::OnWindowClose(WindowCloseEvent& evn) {

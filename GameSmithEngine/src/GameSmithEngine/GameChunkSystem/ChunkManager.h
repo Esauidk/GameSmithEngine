@@ -1,8 +1,6 @@
 #pragma once
 #include "GameSmithEngine/Core/Core.h"
-#include "GameSmithEngine/Core/Log.h"
 #include "GameSmithEngine/GameChunkSystem/GameChunk.h"
-#include "GameSmithEngine/ResourceAssets/GameChunkAsset.h"
 
 namespace GameSmith {
 

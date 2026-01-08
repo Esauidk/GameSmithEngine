@@ -1,12 +1,11 @@
 #pragma once
 #include "GameSmithEngine/Core/Core.h"
+#include "JobFiber.h"
+#include <atomic>
 #include <queue>
 #include <thread>
-#include <atomic>
-#include "JobFiber.h"
 
-#include "GameSmithEngine/Utilities/ThreadSafeQueue.h"
-#include "GameSmithEngine/Utilities/ThreadSafeVector.h"
+#include "GameSmithEngine/Utilities/Locks/Spinlock.h"
 
 #define WORKER_THREAD_COUNT 6 // TODO: Make worker thread count static for now, come back and make it configurable
 #define JOB_MAX_PARAMETER_SIZE 1000

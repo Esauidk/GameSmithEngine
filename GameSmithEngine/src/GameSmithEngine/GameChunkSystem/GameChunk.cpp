@@ -1,8 +1,8 @@
 #include "gepch.h"
 #include "GameChunk.h"
 #include "GameSmithEngine/EntitySystem/GameObjectManager.h"
+#include "GameSmithEngine/ResourceManagement/AssetManager.h"
 #include "GameSmithEngine/ResourceManagement/ResourceAssetHelper.h"
-#include "GameSmithEngine/ResourceManagement/ResourceManager.h"
 
 namespace GameSmith {
 	GameChunk::~GameChunk()
@@ -111,7 +111,7 @@ namespace GameSmith {
 				}
 				else {
 					// Attempt to load asset
-					auto resourceManager = ResourceManager::GetInstance();
+					auto resourceManager = AssetManager::GetInstance();
 					auto asset = resourceManager->GetResource(entry.second->GetCurrentRefID());
 					// TODO: Change resource manager to return asset class for default
 					entry.second->AssignRef(CastPtr<Asset>(asset));

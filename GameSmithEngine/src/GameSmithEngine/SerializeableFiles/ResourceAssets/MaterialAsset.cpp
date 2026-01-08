@@ -1,12 +1,13 @@
 #include "gepch.h"
-#include "MaterialAsset.h"
 #include "GameSmithEngine/Core/Log.h"
+#include "MaterialAsset.h"
 
-#include "GameSmithEngine/ResourceAssets/ShaderAsset.h"
-#include "GameSmithEngine/ResourceManagement/ResourceManager.h"
+#include "GameSmithEngine/ResourceManagement/AssetManager.h"
 #include "GameSmithEngine/ResourceManagement/ResourceAssetHelper.h"
 
-#include "AssetFactory.h"
+#include "GameSmithEngine/SerializeableFiles/ResourceAssets/AssetFactory.h"
+#include "GameSmithEngine/SerializeableFiles/ResourceAssets/ShaderAsset.h"
+#include "GameSmithEngine/SerializeableFiles/ResourceAssets/TextureAsset.h"
 
 namespace GameSmith {
 	GE_REGISTERASSET(MaterialAsset);
@@ -101,7 +102,7 @@ namespace GameSmith {
 
 		m_Metadata = *matMetadata;
 
-		auto instance = ResourceManager::GetInstance();
+		auto instance = AssetManager::GetInstance();
 
 		ShaderSet shaders;
 		for (unsigned int i = 0; i < STAGE_NUM; i++) {
@@ -165,7 +166,7 @@ namespace GameSmith {
 	{
 		GE_CORE_ASSERT(shaderIds.size() <= STAGE_NUM, "More shader entries than there are stages");
 
-		auto instance = ResourceManager::GetInstance();
+		auto instance = AssetManager::GetInstance();
 
 		ShaderSet shaders;
 		for (auto& entry : shaderIds) {

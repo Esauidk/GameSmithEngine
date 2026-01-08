@@ -1,8 +1,9 @@
 #include "ContentView.h"
 #include "imgui.h"
-#include "GameSmithEditor/Utils/SystemCallUtils.h"
+
 #include "GameSmithEditor/Core/GameProject.h"
 #include "GameSmithEditor/CustomWidgets/ReferenceInputWidget.h"
+#include "GameSmithEditor/Utils/SystemCallUtils.h"
 #include "GameSmithEditor/Windows/Inspector.h"
 
 namespace GameSmithEditor {
@@ -23,7 +24,7 @@ namespace GameSmithEditor {
 		ImGui::SameLine();
 
 		if (ImGui::Button("Save Chunk")) {
-			auto assetManager = GameSmith::ResourceManager::GetInstance();
+			auto assetManager = GameSmith::AssetManager::GetInstance();
 			auto chunkManager = GameSmith::ChunkManager::GetInstance();
 			auto chunk = chunkManager->GetCurrentMainChunk().lock();
 
@@ -43,7 +44,7 @@ namespace GameSmithEditor {
 				GameSmith::GameChunkAsset::GetStaticFileExtension()
 			);
 
-			auto assetManager = GameSmith::ResourceManager::GetInstance();
+			auto assetManager = GameSmith::AssetManager::GetInstance();
 			auto ID = assetManager->GetAssetID(file);
 			auto chunkManager = GameSmith::ChunkManager::GetInstance();
 			chunkManager->LoadChunk(ID);

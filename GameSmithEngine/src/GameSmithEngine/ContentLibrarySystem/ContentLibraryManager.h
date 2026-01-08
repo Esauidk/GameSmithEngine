@@ -1,7 +1,7 @@
 #pragma once
 #include "gepch.h"
-#include "GameSmithEngine/Core/Core.h"
 #include "GameSmithEngine/ContentLibrarySystem/ContentLibrary.h"
+#include "GameSmithEngine/Core/Core.h"
 
 namespace GameSmith {
 	typedef void* LibraryHandle;

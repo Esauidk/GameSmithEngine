@@ -1,6 +1,6 @@
 #include "gepch.h"
-#include "GUIDGenerator.h"
 #include "GameSmithEngine/Core/Log.h"
+#include "GUIDGenerator.h"
 
 namespace GameSmith {
 	ID GameSmith::GUIDGenerator::GenerateID()

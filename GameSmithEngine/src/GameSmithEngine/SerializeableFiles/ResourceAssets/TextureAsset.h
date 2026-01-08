@@ -1,8 +1,8 @@
 #pragma once
+#include "Asset.h"
 #include "GameSmithEngine/Core/Core.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/RenderComponents/Texture.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/Shaders/ShaderUtil.h"
-#include "Asset.h"
 
 
 namespace GameSmith {
