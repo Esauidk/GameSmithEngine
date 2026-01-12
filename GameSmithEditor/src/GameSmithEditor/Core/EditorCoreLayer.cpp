@@ -1,16 +1,8 @@
 #include "EditorCoreLayer.h"
-
-//TODO: Temporary, remove after demo
-#include "GameSmithEditor/SampleComponents/OrbitScript.h"
-#include "GameSmithEditor/SampleComponents/BurstOrbitScript.h"
-
-#include "GameSmithEditor/Windows/AccessibleWindows.h"
-
-#include "imgui.h"
-#include "GameSmithEditor/Core/GameProject.h"
-
 #include "GameSmithEditor/Core/EditorMenu.h"
-#include "GameSmithEditor/Utils/SystemCallUtils.h"
+#include "GameSmithEditor/Core/GameProject.h"
+#include "GameSmithEditor/Windows/AccessibleWindows.h"
+#include "imgui.h"
 
 namespace GameSmithEditor {
 	EditorCoreLayer* EditorCoreLayer::s_Instance = nullptr;
@@ -29,8 +21,6 @@ namespace GameSmithEditor {
 			renderManager->SetFrameTexture(m_EditorScreen);
 
 			GameViewLayer::SetScreenTexture(m_EditorScreen);
-
-			MenuRegistry::GetInstance()->RegisterMenuEntry("Files_Extra_Test", []() {GE_APP_INFO("HI"); });
 		}
 	}
 
@@ -107,5 +97,11 @@ namespace GameSmithEditor {
 
 		auto renderManager = GameSmith::RenderingManager::GetInstance();
 		renderManager->SetForClear(m_EditorScreen);
+	}
+
+	void EditorWindow::CloseWindow()
+	{
+		EditorWindowClose closeEvent(this);
+		m_CloseDispatcher.Dispatch(closeEvent);
 	}
 };

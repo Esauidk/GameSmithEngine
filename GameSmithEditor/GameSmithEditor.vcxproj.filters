@@ -63,6 +63,7 @@
     <ClInclude Include="src\GameSmithEditor\Windows\Inspector.h">
       <Filter>Windows</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameSmithEditor\Windows\EditorWindowEvents.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GameSmithEditor\Core\EditorApp.cpp">

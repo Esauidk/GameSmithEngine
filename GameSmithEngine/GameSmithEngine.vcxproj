@@ -94,7 +94,9 @@
       <ImportLibrary>..\bin\Debug-windows-x86_64\GameSmithEngine\GameSmithEngine.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>cmd /c xcopy "..\bin\Debug-windows-x86_64\GameSmithEngine\*" "$(SolutionDir)\bin\Debug-windows-x86_64\TestZone" /E /Y /I</Command>
+      <Command>cmd /c xcopy "..\bin\Debug-windows-x86_64\GameSmithEngine\*" "$(SolutionDir)\bin\Debug-windows-x86_64\TestZone" /E /Y /I
+cmd /c xcopy "..\bin\Debug-windows-x86_64\GameSmithEngine\*" "$(SolutionDir)\bin\Debug-windows-x86_64\GameSmithEditor" /E /Y /I
+cmd /c xcopy "..\bin\Debug-windows-x86_64\GameSmithEngine\*" "$(SolutionDir)\bin\Debug-windows-x86_64\GEStandaloneGameApp" /E /Y /I</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -121,7 +123,9 @@
       <ImportLibrary>..\bin\Release-windows-x86_64\GameSmithEngine\GameSmithEngine.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>cmd /c xcopy "..\bin\Release-windows-x86_64\GameSmithEngine\*" "$(SolutionDir)\bin\Release-windows-x86_64\TestZone" /E /Y /I</Command>
+      <Command>cmd /c xcopy "..\bin\Release-windows-x86_64\GameSmithEngine\*" "$(SolutionDir)\bin\Release-windows-x86_64\TestZone" /E /Y /I
+cmd /c xcopy "..\bin\Release-windows-x86_64\GameSmithEngine\*" "$(SolutionDir)\bin\Release-windows-x86_64\GameSmithEditor" /E /Y /I
+cmd /c xcopy "..\bin\Release-windows-x86_64\GameSmithEngine\*" "$(SolutionDir)\bin\Release-windows-x86_64\GEStandaloneGameApp" /E /Y /I</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
@@ -148,7 +152,9 @@
       <ImportLibrary>..\bin\Dist-windows-x86_64\GameSmithEngine\GameSmithEngine.lib</ImportLibrary>
     </Link>
     <PostBuildEvent>
-      <Command>cmd /c xcopy "..\bin\Dist-windows-x86_64\GameSmithEngine\*" "$(SolutionDir)\bin\Dist-windows-x86_64\TestZone" /E /Y /I</Command>
+      <Command>cmd /c xcopy "..\bin\Dist-windows-x86_64\GameSmithEngine\*" "$(SolutionDir)\bin\Dist-windows-x86_64\TestZone" /E /Y /I
+cmd /c xcopy "..\bin\Dist-windows-x86_64\GameSmithEngine\*" "$(SolutionDir)\bin\Dist-windows-x86_64\GameSmithEditor" /E /Y /I
+cmd /c xcopy "..\bin\Dist-windows-x86_64\GameSmithEngine\*" "$(SolutionDir)\bin\Dist-windows-x86_64\GEStandaloneGameApp" /E /Y /I</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>

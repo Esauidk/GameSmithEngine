@@ -21,10 +21,12 @@ namespace GameSmith {
 		Application(ApplicationSpecs& appSpecs);
 		virtual ~Application();
 
-		// Add a layer into the Engine Structure
+		// Add a layer into the Engine Structure (Take overnship of layer)
 		void PushLayer(Layer* layer);
-		// Add a layer as an overlay in the Engine Structure
+		// Add a layer as an overlay in the Engine Structure (Take overnship of layer)
 		void PushOverlay(Layer* layer);
+
+		void PopLayer(Layer* layer);
 
 		// Start executing the game engine (will block until the engine has been dismissed/shutdown)
 		void Execute();
@@ -45,8 +47,9 @@ namespace GameSmith {
 		FrameRateController m_FrameRateController;;
 
 		Scope<Window> m_Window;
-		std::queue<Layer*> m_PendingLayers;
-		std::queue<Layer*> m_PendingSpecialLayers;
+		std::queue<Layer*> m_PendingAddLayers;
+		std::queue<Layer*> m_PendingAddSpecialLayers;
+		std::queue<Layer*> m_PendingRemoveLayers;
 		ImGuiLayer* m_ImGuiLayer;
 		MixStack<Layer> m_LayerStack;
 

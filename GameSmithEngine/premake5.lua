@@ -54,7 +54,9 @@ project "GameSmithEngine"
 		buildoptions { "/utf-8" }
 
 		postbuildcommands{
-			("cmd /c xcopy %[%{cfg.targetdir}/*] %[%{wks.location}/bin/" .. outputdir .. "/TestZone] /E /Y /I")
+			("cmd /c xcopy %[%{cfg.targetdir}/*] %[%{wks.location}/bin/" .. outputdir .. "/TestZone] /E /Y /I"),
+			("cmd /c xcopy %[%{cfg.targetdir}/*] %[%{wks.location}/bin/" .. outputdir .. "/GameSmithEditor] /E /Y /I"),
+			("cmd /c xcopy %[%{cfg.targetdir}/*] %[%{wks.location}/bin/" .. outputdir .. "/GEStandaloneGameApp] /E /Y /I")
 		}
 		
 

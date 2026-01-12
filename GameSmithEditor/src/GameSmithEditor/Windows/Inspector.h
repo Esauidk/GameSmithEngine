@@ -26,6 +26,8 @@ namespace GameSmithEditor {
 		static void SetInspectedGameObject(GameSmith::Connection <GameSmith::GameObject> object);
 	private:
 		static GameSmith::Connection<GameSmith::GameObject> s_SelectedObject;
+	private:
+		bool m_Open = true;
 	};
 };
 

@@ -23,7 +23,7 @@ namespace GameSmith {
 		APP_TICK, APP_UPDATE, APP_RENDER,
 		MOUSE_PRESSED, MOUSE_RELEASED, MOUSE_MOVE, MOUSE_SCROLL,
 		KEY_PRESSED, KEY_RELEASED, CHAR_TYPED,
-		FRAME_END
+		FRAME_END, MISCELLENIOUS
 
 	};
 
@@ -41,8 +41,8 @@ namespace GameSmith {
 
 	};
 
-#define EVENT_TYPE(type) static EventType GetStaticType() {return EventType::##type; } \
-						virtual EventType GetEventType() const override {return GetStaticType();} \
+#define EVENT_TYPE(type) static GameSmith::EventType GetStaticType() {return GameSmith::EventType::##type; } \
+						virtual GameSmith::EventType GetEventType() const override {return GetStaticType();} \
 						virtual const char* GetName() const override {return #type;}
 
 #define CATEGORY_TYPE(category) virtual int GetCategoryFlags() const override {return category;}

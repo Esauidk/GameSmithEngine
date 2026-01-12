@@ -58,7 +58,7 @@ namespace GameSmith {
 
 	void Application::PushLayer(Layer* layer) {
 		if (m_LoopStarted) {
-			m_PendingLayers.push(layer);
+			m_PendingAddLayers.push(layer);
 		}
 		else {
 			layer->OnAttach(m_AppSpecs);
@@ -69,13 +69,25 @@ namespace GameSmith {
 
 	void Application::PushOverlay(Layer* layer) {
 		if (m_LoopStarted) {
-			m_PendingSpecialLayers.push(layer);
+			m_PendingAddSpecialLayers.push(layer);
 		}
 		else {
 			layer->OnAttach(m_AppSpecs);
 			m_LayerStack.PushSpecial(layer);
 		}
 		
+	}
+
+	void Application::PopLayer(Layer* layer)
+	{
+		if (m_LoopStarted) {
+			m_PendingRemoveLayers.push(layer);
+		}
+		else {
+			m_LayerStack.Pop(layer);
+			layer->OnDetach();
+			delete layer;
+		}
 	}
 
 	void Application::Execute() {
@@ -90,18 +102,26 @@ namespace GameSmith {
 
 			m_Window->OnUpdate();
 
-			while (!m_PendingSpecialLayers.empty()) {
-				auto layer = m_PendingSpecialLayers.front();
-				m_PendingSpecialLayers.pop();
+			while (!m_PendingAddSpecialLayers.empty()) {
+				auto layer = m_PendingAddSpecialLayers.front();
+				m_PendingAddSpecialLayers.pop();
 				layer->OnAttach(m_AppSpecs);
 				m_LayerStack.PushSpecial(layer);
 			}
 
-			while (!m_PendingLayers.empty()) {
-				auto layer = m_PendingLayers.front();
-				m_PendingLayers.pop();
+			while (!m_PendingAddLayers.empty()) {
+				auto layer = m_PendingAddLayers.front();
+				m_PendingAddLayers.pop();
 				layer->OnAttach(m_AppSpecs);
 				m_LayerStack.Push(layer);
+			}
+
+			while (!m_PendingRemoveLayers.empty()) {
+				auto layer = m_PendingRemoveLayers.front();
+				m_PendingRemoveLayers.pop();
+				m_LayerStack.Pop(layer);
+				layer->OnDetach();
+				delete layer;
 			}
 
 			for (Layer* layer : m_LayerStack) {

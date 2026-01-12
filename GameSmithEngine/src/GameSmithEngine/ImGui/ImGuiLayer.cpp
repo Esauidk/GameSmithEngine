@@ -151,11 +151,6 @@ namespace GameSmith {
 		init_info.SrvDescriptorFreeFn = [](ImGui_ImplDX12_InitInfo*, D3D12_CPU_DESCRIPTOR_HANDLE cpu_handle, D3D12_GPU_DESCRIPTOR_HANDLE gpu_handle) {};
 
 
-		/*ImGui_ImplDX12_Init(DirectX12Core::GetCore().GetDevice(),
-			2,
-			DXGI_FORMAT_R8G8B8A8_UNORM,
-			m_Heap->GetHeapReference(),
-			m_Heap->GetCPUReference(0), m_Heap->GetGPUReference(0));*/
 		ImGui_ImplDX12_Init(&init_info);
 
 		SetupImGuiStyle();

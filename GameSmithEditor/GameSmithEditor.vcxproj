@@ -149,6 +149,7 @@
     <ClInclude Include="src\GameSmithEditor\Windows\AssetDatabaseWindow.h" />
     <ClInclude Include="src\GameSmithEditor\Windows\ContentView.h" />
     <ClInclude Include="src\GameSmithEditor\Windows\EditorWindow.h" />
+    <ClInclude Include="src\GameSmithEditor\Windows\EditorWindowEvents.h" />
     <ClInclude Include="src\GameSmithEditor\Windows\GameViewLayer.h" />
     <ClInclude Include="src\GameSmithEditor\Windows\Inspector.h" />
   </ItemGroup>

@@ -13,6 +13,7 @@ namespace GameSmithEditor {
 		static GameSmith::Ref<GameSmith::RenderTexture> m_GameScreenTexture;
 		GameSmith::Ref<GameSmith::RenderTexture> m_GameViewTexture;
 		const GameSmith::ImGuiTextureSpace* m_GameViewHandle;
+		bool m_Open = true;
 	};
 };
 
