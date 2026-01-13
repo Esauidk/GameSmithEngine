@@ -14,7 +14,7 @@
 
 
 namespace GameSmithEditor {
-	std::string PickFolderDialog(std::string path)
+	bool PickFolderDialog(std::string path, std::string* outPath)
 	{
 #ifdef GE_PLATFORM_WINDOWS
 		Microsoft::WRL::ComPtr<IFileDialog> pFileDialog;
@@ -37,15 +37,19 @@ namespace GameSmithEditor {
 		Microsoft::WRL::ComPtr<IShellItem> pPickedFolder;
 		pFileDialog->GetResult(&pPickedFolder);
 
+		if (pPickedFolder.Get() == nullptr) {
+			return false;
+		}
+
 		wchar_t* filepath;
 		res = FAILED(pPickedFolder->GetDisplayName(SIGDN_FILESYSPATH, &filepath));
 		GE_APP_ASSERT(!res, "Failed to get result folder name");
 
 		std::wstring_convert<std::codecvt_utf8<wchar_t>> wtosConvert;
 		std::wstring resultPath(filepath);
-		std::string convertResult = wtosConvert.to_bytes(resultPath);
+		*outPath = wtosConvert.to_bytes(resultPath);
 	
-		return convertResult;
+		return true;
 
 #endif // GE_PLATFORM_WINDOWS
 

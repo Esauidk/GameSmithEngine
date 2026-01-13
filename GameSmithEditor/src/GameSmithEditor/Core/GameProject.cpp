@@ -11,13 +11,18 @@ namespace GameSmithEditor {
 	GameSmith::Scope<GameProject> GameProject::s_CurProject = nullptr;
 
 	void MenuCreateProject() {
-		std::string rootFolder = PickFolderDialog("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone");
-		GameSmithEditor::GameProject::CreateProject("TestProjectDir2", rootFolder);
+		std::string rootFolder;
+		if (PickFolderDialog(std::filesystem::current_path().string(), &rootFolder)) {
+			GameSmithEditor::GameProject::CreateProject("TestProjectDir2", rootFolder);
+		}
 	}
 
 	void MenuLoadProject() {
-		std::string rootFolder = PickFolderDialog("C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone");
-		GameSmithEditor::GameProject::LoadProject(rootFolder);
+		std::string rootFolder;
+		if (PickFolderDialog(std::filesystem::current_path().string(), &rootFolder)) {
+			GameSmithEditor::GameProject::LoadProject(rootFolder);
+		}
+		
 	}
 
 	static void SetupProjectResources() {

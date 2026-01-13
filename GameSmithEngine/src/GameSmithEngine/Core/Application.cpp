@@ -3,7 +3,6 @@
 
 #include "Log.h"
 
-
 #include "GameSmithEngine/Core/Layers/EntitySystemLayer.h"
 #include "GameSmithEngine/Core/Layers/RenderLayer.h"
 #include "GameSmithEngine/Core/Layers/ResourceLayer.h"
