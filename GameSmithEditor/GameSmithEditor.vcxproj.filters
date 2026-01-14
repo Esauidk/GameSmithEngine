@@ -57,13 +57,15 @@
     <ClInclude Include="src\GameSmithEditor\Windows\EditorWindow.h">
       <Filter>Windows</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameSmithEditor\Windows\EditorWindowEvents.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
     <ClInclude Include="src\GameSmithEditor\Windows\GameViewLayer.h">
       <Filter>Windows</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEditor\Windows\Inspector.h">
       <Filter>Windows</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameSmithEditor\Windows\EditorWindowEvents.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GameSmithEditor\Core\EditorApp.cpp">

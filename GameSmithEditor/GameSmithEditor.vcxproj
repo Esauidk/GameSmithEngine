@@ -91,6 +91,10 @@
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
+    <PostBuildEvent>
+      <Command>cmd /c robocopy "$(SolutionDir)\GameSmithEditor\Icons" "$(SolutionDir)\bin\Debug-windows-x86_64\GameSmithEditor\Icons" /E ^&amp; if %ERRORLEVEL% LSS 2 exit /b 0 ^&amp; exit /b %ERRORLEVEL%
+cmd /c robocopy "$(SolutionDir)\GameSmithEditor\ProjectPresets" "$(SolutionDir)\bin\Debug-windows-x86_64\GameSmithEditor\ProjectPresets" /E ^&amp; if %ERRORLEVEL% LSS 2 exit /b 0 ^&amp; exit /b %ERRORLEVEL%</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -113,6 +117,10 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <PostBuildEvent>
+      <Command>cmd /c robocopy "$(SolutionDir)\GameSmithEditor\Icons" "$(SolutionDir)\bin\Release-windows-x86_64\GameSmithEditor\Icons" /E ^&amp; if %ERRORLEVEL% LSS 2 exit /b 0 ^&amp; exit /b %ERRORLEVEL%
+cmd /c robocopy "$(SolutionDir)\GameSmithEditor\ProjectPresets" "$(SolutionDir)\bin\Release-windows-x86_64\GameSmithEditor\ProjectPresets" /E ^&amp; if %ERRORLEVEL% LSS 2 exit /b 0 ^&amp; exit /b %ERRORLEVEL%</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
     <ClCompile>
@@ -135,6 +143,10 @@
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
     </Link>
+    <PostBuildEvent>
+      <Command>cmd /c robocopy "$(SolutionDir)\GameSmithEditor\Icons" "$(SolutionDir)\bin\Dist-windows-x86_64\GameSmithEditor\Icons" /E ^&amp; if %ERRORLEVEL% LSS 2 exit /b 0 ^&amp; exit /b %ERRORLEVEL%
+cmd /c robocopy "$(SolutionDir)\GameSmithEditor\ProjectPresets" "$(SolutionDir)\bin\Dist-windows-x86_64\GameSmithEditor\ProjectPresets" /E ^&amp; if %ERRORLEVEL% LSS 2 exit /b 0 ^&amp; exit /b %ERRORLEVEL%</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\GameSmithEditor\Core\EditorCoreLayer.h" />
