@@ -51,7 +51,7 @@ namespace GameSmith {
 
 		inline Ref<char> GetBuffer() { if (m_outsideSrc) { return nullptr; }return m_Buffer; }
 		inline char* GetCurPtr() const { return m_CurPtr; }
-		inline void MoveCurPtr(unsigned int bytes) { m_CurPtr += bytes; }
+		void MoveCurPtr(unsigned int bytes);
 
 
 		inline unsigned int GetBufferSize() const { return m_BufferSize; }

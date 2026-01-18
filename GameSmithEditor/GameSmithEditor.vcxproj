@@ -164,6 +164,7 @@ cmd /c robocopy "$(SolutionDir)\GameSmithEditor\ProjectPresets" "$(SolutionDir)\
     <ClInclude Include="src\GameSmithEditor\Windows\EditorWindowEvents.h" />
     <ClInclude Include="src\GameSmithEditor\Windows\GameViewLayer.h" />
     <ClInclude Include="src\GameSmithEditor\Windows\Inspector.h" />
+    <ClInclude Include="src\GameSmithEditor\Windows\ProjectCreatorWindow.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GameSmithEditor\Core\EditorApp.cpp" />
@@ -179,6 +180,7 @@ cmd /c robocopy "$(SolutionDir)\GameSmithEditor\ProjectPresets" "$(SolutionDir)\
     <ClCompile Include="src\GameSmithEditor\Windows\ContentView.cpp" />
     <ClCompile Include="src\GameSmithEditor\Windows\GameViewLayer.cpp" />
     <ClCompile Include="src\GameSmithEditor\Windows\Inspector.cpp" />
+    <ClCompile Include="src\GameSmithEditor\Windows\ProjectCreatorWindow.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\GameSmithEngine\third-party\imgui\ImGui.vcxproj">

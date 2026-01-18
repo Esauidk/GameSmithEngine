@@ -1,4 +1,12 @@
-include "Dependencies.lua"
+IncludeDir = {}
+IncludeDir["ImGui"] = "%{wks.location}/GameSmithEngine/third-party/imgui"
+IncludeDir["glm"] = "%{wks.location}/GameSmithEngine/third-party/glm"
+IncludeDir["stb"] = "%{wks.location}/GameSmithEngine/third-party/stb"
+IncludeDir["tinyobj"] = "%{wks.location}/GameSmithEngine/third-party/tinyobjloader"
+IncludeDir["spdlog"] = "%{wks.location}/GameSmithEngine/third-party/spdlog/include"
+IncludeDir["CLI11"] = "%{wks.location}/GameSmithEngine/third-party/CLI11/include"
+IncludeDir["json"] = "%{wks.location}/GameSmithEngine/third-party/json/include"
+IncludeDir["GameSmithEngine"] = "%{wks.location}/GameSmithEngine/src"
 
 workspace "GameProject"
 	architecture "x64"
@@ -18,6 +26,7 @@ workspace "GameProject"
 
 outputdir = "%{cfg.buildcfg}-%{cfg.system}-%{cfg.architecture}"
 
+
 libdirs { "C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\GameSmithEngine" }
 
 project(_OPTIONS["prjName"])
@@ -35,8 +44,9 @@ project(_OPTIONS["prjName"])
 	objdir ("bin-int/" .. outputdir .. "/%{prj.name}")
 
 	files{
-		"Src/**.h",
-		"Src/**.cpp"
+		"src/**.h",
+		"src/**.cpp",
+		"%{IncludeDir.GameSmithEngine}/**.h"
 	}
 
 	includedirs{
@@ -50,8 +60,7 @@ project(_OPTIONS["prjName"])
 
 	defines{
 		"GE_PLATFORM_WINDOWS",
-		"GE_DYNAMIC_LINK",
-		"GE_BUILD_DLL"
+		"GE_DYNAMIC_LINK"
 	}
 
 	filter "system:windows"
@@ -61,6 +70,10 @@ project(_OPTIONS["prjName"])
 
 		defines{
 			"GE_PLATFORM_WINDOWS"
+		}
+
+		postbuildcommands{
+			("cmd /c robocopy %[%{cfg.targetdir}/] %[%{wks.location}/Cache] " .. _OPTIONS["prjName"] .. ".dll ^& if %ERRORLEVEL% LSS 2 exit /b 0 ^& exit /b %ERRORLEVEL%")
 		}
 
 	filter "configurations:Debug"

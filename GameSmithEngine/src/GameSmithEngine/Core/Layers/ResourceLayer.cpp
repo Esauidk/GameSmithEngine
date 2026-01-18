@@ -28,8 +28,10 @@ namespace GameSmith {
 			AssetManager::GetInstance()->SetAssetDirectory(assetDir);
 		}
 
-		auto& contentLibs = AssetManager::GetInstance()->GetContentLibrariesFiles();
-		ContentLibraryManager::Init(contentLibs);
+		ContentLibraryManager::Init();
+		if (contentDir != "") {
+			ContentLibraryManager::GetInstance()->SetLibrarySearchPath(contentDir);
+		}
 	}
 
 	void ResourceLayer::OnDetach()

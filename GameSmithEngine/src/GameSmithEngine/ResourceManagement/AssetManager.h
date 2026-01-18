@@ -20,7 +20,6 @@ namespace GameSmith {
 		std::unordered_map<std::string, Ref<Serializeable>> ActivePathResources;
 		std::unordered_map<ID, std::string, IDHasher> ResourceRegistry;
 		std::unordered_map<std::string, ID> ReverseResourceRegistry;
-		std::unordered_map<std::string, std::string> ContentLibraryRegistry;
 	};
 
 	class GE_API AssetManager
@@ -88,8 +87,6 @@ namespace GameSmith {
 		}
 
 		Ref<Serializeable> GetResource(std::string asset);
-
-		const std::unordered_map<std::string, std::string>& GetContentLibrariesFiles() { return m_ResourceMaps->ContentLibraryRegistry; };
 
 		// Expected to be used only during testing
 		template<typename T>

@@ -61,8 +61,21 @@ namespace GameSmith {
 		GE_CORE_ASSERT(pFile.is_open(), std::format("Asset file {0} cannot be opened", destination));
 
 		pFile.seekg(0, pFile.beg);
-		pFile.write(m_Buffer.get(), m_CurPtr - m_Buffer.get());
+		if (m_outsideSrc) {
+			pFile.write(m_OutSideStartPtr, m_CurPtr - m_OutSideStartPtr);
+		}
+		else {
+			pFile.write(m_Buffer.get(), m_CurPtr - m_Buffer.get());
+		}
+		
 		pFile.close();
+	}
+
+	void BinaryStreamWriter::MoveCurPtr(unsigned int bytes)
+	{
+		GE_CORE_ASSERT(bytes <= GetRemainingSpace(), "Not enough space to move writer {} bytes", bytes);
+
+		m_CurPtr += bytes;
 	}
 
 	BinaryStreamReader BinaryStreamReader::ReadDirectlyFromFile(std::string fileName)

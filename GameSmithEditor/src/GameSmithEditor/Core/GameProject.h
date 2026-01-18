@@ -5,7 +5,9 @@
 #define PROJECT_ASSET_FOLDER_NAME "Assets"
 #define PROJECT_EDITOR_RESOURCE_FOLDER_NAME "EditorResources"
 #define PROJECT_CACHE_FOLDER_NAME "Cache"
-#define PROJECT_SRC_FOLDER_NAME "Src"
+#define PROJECT_SRC_FOLDER_NAME "src"
+
+#define PROJECT_PRESET_FOLDER "ProjectPresets"
 
 namespace GameSmithEditor {
 	void MenuCreateProject();
@@ -20,6 +22,7 @@ namespace GameSmithEditor {
 		static std::string GetRootFolder() { return s_CurProject->m_RootFolder; }
 		static std::string GetAssetFolder() { return std::format("{0}\\{1}", s_CurProject->m_RootFolder, PROJECT_ASSET_FOLDER_NAME); }
 		static std::string GetEditorResourceFolder() { return std::format("{0}\\{1}", s_CurProject->m_RootFolder, PROJECT_EDITOR_RESOURCE_FOLDER_NAME); }
+		static std::string GetCacheFolder() { return std::format("{0}\\{1}", s_CurProject->m_RootFolder, PROJECT_CACHE_FOLDER_NAME); }
 		static std::string GetProjectName() { return s_CurProject->m_ProjectName; }
 		static bool IsLoaded() { return s_CurProject != nullptr; }
 
