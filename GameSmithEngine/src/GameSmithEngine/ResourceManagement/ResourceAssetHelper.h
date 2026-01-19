@@ -4,6 +4,9 @@
 #include "GameSmithEngine/Core/Log.h"
 
 namespace GameSmith {
+	// FORWARD DECLARATIONS
+	class Serializeable;
+
 	class GE_API BinaryStreamReader {
 	public:
 		inline BinaryStreamReader(char* buffer, unsigned int byteSize) : m_CurPtr(buffer), m_EndPtr(buffer + byteSize) {}
@@ -45,6 +48,10 @@ namespace GameSmith {
 			memcpy(m_CurPtr, data, sizeof(T));
 			m_CurPtr += sizeof(T);
 		}
+
+		void WriteSerializeable(Serializeable* serializeable);
+		void WriteVector(const std::vector<Ref<Serializeable>> vector);
+		void WriteVector(const std::vector<Connection<Serializeable>> vector);
 
 		void WriteByte(char* bytes, unsigned int byteCount);
 		void CommitToFile(std::string destination);

@@ -13,10 +13,10 @@ namespace GameSmithEditor {
 	{
 		ImGui::SetNextWindowSizeConstraints(ImVec2(20, 20), ImVec2(FLT_MAX, FLT_MAX));
 		if (ImGui::Begin("Content View", &m_Open)) {
+			auto chunkManager = GameSmith::ChunkManager::GetInstance();
 			if (ImGui::Button("Create GameObject")) {
 				auto gm = GameSmith::GameObjectManager::GetInstance();
 				auto object = gm->CreateGameObject();
-				auto chunkManager = GameSmith::ChunkManager::GetInstance();
 				chunkManager->GetCurrentMainChunk().lock()->AddObjectToChunk(object);
 				m_NamesStd.push_back(object.lock()->GetName());
 			}
@@ -25,15 +25,15 @@ namespace GameSmithEditor {
 
 			if (ImGui::Button("Save Chunk")) {
 				auto assetManager = GameSmith::AssetManager::GetInstance();
-				auto chunkManager = GameSmith::ChunkManager::GetInstance();
 				auto chunk = chunkManager->GetCurrentMainChunk().lock();
 
-				std::string file = CreateFileDialog(
-					"C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone",
-					GameSmith::GameChunkAsset::GetStaticFileType(),
+				std::string location = std::format(
+					"{0}\\{1}.{2}",
+					GameProject::GetAssetFolder(),
+					chunk->GetChunkName(),
 					GameSmith::GameChunkAsset::GetStaticFileExtension()
 				);
-				assetManager->WriteResource(chunk, file);
+				assetManager->WriteResource(chunk, location);
 
 			}
 
@@ -50,28 +50,33 @@ namespace GameSmithEditor {
 				chunkManager->LoadChunk(ID);
 			}
 
-			if (ImGui::BeginListBox("Objects", ImVec2(ImGui::GetWindowWidth(), ImGui::GetWindowHeight()))) {
-				for (int i = 0; i < m_NamesStd.size(); i++) {
-					bool selected = (m_Selection == i);
-					if (ImGui::Selectable(m_NamesStd[i].c_str(), selected)) {
-						auto gm = GameSmith::GameObjectManager::GetInstance();
-						Inspector::SetInspectedGameObject(gm->FindGameObject(m_NamesStd[i]));
-						m_Selection = i;
-					}
+			std::string chunkName = chunkManager->GetCurrentMainChunk().lock()->GetChunkName();
+			std::string labelName = std::format("##{}", chunkName);
+			if (ImGui::CollapsingHeader(chunkName.c_str())) {
+				if (ImGui::BeginListBox(labelName.c_str(), ImVec2(ImGui::GetWindowWidth() - 25, ImGui::GetWindowHeight() / 2))) {
+					for (int i = 0; i < m_NamesStd.size(); i++) {
+						bool selected = (m_Selection == i);
+						if (ImGui::Selectable(m_NamesStd[i].c_str(), selected)) {
+							auto gm = GameSmith::GameObjectManager::GetInstance();
+							Inspector::SetInspectedGameObject(gm->FindGameObject(m_NamesStd[i]));
+							m_Selection = i;
+						}
 
-					if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None)) {
-						auto gm = GameSmith::GameObjectManager::GetInstance();
-						auto g = gm->FindGameObject(m_NamesStd[i]);
-						ImGui::SetDragDropPayload(IMGUI_PAYLOAD_TYPE_GAMEOBJECT_REF, &g, sizeof(GameSmith::Connection<GameSmith::GameObject>));
-						ImGui::EndDragDropSource();
-					}
+						if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None)) {
+							auto gm = GameSmith::GameObjectManager::GetInstance();
+							auto g = gm->FindGameObject(m_NamesStd[i]);
+							ImGui::SetDragDropPayload(IMGUI_PAYLOAD_TYPE_GAMEOBJECT_REF, &g, sizeof(GameSmith::Connection<GameSmith::GameObject>));
+							ImGui::EndDragDropSource();
+						}
 
-					if (selected) {
-						ImGui::SetItemDefaultFocus();
+						if (selected) {
+							ImGui::SetItemDefaultFocus();
+						}
 					}
+					ImGui::EndListBox();
 				}
-				ImGui::EndListBox();
 			}
+			
 		}
 		
 		ImGui::End();
@@ -79,9 +84,9 @@ namespace GameSmithEditor {
 
 	void ContentView::OnUpdate(float dt)
 	{
-		auto gameObjectMang = GameSmith::GameObjectManager::GetInstance();
 		m_NamesStd.clear();
-		gameObjectMang->GetGameObjectNames(&m_NamesStd);
+		auto chunkManager = GameSmith::ChunkManager::GetInstance();
+		chunkManager->GetCurrentMainChunk().lock()->GetChunkGameObjectNames(&m_NamesStd);
 
 		if (!m_Open) {
 			CloseWindow();

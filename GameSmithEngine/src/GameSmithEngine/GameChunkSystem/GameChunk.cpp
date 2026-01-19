@@ -14,16 +14,27 @@ namespace GameSmith {
 		}
 	}
 
+	void GameChunk::GetChunkGameObjectNames(std::vector<std::string>* nameOut)
+	{
+		for (auto& object : m_GameObjects) {
+			if (!object.expired()) {
+				nameOut->push_back(object.lock()->GetName());
+			}
+		}
+	}
+
 	Ref<char> GameChunk::Serialize()
 	{
 		BinaryStreamWriter writer(RequiredSpace());
 
-		ChunkMetadata metadata = {};
+		writer.WriteString(m_ChunkName);
+
+		unsigned int gmCount = 0;
 		for (auto& gm : m_GameObjects) {
-			metadata.gmCount += gm.expired() ? 0 : 1;
+			gmCount += gm.expired() ? 0 : 1;
 		}
 
-		writer.WriteClass<ChunkMetadata>(&metadata);
+		writer.WriteUInt(gmCount);
 
 		for (auto& gm : m_GameObjects) {
 			if (!gm.expired()) {
@@ -31,7 +42,6 @@ namespace GameSmith {
 				writer.MoveCurPtr(gm.lock()->RequiredSpace());
 			}
 		}
-
 
 		return writer.GetBuffer();
 	}
@@ -42,7 +52,7 @@ namespace GameSmith {
 
 	unsigned int GameChunk::RequiredSpace() const
 	{
-		unsigned int size = sizeof(ChunkMetadata);
+		unsigned int size = sizeof(unsigned int) + m_ChunkName.length() + 1;
 
 		for (auto& gm : m_GameObjects) {
 			if (!gm.expired()) {
@@ -60,10 +70,11 @@ namespace GameSmith {
 
 		BinaryStreamReader reader(inData, size);
 
-		auto metadata = reader.ReadClass<ChunkMetadata>();
+		m_ChunkName = reader.GetString();
+		unsigned int gmCount = reader.GetUInt();
 
 		auto gmManager = GameObjectManager::GetInstance();
-		for (unsigned int i = 0; i < metadata->gmCount; i++) {
+		for (unsigned int i = 0; i < gmCount; i++) {
 
 			// Create a game object (treat it as a fresh canvas)
 			auto gm = gmManager->CreateGameObject();

@@ -1,5 +1,6 @@
 #include "gepch.h"
 #include "GameSmithEngine/Core/Log.h"
+#include "GameSmithEngine/SerializeableFiles/Serializable.h"
 #include "ResourceAssetHelper.h"
 
 namespace GameSmith {
@@ -47,6 +48,45 @@ namespace GameSmith {
 	{
 		memcpy(m_CurPtr, &i, sizeof(unsigned int));
 		m_CurPtr += sizeof(int);
+	}
+
+	void BinaryStreamWriter::WriteSerializeable(Serializeable* serializeable)
+	{
+		unsigned int requiredSize = serializeable->RequiredSpace();
+		GE_CORE_ASSERT(GetRemainingSpace() >= requiredSize, "Not enough space in buffer to write serializeable");
+		serializeable->Serialize(m_CurPtr, GetRemainingSpace());
+		m_CurPtr += requiredSize;
+	}
+
+	void BinaryStreamWriter::WriteVector(const std::vector<Ref<Serializeable>> vector)
+	{
+		unsigned int requiredSize = sizeof(unsigned int);
+		for (auto& item : vector) {
+			requiredSize += item->RequiredSpace();
+		}
+		GE_CORE_ASSERT(GetRemainingSpace() >= requiredSize, "Not enough space in buffer to write serializeable vector");
+
+		WriteUInt((unsigned int)vector.size());
+		for (auto& item : vector) {
+			item->Serialize(m_CurPtr, GetRemainingSpace());
+			m_CurPtr += item->RequiredSpace();
+		}
+	}
+
+	void BinaryStreamWriter::WriteVector(const std::vector<Connection<Serializeable>> vector) {
+		unsigned int requiredSize = sizeof(unsigned int);
+		for (auto& item : vector) {
+			requiredSize += item.lock()->RequiredSpace();
+		}
+
+		GE_CORE_ASSERT(GetRemainingSpace() >= requiredSize, "Not enough space in buffer to write serializeable vector");
+
+		WriteUInt((unsigned int)vector.size());
+		for (auto& item : vector) {
+			auto lockedItem = item.lock();
+			lockedItem->Serialize(m_CurPtr, GetRemainingSpace());
+			m_CurPtr += lockedItem->RequiredSpace();
+		}
 	}
 
 	void BinaryStreamWriter::WriteByte(char* bytes, unsigned int byteCount)

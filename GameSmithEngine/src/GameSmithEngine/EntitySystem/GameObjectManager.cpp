@@ -84,7 +84,7 @@ namespace GameSmith {
 		}
 	}
 
-	void GameObjectManager::GetGameObjectNames(std::vector<std::string>* outNames)
+	void GameObjectManager::GetAllGameObjectNames(std::vector<std::string>* outNames)
 	{
 		for (auto object : m_ObjectMaps->objectNames) {
 			outNames->push_back(object.first);
