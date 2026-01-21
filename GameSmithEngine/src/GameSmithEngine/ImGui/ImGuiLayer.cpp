@@ -17,7 +17,8 @@
 
 
 namespace GameSmith {
-	Ref<DirectX12DescriptorHeap> ImGuiLayer::m_Heap = nullptr;
+	Ref<DirectX12DescriptorHeap> ImGuiLayer::s_Heap  = nullptr;
+	unsigned int ImGuiLayer::s_HeapCurSlot = 0;
 
 	static void SetupImGuiStyle()
 	{
@@ -109,8 +110,8 @@ namespace GameSmith {
 		style.Colors[ImGuiCol_ModalWindowDimBg] = ImVec4(0.196078434586525f, 0.1764705926179886f, 0.5450980663299561f, 0.501960813999176f);
 	}
 
-	ImGuiLayer::ImGuiLayer() : Layer("ImGui Layer"), m_CurSlot(1), m_DockEnabled(false) {
-		m_Heap = DirectX12Core::GetCore().GetHeapDatabase()->AllocateHeap(50, DescriptorHeapType::CBVSRVUAV, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE, "IMGui Heap");
+	ImGuiLayer::ImGuiLayer() : Layer("ImGui Layer"), m_DockEnabled(false) {
+		s_Heap = DirectX12Core::GetCore().GetHeapDatabase()->AllocateHeap(50, DescriptorHeapType::CBVSRVUAV, D3D12_DESCRIPTOR_HEAP_FLAG_SHADER_VISIBLE, "IMGui Heap");
 	}
 
 	ImGuiLayer::~ImGuiLayer() {
@@ -146,9 +147,15 @@ namespace GameSmith {
 		init_info.NumFramesInFlight = 2;
 		init_info.RTVFormat = DXGI_FORMAT_R8G8B8A8_UNORM;
 		init_info.DSVFormat = DXGI_FORMAT_UNKNOWN;
-		init_info.SrvDescriptorHeap = m_Heap->GetHeapReference();
-		init_info.SrvDescriptorAllocFn = [](ImGui_ImplDX12_InitInfo*, D3D12_CPU_DESCRIPTOR_HANDLE* out_cpu_handle, D3D12_GPU_DESCRIPTOR_HANDLE* out_gpu_handle) {*out_cpu_handle = m_Heap->GetCPUReference(0); *out_gpu_handle = m_Heap->GetGPUReference(0); };
-		init_info.SrvDescriptorFreeFn = [](ImGui_ImplDX12_InitInfo*, D3D12_CPU_DESCRIPTOR_HANDLE cpu_handle, D3D12_GPU_DESCRIPTOR_HANDLE gpu_handle) {};
+		init_info.SrvDescriptorHeap = s_Heap->GetHeapReference();
+		init_info.SrvDescriptorAllocFn = [](ImGui_ImplDX12_InitInfo*, D3D12_CPU_DESCRIPTOR_HANDLE* out_cpu_handle, D3D12_GPU_DESCRIPTOR_HANDLE* out_gpu_handle) {
+			// Get descriptor from end of heap
+			*out_cpu_handle = s_Heap->GetCPUReference(s_HeapCurSlot);
+			*out_gpu_handle = s_Heap->GetGPUReference(s_HeapCurSlot);
+			s_HeapCurSlot++;
+		};
+		init_info.SrvDescriptorFreeFn = [](ImGui_ImplDX12_InitInfo*, D3D12_CPU_DESCRIPTOR_HANDLE cpu_handle, D3D12_GPU_DESCRIPTOR_HANDLE gpu_handle) {
+		};
 
 
 		ImGui_ImplDX12_Init(&init_info);
@@ -174,17 +181,17 @@ namespace GameSmith {
 
 	const ImGuiTextureSpace* ImGuiLayer::GenerateTextureSpace(Ref<Texture> tex)
 	{
-		D3D12_CPU_DESCRIPTOR_HANDLE slot = m_Heap->GetCPUReference(m_CurSlot);
-		D3D12_GPU_DESCRIPTOR_HANDLE gpuSlot = m_Heap->GetGPUReference(m_CurSlot);
+		D3D12_CPU_DESCRIPTOR_HANDLE slot = s_Heap->GetCPUReference(s_HeapCurSlot);
+		D3D12_GPU_DESCRIPTOR_HANDLE gpuSlot = s_Heap->GetGPUReference(s_HeapCurSlot);
 		auto device = DirectX12Core::GetCore().GetDevice();
 
 		auto d3Tex = CastPtr<DirectX12Texture>(tex);
 		auto texRef = d3Tex->GetSRVHandle();
 		device->CopyDescriptorsSimple(1, slot, texRef, D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV);
-		m_CurSlot++;
+		s_HeapCurSlot++;
 
 		Ref<ImGuiTextureSpace> space = Ref<ImGuiTextureSpace>(new ImGuiTextureSpace());
-		*space = { (void*)gpuSlot.ptr, m_CurSlot - 1 };
+		*space = { (void*)gpuSlot.ptr, s_HeapCurSlot - 1 };
 		m_CurrentSpaces.emplace_back(space, texRef);
 
 		return space.get();
@@ -203,15 +210,15 @@ namespace GameSmith {
 				auto& entry = m_SpacesToMigrate.front();
 				device->CopyDescriptorsSimple(
 					1,
-					m_Heap->GetCPUReference(m_CurSlot),
+					s_Heap->GetCPUReference(s_HeapCurSlot),
 					entry.originalHandle,
 					D3D12_DESCRIPTOR_HEAP_TYPE_CBV_SRV_UAV
 				);
 
-				entry.space->index = m_CurSlot;
-				entry.space->gpuSpot = (void*)m_Heap->GetGPUReference(m_CurSlot).ptr;
+				entry.space->index = s_HeapCurSlot;
+				entry.space->gpuSpot = (void*)s_Heap->GetGPUReference(s_HeapCurSlot).ptr;
 
-				m_CurSlot++;
+				s_HeapCurSlot++;
 				m_SpacesToMigrate.pop();
 			}
 			m_PreviousHeap->Free();
@@ -241,7 +248,7 @@ namespace GameSmith {
 		context->GetStateManager().BindRenderTargetsOnly();
 
 		ID3D12DescriptorHeap* descriptorHeaps[] = {
-			m_Heap->GetHeapReference()
+			s_Heap->GetHeapReference()
 		};
 
 		commandList->SetDescriptorHeaps(1, descriptorHeaps);

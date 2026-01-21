@@ -61,6 +61,7 @@ namespace GameSmithEditor {
 				ImGui::Text(m_CurrentPath.filename().string().c_str());
 
 				if (ImGui::BeginTable("Assets", columnCount)) {
+					ImGui::TableNextColumn();
 					ImGuiStyle& style = ImGui::GetStyle();
 					auto oldFramePadding = style.FramePadding;
 					style.FramePadding = { 0,0 };
@@ -88,9 +89,11 @@ namespace GameSmithEditor {
 							}
 
 							image = reinterpret_cast<ImTextureID>(filePtr->gpuSpot);
+							
 						}
 
-						if (ImGui::ImageButton(fileName.c_str(), image, { thumbailSize, thumbailSize })) {
+						ImTextureRef imageRef = ImTextureRef(image);
+						if (ImGui::ImageButton(fileName.c_str(), imageRef, { thumbailSize, thumbailSize })) {
 							if (isDir) {
 								m_CurrentPath = dirEntry.path();
 							}

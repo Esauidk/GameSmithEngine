@@ -43,6 +43,7 @@ namespace GameSmith {
 
 		void ClearTextures();
 		void Submit(Ref<VertexBuffer> vBuff, Ref<IndexBuffer> iBuff, Ref<Material> mat);
+		void SyncDataTransfer();
 
 		inline RendererAPI::API GetAPI() { return m_RenderAPI->GetAPI(); };
 		inline RendererAPI* GetRenderAPI() { return m_RenderAPI.get(); }

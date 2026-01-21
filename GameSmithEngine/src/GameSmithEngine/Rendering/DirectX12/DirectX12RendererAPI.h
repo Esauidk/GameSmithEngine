@@ -43,6 +43,7 @@ namespace GameSmith {
 		virtual void SetGraphicsPipelineState(Ref<GraphicsPipelineStateObject> pso) override;
 
 		virtual void SubmitRecording() override;
+		virtual void FlushDataTransfer() override;
 		virtual void CompleteFrameSubmissions() override;
 
 		inline virtual void ClearCachedAssets() override {  }

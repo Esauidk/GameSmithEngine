@@ -21,6 +21,9 @@ namespace GameSmith {
 	{
 		auto renderPreparer = EntityRenderPreparer::GetInstance();
 		renderPreparer->SendForRendering();
+
+		auto renderManager = RenderingManager::GetInstance();
+		renderManager->SyncDataTransfer();
 	}
 
 	void RenderLayer::OnEndUpdate()

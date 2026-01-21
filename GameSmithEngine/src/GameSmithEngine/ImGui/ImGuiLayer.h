@@ -36,12 +36,12 @@ namespace GameSmith {
 			D3D12_CPU_DESCRIPTOR_HANDLE originalHandle;
 		};
 	private:
-		static Ref<DirectX12DescriptorHeap> m_Heap;
+		static Ref<DirectX12DescriptorHeap> s_Heap;
+		static unsigned int s_HeapCurSlot;
 		std::vector<SpaceEntry> m_CurrentSpaces;
 
 		Ref<DirectX12DescriptorHeap> m_PreviousHeap;
 		std::queue<SpaceEntry> m_SpacesToMigrate;
-		unsigned int m_CurSlot;
 		bool m_DockEnabled;
 	};
 };

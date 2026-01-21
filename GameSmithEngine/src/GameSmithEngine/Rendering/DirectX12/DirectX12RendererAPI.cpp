@@ -240,6 +240,13 @@ namespace GameSmith {
 		directContext->SubmitCommandLists();
 	}
 
+	void DirectX12RendererAPI::FlushDataTransfer()
+	{
+		auto copyContext = m_Core.GetCopyCommandContext();
+		copyContext->FinalizeCommandList();
+		copyContext->SubmitCommandLists();
+	}
+
 	void DirectX12RendererAPI::CompleteFrameSubmissions()
 	{
 		m_Core.FrameCompletedRecording();

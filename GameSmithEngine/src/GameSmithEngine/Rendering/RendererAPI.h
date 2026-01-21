@@ -56,6 +56,7 @@ namespace GameSmith {
 		virtual void SetGraphicsPipelineState(Ref<GraphicsPipelineStateObject> pso) = 0;
 
 		virtual void SubmitRecording() = 0;
+		virtual void FlushDataTransfer() = 0;
 		virtual void CompleteFrameSubmissions() = 0;
 		virtual void ClearCachedAssets() = 0;
 

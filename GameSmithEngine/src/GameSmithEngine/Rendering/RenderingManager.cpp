@@ -88,5 +88,10 @@ namespace GameSmith {
 		m_RenderAPI->SubmitRecording();
 	}
 
+	void RenderingManager::SyncDataTransfer()
+	{
+		m_RenderAPI->FlushDataTransfer();
+	}
+
 	
 };

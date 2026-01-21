@@ -32,13 +32,6 @@ namespace GameSmithEditor {
 		ImGui::SetCurrentContext(ImGuiInstance->GetImGuiContext());
 
 		ImGuiInstance->SetDockspace(true);
-
-		if (GameProject::IsLoaded()) {
-
-		}
-		else {
-
-		}
 	}
 
 	void EditorCoreLayer::OnImGuiRender()
