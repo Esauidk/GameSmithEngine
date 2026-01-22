@@ -5,9 +5,10 @@
 namespace GameSmith {
 	GE_REGISTERASSET(GameChunkAsset)
 
-	GameChunkAsset::GameChunkAsset(Ref<GameChunk> snapShot) : m_ChunkSerialization(snapShot->Serialize()), m_ByteSize(snapShot->RequiredSpace())
-	{
-	}
+	GameChunkAsset::GameChunkAsset(Ref<GameChunk> snapShot) :
+		Asset(snapShot->GetChunkName()),
+		m_ChunkSerialization(snapShot->Serialize()),
+		m_ByteSize(snapShot->RequiredSpace()) {}
 
 	Ref<char> GameChunkAsset::Serialize()
 	{

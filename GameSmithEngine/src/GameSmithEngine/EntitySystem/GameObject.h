@@ -6,12 +6,12 @@
 #include "GameSmithEngine/Core/Log.h"
 #include "GameSmithEngine/EntitySystem/Transform.h"
 
-#include "GameSmithEngine/SerializeableFiles/ResourceAssets/Asset.h"
+#include "GameSmithEngine/SerializeableFiles/Serializable.h"
 
 
 namespace GameSmith {
 
-	class GE_API GameObject : public Asset {
+	class GE_API GameObject : public Serializeable {
 	public:
 		GameObject(std::string name = DEFAULT_GAMEOBJECT_NAME);
 		inline std::string GetName() const { return m_Name; }

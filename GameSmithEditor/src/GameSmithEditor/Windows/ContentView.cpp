@@ -39,7 +39,7 @@ namespace GameSmithEditor {
 
 			if (ImGui::Button("Load Chunk")) {
 				std::string file = PickFileDialog(
-					"C:\\Users\\esaus\\Documents\\Coding Projects\\GameSmithEngine\\bin\\Debug-windows-x86_64\\TestZone",
+					GameProject::GetAssetFolder(),
 					GameSmith::GameChunkAsset::GetStaticFileType(),
 					GameSmith::GameChunkAsset::GetStaticFileExtension()
 				);
@@ -76,7 +76,7 @@ namespace GameSmithEditor {
 					ImGui::EndListBox();
 				}
 			}
-			
+
 		}
 		
 		ImGui::End();

@@ -13,21 +13,21 @@ namespace GameSmith {
 
 		return s_Instance.get();
 	}
-	void AssetRegistry::RegisterAsset(std::string ext, std::function<Serializeable* ()> creationFunction)
+	void AssetRegistry::RegisterAsset(std::string ext, std::function<Serializeable* (std::string)> creationFunction)
 	{
 		if (!m_ExtToAsset.contains(ext)) {
 			m_ExtToAsset.insert({ ext, creationFunction });
 		}
 	}
 
-	Ref<Serializeable> AssetFactory::GenerateAsset(std::string ext)
+	Ref<Serializeable> AssetFactory::GenerateAsset(std::string ext, std::string fileName)
 	{
 		auto registry = AssetRegistry::GetInstance();
 
 		GE_CORE_ASSERT(registry->m_ExtToAsset.contains(ext), std::format("No definition for requested extention: {0}", ext));
 
 		auto entry = registry->m_ExtToAsset.find(ext);
-		return Ref<Serializeable>(entry->second());
+		return Ref<Serializeable>(entry->second(fileName));
 	}
 };
 

@@ -7,8 +7,8 @@ namespace GameSmith {
 	class GE_API ShaderAsset : public Asset
 	{
 	public:
-		ShaderAsset() = default;
-		inline ShaderAsset(Ref<Shader> shader) : m_Shader(shader) {};
+		ShaderAsset(std::string name) : Asset(name) {};
+		inline ShaderAsset(std::string name, Ref<Shader> shader) : Asset(name), m_Shader(shader) {};
 
 		virtual Ref<char> Serialize() override;
 		virtual void Serialize(char* byteStream, unsigned int availableBytes) override;

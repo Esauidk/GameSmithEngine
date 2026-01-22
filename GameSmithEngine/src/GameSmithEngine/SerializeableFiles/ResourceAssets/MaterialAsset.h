@@ -11,8 +11,9 @@ namespace GameSmith {
 	class GE_API MaterialAsset : public Asset
 	{
 	public:
-		MaterialAsset();
+		MaterialAsset(std::string name);
 		MaterialAsset(
+			std::string name,
 			std::vector<std::pair<ID, Stages>>& shaderIds,
 			std::vector<std::pair<std::string, ID>>& textureIds,
 			std::vector<std::pair<std::string, ContainerDataType>>& variables

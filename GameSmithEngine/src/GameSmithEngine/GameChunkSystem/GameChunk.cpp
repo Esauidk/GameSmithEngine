@@ -27,8 +27,6 @@ namespace GameSmith {
 	{
 		BinaryStreamWriter writer(RequiredSpace());
 
-		writer.WriteString(m_ChunkName);
-
 		unsigned int gmCount = 0;
 		for (auto& gm : m_GameObjects) {
 			gmCount += gm.expired() ? 0 : 1;
@@ -52,7 +50,7 @@ namespace GameSmith {
 
 	unsigned int GameChunk::RequiredSpace() const
 	{
-		unsigned int size = sizeof(unsigned int) + m_ChunkName.length() + 1;
+		unsigned int size = sizeof(unsigned int);
 
 		for (auto& gm : m_GameObjects) {
 			if (!gm.expired()) {
@@ -70,7 +68,6 @@ namespace GameSmith {
 
 		BinaryStreamReader reader(inData, size);
 
-		m_ChunkName = reader.GetString();
 		unsigned int gmCount = reader.GetUInt();
 
 		auto gmManager = GameObjectManager::GetInstance();

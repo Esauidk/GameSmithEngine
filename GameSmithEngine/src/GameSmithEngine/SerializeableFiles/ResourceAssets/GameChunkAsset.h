@@ -7,7 +7,7 @@ namespace GameSmith {
 	class GE_API GameChunkAsset : public Asset
 	{
 	public:
-		GameChunkAsset() = default;
+		GameChunkAsset(std::string name) : Asset(name) {};
 		GameChunkAsset(Ref<GameChunk> snapShot);
 		virtual Ref<char> Serialize() override;
 		virtual void Serialize(char* byteStream, unsigned int availableBytes) override;

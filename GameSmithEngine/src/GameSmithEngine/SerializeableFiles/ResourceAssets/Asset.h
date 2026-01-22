@@ -10,6 +10,12 @@ namespace GameSmith {
 	// 
 	// (either single serializable or bundled serializables)
 	class GE_API Asset : public Serializeable {
-		// No special behavior besides identifier
+	public:
+		Asset(std::string fileName) : m_FileName(fileName) {}
+		virtual ~Asset() = default;
+
+		const std::string& GetName() const { return m_FileName; }
+	private:
+		const std::string m_FileName;
 	};
 };

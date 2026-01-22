@@ -154,15 +154,16 @@ namespace GameSmith {
 		return Ref<Material>(new Material(*m_GlobalVer));
 	}
 
-	MaterialAsset::MaterialAsset() : m_MatInfo(new MaterialInfo())
+	MaterialAsset::MaterialAsset(std::string name) : Asset(name), m_MatInfo(new MaterialInfo())
 	{
 	}
 
 	MaterialAsset::MaterialAsset(
+		std::string name,
 		std::vector<std::pair<ID, Stages>>& shaderIds,
 		std::vector<std::pair<std::string, ID>>& textureIds,
 		std::vector<std::pair<std::string, ContainerDataType>>& variables
-	) : m_MatInfo(new MaterialInfo())
+	) : Asset(name), m_MatInfo(new MaterialInfo())
 	{
 		GE_CORE_ASSERT(shaderIds.size() <= STAGE_NUM, "More shader entries than there are stages");
 

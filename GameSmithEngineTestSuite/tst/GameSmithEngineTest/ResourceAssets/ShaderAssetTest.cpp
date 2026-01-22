@@ -23,7 +23,7 @@ static GameSmith::Ref<char> testShader = loadFile(std::format("{0}{1}", TEST_RES
 TEST(ShaderAssetTest, Deserialize) {
 	GameSmith::RenderingManager::Init();
 
-	GameSmith::ShaderAsset asset;
+	GameSmith::ShaderAsset asset("Test");
 	EXPECT_NO_THROW(asset.Deserialize(testShader.get(), testShaderSize));
 	GameSmith::RenderingManager::ShutDown();
 }
@@ -31,7 +31,7 @@ TEST(ShaderAssetTest, Deserialize) {
 TEST(ShaderAssetTest, SerializeNew) {
 	GameSmith::RenderingManager::Init();
 
-	GameSmith::ShaderAsset asset;
+	GameSmith::ShaderAsset asset("Test");
 	EXPECT_NO_THROW(asset.Deserialize(testShader.get(), testShaderSize));
 
 	GameSmith::Ref<char> serial = asset.Serialize();
@@ -45,7 +45,7 @@ TEST(ShaderAssetTest, SerializeNew) {
 TEST(ShaderAssetTest, SerializeAppend) {
 	GameSmith::RenderingManager::Init();
 
-	GameSmith::ShaderAsset asset;
+	GameSmith::ShaderAsset asset("Test");
 	EXPECT_NO_THROW(asset.Deserialize(testShader.get(), testShaderSize));
 
 	GameSmith::Ref<char> serial = GameSmith::Ref<char>(new char[testShaderSize + 5]);
@@ -60,7 +60,7 @@ TEST(ShaderAssetTest, SerializeAppend) {
 TEST(ShaderAssetTest, GetRequiredSize) {
 	GameSmith::RenderingManager::Init();
 
-	GameSmith::ShaderAsset asset;
+	GameSmith::ShaderAsset asset("Test");
 	EXPECT_NO_THROW(asset.Deserialize(testShader.get(), testShaderSize));
 
 	EXPECT_EQ(testShaderSize, asset.RequiredSpace());
