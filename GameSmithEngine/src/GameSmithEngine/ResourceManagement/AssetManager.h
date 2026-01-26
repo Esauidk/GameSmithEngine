@@ -23,7 +23,11 @@ namespace GameSmith {
 		std::unordered_map <std::string, std::string> filePathToFileName;
 	};
 
-
+	/// <summary>
+	/// This class is intended to manage game assets throughout their lifetime
+	/// 
+	/// It will provide, cache, and coordinate asset's creation and deletion in memory
+	/// </summary>
 	class GE_API AssetManager
 	{
 	public:

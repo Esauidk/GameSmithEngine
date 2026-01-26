@@ -7,7 +7,6 @@
 namespace fs = std::filesystem;
 
 namespace GameSmithEditor {
-	//REGISTER_EDITOR_MENU_OPTION(Files_CreateProject, &MenuCreateProject);
 	REGISTER_EDITOR_MENU_OPTION(Files_LoadProject, &MenuLoadProject);
 
 	GameSmith::Scope<GameProject> GameProject::s_CurProject = nullptr;

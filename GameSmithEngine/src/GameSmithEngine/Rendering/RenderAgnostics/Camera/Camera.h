@@ -1,12 +1,13 @@
 #pragma once
 #include "GameSmithEngine/EntitySystem/Transform.h"
+#include <GameSmithEngine/Core/Core.h>
 namespace GameSmith {
 
 	// An abstract representation of a Camera in 3D space
 	// Takes care of computing transformation matricies related to a camera (View-Projection Matrix)
 
 	// Note: Camera base class does not compute any special projection matrix, inheritors hold the responsibility of setting the projection matrix
-	class Camera
+	class GE_API Camera
 	{
 	public:
 		Camera();

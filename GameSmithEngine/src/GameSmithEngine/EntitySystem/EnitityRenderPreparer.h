@@ -6,25 +6,27 @@
 #include "GameSmithEngine/Rendering/RenderAgnostics/RenderComponents/VertexBuffer.h"
 
 namespace GameSmith {
-	struct RenderRequest {
+	struct GE_API RenderRequest {
 		Ref<VertexBuffer> vBuf;
 		Ref<IndexBuffer> iBuf;
 		Ref<Material> mat;
 	};
 
-	struct RenderableCamera {
+	struct GE_API RenderableCamera {
 		Camera* cam;
+		Ref<RenderTexture> targetTex = nullptr;
 	};
 
 
 	// This class collects information on which entities want to be renderered and prepares to make calls to the render manager
-	class EntityRenderPreparer {
+	class GE_API EntityRenderPreparer {
 	public:
 		static void Init();
 		static void Shutdown();
 		static inline EntityRenderPreparer* GetInstance() { return s_Instance; }
 		void AddRenderRequest(RenderRequest req);
-		void AddCamera(RenderableCamera cam);
+		void SetMainCamera(RenderableCamera cam);
+		void AddAdditionalCamera(RenderableCamera cam);
 		void SendForRendering();
 	private:
 		EntityRenderPreparer() = default;
@@ -32,6 +34,7 @@ namespace GameSmith {
 		static EntityRenderPreparer* s_Instance;
 	private:
 		std::vector<RenderRequest> m_RenderRequests;
-		std::queue<RenderableCamera> m_Cameras;
+		RenderableCamera m_MainCamera;
+		std::queue<RenderableCamera> m_AdditionalCameras;
 	};
 };

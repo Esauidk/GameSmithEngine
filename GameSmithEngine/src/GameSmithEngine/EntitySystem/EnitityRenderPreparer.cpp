@@ -26,19 +26,37 @@ namespace GameSmith {
 		m_RenderRequests.push_back(req);
 	}
 
-	void EntityRenderPreparer::AddCamera(RenderableCamera cam)
+	void EntityRenderPreparer::SetMainCamera(RenderableCamera cam)
 	{
-		m_Cameras.push(cam);
+		m_MainCamera = cam;
+	}
+
+	void EntityRenderPreparer::AddAdditionalCamera(RenderableCamera cam)
+	{
+		GE_CORE_ASSERT(cam.targetTex != nullptr, "Additional Cameras need a target render texture");
+		m_AdditionalCameras.push(cam);
 	}
 
 	void EntityRenderPreparer::SendForRendering()
 	{
-		while (!m_Cameras.empty()) {
-			auto cam = m_Cameras.front();
-			// TODO: Send for rendering
-			m_Cameras.pop();
+		auto renderMang = RenderingManager::GetInstance();
+		auto frameTex = renderMang->GetTextureForFrame();
+		renderMang->GetRenderAPI()->SetRenderTexture(frameTex, 0);
+
+		renderMang->BeginScene(m_MainCamera.cam, nullptr);
+		for (auto req : m_RenderRequests) {
+			renderMang->Submit(req.vBuf, req.iBuf, req.mat);
+		}
+		renderMang->EndScene();
+
+
+		while (!m_AdditionalCameras.empty()) {
+			auto& cam = m_AdditionalCameras.front();
+			m_AdditionalCameras.pop();
 
 			auto renderMang = RenderingManager::GetInstance();
+
+			renderMang->GetRenderAPI()->SetRenderTexture(cam.targetTex, 0);
 
 			renderMang->BeginScene(cam.cam, nullptr);
 			for (auto req : m_RenderRequests) {
@@ -48,6 +66,7 @@ namespace GameSmith {
 		}
 
 		m_RenderRequests.clear();
+		renderMang->GetRenderAPI()->SetRenderTexture(frameTex, 0);
 	}
 };
 

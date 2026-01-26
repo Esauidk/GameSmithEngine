@@ -47,6 +47,7 @@
 // ----------- Entity System -------------
 #include "GameSmithEngine/EntitySystem/GameObjectManager.h"
 #include "GameSmithEngine/EntitySystem/GameObject.h"
+#include "GameSmithEngine/EntitySystem/EnitityRenderPreparer.h"
 
 // Component System
 #include "GameSmithEngine/EntitySystem/Components/Component.h"

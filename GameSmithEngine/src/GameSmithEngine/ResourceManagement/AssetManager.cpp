@@ -87,8 +87,16 @@ namespace GameSmith {
 	ID AssetManager::ImportResource(const std::string& path)
 	{
 		// TOOD: Add more to import logic, for now it's just ID assignment
-		std::fstream metaFile(path + META_FILE_EXTENSION, std::ios::out | std::ios::binary | std::ios::ate);
-		GE_CORE_ASSERT(metaFile.is_open(), std::format("Asset file {0} cannot be opened", path));
+		fs::path filePath(path);
+		std::string fileName = filePath.filename().string();
+		std::string destPath = std::format("{0}\\{1}", m_AssetDirectory, fileName);
+		if (!fs::copy_file(filePath.string(), destPath)) {
+			GE_CORE_ERROR("Failed to import resource");
+			return ID();
+		}
+
+		std::fstream metaFile(destPath + META_FILE_EXTENSION, std::ios::out | std::ios::binary | std::ios::ate);
+		GE_CORE_ASSERT(metaFile.is_open(), std::format("Asset file {0} cannot be opened", destPath));
 
 		const auto newID = GUIDGenerator::GenerateID();
 
@@ -99,8 +107,8 @@ namespace GameSmith {
 		metaFile.write((char*)&meta, sizeof(meta));
 		metaFile.close();
 
-		m_ResourceMaps->ResourceRegistry.insert({ meta.ID, path });
-		m_ResourceMaps->ReverseResourceRegistry.insert({ path, meta.ID });
+		m_ResourceMaps->ResourceRegistry.insert({ meta.ID, destPath });
+		m_ResourceMaps->ReverseResourceRegistry.insert({ destPath, meta.ID });
 
 		return newID;
 	}

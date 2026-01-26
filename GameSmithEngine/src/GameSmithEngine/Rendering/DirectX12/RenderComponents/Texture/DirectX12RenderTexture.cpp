@@ -92,6 +92,7 @@ namespace GameSmith {
 	void DirectX12RenderTexture::ClearTexture()
 	{
 		auto context = DirectX12Core::GetCore().GetDirectCommandContext();
+		ChangeState(RTState::WRITE);
 		context->GetCommandList()->ClearRenderTargetView(m_RTDescriptor, m_Metadata.clearColor, 0, nullptr);
 	}
 

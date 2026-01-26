@@ -1,9 +1,15 @@
 #pragma once
 
 namespace GameSmithEditor {
-	bool PickFolderDialog(std::string path, std::string* outPath);
-	std::string PickFileDialog(std::string path, std::string fileType, std::string filePrefix);
-	std::string CreateFileDialog(std::string path, std::string fileType, std::string filePrefix);
+	struct FileSearchCriteria {
+		std::string filePath;
+		std::string fileType;
+		std::string filePrefix = "*";
+	};
+
+	bool PickFolderDialog(const std::string& path, std::string* outPath);
+	bool PickFileDialog(const FileSearchCriteria& criteria, std::string* outPath);
+	bool CreateFileDialog(const FileSearchCriteria& criteria, std::string* outPath);
 };
 
 

@@ -160,6 +160,7 @@ cmd /c robocopy "$(SolutionDir)\GameSmithEditor\ProjectPresets" "$(SolutionDir)\
     <ClInclude Include="src\GameSmithEditor\Windows\AccessibleWindows.h" />
     <ClInclude Include="src\GameSmithEditor\Windows\AssetDatabaseWindow.h" />
     <ClInclude Include="src\GameSmithEditor\Windows\ContentView.h" />
+    <ClInclude Include="src\GameSmithEditor\Windows\EditorView.h" />
     <ClInclude Include="src\GameSmithEditor\Windows\EditorWindow.h" />
     <ClInclude Include="src\GameSmithEditor\Windows\EditorWindowEvents.h" />
     <ClInclude Include="src\GameSmithEditor\Windows\GameViewLayer.h" />
@@ -178,6 +179,7 @@ cmd /c robocopy "$(SolutionDir)\GameSmithEditor\ProjectPresets" "$(SolutionDir)\
     <ClCompile Include="src\GameSmithEditor\Utils\SystemCallUtils.cpp" />
     <ClCompile Include="src\GameSmithEditor\Windows\AssetDatabaseWindow.cpp" />
     <ClCompile Include="src\GameSmithEditor\Windows\ContentView.cpp" />
+    <ClCompile Include="src\GameSmithEditor\Windows\EditorView.cpp" />
     <ClCompile Include="src\GameSmithEditor\Windows\GameViewLayer.cpp" />
     <ClCompile Include="src\GameSmithEditor\Windows\Inspector.cpp" />
     <ClCompile Include="src\GameSmithEditor\Windows\ProjectCreatorWindow.cpp" />

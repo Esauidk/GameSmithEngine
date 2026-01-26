@@ -139,7 +139,7 @@ namespace GameSmithEditor {
 						m_ExposedAssets.insert({ newComponent->GetName(), assetMap });
 
 						// TODO: Temporary
-						if (m_CurCompSelection == "MeshRenderer") {
+						/*if (m_CurCompSelection == "MeshRenderer") {
 							auto renderer = GameSmith::CastPtr<GameSmith::MeshRenderer>(newComponent);
 							renderer->SetMesh(GameSmith::AssetManager::GetInstance()->GetResource<GameSmith::MeshAsset>(GameSmith::ID(250309786, 50043, 18339, 17854270087279912363)));
 
@@ -149,7 +149,7 @@ namespace GameSmithEditor {
 							}
 
 
-						}
+						}*/
 
 						m_CurCompSelection = "";
 						ImGui::CloseCurrentPopup();

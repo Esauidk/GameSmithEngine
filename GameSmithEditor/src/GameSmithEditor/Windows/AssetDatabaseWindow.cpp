@@ -1,8 +1,9 @@
 #include "AssetDatabaseWindow.h"
-#include "imgui.h"
 #include "GameSmithEditor/Core/GameProject.h"
-#include "GameSmithEditor/Icons/IconManager.h"
 #include "GameSmithEditor/CustomWidgets/ReferenceInputWidget.h"
+#include "GameSmithEditor/Icons/IconManager.h"
+#include "GameSmithEditor/Utils/SystemCallUtils.h"
+#include "imgui.h"
 
 using recursive_directory_iterator = std::filesystem::recursive_directory_iterator;
 
@@ -59,6 +60,27 @@ namespace GameSmithEditor {
 				}
 
 				ImGui::Text(m_CurrentPath.filename().string().c_str());
+
+				if (ImGui::Button("+")) {
+					ImGui::OpenPopup("AssetDatabaseModMenu");
+				}
+
+				if (ImGui::BeginPopup("AssetDatabaseModMenu")) {
+					if (ImGui::MenuItem("ImportAsset")) {
+						std::string filePath;
+						FileSearchCriteria criteria;
+						criteria.filePath = GameProject::GetAssetFolder();
+						if (PickFileDialog(criteria, &filePath)) {
+							auto resourceManager = GameSmith::AssetManager::GetInstance();
+							resourceManager->ImportResource(filePath);
+						}
+						
+					}
+
+					ImGui::EndPopup();
+				}
+
+				ImGui::Separator();
 
 				if (ImGui::BeginTable("Assets", columnCount)) {
 					ImGui::TableNextColumn();

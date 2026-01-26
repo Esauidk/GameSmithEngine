@@ -14,7 +14,7 @@
 
 
 namespace GameSmithEditor {
-	bool PickFolderDialog(std::string path, std::string* outPath)
+	bool PickFolderDialog(const std::string& path, std::string* outPath)
 	{
 #ifdef GE_PLATFORM_WINDOWS
 		Microsoft::WRL::ComPtr<IFileDialog> pFileDialog;
@@ -53,9 +53,10 @@ namespace GameSmithEditor {
 
 #endif // GE_PLATFORM_WINDOWS
 
+		return false;
 	}
 
-	std::string PickFileDialog(std::string path, std::string fileType, std::string filePrefix)
+	bool PickFileDialog(const FileSearchCriteria& criteria, std::string* outPath)
 	{
 #ifdef GE_PLATFORM_WINDOWS
 		Microsoft::WRL::ComPtr<IFileDialog> pFileDialog;
@@ -67,8 +68,8 @@ namespace GameSmithEditor {
 		
 		pFileDialog->SetOptions(FOS_STRICTFILETYPES);
 
-		std::wstring convertType(fileType.begin(), fileType.end());
-		std::string regex = std::format("*.{0}", filePrefix);
+		std::wstring convertType(criteria.fileType.begin(), criteria.fileType.end());
+		std::string regex = std::format("*.{0}", criteria.filePrefix);
 		std::wstring convertPrefix(regex.begin(), regex.end());
 		COMDLG_FILTERSPEC filter;
 		filter.pszName = convertType.c_str();
@@ -76,7 +77,7 @@ namespace GameSmithEditor {
 
 		pFileDialog->SetFileTypes(1, &filter);
 
-		std::wstring convertPath(path.begin(), path.end());
+		std::wstring convertPath(criteria.filePath.begin(), criteria.filePath.end());
 		Microsoft::WRL::ComPtr<IShellItem> pShellItem;
 		res = FAILED(SHCreateItemFromParsingName(convertPath.c_str(), NULL, IID_PPV_ARGS(&pShellItem)));
 
@@ -87,21 +88,25 @@ namespace GameSmithEditor {
 		Microsoft::WRL::ComPtr<IShellItem> pPickedFolder;
 		pFileDialog->GetResult(&pPickedFolder);
 
+		if (pPickedFolder.Get() == nullptr) {
+			return false;
+		}
+
 		wchar_t* filepath;
 		res = FAILED(pPickedFolder->GetDisplayName(SIGDN_FILESYSPATH, &filepath));
 		GE_APP_ASSERT(!res, "Failed to get result folder name");
 
 		std::wstring_convert<std::codecvt_utf8<wchar_t>> wtosConvert;
 		std::wstring resultPath(filepath);
-		std::string convertResult = wtosConvert.to_bytes(resultPath);
+		*outPath = wtosConvert.to_bytes(resultPath);
 
-		return convertResult;
+		return true;
 
 #endif // GE_PLATFORM_WINDOWS
-		return std::string();
+		return false;
 	}
 
-	std::string CreateFileDialog(std::string path, std::string fileType, std::string filePrefix)
+	bool CreateFileDialog(const FileSearchCriteria& criteria, std::string* outPath)
 	{
 #ifdef GE_PLATFORM_WINDOWS
 		Microsoft::WRL::ComPtr<IFileDialog> pFileDialog;
@@ -113,9 +118,9 @@ namespace GameSmithEditor {
 
 		pFileDialog->SetOptions(FOS_STRICTFILETYPES | FOS_CREATEPROMPT);
 
-		std::wstring convertType(fileType.begin(), fileType.end());
-		std::string regex = std::format("*.{0}", filePrefix);
-		std::string startingFilename = std::format("{0}.{1}", fileType, filePrefix);
+		std::wstring convertType(criteria.fileType.begin(), criteria.fileType.end());
+		std::string regex = std::format("*.{0}", criteria.filePrefix);
+		std::string startingFilename = std::format("{0}.{1}", criteria.fileType, criteria.filePrefix);
 		std::wstring convertPrefix(regex.begin(), regex.end());
 		std::wstring convertFilename(startingFilename.begin(), startingFilename.end());
 		COMDLG_FILTERSPEC filter;
@@ -125,7 +130,7 @@ namespace GameSmithEditor {
 		pFileDialog->SetFileTypes(1, &filter);
 		pFileDialog->SetFileName(convertFilename.c_str());
 
-		std::wstring convertPath(path.begin(), path.end());
+		std::wstring convertPath(criteria.filePath.begin(), criteria.filePath.end());
 		Microsoft::WRL::ComPtr<IShellItem> pShellItem;
 		res = FAILED(SHCreateItemFromParsingName(convertPath.c_str(), NULL, IID_PPV_ARGS(&pShellItem)));
 
@@ -136,18 +141,22 @@ namespace GameSmithEditor {
 		Microsoft::WRL::ComPtr<IShellItem> pPickedFolder;
 		pFileDialog->GetResult(&pPickedFolder);
 
+		if (pPickedFolder.Get() == nullptr) {
+			return false;
+		}
+
 		wchar_t* filepath;
 		res = FAILED(pPickedFolder->GetDisplayName(SIGDN_FILESYSPATH, &filepath));
 		GE_APP_ASSERT(!res, "Failed to get result folder name");
 
 		std::wstring_convert<std::codecvt_utf8<wchar_t>> wtosConvert;
 		std::wstring resultPath(filepath);
-		std::string convertResult = wtosConvert.to_bytes(resultPath);
+		*outPath = wtosConvert.to_bytes(resultPath);
 
-		return convertResult;
+		return true;
 
 #endif // GE_PLATFORM_WINDOWS
-		return std::string();
+		return false;
 	}
 
 

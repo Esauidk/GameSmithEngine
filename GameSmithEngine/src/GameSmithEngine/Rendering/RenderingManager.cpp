@@ -40,8 +40,10 @@ namespace GameSmith {
 	void RenderingManager::BeginScene(Camera* cam, LightSource* mainLight)
 	{
 		//m_RenderAPI->ClearCachedAssets();
-		m_SceneData.VP = cam->GetMatrix();
-		m_SceneData.CameraWorldPos = cam->GetTransform().GetPosition();
+		if (cam != nullptr) {
+			m_SceneData.VP = cam->GetMatrix();
+			m_SceneData.CameraWorldPos = cam->GetTransform().GetPosition();
+		}
 
 		if (mainLight != nullptr) {
 			m_SceneData.LightWorldPos = mainLight->GetLightVector();
@@ -92,6 +94,4 @@ namespace GameSmith {
 	{
 		m_RenderAPI->FlushDataTransfer();
 	}
-
-	
 };

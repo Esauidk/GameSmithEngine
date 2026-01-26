@@ -7,6 +7,12 @@
 namespace GameSmith {
 	GE_REGISTERCOMPONENT(MeshRenderer)
 
+	MeshRenderer::MeshRenderer(GameObject* gameObject, Transform* transform) : Component(gameObject, transform)
+	{
+		m_Registry.AddExposedAsset<MeshAsset>("Mesh", (Ref<GameSmith::Asset>*)&m_Mesh, CLASS_TO_STRING(MeshAsset));
+		m_Registry.AddExposedAsset<MaterialAsset>("TestMat", (Ref<GameSmith::Asset>*) &m_TestAsset, CLASS_TO_STRING(MaterialAsset));
+	}
+
 	void MeshRenderer::OnUpdate(float dt)
 	{
 		auto renderPrep = EntityRenderPreparer::GetInstance();
@@ -32,6 +38,15 @@ namespace GameSmith {
 			GE_CORE_INFO("Something went wrong updating");
 		}
 		
+	}
 
+	void MeshRenderer::PostRegistryBootstrap()
+	{
+		if (m_Mesh != nullptr) {
+			unsigned subMeshSize = m_Mesh->GetSubMeshSize();
+			if (subMeshSize != m_Materials.size()) {
+				m_Materials.resize(subMeshSize);
+			}
+		}
 	}
 };

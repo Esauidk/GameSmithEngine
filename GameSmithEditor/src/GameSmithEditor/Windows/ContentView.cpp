@@ -38,16 +38,17 @@ namespace GameSmithEditor {
 			}
 
 			if (ImGui::Button("Load Chunk")) {
-				std::string file = PickFileDialog(
-					GameProject::GetAssetFolder(),
-					GameSmith::GameChunkAsset::GetStaticFileType(),
-					GameSmith::GameChunkAsset::GetStaticFileExtension()
-				);
-
-				auto assetManager = GameSmith::AssetManager::GetInstance();
-				auto ID = assetManager->GetAssetID(file);
-				auto chunkManager = GameSmith::ChunkManager::GetInstance();
-				chunkManager->LoadChunk(ID);
+				std::string file;
+				FileSearchCriteria criteria;
+				criteria.filePath = GameProject::GetAssetFolder();
+				criteria.fileType = GameSmith::GameChunkAsset::GetStaticFileType();
+				criteria.filePrefix = GameSmith::GameChunkAsset::GetStaticFileExtension();
+				if (PickFileDialog(criteria, &file)) {
+					auto assetManager = GameSmith::AssetManager::GetInstance();
+					auto ID = assetManager->GetAssetID(file);
+					auto chunkManager = GameSmith::ChunkManager::GetInstance();
+					chunkManager->LoadChunk(ID);
+				}
 			}
 
 			std::string chunkName = chunkManager->GetCurrentMainChunk().lock()->GetChunkName();
