@@ -1,6 +1,7 @@
 #include "AssetDatabaseWindow.h"
 #include "GameSmithEditor/Core/GameProject.h"
 #include "GameSmithEditor/CustomWidgets/ReferenceInputWidget.h"
+#include "GameSmithEditor/CustomWidgets/SelectableImage.h"
 #include "GameSmithEditor/Icons/IconManager.h"
 #include "GameSmithEditor/Utils/SystemCallUtils.h"
 #include "imgui.h"
@@ -115,9 +116,15 @@ namespace GameSmithEditor {
 						}
 
 						ImTextureRef imageRef = ImTextureRef(image);
-						if (ImGui::ImageButton(fileName.c_str(), imageRef, { thumbailSize, thumbailSize })) {
+						ImVec2 imageSize = { thumbailSize, thumbailSize };
+						bool selected = m_SelectedAsset == fileName;
+						if (SelectableImage(fileName, selected, imageRef, imageSize)) {
 							if (isDir) {
 								m_CurrentPath = dirEntry.path();
+								m_SelectedAsset = "";
+							}
+							else {
+								m_SelectedAsset = fileName;
 							}
 						}
 

@@ -16,6 +16,7 @@ namespace GameSmithEditor {
 	private:
 		static int s_Count;
 		std::filesystem::path m_CurrentPath;
+		std::string m_SelectedAsset = "";
 		bool m_Open = true;
 	};
 }

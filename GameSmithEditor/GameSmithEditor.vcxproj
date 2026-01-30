@@ -153,6 +153,7 @@ cmd /c robocopy "$(SolutionDir)\GameSmithEditor\ProjectPresets" "$(SolutionDir)\
     <ClInclude Include="src\GameSmithEditor\Core\EditorMenu.h" />
     <ClInclude Include="src\GameSmithEditor\Core\GameProject.h" />
     <ClInclude Include="src\GameSmithEditor\CustomWidgets\ReferenceInputWidget.h" />
+    <ClInclude Include="src\GameSmithEditor\CustomWidgets\SelectableImage.h" />
     <ClInclude Include="src\GameSmithEditor\Icons\IconManager.h" />
     <ClInclude Include="src\GameSmithEditor\SampleComponents\BurstOrbitScript.h" />
     <ClInclude Include="src\GameSmithEditor\SampleComponents\OrbitScript.h" />
@@ -173,6 +174,7 @@ cmd /c robocopy "$(SolutionDir)\GameSmithEditor\ProjectPresets" "$(SolutionDir)\
     <ClCompile Include="src\GameSmithEditor\Core\EditorMenu.cpp" />
     <ClCompile Include="src\GameSmithEditor\Core\GameProject.cpp" />
     <ClCompile Include="src\GameSmithEditor\CustomWidgets\ReferenceInputWidget.cpp" />
+    <ClCompile Include="src\GameSmithEditor\CustomWidgets\SelectableImage.cpp" />
     <ClCompile Include="src\GameSmithEditor\Icons\IconManager.cpp" />
     <ClCompile Include="src\GameSmithEditor\SampleComponents\BurstOrbitScript.cpp" />
     <ClCompile Include="src\GameSmithEditor\SampleComponents\OrbitScript.cpp" />
