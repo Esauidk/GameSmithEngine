@@ -41,6 +41,23 @@ namespace GameSmithEditor {
 			app.PushLayer(window);
 		}
 
+		template<typename W>
+		static void AppendEditorWindow(W* newWindow) {
+			EditorWindow* window = newWindow;
+
+			window->GetCloseEventDispatch().AddListener(
+				[window](EditorWindowClose& evn) {
+					auto& app = GameSmith::Application::Get();
+					app.PopLayer(window);
+
+					return true;
+				}, false
+			);
+
+			auto& app = GameSmith::Application::Get();
+			app.PushLayer(window);
+		}
+
 		inline static EditorCoreLayer* GetInstance() { return s_Instance; }
 	private:
 		static EditorCoreLayer* s_Instance;

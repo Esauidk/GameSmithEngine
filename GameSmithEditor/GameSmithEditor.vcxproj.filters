@@ -71,6 +71,7 @@
     </ClInclude>
     <ClInclude Include="src\GameSmithEditor\Windows\EditorView.h" />
     <ClInclude Include="src\GameSmithEditor\CustomWidgets\SelectableImage.h" />
+    <ClInclude Include="src\GameSmithEditor\Windows\PrivateWindows\AssetInspector.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GameSmithEditor\Core\EditorApp.cpp">
@@ -117,5 +118,6 @@
     </ClCompile>
     <ClCompile Include="src\GameSmithEditor\Windows\EditorView.cpp" />
     <ClCompile Include="src\GameSmithEditor\CustomWidgets\SelectableImage.cpp" />
+    <ClCompile Include="src\GameSmithEditor\Windows\PrivateWindows\AssetInspector.cpp" />
   </ItemGroup>
 </Project>

@@ -4,6 +4,7 @@
 #include "GameSmithEditor/CustomWidgets/SelectableImage.h"
 #include "GameSmithEditor/Icons/IconManager.h"
 #include "GameSmithEditor/Utils/SystemCallUtils.h"
+#include "GameSmithEditor/Windows/PrivateWindows/AssetInspector.h"
 #include "imgui.h"
 
 using recursive_directory_iterator = std::filesystem::recursive_directory_iterator;
@@ -119,13 +120,22 @@ namespace GameSmithEditor {
 						ImVec2 imageSize = { thumbailSize, thumbailSize };
 						bool selected = m_SelectedAsset == fileName;
 						if (SelectableImage(fileName, selected, imageRef, imageSize)) {
-							if (isDir) {
-								m_CurrentPath = dirEntry.path();
-								m_SelectedAsset = "";
-							}
-							else {
-								m_SelectedAsset = fileName;
-							}
+							m_SelectedAsset = fileName;
+
+							if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left)) {
+								if (isDir) {
+									m_CurrentPath = dirEntry.path();
+									m_SelectedAsset = "";
+								}
+								else {
+									GameSmith::AssetManager* rManager = GameSmith::AssetManager::GetInstance();
+									auto id = rManager->GetAssetID(path);
+									auto asset = rManager->GetResource(id);
+									auto tmpUpgrade = CastPtr<GameSmith::Asset>(asset);
+									auto inspector = new AssetInspector(tmpUpgrade);
+									EditorCoreLayer::GetInstance()->AppendEditorWindow(inspector);
+								}
+							}	
 						}
 
 						if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None)) {

@@ -1,10 +1,13 @@
 #pragma once
-#include "GameSmithEngine/SerializeableFiles/ResourceAssets/Asset.h"
+#include "GameSmithEngine/SerializeableFiles/Serializable.h"
 #include "GameSmithEngine/Utilities/GUIDGenerator.h"
 #include "ParameterContainer.h"
 #include "UtilMacros.h"
 
 namespace GameSmith {
+	// Forward declarations
+	class Asset;
+
 	enum ExposedVariableFlags {
 		AssetGameObject = 0x1
 	};
@@ -156,6 +159,37 @@ namespace GameSmith {
 		std::unordered_map<std::string, ExposedVariableEntry> m_ValueRegistry;
 		std::unordered_map<std::string, ExposedConnectionEntry> m_ConnectionsRegistry;
 		std::unordered_map<std::string, ExposedAssetEntry> m_AssetRegistry;
+	};
+
+	class GE_API ExposedMemberClass {
+	public:
+		void GenerateVariableEntries(std::unordered_map<std::string, Ref<ParameterContainer>>* outMap) { m_Registry.GenerateVariableMap(outMap); }
+		void GenerateConnectionEntries(std::unordered_map<std::string, Ref<ConnectionContainer>>* outMap) { m_Registry.GenerateConnectionsMap(outMap); }
+		void GenerateAssetEntries(std::unordered_map<std::string, Ref<AssetRefContainer>>* outMap) { m_Registry.GenerateAssetMap(outMap); }
+
+		// Can be empty function
+		virtual void PostRegistryBootstrap() {};
+
+		inline void BootstrapVariableRegistry(std::unordered_map<std::string, Ref<ParameterContainer>>& variableEntries) {
+			m_Registry.BootstrapFromValueMap(variableEntries);
+			PostRegistryBootstrap();
+		}
+
+		inline void BootstrapConnectionRegistry(std::unordered_map<std::string, Ref<ConnectionContainer>>& refEntries) {
+			m_Registry.BootstrapFromConnectionsMap(refEntries);
+			PostRegistryBootstrap();
+		}
+
+		inline void BootstrapAssetRegistry(std::unordered_map<std::string, Ref<AssetRefContainer>>& refEntries) {
+			m_Registry.BootstrapFromAssetMap(refEntries);
+			PostRegistryBootstrap();
+		}
+
+		inline unsigned int RegistrySerializationSize() { return m_Registry.RequiredSpace(); }
+		inline void SerializeRegistry(char* byteStream, unsigned int availableBytes) { m_Registry.Serialize(byteStream, availableBytes); }
+		inline void DeserializeRegistry(char* inData, unsigned int bytes) { m_Registry.Deserialize(inData, bytes); }
+	protected:
+		ExposedVariableRegistry m_Registry;
 	};
 };
 

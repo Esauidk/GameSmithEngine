@@ -7,7 +7,7 @@ namespace GameSmithEditor {
 		ImGui::SetNextItemAllowOverlap();
 		ImGui::SetCursorScreenPos(ImGui::GetItemRectMin());
 		std::string uniqueLabel = "##SelectableImage_" + label;
-		bool result = false;
+		bool result = selected;
 
 		const ImVec2 min = ImGui::GetItemRectMin();
 		const ImVec2 max = ImGui::GetItemRectMax();
@@ -17,7 +17,7 @@ namespace GameSmithEditor {
 		}
 
 		ImDrawList* dl = ImGui::GetWindowDrawList();
-		if (ImGui::IsItemHovered() || selected) {
+		if (ImGui::IsItemHovered() || result  ) {
 			dl->AddRectFilled(min, max, IM_COL32(255, 255, 255, 40), 3.0f);
 		}
 

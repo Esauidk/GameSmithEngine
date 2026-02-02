@@ -3,6 +3,7 @@
 #include "GameSmithEngine/EntitySystem/GameObjectManager.h"
 #include "GameSmithEngine/ResourceManagement/AssetManager.h"
 #include "GameSmithEngine/ResourceManagement/ResourceAssetHelper.h"
+#include "GameSmithEngine/SerializeableFiles/ResourceAssets/Asset.h"
 
 namespace GameSmith {
 	GameChunk::~GameChunk()
