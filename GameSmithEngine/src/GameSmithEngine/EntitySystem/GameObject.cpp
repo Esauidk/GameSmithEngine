@@ -55,7 +55,7 @@ namespace GameSmith {
 			writer.WriteString(comp->GetName());
 			idData data = comp->GetID().getData();
 			writer.WriteClass<idData>(&data);
-			comp->SerializeRegistry(writer.GetCurPtr(), writer.GetRemainingSpace());
+			comp->Serialize(writer.GetCurPtr(), writer.GetRemainingSpace());
 		}
 
 		return writer.GetBuffer();
@@ -83,7 +83,7 @@ namespace GameSmith {
 			writer.WriteString(comp->GetName());
 			idData data = comp->GetID().getData();
 			writer.WriteClass<idData>(&data);
-			comp->SerializeRegistry(writer.GetCurPtr(), writer.GetRemainingSpace());
+			comp->Serialize(writer.GetCurPtr(), writer.GetRemainingSpace());
 		}
 
 	}
@@ -99,7 +99,7 @@ namespace GameSmith {
 		for (auto comp : m_Components) {
 			size += (unsigned int)comp->GetName().length() + 1;
 			size += sizeof(idData);
-			size += comp->RegistrySerializationSize();
+			size += comp->RequiredSpace();
 		}
 
 		return size;
@@ -127,9 +127,9 @@ namespace GameSmith {
 			auto id = reader.ReadClass<idData>();
 			ID newID(*id);
 			auto comp = AddComponent(compName).lock();
-			comp->DeserializeRegistry(reader.GetCurPtr(), reader.GetRemainingBytes());
+			comp->Deserialize(reader.GetCurPtr(), reader.GetRemainingBytes());
 			comp->SetID(newID);
-			reader.MoveForward(comp->RegistrySerializationSize());
+			reader.MoveForward(comp->RequiredSpace());
 		}
 	}
 };

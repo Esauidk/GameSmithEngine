@@ -27,13 +27,15 @@ namespace GameSmithEditor {
 				auto assetManager = GameSmith::AssetManager::GetInstance();
 				auto chunk = chunkManager->GetCurrentMainChunk().lock();
 
+				GameSmith::Ref<GameSmith::GameChunkAsset> asset = GameSmith::Ref<GameSmith::GameChunkAsset>(new GameSmith::GameChunkAsset(chunk));
+
 				std::string location = std::format(
 					"{0}\\{1}.{2}",
 					GameProject::GetAssetFolder(),
 					chunk->GetChunkName(),
 					GameSmith::GameChunkAsset::GetStaticFileExtension()
 				);
-				assetManager->WriteResource(chunk, location);
+				assetManager->WriteResource(asset, location);
 
 			}
 

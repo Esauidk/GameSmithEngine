@@ -1,7 +1,7 @@
 #pragma once
 
 #include <gepch.h>
-#include "GameSmithEngine/SerializeableFiles/Serializable.h"
+#include "GameSmithEngine/SerializeableFiles/ResourceAssets/Asset.h"
 
 #define GE_REGISTERASSET(ClassType) \
 	 static struct ClassType##RegisterAction { \
@@ -18,18 +18,18 @@ namespace GameSmith {
 	public:
 		static AssetRegistry* GetInstance();
 
-		void RegisterAsset(std::string ext, std::function<Serializeable* (std::string)> creationFunction);
+		void RegisterAsset(std::string ext, std::function<IAsset* (std::string)> creationFunction);
 	private:
 		static Scope<AssetRegistry> s_Instance;
 
-		std::unordered_map<std::string, std::function<Serializeable* (std::string)>> m_ExtToAsset;
+		std::unordered_map<std::string, std::function<IAsset* (std::string)>> m_ExtToAsset;
 
 		friend class AssetFactory;
 	};
 
 	class AssetFactory {
 	private:
-		static Ref<Serializeable> GenerateAsset(std::string ext, std::string fileName);
+		static Ref<IAsset> GenerateAsset(std::string ext, std::string fileName);
 
 		friend class AssetManager;
 	};

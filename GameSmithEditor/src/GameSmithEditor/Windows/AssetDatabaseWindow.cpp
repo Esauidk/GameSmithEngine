@@ -131,8 +131,7 @@ namespace GameSmithEditor {
 									GameSmith::AssetManager* rManager = GameSmith::AssetManager::GetInstance();
 									auto id = rManager->GetAssetID(path);
 									auto asset = rManager->GetResource(id);
-									auto tmpUpgrade = CastPtr<GameSmith::Asset>(asset);
-									auto inspector = new AssetInspector(tmpUpgrade);
+									auto inspector = new AssetInspector(asset);
 									EditorCoreLayer::GetInstance()->AppendEditorWindow(inspector);
 								}
 							}	

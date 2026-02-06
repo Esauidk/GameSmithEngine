@@ -13,7 +13,7 @@ namespace GameSmithEditor {
 	void MenuCreateProject();
 	void MenuLoadProject();
 
-	class GameProject : public GameSmith::Serializeable
+	class GameProject : public GameSmith::Asset
 	{
 	public:
 		static void CreateProject(std::string projectName, std::string projectPath);
@@ -35,7 +35,7 @@ namespace GameSmithEditor {
 		SERIAL_FILE(GameSmith Project, GameSmithPrj)
 
 	private:
-		GameProject() = default;
+		GameProject() : Asset("Empty") {};
 		inline void SetRootFolder(std::string root) { m_RootFolder = root; };
 		inline void SetProjectName(std::string name) { m_ProjectName = name; }
 	private:

@@ -2,7 +2,7 @@
 #include "gepch.h"
 #include "GameSmithEngine/Core/Core.h"
 #include "GameSmithEngine/Core/Log.h"
-#include "GameSmithEngine/SerializeableFiles/Serializable.h"
+#include "GameSmithEngine/SerializeableFiles/ResourceAssets/Asset.h"
 #include "ResourceLoaders/ResourceLoader.h"
 
 
@@ -16,8 +16,8 @@ namespace GameSmith {
 	};
 
 	struct ResourceMaps {
-		std::unordered_map<ID, Ref<Serializeable>, IDHasher> ActiveIDResources;
-		std::unordered_map<std::string, Ref<Serializeable>> ActivePathResources;
+		std::unordered_map<ID, Ref<IAsset>, IDHasher> ActiveIDResources;
+		std::unordered_map<std::string, Ref<IAsset>> ActivePathResources;
 		std::unordered_map<ID, std::string, IDHasher> ResourceRegistry;
 		std::unordered_map<std::string, ID> ReverseResourceRegistry;
 		std::unordered_map <std::string, std::string> filePathToFileName;
@@ -45,7 +45,7 @@ namespace GameSmith {
 		template<typename T>
 		Ref<T> GetResource(const ID asset) {
 			if (m_ResourceMaps->ActiveIDResources.contains(asset)) {
-				Ref<Serializeable> ptr = (*m_ResourceMaps->ActiveIDResources.find(asset)).second;
+				Ref<IAsset> ptr = (*m_ResourceMaps->ActiveIDResources.find(asset)).second;
 				return CastPtr<T>(ptr);
 			}
 
@@ -83,7 +83,7 @@ namespace GameSmith {
 		/// </summary>
 		/// <param name="asset"> The ID tied to the resource to load </param>
 		/// <returns> A shared ownership reference to the loaded resource </returns>
-		Ref<Serializeable> GetResource(const ID asset);
+		Ref<IAsset> GetResource(const ID asset);
 
 		/// <summary>
 		/// Loads a requested resource into memory and caches for future requests
@@ -94,7 +94,7 @@ namespace GameSmith {
 		template<typename T>
 		Ref<T> GetResource(const std::string& asset) {
 			if (m_ResourceMaps->ActivePathResources.contains(asset)) {
-				Ref<Serializeable> ptr = (*m_ResourceMaps->ActivePathResources.find(asset)).second;
+				Ref<IAsset> ptr = (*m_ResourceMaps->ActivePathResources.find(asset)).second;
 				return CastPtr<T>(ptr);
 			}
 
@@ -121,7 +121,7 @@ namespace GameSmith {
 		/// </summary>
 		/// <param name="asset"> The filepath to find the resource </param>
 		/// <returns> A shared ownership reference to the loaded resource </returns>
-		Ref<Serializeable> GetResource(const std::string& asset);
+		Ref<IAsset> GetResource(const std::string& asset);
 
 		
 		/// <summary>
@@ -137,7 +137,7 @@ namespace GameSmith {
 		template<typename T>
 		Ref<T> GetResource(const ID key, const char* inData, const UINT size) {
 			if (m_ResourceMaps->ActiveIDResources.contains(key)) {
-				Ref<Serializeable> ptr = (*m_ResourceMaps->ActiveIDResources.find(key)).second;
+				Ref<IAsset> ptr = (*m_ResourceMaps->ActiveIDResources.find(key)).second;
 				return CastPtr<T>(ptr);
 			}
 
@@ -160,7 +160,7 @@ namespace GameSmith {
 		/// <param name="resource"> The resource to serialize </param>
 		/// <param name="path"> The file system destination for the resource </param>
 		/// <returns> The ID associated with the resource </returns>
-		ID WriteResource(const Ref<Serializeable> resource, const std::string& path);
+		ID WriteResource(const Ref<IAsset> resource, const std::string& path);
 		/// <summary>
 		/// Imports a raw file into the engine asset management system
 		/// </summary>

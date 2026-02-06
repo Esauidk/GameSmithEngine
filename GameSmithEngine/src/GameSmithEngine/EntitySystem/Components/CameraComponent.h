@@ -12,6 +12,7 @@ namespace GameSmith {
 	class GE_API CameraComponent : public Component {
 	public:
 		CameraComponent(GameObject* gameObject, Transform* transform);
+		virtual ~CameraComponent() = default;
 		virtual void OnStart() override;
 		virtual void OnUpdate(float dt) override;
 		virtual void OnDestroy() override {}

@@ -84,7 +84,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/utf-8 /wd4250 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -112,7 +112,7 @@ cmd /c xcopy "..\bin\Debug-windows-x86_64\GameSmithEngine\*" "$(SolutionDir)\bin
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/utf-8 /wd4250 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -141,7 +141,7 @@ cmd /c xcopy "..\bin\Release-windows-x86_64\GameSmithEngine\*" "$(SolutionDir)\b
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/utf-8 /wd4250 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -270,6 +270,7 @@ cmd /c xcopy "..\bin\Dist-windows-x86_64\GameSmithEngine\*" "$(SolutionDir)\bin\
     <ClInclude Include="src\GameSmithEngine\ResourceManagement\ResourceAssetHelper.h" />
     <ClInclude Include="src\GameSmithEngine\ResourceManagement\ResourceLoaders\HeapResourceLoader.h" />
     <ClInclude Include="src\GameSmithEngine\ResourceManagement\ResourceLoaders\ResourceLoader.h" />
+    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ExposedMemberSerializeable.h" />
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\GenericFileTypes\JsonFile.h" />
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\Asset.h" />
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\AssetFactory.h" />

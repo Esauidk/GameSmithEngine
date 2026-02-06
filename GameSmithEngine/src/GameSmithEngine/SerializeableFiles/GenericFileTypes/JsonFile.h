@@ -7,7 +7,7 @@
 
 using json = nlohmann::json;
 namespace GameSmith {
-	class JsonFile : public Serializeable {
+	class JsonFile : public AbstractBaseSerializeable {
 	public:
 		JsonFile() : m_JsonData({}) {
 			m_JsonString = m_JsonData.dump(JSON_INDENTATION_SPACES);

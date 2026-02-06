@@ -82,13 +82,11 @@ namespace GameSmithEditor {
 				GameSmith::ID* assetID = (GameSmith::ID*)(payload->Data);
 
 				auto resourceManager = GameSmith::AssetManager::GetInstance();
-				GameSmith::Ref<GameSmith::Serializeable> asset = resourceManager->GetResource(*assetID);
-				// TODO: Update resource manager to return asset classes
-				GameSmith::Ref<GameSmith::Asset> tmpUpgrade = CastPtr<GameSmith::Asset>(asset);
+				GameSmith::Ref<GameSmith::IAsset> asset = resourceManager->GetResource(*assetID);
 
-				if (refCon->TypeCheck(tmpUpgrade)) {
-					refCon->AssignRef(tmpUpgrade);
-					refCon->AssignID(tmpUpgrade->GetID());
+				if (refCon->TypeCheck(asset)) {
+					refCon->AssignRef(asset);
+					refCon->AssignID(asset->GetID());
 					found = true;
 				}
 			}

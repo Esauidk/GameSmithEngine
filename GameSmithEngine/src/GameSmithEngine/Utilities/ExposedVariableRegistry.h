@@ -6,7 +6,7 @@
 
 namespace GameSmith {
 	// Forward declarations
-	class Asset;
+	class IAsset;
 
 	enum ExposedVariableFlags {
 		AssetGameObject = 0x1
@@ -38,11 +38,11 @@ namespace GameSmith {
 	};
 
 	// A ref container that only wants to establish a watching connection to an object
-	using ConnectionContainer = ObjectRefContainer<Connection<IDObject>>;
+	using ConnectionContainer = ObjectRefContainer<Connection<IDObjectInterface>>;
 	// A ref container that wants to both establish and own a connection to an asset/serializable object
-	using AssetRefContainer = ObjectRefContainer<Ref<Asset>>;
+	using AssetRefContainer = ObjectRefContainer<Ref<IAsset>>;
 
-	class GE_API ExposedVariableRegistry : public Serializeable
+	class GE_API ExposedVariableRegistry : public AbstractBaseSerializeable
 	{
 	public:
 		/* Adds a definition for an exposed variable
@@ -59,7 +59,7 @@ namespace GameSmith {
 		* flags: Any special flags to determine how the connection is interpreted (view ExposedVariableFlags)
 		*/
 		template<typename T>
-		inline void AddExposedConnection(std::string refName, Connection<IDObject>* entry, std::string typeName, unsigned int flags = 0) { 
+		inline void AddExposedConnection(std::string refName, Connection<IDObjectInterface>* entry, std::string typeName, unsigned int flags = 0) { 
 			if (entry == nullptr) return;
 
 			m_ConnectionsRegistry.insert(
@@ -67,12 +67,12 @@ namespace GameSmith {
 					refName, 
 					{
 						entry, 
-						[](Connection<IDObject>* origin, Connection<IDObject> curPtr) 
+						[](Connection<IDObjectInterface>* origin, Connection<IDObjectInterface> curPtr)
 						{
 							*((Connection<T>*)origin) = CastPtr<T>(curPtr.lock());
 						},
 
-						[](Connection<IDObject> curPtr)
+						[](Connection<IDObjectInterface> curPtr)
 						{
 							return CastPtr<T>(curPtr.lock()) != nullptr;
 						},
@@ -91,7 +91,7 @@ namespace GameSmith {
 		* flags: Any special flags to determine how the reference is interpreted (view ExposedVariableFlags)
 		*/
 		template<typename T>
-		inline void AddExposedAsset(std::string refName, Ref<Asset>* entry, std::string typeName, unsigned int flags = 0) {
+		inline void AddExposedAsset(std::string refName, Ref<IAsset>* entry, std::string typeName, unsigned int flags = 0) {
 			if (entry == nullptr) return;
 
 			m_AssetRegistry.insert(
@@ -99,12 +99,12 @@ namespace GameSmith {
 					refName,
 					{
 						entry,
-						[](Ref<Asset>* origin, Ref<Asset> curPtr)
+						[](Ref<IAsset>* origin, Ref<IAsset> curPtr)
 						{
 							*((Ref<T>*)origin) = CastPtr<T>(curPtr);
 						},
 
-						[](Ref<Asset> curPtr)
+						[](Ref<IAsset> curPtr)
 						{
 							return CastPtr<T>(curPtr) != nullptr;
 						},
@@ -152,8 +152,8 @@ namespace GameSmith {
 			unsigned int flag;
 		};
 
-		using ExposedAssetEntry = ExposedObjectRefEntry<Ref<Asset>>;
-		using ExposedConnectionEntry = ExposedObjectRefEntry<Connection<IDObject>>;
+		using ExposedAssetEntry = ExposedObjectRefEntry<Ref<IAsset>>;
+		using ExposedConnectionEntry = ExposedObjectRefEntry<Connection<IDObjectInterface>>;
 
 	private:
 		std::unordered_map<std::string, ExposedVariableEntry> m_ValueRegistry;
@@ -161,35 +161,21 @@ namespace GameSmith {
 		std::unordered_map<std::string, ExposedAssetEntry> m_AssetRegistry;
 	};
 
-	class GE_API ExposedMemberClass {
+	class GE_API IExposedMembers {
 	public:
-		void GenerateVariableEntries(std::unordered_map<std::string, Ref<ParameterContainer>>* outMap) { m_Registry.GenerateVariableMap(outMap); }
-		void GenerateConnectionEntries(std::unordered_map<std::string, Ref<ConnectionContainer>>* outMap) { m_Registry.GenerateConnectionsMap(outMap); }
-		void GenerateAssetEntries(std::unordered_map<std::string, Ref<AssetRefContainer>>* outMap) { m_Registry.GenerateAssetMap(outMap); }
+		virtual ~IExposedMembers() = default;
+		virtual void GenerateVariableEntries(std::unordered_map<std::string, Ref<ParameterContainer>>* outMap) = 0;
+		virtual void GenerateConnectionEntries(std::unordered_map<std::string, Ref<ConnectionContainer>>* outMap) = 0;
+		virtual void GenerateAssetEntries(std::unordered_map<std::string, Ref<AssetRefContainer>>* outMap) = 0;
 
 		// Can be empty function
 		virtual void PostRegistryBootstrap() {};
 
-		inline void BootstrapVariableRegistry(std::unordered_map<std::string, Ref<ParameterContainer>>& variableEntries) {
-			m_Registry.BootstrapFromValueMap(variableEntries);
-			PostRegistryBootstrap();
-		}
+		virtual void BootstrapVariableRegistry(std::unordered_map<std::string, Ref<ParameterContainer>>& variableEntries) = 0;
 
-		inline void BootstrapConnectionRegistry(std::unordered_map<std::string, Ref<ConnectionContainer>>& refEntries) {
-			m_Registry.BootstrapFromConnectionsMap(refEntries);
-			PostRegistryBootstrap();
-		}
+		virtual void BootstrapConnectionRegistry(std::unordered_map<std::string, Ref<ConnectionContainer>>& refEntries) = 0;
 
-		inline void BootstrapAssetRegistry(std::unordered_map<std::string, Ref<AssetRefContainer>>& refEntries) {
-			m_Registry.BootstrapFromAssetMap(refEntries);
-			PostRegistryBootstrap();
-		}
-
-		inline unsigned int RegistrySerializationSize() { return m_Registry.RequiredSpace(); }
-		inline void SerializeRegistry(char* byteStream, unsigned int availableBytes) { m_Registry.Serialize(byteStream, availableBytes); }
-		inline void DeserializeRegistry(char* inData, unsigned int bytes) { m_Registry.Deserialize(inData, bytes); }
-	protected:
-		ExposedVariableRegistry m_Registry;
+		virtual void BootstrapAssetRegistry(std::unordered_map<std::string, Ref<AssetRefContainer>>& refEntries) = 0;
 	};
 };
 

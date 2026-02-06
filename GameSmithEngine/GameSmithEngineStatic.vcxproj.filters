@@ -549,6 +549,9 @@
     <ClInclude Include="src\GameSmithEngine\ResourceManagement\ResourceLoaders\ResourceLoader.h">
       <Filter>src\GameSmithEngine\ResourceManagement\ResourceLoaders</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ExposedMemberSerializeable.h">
+      <Filter>src\GameSmithEngine\SerializeableFiles</Filter>
+    </ClInclude>
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\GenericFileTypes\JsonFile.h">
       <Filter>src\GameSmithEngine\SerializeableFiles\GenericFileTypes</Filter>
     </ClInclude>

@@ -51,7 +51,10 @@ project "GameSmithEngine"
 			"GE_PLATFORM_WINDOWS"
 		}
 
-		buildoptions { "/utf-8" }
+		buildoptions { 
+			"/utf-8",
+			"/wd4250"
+		}
 
 		postbuildcommands{
 			("cmd /c xcopy %[%{cfg.targetdir}/*] %[%{wks.location}/bin/" .. outputdir .. "/TestZone] /E /Y /I"),
@@ -122,7 +125,10 @@ project "GameSmithEngineStatic"
 	filter "system:windows"
 		systemversion "latest"
 
-		buildoptions { "/utf-8" }
+		buildoptions { 
+			"/utf-8",
+			"/wd4250"
+		}
 
 		defines{
 			"GE_PLATFORM_WINDOWS"

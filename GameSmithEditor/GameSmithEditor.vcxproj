@@ -83,7 +83,7 @@
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
-      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/utf-8 /wd4250 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -108,7 +108,7 @@ cmd /c robocopy "$(SolutionDir)\GameSmithEditor\ProjectPresets" "$(SolutionDir)\
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/utf-8 /wd4250 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -134,7 +134,7 @@ cmd /c robocopy "$(SolutionDir)\GameSmithEditor\ProjectPresets" "$(SolutionDir)\
       <MinimalRebuild>false</MinimalRebuild>
       <StringPooling>true</StringPooling>
       <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
-      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
+      <AdditionalOptions>/utf-8 /wd4250 %(AdditionalOptions)</AdditionalOptions>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <ExternalWarningLevel>Level3</ExternalWarningLevel>
     </ClCompile>
@@ -160,13 +160,13 @@ cmd /c robocopy "$(SolutionDir)\GameSmithEditor\ProjectPresets" "$(SolutionDir)\
     <ClInclude Include="src\GameSmithEditor\Utils\SystemCallUtils.h" />
     <ClInclude Include="src\GameSmithEditor\Windows\AccessibleWindows.h" />
     <ClInclude Include="src\GameSmithEditor\Windows\AssetDatabaseWindow.h" />
-    <ClInclude Include="src\GameSmithEditor\Windows\PrivateWindows\AssetInspector.h" />
     <ClInclude Include="src\GameSmithEditor\Windows\ContentView.h" />
     <ClInclude Include="src\GameSmithEditor\Windows\EditorView.h" />
     <ClInclude Include="src\GameSmithEditor\Windows\EditorWindow.h" />
     <ClInclude Include="src\GameSmithEditor\Windows\EditorWindowEvents.h" />
     <ClInclude Include="src\GameSmithEditor\Windows\GameViewLayer.h" />
     <ClInclude Include="src\GameSmithEditor\Windows\Inspector.h" />
+    <ClInclude Include="src\GameSmithEditor\Windows\PrivateWindows\AssetInspector.h" />
     <ClInclude Include="src\GameSmithEditor\Windows\ProjectCreatorWindow.h" />
   </ItemGroup>
   <ItemGroup>

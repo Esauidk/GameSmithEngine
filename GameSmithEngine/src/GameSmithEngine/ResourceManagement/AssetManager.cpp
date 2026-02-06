@@ -54,7 +54,7 @@ namespace GameSmith {
 		}
 	}
 
-	ID AssetManager::WriteResource(const Ref<Serializeable> resource, const std::string& path)
+	ID AssetManager::WriteResource(const Ref<IAsset> resource, const std::string& path)
 	{
 		std::fstream pFile(path, std::ios::out | std::ios::binary | std::ios::ate);
 		GE_CORE_ASSERT(pFile.is_open(), std::format("Asset file {0} cannot be opened", path));
@@ -176,7 +176,7 @@ namespace GameSmith {
 		}
 	}
 
-	Ref<Serializeable> AssetManager::GetResource(const ID asset) {
+	Ref<IAsset> AssetManager::GetResource(const ID asset) {
 		if (m_ResourceMaps->ActiveIDResources.contains(asset)) {
 			return (*m_ResourceMaps->ActiveIDResources.find(asset)).second;
 		}
@@ -197,7 +197,7 @@ namespace GameSmith {
 
 
 		const std::string ext = path.substr(path.find_last_of('.') + 1);
-		const Ref<Serializeable> resource = AssetFactory::GenerateAsset(ext, fileName);
+		const Ref<IAsset> resource = AssetFactory::GenerateAsset(ext, fileName);
 		resource->Deserialize(data, size);
 
 		const ResourceFileMetadata* metaPtr = (ResourceFileMetadata*)meta;
@@ -213,7 +213,7 @@ namespace GameSmith {
 		return resource;
 	}
 
-	Ref<Serializeable> AssetManager::GetResource(const std::string& asset) {
+	Ref<IAsset> AssetManager::GetResource(const std::string& asset) {
 		if (m_ResourceMaps->ActivePathResources.contains(asset)) {
 			return (*m_ResourceMaps->ActivePathResources.find(asset)).second;
 		}
@@ -224,7 +224,7 @@ namespace GameSmith {
 
 		const std::string fileName = m_ResourceMaps->filePathToFileName.find(asset)->second;
 		const std::string ext = asset.substr(asset.find_last_of('.') + 1);
-		const Ref<Serializeable> resource = AssetFactory::GenerateAsset(ext, fileName);
+		const Ref<IAsset> resource = AssetFactory::GenerateAsset(ext, fileName);
 		resource->Deserialize(data, size);
 
 		m_ResourceMaps->ActivePathResources.insert({ asset, resource });

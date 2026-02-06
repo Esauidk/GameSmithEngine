@@ -11,7 +11,7 @@
 
 namespace GameSmith {
 
-	class GE_API GameObject : public Serializeable {
+	class GE_API GameObject : public AbstractBaseSerializeable {
 	public:
 		GameObject(std::string name = DEFAULT_GAMEOBJECT_NAME);
 		inline std::string GetName() const { return m_Name; }

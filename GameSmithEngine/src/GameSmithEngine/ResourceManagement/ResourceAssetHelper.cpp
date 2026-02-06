@@ -50,7 +50,7 @@ namespace GameSmith {
 		m_CurPtr += sizeof(int);
 	}
 
-	void BinaryStreamWriter::WriteSerializeable(Serializeable* serializeable)
+	void BinaryStreamWriter::WriteSerializeable(ISerializeable* serializeable)
 	{
 		unsigned int requiredSize = serializeable->RequiredSpace();
 		GE_CORE_ASSERT(GetRemainingSpace() >= requiredSize, "Not enough space in buffer to write serializeable");
@@ -58,7 +58,7 @@ namespace GameSmith {
 		m_CurPtr += requiredSize;
 	}
 
-	void BinaryStreamWriter::WriteVector(const std::vector<Ref<Serializeable>> vector)
+	void BinaryStreamWriter::WriteVector(const std::vector<Ref<ISerializeable>> vector)
 	{
 		unsigned int requiredSize = sizeof(unsigned int);
 		for (auto& item : vector) {
@@ -73,7 +73,7 @@ namespace GameSmith {
 		}
 	}
 
-	void BinaryStreamWriter::WriteVector(const std::vector<Connection<Serializeable>> vector) {
+	void BinaryStreamWriter::WriteVector(const std::vector<Connection<ISerializeable>> vector) {
 		unsigned int requiredSize = sizeof(unsigned int);
 		for (auto& item : vector) {
 			requiredSize += item.lock()->RequiredSpace();

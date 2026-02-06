@@ -5,7 +5,7 @@ namespace GameSmithEditor {
 	class OrbitScript : public GameSmith::Component {
 	public:
 		OrbitScript(GameSmith::GameObject* gameObject, GameSmith::Transform* transform) : Component(gameObject, transform) {
-			m_Transform->SetCoordinateFrame(&m_t);
+			GetTransform()->SetCoordinateFrame(&m_t);
 			m_Registry.AddExposedVariable("Origin Point", glm::value_ptr(m_Origin), GameSmith::ContainerDataType::Float3);
 			m_Registry.AddExposedVariable("Oribit Radius", &m_Radius, GameSmith::ContainerDataType::Float);
 			m_Registry.AddExposedVariable("Oribit Speed", glm::value_ptr(m_OribitSpeeds), GameSmith::ContainerDataType::Float3);

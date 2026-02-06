@@ -7,7 +7,7 @@
 #define GAMECHUNK_DEFAULT_NAME "NewChunk"
 
 namespace GameSmith {
-	class GE_API GameChunk : public Serializeable
+	class GE_API GameChunk : public AbstractBaseSerializeable
 	{
 	public:
 		GameChunk() : m_ChunkName(GAMECHUNK_DEFAULT_NAME) {};

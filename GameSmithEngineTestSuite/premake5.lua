@@ -62,7 +62,10 @@ project "GameSmithEngineTestSuite"
 	filter "system:windows"
 		systemversion "latest"
 
-		buildoptions { "/utf-8" }
+		buildoptions { 
+			"/utf-8",
+			"/wd4250"
+		}
 		
 		defines{
 			"GE_PLATFORM_WINDOWS"

@@ -19,6 +19,9 @@
     <Filter Include="Windows">
       <UniqueIdentifier>{5032B729-BC11-36C5-C529-C19B31889C26}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Windows\PrivateWindows">
+      <UniqueIdentifier>{E5C83B5E-D1C2-64B0-BA2F-FBC0A6C8CA1C}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\GameSmithEditor\Core\EditorCoreLayer.h">
@@ -31,6 +34,9 @@
       <Filter>Core</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEditor\CustomWidgets\ReferenceInputWidget.h">
+      <Filter>CustomWidgets</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEditor\CustomWidgets\SelectableImage.h">
       <Filter>CustomWidgets</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEditor\Icons\IconManager.h">
@@ -54,6 +60,9 @@
     <ClInclude Include="src\GameSmithEditor\Windows\ContentView.h">
       <Filter>Windows</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameSmithEditor\Windows\EditorView.h">
+      <Filter>Windows</Filter>
+    </ClInclude>
     <ClInclude Include="src\GameSmithEditor\Windows\EditorWindow.h">
       <Filter>Windows</Filter>
     </ClInclude>
@@ -66,12 +75,12 @@
     <ClInclude Include="src\GameSmithEditor\Windows\Inspector.h">
       <Filter>Windows</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameSmithEditor\Windows\PrivateWindows\AssetInspector.h">
+      <Filter>Windows\PrivateWindows</Filter>
+    </ClInclude>
     <ClInclude Include="src\GameSmithEditor\Windows\ProjectCreatorWindow.h">
       <Filter>Windows</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameSmithEditor\Windows\EditorView.h" />
-    <ClInclude Include="src\GameSmithEditor\CustomWidgets\SelectableImage.h" />
-    <ClInclude Include="src\GameSmithEditor\Windows\PrivateWindows\AssetInspector.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GameSmithEditor\Core\EditorApp.cpp">
@@ -87,6 +96,9 @@
       <Filter>Core</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEditor\CustomWidgets\ReferenceInputWidget.cpp">
+      <Filter>CustomWidgets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEditor\CustomWidgets\SelectableImage.cpp">
       <Filter>CustomWidgets</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEditor\Icons\IconManager.cpp">
@@ -107,17 +119,20 @@
     <ClCompile Include="src\GameSmithEditor\Windows\ContentView.cpp">
       <Filter>Windows</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameSmithEditor\Windows\EditorView.cpp">
+      <Filter>Windows</Filter>
+    </ClCompile>
     <ClCompile Include="src\GameSmithEditor\Windows\GameViewLayer.cpp">
       <Filter>Windows</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEditor\Windows\Inspector.cpp">
       <Filter>Windows</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameSmithEditor\Windows\PrivateWindows\AssetInspector.cpp">
+      <Filter>Windows\PrivateWindows</Filter>
+    </ClCompile>
     <ClCompile Include="src\GameSmithEditor\Windows\ProjectCreatorWindow.cpp">
       <Filter>Windows</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameSmithEditor\Windows\EditorView.cpp" />
-    <ClCompile Include="src\GameSmithEditor\CustomWidgets\SelectableImage.cpp" />
-    <ClCompile Include="src\GameSmithEditor\Windows\PrivateWindows\AssetInspector.cpp" />
   </ItemGroup>
 </Project>

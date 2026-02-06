@@ -1,6 +1,7 @@
 #include "gepch.h"
 #include "ExposedVariableRegistry.h"
 #include "GameSmithEngine/ResourceManagement/ResourceAssetHelper.h"
+#include "GameSmithEngine/SerializeableFiles/ResourceAssets/Asset.h"
 
 namespace GameSmith {
 	void ExposedVariableRegistry::GenerateVariableMap(std::unordered_map<std::string, Ref<ParameterContainer>>* outMap)

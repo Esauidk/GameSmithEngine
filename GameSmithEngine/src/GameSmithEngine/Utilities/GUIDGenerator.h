@@ -15,7 +15,6 @@ namespace GameSmith {
 		ID() : m_Data() {}
 		ID(unsigned long ID1, unsigned short ID2, unsigned short ID3, unsigned long long ID4) : m_Data({ID1, ID2, ID3, ID4}) {}
 		ID(idData externalData) : m_Data(externalData) {}
-		//ID operator=(ID& other) { return ID(other.m_Data.ID1, other.m_Data.ID2, m_Data.ID3, other.m_Data.ID4); }
 		void operator=(ID& other) { m_Data = other.m_Data; }
 		void operator=(const ID& other) { m_Data = other.m_Data; }
 
@@ -39,16 +38,23 @@ namespace GameSmith {
 		static ID GenerateID();
 	};
 
-	class GE_API IDObject {
+	class GE_API IDObjectInterface {
+	public:
+		virtual ~IDObjectInterface() = default;
+		virtual const ID& GetID() const = 0;
+		virtual void SetID(ID& newID) = 0;
+	
+	};
+
+	class GE_API IDObject : public virtual IDObjectInterface {
 	public:
 		IDObject() : m_ID(GUIDGenerator::GenerateID()) {}
 		virtual ~IDObject() = default;
-		inline const ID& GetID() const { return m_ID; }
-		inline void SetID(ID& newID) { m_ID = newID; }
+		inline const ID& GetID() const override { return m_ID; }
+		inline void SetID(ID& newID) override { m_ID = newID; }
 	private:
 		ID m_ID;
 	};
-
 };
 
 struct IDHasher {

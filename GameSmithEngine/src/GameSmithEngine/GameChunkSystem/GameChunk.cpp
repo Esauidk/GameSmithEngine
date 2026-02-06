@@ -64,7 +64,7 @@ namespace GameSmith {
 
 	void GameChunk::Deserialize(char* inData, unsigned int size)
 	{
-		std::unordered_map<ID, Ref<IDObject>, IDHasher> collectedIDs;
+		std::unordered_map<ID, Ref<IDObjectInterface>, IDHasher> collectedIDs;
 		std::vector<Connection<Component>> createdComps;
 
 		BinaryStreamReader reader(inData, size);
@@ -116,14 +116,14 @@ namespace GameSmith {
 			for (auto& entry : assetRefs) {
 				if (collectedIDs.contains(entry.second->GetCurrentRefID())) {
 					auto foundEntry = collectedIDs.find(entry.second->GetCurrentRefID());
-					entry.second->AssignRef(CastPtr<Asset>(foundEntry->second));
+					entry.second->AssignRef(CastPtr<IAsset>(foundEntry->second));
 				}
 				else {
 					// Attempt to load asset
 					auto resourceManager = AssetManager::GetInstance();
 					auto asset = resourceManager->GetResource(entry.second->GetCurrentRefID());
 					// TODO: Change resource manager to return asset class for default
-					entry.second->AssignRef(CastPtr<Asset>(asset));
+					entry.second->AssignRef(CastPtr<IAsset>(asset));
 					collectedIDs.insert({ asset->GetID(), asset });
 				}
 			}
