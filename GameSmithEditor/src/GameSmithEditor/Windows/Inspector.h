@@ -12,7 +12,6 @@ namespace GameSmithEditor {
 		void OnUpdate(float dt) override;
 	private:
 		GameSmith::Connection<GameSmith::GameObject> m_Object;
-		GameSmith::Connection<GameSmith::AbstractBaseSerializeable> m_Asset;
 
 
 		std::vector<GameSmith::Connection<GameSmith::Component>> m_Components;

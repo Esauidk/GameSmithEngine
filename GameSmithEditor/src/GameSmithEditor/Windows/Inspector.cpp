@@ -1,45 +1,13 @@
 #include "Inspector.h"
-#include "ContentView.h"
 #include "GameSmithEditor/CustomWidgets/ReferenceInputWidget.h"
 #include "imgui.h"
+#include "GameSmithEditor/Utils/ExposedVariableWidgetConverter.h"
 
 namespace GameSmithEditor {
 
 	GameSmith::Connection<GameSmith::GameObject> Inspector::s_SelectedObject = GameSmith::Ref<GameSmith::GameObject>();
 
 	REGISTER_WINDOW_DEFAULT_CALLBACK(Windows_Inspector, Inspector);
-
-
-	static void GenerateVariableUI(GameSmith::Ref<GameSmith::ParameterContainer> container) {
-		auto name = container->GetName();
-
-		switch (container->GetType()) {
-		case GameSmith::ContainerDataType::Float:
-			ImGui::InputFloat(name.c_str(), (float*)container->GetCharData());
-			break;
-		case GameSmith::ContainerDataType::Float2:
-			ImGui::InputFloat2(name.c_str(), (float*)container->GetCharData());
-			break;
-		case GameSmith::ContainerDataType::Float3:
-			ImGui::InputFloat3(name.c_str(), (float*)container->GetCharData());
-			break;
-		case GameSmith::ContainerDataType::Float4:
-			ImGui::InputFloat4(name.c_str(), (float*)container->GetCharData());
-			break;
-		case GameSmith::ContainerDataType::Int:
-			ImGui::InputInt(name.c_str(), (int*)container->GetCharData());
-			break;
-		case GameSmith::ContainerDataType::Int2:
-			ImGui::InputInt2(name.c_str(), (int*)container->GetCharData());
-			break;
-		case GameSmith::ContainerDataType::Int3:
-			ImGui::InputInt3(name.c_str(), (int*)container->GetCharData());
-			break;
-		case GameSmith::ContainerDataType::Int4:
-			ImGui::InputInt4(name.c_str(), (int*)container->GetCharData());
-			break;
-		}
-	}
 
 	void Inspector::OnImGuiRender()
 	{
@@ -138,19 +106,6 @@ namespace GameSmithEditor {
 						m_ExposedRefs.insert({ newComponent->GetName(), refMap });
 						m_ExposedAssets.insert({ newComponent->GetName(), assetMap });
 
-						// TODO: Temporary
-						/*if (m_CurCompSelection == "MeshRenderer") {
-							auto renderer = GameSmith::CastPtr<GameSmith::MeshRenderer>(newComponent);
-							renderer->SetMesh(GameSmith::AssetManager::GetInstance()->GetResource<GameSmith::MeshAsset>(GameSmith::ID(250309786, 50043, 18339, 17854270087279912363)));
-
-							auto mat = GameSmith::AssetManager::GetInstance()->GetResource<GameSmith::MaterialAsset>(GameSmith::ID(2652798047, 63418, 17489, 6150598651790595990));
-							for (unsigned int i = 0; i < renderer->GetMaterialSlots(); i++) {
-								renderer->SetMaterial(i, mat);
-							}
-
-
-						}*/
-
 						m_CurCompSelection = "";
 						ImGui::CloseCurrentPopup();
 					}
@@ -170,6 +125,7 @@ namespace GameSmithEditor {
 			m_Components.clear();
 			m_ExposedVariables.clear();
 			m_ExposedRefs.clear();
+			m_ExposedAssets.clear();
 
 			if (s_SelectedObject.lock().get()) {
 				m_Object = s_SelectedObject;

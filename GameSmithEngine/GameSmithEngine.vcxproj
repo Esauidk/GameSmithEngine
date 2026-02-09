@@ -202,6 +202,7 @@ cmd /c xcopy "..\bin\Dist-windows-x86_64\GameSmithEngine\*" "$(SolutionDir)\bin\
     <ClInclude Include="src\GameSmithEngine\GameChunkSystem\ChunkManager.h" />
     <ClInclude Include="src\GameSmithEngine\GameChunkSystem\GameChunk.h" />
     <ClInclude Include="src\GameSmithEngine\ImGui\ImGuiLayer.h" />
+    <ClInclude Include="src\GameSmithEngine\ImGui\ImGuiThemes.h" />
     <ClInclude Include="src\GameSmithEngine\Platform\Window\WindowsInput.h" />
     <ClInclude Include="src\GameSmithEngine\Platform\Window\WindowsWindow.h" />
     <ClInclude Include="src\GameSmithEngine\Platform\Window\resource.h" />
@@ -817,6 +818,7 @@ cmd /c xcopy "..\bin\Dist-windows-x86_64\GameSmithEngine\*" "$(SolutionDir)\bin\
     <ClCompile Include="src\GameSmithEngine\GameChunkSystem\GameChunk.cpp" />
     <ClCompile Include="src\GameSmithEngine\ImGui\ImGuiBuild.cpp" />
     <ClCompile Include="src\GameSmithEngine\ImGui\ImGuiLayer.cpp" />
+    <ClCompile Include="src\GameSmithEngine\ImGui\ImGuiThemes.cpp" />
     <ClCompile Include="src\GameSmithEngine\Platform\Window\WindowsInput.cpp" />
     <ClCompile Include="src\GameSmithEngine\Platform\Window\WindowsWindow.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\CommandList\DirectX12CommandContext.cpp" />

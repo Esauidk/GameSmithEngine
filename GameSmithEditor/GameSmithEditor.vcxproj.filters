@@ -81,6 +81,7 @@
     <ClInclude Include="src\GameSmithEditor\Windows\ProjectCreatorWindow.h">
       <Filter>Windows</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameSmithEditor\Utils\ExposedVariableWidgetConverter.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GameSmithEditor\Core\EditorApp.cpp">
@@ -134,5 +135,6 @@
     <ClCompile Include="src\GameSmithEditor\Windows\ProjectCreatorWindow.cpp">
       <Filter>Windows</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameSmithEditor\Utils\ExposedVariableWidgetConverter.cpp" />
   </ItemGroup>
 </Project>

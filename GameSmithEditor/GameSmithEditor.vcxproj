@@ -157,6 +157,7 @@ cmd /c robocopy "$(SolutionDir)\GameSmithEditor\ProjectPresets" "$(SolutionDir)\
     <ClInclude Include="src\GameSmithEditor\Icons\IconManager.h" />
     <ClInclude Include="src\GameSmithEditor\SampleComponents\BurstOrbitScript.h" />
     <ClInclude Include="src\GameSmithEditor\SampleComponents\OrbitScript.h" />
+    <ClInclude Include="src\GameSmithEditor\Utils\ExposedVariableWidgetConverter.h" />
     <ClInclude Include="src\GameSmithEditor\Utils\SystemCallUtils.h" />
     <ClInclude Include="src\GameSmithEditor\Windows\AccessibleWindows.h" />
     <ClInclude Include="src\GameSmithEditor\Windows\AssetDatabaseWindow.h" />
@@ -179,6 +180,7 @@ cmd /c robocopy "$(SolutionDir)\GameSmithEditor\ProjectPresets" "$(SolutionDir)\
     <ClCompile Include="src\GameSmithEditor\Icons\IconManager.cpp" />
     <ClCompile Include="src\GameSmithEditor\SampleComponents\BurstOrbitScript.cpp" />
     <ClCompile Include="src\GameSmithEditor\SampleComponents\OrbitScript.cpp" />
+    <ClCompile Include="src\GameSmithEditor\Utils\ExposedVariableWidgetConverter.cpp" />
     <ClCompile Include="src\GameSmithEditor\Utils\SystemCallUtils.cpp" />
     <ClCompile Include="src\GameSmithEditor\Windows\AssetDatabaseWindow.cpp" />
     <ClCompile Include="src\GameSmithEditor\Windows\ContentView.cpp" />

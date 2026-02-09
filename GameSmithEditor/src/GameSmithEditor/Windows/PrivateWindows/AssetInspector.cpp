@@ -1,7 +1,17 @@
 #include "AssetInspector.h"
 #include "imgui.h"
 
+#include "GameSmithEditor/Utils/ExposedVariableWidgetConverter.h"
+#include "GameSmithEditor/CustomWidgets/ReferenceInputWidget.h"
+
 namespace GameSmithEditor {
+	AssetInspector::AssetInspector(GameSmith::Ref<GameSmith::IAsset> asset) : EditorWindow("AssetInspector"), m_InspectedAsset(asset)
+	{
+		m_InspectedAsset->GenerateVariableEntries(&m_ExposedVariables);
+		m_InspectedAsset->GenerateAssetEntries(&m_ExposedAssets);
+		m_InspectedAsset->GenerateConnectionEntries(&m_ExposedRefs);
+	}
+
 	void AssetInspector::OnImGuiRender()
 	{
 		if (ImGui::Begin("Asset Inspector##", &m_Open)) {
@@ -10,6 +20,20 @@ namespace GameSmithEditor {
 			ImGui::Text(assetName.c_str());
 			ImGui::PopItemWidth();
 			ImGui::Separator();
+
+			for (auto& entry : m_ExposedVariables) {
+				auto parameter = entry.second;
+				GenerateVariableUI(parameter);
+			}
+
+			for (auto& entry : m_ExposedRefs) {
+				InputReference(entry.first, entry.second);
+			}
+
+			for (auto& entry : m_ExposedAssets) {
+				InputReference(entry.first, entry.second);
+			}
+
 		}
 		ImGui::End();
 	}
@@ -19,5 +43,9 @@ namespace GameSmithEditor {
 		if (!m_Open) {
 			CloseWindow();
 		}
+
+		m_InspectedAsset->BootstrapVariableRegistry(m_ExposedVariables);
+		m_InspectedAsset->BootstrapAssetRegistry(m_ExposedAssets);
+		m_InspectedAsset->BootstrapConnectionRegistry(m_ExposedRefs);
 	}
 };
