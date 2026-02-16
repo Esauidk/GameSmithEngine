@@ -162,6 +162,13 @@ namespace GameSmith {
 		/// <returns> The ID associated with the resource </returns>
 		ID WriteResource(const Ref<IAsset> resource, const std::string& path);
 		/// <summary>
+		/// Create and write a new resource to the file system and associates an ID to the resource
+		/// </summary>
+		/// <param name="filename"> The resource to create (including extention) </param>
+		/// <param name="path"> The file system destination for the resoruce </param>
+		/// <returns> The ID associated with the resource </returns>
+		ID CreateResource(const std::string& filename, const std::string& path);
+		/// <summary>
 		/// Imports a raw file into the engine asset management system
 		/// </summary>
 		/// <param name="path"> The file system source to import the resource from </param>

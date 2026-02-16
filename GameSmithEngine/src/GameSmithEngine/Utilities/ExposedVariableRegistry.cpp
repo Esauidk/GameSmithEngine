@@ -4,6 +4,11 @@
 #include "GameSmithEngine/SerializeableFiles/ResourceAssets/Asset.h"
 
 namespace GameSmith {
+	void ExposedVariableRegistry::AddExposedVariable(const std::string variableName, Ref<ParameterContainer> container)
+	{
+		m_ValueRegistry.insert({ variableName, {nullptr, container->GetType(), container->GetFlags(), container, true} });
+	}
+
 	void ExposedVariableRegistry::GenerateVariableMap(std::unordered_map<std::string, Ref<ParameterContainer>>* outMap)
 	{
 		for (auto& entry : m_ValueRegistry) {
@@ -39,7 +44,13 @@ namespace GameSmith {
 		for (auto& entry : m_ValueRegistry) {
 			if (inMap.contains(entry.first)) {
 				const auto& variable = inMap.find(entry.first);
-				memcpy(entry.second.originalVariableRef, variable->second->GetCharData(), variable->second->GetSize());
+				if (!entry.second.ownsContainer) {
+					memcpy(entry.second.originalVariableRef, variable->second->GetCharData(), variable->second->GetSize());
+				}
+				else {
+					memcpy(entry.second.containerRef->GetCharData(), variable->second->GetCharData(), variable->second->GetSize());
+				}
+				
 			}
 		}
 	}

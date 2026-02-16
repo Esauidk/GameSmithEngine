@@ -7,7 +7,6 @@
 
 #include "GameSmithEngine/SerializeableFiles/ResourceAssets/AssetFactory.h"
 #include "GameSmithEngine/SerializeableFiles/ResourceAssets/ShaderAsset.h"
-#include "GameSmithEngine/SerializeableFiles/ResourceAssets/TextureAsset.h"
 
 namespace GameSmith {
 	GE_REGISTERASSET(MaterialAsset);
@@ -22,25 +21,20 @@ namespace GameSmith {
 		// Write Shader Paths
 		// Write Parameters
 		// Write Texture Paths
-		//writer.WriteClass<MaterialConfig>(&m_)
 
-		// TODO: Remove this
 		MaterialConfig config;
 		writer.WriteClass<MaterialConfig>(&config);
 
 		for (unsigned int i = 0; i < STAGE_NUM; i++) {
 			if (m_Metadata.Shaders[i].UsedShader) {
-				idData shaderID = m_ShaderIds[i].getData();
+				idData shaderID = m_Shaders.shaders[i]->GetID().getData();
 				writer.WriteClass<idData>(&shaderID);
 			}
 		}
 
 		// Parameters
-		auto& map = m_GlobalVer->DumpCurrentParameterMap();
-		auto& order = m_GlobalVer->DumpParameterOrder();
-
-		for (const std::string& parm : order) {
-			const auto& entry = map.find(parm)->second;
+		for (const auto& parm : m_ParameterKeys) {
+			const auto& entry = m_Parameters.find(parm)->second;
 			writer.WriteString(parm);
 			auto type = entry->GetType();
 			writer.WriteClass<ContainerDataType>(&type);
@@ -48,9 +42,10 @@ namespace GameSmith {
 		}
 
 
-		for (auto& texture : m_MatInfo->TextureIds) {
-			writer.WriteString(texture.first);
-			idData texID = texture.second.getData();
+		for (const auto& texture : m_TextureKeys) {
+			const auto& entry = m_Textures.find(texture)->second;
+			writer.WriteString(texture);
+			idData texID = entry->asset->GetID().getData();
 			writer.WriteClass<idData>(&texID);
 		}
 		
@@ -64,29 +59,26 @@ namespace GameSmith {
 
 	unsigned int MaterialAsset::RequiredSpace() const
 	{
-		// TODO: Implement
 		unsigned int size = 0;
 		size += sizeof(MaterialAssetMetadata);
 		size += sizeof(MaterialConfig);
+
 		for (unsigned int i = 0; i < STAGE_NUM; i++) {
 			if (m_Metadata.Shaders[i].UsedShader) {
 				size += sizeof(idData);
 			}
 		}
 
-		auto& map = m_GlobalVer->DumpCurrentParameterMap();
-		auto& order = m_GlobalVer->DumpParameterOrder();
-
-		for (const std::string& parm : order) {
-			const auto& entry = map.find(parm)->second;
+		for (const auto& parm : m_ParameterKeys) {
+			const auto& entry = m_Parameters.find(parm)->second;
 			size += (unsigned int)(parm.length()+1);
 			size += sizeof(ContainerDataType);
 			size += entry->GetSize();
 		}
 
 
-		for (auto& texture : m_MatInfo->TextureIds) {
-			size += (unsigned int)(texture.first.length()+1);
+		for (const auto& texture : m_TextureKeys) {
+			size += (unsigned int)(texture.length()+1);
 			size += sizeof(idData);
 		}
 
@@ -104,21 +96,14 @@ namespace GameSmith {
 
 		auto instance = AssetManager::GetInstance();
 
-		ShaderSet shaders;
 		for (unsigned int i = 0; i < STAGE_NUM; i++) {
 			Stages stage = (Stages)i;
 			if (matMetadata->Shaders[i].UsedShader) {
 				auto shaderId = reader.ReadClass<idData>();
 				ID newId(*shaderId);
-				shaders.shaders[i] = instance->GetResource<ShaderAsset>(newId);
-				m_ShaderIds[i] = newId;
+				m_Shaders.shaders[i] = instance->GetResource<ShaderAsset>(newId);
 			}
 		}
-
-		std::vector<std::string> parameterNames;
-		std::vector<std::string> textureNames;
-		std::unordered_map<std::string, Ref<ParameterContainer>> parameterMap;
-		std::unordered_map<std::string, Ref<Texture2D>> textureMap;
 
 		for (unsigned int i = 0; i < matMetadata->ParamterCount; i++) {
 			GE_CORE_INFO("Loading parameter {0}", i);
@@ -127,10 +112,10 @@ namespace GameSmith {
 			unsigned int dataSize = GetParameterSize(*dataType);
 			char* data = reader.GetBytes(dataSize);
 
-			Ref<ParameterContainer> parm = ConvertToParameter(paramName, *dataType, data);
+			Ref<ParameterContainer> param = ConvertToParameter(paramName, *dataType, data);
 
-			parameterNames.push_back(paramName);
-			parameterMap.insert({ paramName, parm });
+			m_ParameterKeys.push_back(paramName);
+			m_Parameters[paramName] = param;
 		}
 
 		for (unsigned int i = 0; i < matMetadata->TetureCount; i++) {
@@ -139,66 +124,74 @@ namespace GameSmith {
 			std::string texName = reader.GetString();
 			auto texId = reader.ReadClass<idData>();
 			ID newID(*texId);
-			m_MatInfo->TextureIds.push_back({ texName, newID });
 			Ref<TextureAsset> tex = instance->GetResource<TextureAsset>(newID);
 
-			textureNames.push_back(texName);
-			textureMap.insert({ texName, tex->GetTexture() });
+			m_TextureKeys.push_back(texName);
+			Ref<TextureRefContainer> container = Ref<TextureRefContainer>(new TextureRefContainer{ tex });
+			m_Textures[texName] = container;
 		}
-
-		m_GlobalVer =  Ref<Material>(new Material(shaders, *config, parameterNames, textureNames, parameterMap, textureMap));
 	}
 
 	Ref<Material> MaterialAsset::CreateInstance()
 	{
-		return Ref<Material>(new Material(*m_GlobalVer));
+		MaterialConfig config;
+
+		std::unordered_map<std::string, Ref<Texture2D>> textureMap;
+		for (auto& entry : m_Textures) {
+			textureMap[entry.first] = entry.second->asset->GetTexture();
+		}
+
+		return Ref<Material>(new Material(m_Shaders, config, m_ParameterKeys, m_TextureKeys, m_Parameters, textureMap));
 	}
 
-	MaterialAsset::MaterialAsset(std::string name) : Asset(name), m_MatInfo(new MaterialInfo())
+	MaterialAsset::MaterialAsset(std::string name) : Asset(name)
 	{
+		for (int i = 0; i < STAGE_NUM; i++) {
+			m_Registry.AddExposedAsset<ShaderAsset>(
+				ConvertShaderStageToString((Stages)i),
+				(Ref<GameSmith::IAsset>*) & (m_Shaders.shaders[i]),
+				CLASS_TO_STRING(ShaderAsset)
+			);
+		}
 	}
 
-	MaterialAsset::MaterialAsset(
-		std::string name,
-		std::vector<std::pair<ID, Stages>>& shaderIds,
-		std::vector<std::pair<std::string, ID>>& textureIds,
-		std::vector<std::pair<std::string, ContainerDataType>>& variables
-	) : Asset(name), m_MatInfo(new MaterialInfo())
+	/*MaterialAsset::MaterialAsset(
+		const std::string name,
+		const std::unordered_map<Stages, ID>& shaderIds,
+		const std::vector<std::string>& textureOrder,
+		const std::unordered_map<std::string, ID>& textureIds,
+		const std::vector<std::string>& parameterOrder,
+		const std::unordered_map<std::string, ContainerDataType>& variables
+	) : Asset(name), m_TextureKeys(textureOrder), m_ParameterKeys(parameterOrder)
 	{
-		GE_CORE_ASSERT(shaderIds.size() <= STAGE_NUM, "More shader entries than there are stages");
-
 		auto instance = AssetManager::GetInstance();
 
-		ShaderSet shaders;
 		for (auto& entry : shaderIds) {
-			GE_CORE_ASSERT(shaders.shaders[entry.second] == nullptr, "ShaderPath parameter passed has a double entry for a stage");
-
-			shaders.shaders[entry.second] = instance->GetResource<ShaderAsset>(entry.first);
-			m_ShaderIds[entry.second] = entry.first;
-
-			m_Metadata.Shaders[entry.second].UsedShader = true;
+			m_Shaders.shaders[entry.first] = instance->GetResource<ShaderAsset>(entry.second);
+			m_Metadata.Shaders[entry.first].UsedShader = true;
+			m_Registry.AddExposedAsset<ShaderAsset>(
+				std::format("Shader:Stage:{}", entry.first),
+				(Ref<GameSmith::IAsset>*) &(m_Shaders.shaders[entry.first]),
+				CLASS_TO_STRING(ShaderAsset)
+			);
 		}
 
 		m_Metadata.TetureCount = (unsigned int)textureIds.size();
 		std::vector<std::string> textureNames;
 		std::unordered_map<std::string, Ref<Texture2D>> textureMap;
 		for (auto& textureEntry : textureIds) {
-			m_MatInfo->TextureIds.push_back({ textureEntry.first, textureEntry.second });
 			Ref<TextureAsset> tex = instance->GetResource<TextureAsset>(textureEntry.second);
-			textureNames.push_back(textureEntry.first);
-			textureMap.insert({ textureEntry.first, tex->GetTexture() });
+			Ref<TextureRefContainer> container = Ref<TextureRefContainer>(new TextureRefContainer{ tex });
+			m_Textures[textureEntry.first] = container;
+			m_Registry.AddExposedAsset<TextureAsset>(textureEntry.first, (Ref<GameSmith::IAsset>*)&container->asset, CLASS_TO_STRING(TextureAsset));
 		}
 
 		m_Metadata.ParamterCount = (unsigned int)variables.size();
-		std::vector<std::string> parameterNames;
-		std::unordered_map<std::string, Ref<ParameterContainer>> parameterMap;
 		for (auto& entry : variables) {
 			auto variableContainor = CreateContainer(entry.first, entry.second);
-			parameterNames.push_back(entry.first);
-			parameterMap.insert({ entry.first, variableContainor });
-		}
+			m_Parameters[entry.first] = variableContainor;
+			m_Registry.AddExposedVariable(entry.first, variableContainor);
 
-		MaterialConfig emptyConfig;
-		m_GlobalVer = Ref<Material>(new Material(shaders, emptyConfig, parameterNames, textureNames, parameterMap, textureMap));
-	}
+		}
+	}*/
 };

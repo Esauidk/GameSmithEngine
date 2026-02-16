@@ -18,6 +18,8 @@ namespace GameSmithEditor {
 		std::filesystem::path m_CurrentPath;
 		std::string m_SelectedAsset = "";
 		bool m_Open = true;
+
+		std::vector<std::pair<std::string, std::string>> m_RegisteredAssets;
 	};
 }
 

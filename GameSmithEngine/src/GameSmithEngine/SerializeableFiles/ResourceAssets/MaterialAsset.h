@@ -2,22 +2,21 @@
 #include "Asset.h"
 #include "GameSmithEngine/Core/Core.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/MaterialSystem/Material.h"
+#include "GameSmithEngine/SerializeableFiles/ResourceAssets/TextureAsset.h"
 
 namespace GameSmith {
-	struct MaterialInfo {
-		std::vector<std::pair<std::string, ID>> TextureIds;
-	};
-
 	class GE_API MaterialAsset : public Asset
 	{
 	public:
 		MaterialAsset(std::string name);
-		MaterialAsset(
-			std::string name,
-			std::vector<std::pair<ID, Stages>>& shaderIds,
-			std::vector<std::pair<std::string, ID>>& textureIds,
-			std::vector<std::pair<std::string, ContainerDataType>>& variables
-		);
+		/*MaterialAsset(
+			const std::string name,
+			const std::unordered_map<Stages, ID>& shaderIds,
+			const std::vector<std::string>& textureOrder,
+			const std::unordered_map<std::string, ID>& textureIds,
+			const std::vector<std::string>& parameterOrder,
+			const std::unordered_map<std::string, ContainerDataType>& variables
+		);*/
 
 		virtual Ref<char> Serialize() override;
 		virtual void Serialize(char* byteStream, unsigned int availableBytes) override;
@@ -29,19 +28,29 @@ namespace GameSmith {
 		Ref<Material> CreateInstance();
 	private:
 		struct MaterialAssetMetadata {
-			unsigned int ParamterCount;
-			unsigned int TetureCount;
+			unsigned int ParamterCount = 0;
+			unsigned int TetureCount = 0;
 			struct ShaderMetadata {
 				bool UsedShader = false;
 			}Shaders[STAGE_NUM];
 		};
 
-		Ref<Material> m_GlobalVer;
+		// We need a layer of indirection because we need to expose textures to the exposed member system
+		// This expects the location of the pointer to manipulate to be consistent,
+		// so we can't just store the Ref<TextureAsset> directly in the map
+		struct TextureRefContainer {
+			Ref<TextureAsset> asset = nullptr;
+		};
 
 		MaterialAssetMetadata m_Metadata;
-		ID m_ShaderIds[STAGE_NUM];
+		ShaderSet m_Shaders;
 
-		Scope<MaterialInfo> m_MatInfo;
+		// Order is important for materials
+		std::vector<std::string> m_ParameterKeys;
+		std::vector<std::string> m_TextureKeys;
+
+		std::unordered_map<std::string, Ref<TextureRefContainer>> m_Textures;
+		std::unordered_map<std::string, Ref<ParameterContainer>> m_Parameters;
 	};
 };
 

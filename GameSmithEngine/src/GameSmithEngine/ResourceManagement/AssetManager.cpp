@@ -54,13 +54,14 @@ namespace GameSmith {
 		}
 	}
 
-	ID AssetManager::WriteResource(const Ref<IAsset> resource, const std::string& path)
+	ID AssetManager::WriteResource(const Ref<IAsset> resource, const std::string& destDir)
 	{
-		std::fstream pFile(path, std::ios::out | std::ios::binary | std::ios::ate);
-		GE_CORE_ASSERT(pFile.is_open(), std::format("Asset file {0} cannot be opened", path));
+		const std::string filePath = std::format("{0}\\{1}.{2}", destDir, resource->GetName(), resource->GetFileExtension());
+		std::fstream pFile(filePath, std::ios::out | std::ios::binary | std::ios::ate);
+		GE_CORE_ASSERT(pFile.is_open(), std::format("Asset file {0} cannot be opened", destDir));
 
-		std::fstream metaFile(path + META_FILE_EXTENSION, std::ios::out | std::ios::binary | std::ios::ate);
-		GE_CORE_ASSERT(metaFile.is_open(), std::format("Asset file {0} cannot be opened", path));
+		std::fstream metaFile(filePath + META_FILE_EXTENSION, std::ios::out | std::ios::binary | std::ios::ate);
+		GE_CORE_ASSERT(metaFile.is_open(), std::format("Asset file {0} cannot be opened", destDir));
 
 		const auto serial = resource->Serialize();
 		const auto id = resource->GetID();
@@ -76,12 +77,25 @@ namespace GameSmith {
 		metaFile.write((char*)&meta, sizeof(meta));
 		metaFile.close();
 
-		const std::string fileName = fs::path(path).filename().stem().string();
-		m_ResourceMaps->ResourceRegistry.insert({ id, path });
-		m_ResourceMaps->ReverseResourceRegistry.insert({ path, meta.ID });
-		m_ResourceMaps->filePathToFileName.insert({ path, fileName });
+		const std::string fileName = fs::path(filePath).filename().stem().string();
+		m_ResourceMaps->ResourceRegistry.insert({ id, filePath });
+		m_ResourceMaps->ReverseResourceRegistry.insert({ filePath, id });
+		m_ResourceMaps->filePathToFileName.insert({ filePath, fileName });
 
 		return id;
+	}
+
+	ID AssetManager::CreateResource(const std::string& fileName, const std::string& destDir)
+	{
+		const std::string filePath = std::format("{0}\\{1}", destDir, fileName);
+		GE_CORE_ASSERT(!m_ResourceMaps->ReverseResourceRegistry.contains(filePath), "Resource already exists at the desired path");
+
+		const size_t extensionPoint = fileName.find_last_of(".");
+		const std::string ext = fileName.substr(extensionPoint + 1);
+		const std::string fileNameNoExt = fileName.substr(0, extensionPoint);
+		Ref<IAsset> asset = AssetFactory::GenerateAsset(ext, fileNameNoExt);
+
+		return WriteResource(asset, destDir);
 	}
 
 	ID AssetManager::ImportResource(const std::string& path)

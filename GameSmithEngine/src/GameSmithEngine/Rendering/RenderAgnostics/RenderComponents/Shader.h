@@ -10,6 +10,8 @@ namespace GameSmith {
 		STAGE_NUM
 	};
 
+	std::string ConvertShaderStageToString(Stages stage);
+
 	// INTERFACE
 	// A piece of code to be ran on the GPU in some part of a render pipline
 	class Shader

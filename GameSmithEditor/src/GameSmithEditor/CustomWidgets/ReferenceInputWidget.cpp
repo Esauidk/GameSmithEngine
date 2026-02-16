@@ -61,17 +61,18 @@ namespace GameSmithEditor {
 		bool found = false;
 		ImGui::Text(varName.c_str());
 		ImGui::SameLine();
-		std::string refInfo = std::format("{0}:{1}", "Empty", refCon->GetTypeName());
+		std::string refInfo = std::format("{0}:{1}##{2}", "Empty", refCon->GetTypeName(), varName);
 		auto curRef = refCon->GetCurrentRef();
 		if (curRef != nullptr) {
 			const GameSmith::ID& id = curRef->GetID();
 			refInfo = std::format(
-				"{0}:{1},{2},{3},{4}",
+				"{0}:{1},{2},{3},{4}##{5}",
 				refCon->GetTypeName(),
 				id.getData().ID1,
 				id.getData().ID2,
 				id.getData().ID3,
-				id.getData().ID4
+				id.getData().ID4,
+				varName
 			);
 		}
 
@@ -96,7 +97,8 @@ namespace GameSmithEditor {
 
 		ImGui::SameLine();
 
-		if (ImGui::SmallButton("Select")) {
+		const std::string buttonLabel = std::format("{0}##{1}", "Select", varName);
+		if (ImGui::SmallButton(buttonLabel.c_str())) {
 		}
 
 		return found;

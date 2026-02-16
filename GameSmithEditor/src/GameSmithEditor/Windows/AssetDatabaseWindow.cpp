@@ -19,6 +19,8 @@ namespace GameSmithEditor {
 		if (GameProject::IsLoaded()) {
 			m_CurrentPath = std::filesystem::path(GameProject::GetAssetFolder());
 		}
+
+		m_RegisteredAssets = GameSmith::AssetRegistry::GetInstance()->ListRegisteredAssets();
 	}
 
 	void AssetDatabaseWindow::OnAttach(const GameSmith::ApplicationSpecs& specs)
@@ -68,7 +70,7 @@ namespace GameSmithEditor {
 				}
 
 				if (ImGui::BeginPopup("AssetDatabaseModMenu")) {
-					if (ImGui::MenuItem("ImportAsset")) {
+					if (ImGui::Button("ImportAsset")) {
 						std::string filePath;
 						FileSearchCriteria criteria;
 						criteria.filePath = GameProject::GetAssetFolder();
@@ -79,8 +81,28 @@ namespace GameSmithEditor {
 						
 					}
 
+					if (ImGui::Button("CreateAsset")) {
+						ImGui::OpenPopup("AssetDatabaseCreateAssetMenu");
+					}
+
+					if (ImGui::BeginPopup("AssetDatabaseCreateAssetMenu")) {
+						for (const auto& entry : m_RegisteredAssets) {
+							const std::string menuLabel = std::format("{1} ({0})", entry.first, entry.second);
+							if (ImGui::MenuItem(menuLabel.c_str())) {
+								auto manager = GameSmith::AssetManager::GetInstance();
+
+								const std::string fileName = std::format("New {1}.{0}", entry.first, entry.second);
+								const std::string path = m_CurrentPath.string();
+								manager->CreateResource(fileName, path);
+							}
+						}
+						ImGui::EndPopup();
+					}
+
 					ImGui::EndPopup();
 				}
+
+				
 
 				ImGui::Separator();
 

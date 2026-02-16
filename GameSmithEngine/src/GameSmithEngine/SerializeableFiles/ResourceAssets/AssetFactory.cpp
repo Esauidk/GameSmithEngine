@@ -13,10 +13,12 @@ namespace GameSmith {
 
 		return s_Instance.get();
 	}
-	void AssetRegistry::RegisterAsset(std::string ext, std::function<IAsset* (std::string)> creationFunction)
+
+	void AssetRegistry::RegisterAsset(std::string ext, std::string assetLabel, std::function<IAsset* (std::string)> creationFunction)
 	{
 		if (!m_ExtToAsset.contains(ext)) {
 			m_ExtToAsset.insert({ ext, creationFunction });
+			m_RegisteredAssets.push_back({ ext, assetLabel });
 		}
 	}
 

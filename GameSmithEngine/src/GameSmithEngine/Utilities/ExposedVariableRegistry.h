@@ -50,7 +50,8 @@ namespace GameSmith {
 		* entry: a pointer to update with new variable data
 		* entryType: the type of variable to treat this entry as
 		*/
-		inline void AddExposedVariable(std::string variableName, void* entry, ContainerDataType entryType) { if (entry == nullptr) return; m_ValueRegistry.insert({ variableName, {entry, entryType} }); }
+		inline void AddExposedVariable(const std::string variableName, void* entry, ContainerDataType entryType) { if (entry == nullptr) return; m_ValueRegistry.insert({ variableName, {entry, entryType} }); }
+		void AddExposedVariable(const std::string variableName, Ref<ParameterContainer> container);
 
 		/* Adds a definition for an exposed connection
 		* refName: A string to tie this new exposed connection definition
@@ -59,7 +60,7 @@ namespace GameSmith {
 		* flags: Any special flags to determine how the connection is interpreted (view ExposedVariableFlags)
 		*/
 		template<typename T>
-		inline void AddExposedConnection(std::string refName, Connection<IDObjectInterface>* entry, std::string typeName, unsigned int flags = 0) { 
+		inline void AddExposedConnection(const std::string refName, Connection<IDObjectInterface>* entry, std::string typeName, unsigned int flags = 0) { 
 			if (entry == nullptr) return;
 
 			m_ConnectionsRegistry.insert(
@@ -91,7 +92,7 @@ namespace GameSmith {
 		* flags: Any special flags to determine how the reference is interpreted (view ExposedVariableFlags)
 		*/
 		template<typename T>
-		inline void AddExposedAsset(std::string refName, Ref<IAsset>* entry, std::string typeName, unsigned int flags = 0) {
+		inline void AddExposedAsset(const std::string refName, Ref<IAsset>* entry, std::string typeName, unsigned int flags = 0) {
 			if (entry == nullptr) return;
 
 			m_AssetRegistry.insert(
@@ -140,6 +141,8 @@ namespace GameSmith {
 			void* originalVariableRef;
 			ContainerDataType variableDataType;
 			unsigned int flags;
+			Ref<ParameterContainer> containerRef = nullptr;
+			bool ownsContainer = false;
 		};
 
 		template<typename T>

@@ -345,6 +345,9 @@
     <ClInclude Include="src\GameSmithEngine\ImGui\ImGuiLayer.h">
       <Filter>src\GameSmithEngine\ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\ImGui\ImGuiThemes.h">
+      <Filter>src\GameSmithEngine\ImGui</Filter>
+    </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Platform\Window\WindowsInput.h">
       <Filter>src\GameSmithEngine\Platform\Window</Filter>
     </ClInclude>
@@ -2097,7 +2100,6 @@
     <ClInclude Include="third-party\tinyobjloader\tiny_obj_loader.h">
       <Filter>third-party\tinyobjloader</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameSmithEngine\ImGui\ImGuiThemes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GameSmithEngine\ContentLibrarySystem\ContentLibraryManager.cpp">
@@ -2185,6 +2187,9 @@
       <Filter>src\GameSmithEngine\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\ImGui\ImGuiLayer.cpp">
+      <Filter>src\GameSmithEngine\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\ImGui\ImGuiThemes.cpp">
       <Filter>src\GameSmithEngine\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\Platform\Window\WindowsInput.cpp">
@@ -2337,6 +2342,6 @@
     <ClCompile Include="third-party\stb\std_image.cpp">
       <Filter>third-party\stb</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameSmithEngine\ImGui\ImGuiThemes.cpp" />
+    <ClCompile Include="src\GameSmithEngine\Rendering\RenderAgnostics\RenderComponents\Shader.cpp" />
   </ItemGroup>
 </Project>

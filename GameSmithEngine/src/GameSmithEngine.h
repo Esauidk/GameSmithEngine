@@ -65,6 +65,7 @@
 
 // -----------RescourceManagement-----------
 #include "GameSmithEngine/ResourceManagement/AssetManager.h"
+#include "GameSmithEngine/SerializeableFiles/ResourceAssets/AssetFactory.h"
 #include "GameSmithEngine/SerializeableFiles/ResourceAssets/TestResource.h"
 #include "GameSmithEngine/SerializeableFiles/ResourceAssets/TextureAsset.h"
 #include "GameSmithEngine/SerializeableFiles/ResourceAssets/MaterialAsset.h"

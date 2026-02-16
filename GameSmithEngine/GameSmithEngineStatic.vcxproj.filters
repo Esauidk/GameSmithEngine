@@ -345,6 +345,9 @@
     <ClInclude Include="src\GameSmithEngine\ImGui\ImGuiLayer.h">
       <Filter>src\GameSmithEngine\ImGui</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\ImGui\ImGuiThemes.h">
+      <Filter>src\GameSmithEngine\ImGui</Filter>
+    </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Platform\Window\WindowsInput.h">
       <Filter>src\GameSmithEngine\Platform\Window</Filter>
     </ClInclude>
@@ -2184,6 +2187,9 @@
       <Filter>src\GameSmithEngine\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\ImGui\ImGuiLayer.cpp">
+      <Filter>src\GameSmithEngine\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\ImGui\ImGuiThemes.cpp">
       <Filter>src\GameSmithEngine\ImGui</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\Platform\Window\WindowsInput.cpp">
