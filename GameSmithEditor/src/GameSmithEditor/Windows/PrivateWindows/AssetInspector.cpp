@@ -19,6 +19,13 @@ namespace GameSmithEditor {
 			ImGui::PushItemWidth(ImGui::GetWindowWidth() / 2);
 			ImGui::Text(assetName.c_str());
 			ImGui::PopItemWidth();
+			ImGui::SameLine();
+			if (ImGui::Button("Save")) {
+				auto assetManager = GameSmith::AssetManager::GetInstance();
+				const std::string filePath = assetManager->GetAssetPath(m_InspectedAsset->GetID());
+				assetManager->WriteResource(m_InspectedAsset, filePath);
+			}
+
 			ImGui::Separator();
 
 			for (auto& entry : m_ExposedVariables) {

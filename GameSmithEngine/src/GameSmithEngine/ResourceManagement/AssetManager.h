@@ -180,6 +180,12 @@ namespace GameSmith {
 		/// <param name="path"> The file system source to lookup </param>
 		/// <returns> The requested resource's ID </returns>
 		ID GetAssetID(const std::string& path) const;
+		/// <summary>
+		/// Looks up the path associated with the requested resource
+		/// </summary>
+		/// <param name="id"> The asset ID to look up</param>
+		/// <returns>The requested resource's file path</returns>
+		std::string GetAssetPath(const ID& id) const;
 
 		/// <summary>
 		/// Scans all resources available under the monitored asset directory

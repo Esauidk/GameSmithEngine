@@ -100,10 +100,10 @@ namespace GameSmith {
 
 	ID AssetManager::ImportResource(const std::string& path)
 	{
-		// TOOD: Add more to import logic, for now it's just ID assignment
-		fs::path filePath(path);
-		std::string fileName = filePath.filename().string();
-		std::string destPath = std::format("{0}\\{1}", m_AssetDirectory, fileName);
+		const fs::path filePath(path);
+		const std::string fileNameWithExt = filePath.filename().string();
+		const std::string fileName = filePath.filename().stem().string();
+		std::string destPath = std::format("{0}\\{1}", m_AssetDirectory, fileNameWithExt);
 		if (!fs::copy_file(filePath.string(), destPath)) {
 			GE_CORE_ERROR("Failed to import resource");
 			return ID();
@@ -123,6 +123,7 @@ namespace GameSmith {
 
 		m_ResourceMaps->ResourceRegistry.insert({ meta.ID, destPath });
 		m_ResourceMaps->ReverseResourceRegistry.insert({ destPath, meta.ID });
+		m_ResourceMaps->filePathToFileName.insert({ destPath, fileName });
 
 		return newID;
 	}
@@ -136,12 +137,21 @@ namespace GameSmith {
 		return ID();
 	}
 
+	std::string AssetManager::GetAssetPath(const ID& id) const
+	{
+		if (m_ResourceMaps->ResourceRegistry.contains(id)) {
+			return m_ResourceMaps->ResourceRegistry[id];
+		}
+
+		return std::string();
+	}
+
 	void AssetManager::ScanResources()
 	{
 		if (m_AssetDirectory != "") {
 			for (const auto& dirEntry : recursive_directory_iterator(m_AssetDirectory)) {
 				if (dirEntry.is_regular_file()) {
-					const std::filesystem::path filePath = dirEntry.path();
+					const fs::path filePath = dirEntry.path();
 					const std::string fileName = filePath.filename().stem().string();
 					const std::string path = filePath.string();
 
