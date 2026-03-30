@@ -209,6 +209,7 @@
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\DirectX12DepthBuffer.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\DirectX12RendererAPI.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\DirectX12RendererHeaders.h" />
+    <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\DirectX12ShaderCompiler.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\HeapStructures\DirectX12DescriptorLoaderHeapManager.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\HeapStructures\DirectX12HeapDatabase.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12ConstantBuffer.h" />
@@ -232,6 +233,7 @@
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\State\DirectX12StateManager.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\Util\DirectX12Macos.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\Util\DirectX12RootSignatureBuilder.h" />
+    <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\Util\DirectX12ShaderIncludeResolver.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\Util\DirectX12ShaderUtils.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\Util\DirectX12Util.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\Util\third-party\d3dx12.h" />
@@ -255,6 +257,8 @@
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\RenderComponents\Topology.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\RenderComponents\VertexBuffer.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\SLab\SLab.h" />
+    <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\SLab\ShaderMetadata.h" />
+    <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\ShaderIncludeCache.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\ShaderUtil.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderWorkflow.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\RendererAPI.h" />
@@ -272,7 +276,8 @@
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\GameChunkAsset.h" />
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\MaterialAsset.h" />
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\MeshAsset.h" />
-    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderAsset.h" />
+    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes\CompiledShaderAsset.h" />
+    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes\ShaderAsset.h" />
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\TestResource.h" />
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\TextureAsset.h" />
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\Serializable.h" />
@@ -281,6 +286,7 @@
     <ClInclude Include="src\GameSmithEngine\Utilities\ExposedVariableRegistry.h" />
     <ClInclude Include="src\GameSmithEngine\Utilities\GUIDGenerator.h" />
     <ClInclude Include="src\GameSmithEngine\Utilities\Locks\Spinlock.h" />
+    <ClInclude Include="src\GameSmithEngine\Utilities\MiscellaneousUtilities.h" />
     <ClInclude Include="src\GameSmithEngine\Utilities\ParameterContainer.h" />
     <ClInclude Include="src\GameSmithEngine\Utilities\ThreadSafeQueue.h" />
     <ClInclude Include="src\GameSmithEngine\Utilities\ThreadSafeVector.h" />
@@ -822,6 +828,7 @@
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\DirectX12Core.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\DirectX12DepthBuffer.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\DirectX12RendererAPI.cpp" />
+    <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\DirectX12ShaderCompiler.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\HeapStructures\DirectX12DescriptorLoaderHeapManager.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\HeapStructures\DirectX12HeapDatabase.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12ConstantBuffer.cpp" />
@@ -839,12 +846,16 @@
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\Resources\Util\DirectX12BarrierTracker.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\State\DirectX12HeapDescriptorState.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\State\DirectX12StateManager.cpp" />
+    <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\Util\DirectX12ShaderIncludeResolver.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\Util\DirectX12ShaderUtils.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\PipelineStateObjectManager.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\RenderAgnostics\Camera\Camera.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\RenderAgnostics\Camera\OrthoCamera.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\RenderAgnostics\Camera\PerspectiveCamera.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\RenderAgnostics\MaterialSystem\Material.cpp" />
+    <ClCompile Include="src\GameSmithEngine\Rendering\RenderAgnostics\RenderComponents\Shader.cpp" />
+    <ClCompile Include="src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\SLab\ShaderMetadata.cpp" />
+    <ClCompile Include="src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\ShaderIncludeCache.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\RenderingManager.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\Workflows\ForwardRender.cpp" />
     <ClCompile Include="src\GameSmithEngine\ResourceManagement\AssetManager.cpp" />
@@ -855,12 +866,13 @@
     <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\GameChunkAsset.cpp" />
     <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\MaterialAsset.cpp" />
     <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\MeshAsset.cpp" />
-    <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderAsset.cpp" />
+    <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes\ShaderAsset.cpp" />
     <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\TestResource.cpp" />
     <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\TextureAsset.cpp" />
     <ClCompile Include="src\GameSmithEngine\Utilities\ExposedVariableRegistry.cpp" />
     <ClCompile Include="src\GameSmithEngine\Utilities\GUIDGenerator.cpp" />
     <ClCompile Include="src\GameSmithEngine\Utilities\Locks\Spinlock.cpp" />
+    <ClCompile Include="src\GameSmithEngine\Utilities\MiscellaneousUtilities.cpp" />
     <ClCompile Include="src\gepch.cpp">
       <PrecompiledHeader>Create</PrecompiledHeader>
     </ClCompile>

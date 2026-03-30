@@ -1,4 +1,7 @@
 #include "TestingLayer.h"
+#include "GameSmithEngine/ResourceManagement/ResourceLoaders/HeapResourceLoader.h"
+#include "GameSmithEngine/Rendering/DirectX12/DirectX12ShaderCompiler.h"
+#include "GameSmithEngine/Rendering/RenderAgnostics/Shaders/ShaderIncludeCache.h"
 
 GE_REGISTERCOMPONENT(TestLayerComponent)
 
@@ -82,6 +85,19 @@ TestingLayer::TestingLayer() : GameSmith::Layer("Testing Layer")
 	auto gm1 = GameSmith::GameObjectManager::GetInstance()->CreateGameObject();
 	gm1.lock()->GetTransform().lock()->SetPosition({ 6, 8, 1 });
 
+	auto am = GameSmith::HeapResourceLoader();
+	unsigned int size;
+	const char* file = am.LoadResource("C:/Users/esaus/Documents/Coding Projects/GameSmithEngine/GameSmithEngine/src/GameSmithEngine/Rendering/SampleShaders/Vertex/BasicRenderVS.hlsl", &size);
+
+	auto assetManager = GameSmith::AssetManager::GetInstance();
+	auto importedAsset = assetManager->ImportResource("C:/Users/esaus/Documents/Coding Projects/GameSmithEngine/GameSmithEngine/src/GameSmithEngine/Rendering/SampleShaders/Core.hlsli");
+	GameSmith::ShaderIncludeCache cache;
+	cache.AddInclude("Core.hlsli", importedAsset);
+	
+	auto rm = GameSmith::RenderingManager::GetInstance();
+	GameSmith::Ref<const char> compiledCode = rm->GetRenderAPI()->CompileShader(GameSmith::Stages::STAGE_VERTEX, file, size, "main", &cache, &size);
+	
+
 	/*std::vector<GameSmith::Connection<GameSmith::GameObject>> objs;
 	objs.push_back(gm);
 	objs.push_back(gm1);
@@ -148,7 +164,7 @@ void TestingLayer::OnImGuiRender()
 {
 }
 
-void TestingLayer::OnUpdate(float dt)
+void TestingLayer::OnUpdate(float dt) 
 {
 	auto renderManager = GameSmith::RenderingManager::GetInstance();
 	renderManager->SetForClear(m_RenderTex);

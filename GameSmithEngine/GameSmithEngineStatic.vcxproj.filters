@@ -121,6 +121,9 @@
     <Filter Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets">
       <UniqueIdentifier>{79567AD4-E572-6CC5-AE4A-D9321A26D686}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes">
+      <UniqueIdentifier>{74095786-E027-6B53-29F5-70659552A65C}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\GameSmithEngine\ThirdPartySetups">
       <UniqueIdentifier>{2FAB3559-1B92-F750-C4E2-5D6EB0A870B7}</UniqueIdentifier>
     </Filter>
@@ -384,6 +387,9 @@
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\DirectX12RendererHeaders.h">
       <Filter>src\GameSmithEngine\Rendering\DirectX12</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\DirectX12ShaderCompiler.h">
+      <Filter>src\GameSmithEngine\Rendering\DirectX12</Filter>
+    </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\HeapStructures\DirectX12DescriptorLoaderHeapManager.h">
       <Filter>src\GameSmithEngine\Rendering\DirectX12\HeapStructures</Filter>
     </ClInclude>
@@ -451,6 +457,9 @@
       <Filter>src\GameSmithEngine\Rendering\DirectX12\Util</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\Util\DirectX12RootSignatureBuilder.h">
+      <Filter>src\GameSmithEngine\Rendering\DirectX12\Util</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\Util\DirectX12ShaderIncludeResolver.h">
       <Filter>src\GameSmithEngine\Rendering\DirectX12\Util</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\Util\DirectX12ShaderUtils.h">
@@ -522,6 +531,12 @@
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\SLab\SLab.h">
       <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\SLab</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\SLab\ShaderMetadata.h">
+      <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\SLab</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\ShaderIncludeCache.h">
+      <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\Shaders</Filter>
+    </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\ShaderUtil.h">
       <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\Shaders</Filter>
     </ClInclude>
@@ -573,8 +588,11 @@
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\MeshAsset.h">
       <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderAsset.h">
-      <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets</Filter>
+    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes\CompiledShaderAsset.h">
+      <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes\ShaderAsset.h">
+      <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\TestResource.h">
       <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets</Filter>
@@ -599,6 +617,9 @@
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Utilities\Locks\Spinlock.h">
       <Filter>src\GameSmithEngine\Utilities\Locks</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\Utilities\MiscellaneousUtilities.h">
+      <Filter>src\GameSmithEngine\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Utilities\ParameterContainer.h">
       <Filter>src\GameSmithEngine\Utilities</Filter>
@@ -2219,6 +2240,9 @@
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\DirectX12RendererAPI.cpp">
       <Filter>src\GameSmithEngine\Rendering\DirectX12</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\DirectX12ShaderCompiler.cpp">
+      <Filter>src\GameSmithEngine\Rendering\DirectX12</Filter>
+    </ClCompile>
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\HeapStructures\DirectX12DescriptorLoaderHeapManager.cpp">
       <Filter>src\GameSmithEngine\Rendering\DirectX12\HeapStructures</Filter>
     </ClCompile>
@@ -2270,6 +2294,9 @@
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\State\DirectX12StateManager.cpp">
       <Filter>src\GameSmithEngine\Rendering\DirectX12\State</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\Util\DirectX12ShaderIncludeResolver.cpp">
+      <Filter>src\GameSmithEngine\Rendering\DirectX12\Util</Filter>
+    </ClCompile>
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\Util\DirectX12ShaderUtils.cpp">
       <Filter>src\GameSmithEngine\Rendering\DirectX12\Util</Filter>
     </ClCompile>
@@ -2287,6 +2314,15 @@
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\Rendering\RenderAgnostics\MaterialSystem\Material.cpp">
       <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\MaterialSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\Rendering\RenderAgnostics\RenderComponents\Shader.cpp">
+      <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\RenderComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\SLab\ShaderMetadata.cpp">
+      <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\SLab</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\ShaderIncludeCache.cpp">
+      <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\Shaders</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\Rendering\RenderingManager.cpp">
       <Filter>src\GameSmithEngine\Rendering</Filter>
@@ -2318,8 +2354,8 @@
     <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\MeshAsset.cpp">
       <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderAsset.cpp">
-      <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets</Filter>
+    <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes\ShaderAsset.cpp">
+      <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\TestResource.cpp">
       <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets</Filter>
@@ -2335,6 +2371,9 @@
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\Utilities\Locks\Spinlock.cpp">
       <Filter>src\GameSmithEngine\Utilities\Locks</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\Utilities\MiscellaneousUtilities.cpp">
+      <Filter>src\GameSmithEngine\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="src\gepch.cpp">
       <Filter>src</Filter>
