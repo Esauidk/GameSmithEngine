@@ -1,8 +1,9 @@
 #pragma once
 #include "GameSmithEngine/ResourceManagement/ResourceLoaders/ResourceLoader.h"
+#include "GameSmithEngine/Core/Core.h"
 
 namespace GameSmith {
-	class HeapResourceLoader : public ResourceLoader {
+	class GE_API HeapResourceLoader : public ResourceLoader {
 	public:
 		virtual char* LoadResource(std::string file, UINT* outSize) override;
 		// Purpose only for testing

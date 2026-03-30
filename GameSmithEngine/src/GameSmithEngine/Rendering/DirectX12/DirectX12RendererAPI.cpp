@@ -64,9 +64,20 @@ namespace GameSmith {
 		return Ref<Shader>(new DirectX12Shader(path));
 	}
 
-	Ref<Shader> DirectX12RendererAPI::LoadShader(char* byteCode, unsigned int length)
+	Ref<Shader> DirectX12RendererAPI::LoadShader(const char* byteCode, unsigned int length)
 	{
 		return Ref<Shader>(new DirectX12Shader(byteCode, length));
+	}
+
+	Ref<const char> DirectX12RendererAPI::CompileShader(const Stages stage, const char* rawCode, const unsigned int length, const char* entryPt, const ShaderIncludeCache* includeCache, unsigned int* outSize)
+	{
+		const std::string model = TranslateStageToShaderModel(stage);
+		Ref<const char> compiledShader = m_ShaderCompiler.CompileShader(rawCode, length, entryPt, model.c_str(), includeCache, outSize);
+		if (compiledShader == nullptr) {
+			GE_CORE_ERROR("Shader compilation failed for entry point {0} with model {1}", entryPt, model);
+		}
+
+		return compiledShader;
 	}
 
 	Ref<ConstantBuffer> DirectX12RendererAPI::CreateConstantBuffer(UINT size, std::string name)

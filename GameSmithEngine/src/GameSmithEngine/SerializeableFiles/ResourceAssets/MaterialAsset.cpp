@@ -6,7 +6,7 @@
 #include "GameSmithEngine/ResourceManagement/ResourceAssetHelper.h"
 
 #include "GameSmithEngine/SerializeableFiles/ResourceAssets/AssetFactory.h"
-#include "GameSmithEngine/SerializeableFiles/ResourceAssets/ShaderAsset.h"
+#include "GameSmithEngine/SerializeableFiles/ResourceAssets/ShaderTypes/ShaderAsset.h"
 
 namespace GameSmith {
 	GE_REGISTERASSET(MaterialAsset);

@@ -1,14 +1,16 @@
 #pragma once
 #include "GameSmithEngine/Core/Core.h"
-#include "RendererAPI.h"
-#include "PipelineStateObjectManager.h"
-#include "RenderWorkflow.h"
 #include "GameSmithEngine/Events/RenderingEvents.h"
+#include "PipelineStateObjectManager.h"
+#include "RendererAPI.h"
+#include "RenderWorkflow.h"
 
 #include "GameSmithEngine/Rendering/RenderAgnostics/Camera/Camera.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/LightingSystem/LightSource.h"
-#include "GameSmithEngine/Rendering/RenderAgnostics/RenderComponents/Shader.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/MaterialSystem/Material.h"
+
+#include "GameSmithEngine/Rendering/RenderAgnostics/Shaders/ShaderIncludeCache.h"
+
 
 namespace GameSmith {
 	// A class that can submit high level rendering commands (Taking a scene and drawing it to the screen)
@@ -45,6 +47,8 @@ namespace GameSmith {
 		void Submit(Ref<VertexBuffer> vBuff, Ref<IndexBuffer> iBuff, Ref<Material> mat);
 		void SyncDataTransfer();
 
+		Ref<Shader> CompileOrRetrieveShader(const Stages stage, const char* shaderCode, unsigned int size, const ID& sourceAssetID);
+
 		inline RendererAPI::API GetAPI() { return m_RenderAPI->GetAPI(); };
 		inline RendererAPI* GetRenderAPI() { return m_RenderAPI.get(); }
 		inline PipelineStateObjectManager* GetPSOManager() { return m_PSOManager.get(); }
@@ -76,6 +80,12 @@ namespace GameSmith {
 
 		// The texture to render submissions to
 		Ref<RenderTexture> m_FrameTexture;
+
+		// A cache for shader includes
+		ShaderIncludeCache m_ShaderIncludeCache;
+
+		// Maps shader asset IDs to their compiled shader IDs
+		std::unordered_map<ID, ID, IDHasher> m_CompiledShaderCache;
 
 		// A list of textures to clear after a swap chain switch
 		std::queue<Ref<RenderTexture>> m_ClearOnSwap;

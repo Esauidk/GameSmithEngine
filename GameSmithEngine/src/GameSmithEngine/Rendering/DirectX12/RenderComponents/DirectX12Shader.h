@@ -12,21 +12,21 @@ namespace GameSmith {
 	public:
 		DirectX12Shader(const std::string path);
 		DirectX12Shader(ComPtr<ID3DBlob> loadedByteCode);
-		DirectX12Shader(char* byteCode, unsigned int length);
+		DirectX12Shader(const char* byteCode, unsigned int length);
 		inline ID3DBlob* ByteCode() const { return m_Blob.Get(); }
-		inline virtual Stages GetShaderType() override {
+		inline Stages GetShaderType() override {
 			// TODO: Return actual shader type
 			return Stages::STAGE_NUM; 
 		}
 
-		inline virtual unsigned int GetHash() override { return m_Hash; }
+		inline unsigned int GetHash() override { return m_Hash; }
 
 
-		inline virtual const char* GetRawByteCode() override {
+		inline const char* GetRawByteCode() override {
 			return (char*)m_Blob->GetBufferPointer();
 		};
 
-		inline virtual unsigned int GetByteCodeSize() override { 
+		inline unsigned int GetByteCodeSize() override { 
 			return (unsigned int)m_Blob->GetBufferSize();
 		};
 

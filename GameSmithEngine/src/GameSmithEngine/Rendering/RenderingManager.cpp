@@ -94,4 +94,15 @@ namespace GameSmith {
 	{
 		m_RenderAPI->FlushDataTransfer();
 	}
+
+	Ref<Shader> RenderingManager::CompileOrRetrieveShader(const Stages stage, const char* shaderCode, unsigned int size, const ID& sourceAssetID)
+	{
+		if (m_CompiledShaderCache.contains(sourceAssetID)) {
+			// Load asset file and return shader
+		}
+
+		unsigned int compiledSize;
+		Ref<const char> compiledShader = m_RenderAPI->CompileShader(stage, shaderCode, size, "main", &m_ShaderIncludeCache, &compiledSize);
+		return m_RenderAPI->LoadShader(compiledShader.get(), compiledSize);
+	}
 };

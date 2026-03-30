@@ -1,6 +1,7 @@
 #pragma once
 
 #include "GameSmithEngine/Rendering/DirectX12/DirectX12Core.h"
+#include "GameSmithEngine/Rendering/DirectX12/DirectX12ShaderCompiler.h"
 #include "GameSmithEngine/Rendering/DirectX12/RenderComponents/DirectX12PipelineState.h"
 #include "GameSmithEngine/Rendering/DirectX12/RenderComponents/DirectX12RootSignature.h"
 
