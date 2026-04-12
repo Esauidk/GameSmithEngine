@@ -2,23 +2,17 @@
 #include "GameSmithEngine/Core/Log.h"
 #include "GameSmithEngine/Rendering/RenderingManager.h"
 #include "ShaderAsset.h"
+#include "GameSmithEngine/ResourceManagement/ResourceAssetHelper.h"
+#include "GameSmithEngine/ResourceManagement/AssetManager.h"
 
 namespace GameSmith {
-	inline ShaderAsset::ShaderAsset(std::string name, const char* data, unsigned int dataSize) : Asset(name)
-	{
-		m_SerializedData = Ref<char>(new char[dataSize]);
-		memcpy(&m_SerializedData, data, dataSize);
-
-		m_SerializedDataSize = dataSize;
-	}
-
 	Ref<char> ShaderAsset::Serialize()
 	{
-		auto byteArray = Ref<char>(new char[RequiredSpace()]);
+		BinaryStreamWriter writer(RequiredSpace());
+		idData sourceID = m_HLSLSource->GetID().getData();
+		writer.WriteClass<idData>(&sourceID);
 
-		memcpy(byteArray.get(), m_Shader->GetRawByteCode(), RequiredSpace());
-
-		return byteArray;
+		return writer.GetBuffer();
 	}
 	void ShaderAsset::Serialize(char* byteStream, unsigned int availableBytes)
 	{
@@ -29,22 +23,26 @@ namespace GameSmith {
 			"The given byte array (given: {0}) is not big enough to serialize this shader (required: {1})", 
 			availableBytes, requiredSize);
 
- 		memcpy(byteStream, m_SerializedData.get(), RequiredSpace());
+		BinaryStreamWriter writer(byteStream, availableBytes);
+		idData sourceID = m_HLSLSource->GetID().getData();
+		writer.WriteClass<idData>(&sourceID);
 	}
 
 	unsigned int ShaderAsset::RequiredSpace() const
 	{
-		return m_SerializedDataSize;
+		unsigned int requiredSize = sizeof(idData);;
+
+		return requiredSize;
 	}
 
 	void ShaderAsset::Deserialize(char* inData, unsigned int size)
 	{
-		m_SerializedData = Ref<char>(new char[size]);
-		memcpy(m_SerializedData.get(), inData, size);
-		m_SerializedDataSize = size;
+		BinaryStreamReader reader(inData, size);
+		idData sourceID = *reader.ReadClass<idData>();
+		ID sourceFullID(sourceID);
 
-		auto renderAPI = RenderingManager::GetInstance()->GetRenderAPI();
-		m_Shader = renderAPI->LoadShader(inData, size);
+		auto assetManager = AssetManager::GetInstance();
+		m_HLSLSource = assetManager->GetResource<HLSLAsset>(sourceFullID);
 	}
 
 	Ref<Shader> ShaderAsset::GetShader()
@@ -52,7 +50,7 @@ namespace GameSmith {
 		if (m_Shader == nullptr) {
 			auto renderManager = RenderingManager::GetInstance();
 			const ID assetID = GetID();
-			m_Shader = renderManager->CompileOrRetrieveShader(STAGE_VERTEX, m_SerializedData.get(), m_SerializedDataSize, assetID);
+			m_Shader = renderManager->CompileOrRetrieveShader(STAGE_VERTEX, m_HLSLSource->GetBytes(), m_HLSLSource->GetSize(), assetID);
 		}
 
 		return m_Shader;

@@ -4,7 +4,9 @@
 #include "GameSmithEngine/Core/Log.h"
 #include "GameSmithEngine/SerializeableFiles/ResourceAssets/Asset.h"
 #include "ResourceLoaders/ResourceLoader.h"
+#include <filesystem>
 
+namespace fs = std::filesystem;
 
 namespace GameSmith {
 	enum class ResourceLoaderType {
@@ -20,7 +22,7 @@ namespace GameSmith {
 		std::unordered_map<std::string, Ref<IAsset>> ActivePathResources;
 		std::unordered_map<ID, std::string, IDHasher> ResourceRegistry;
 		std::unordered_map<std::string, ID> ReverseResourceRegistry;
-		std::unordered_map <std::string, std::string> filePathToFileName;
+		std::unordered_map <std::string, std::vector<std::string>> ExtensionToFilePaths;
 	};
 
 	/// <summary>
@@ -52,7 +54,7 @@ namespace GameSmith {
 			GE_CORE_ASSERT(m_ResourceMaps->ResourceRegistry.contains(asset), "No UUID entry for asset");
 			GE_CORE_INFO("Loading file into memory!");
 			const std::string filePath = m_ResourceMaps->ResourceRegistry.find(asset)->second;
-			const std::string fileName = m_ResourceMaps->filePathToFileName.find(filePath)->second;
+			const std::string fileName = fs::path(filePath).stem().string();
 
 			UINT size;
 			char* data = m_Loader->LoadResource(filePath, &size);
@@ -152,6 +154,19 @@ namespace GameSmith {
 			m_Loader->CleanResource(data);
 
 			return resource;
+		}
+		
+		template<typename T>
+		void GetAssetPathsOfType(std::vector<std::pair<std::string, std::string>>* outResults) const {
+			const std::string targetExt = T::GetStaticFileExtension();
+			if (m_ResourceMaps->ExtensionToFilePaths.contains(targetExt)) {
+				const std::vector<std::string>& paths = m_ResourceMaps->ExtensionToFilePaths.find(targetExt)->second;
+				for (const std::string& path : paths) {
+					fs::path fsPath(path);
+
+					outResults->push_back({ fsPath.filename().string(), path });
+				}
+			}
 		}
 
 		/// <summary>

@@ -4,7 +4,7 @@
 #include "ShaderIncludeCache.h"
 
 #include "GameSmithEngine/ResourceManagement/AssetManager.h"
-#include "GameSmithEngine/SerializeableFiles/ResourceAssets/ShaderTypes/ShaderAsset.h"
+#include "GameSmithEngine/SerializeableFiles/ResourceAssets/ShaderTypes/HLSLAsset.h"
 
 namespace GameSmith {
 	void ShaderIncludeCache::AddInclude(const std::string& includeName, const ID& includeID)
@@ -21,9 +21,9 @@ namespace GameSmith {
 
 		const ID& includeID = m_IncludeCache.find(includeName)->second;
 
-		auto shader = assetManager->GetResource<ShaderAsset>(includeID);
+		auto source = assetManager->GetResource<HLSLAsset>(includeID);
 
-		*outSourceSize = shader->GetByteCodeSize();
-		return shader->GetRawByteCode();
+		*outSourceSize = source->GetSize();
+		return source->GetBytes();
 	}
 };

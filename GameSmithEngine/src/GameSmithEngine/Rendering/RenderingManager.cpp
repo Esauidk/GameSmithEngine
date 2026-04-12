@@ -37,6 +37,13 @@ namespace GameSmith {
 		}
 	}
 
+	void RenderingManager::SetShaderSourceCache(const std::unordered_map<std::string, ID>& shaderFiles)
+	{
+		for (auto& entry : shaderFiles) {
+			m_ShaderIncludeCache.AddInclude(entry.first, entry.second);
+		}
+	}
+
 	void RenderingManager::BeginScene(Camera* cam, LightSource* mainLight)
 	{
 		//m_RenderAPI->ClearCachedAssets();

@@ -10,7 +10,7 @@ cbuffer Instance : register(b1)
     matrix model;
     float4 colors[8];
 };
-#include "../Core.hlsli"
+#include "../Core.hlsl"
 
 float4 main(VertexShaderOutput input) : SV_TARGET
 {

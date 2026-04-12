@@ -30,6 +30,8 @@ namespace GameSmith {
 		/// </summary>
 		static void ShutDown();
 
+		void SetShaderSourceCache(const std::unordered_map<std::string, ID>& shaderFiles);
+
 		/// <summary>
 		/// Sets the render workflow to be used when processing a submission
 		/// 

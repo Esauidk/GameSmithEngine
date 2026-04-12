@@ -139,10 +139,6 @@ project "GameSmithEngineStatic"
 		defines{
 			"GE_PLATFORM_WINDOWS"
 		}
-
-		postbuildcommands{
-			("{COPY} %{cfg.buildtarget.relpath}/../**.cso ../bin/" ..outputdir .. "/TestZone")
-		}
 		
 
 	filter "configurations:Debug"

@@ -579,6 +579,9 @@
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\AssetFactory.h">
       <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\BlobAsset.h">
+      <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets</Filter>
+    </ClInclude>
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\GameChunkAsset.h">
       <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets</Filter>
     </ClInclude>
@@ -588,10 +591,13 @@
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\MeshAsset.h">
       <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes\CompiledShaderAsset.h">
+    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes\HLSLAsset.h">
       <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes\ShaderAsset.h">
+      <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes\ShaderConfiguration.h">
       <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\TestResource.h">
@@ -2343,6 +2349,9 @@
       <Filter>src\GameSmithEngine\SerializeableFiles\GenericFileTypes</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\AssetFactory.cpp">
+      <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\BlobAsset.cpp">
       <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\GameChunkAsset.cpp">

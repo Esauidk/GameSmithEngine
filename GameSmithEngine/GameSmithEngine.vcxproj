@@ -294,11 +294,13 @@ cmd /c xcopy "..\bin\Dist-windows-x86_64\GameSmithEngine\*" "$(SolutionDir)\bin\
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\GenericFileTypes\JsonFile.h" />
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\Asset.h" />
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\AssetFactory.h" />
+    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\BlobAsset.h" />
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\GameChunkAsset.h" />
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\MaterialAsset.h" />
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\MeshAsset.h" />
-    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes\CompiledShaderAsset.h" />
+    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes\HLSLAsset.h" />
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes\ShaderAsset.h" />
+    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes\ShaderConfiguration.h" />
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\TestResource.h" />
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\TextureAsset.h" />
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\Serializable.h" />
@@ -884,6 +886,7 @@ cmd /c xcopy "..\bin\Dist-windows-x86_64\GameSmithEngine\*" "$(SolutionDir)\bin\
     <ClCompile Include="src\GameSmithEngine\ResourceManagement\ResourceLoaders\HeapResourceLoader.cpp" />
     <ClCompile Include="src\GameSmithEngine\SerializeableFiles\GenericFileTypes\JsonFile.cpp" />
     <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\AssetFactory.cpp" />
+    <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\BlobAsset.cpp" />
     <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\GameChunkAsset.cpp" />
     <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\MaterialAsset.cpp" />
     <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\MeshAsset.cpp" />

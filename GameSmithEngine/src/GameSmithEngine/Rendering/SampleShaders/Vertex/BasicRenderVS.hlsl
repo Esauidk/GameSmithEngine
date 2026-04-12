@@ -3,7 +3,7 @@ struct VertexShaderOutput
     float4 Position : SV_POSITION;
 };
 
-#include "../Core.hlsli"
+#include "../Core.hlsl"
 
 VertexShaderOutput main(DefaultVertexData input )
 {

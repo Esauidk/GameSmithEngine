@@ -91,9 +91,6 @@
     </Link>
     <ProjectReference>
     </ProjectReference>
-    <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Debug-windows-x86_64\GameSmithEngineStatic\**.cso\ (xcopy /Q /E /Y /I ..\bin\Debug-windows-x86_64\GameSmithEngineStatic\**.cso ..\bin\Debug-windows-x86_64\TestZone &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Debug-windows-x86_64\GameSmithEngineStatic\**.cso ..\bin\Debug-windows-x86_64\TestZone &gt; nul)</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -119,9 +116,6 @@
     </Link>
     <ProjectReference>
     </ProjectReference>
-    <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Release-windows-x86_64\GameSmithEngineStatic\**.cso\ (xcopy /Q /E /Y /I ..\bin\Release-windows-x86_64\GameSmithEngineStatic\**.cso ..\bin\Release-windows-x86_64\TestZone &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Release-windows-x86_64\GameSmithEngineStatic\**.cso ..\bin\Release-windows-x86_64\TestZone &gt; nul)</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Dist|x64'">
     <ClCompile>
@@ -147,9 +141,6 @@
     </Link>
     <ProjectReference>
     </ProjectReference>
-    <PostBuildEvent>
-      <Command>IF EXIST ..\bin\Dist-windows-x86_64\GameSmithEngineStatic\**.cso\ (xcopy /Q /E /Y /I ..\bin\Dist-windows-x86_64\GameSmithEngineStatic\**.cso ..\bin\Dist-windows-x86_64\TestZone &gt; nul) ELSE (xcopy /Q /Y /I ..\bin\Dist-windows-x86_64\GameSmithEngineStatic\**.cso ..\bin\Dist-windows-x86_64\TestZone &gt; nul)</Command>
-    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\GameSmithEngine.h" />
@@ -273,11 +264,13 @@
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\GenericFileTypes\JsonFile.h" />
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\Asset.h" />
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\AssetFactory.h" />
+    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\BlobAsset.h" />
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\GameChunkAsset.h" />
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\MaterialAsset.h" />
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\MeshAsset.h" />
-    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes\CompiledShaderAsset.h" />
+    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes\HLSLAsset.h" />
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes\ShaderAsset.h" />
+    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes\ShaderConfiguration.h" />
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\TestResource.h" />
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\TextureAsset.h" />
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\Serializable.h" />
@@ -863,6 +856,7 @@
     <ClCompile Include="src\GameSmithEngine\ResourceManagement\ResourceLoaders\HeapResourceLoader.cpp" />
     <ClCompile Include="src\GameSmithEngine\SerializeableFiles\GenericFileTypes\JsonFile.cpp" />
     <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\AssetFactory.cpp" />
+    <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\BlobAsset.cpp" />
     <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\GameChunkAsset.cpp" />
     <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\MaterialAsset.cpp" />
     <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\MeshAsset.cpp" />

@@ -4,14 +4,11 @@
 
 #include "ResourceLoaders/HeapResourceLoader.h"
 
-#include <filesystem>
-
 #include "GameSmithEngine/SerializeableFiles/ResourceAssets/AssetFactory.h"
 
 #define META_FILE_EXTENSION ".meta"
 #define CONTENT_LIBRARY_FILE_EXTENSION "dll"
 
-namespace fs = std::filesystem;
 using recursive_directory_iterator = fs::recursive_directory_iterator;
 
 namespace GameSmith {
@@ -77,10 +74,17 @@ namespace GameSmith {
 		metaFile.write((char*)&meta, sizeof(meta));
 		metaFile.close();
 
-		const std::string fileName = fs::path(filePath).filename().stem().string();
+		const fs::path filePathObj(filePath);
+		const std::string fileName = filePathObj.stem().string();
+		const std::string ext = filePathObj.extension().string();
 		m_ResourceMaps->ResourceRegistry.insert({ id, filePath });
 		m_ResourceMaps->ReverseResourceRegistry.insert({ filePath, id });
-		m_ResourceMaps->filePathToFileName.insert({ filePath, fileName });
+		if (m_ResourceMaps->ExtensionToFilePaths.contains(ext)) {
+			m_ResourceMaps->ExtensionToFilePaths[ext].push_back(filePath);
+		}
+		else {
+			m_ResourceMaps->ExtensionToFilePaths.insert({ ext, { filePath } });
+		}
 
 		return id;
 	}
@@ -102,6 +106,7 @@ namespace GameSmith {
 	{
 		const fs::path filePath(path);
 		const std::string fileNameWithExt = filePath.filename().string();
+		const std::string ext = filePath.extension().string();
 		const std::string fileName = filePath.filename().stem().string();
 		std::string destPath = std::format("{0}\\{1}", m_AssetDirectory, fileNameWithExt);
 		if (!fs::copy_file(filePath.string(), destPath)) {
@@ -123,7 +128,12 @@ namespace GameSmith {
 
 		m_ResourceMaps->ResourceRegistry.insert({ meta.ID, destPath });
 		m_ResourceMaps->ReverseResourceRegistry.insert({ destPath, meta.ID });
-		m_ResourceMaps->filePathToFileName.insert({ destPath, fileName });
+		if (m_ResourceMaps->ExtensionToFilePaths.contains(ext)) {
+			m_ResourceMaps->ExtensionToFilePaths[ext].push_back(destPath);
+		} else {
+			m_ResourceMaps->ExtensionToFilePaths.insert({ ext, { destPath } });
+		}
+		
 
 		return newID;
 	}
@@ -153,6 +163,7 @@ namespace GameSmith {
 				if (dirEntry.is_regular_file()) {
 					const fs::path filePath = dirEntry.path();
 					const std::string fileName = filePath.filename().stem().string();
+					const std::string ext = filePath.extension().string();
 					const std::string path = filePath.string();
 
 					if (std::filesystem::exists(path + META_FILE_EXTENSION)) {
@@ -165,7 +176,13 @@ namespace GameSmith {
 						if (!m_ResourceMaps->ResourceRegistry.contains(metaId)) {
 							m_ResourceMaps->ResourceRegistry.insert({ metaId, path });
 							m_ResourceMaps->ReverseResourceRegistry.insert({ path, metaId });
-							m_ResourceMaps->filePathToFileName.insert({ path, fileName });
+
+							if (m_ResourceMaps->ExtensionToFilePaths.contains(ext)) {
+								m_ResourceMaps->ExtensionToFilePaths[ext].push_back(path);
+							}
+							else {
+								m_ResourceMaps->ExtensionToFilePaths.insert({ ext, { path } });
+							}
 						}
 
 						m_Loader->CleanResource(meta);
@@ -209,7 +226,8 @@ namespace GameSmith {
 		GE_CORE_INFO("Loading file into memory!");
 
 		const std::string path = m_ResourceMaps->ResourceRegistry.find(asset)->second;
-		const std::string fileName = m_ResourceMaps->filePathToFileName.find(path)->second;
+		const fs::path filePath(path);
+		const std::string fileName = filePath.stem().string();
 
 		UINT size;
 		char* data = m_Loader->LoadResource(path, &size);
@@ -220,7 +238,7 @@ namespace GameSmith {
 		GE_CORE_ASSERT(metaSize == sizeof(ResourceFileMetadata), "Meta data of resource has been manipulated and does not match the expected size");
 
 
-		const std::string ext = path.substr(path.find_last_of('.') + 1);
+		const std::string ext = filePath.extension().string();
 		const Ref<IAsset> resource = AssetFactory::GenerateAsset(ext, fileName);
 		resource->Deserialize(data, size);
 
@@ -246,8 +264,9 @@ namespace GameSmith {
 		UINT size;
 		char* data = m_Loader->LoadResource(asset, &size);
 
-		const std::string fileName = m_ResourceMaps->filePathToFileName.find(asset)->second;
-		const std::string ext = asset.substr(asset.find_last_of('.') + 1);
+		const fs::path filePath(asset);
+		const std::string fileName = filePath.stem().string();
+		const std::string ext = filePath.extension().string();
 		const Ref<IAsset> resource = AssetFactory::GenerateAsset(ext, fileName);
 		resource->Deserialize(data, size);
 

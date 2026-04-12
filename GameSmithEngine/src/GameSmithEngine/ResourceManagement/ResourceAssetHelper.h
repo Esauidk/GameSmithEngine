@@ -56,7 +56,7 @@ namespace GameSmith {
 		void WriteByte(char* bytes, unsigned int byteCount);
 		void CommitToFile(std::string destination);
 
-		inline Ref<char> GetBuffer() { if (m_outsideSrc) { return nullptr; }return m_Buffer; }
+		inline Ref<char> GetBuffer() { if (m_outsideSrc) { return nullptr; } return m_Buffer; }
 		inline char* GetCurPtr() const { return m_CurPtr; }
 		void MoveCurPtr(unsigned int bytes);
 

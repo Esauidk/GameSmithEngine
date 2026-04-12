@@ -2,7 +2,7 @@
 
 #include "GameSmithEngine/SerializeableFiles/ExposedMemberSerializeable.h"
 
-#define SERIAL_FILE(FILE_TYPE, FILE_EXT) static std::string GetStaticFileExtension() {return #FILE_EXT;} \
+#define SERIAL_FILE(FILE_TYPE, FILE_EXT) static std::string GetStaticFileExtension() {return "."#FILE_EXT;} \
 										static std::string GetStaticFileType() {return #FILE_TYPE;} \
 										const std::string GetFileExtension() const override {return GetStaticFileExtension();} \
 										const std::string GetFileType() const override {return GetStaticFileType();}

@@ -85,18 +85,26 @@ TestingLayer::TestingLayer() : GameSmith::Layer("Testing Layer")
 	auto gm1 = GameSmith::GameObjectManager::GetInstance()->CreateGameObject();
 	gm1.lock()->GetTransform().lock()->SetPosition({ 6, 8, 1 });
 
-	auto am = GameSmith::HeapResourceLoader();
-	unsigned int size;
-	const char* file = am.LoadResource("C:/Users/esaus/Documents/Coding Projects/GameSmithEngine/GameSmithEngine/src/GameSmithEngine/Rendering/SampleShaders/Vertex/BasicRenderVS.hlsl", &size);
-
 	auto assetManager = GameSmith::AssetManager::GetInstance();
-	auto importedAsset = assetManager->ImportResource("C:/Users/esaus/Documents/Coding Projects/GameSmithEngine/GameSmithEngine/src/GameSmithEngine/Rendering/SampleShaders/Core.hlsli");
-	GameSmith::ShaderIncludeCache cache;
-	cache.AddInclude("Core.hlsli", importedAsset);
+	assetManager->ImportResource("C:/Users/esaus/Documents/Coding Projects/GameSmithEngine/GameSmithEngine/src/GameSmithEngine/Rendering/SampleShaders/Core.hlsl");
+	auto importedAsset = assetManager->ImportResource("C:/Users/esaus/Documents/Coding Projects/GameSmithEngine/GameSmithEngine/src/GameSmithEngine/Rendering/SampleShaders/Vertex/BasicRenderVS.hlsl");
+
+	std::vector<std::pair<std::string, std::string>> shaderFiles;
+	assetManager->GetAssetPathsOfType<GameSmith::HLSLAsset>(&shaderFiles);
+
+	std::unordered_map<std::string, GameSmith::ID> shaderFileCache;
+	for (auto& entry : shaderFiles) {
+		auto id = assetManager->GetAssetID(entry.second);
+		shaderFileCache[entry.first] = id;
+	}
 	
 	auto rm = GameSmith::RenderingManager::GetInstance();
-	GameSmith::Ref<const char> compiledCode = rm->GetRenderAPI()->CompileShader(GameSmith::Stages::STAGE_VERTEX, file, size, "main", &cache, &size);
+	rm->SetShaderSourceCache(shaderFileCache);
+
 	
+	auto vertex = assetManager->GetResource<GameSmith::HLSLAsset>(importedAsset);
+	GameSmith::ShaderAsset shader("Main", vertex);
+	shader.GetShader();
 
 	/*std::vector<GameSmith::Connection<GameSmith::GameObject>> objs;
 	objs.push_back(gm);

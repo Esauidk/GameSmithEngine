@@ -1,5 +1,6 @@
 #pragma once
 #include "GameSmithEngine/SerializeableFiles/ResourceAssets/Asset.h"
+#include "GameSmithEngine/SerializeableFiles/ResourceAssets/ShaderTypes/HLSLAsset.h"
 #include "GameSmithEngine/Core/Core.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/RenderComponents/Shader.h"
 
@@ -8,7 +9,7 @@ namespace GameSmith {
 	{
 	public:
 		ShaderAsset(std::string name) : Asset(name) {};
-		inline ShaderAsset(std::string name, const char* data, unsigned int dataSize);
+		ShaderAsset(std::string name, Ref<HLSLAsset> source) : Asset(name), m_HLSLSource(source) {};
 
 		virtual Ref<char> Serialize() override;
 		virtual void Serialize(char* byteStream, unsigned int availableBytes) override;
@@ -17,13 +18,11 @@ namespace GameSmith {
 
 		Ref<Shader> GetShader();
 
-		const char* GetRawByteCode() const { return m_SerializedData.get(); }
-		unsigned int GetByteCodeSize() const { return m_SerializedDataSize; }
+		SERIAL_FILE(GMShader, sr)
+
 	private:
 		Ref<Shader> m_Shader;
-
-		Ref<char> m_SerializedData;
-		unsigned int m_SerializedDataSize = 0;
+		Ref<HLSLAsset> m_HLSLSource;
 	};
 };
 

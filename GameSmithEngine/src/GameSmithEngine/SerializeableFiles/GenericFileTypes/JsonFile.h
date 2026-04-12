@@ -20,7 +20,7 @@ namespace GameSmith {
 		virtual unsigned int RequiredSpace() const override;
 		virtual void Deserialize(char* inData, unsigned int size) override;
 	protected:
-		void UpdateJson(const json& newJson);
+		void UpdateJson(const json& newJson); 
 		virtual void ExtractJsonData(const json& newJson) = 0;
 	private:
 		json m_JsonData;

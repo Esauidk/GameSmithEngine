@@ -70,6 +70,7 @@
 #include "GameSmithEngine/SerializeableFiles/ResourceAssets/TextureAsset.h"
 #include "GameSmithEngine/SerializeableFiles/ResourceAssets/MaterialAsset.h"
 #include "GameSmithEngine/SerializeableFiles/ResourceAssets/ShaderTypes/ShaderAsset.h"
+#include "GameSmithEngine/SerializeableFiles/ResourceAssets/ShaderTypes/HLSLAsset.h"
 #include "GameSmithEngine/SerializeableFiles/ResourceAssets/MeshAsset.h"
 #include "GameSmithEngine/SerializeableFiles/ResourceAssets/GameChunkAsset.h"
 
