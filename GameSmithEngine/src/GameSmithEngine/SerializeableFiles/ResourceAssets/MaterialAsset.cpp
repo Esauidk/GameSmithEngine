@@ -25,12 +25,11 @@ namespace GameSmith {
 		MaterialConfig config;
 		writer.WriteClass<MaterialConfig>(&config);
 
-		for (unsigned int i = 0; i < STAGE_NUM; i++) {
-			if (m_Metadata.Shaders[i].UsedShader) {
-				idData shaderID = m_Shaders.shaders[i]->GetID().getData();
-				writer.WriteClass<idData>(&shaderID);
-			}
+		idData shaderID = { 0,0,0,0 };
+		if (m_Shader != nullptr) {
+			shaderID = m_Shader->GetID().getData();
 		}
+		writer.WriteClass<idData>(&shaderID);
 
 		// Parameters
 		for (const auto& parm : m_ParameterKeys) {
@@ -62,12 +61,7 @@ namespace GameSmith {
 		unsigned int size = 0;
 		size += sizeof(MaterialAssetMetadata);
 		size += sizeof(MaterialConfig);
-
-		for (unsigned int i = 0; i < STAGE_NUM; i++) {
-			if (m_Metadata.Shaders[i].UsedShader) {
-				size += sizeof(idData);
-			}
-		}
+		size += sizeof(idData);
 
 		for (const auto& parm : m_ParameterKeys) {
 			const auto& entry = m_Parameters.find(parm)->second;
@@ -96,13 +90,13 @@ namespace GameSmith {
 
 		auto instance = AssetManager::GetInstance();
 
-		for (unsigned int i = 0; i < STAGE_NUM; i++) {
-			Stages stage = (Stages)i;
-			if (matMetadata->Shaders[i].UsedShader) {
-				auto shaderId = reader.ReadClass<idData>();
-				ID newId(*shaderId);
-				m_Shaders.shaders[i] = instance->GetResource<ShaderAsset>(newId);
-			}
+		auto shaderId = reader.ReadClass<idData>();
+		ID newId(*shaderId);
+		if (newId == ID({ 0,0,0,0 })) {
+			m_Shader = nullptr;
+		}
+		else {
+			m_Shader = instance->GetResource<ShaderAsset>(newId);
 		}
 
 		for (unsigned int i = 0; i < matMetadata->ParamterCount; i++) {
@@ -141,18 +135,27 @@ namespace GameSmith {
 			textureMap[entry.first] = entry.second->asset->GetTexture();
 		}
 
-		return Ref<Material>(new Material(m_Shaders, config, m_ParameterKeys, m_TextureKeys, m_Parameters, textureMap));
+		ShaderSet shaderSet;
+		for (int i = 0; i < STAGE_NUM; i++) {
+			Stages stage = (Stages)i;
+			if (m_Shader->HasShader(stage)) {
+				shaderSet.shaders[stage] = m_Shader->GetShader(stage);
+			}
+			else {
+				shaderSet.shaders[stage] = nullptr;
+			}
+		}
+
+		return Ref<Material>(new Material(shaderSet, config, m_ParameterKeys, m_TextureKeys, m_Parameters, textureMap));
 	}
 
 	MaterialAsset::MaterialAsset(std::string name) : Asset(name)
 	{
-		for (int i = 0; i < STAGE_NUM; i++) {
-			m_Registry.AddExposedAsset<ShaderAsset>(
-				ConvertShaderStageToString((Stages)i),
-				(Ref<GameSmith::IAsset>*) & (m_Shaders.shaders[i]),
-				CLASS_TO_STRING(ShaderAsset)
-			);
-		}
+		m_Registry.AddExposedAsset<ShaderAsset>(
+			"Shader",
+			(Ref<GameSmith::IAsset>*) & (m_Shader),
+			CLASS_TO_STRING(ShaderAsset)
+		);
 	}
 
 	/*MaterialAsset::MaterialAsset(

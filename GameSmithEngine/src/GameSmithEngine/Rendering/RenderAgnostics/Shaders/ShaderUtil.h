@@ -19,7 +19,7 @@ namespace GameSmith {
 	};
 
 	struct ShaderSet {
-		Ref<ShaderAsset> shaders[STAGE_NUM];
+		Ref<Shader> shaders[STAGE_NUM];
 
 		std::size_t operator()(const ShaderSet& key) const {
 			std::size_t hash = 0;
@@ -29,7 +29,7 @@ namespace GameSmith {
 				Stages stage = (Stages)i;
 
 				if (shaders[i] != nullptr) {
-					hash ^= shaders[i]->GetShader()->GetHash();
+					hash ^= shaders[i]->GetHash();
 				}
 			}
 			

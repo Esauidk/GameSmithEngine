@@ -30,9 +30,6 @@ namespace GameSmith {
 		struct MaterialAssetMetadata {
 			unsigned int ParamterCount = 0;
 			unsigned int TetureCount = 0;
-			struct ShaderMetadata {
-				bool UsedShader = false;
-			}Shaders[STAGE_NUM];
 		};
 
 		// We need a layer of indirection because we need to expose textures to the exposed member system
@@ -43,7 +40,7 @@ namespace GameSmith {
 		};
 
 		MaterialAssetMetadata m_Metadata;
-		ShaderSet m_Shaders;
+		Ref<ShaderAsset> m_Shader;
 
 		// Order is important for materials
 		std::vector<std::string> m_ParameterKeys;

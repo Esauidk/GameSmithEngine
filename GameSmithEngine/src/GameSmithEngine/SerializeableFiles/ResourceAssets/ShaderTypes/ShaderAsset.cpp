@@ -9,8 +9,16 @@ namespace GameSmith {
 	Ref<char> ShaderAsset::Serialize()
 	{
 		BinaryStreamWriter writer(RequiredSpace());
-		idData sourceID = m_HLSLSource->GetID().getData();
-		writer.WriteClass<idData>(&sourceID);
+		for (unsigned int i = 0; i < STAGE_NUM; i++) {
+			if (m_HLSLSource.sources[i] != nullptr) {
+				idData sourceID = m_HLSLSource.sources[i]->GetID().getData();
+				writer.WriteClass<idData>(&sourceID);
+			}
+			else {
+				idData emptyID = { 0, 0, 0, 0 };
+				writer.WriteClass<idData>(&emptyID);
+			}
+		}
 
 		return writer.GetBuffer();
 	}
@@ -24,13 +32,21 @@ namespace GameSmith {
 			availableBytes, requiredSize);
 
 		BinaryStreamWriter writer(byteStream, availableBytes);
-		idData sourceID = m_HLSLSource->GetID().getData();
-		writer.WriteClass<idData>(&sourceID);
+		for (unsigned int i = 0; i < STAGE_NUM; i++) {
+			if (m_HLSLSource.sources[i] != nullptr) {
+				idData sourceID = m_HLSLSource.sources[i]->GetID().getData();
+				writer.WriteClass<idData>(&sourceID);
+			}
+			else {
+				idData emptyID = { 0, 0, 0, 0 };
+				writer.WriteClass<idData>(&emptyID);
+			}
+		}
 	}
 
 	unsigned int ShaderAsset::RequiredSpace() const
 	{
-		unsigned int requiredSize = sizeof(idData);;
+		unsigned int requiredSize = sizeof(idData) * STAGE_NUM;
 
 		return requiredSize;
 	}
@@ -38,22 +54,34 @@ namespace GameSmith {
 	void ShaderAsset::Deserialize(char* inData, unsigned int size)
 	{
 		BinaryStreamReader reader(inData, size);
-		idData sourceID = *reader.ReadClass<idData>();
-		ID sourceFullID(sourceID);
-
 		auto assetManager = AssetManager::GetInstance();
-		m_HLSLSource = assetManager->GetResource<HLSLAsset>(sourceFullID);
+		for (unsigned int i = 0; i < STAGE_NUM; i++) {
+			idData sourceID = *reader.ReadClass<idData>();
+			ID sourceFullID(sourceID);
+			if (sourceFullID == ID()) {
+				continue;
+			}
+
+			m_HLSLSource.sources[i] = assetManager->GetResource<HLSLAsset>(sourceFullID);
+		}
 	}
 
-	Ref<Shader> ShaderAsset::GetShader()
+	bool ShaderAsset::HasShader(const Stages stage) const
 	{
-		if (m_Shader == nullptr) {
+		return m_HLSLSource.sources[stage] != nullptr;
+	}
+
+	Ref<Shader> ShaderAsset::GetShader(const Stages stage)
+	{
+		if (m_Shaders[stage] == nullptr) {
+			GE_CORE_ASSERT(m_HLSLSource.sources[stage] != nullptr, "Shader stage {0} does not have a source to compile from", ConvertShaderStageToString(stage));
+
 			auto renderManager = RenderingManager::GetInstance();
 			const ID assetID = GetID();
-			m_Shader = renderManager->CompileOrRetrieveShader(STAGE_VERTEX, m_HLSLSource->GetBytes(), m_HLSLSource->GetSize(), assetID);
+			m_Shaders[stage] = renderManager->CompileOrRetrieveShader(stage, m_HLSLSource.sources[stage]->GetBytes(), m_HLSLSource.sources[stage]->GetSize(), assetID);
 		}
 
-		return m_Shader;
+		return m_Shaders[stage];
 	}
 };
 

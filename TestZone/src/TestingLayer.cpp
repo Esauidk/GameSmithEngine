@@ -103,8 +103,10 @@ TestingLayer::TestingLayer() : GameSmith::Layer("Testing Layer")
 
 	
 	auto vertex = assetManager->GetResource<GameSmith::HLSLAsset>(importedAsset);
-	GameSmith::ShaderAsset shader("Main", vertex);
-	shader.GetShader();
+	GameSmith::HLSLSourceSet sourceSet;
+	sourceSet.sources[GameSmith::Stages::STAGE_VERTEX] = vertex;
+	GameSmith::ShaderAsset shader("Main", sourceSet);
+	shader.GetShader(GameSmith::Stages::STAGE_VERTEX);
 
 	/*std::vector<GameSmith::Connection<GameSmith::GameObject>> objs;
 	objs.push_back(gm);
