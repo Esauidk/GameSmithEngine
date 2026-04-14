@@ -53,6 +53,13 @@ namespace GameSmithEditor {
 		if (ImGui::SmallButton("Select")) {
 		}
 
+		ImGui::SameLine();
+		const std::string clearLabel = std::format("{0}##{1}", "Clear", varName);
+		if (ImGui::SmallButton(clearLabel.c_str())) {
+			refCon->ResetRef();
+			found = false;
+		}
+
 		return found;
 	}
 
@@ -99,6 +106,14 @@ namespace GameSmithEditor {
 
 		const std::string buttonLabel = std::format("{0}##{1}", "Select", varName);
 		if (ImGui::SmallButton(buttonLabel.c_str())) {
+		}
+
+		ImGui::SameLine();
+
+		const std::string clearLabel = std::format("{0}##{1}", "Clear", varName);
+		if (ImGui::SmallButton(clearLabel.c_str())) {
+			refCon->ResetRef();
+			found = false;
 		}
 
 		return found;
