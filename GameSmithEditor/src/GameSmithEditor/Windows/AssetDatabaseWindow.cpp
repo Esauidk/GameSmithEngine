@@ -91,7 +91,7 @@ namespace GameSmithEditor {
 							if (ImGui::MenuItem(menuLabel.c_str())) {
 								auto manager = GameSmith::AssetManager::GetInstance();
 
-								const std::string fileName = std::format("New {1}.{0}", entry.first, entry.second);
+								const std::string fileName = std::format("New {1}{0}", entry.first, entry.second);
 								const std::string path = m_CurrentPath.string();
 								manager->CreateResource(fileName, path);
 							}

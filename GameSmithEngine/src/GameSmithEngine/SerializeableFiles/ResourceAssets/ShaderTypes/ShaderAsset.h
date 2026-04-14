@@ -12,8 +12,31 @@ namespace GameSmith {
 	class GE_API ShaderAsset : public Asset
 	{
 	public:
-		ShaderAsset(std::string name) : Asset(name) {};
-		ShaderAsset(std::string name, HLSLSourceSet source) : Asset(name), m_HLSLSource(source) {};
+		ShaderAsset(std::string name) : Asset(name) {
+			for (int i = 0; i < STAGE_NUM; i++) {
+				Stages stage = (Stages)i;
+				m_Registry.AddExposedAsset<HLSLAsset>(
+					ConvertShaderStageToString(stage),
+					(Ref<GameSmith::IAsset>*) & (m_HLSLSource.sources[i]),
+					CLASS_TO_STRING(HLSLAsset)
+				);
+				m_Shaders[i] = nullptr;
+			}
+			
+		};
+
+		ShaderAsset(std::string name, HLSLSourceSet source) : Asset(name), m_HLSLSource(source) {
+			for (int i = 0; i < STAGE_NUM; i++) {
+				Stages stage = (Stages)i;
+				m_Registry.AddExposedAsset<HLSLAsset>(
+					ConvertShaderStageToString(stage),
+					(Ref<GameSmith::IAsset>*) & (m_HLSLSource.sources[i]),
+					CLASS_TO_STRING(HLSLAsset)
+				);
+				m_Shaders[i] = nullptr;
+			}
+
+		};
 
 		virtual Ref<char> Serialize() override;
 		virtual void Serialize(char* byteStream, unsigned int availableBytes) override;

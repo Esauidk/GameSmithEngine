@@ -1,11 +1,14 @@
 #include "gepch.h"
 #include "GameSmithEngine/Core/Log.h"
 #include "GameSmithEngine/Rendering/RenderingManager.h"
-#include "ShaderAsset.h"
-#include "GameSmithEngine/ResourceManagement/ResourceAssetHelper.h"
 #include "GameSmithEngine/ResourceManagement/AssetManager.h"
+#include "GameSmithEngine/ResourceManagement/ResourceAssetHelper.h"
+#include "GameSmithEngine/SerializeableFiles/ResourceAssets/AssetFactory.h"
+#include "ShaderAsset.h"
 
 namespace GameSmith {
+	GE_REGISTERASSET(ShaderAsset);
+
 	Ref<char> ShaderAsset::Serialize()
 	{
 		BinaryStreamWriter writer(RequiredSpace());

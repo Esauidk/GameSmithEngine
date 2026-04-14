@@ -17,6 +17,6 @@ namespace GameSmith {
 		SERIAL_FILE(Blob, blob)
 	private:
 		Ref<char> m_Bytes;
-		unsigned int m_Size;
+		unsigned int m_Size = 0;
 	};
 };

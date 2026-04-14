@@ -4,6 +4,10 @@
 #include "GameSmithEditor/Utils/ExposedVariableWidgetConverter.h"
 #include "GameSmithEditor/CustomWidgets/ReferenceInputWidget.h"
 
+#include <filesystem>
+
+namespace fs = std::filesystem;
+
 namespace GameSmithEditor {
 	AssetInspector::AssetInspector(GameSmith::Ref<GameSmith::IAsset> asset) : EditorWindow("AssetInspector"), m_InspectedAsset(asset)
 	{
@@ -23,7 +27,8 @@ namespace GameSmithEditor {
 			if (ImGui::Button("Save")) {
 				auto assetManager = GameSmith::AssetManager::GetInstance();
 				const std::string filePath = assetManager->GetAssetPath(m_InspectedAsset->GetID());
-				assetManager->WriteResource(m_InspectedAsset, filePath);
+				fs::path filePathObj(filePath);
+				assetManager->WriteResource(m_InspectedAsset, filePathObj.parent_path().string());
 			}
 
 			ImGui::Separator();
