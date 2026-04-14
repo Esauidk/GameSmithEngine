@@ -24,6 +24,8 @@ namespace GameSmith {
 
 			m_CopyRef = toAssign;
 		}
+
+		void ResetRef() { m_CopyRef = m_OriginalRef; m_ExpectedID = ID({ 0,0,0,0 }); }
 		void AssignID(ID id) { m_ExpectedID = id; }
 		std::string GetTypeName() const { return m_TypeName; }
 		ID GetCurrentRefID() const { return m_ExpectedID; }
@@ -33,6 +35,7 @@ namespace GameSmith {
 		std::function<bool(T)> m_TypeCheckFunc;
 		std::string m_TypeName;
 		T m_CopyRef;
+		T m_OriginalRef;
 		ID m_ExpectedID;
 		unsigned int m_Flag;
 	};
