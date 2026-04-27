@@ -9,17 +9,17 @@ namespace GameSmith {
 	GE_REGISTERCOMPONENT(TestComponent)
 
 	TestComponent::TestComponent(GameObject* gameObject, Transform* transform) : Component(gameObject, transform) {
-		m_Registry.AddExposedVariable("Test Variable1", (void*)&expose1, ContainerDataType::Float);
-		m_Registry.AddExposedVariable("Test Variable2", (void*)glm::value_ptr(expose2), ContainerDataType::Float2);
-		m_Registry.AddExposedVariable("Test Variable3", (void*)glm::value_ptr(expose3), ContainerDataType::Float3);
-		m_Registry.AddExposedVariable("Test Variable4", (void*)glm::value_ptr(expose4), ContainerDataType::Float4);
-		m_Registry.AddExposedVariable("Test Variable5", (void*)&expose5, ContainerDataType::Int);
-		m_Registry.AddExposedVariable("Test Variable6", (void*)&expose6, ContainerDataType::Int2);
-		m_Registry.AddExposedVariable("Test Variable7", (void*)&expose7, ContainerDataType::Int3);
-		m_Registry.AddExposedVariable("Test Variable8", (void*)&expose8, ContainerDataType::Int4);
-		m_Registry.AddExposedConnection<GameObject>("TestRef", (Connection<GameSmith::IDObject>*) & m_TestRef, CLASS_TO_STRING(GameObject));
-		m_Registry.AddExposedConnection<TestComponent>("TestRef1", (Connection<GameSmith::IDObject>*) & m_TestCompRef, CLASS_TO_STRING(TestComponent));
-		m_Registry.AddExposedAsset<GameChunkAsset>("TestRef2", (Ref<GameSmith::Asset>*) & m_GameChunkAsset, CLASS_TO_STRING(GameChunkAsset));
+		m_Registry.AddExposedVariable("Test Variable1", ContainerDataType::Float, (void*)&expose1);
+		m_Registry.AddExposedVariable("Test Variable2", ContainerDataType::Float2, (void*)glm::value_ptr(expose2));
+		m_Registry.AddExposedVariable("Test Variable3", ContainerDataType::Float3, (void*)glm::value_ptr(expose3));
+		m_Registry.AddExposedVariable("Test Variable4", ContainerDataType::Float4, (void*)glm::value_ptr(expose4));
+		m_Registry.AddExposedVariable("Test Variable5", ContainerDataType::Int, (void*)&expose5);
+		m_Registry.AddExposedVariable("Test Variable6", ContainerDataType::Int2, (void*)&expose6);
+		m_Registry.AddExposedVariable("Test Variable7", ContainerDataType::Int3, (void*)&expose7);
+		m_Registry.AddExposedVariable("Test Variable8", ContainerDataType::Int4, (void*)&expose8);
+		m_Registry.AddExposedConnection<GameObject>("TestRef", (Connection<GameSmith::IDObjectInterface>*) & m_TestRef, CLASS_TO_STRING(GameObject));
+		m_Registry.AddExposedConnection<TestComponent>("TestRef1", (Connection<GameSmith::IDObjectInterface>*) & m_TestCompRef, CLASS_TO_STRING(TestComponent));
+		m_Registry.AddExposedAsset<GameChunkAsset>("TestRef2", (Ref<GameSmith::IAsset>*) & m_GameChunkAsset, CLASS_TO_STRING(GameChunkAsset));
 	}
 
 	void TestComponent::OnStart()

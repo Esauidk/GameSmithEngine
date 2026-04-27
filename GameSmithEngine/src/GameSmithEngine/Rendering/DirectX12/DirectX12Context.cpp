@@ -125,6 +125,8 @@ namespace GameSmith {
 		
 		m_BackBuffer->GetResourceStateTracker().TransitionBarrier(D3D12_RESOURCE_STATE_PRESENT, context);
 		context->FinalizeCommandList();
+
+		// This expects there are no more commands lists to be submitted
 		context->SubmitCommandLists();
 		core.InitializeCPUQueueWait(DirectX12QueueType::Direct);
 

@@ -53,6 +53,13 @@ namespace GameSmithEditor {
 		if (ImGui::SmallButton("Select")) {
 		}
 
+		ImGui::SameLine();
+		const std::string clearLabel = std::format("{0}##{1}", "Clear", varName);
+		if (ImGui::SmallButton(clearLabel.c_str())) {
+			refCon->ResetRef();
+			found = false;
+		}
+
 		return found;
 	}
 
@@ -61,17 +68,18 @@ namespace GameSmithEditor {
 		bool found = false;
 		ImGui::Text(varName.c_str());
 		ImGui::SameLine();
-		std::string refInfo = std::format("{0}:{1}", "Empty", refCon->GetTypeName());
+		std::string refInfo = std::format("{0}:{1}##{2}", "Empty", refCon->GetTypeName(), varName);
 		auto curRef = refCon->GetCurrentRef();
 		if (curRef != nullptr) {
 			const GameSmith::ID& id = curRef->GetID();
 			refInfo = std::format(
-				"{0}:{1},{2},{3},{4}",
+				"{0}:{1},{2},{3},{4}##{5}",
 				refCon->GetTypeName(),
 				id.getData().ID1,
 				id.getData().ID2,
 				id.getData().ID3,
-				id.getData().ID4
+				id.getData().ID4,
+				varName
 			);
 		}
 
@@ -82,13 +90,11 @@ namespace GameSmithEditor {
 				GameSmith::ID* assetID = (GameSmith::ID*)(payload->Data);
 
 				auto resourceManager = GameSmith::AssetManager::GetInstance();
-				GameSmith::Ref<GameSmith::Serializeable> asset = resourceManager->GetResource(*assetID);
-				// TODO: Update resource manager to return asset classes
-				GameSmith::Ref<GameSmith::Asset> tmpUpgrade = CastPtr<GameSmith::Asset>(asset);
+				GameSmith::Ref<GameSmith::IAsset> asset = resourceManager->GetResource(*assetID);
 
-				if (refCon->TypeCheck(tmpUpgrade)) {
-					refCon->AssignRef(tmpUpgrade);
-					refCon->AssignID(tmpUpgrade->GetID());
+				if (refCon->TypeCheck(asset)) {
+					refCon->AssignRef(asset);
+					refCon->AssignID(asset->GetID());
 					found = true;
 				}
 			}
@@ -98,7 +104,16 @@ namespace GameSmithEditor {
 
 		ImGui::SameLine();
 
-		if (ImGui::SmallButton("Select")) {
+		const std::string buttonLabel = std::format("{0}##{1}", "Select", varName);
+		if (ImGui::SmallButton(buttonLabel.c_str())) {
+		}
+
+		ImGui::SameLine();
+
+		const std::string clearLabel = std::format("{0}##{1}", "Clear", varName);
+		if (ImGui::SmallButton(clearLabel.c_str())) {
+			refCon->ResetRef();
+			found = false;
 		}
 
 		return found;

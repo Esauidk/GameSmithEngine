@@ -4,6 +4,9 @@
 #include "GameSmithEngine/Core/Log.h"
 
 namespace GameSmith {
+	// FORWARD DECLARATIONS
+	class AbstractBaseSerializeable;
+
 	class GE_API BinaryStreamReader {
 	public:
 		inline BinaryStreamReader(char* buffer, unsigned int byteSize) : m_CurPtr(buffer), m_EndPtr(buffer + byteSize) {}
@@ -46,12 +49,16 @@ namespace GameSmith {
 			m_CurPtr += sizeof(T);
 		}
 
+		void WriteSerializeable(ISerializeable* serializeable);
+		void WriteVector(const std::vector<Ref<ISerializeable>> vector);
+		void WriteVector(const std::vector<Connection<ISerializeable>> vector);
+
 		void WriteByte(char* bytes, unsigned int byteCount);
 		void CommitToFile(std::string destination);
 
-		inline Ref<char> GetBuffer() { if (m_outsideSrc) { return nullptr; }return m_Buffer; }
+		inline Ref<char> GetBuffer() { if (m_outsideSrc) { return nullptr; } return m_Buffer; }
 		inline char* GetCurPtr() const { return m_CurPtr; }
-		inline void MoveCurPtr(unsigned int bytes) { m_CurPtr += bytes; }
+		void MoveCurPtr(unsigned int bytes);
 
 
 		inline unsigned int GetBufferSize() const { return m_BufferSize; }

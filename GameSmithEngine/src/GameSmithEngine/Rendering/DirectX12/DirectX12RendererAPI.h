@@ -8,46 +8,49 @@ namespace GameSmith {
 	{
 	public:
 		DirectX12RendererAPI();
-		virtual ~DirectX12RendererAPI() override;
-		inline virtual API GetAPI() override { return API::DirectX12; }
+		~DirectX12RendererAPI() override;
+		inline API GetAPI() override { return API::DirectX12; }
 
-		virtual void SetClearColor(const glm::vec4& color) override;
-		virtual void Clear() override;
+		void SetClearColor(const glm::vec4& color) override;
+		void Clear() override;
 
-		virtual void DrawIndexed(UINT indecies, UINT instances) override;
+		void DrawIndexed(UINT indecies, UINT instances) override;
 
-		virtual Ref<VertexBuffer> CreateVertexBuffer(BYTE* data, int vertexByteSize, int vertexCount) override;
-		virtual void SetVertexBuffer(Ref<VertexBuffer> vbuffer) override;
-		virtual Ref<IndexBuffer> CreateIndexBuffer(unsigned int* data, unsigned int indexCount) override;
-		virtual void SetIndexBuffer(Ref<IndexBuffer> ibuffer) override;
-		virtual Ref<Shader> LoadShader(std::string path) override;
-		virtual Ref<Shader> LoadShader(char* byteCode, unsigned int length) override;
+		Ref<VertexBuffer> CreateVertexBuffer(BYTE* data, int vertexByteSize, int vertexCount) override;
+		void SetVertexBuffer(Ref<VertexBuffer> vbuffer) override;
+		Ref<IndexBuffer> CreateIndexBuffer(unsigned int* data, unsigned int indexCount) override;
+		void SetIndexBuffer(Ref<IndexBuffer> ibuffer) override;
+		Ref<Shader> LoadShader(std::string path) override;
+		Ref<Shader> LoadShader(const char* byteCode, unsigned int length) override;
+		Ref<const char> CompileShader(const Stages stage, const char* rawCode, const unsigned int length, const char* entryPt, const ShaderIncludeCache* includeCache, unsigned int* outSize) override;
 
-		virtual Ref<ConstantBuffer> CreateConstantBuffer(UINT size, std::string name) override;
-		virtual Ref<ConstantBuffer> CreateConstantBuffer(UINT size) override;
-		virtual void SetConstantBuffer(Ref<ConstantBuffer> cbuffer, Stages stage, ShaderConstantType constantType) override;
+		Ref<ConstantBuffer> CreateConstantBuffer(UINT size, std::string name) override;
+		Ref<ConstantBuffer> CreateConstantBuffer(UINT size) override;
+		void SetConstantBuffer(Ref<ConstantBuffer> cbuffer, Stages stage, ShaderConstantType constantType) override;
 
-		virtual Ref<Texture2D> CreateTexture2D(char* data, UINT size) override;
-		virtual Ref<RenderTexture> CreateRenderTexture(unsigned int width, unsigned int height) override;
-		virtual Ref<RenderTexture> CreateRenderTexture(unsigned int width, unsigned int height, float* clearColor) override;;
+		Ref<Texture2D> CreateTexture2D(char* data, UINT size) override;
+		Ref<RenderTexture> CreateRenderTexture(unsigned int width, unsigned int height) override;
+		Ref<RenderTexture> CreateRenderTexture(unsigned int width, unsigned int height, float* clearColor) override;;
 
-		virtual void SetRenderTexture(Ref<RenderTexture> rt, UINT index) override;
-		virtual void SetTexture2D(Ref<Texture2D> tex, UINT slot, Stages stage) override;
+		void SetRenderTexture(Ref<RenderTexture> rt, UINT index) override;
+		void SetTexture2D(Ref<Texture2D> tex, UINT slot, Stages stage) override;
 
-		virtual Ref<Sampler> CreateSampler(FilterType img, PaddingMethod padMode) override;
-		virtual void SetSampler(Ref<Sampler> sampler, Stages stage) override;
+		Ref<Sampler> CreateSampler(FilterType img, PaddingMethod padMode) override;
+		void SetSampler(Ref<Sampler> sampler, Stages stage) override;
 
-		virtual void SetTopology(TopologyType& type, bool tesselation) override;
+		void SetTopology(TopologyType& type, bool tesselation) override;
 
-		virtual Ref<GraphicsPipelineStateObject> CreateGraphicsPipelineState(PipelineStateInitializer& init) override;
-		virtual void SetGraphicsPipelineState(Ref<GraphicsPipelineStateObject> pso) override;
+		Ref<GraphicsPipelineStateObject> CreateGraphicsPipelineState(PipelineStateInitializer& init) override;
+		void SetGraphicsPipelineState(Ref<GraphicsPipelineStateObject> pso) override;
 
-		virtual void SubmitRecording() override;
-		virtual void CompleteFrameSubmissions() override;
+		void SubmitRecording() override;
+		void FlushDataTransfer() override;
+		void CompleteFrameSubmissions() override;
 
-		inline virtual void ClearCachedAssets() override {  }
+		inline void ClearCachedAssets() override {  }
 	private:
 		DirectX12Core& m_Core;
+		DirectX12ShaderCompiler m_ShaderCompiler;
 	};
 };
 

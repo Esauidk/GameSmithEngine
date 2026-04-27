@@ -1,8 +1,9 @@
 #pragma once
 #include "Camera.h"
+#include <GameSmithEngine/Core/Core.h>
 
 namespace GameSmith {
-	class PerspectiveCamera : public Camera
+	class GE_API PerspectiveCamera : public Camera
 	{
 	public:
 		PerspectiveCamera(float width, float height, float FOV = glm::radians(60.0f), float zNear = 0.2f, float zFar = 500.0f);

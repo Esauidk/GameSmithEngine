@@ -12,7 +12,6 @@ namespace GameSmithEditor {
 		void OnUpdate(float dt) override;
 	private:
 		GameSmith::Connection<GameSmith::GameObject> m_Object;
-		GameSmith::Connection<GameSmith::Serializeable> m_Asset;
 
 
 		std::vector<GameSmith::Connection<GameSmith::Component>> m_Components;
@@ -26,6 +25,8 @@ namespace GameSmithEditor {
 		static void SetInspectedGameObject(GameSmith::Connection <GameSmith::GameObject> object);
 	private:
 		static GameSmith::Connection<GameSmith::GameObject> s_SelectedObject;
+	private:
+		bool m_Open = true;
 	};
 };
 

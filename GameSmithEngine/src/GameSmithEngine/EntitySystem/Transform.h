@@ -5,7 +5,7 @@
 #include "GameSmithEngine/SerializeableFiles/Serializable.h"
 
 namespace GameSmith {
-	class GE_API Transform : public Serializeable
+	class GE_API Transform : public AbstractBaseSerializeable
 	{
 	public:
 		Transform();

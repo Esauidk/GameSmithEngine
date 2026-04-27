@@ -1,4 +1,5 @@
 #include "gepch.h"
+#include "AssetFactory.h"
 #include "GameSmithEngine/Core/Log.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/BasicStructs.h"
 #include "GameSmithEngine/Rendering/RenderingManager.h"
@@ -6,6 +7,8 @@
 #include "MeshAsset.h"
 
 namespace GameSmith {
+	GE_REGISTERASSET(MeshAsset)
+
 	Ref<char> MeshAsset::Serialize()
 	{
 		// TODO: Implement

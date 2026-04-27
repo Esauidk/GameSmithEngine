@@ -12,9 +12,14 @@ namespace GameSmithEditor {
 		void OnAttach(const GameSmith::ApplicationSpecs& specs) override;
 		void OnDetach() override;
 		void OnImGuiRender() override;
+		void OnUpdate(float dt) override;
 	private:
 		static int s_Count;
 		std::filesystem::path m_CurrentPath;
+		std::string m_SelectedAsset = "";
+		bool m_Open = true;
+
+		std::vector<std::pair<std::string, std::string>> m_RegisteredAssets;
 	};
 }
 

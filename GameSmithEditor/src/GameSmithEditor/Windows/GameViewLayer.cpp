@@ -19,10 +19,10 @@ namespace GameSmithEditor {
 
 	void GameViewLayer::OnImGuiRender()
 	{
-		if (ImGui::Begin("Game View")) {
+		if (ImGui::Begin("Game View", &m_Open)) {
 			ImGui::Image((ImTextureID)m_GameViewHandle->gpuSpot, ImVec2(ImGui::GetWindowWidth(), ImGui::GetWindowHeight()));
-			ImGui::End();
 		}
+		ImGui::End();
 		
 		
 	}
@@ -33,6 +33,9 @@ namespace GameSmithEditor {
 			m_GameScreenTexture->CopyTexture(m_GameViewTexture);
 		}
 		
+		if (!m_Open) {
+			CloseWindow();
+		}
 	}
 };
 

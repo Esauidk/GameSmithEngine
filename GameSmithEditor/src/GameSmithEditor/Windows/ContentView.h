@@ -12,6 +12,7 @@ namespace GameSmithEditor {
 	private:
 		int m_Selection = 0;
 		std::vector<std::string> m_NamesStd;
+		bool m_Open = true;
 	};
 };
 

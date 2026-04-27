@@ -4,20 +4,17 @@
 
 #include "ResourceLoaders/HeapResourceLoader.h"
 
-#include <filesystem>
-
 #include "GameSmithEngine/SerializeableFiles/ResourceAssets/AssetFactory.h"
 
 #define META_FILE_EXTENSION ".meta"
 #define CONTENT_LIBRARY_FILE_EXTENSION "dll"
 
-namespace fs = std::filesystem;
 using recursive_directory_iterator = fs::recursive_directory_iterator;
 
 namespace GameSmith {
 	AssetManager* AssetManager::s_Instance = nullptr;
 
-	static Ref<ResourceLoader> GetLoader(ResourceLoaderType loaderType) {
+	static Ref<ResourceLoader> GetLoader(const ResourceLoaderType loaderType) {
 		switch (loaderType) {
 		case ResourceLoaderType::Heap:
 			return Ref<ResourceLoader>(new HeapResourceLoader());
@@ -34,7 +31,7 @@ namespace GameSmith {
 		
 	}
 
-	void AssetManager::Init(ResourceLoaderType loaderType)
+	void AssetManager::Init(const ResourceLoaderType loaderType)
 	{
 		if (s_Instance == nullptr) {
 			s_Instance = new AssetManager();
@@ -54,19 +51,23 @@ namespace GameSmith {
 		}
 	}
 
-	ID AssetManager::WriteResource(Ref<Serializeable> resource, std::string path)
+	ID AssetManager::WriteResource(const Ref<IAsset> resource, const std::string& destDir)
 	{
-		std::fstream pFile(path, std::ios::out | std::ios::binary | std::ios::ate);
-		GE_CORE_ASSERT(pFile.is_open(), std::format("Asset file {0} cannot be opened", path));
+		const std::string filePath = std::format("{0}\\{1}{2}", destDir, resource->GetName(), resource->GetFileExtension());
+		std::fstream pFile(filePath, std::ios::out | std::ios::binary | std::ios::ate);
+		GE_CORE_ASSERT(pFile.is_open(), std::format("Asset file {0} cannot be opened", destDir));
 
-		std::fstream metaFile(path + ".meta", std::ios::out | std::ios::binary | std::ios::ate);
-		GE_CORE_ASSERT(metaFile.is_open(), std::format("Asset file {0} cannot be opened", path));
+		std::fstream metaFile(filePath + META_FILE_EXTENSION, std::ios::out | std::ios::binary | std::ios::ate);
+		GE_CORE_ASSERT(metaFile.is_open(), std::format("Asset file {0} cannot be opened", destDir));
 
-		auto serial = resource->Serialize();
-		auto id = resource->GetID();
+		const auto serial = resource->Serialize();
+		const auto id = resource->GetID();
 
 		pFile.seekg(0, pFile.beg);
-		pFile.write(serial.get(), resource->RequiredSpace());
+		unsigned int size = resource->RequiredSpace();
+		if (size > 0) {
+			pFile.write(serial.get(), resource->RequiredSpace());
+		}
 		pFile.close();
 
 		ResourceFileMetadata meta;
@@ -76,19 +77,50 @@ namespace GameSmith {
 		metaFile.write((char*)&meta, sizeof(meta));
 		metaFile.close();
 
-		m_ResourceMaps->ResourceRegistry.insert({ id, path });
-		m_ResourceMaps->ReverseResourceRegistry.insert({ path, meta.ID });
+		const fs::path filePathObj(filePath);
+		const std::string fileName = filePathObj.stem().string();
+		const std::string ext = filePathObj.extension().string();
+		m_ResourceMaps->ResourceRegistry.insert({ id, filePath });
+		m_ResourceMaps->ReverseResourceRegistry.insert({ filePath, id });
+		if (m_ResourceMaps->ExtensionToFilePaths.contains(ext)) {
+			m_ResourceMaps->ExtensionToFilePaths[ext].push_back(filePath);
+		}
+		else {
+			m_ResourceMaps->ExtensionToFilePaths.insert({ ext, { filePath } });
+		}
 
 		return id;
 	}
 
-	ID AssetManager::ImportResource(std::string path)
+	ID AssetManager::CreateResource(const std::string& fileName, const std::string& destDir)
 	{
-		// TOOD: Add more to import logic, for now it's just ID assignment
-		std::fstream metaFile(path + ".meta", std::ios::out | std::ios::binary | std::ios::ate);
-		GE_CORE_ASSERT(metaFile.is_open(), std::format("Asset file {0} cannot be opened", path));
+		const std::string filePath = std::format("{0}\\{1}", destDir, fileName);
+		GE_CORE_ASSERT(!m_ResourceMaps->ReverseResourceRegistry.contains(filePath), "Resource already exists at the desired path");
 
-		auto newID = GUIDGenerator::GenerateID();
+		const fs::path filePathObj(filePath);
+		const std::string ext = filePathObj.extension().string();
+		const std::string fileNameNoExt = filePathObj.stem().string();
+		Ref<IAsset> asset = AssetFactory::GenerateAsset(ext, fileNameNoExt);
+
+		return WriteResource(asset, destDir);
+	}
+
+	ID AssetManager::ImportResource(const std::string& path)
+	{
+		const fs::path filePath(path);
+		const std::string fileNameWithExt = filePath.filename().string();
+		const std::string ext = filePath.extension().string();
+		const std::string fileName = filePath.filename().stem().string();
+		std::string destPath = std::format("{0}\\{1}", m_AssetDirectory, fileNameWithExt);
+		if (!fs::copy_file(filePath.string(), destPath)) {
+			GE_CORE_ERROR("Failed to import resource");
+			return ID();
+		}
+
+		std::fstream metaFile(destPath + META_FILE_EXTENSION, std::ios::out | std::ios::binary | std::ios::ate);
+		GE_CORE_ASSERT(metaFile.is_open(), std::format("Asset file {0} cannot be opened", destPath));
+
+		const auto newID = GUIDGenerator::GenerateID();
 
 		ResourceFileMetadata meta;
 		meta.ID = newID.getData();
@@ -97,13 +129,19 @@ namespace GameSmith {
 		metaFile.write((char*)&meta, sizeof(meta));
 		metaFile.close();
 
-		m_ResourceMaps->ResourceRegistry.insert({ meta.ID, path });
-		m_ResourceMaps->ReverseResourceRegistry.insert({ path, meta.ID });
+		m_ResourceMaps->ResourceRegistry.insert({ meta.ID, destPath });
+		m_ResourceMaps->ReverseResourceRegistry.insert({ destPath, meta.ID });
+		if (m_ResourceMaps->ExtensionToFilePaths.contains(ext)) {
+			m_ResourceMaps->ExtensionToFilePaths[ext].push_back(destPath);
+		} else {
+			m_ResourceMaps->ExtensionToFilePaths.insert({ ext, { destPath } });
+		}
+		
 
 		return newID;
 	}
 
-	ID AssetManager::GetAssetID(std::string path)
+	ID AssetManager::GetAssetID(const std::string& path) const
 	{
 		if (m_ResourceMaps->ReverseResourceRegistry.contains(path)) {
 			return m_ResourceMaps->ReverseResourceRegistry.find(path)->second;
@@ -112,25 +150,45 @@ namespace GameSmith {
 		return ID();
 	}
 
+	std::string AssetManager::GetAssetPath(const ID& id) const
+	{
+		if (m_ResourceMaps->ResourceRegistry.contains(id)) {
+			return m_ResourceMaps->ResourceRegistry[id];
+		}
+
+		return std::string();
+	}
+
 	void AssetManager::ScanResources()
 	{
 		if (m_AssetDirectory != "") {
 			for (const auto& dirEntry : recursive_directory_iterator(m_AssetDirectory)) {
 				if (dirEntry.is_regular_file()) {
-					std::string fileName = dirEntry.path().filename().string();
-					std::string path = dirEntry.path().string();
+					const fs::path filePath = dirEntry.path();
+					const std::string fileName = filePath.filename().stem().string();
+					const std::string ext = filePath.extension().string();
+					const std::string path = filePath.string();
 
 					if (std::filesystem::exists(path + META_FILE_EXTENSION)) {
 						unsigned int metaSize;
-						// Ptr leak? TODO: Review later
+
 						char* meta = m_Loader->LoadResource(path + META_FILE_EXTENSION, &metaSize);
-						ResourceFileMetadata* metaPtr = (ResourceFileMetadata*)meta;
-						ID metaId(metaPtr->ID);
+						const ResourceFileMetadata* metaPtr = (ResourceFileMetadata*)meta;
+						const ID metaId(metaPtr->ID);
 
 						if (!m_ResourceMaps->ResourceRegistry.contains(metaId)) {
 							m_ResourceMaps->ResourceRegistry.insert({ metaId, path });
 							m_ResourceMaps->ReverseResourceRegistry.insert({ path, metaId });
+
+							if (m_ResourceMaps->ExtensionToFilePaths.contains(ext)) {
+								m_ResourceMaps->ExtensionToFilePaths[ext].push_back(path);
+							}
+							else {
+								m_ResourceMaps->ExtensionToFilePaths.insert({ ext, { path } });
+							}
 						}
+
+						m_Loader->CleanResource(meta);
 					}
 				}
 			}
@@ -162,7 +220,7 @@ namespace GameSmith {
 		}
 	}
 
-	Ref<Serializeable> AssetManager::GetResource(ID asset) {
+	Ref<IAsset> AssetManager::GetResource(const ID asset) {
 		if (m_ResourceMaps->ActiveIDResources.contains(asset)) {
 			return (*m_ResourceMaps->ActiveIDResources.find(asset)).second;
 		}
@@ -170,7 +228,9 @@ namespace GameSmith {
 		GE_CORE_ASSERT(m_ResourceMaps->ResourceRegistry.contains(asset), "No UUID entry for asset");
 		GE_CORE_INFO("Loading file into memory!");
 
-		std::string path = m_ResourceMaps->ResourceRegistry.find(asset)->second;
+		const std::string path = m_ResourceMaps->ResourceRegistry.find(asset)->second;
+		const fs::path filePath(path);
+		const std::string fileName = filePath.stem().string();
 
 		UINT size;
 		char* data = m_Loader->LoadResource(path, &size);
@@ -181,11 +241,11 @@ namespace GameSmith {
 		GE_CORE_ASSERT(metaSize == sizeof(ResourceFileMetadata), "Meta data of resource has been manipulated and does not match the expected size");
 
 
-		std::string ext = path.substr(path.find_last_of('.') + 1);
-		Ref<Serializeable> resource = AssetFactory::GenerateAsset(ext);
+		const std::string ext = filePath.extension().string();
+		const Ref<IAsset> resource = AssetFactory::GenerateAsset(ext, fileName);
 		resource->Deserialize(data, size);
 
-		ResourceFileMetadata* metaPtr = (ResourceFileMetadata*)meta;
+		const ResourceFileMetadata* metaPtr = (ResourceFileMetadata*)meta;
 		ID metaId(metaPtr->ID);
 
 		resource->SetID(metaId);
@@ -198,7 +258,7 @@ namespace GameSmith {
 		return resource;
 	}
 
-	Ref<Serializeable> AssetManager::GetResource(std::string asset) {
+	Ref<IAsset> AssetManager::GetResource(const std::string& asset) {
 		if (m_ResourceMaps->ActivePathResources.contains(asset)) {
 			return (*m_ResourceMaps->ActivePathResources.find(asset)).second;
 		}
@@ -207,8 +267,10 @@ namespace GameSmith {
 		UINT size;
 		char* data = m_Loader->LoadResource(asset, &size);
 
-		std::string ext = asset.substr(asset.find_last_of('.') + 1);
-		Ref<Serializeable> resource = AssetFactory::GenerateAsset(ext);
+		const fs::path filePath(asset);
+		const std::string fileName = filePath.stem().string();
+		const std::string ext = filePath.extension().string();
+		const Ref<IAsset> resource = AssetFactory::GenerateAsset(ext, fileName);
 		resource->Deserialize(data, size);
 
 		m_ResourceMaps->ActivePathResources.insert({ asset, resource });

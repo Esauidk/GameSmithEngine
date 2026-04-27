@@ -3,7 +3,7 @@ cbuffer Instance : register(b1)
     matrix model;
 };
 
-#include "../Core.hlsli"
+#include "../Core.hlsl"
 
 float4 main() : SV_TARGET
 {

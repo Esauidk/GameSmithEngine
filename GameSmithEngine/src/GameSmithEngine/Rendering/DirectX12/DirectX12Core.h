@@ -20,14 +20,18 @@ namespace GameSmith {
 		static DirectX12Core& GetCore();
 		inline ID3D12Device8* GetDevice() { return m_Device.Get(); }
 		inline IDXGIFactory5* GetFactory() { return m_Factory.Get(); }
+
 		inline void FrameCompletedRecording() { m_FrameIds.push(m_DirectContext->GetLastSubmissionID()); }
+
 		inline void FrameSkipped() { if (!m_FrameIds.empty()) { m_FrameIds.pop(); GE_CORE_INFO("Skipping this frame"); } }
+
 		inline void SwappingFrame() { 
 			if (!m_FrameIds.empty()) { 
 				InitializeCPUQueueWait(m_FrameIds.front(), Direct); 
 				m_FrameIds.pop(); 
 			} 
 		}
+
 		inline bool FrameReady() { return m_FrameIds.empty() || FindQueue(Direct).IsFenceComplete(m_FrameIds.front()); }
 		inline DirectX12CommandContextDirect* GetDirectCommandContext() { return m_DirectContext.get(); }
 		inline DirectX12CommandContextCopy* GetCopyCommandContext() { return m_CopyContext.get(); }

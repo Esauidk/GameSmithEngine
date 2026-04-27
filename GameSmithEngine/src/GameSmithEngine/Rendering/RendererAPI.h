@@ -11,6 +11,7 @@
 #include "GameSmithEngine/Rendering/RenderAgnostics/RenderComponents/PipelineStateInitializer.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/RenderComponents/PipelineStateObject.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/Shaders/ShaderUtil.h"
+#include "GameSmithEngine/Rendering/RenderAgnostics/Shaders/ShaderIncludeCache.h"
 #include "GameSmithEngine/Core/Core.h"
 
 namespace GameSmith {
@@ -33,8 +34,10 @@ namespace GameSmith {
 		virtual void SetVertexBuffer(Ref<VertexBuffer> vbuffer) = 0;
 		virtual Ref<IndexBuffer> CreateIndexBuffer(unsigned int* data, unsigned int indexCount) = 0;
 		virtual void SetIndexBuffer(Ref<IndexBuffer> ibuffer) = 0;
+
 		virtual Ref<Shader> LoadShader(std::string path) = 0;
-		virtual Ref<Shader> LoadShader(char* byteCode, unsigned int length) = 0;
+		virtual Ref<Shader> LoadShader(const char* byteCode, unsigned int length) = 0;
+		virtual Ref<const char> CompileShader(const Stages stage, const char* rawCode, const unsigned int length, const char* entryPt, const ShaderIncludeCache* includeCache, unsigned int* outSize) = 0;
 
 		virtual Ref<ConstantBuffer> CreateConstantBuffer(UINT size, std::string name) = 0;
 		virtual Ref<ConstantBuffer> CreateConstantBuffer(UINT size) = 0;
@@ -56,6 +59,7 @@ namespace GameSmith {
 		virtual void SetGraphicsPipelineState(Ref<GraphicsPipelineStateObject> pso) = 0;
 
 		virtual void SubmitRecording() = 0;
+		virtual void FlushDataTransfer() = 0;
 		virtual void CompleteFrameSubmissions() = 0;
 		virtual void ClearCachedAssets() = 0;
 

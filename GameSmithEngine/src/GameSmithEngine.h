@@ -47,6 +47,7 @@
 // ----------- Entity System -------------
 #include "GameSmithEngine/EntitySystem/GameObjectManager.h"
 #include "GameSmithEngine/EntitySystem/GameObject.h"
+#include "GameSmithEngine/EntitySystem/EnitityRenderPreparer.h"
 
 // Component System
 #include "GameSmithEngine/EntitySystem/Components/Component.h"
@@ -64,10 +65,12 @@
 
 // -----------RescourceManagement-----------
 #include "GameSmithEngine/ResourceManagement/AssetManager.h"
+#include "GameSmithEngine/SerializeableFiles/ResourceAssets/AssetFactory.h"
 #include "GameSmithEngine/SerializeableFiles/ResourceAssets/TestResource.h"
 #include "GameSmithEngine/SerializeableFiles/ResourceAssets/TextureAsset.h"
 #include "GameSmithEngine/SerializeableFiles/ResourceAssets/MaterialAsset.h"
-#include "GameSmithEngine/SerializeableFiles/ResourceAssets/ShaderAsset.h"
+#include "GameSmithEngine/SerializeableFiles/ResourceAssets/ShaderTypes/ShaderAsset.h"
+#include "GameSmithEngine/SerializeableFiles/ResourceAssets/ShaderTypes/HLSLAsset.h"
 #include "GameSmithEngine/SerializeableFiles/ResourceAssets/MeshAsset.h"
 #include "GameSmithEngine/SerializeableFiles/ResourceAssets/GameChunkAsset.h"
 

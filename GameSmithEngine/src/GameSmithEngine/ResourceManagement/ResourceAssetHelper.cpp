@@ -1,5 +1,6 @@
 #include "gepch.h"
 #include "GameSmithEngine/Core/Log.h"
+#include "GameSmithEngine/SerializeableFiles/Serializable.h"
 #include "ResourceAssetHelper.h"
 
 namespace GameSmith {
@@ -49,6 +50,45 @@ namespace GameSmith {
 		m_CurPtr += sizeof(int);
 	}
 
+	void BinaryStreamWriter::WriteSerializeable(ISerializeable* serializeable)
+	{
+		unsigned int requiredSize = serializeable->RequiredSpace();
+		GE_CORE_ASSERT(GetRemainingSpace() >= requiredSize, "Not enough space in buffer to write serializeable");
+		serializeable->Serialize(m_CurPtr, GetRemainingSpace());
+		m_CurPtr += requiredSize;
+	}
+
+	void BinaryStreamWriter::WriteVector(const std::vector<Ref<ISerializeable>> vector)
+	{
+		unsigned int requiredSize = sizeof(unsigned int);
+		for (auto& item : vector) {
+			requiredSize += item->RequiredSpace();
+		}
+		GE_CORE_ASSERT(GetRemainingSpace() >= requiredSize, "Not enough space in buffer to write serializeable vector");
+
+		WriteUInt((unsigned int)vector.size());
+		for (auto& item : vector) {
+			item->Serialize(m_CurPtr, GetRemainingSpace());
+			m_CurPtr += item->RequiredSpace();
+		}
+	}
+
+	void BinaryStreamWriter::WriteVector(const std::vector<Connection<ISerializeable>> vector) {
+		unsigned int requiredSize = sizeof(unsigned int);
+		for (auto& item : vector) {
+			requiredSize += item.lock()->RequiredSpace();
+		}
+
+		GE_CORE_ASSERT(GetRemainingSpace() >= requiredSize, "Not enough space in buffer to write serializeable vector");
+
+		WriteUInt((unsigned int)vector.size());
+		for (auto& item : vector) {
+			auto lockedItem = item.lock();
+			lockedItem->Serialize(m_CurPtr, GetRemainingSpace());
+			m_CurPtr += lockedItem->RequiredSpace();
+		}
+	}
+
 	void BinaryStreamWriter::WriteByte(char* bytes, unsigned int byteCount)
 	{
 		memcpy(m_CurPtr, bytes, byteCount);
@@ -61,8 +101,21 @@ namespace GameSmith {
 		GE_CORE_ASSERT(pFile.is_open(), std::format("Asset file {0} cannot be opened", destination));
 
 		pFile.seekg(0, pFile.beg);
-		pFile.write(m_Buffer.get(), m_CurPtr - m_Buffer.get());
+		if (m_outsideSrc) {
+			pFile.write(m_OutSideStartPtr, m_CurPtr - m_OutSideStartPtr);
+		}
+		else {
+			pFile.write(m_Buffer.get(), m_CurPtr - m_Buffer.get());
+		}
+		
 		pFile.close();
+	}
+
+	void BinaryStreamWriter::MoveCurPtr(unsigned int bytes)
+	{
+		GE_CORE_ASSERT(bytes <= GetRemainingSpace(), "Not enough space to move writer {} bytes", bytes);
+
+		m_CurPtr += bytes;
 	}
 
 	BinaryStreamReader BinaryStreamReader::ReadDirectlyFromFile(std::string fileName)

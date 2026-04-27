@@ -37,11 +37,20 @@ namespace GameSmith {
 		}
 	}
 
+	void RenderingManager::SetShaderSourceCache(const std::unordered_map<std::string, ID>& shaderFiles)
+	{
+		for (auto& entry : shaderFiles) {
+			m_ShaderIncludeCache.AddInclude(entry.first, entry.second);
+		}
+	}
+
 	void RenderingManager::BeginScene(Camera* cam, LightSource* mainLight)
 	{
 		//m_RenderAPI->ClearCachedAssets();
-		m_SceneData.VP = cam->GetMatrix();
-		m_SceneData.CameraWorldPos = cam->GetTransform().GetPosition();
+		if (cam != nullptr) {
+			m_SceneData.VP = cam->GetMatrix();
+			m_SceneData.CameraWorldPos = cam->GetTransform().GetPosition();
+		}
 
 		if (mainLight != nullptr) {
 			m_SceneData.LightWorldPos = mainLight->GetLightVector();
@@ -88,5 +97,20 @@ namespace GameSmith {
 		m_RenderAPI->SubmitRecording();
 	}
 
-	
+	void RenderingManager::SyncDataTransfer()
+	{
+		m_RenderAPI->FlushDataTransfer();
+	}
+
+	Ref<Shader> RenderingManager::CompileOrRetrieveShader(const Stages stage, const char* shaderCode, unsigned int size, const ID& sourceAssetID)
+	{
+		if (m_CompiledShaderCache.contains(sourceAssetID)) {
+			// Load asset file and return shader
+		}
+
+		unsigned int compiledSize;
+		Ref<const char> compiledShader = m_RenderAPI->CompileShader(stage, shaderCode, size, "main", &m_ShaderIncludeCache, &compiledSize);
+
+		return m_RenderAPI->LoadShader(compiledShader.get(), compiledSize);
+	}
 };

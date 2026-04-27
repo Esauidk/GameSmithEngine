@@ -14,7 +14,7 @@ namespace GameSmithEditor {
 		const GameSmith::ImGuiTextureSpace* GetImGuiIcon(std::string fileExtention);
 	private:
 		IconManager() = default;
-		void LoadIcon(std::string fileExtention);
+		void FindIcon(std::string fileExtention);
 	private:
 		struct IconEntry {
 			const GameSmith::ImGuiTextureSpace* imguiRef;

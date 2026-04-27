@@ -37,6 +37,10 @@ project "GameSmithEngine"
 		"ImGui"
 	}
 
+	libdirs{
+		"%{DLLDir.dxc}"
+	}
+
 	defines
 	{
 		"_CRT_SECURE_NO_WARNINGS",
@@ -51,10 +55,17 @@ project "GameSmithEngine"
 			"GE_PLATFORM_WINDOWS"
 		}
 
-		buildoptions { "/utf-8" }
+		buildoptions { 
+			"/utf-8",
+			"/wd4250"
+		}
 
 		postbuildcommands{
-			("cmd /c xcopy %[%{cfg.targetdir}/*] %[%{wks.location}/bin/" .. outputdir .. "/TestZone] /E /Y /I")
+			("cmd /c xcopy %[%{DLLDir.dxc}/*] %[%{cfg.targetdir} /E /Y /I"),
+			("cmd /c xcopy %[%{cfg.targetdir}/*] %[%{wks.location}/bin/" .. outputdir .. "/GameSmithEngineTestSuite] /E /Y /I"),
+			("cmd /c xcopy %[%{cfg.targetdir}/*] %[%{wks.location}/bin/" .. outputdir .. "/TestZone] /E /Y /I"),
+			("cmd /c xcopy %[%{cfg.targetdir}/*] %[%{wks.location}/bin/" .. outputdir .. "/GameSmithEditor] /E /Y /I"),
+			("cmd /c xcopy %[%{cfg.targetdir}/*] %[%{wks.location}/bin/" .. outputdir .. "/GEStandaloneGameApp] /E /Y /I")
 		}
 		
 
@@ -120,14 +131,13 @@ project "GameSmithEngineStatic"
 	filter "system:windows"
 		systemversion "latest"
 
-		buildoptions { "/utf-8" }
+		buildoptions { 
+			"/utf-8",
+			"/wd4250"
+		}
 
 		defines{
 			"GE_PLATFORM_WINDOWS"
-		}
-
-		postbuildcommands{
-			("{COPY} %{cfg.buildtarget.relpath}/../**.cso ../bin/" ..outputdir .. "/TestZone")
 		}
 		
 

@@ -33,7 +33,15 @@ project "GameSmithEditor"
 	filter "system:windows"
 		systemversion "latest"
 
-		buildoptions { "/utf-8" }
+		buildoptions { 
+			"/utf-8",
+			"/wd4250"
+		}
+
+		postbuildcommands{
+			("cmd /c robocopy %[%{wks.location}/GameSmithEditor/Icons] %[%{wks.location}/bin/" .. outputdir .. "/GameSmithEditor/Icons] /E ^& if %ERRORLEVEL% LSS 2 exit /b 0 ^& exit /b %ERRORLEVEL%"),
+			("cmd /c robocopy %[%{wks.location}/GameSmithEditor/ProjectPresets] %[%{wks.location}/bin/" .. outputdir .. "/GameSmithEditor/ProjectPresets] /E ^& if %ERRORLEVEL% LSS 2 exit /b 0 ^& exit /b %ERRORLEVEL%")
+		}
 
 		defines{
 			"GE_PLATFORM_WINDOWS"

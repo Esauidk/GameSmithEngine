@@ -1,8 +1,11 @@
 #include "AssetDatabaseWindow.h"
-#include "imgui.h"
 #include "GameSmithEditor/Core/GameProject.h"
-#include "GameSmithEditor/Icons/IconManager.h"
 #include "GameSmithEditor/CustomWidgets/ReferenceInputWidget.h"
+#include "GameSmithEditor/CustomWidgets/SelectableImage.h"
+#include "GameSmithEditor/Icons/IconManager.h"
+#include "GameSmithEditor/Utils/SystemCallUtils.h"
+#include "GameSmithEditor/Windows/PrivateWindows/AssetInspector.h"
+#include "imgui.h"
 
 using recursive_directory_iterator = std::filesystem::recursive_directory_iterator;
 
@@ -16,6 +19,8 @@ namespace GameSmithEditor {
 		if (GameProject::IsLoaded()) {
 			m_CurrentPath = std::filesystem::path(GameProject::GetAssetFolder());
 		}
+
+		m_RegisteredAssets = GameSmith::AssetRegistry::GetInstance()->ListRegisteredAssets();
 	}
 
 	void AssetDatabaseWindow::OnAttach(const GameSmith::ApplicationSpecs& specs)
@@ -36,84 +41,150 @@ namespace GameSmithEditor {
 
 	void AssetDatabaseWindow::OnImGuiRender()
 	{
-		ImGui::Begin("Asset Database");
-		static float padding = 16.0f;
-		static float thumbailSize = 256;
-		float cellSize = thumbailSize + padding;
+		if (ImGui::Begin("Asset Database", &m_Open)) {
+			static float padding = 16.0f;
+			static float thumbailSize = 256;
+			float cellSize = thumbailSize + padding;
 
-		float windowWidth = ImGui::GetContentRegionAvail().x;
-		int columnCount = (int)(windowWidth / cellSize);
-		if (columnCount < 1) {
-			columnCount = 1;
-		}
-
-		if (GameProject::IsLoaded()) {
-			if (m_CurrentPath == "") {
-				m_CurrentPath = std::filesystem::path(GameProject::GetAssetFolder());
+			float windowWidth = ImGui::GetContentRegionAvail().x;
+			int columnCount = (int)(windowWidth / cellSize);
+			if (columnCount < 1) {
+				columnCount = 1;
 			}
 
-			if (m_CurrentPath != std::filesystem::path(GameProject::GetAssetFolder())) {
-				if (ImGui::Button("Back")) {
-					m_CurrentPath = m_CurrentPath.parent_path();
+			if (GameProject::IsLoaded()) {
+				if (m_CurrentPath == "") {
+					m_CurrentPath = std::filesystem::path(GameProject::GetAssetFolder());
 				}
-			}
 
-			ImGui::Text(m_CurrentPath.filename().string().c_str());
-
-			if (ImGui::BeginTable("Assets", columnCount)) {
-				ImGuiStyle& style = ImGui::GetStyle();
-				auto oldFramePadding = style.FramePadding;
-				style.FramePadding = { 0,0 };
-				for (const auto& dirEntry : recursive_directory_iterator(m_CurrentPath)) {
-					std::string fileName = dirEntry.path().filename().string();
-					if (fileName.ends_with(".meta")) {
-						continue;
+				if (m_CurrentPath != std::filesystem::path(GameProject::GetAssetFolder())) {
+					if (ImGui::Button("Back")) {
+						m_CurrentPath = m_CurrentPath.parent_path();
 					}
-					
-					std::string path = dirEntry.path().string();
-					bool isDir = dirEntry.is_directory();
-					IconManager* iconManager = IconManager::GetInstance();
-					ImTextureID image;
-					if (isDir) {
-						void* spot = iconManager->GetImGuiIcon("folder")->gpuSpot;
-						image = reinterpret_cast<ImTextureID>(spot);
-					}
-					else {
-						auto index = fileName.find_last_of(".");
-						std::string fileExtention = fileName.substr(index + 1);
+				}
 
-						auto filePtr = iconManager->GetImGuiIcon(fileExtention);
-						if (filePtr == nullptr) {
-							filePtr = iconManager->GetImGuiIcon("file");
+				ImGui::Text(m_CurrentPath.filename().string().c_str());
+
+				if (ImGui::Button("+")) {
+					ImGui::OpenPopup("AssetDatabaseModMenu");
+				}
+
+				if (ImGui::BeginPopup("AssetDatabaseModMenu")) {
+					if (ImGui::Button("ImportAsset")) {
+						std::string filePath;
+						FileSearchCriteria criteria;
+						criteria.filePath = GameProject::GetAssetFolder();
+						if (PickFileDialog(criteria, &filePath)) {
+							auto resourceManager = GameSmith::AssetManager::GetInstance();
+							resourceManager->ImportResource(filePath);
 						}
-
-						image = reinterpret_cast<ImTextureID>(filePtr->gpuSpot);
+						
 					}
 
-					if (ImGui::ImageButton(fileName.c_str(), image, { thumbailSize, thumbailSize })) {
-						if (isDir) {
-							m_CurrentPath = dirEntry.path();
+					if (ImGui::Button("CreateAsset")) {
+						ImGui::OpenPopup("AssetDatabaseCreateAssetMenu");
+					}
+
+					if (ImGui::BeginPopup("AssetDatabaseCreateAssetMenu")) {
+						for (const auto& entry : m_RegisteredAssets) {
+							const std::string menuLabel = std::format("{1} ({0})", entry.first, entry.second);
+							if (ImGui::MenuItem(menuLabel.c_str())) {
+								auto manager = GameSmith::AssetManager::GetInstance();
+
+								const std::string fileName = std::format("New {1}{0}", entry.first, entry.second);
+								const std::string path = m_CurrentPath.string();
+								manager->CreateResource(fileName, path);
+							}
 						}
+						ImGui::EndPopup();
 					}
 
-					if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None)) {
-						GameSmith::AssetManager* rManager = GameSmith::AssetManager::GetInstance();
-						auto id = rManager->GetAssetID(path);
-						ImGui::SetDragDropPayload(IMGUI_PAYLOAD_TYPE_ASSET_REF, &id, sizeof(GameSmith::ID));
-						ImGui::EndDragDropSource();
-					}
+					ImGui::EndPopup();
+				}
 
-					ImGui::TextWrapped(fileName.c_str());
+				
+
+				ImGui::Separator();
+
+				if (ImGui::BeginTable("Assets", columnCount)) {
 					ImGui::TableNextColumn();
-				}
-				style.FramePadding = oldFramePadding;
-				ImGui::EndTable();
-			}
-		}
+					ImGuiStyle& style = ImGui::GetStyle();
+					auto oldFramePadding = style.FramePadding;
+					style.FramePadding = { 0,0 };
+					for (const auto& dirEntry : recursive_directory_iterator(m_CurrentPath)) {
+						std::string fileName = dirEntry.path().filename().string();
+						if (fileName.ends_with(".meta")) {
+							continue;
+						}
 
-		ImGui::SliderFloat("Thumnail Size", &thumbailSize, 16, 512);
-		ImGui::SliderFloat("Min Padding", &padding, 0, 32);
+						std::string path = dirEntry.path().string();
+						bool isDir = dirEntry.is_directory();
+						IconManager* iconManager = IconManager::GetInstance();
+						ImTextureID image;
+						if (isDir) {
+							void* spot = iconManager->GetImGuiIcon("folder")->gpuSpot;
+							image = reinterpret_cast<ImTextureID>(spot);
+						}
+						else {
+							auto index = fileName.find_last_of(".");
+							std::string fileExtention = fileName.substr(index + 1);
+
+							auto filePtr = iconManager->GetImGuiIcon(fileExtention);
+							if (filePtr == nullptr) {
+								filePtr = iconManager->GetImGuiIcon("file");
+							}
+
+							image = reinterpret_cast<ImTextureID>(filePtr->gpuSpot);
+							
+						}
+
+						ImTextureRef imageRef = ImTextureRef(image);
+						ImVec2 imageSize = { thumbailSize, thumbailSize };
+						bool selected = m_SelectedAsset == fileName;
+						if (SelectableImage(fileName, selected, imageRef, imageSize)) {
+							m_SelectedAsset = fileName;
+
+							if (ImGui::IsMouseDoubleClicked(ImGuiMouseButton_Left)) {
+								if (isDir) {
+									m_CurrentPath = dirEntry.path();
+									m_SelectedAsset = "";
+								}
+								else {
+									GameSmith::AssetManager* rManager = GameSmith::AssetManager::GetInstance();
+									auto id = rManager->GetAssetID(path);
+									auto asset = rManager->GetResource(id);
+									auto inspector = new AssetInspector(asset);
+									EditorCoreLayer::GetInstance()->AppendEditorWindow(inspector);
+								}
+							}	
+						}
+
+						if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None)) {
+							GameSmith::AssetManager* rManager = GameSmith::AssetManager::GetInstance();
+							auto id = rManager->GetAssetID(path);
+							ImGui::SetDragDropPayload(IMGUI_PAYLOAD_TYPE_ASSET_REF, &id, sizeof(GameSmith::ID));
+							ImGui::EndDragDropSource();
+						}
+
+						ImGui::TextWrapped(fileName.c_str());
+						ImGui::TableNextColumn();
+					}
+					style.FramePadding = oldFramePadding;
+					ImGui::EndTable();
+				}
+			}
+
+			ImGui::SliderFloat("Thumnail Size", &thumbailSize, 16, 512);
+			ImGui::SliderFloat("Min Padding", &padding, 0, 32);
+		}
 		ImGui::End();
+	}
+
+	void AssetDatabaseWindow::OnUpdate(float dt)
+	{
+		if (!m_Open) {
+			CloseWindow();
+		}
 	}
 };
 

@@ -23,7 +23,7 @@ namespace GameSmith {
 		Connection<GameObject> CreateGameObject(glm::vec3 startingPos = glm::vec3(0), glm::vec3 startingRotation = glm::vec3(0));
 		Connection<GameObject> FindGameObject(std::string gameObjectName);
 		void GetGameObjects(std::vector<Connection<GameObject>>* outObjects);
-		void GetGameObjectNames(std::vector<std::string>* outNames);
+		void GetAllGameObjectNames(std::vector<std::string>* outNames);
 		void DestroyGameObject(Connection<GameObject> object);
 	private:
 		friend class GameObjectProxy;

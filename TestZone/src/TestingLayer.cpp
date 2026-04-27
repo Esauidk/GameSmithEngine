@@ -1,4 +1,7 @@
 #include "TestingLayer.h"
+#include "GameSmithEngine/ResourceManagement/ResourceLoaders/HeapResourceLoader.h"
+#include "GameSmithEngine/Rendering/DirectX12/DirectX12ShaderCompiler.h"
+#include "GameSmithEngine/Rendering/RenderAgnostics/Shaders/ShaderIncludeCache.h"
 
 GE_REGISTERCOMPONENT(TestLayerComponent)
 
@@ -82,6 +85,29 @@ TestingLayer::TestingLayer() : GameSmith::Layer("Testing Layer")
 	auto gm1 = GameSmith::GameObjectManager::GetInstance()->CreateGameObject();
 	gm1.lock()->GetTransform().lock()->SetPosition({ 6, 8, 1 });
 
+	auto assetManager = GameSmith::AssetManager::GetInstance();
+	assetManager->ImportResource("C:/Users/esaus/Documents/Coding Projects/GameSmithEngine/GameSmithEngine/src/GameSmithEngine/Rendering/SampleShaders/Core.hlsl");
+	auto importedAsset = assetManager->ImportResource("C:/Users/esaus/Documents/Coding Projects/GameSmithEngine/GameSmithEngine/src/GameSmithEngine/Rendering/SampleShaders/Vertex/BasicRenderVS.hlsl");
+
+	std::vector<std::pair<std::string, std::string>> shaderFiles;
+	assetManager->GetAssetPathsOfType<GameSmith::HLSLAsset>(&shaderFiles);
+
+	std::unordered_map<std::string, GameSmith::ID> shaderFileCache;
+	for (auto& entry : shaderFiles) {
+		auto id = assetManager->GetAssetID(entry.second);
+		shaderFileCache[entry.first] = id;
+	}
+	
+	auto rm = GameSmith::RenderingManager::GetInstance();
+	rm->SetShaderSourceCache(shaderFileCache);
+
+	
+	auto vertex = assetManager->GetResource<GameSmith::HLSLAsset>(importedAsset);
+	GameSmith::HLSLSourceSet sourceSet;
+	sourceSet.sources[GameSmith::Stages::STAGE_VERTEX] = vertex;
+	GameSmith::ShaderAsset shader("Main", sourceSet);
+	shader.GetShader(GameSmith::Stages::STAGE_VERTEX);
+
 	/*std::vector<GameSmith::Connection<GameSmith::GameObject>> objs;
 	objs.push_back(gm);
 	objs.push_back(gm1);
@@ -148,7 +174,7 @@ void TestingLayer::OnImGuiRender()
 {
 }
 
-void TestingLayer::OnUpdate(float dt)
+void TestingLayer::OnUpdate(float dt) 
 {
 	auto renderManager = GameSmith::RenderingManager::GetInstance();
 	renderManager->SetForClear(m_RenderTex);

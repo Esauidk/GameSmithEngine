@@ -15,6 +15,7 @@ namespace GameSmith {
 	class GE_API MeshAsset : public Asset
 	{
 	public:
+		MeshAsset(std::string name) : Asset(name) {};
 		virtual Ref<char> Serialize() override;
 		virtual void Serialize(char* byteStream, unsigned int availableBytes) override;
 		virtual unsigned int RequiredSpace() const override;
@@ -24,7 +25,7 @@ namespace GameSmith {
 		inline SubMesh GetSubMesh(unsigned int index) { return m_SubMeshes[index]; }
 		inline unsigned int GetSubMeshSize() { return (unsigned int)m_SubMeshes.size(); }
 
-		SERIAL_FILE(Mesh, mesh)
+		SERIAL_FILE(Mesh, obj) // Temporarily take obj only asset
 	private:
 		Ref<VertexBuffer> m_Vert;
 		std::vector<SubMesh> m_SubMeshes;

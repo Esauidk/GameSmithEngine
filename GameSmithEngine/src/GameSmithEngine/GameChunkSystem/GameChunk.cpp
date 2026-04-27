@@ -3,6 +3,7 @@
 #include "GameSmithEngine/EntitySystem/GameObjectManager.h"
 #include "GameSmithEngine/ResourceManagement/AssetManager.h"
 #include "GameSmithEngine/ResourceManagement/ResourceAssetHelper.h"
+#include "GameSmithEngine/SerializeableFiles/ResourceAssets/Asset.h"
 
 namespace GameSmith {
 	GameChunk::~GameChunk()
@@ -14,16 +15,25 @@ namespace GameSmith {
 		}
 	}
 
+	void GameChunk::GetChunkGameObjectNames(std::vector<std::string>* nameOut)
+	{
+		for (auto& object : m_GameObjects) {
+			if (!object.expired()) {
+				nameOut->push_back(object.lock()->GetName());
+			}
+		}
+	}
+
 	Ref<char> GameChunk::Serialize()
 	{
 		BinaryStreamWriter writer(RequiredSpace());
 
-		ChunkMetadata metadata = {};
+		unsigned int gmCount = 0;
 		for (auto& gm : m_GameObjects) {
-			metadata.gmCount += gm.expired() ? 0 : 1;
+			gmCount += gm.expired() ? 0 : 1;
 		}
 
-		writer.WriteClass<ChunkMetadata>(&metadata);
+		writer.WriteUInt(gmCount);
 
 		for (auto& gm : m_GameObjects) {
 			if (!gm.expired()) {
@@ -31,7 +41,6 @@ namespace GameSmith {
 				writer.MoveCurPtr(gm.lock()->RequiredSpace());
 			}
 		}
-
 
 		return writer.GetBuffer();
 	}
@@ -42,7 +51,7 @@ namespace GameSmith {
 
 	unsigned int GameChunk::RequiredSpace() const
 	{
-		unsigned int size = sizeof(ChunkMetadata);
+		unsigned int size = sizeof(unsigned int);
 
 		for (auto& gm : m_GameObjects) {
 			if (!gm.expired()) {
@@ -55,15 +64,15 @@ namespace GameSmith {
 
 	void GameChunk::Deserialize(char* inData, unsigned int size)
 	{
-		std::unordered_map<ID, Ref<IDObject>, IDHasher> collectedIDs;
+		std::unordered_map<ID, Ref<IDObjectInterface>, IDHasher> collectedIDs;
 		std::vector<Connection<Component>> createdComps;
 
 		BinaryStreamReader reader(inData, size);
 
-		auto metadata = reader.ReadClass<ChunkMetadata>();
+		unsigned int gmCount = reader.GetUInt();
 
 		auto gmManager = GameObjectManager::GetInstance();
-		for (unsigned int i = 0; i < metadata->gmCount; i++) {
+		for (unsigned int i = 0; i < gmCount; i++) {
 
 			// Create a game object (treat it as a fresh canvas)
 			auto gm = gmManager->CreateGameObject();
@@ -107,14 +116,14 @@ namespace GameSmith {
 			for (auto& entry : assetRefs) {
 				if (collectedIDs.contains(entry.second->GetCurrentRefID())) {
 					auto foundEntry = collectedIDs.find(entry.second->GetCurrentRefID());
-					entry.second->AssignRef(CastPtr<Asset>(foundEntry->second));
+					entry.second->AssignRef(CastPtr<IAsset>(foundEntry->second));
 				}
 				else {
 					// Attempt to load asset
 					auto resourceManager = AssetManager::GetInstance();
 					auto asset = resourceManager->GetResource(entry.second->GetCurrentRefID());
 					// TODO: Change resource manager to return asset class for default
-					entry.second->AssignRef(CastPtr<Asset>(asset));
+					entry.second->AssignRef(CastPtr<IAsset>(asset));
 					collectedIDs.insert({ asset->GetID(), asset });
 				}
 			}

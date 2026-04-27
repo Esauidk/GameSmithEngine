@@ -20,7 +20,7 @@ namespace GameSmith {
 
 	unsigned int JsonFile::RequiredSpace() const
 	{
-		return m_JsonString.length() + 1;
+		return ((unsigned int)m_JsonString.length()) + 1;
 	}
 
 	void JsonFile::Deserialize(char* inData, unsigned int size)

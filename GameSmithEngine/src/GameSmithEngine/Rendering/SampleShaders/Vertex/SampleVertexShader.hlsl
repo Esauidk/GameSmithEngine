@@ -14,7 +14,7 @@ cbuffer Instance : register(b1) {
     float3 inputColor;
 };
 
-#include "../Core.hlsli"
+#include "../Core.hlsl"
     
 VertexShaderOutput main(DefaultVertexData input, uint id : SV_VertexID)
 {

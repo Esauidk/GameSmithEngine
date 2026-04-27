@@ -30,7 +30,7 @@ namespace GameSmithEditor {
 				return m_IconMap.find(fileExtention)->second.assetRef->GetTexture();
 			}
 			else {
-				LoadIcon(fileExtention);
+				FindIcon(fileExtention);
 				
 				if (m_IconMap.contains(fileExtention)) {
 					return m_IconMap.find(fileExtention)->second.assetRef->GetTexture();
@@ -51,7 +51,7 @@ namespace GameSmithEditor {
 				return m_IconMap.find(fileExtention)->second.imguiRef;
 			}
 			else {
-				LoadIcon(fileExtention);
+				FindIcon(fileExtention);
 
 				if (m_IconMap.contains(fileExtention)) {
 					return m_IconMap.find(fileExtention)->second.imguiRef;
@@ -65,7 +65,7 @@ namespace GameSmithEditor {
 		}
 	}
 
-	void IconManager::LoadIcon(std::string fileExtention)
+	void IconManager::FindIcon(std::string fileExtention)
 	{
 		auto editorIconRoot = std::format("{0}/{1}", GameProject::GetEditorResourceFolder(), "/Icons");
 		if (std::filesystem::exists(editorIconRoot)) {

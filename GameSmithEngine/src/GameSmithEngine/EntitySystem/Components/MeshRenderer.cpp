@@ -7,13 +7,20 @@
 namespace GameSmith {
 	GE_REGISTERCOMPONENT(MeshRenderer)
 
+	MeshRenderer::MeshRenderer(GameObject* gameObject, Transform* transform) : Component(gameObject, transform)
+	{
+		m_Registry.AddExposedAsset<MeshAsset>("Mesh", (Ref<GameSmith::IAsset>*)&m_Mesh, CLASS_TO_STRING(MeshAsset));
+		m_Registry.AddExposedAsset<MaterialAsset>("TestMat", (Ref<GameSmith::IAsset>*) &m_TestAsset, CLASS_TO_STRING(MaterialAsset));
+	}
+
 	void MeshRenderer::OnUpdate(float dt)
 	{
 		auto renderPrep = EntityRenderPreparer::GetInstance();
 
 		if (renderPrep != nullptr && m_Mesh != nullptr) {
-			glm::mat4 model = m_Transform->GetModelMatrix();
-			bool changed = m_Transform->HasChanged();
+			auto transform = GetTransform();
+			glm::mat4 model = transform->GetModelMatrix();
+			bool changed = transform->HasChanged();
 			unsigned int size = m_Mesh->GetSubMeshSize();
 			for (unsigned int i = 0; i < size; i++) {
 				if (m_Materials[i].first == nullptr) {
@@ -32,6 +39,19 @@ namespace GameSmith {
 			GE_CORE_INFO("Something went wrong updating");
 		}
 		
+	}
 
+	void MeshRenderer::PostRegistryBootstrap()
+	{
+		if (m_Mesh != nullptr) {
+			unsigned subMeshSize = m_Mesh->GetSubMeshSize();
+			if (subMeshSize != m_Materials.size()) {
+				m_Materials.resize(subMeshSize);
+			}
+		}
+
+		if (m_TestAsset != nullptr) {
+			SetMaterial(0, m_TestAsset);
+		}
 	}
 };

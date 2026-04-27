@@ -18,20 +18,15 @@ static GameSmith::Ref<char> loadFile(std::string file, unsigned int* outSize) {
 }
 
 static unsigned int testShaderSize;
-static GameSmith::Ref<char> testShader = loadFile(std::format("{0}{1}", TEST_RESOURCES, "/shaders/SampleVertexShader.cso"), &testShaderSize);
+static GameSmith::Ref<char> testShader = loadFile(std::format("{0}{1}", TEST_RESOURCES, "/shaders/SampleVertexShader.hlsl"), &testShaderSize);
 
-TEST(ShaderAssetTest, Deserialize) {
-	GameSmith::RenderingManager::Init();
-
-	GameSmith::ShaderAsset asset;
+TEST(HLSLAssetTest, Deserialize) {
+	GameSmith::HLSLAsset asset("Test");
 	EXPECT_NO_THROW(asset.Deserialize(testShader.get(), testShaderSize));
-	GameSmith::RenderingManager::ShutDown();
 }
 
-TEST(ShaderAssetTest, SerializeNew) {
-	GameSmith::RenderingManager::Init();
-
-	GameSmith::ShaderAsset asset;
+TEST(HLSLAssetTest, SerializeNew) {
+	GameSmith::HLSLAsset asset("Test");
 	EXPECT_NO_THROW(asset.Deserialize(testShader.get(), testShaderSize));
 
 	GameSmith::Ref<char> serial = asset.Serialize();
@@ -39,13 +34,10 @@ TEST(ShaderAssetTest, SerializeNew) {
 	for (unsigned int i = 0; i < testShaderSize; i++) {
 		EXPECT_EQ(*(testShader.get() + i), *(serial.get() + i));
 	}
-	GameSmith::RenderingManager::ShutDown();
 }
 
-TEST(ShaderAssetTest, SerializeAppend) {
-	GameSmith::RenderingManager::Init();
-
-	GameSmith::ShaderAsset asset;
+TEST(HLSLAssetTest, SerializeAppend) {
+	GameSmith::HLSLAsset asset("Test");
 	EXPECT_NO_THROW(asset.Deserialize(testShader.get(), testShaderSize));
 
 	GameSmith::Ref<char> serial = GameSmith::Ref<char>(new char[testShaderSize + 5]);
@@ -54,15 +46,11 @@ TEST(ShaderAssetTest, SerializeAppend) {
 	for (unsigned int i = 0; i < testShaderSize; i++) {
 		EXPECT_EQ(*(testShader.get() + i), *(serial.get() + i + 5));
 	}
-	GameSmith::RenderingManager::ShutDown();
 }
 
-TEST(ShaderAssetTest, GetRequiredSize) {
-	GameSmith::RenderingManager::Init();
-
-	GameSmith::ShaderAsset asset;
+TEST(HLSLAssetTest, GetRequiredSize) {
+	GameSmith::HLSLAsset asset("Test");
 	EXPECT_NO_THROW(asset.Deserialize(testShader.get(), testShaderSize));
 
 	EXPECT_EQ(testShaderSize, asset.RequiredSpace());
-	GameSmith::RenderingManager::ShutDown();
 }
