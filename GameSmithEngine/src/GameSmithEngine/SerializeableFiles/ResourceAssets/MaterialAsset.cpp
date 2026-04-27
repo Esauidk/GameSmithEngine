@@ -11,9 +11,9 @@
 namespace GameSmith {
 	GE_REGISTERASSET(MaterialAsset);
 
-	Ref<char> MaterialAsset::Serialize()
+	void MaterialAsset::Serialize(char* byteStream, unsigned int availableBytes)
 	{
-		BinaryStreamWriter writer(RequiredSpace());
+		BinaryStreamWriter writer(byteStream, availableBytes);
 
 		writer.WriteClass<MaterialAssetMetadata>(&m_Metadata);
 		// Write Config
@@ -47,13 +47,6 @@ namespace GameSmith {
 			idData texID = entry->asset->GetID().getData();
 			writer.WriteClass<idData>(&texID);
 		}
-		
-		return writer.GetBuffer();
-	}
-
-	void MaterialAsset::Serialize(char* byteStream, unsigned int availableBytes)
-	{
-		// TODO: Implement
 	}
 
 	unsigned int MaterialAsset::RequiredSpace() const
@@ -110,6 +103,7 @@ namespace GameSmith {
 
 			m_ParameterKeys.push_back(paramName);
 			m_Parameters[paramName] = param;
+			m_Registry.AddExposedVariable(paramName, param);
 		}
 
 		for (unsigned int i = 0; i < matMetadata->TetureCount; i++) {
@@ -123,6 +117,27 @@ namespace GameSmith {
 			m_TextureKeys.push_back(texName);
 			Ref<TextureRefContainer> container = Ref<TextureRefContainer>(new TextureRefContainer{ tex });
 			m_Textures[texName] = container;
+		}
+	}
+
+	void MaterialAsset::PostRegistryBootstrap()
+	{
+		if (m_Shader != nullptr) {
+			m_ParameterKeys.clear();
+			m_Parameters.clear(); 
+			// Assuming there is a config attached
+			// TODO: Add check if config exists
+			auto& parameterMap = m_Shader->GetShaderConfig()->GetPrimitiveProperties();
+			for (const auto& entry : parameterMap) {
+				const auto& name = entry->name;
+				const auto& type = entry->type;
+				auto container = CreateContainer(name, type);
+				m_Parameters[name] = container;
+				m_ParameterKeys.push_back(name);
+				m_Metadata.ParamterCount = (unsigned int)m_ParameterKeys.size();
+				m_Registry.RemoveExposedVariable(name);
+				m_Registry.AddExposedVariable(name, container);
+			}
 		}
 	}
 

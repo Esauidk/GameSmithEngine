@@ -33,19 +33,34 @@ namespace GameSmithEditor {
 
 			ImGui::Separator();
 
-			for (auto& entry : m_ExposedVariables) {
-				auto parameter = entry.second;
-				GenerateVariableUI(parameter);
-			}
+			auto& groupings = m_InspectedAsset->GetExposedGroupings();
+			for (auto& group : groupings) {
+				bool showVariables = true;
+				if (group.first != "") {
+					showVariables = ImGui::CollapsingHeader(group.first.c_str());
+				}
 
-			for (auto& entry : m_ExposedRefs) {
-				InputReference(entry.first, entry.second);
-			}
+				if (showVariables) {
+					auto& variableMap = m_ExposedVariables;
+					auto& refMap = m_ExposedRefs;
+					auto& assetMap = m_ExposedAssets;
 
-			for (auto& entry : m_ExposedAssets) {
-				InputReference(entry.first, entry.second);
+					for (auto& variableName : group.second) {
+						if (variableMap.contains(variableName)) {
+							auto parameter = variableMap[variableName];
+							GenerateVariableUI(parameter);
+						}
+						else if (refMap.contains(variableName)) {
+							auto connection = refMap[variableName];
+							InputReference(variableName, connection);
+						}
+						else if (assetMap.contains(variableName)) {
+							auto assetRef = assetMap[variableName];
+							InputReference(variableName, assetRef);
+						}
+					}
+				}
 			}
-
 		}
 		ImGui::End();
 	}

@@ -9,22 +9,7 @@
 namespace GameSmith {
 	GE_REGISTERASSET(ShaderAsset);
 
-	Ref<char> ShaderAsset::Serialize()
-	{
-		BinaryStreamWriter writer(RequiredSpace());
-		for (unsigned int i = 0; i < STAGE_NUM; i++) {
-			if (m_HLSLSource.sources[i] != nullptr) {
-				idData sourceID = m_HLSLSource.sources[i]->GetID().getData();
-				writer.WriteClass<idData>(&sourceID);
-			}
-			else {
-				idData emptyID = { 0, 0, 0, 0 };
-				writer.WriteClass<idData>(&emptyID);
-			}
-		}
 
-		return writer.GetBuffer();
-	}
 	void ShaderAsset::Serialize(char* byteStream, unsigned int availableBytes)
 	{
 		auto requiredSize = RequiredSpace();
@@ -45,11 +30,20 @@ namespace GameSmith {
 				writer.WriteClass<idData>(&emptyID);
 			}
 		}
+
+		if (m_ShaderConfig != nullptr) {
+			idData configID = m_ShaderConfig->GetID().getData();
+			writer.WriteClass<idData>(&configID);
+		}
+		else {
+			idData emptyID = { 0, 0, 0, 0 };
+			writer.WriteClass<idData>(&emptyID);
+		}
 	}
 
 	unsigned int ShaderAsset::RequiredSpace() const
 	{
-		unsigned int requiredSize = sizeof(idData) * STAGE_NUM;
+		unsigned int requiredSize = sizeof(idData) * (STAGE_NUM+1);
 
 		return requiredSize;
 	}
@@ -61,11 +55,15 @@ namespace GameSmith {
 		for (unsigned int i = 0; i < STAGE_NUM; i++) {
 			idData sourceID = *reader.ReadClass<idData>();
 			ID sourceFullID(sourceID);
-			if (sourceFullID == ID()) {
-				continue;
+			if (sourceFullID != ID()) {
+				m_HLSLSource.sources[i] = assetManager->GetResource<HLSLAsset>(sourceFullID);
 			}
+		}
 
-			m_HLSLSource.sources[i] = assetManager->GetResource<HLSLAsset>(sourceFullID);
+		idData configID = *reader.ReadClass<idData>();
+		ID configFullID(configID);
+		if (configFullID != ID()) {
+			m_ShaderConfig = assetManager->GetResource<ShaderConfigAsset>(configFullID);
 		}
 	}
 

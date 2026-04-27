@@ -53,8 +53,14 @@ namespace GameSmith {
 		* entry: a pointer to update with new variable data
 		* entryType: the type of variable to treat this entry as
 		*/
-		inline void AddExposedVariable(const std::string variableName, void* entry, ContainerDataType entryType) { if (entry == nullptr) return; m_ValueRegistry.insert({ variableName, {entry, entryType} }); }
-		void AddExposedVariable(const std::string variableName, Ref<ParameterContainer> container);
+		inline void AddExposedVariable(const std::string variableName, ContainerDataType entryType, void* entry, unsigned int entrySize = 0, const std::string& groupName = "") {
+			if (entry == nullptr) return; 
+			m_ValueRegistry.insert({ variableName, {entry, entrySize, entryType, groupName} }); 
+			AddToGroup(groupName, variableName);
+		}
+		void AddExposedVariable(const std::string variableName, Ref<ParameterContainer> container, const std::string& groupName = "");
+
+		void RemoveExposedVariable(const std::string variableName);
 
 		/* Adds a definition for an exposed connection
 		* refName: A string to tie this new exposed connection definition
@@ -63,7 +69,7 @@ namespace GameSmith {
 		* flags: Any special flags to determine how the connection is interpreted (view ExposedVariableFlags)
 		*/
 		template<typename T>
-		inline void AddExposedConnection(const std::string refName, Connection<IDObjectInterface>* entry, std::string typeName, unsigned int flags = 0) { 
+		inline void AddExposedConnection(const std::string refName, Connection<IDObjectInterface>* entry, std::string typeName, unsigned int flags = 0, const std::string& groupName = "") { 
 			if (entry == nullptr) return;
 
 			m_ConnectionsRegistry.insert(
@@ -75,18 +81,21 @@ namespace GameSmith {
 						{
 							*((Connection<T>*)origin) = CastPtr<T>(curPtr.lock());
 						},
-
 						[](Connection<IDObjectInterface> curPtr)
 						{
 							return CastPtr<T>(curPtr.lock()) != nullptr;
 						},
 						typeName,
 						{},
-						flags
+						flags,
+						groupName
 					} 
 				}
 			);
+			AddToGroup(groupName, refName);
 		}
+
+		void RemoveExposedConnection(const std::string refName);
 
 		/* Adds a definition for an exposed asset
 		* refName: A string to tie this new exposed reference definition
@@ -95,7 +104,7 @@ namespace GameSmith {
 		* flags: Any special flags to determine how the reference is interpreted (view ExposedVariableFlags)
 		*/
 		template<typename T>
-		inline void AddExposedAsset(const std::string refName, Ref<IAsset>* entry, std::string typeName, unsigned int flags = 0) {
+		inline void AddExposedAsset(const std::string refName, Ref<IAsset>* entry, std::string typeName, unsigned int flags = 0, const std::string& groupName = "") {
 			if (entry == nullptr) return;
 
 			m_AssetRegistry.insert(
@@ -107,18 +116,21 @@ namespace GameSmith {
 						{
 							*((Ref<T>*)origin) = CastPtr<T>(curPtr);
 						},
-
 						[](Ref<IAsset> curPtr)
 						{
 							return CastPtr<T>(curPtr) != nullptr;
 						},
 						typeName,
 						{},
-						flags
+						flags,
+						groupName
 					}
 				}
 			);
+			AddToGroup(groupName, refName);
 		}
+
+		void RemoveExposedAsset(const std::string refName);
 
 		void GenerateVariableMap(std::unordered_map<std::string, Ref<ParameterContainer>>* outMap);
 		void GenerateConnectionsMap(std::unordered_map<std::string, Ref<ConnectionContainer>>* outMap);
@@ -129,20 +141,27 @@ namespace GameSmith {
 		void BootstrapFromAssetMap(const std::unordered_map<std::string, Ref<AssetRefContainer>>& inMap);
 
 
+		const std::unordered_map<std::string, std::unordered_set<std::string>>& GetGroupingRegistry() const { return m_GroupingRegistry; }
+
 		virtual Ref<char> Serialize() override;
 		virtual void Serialize(char* byteStream, unsigned int availableBytes) override;
 		virtual unsigned int RequiredSpace() const override;
 		virtual void Deserialize(char* inData, unsigned int size) override;
 	private:
+		void AddToGroup(const std::string& groupName, const std::string& variableName);
+		void RemoveFromGroup(const std::string& groupName, const std::string& variableName);
+	private:
 		struct RegistrySerializeMetadata {
-			unsigned int numVariables;
-			unsigned int numConnections;
-			unsigned int numAssetRefs;
+			unsigned int numVariables = 0;
+			unsigned int numConnections = 0;
+			unsigned int numAssetRefs = 0;
 		};
 
 		struct ExposedVariableEntry {
 			void* originalVariableRef;
+			unsigned int variableSize;
 			ContainerDataType variableDataType;
+			std::string groupName;
 			unsigned int flags;
 			Ref<ParameterContainer> containerRef = nullptr;
 			bool ownsContainer = false;
@@ -156,6 +175,7 @@ namespace GameSmith {
 			std::string typeName;
 			ID objectID;
 			unsigned int flag;
+			std::string groupName;
 		};
 
 		using ExposedAssetEntry = ExposedObjectRefEntry<Ref<IAsset>>;
@@ -165,6 +185,7 @@ namespace GameSmith {
 		std::unordered_map<std::string, ExposedVariableEntry> m_ValueRegistry;
 		std::unordered_map<std::string, ExposedConnectionEntry> m_ConnectionsRegistry;
 		std::unordered_map<std::string, ExposedAssetEntry> m_AssetRegistry;
+		std::unordered_map<std::string,std::unordered_set<std::string>> m_GroupingRegistry; // Maps variable/connection/asset names to group names for organizational purposes
 	};
 
 	class GE_API IExposedMembers {
@@ -173,6 +194,7 @@ namespace GameSmith {
 		virtual void GenerateVariableEntries(std::unordered_map<std::string, Ref<ParameterContainer>>* outMap) = 0;
 		virtual void GenerateConnectionEntries(std::unordered_map<std::string, Ref<ConnectionContainer>>* outMap) = 0;
 		virtual void GenerateAssetEntries(std::unordered_map<std::string, Ref<AssetRefContainer>>* outMap) = 0;
+		virtual const std::unordered_map<std::string, std::unordered_set<std::string>>& GetExposedGroupings() const = 0;
 
 		// Can be empty function
 		virtual void PostRegistryBootstrap() {};

@@ -49,5 +49,9 @@ namespace GameSmith {
 				m_Materials.resize(subMeshSize);
 			}
 		}
+
+		if (m_TestAsset != nullptr) {
+			SetMaterial(0, m_TestAsset);
+		}
 	}
 };

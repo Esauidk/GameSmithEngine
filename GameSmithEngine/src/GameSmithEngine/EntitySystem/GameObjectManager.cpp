@@ -67,7 +67,7 @@ namespace GameSmith {
 
 	Connection<GameObject> GameSmith::GameObjectManager::FindGameObject(std::string gameObjectName)
 	{
-		// TODO: Fix this when a solution for String -> Is completed
+		// TODO: Fix this when a solution for CString -> Is completed
 		if (m_ObjectMaps->objectNames.contains(gameObjectName)) {
 			auto& id = *(m_ObjectMaps->objectNames.find(gameObjectName)->second.begin());
 			return m_ObjectMaps->objects.find(id)->second;

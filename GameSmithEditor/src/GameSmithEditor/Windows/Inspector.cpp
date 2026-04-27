@@ -53,23 +53,35 @@ namespace GameSmithEditor {
 				for (auto comp : m_Components) {
 					std::string name = comp.lock()->GetName();
 					if (ImGui::CollapsingHeader(name.c_str())) {
+						auto& groupings = comp.lock()->GetExposedGroupings();
+						for (auto& group : groupings) {
+							bool showVariables = true;
+							if (group.first != "") {
+								showVariables = ImGui::CollapsingHeader(group.first.c_str());
+							}
+
+							if (showVariables) {
+								auto& variableMap = m_ExposedVariables[name];
+								auto& refMap = m_ExposedRefs[name];
+								auto& assetMap = m_ExposedAssets[name];
+
+								for (auto& variableName : group.second) {
+									if (variableMap.contains(variableName)) {
+										auto parameter = variableMap[variableName];
+										GenerateVariableUI(parameter);
+									}
+									else if (refMap.contains(variableName)) {
+										auto connection = refMap[variableName];
+										InputReference(variableName, connection);
+									}
+									else if (assetMap.contains(variableName)) {
+										auto assetRef = assetMap[variableName];
+										InputReference(variableName, assetRef);
+									}
+								}
+							}
+						}
 						//TODO: Reflect the components on the gameobject
-						auto variableMap = m_ExposedVariables.find(name)->second;
-						for (auto& entry : variableMap) {
-							auto parameter = entry.second;
-							GenerateVariableUI(parameter);
-						}
-
-						auto refMap = m_ExposedRefs.find(name)->second;
-						for (auto& entry : refMap) {
-							InputReference(entry.first, entry.second);
-						}
-
-						auto assetMap = m_ExposedAssets.find(name)->second;
-						for (auto& entry : assetMap) {
-							InputReference(entry.first, entry.second);
-						}
-
 					}
 				}
 

@@ -4,15 +4,50 @@
 #include "GameSmithEngine/SerializeableFiles/ResourceAssets/Asset.h"
 
 namespace GameSmith {
-	void ExposedVariableRegistry::AddExposedVariable(const std::string variableName, Ref<ParameterContainer> container)
+	void ExposedVariableRegistry::AddExposedVariable(const std::string variableName, Ref<ParameterContainer> container, const std::string& groupName)
 	{
-		m_ValueRegistry.insert({ variableName, {nullptr, container->GetType(), container->GetFlags(), container, true} });
+		m_ValueRegistry.insert({ variableName, {nullptr, 0, container->GetType(), groupName, container->GetFlags(), container, true} });
+		AddToGroup(groupName, variableName);
+	}
+
+	void ExposedVariableRegistry::RemoveExposedVariable(const std::string variableName)
+	{
+		if (m_ValueRegistry.contains(variableName)) {
+			std::string groupName = m_ValueRegistry[variableName].groupName;
+			m_ValueRegistry.erase(variableName);
+			RemoveFromGroup(groupName, variableName);
+		}
+	}
+
+	void ExposedVariableRegistry::RemoveExposedConnection(const std::string refName)
+	{
+		if (m_ConnectionsRegistry.contains(refName)) {
+			std::string groupName = m_ConnectionsRegistry[refName].groupName;
+			m_ConnectionsRegistry.erase(refName);
+			RemoveFromGroup(groupName, refName);
+		}
+	}
+
+	void ExposedVariableRegistry::RemoveExposedAsset(const std::string refName)
+	{
+		if (m_AssetRegistry.contains(refName)) {
+			std::string groupName = m_AssetRegistry[refName].groupName;
+			m_AssetRegistry.erase(refName);
+			RemoveFromGroup(groupName, refName);
+		}
 	}
 
 	void ExposedVariableRegistry::GenerateVariableMap(std::unordered_map<std::string, Ref<ParameterContainer>>* outMap)
 	{
 		for (auto& entry : m_ValueRegistry) {
-			auto container = ConvertToParameter(entry.first, entry.second.variableDataType, (char*)entry.second.originalVariableRef);
+			Ref<ParameterContainer> container;
+
+			if (entry.second.ownsContainer) {
+				container = entry.second.containerRef->MakeCopy();
+			}
+			else {
+				container = ConvertToParameter(entry.first, entry.second.variableDataType, (char*)entry.second.originalVariableRef, entry.second.variableSize);
+			}
 			outMap->insert({ container->GetName(), container });
 		}
 	}
@@ -50,7 +85,7 @@ namespace GameSmith {
 				else {
 					memcpy(entry.second.containerRef->GetCharData(), variable->second->GetCharData(), variable->second->GetSize());
 				}
-				
+
 			}
 		}
 	}
@@ -82,35 +117,8 @@ namespace GameSmith {
 	Ref<char> ExposedVariableRegistry::Serialize()
 	{
 		BinaryStreamWriter writer(RequiredSpace());
-		
-		RegistrySerializeMetadata meta;
-		meta.numVariables = (unsigned int)m_ValueRegistry.size();
-		meta.numConnections = (unsigned int)m_ConnectionsRegistry.size();
 
-		writer.WriteClass<RegistrySerializeMetadata>(&meta);
-
-		for (auto& entry : m_ValueRegistry) {
-			writer.WriteString(entry.first);
-			writer.WriteClass<ContainerDataType>(&(entry.second.variableDataType));
-			writer.WriteByte((char*)entry.second.originalVariableRef, GetParameterSize(entry.second.variableDataType));
-		}
-
-		for (auto& entry : m_ConnectionsRegistry) {
-			writer.WriteString(entry.first);
-			idData rawId = entry.second.objectID.getData();
-			writer.WriteClass<idData>(&rawId);
-			writer.WriteUInt(entry.second.flag);
-		}
-
-		for (auto& entry : m_AssetRegistry) {
-			writer.WriteString(entry.first);
-			idData rawId = entry.second.objectID.getData();
-			writer.WriteClass<idData>(&rawId);
-			writer.WriteUInt(entry.second.flag);
-		}
-
-		// TODO: Test that doing this instead works
-		//Serialize(writer.GetCurPtr(), writer.GetBufferSize());
+		Serialize(writer.GetCurPtr(), writer.GetRemainingSpace());
 
 		return Ref<char>(writer.GetBuffer());
 	}
@@ -193,8 +201,8 @@ namespace GameSmith {
 			reader.MoveForward(paramSize);
 			i++;
 		}
-		
 
+		// Only the IDs are saved, the original pointers will need to be updated by the caller after deserialization using the saved IDs
 		i = 0;
 		while (i < meta->numConnections) {
 			std::string name = reader.GetString();
@@ -221,6 +229,27 @@ namespace GameSmith {
 			}
 
 			i++;
+		}
+	}
+
+	void ExposedVariableRegistry::AddToGroup(const std::string& groupName, const std::string& variableName)
+	{
+		if (m_GroupingRegistry.contains(groupName)) {
+			m_GroupingRegistry[groupName].insert(variableName);
+		}
+		else {
+			m_GroupingRegistry[groupName] = { variableName };
+		}
+	}
+
+	void ExposedVariableRegistry::RemoveFromGroup(const std::string& groupName, const std::string& variableName)
+	{
+		if (m_GroupingRegistry.contains(groupName)) {
+			auto& group = m_GroupingRegistry[groupName];
+			group.erase(variableName);
+			if (group.empty()) {
+				m_GroupingRegistry.erase(groupName);
+			}
 		}
 	}
 };

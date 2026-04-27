@@ -30,6 +30,9 @@ namespace GameSmithEditor {
 		case GameSmith::ContainerDataType::Int4:
 			ImGui::InputInt4(name.c_str(), (int*)container->GetCharData());
 			break;
+		case GameSmith::ContainerDataType::CBuffer:
+			ImGui::InputText(name.c_str(), (char*)container->GetCharData(), container->GetSize());
+			break;
 		}
 	}
 };

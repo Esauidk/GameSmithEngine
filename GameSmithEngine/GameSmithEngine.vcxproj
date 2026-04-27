@@ -300,7 +300,7 @@ cmd /c xcopy "..\bin\Dist-windows-x86_64\GameSmithEngine\*" "$(SolutionDir)\bin\
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\MeshAsset.h" />
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes\HLSLAsset.h" />
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes\ShaderAsset.h" />
-    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes\ShaderConfiguration.h" />
+    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes\ShaderConfigAsset.h" />
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\TestResource.h" />
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\TextureAsset.h" />
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\Serializable.h" />
@@ -892,6 +892,7 @@ cmd /c xcopy "..\bin\Dist-windows-x86_64\GameSmithEngine\*" "$(SolutionDir)\bin\
     <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\MeshAsset.cpp" />
     <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes\HLSLAsset.cpp" />
     <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes\ShaderAsset.cpp" />
+    <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes\ShaderConfigAsset.cpp" />
     <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\TestResource.cpp" />
     <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\TextureAsset.cpp" />
     <ClCompile Include="src\GameSmithEngine\Utilities\ExposedVariableRegistry.cpp" />

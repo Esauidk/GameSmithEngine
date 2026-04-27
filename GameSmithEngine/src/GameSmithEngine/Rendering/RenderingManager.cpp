@@ -110,6 +110,7 @@ namespace GameSmith {
 
 		unsigned int compiledSize;
 		Ref<const char> compiledShader = m_RenderAPI->CompileShader(stage, shaderCode, size, "main", &m_ShaderIncludeCache, &compiledSize);
+
 		return m_RenderAPI->LoadShader(compiledShader.get(), compiledSize);
 	}
 };

@@ -3,6 +3,7 @@
 #include "GameSmithEngine/Core/Core.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/MaterialSystem/Material.h"
 #include "GameSmithEngine/SerializeableFiles/ResourceAssets/TextureAsset.h"
+#include "GameSmithEngine/SerializeableFiles/ResourceAssets/ShaderTypes/ShaderAsset.h"
 
 namespace GameSmith {
 	class GE_API MaterialAsset : public Asset
@@ -18,10 +19,11 @@ namespace GameSmith {
 			const std::unordered_map<std::string, ContainerDataType>& variables
 		);*/
 
-		virtual Ref<char> Serialize() override;
-		virtual void Serialize(char* byteStream, unsigned int availableBytes) override;
-		virtual unsigned int RequiredSpace() const override;
-		virtual void Deserialize(char* inData, unsigned int size) override;
+		void Serialize(char* byteStream, unsigned int availableBytes) override;
+		unsigned int RequiredSpace() const override;
+		void Deserialize(char* inData, unsigned int size) override;
+
+		void PostRegistryBootstrap() override;
 
 		SERIAL_FILE(Material, mat)
 

@@ -4,6 +4,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#define CONTAINER_BUFFER_DEFAULT_SIZE 256
+
 namespace GameSmith {
 	enum class ContainerDataType {
 		None = 0,
@@ -16,7 +18,8 @@ namespace GameSmith {
 		Int3,
 		Int4,
 		Bool,
-		Matrix
+		Matrix,
+		CBuffer
 	};
 
 	static UINT GetParameterSize(ContainerDataType type) {
@@ -37,6 +40,9 @@ namespace GameSmith {
 			return sizeof(int) * 2;
 		case ContainerDataType::Int3:
 			return sizeof(int) * 3;
+		// CString has the sames size of general buffer
+		case ContainerDataType::CBuffer:
+			return CONTAINER_BUFFER_DEFAULT_SIZE;
 		default:
 			return 0;
 		}
@@ -177,7 +183,27 @@ namespace GameSmith {
 		glm::mat4 m_Data;
 	};
 
-	static Ref<ParameterContainer> ConvertToParameter(std::string name, ContainerDataType type, char* data, unsigned int flags = 0) {
+	class CBufferContainer : public ParameterContainer {
+	public:
+		CBufferContainer(std::string name, unsigned int flags = 0) : ParameterContainer(name, ContainerDataType::CBuffer, flags) { memset(m_Buffer, 0, CONTAINER_BUFFER_DEFAULT_SIZE); }
+		CBufferContainer(std::string name, const char* data, unsigned int size, unsigned int flags = 0) : ParameterContainer(name, ContainerDataType::CBuffer, flags) 
+		{ 
+			GE_CORE_ASSERT(size <= CONTAINER_BUFFER_DEFAULT_SIZE, "Buffer size exceeds default size");
+			memset(m_Buffer, 0, CONTAINER_BUFFER_DEFAULT_SIZE);
+			memcpy(m_Buffer, data, size); 
+		}
+		inline char* GetCharData() override { return m_Buffer; };
+		inline void SetData(char* data, unsigned int size) { 
+			GE_CORE_ASSERT(size <= CONTAINER_BUFFER_DEFAULT_SIZE, "Buffer size exceeds default size");
+			memcpy(m_Buffer, data, size); 
+		}
+		inline void ResetData() override {}
+		inline Ref<ParameterContainer> MakeCopy() override { return Ref<ParameterContainer>(new CBufferContainer(GetName(), m_Buffer, CONTAINER_BUFFER_DEFAULT_SIZE, GetFlags())); }
+	private:
+		char m_Buffer[CONTAINER_BUFFER_DEFAULT_SIZE];
+	};
+
+	static Ref<ParameterContainer> ConvertToParameter(std::string name, ContainerDataType type, const char* data, unsigned int size = 0, unsigned int flags = 0) {
 		switch (type) {
 		case ContainerDataType::Matrix:
 			return Ref<ParameterContainer>(new MatrixContainor(name, *((glm::mat4*)data), flags));
@@ -197,6 +223,9 @@ namespace GameSmith {
 			return Ref<ParameterContainer>(new Int3Container(name, (int*)data, flags));
 		case ContainerDataType::Int4:
 			return Ref<ParameterContainer>(new Int4Container(name, (int*)data, flags));
+		case ContainerDataType::CBuffer: {
+			return Ref<ParameterContainer>(new CBufferContainer(name, data, size, flags));
+		}	
 		default:
 			return 0;
 		}
@@ -222,6 +251,8 @@ namespace GameSmith {
 			return Ref<ParameterContainer>(new Int3Container(name, flags));
 		case ContainerDataType::Int4:
 			return Ref<ParameterContainer>(new Int4Container(name, flags));
+		case ContainerDataType::CBuffer:
+			return Ref<ParameterContainer>(new CBufferContainer(name, flags));
 		default:
 			return 0;
 		}
