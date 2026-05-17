@@ -597,7 +597,7 @@
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes\ShaderAsset.h">
       <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes\ShaderConfiguration.h">
+    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes\ShaderConfigAsset.h">
       <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\TestResource.h">
@@ -2363,7 +2363,13 @@
     <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\MeshAsset.cpp">
       <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes\HLSLAsset.cpp">
+      <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes</Filter>
+    </ClCompile>
     <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes\ShaderAsset.cpp">
+      <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes\ShaderConfigAsset.cpp">
       <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\TestResource.cpp">

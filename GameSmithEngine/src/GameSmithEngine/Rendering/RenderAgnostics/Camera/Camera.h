@@ -11,6 +11,7 @@ namespace GameSmith {
 	{
 	public:
 		Camera();
+		virtual ~Camera() = default;
 		inline Transform& GetTransform() { return m_Transform; }
 		inline glm::mat4 GetMatrix() { UpdateMatrix();  return m_VP; }
 	protected:

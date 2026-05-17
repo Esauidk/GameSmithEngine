@@ -17,7 +17,7 @@ namespace GameSmith {
 		inline void SetScale(glm::vec3 newScale) { m_Scale = newScale; UpdateMatrix(); }
 		inline glm::vec3 GetScale() const { return m_Scale; }
 
-		inline void SetCoordinateFrame(Transform* newFrame) { m_CoordinateFrame = newFrame; newFrame->AddChildrenCoordinateFrame(this); UpdateMatrix(); }
+		void SetCoordinateFrame(Transform* newFrame);
 		inline void AddChildrenCoordinateFrame(Transform* newFrame) { m_ChildrenFrames.push_back(newFrame); }
 		void RemoveChildCoordinateFrame(Transform* oldFrame);
 

@@ -11,9 +11,10 @@ namespace GameSmith {
 	CameraComponent::CameraComponent(GameObject* gameObject, Transform* transform) : Component(gameObject, transform), m_CamType(CameraType::Perspective) {
 		if (s_ActiveCam == nullptr) {
 			s_ActiveCam = this;
-			m_OrthoCam.GetTransform().SetCoordinateFrame(transform);
-			m_PerpCam.GetTransform().SetCoordinateFrame(transform);
 		}
+
+		m_OrthoCam.GetTransform().SetCoordinateFrame(transform);
+		m_PerpCam.GetTransform().SetCoordinateFrame(transform);
 	}
 	
 	void CameraComponent::OnStart()
@@ -36,7 +37,7 @@ namespace GameSmith {
 		}
 	}
 
-	void CameraComponent::SetAsMainCamera()
+	void CameraComponent::SetAsActiveCamera()
 	{
 		s_ActiveCam = this;
 		

@@ -18,7 +18,7 @@ namespace GameSmith {
 		virtual void OnDestroy() override {}
 		virtual int GetPriority() const override { return 0; };
 		virtual std::string GetName() const override { return "CameraComponent"; };
-		void SetAsMainCamera();
+		void SetAsActiveCamera();
 		void ChangeCameraType(CameraType camType);
 		Camera* GetCamera() {
 			switch (m_CamType) {
@@ -29,6 +29,8 @@ namespace GameSmith {
 				return &m_OrthoCam;
 			}
 		}	
+
+		static CameraComponent* GetActiveCamera() { return s_ActiveCam; }
 	private:
 		CameraType m_CamType;
 		OrthoCamera m_OrthoCam;

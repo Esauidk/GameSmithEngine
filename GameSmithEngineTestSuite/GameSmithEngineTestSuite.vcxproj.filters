@@ -41,6 +41,12 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="tst\GameSmithEngineTest\EntitySystem\Components\CameraComponentTest.cpp">
+      <Filter>GameSmithEngineTest\EntitySystem\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="tst\GameSmithEngineTest\EntitySystem\Components\MeshRendererTest.cpp">
+      <Filter>GameSmithEngineTest\EntitySystem\Components</Filter>
+    </ClCompile>
     <ClCompile Include="tst\GameSmithEngineTest\EntitySystem\Components\TransformTest.cpp">
       <Filter>GameSmithEngineTest\EntitySystem\Components</Filter>
     </ClCompile>

@@ -1,5 +1,6 @@
 #pragma once
-#include "../Asset.h"
+#include "GameSmithEngine/SerializeableFiles/ResourceAssets/Asset.h"
+#include "GameSmithEngine/Core/Core.h"
 #include "GameSmithEngine/Utilities/ParameterContainer.h"
 
 namespace GameSmith {
@@ -8,7 +9,7 @@ namespace GameSmith {
 		ContainerDataType type;
 	};
 
-	class ShaderConfigAsset : public Asset {
+	class GE_API ShaderConfigAsset : public Asset {
 	public:
 		ShaderConfigAsset(std::string name);
 

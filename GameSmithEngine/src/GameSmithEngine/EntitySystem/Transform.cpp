@@ -5,8 +5,16 @@
 #include "GameSmithEngine/ResourceManagement/ResourceAssetHelper.h"
 
 namespace GameSmith {
+
 	Transform::Transform() : m_Position(0, 0, 0), m_Rotation(0, 0, 0), m_Scale(1, 1, 1), m_CoordinateFrame(nullptr)
 	{
+		UpdateMatrix();
+	}
+
+	void Transform::SetCoordinateFrame(Transform* newFrame)
+	{
+		m_CoordinateFrame = newFrame;
+		newFrame->AddChildrenCoordinateFrame(this);
 		UpdateMatrix();
 	}
 
@@ -75,6 +83,7 @@ namespace GameSmith {
 		for (auto children : m_ChildrenFrames) {
 			children->UpdateMatrix();
 		}
+
 	}
 };
 

@@ -20,9 +20,15 @@ namespace GameSmith {
 		m_ZNear = zNear;
 		m_ZFar = zFar;
 
-		auto wnd = Application::Get().GetWindow();
-		m_Width = (float)wnd->GetWidth();
-		m_Height = (float)wnd->GetHeight();
+		if (Application::IsInitialized()) {
+			auto wnd = Application::Get().GetWindow();
+			m_Width = (float)wnd->GetWidth();
+			m_Height = (float)wnd->GetHeight();
+		}
+		else {
+			m_Width = 1920.0f;
+			m_Height = 1080.0f;
+		}
 
 		UpdateProjectionMatrix();
 	}
