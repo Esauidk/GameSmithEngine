@@ -26,6 +26,7 @@ namespace GameSmith {
 		}
 
 		void ListRegisteredComponents(std::vector<std::string>* outVec);
+		void ClearRegistrations() { m_Generators.clear(); }
 	private:
 		static Scope<ComponentRegistry> s_Instance;
 
@@ -35,7 +36,7 @@ namespace GameSmith {
 	};
 
 	class ComponentFactory {
-	private:
+	protected:
 		static inline Ref<Component> GenerateComponent(std::string className, GameObject* go, Transform* t) {
 			auto i = ComponentRegistry::GetInstance();
 			auto generator = ComponentRegistry::s_Instance->m_Generators.find(className);

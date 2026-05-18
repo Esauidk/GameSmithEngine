@@ -2,6 +2,7 @@
 #include "Topology.h"
 #include "GameSmithEngine/Core/Core.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/Shaders/ShaderUtil.h"
+#include "GameSmithEngine/Utilities/MiscellaneousUtilities.h"
 
 namespace GameSmith {
 	struct PipelineStateInitializer {
@@ -11,9 +12,10 @@ namespace GameSmith {
 		ShaderSet shaderSet;
 
 		inline std::size_t operator()(const PipelineStateInitializer& key) const {
-			std::size_t hash = 0;
-
-			hash |= (std::size_t)tesselation | (std::size_t)toplopgyType | shaderSet(shaderSet) | numRT;
+			std::size_t hash = std::hash<bool>{}(key.tesselation);
+			combine_hash(hash, std::hash<unsigned int>{}(key.numRT));
+			combine_hash(hash, std::hash<int>{}((int)key.toplopgyType));
+			combine_hash(hash, shaderSet(key.shaderSet));
 
 			return hash;
 		}

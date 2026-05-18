@@ -6,6 +6,7 @@
 namespace GameSmith {
 	// FORWARD DECLARATIONS
 	class AbstractBaseSerializeable;
+	class ISerializeable;
 
 	class GE_API BinaryStreamReader {
 	public:
@@ -50,8 +51,6 @@ namespace GameSmith {
 		}
 
 		void WriteSerializeable(ISerializeable* serializeable);
-		void WriteVector(const std::vector<Ref<ISerializeable>> vector);
-		void WriteVector(const std::vector<Connection<ISerializeable>> vector);
 
 		void WriteByte(char* bytes, unsigned int byteCount);
 		void CommitToFile(std::string destination);

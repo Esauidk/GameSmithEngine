@@ -23,6 +23,7 @@ namespace GameSmith {
 	{
 		if (s_Instance != nullptr) {
 			delete s_Instance;
+			s_Instance = nullptr;
 		}
 	}
 

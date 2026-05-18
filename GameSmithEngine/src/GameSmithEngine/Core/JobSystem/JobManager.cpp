@@ -25,6 +25,7 @@ namespace GameSmith {
 	void JobManager::Shutdown() {
 		if (s_Instance != nullptr) {
 			delete s_Instance;
+			s_Instance = nullptr;
 		}
 	}
 

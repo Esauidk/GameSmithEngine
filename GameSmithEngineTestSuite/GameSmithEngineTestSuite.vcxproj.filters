@@ -4,14 +4,29 @@
     <Filter Include="GameSmithEngineTest">
       <UniqueIdentifier>{DA750CB0-46D7-E9BD-CF44-30703BA5207D}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameSmithEngineTest\ContentLibrarySystem">
+      <UniqueIdentifier>{BE261841-AAA3-0B84-D320-0C98BFFCA717}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameSmithEngineTest\Core">
+      <UniqueIdentifier>{72521B83-5E77-6A03-87C2-4F9373466921}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameSmithEngineTest\EngineConfiguration">
+      <UniqueIdentifier>{779E0474-E32D-C65E-EC29-A7765838016B}</UniqueIdentifier>
+    </Filter>
     <Filter Include="GameSmithEngineTest\EntitySystem">
       <UniqueIdentifier>{0B89CE1A-F7D9-B95C-203E-A81E0CEE4CC6}</UniqueIdentifier>
     </Filter>
     <Filter Include="GameSmithEngineTest\EntitySystem\Components">
       <UniqueIdentifier>{40D1A8B2-AC36-3C39-350F-DE11A17331A8}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameSmithEngineTest\Events">
+      <UniqueIdentifier>{7EC85BBC-6AD8-078D-D391-6CABBFC0F625}</UniqueIdentifier>
+    </Filter>
     <Filter Include="GameSmithEngineTest\GameChunkSystem">
       <UniqueIdentifier>{C1BBFC42-2D75-67ED-B6D4-81C7228D1D5D}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameSmithEngineTest\ImGui">
+      <UniqueIdentifier>{8466F0E6-F028-2471-39D9-B2FDA5DAFC4E}</UniqueIdentifier>
     </Filter>
     <Filter Include="GameSmithEngineTest\Rendering">
       <UniqueIdentifier>{A7D7C866-13F0-AF90-DC9C-3F2A4874442A}</UniqueIdentifier>
@@ -19,14 +34,29 @@
     <Filter Include="GameSmithEngineTest\Rendering\RenderAgnostics">
       <UniqueIdentifier>{414BCC0F-ADBB-CE88-76DA-4811E209078A}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameSmithEngineTest\Rendering\RenderAgnostics\Camera">
+      <UniqueIdentifier>{998CB4DD-85CB-5E59-2E4E-3B8B1A6C14C4}</UniqueIdentifier>
+    </Filter>
     <Filter Include="GameSmithEngineTest\Rendering\RenderAgnostics\LightingSystem">
       <UniqueIdentifier>{0BB8D7EB-F722-98F7-A03E-FD5C8C885BDA}</UniqueIdentifier>
     </Filter>
     <Filter Include="GameSmithEngineTest\Rendering\RenderAgnostics\LightingSystem\Sources">
       <UniqueIdentifier>{7E6112A6-6AF8-545B-13AD-CB5BFF221B36}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameSmithEngineTest\Rendering\RenderAgnostics\RenderComponents">
+      <UniqueIdentifier>{B6E84B66-A2BE-D263-8B68-EDB677DD0505}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameSmithEngineTest\Rendering\RenderAgnostics\Shaders">
+      <UniqueIdentifier>{1A216473-863D-5664-4F15-C3D1BBF0BF25}</UniqueIdentifier>
+    </Filter>
     <Filter Include="GameSmithEngineTest\ResourceAssets">
       <UniqueIdentifier>{640D4150-5049-44BA-B95B-5CB1A5B6ECD4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameSmithEngineTest\ResourceManagement">
+      <UniqueIdentifier>{CEF98A8A-BA4B-627A-A36A-9F8A8F5B7B63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameSmithEngineTest\SerializeableFiles">
+      <UniqueIdentifier>{98979AC7-84E9-71B7-6D08-AFC759F98AA0}</UniqueIdentifier>
     </Filter>
     <Filter Include="GameSmithEngineTest\Utilities">
       <UniqueIdentifier>{C532292E-314B-1058-FAF7-9FF166CFA4F1}</UniqueIdentifier>
@@ -41,7 +71,25 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="tst\GameSmithEngineTest\ContentLibrarySystem\ContentLibraryTest.cpp">
+      <Filter>GameSmithEngineTest\ContentLibrarySystem</Filter>
+    </ClCompile>
+    <ClCompile Include="tst\GameSmithEngineTest\Core\MixStackTest.cpp">
+      <Filter>GameSmithEngineTest\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="tst\GameSmithEngineTest\Core\TimerTest.cpp">
+      <Filter>GameSmithEngineTest\Core</Filter>
+    </ClCompile>
+    <ClCompile Include="tst\GameSmithEngineTest\EngineConfiguration\ConfigManagerTest.cpp">
+      <Filter>GameSmithEngineTest\EngineConfiguration</Filter>
+    </ClCompile>
+    <ClCompile Include="tst\GameSmithEngineTest\EngineConfiguration\ConfigTests.cpp">
+      <Filter>GameSmithEngineTest\EngineConfiguration</Filter>
+    </ClCompile>
     <ClCompile Include="tst\GameSmithEngineTest\EntitySystem\Components\CameraComponentTest.cpp">
+      <Filter>GameSmithEngineTest\EntitySystem\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="tst\GameSmithEngineTest\EntitySystem\Components\ComponentFactoryTest.cpp">
       <Filter>GameSmithEngineTest\EntitySystem\Components</Filter>
     </ClCompile>
     <ClCompile Include="tst\GameSmithEngineTest\EntitySystem\Components\MeshRendererTest.cpp">
@@ -49,6 +97,9 @@
     </ClCompile>
     <ClCompile Include="tst\GameSmithEngineTest\EntitySystem\Components\TransformTest.cpp">
       <Filter>GameSmithEngineTest\EntitySystem\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="tst\GameSmithEngineTest\EntitySystem\EntityRenderPreparerTest.cpp">
+      <Filter>GameSmithEngineTest\EntitySystem</Filter>
     </ClCompile>
     <ClCompile Include="tst\GameSmithEngineTest\EntitySystem\GameObjectManagerTest.cpp">
       <Filter>GameSmithEngineTest\EntitySystem</Filter>
@@ -59,11 +110,23 @@
     <ClCompile Include="tst\GameSmithEngineTest\EntitySystem\GameplayUpdaterTest.cpp">
       <Filter>GameSmithEngineTest\EntitySystem</Filter>
     </ClCompile>
+    <ClCompile Include="tst\GameSmithEngineTest\Events\EventTest.cpp">
+      <Filter>GameSmithEngineTest\Events</Filter>
+    </ClCompile>
     <ClCompile Include="tst\GameSmithEngineTest\GameChunkSystem\GameChunkManagerTest.cpp">
       <Filter>GameSmithEngineTest\GameChunkSystem</Filter>
     </ClCompile>
     <ClCompile Include="tst\GameSmithEngineTest\GameChunkSystem\GameChunkTest.cpp">
       <Filter>GameSmithEngineTest\GameChunkSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="tst\GameSmithEngineTest\ImGui\ImGuiThemesTest.cpp">
+      <Filter>GameSmithEngineTest\ImGui</Filter>
+    </ClCompile>
+    <ClCompile Include="tst\GameSmithEngineTest\Rendering\PipelineStateObjectManagerTest.cpp">
+      <Filter>GameSmithEngineTest\Rendering</Filter>
+    </ClCompile>
+    <ClCompile Include="tst\GameSmithEngineTest\Rendering\RenderAgnostics\Camera\CameraTest.cpp">
+      <Filter>GameSmithEngineTest\Rendering\RenderAgnostics\Camera</Filter>
     </ClCompile>
     <ClCompile Include="tst\GameSmithEngineTest\Rendering\RenderAgnostics\LightingSystem\Sources\DirectionalLightTest.cpp">
       <Filter>GameSmithEngineTest\Rendering\RenderAgnostics\LightingSystem\Sources</Filter>
@@ -71,10 +134,43 @@
     <ClCompile Include="tst\GameSmithEngineTest\Rendering\RenderAgnostics\LightingSystem\Sources\PointLightTest.cpp">
       <Filter>GameSmithEngineTest\Rendering\RenderAgnostics\LightingSystem\Sources</Filter>
     </ClCompile>
+    <ClCompile Include="tst\GameSmithEngineTest\Rendering\RenderAgnostics\RenderComponents\BufferLayoutTest.cpp">
+      <Filter>GameSmithEngineTest\Rendering\RenderAgnostics\RenderComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="tst\GameSmithEngineTest\Rendering\RenderAgnostics\RenderComponents\PipelineStateInitializerTest.cpp">
+      <Filter>GameSmithEngineTest\Rendering\RenderAgnostics\RenderComponents</Filter>
+    </ClCompile>
+    <ClCompile Include="tst\GameSmithEngineTest\Rendering\RenderAgnostics\Shaders\ShaderIncludeCacheTest.cpp">
+      <Filter>GameSmithEngineTest\Rendering\RenderAgnostics\Shaders</Filter>
+    </ClCompile>
     <ClCompile Include="tst\GameSmithEngineTest\ResourceAssets\ShaderAssetTest.cpp">
       <Filter>GameSmithEngineTest\ResourceAssets</Filter>
     </ClCompile>
+    <ClCompile Include="tst\GameSmithEngineTest\ResourceManagement\BinaryStreamTest.cpp">
+      <Filter>GameSmithEngineTest\ResourceManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="tst\GameSmithEngineTest\SerializeableFiles\AssetFactoryTest.cpp">
+      <Filter>GameSmithEngineTest\SerializeableFiles</Filter>
+    </ClCompile>
     <ClCompile Include="tst\GameSmithEngineTest\Utilities\ExposedVariableRegistryTest.cpp">
+      <Filter>GameSmithEngineTest\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="tst\GameSmithEngineTest\Utilities\GUIDGeneratorTest.cpp">
+      <Filter>GameSmithEngineTest\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="tst\GameSmithEngineTest\Utilities\MiscUtilitiesTest.cpp">
+      <Filter>GameSmithEngineTest\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="tst\GameSmithEngineTest\Utilities\ParameterContainerTest.cpp">
+      <Filter>GameSmithEngineTest\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="tst\GameSmithEngineTest\Utilities\SpinlockTest.cpp">
+      <Filter>GameSmithEngineTest\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="tst\GameSmithEngineTest\Utilities\ThreadSafeQueueTest.cpp">
+      <Filter>GameSmithEngineTest\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="tst\GameSmithEngineTest\Utilities\ThreadSafeVectorTest.cpp">
       <Filter>GameSmithEngineTest\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="tst\TestEntry.cpp" />

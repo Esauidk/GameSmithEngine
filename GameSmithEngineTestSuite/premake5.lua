@@ -55,6 +55,9 @@ project "GameSmithEngineTestSuite"
 		"%{wks.location}/GameSmithEngine/src",
         "%{IncludeDir.spdlog}",
 		"%{IncludeDir.glm}",
+		"%{IncludeDir.tinyobj}",
+		"%{IncludeDir.CLI11}",
+		"%{IncludeDir.json}",
 		"%{IncludeDir.googletest}",
 		"%{wks.location}/third-party/googletest/googletest/src/"
 	}
