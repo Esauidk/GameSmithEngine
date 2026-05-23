@@ -14,7 +14,7 @@ namespace GameSmith {
 		virtual std::string GetName() const override { return "MeshRenderer"; };
 
 		void SetMesh(Ref<MeshAsset> newMesh) { m_Mesh = newMesh; m_Materials.resize(m_Mesh->GetSubMeshSize()); }
-		void SetMaterial(unsigned int index, Ref<MaterialAsset> mat) { m_Materials[index] = { mat->CreateInstance(), mat }; };
+		void SetMaterial(unsigned int index, Ref<MaterialAsset> mat);
 		unsigned int GetMaterialSlots() { return m_Mesh->GetSubMeshSize(); }
 		void PostRegistryBootstrap() override;
 

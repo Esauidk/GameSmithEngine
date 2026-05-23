@@ -13,7 +13,9 @@ namespace GameSmith {
 		m_RenderAPI = Scope<RendererAPI>(new DirectX12RendererAPI());
 		m_RenderWorkflow = Scope<RenderWorkflow>(new ForwardRender(m_RenderAPI.get()));
 		m_PSOManager = Scope<PipelineStateObjectManager>(new PipelineStateObjectManager(m_RenderAPI.get()));
-		m_SceneDataGPU = m_RenderAPI->CreateConstantBuffer(sizeof(GloablShaderData));
+		m_CameraBuffer = m_RenderAPI->CreateConstantBuffer(sizeof(CameraShaderData), "CameraData");
+		m_LightBuffer = m_RenderAPI->CreateConstantBuffer(sizeof(LightShaderData), "LightData");
+		m_ObjectBuffer = m_RenderAPI->CreateConstantBuffer(sizeof(ObjectData), "ObjectData");
 	}
 
 	void RenderingManager::Init()
@@ -48,22 +50,35 @@ namespace GameSmith {
 	{
 		//m_RenderAPI->ClearCachedAssets();
 		if (cam != nullptr) {
-			m_SceneData.VP = cam->GetMatrix();
-			m_SceneData.CameraWorldPos = cam->GetTransform().GetPosition();
+			CameraShaderData camData;
+			camData.VP = cam->GetMatrix();
+			camData.CameraWorldPos = cam->GetTransform().GetPosition();
+			if (m_CameraData != camData) {
+				m_CameraData = camData;
+				m_CameraBuffer->UpdateData((BYTE*)&m_CameraData, sizeof(m_CameraData));
+			}
 		}
 
+		LightShaderData lightData;
 		if (mainLight != nullptr) {
-			m_SceneData.LightWorldPos = mainLight->GetLightVector();
-			m_SceneData.MainLightColor = mainLight->GetLightColor();
+			lightData.LightWorldPos = mainLight->GetLightVector();
+			lightData.MainLightColor = mainLight->GetLightColor();	
 		}
 		else {
-			m_SceneData.LightWorldPos = glm::vec4(1, 0, 1, 0);
-			m_SceneData.MainLightColor = glm::vec3(0, 0, 0);
+			lightData.LightWorldPos = glm::vec4(1, 0, 1, 0);
+			lightData.MainLightColor = glm::vec3(0, 0, 0);
+		}
+
+		if (m_LightData != lightData) {
+			m_LightData = lightData;
+			m_LightBuffer->UpdateData((BYTE*)&m_LightData, sizeof(m_LightData));
 		}
 		
-		m_SceneDataGPU->UpdateData((BYTE*)&m_SceneData, sizeof(m_SceneData));
-		m_RenderAPI->SetConstantBuffer(m_SceneDataGPU, STAGE_VERTEX, ShaderConstantType::Global);
-		m_RenderAPI->SetConstantBuffer(m_SceneDataGPU, STAGE_PIXEL, ShaderConstantType::Global);
+		m_RenderAPI->SetConstantBuffer(m_CameraBuffer, STAGE_VERTEX, ShaderConstantType::Camera);
+		m_RenderAPI->SetConstantBuffer(m_LightBuffer, STAGE_VERTEX, ShaderConstantType::Light);
+
+		m_RenderAPI->SetConstantBuffer(m_CameraBuffer, STAGE_PIXEL, ShaderConstantType::Camera);
+		m_RenderAPI->SetConstantBuffer(m_LightBuffer, STAGE_PIXEL, ShaderConstantType::Light);
 	}
 
 	void RenderingManager::EndScene()
@@ -91,8 +106,19 @@ namespace GameSmith {
 		}
 	}
 
-	void RenderingManager::Submit(Ref<VertexBuffer> vBuff, Ref<IndexBuffer> iBuff, Ref<Material> mat)
+	void RenderingManager::Submit(Ref<VertexBuffer> vBuff, Ref<IndexBuffer> iBuff, Ref<Material> mat, Transform objectTransform)
 	{
+		ObjectData objData;
+		objData.Model = objectTransform.GetModelMatrix();
+
+		if (m_ObjectData != objData) {
+			m_ObjectData = objData;
+			m_ObjectBuffer->UpdateData((BYTE*)&m_ObjectData, sizeof(m_ObjectData));
+		}
+
+		m_RenderAPI->SetConstantBuffer(m_ObjectBuffer, STAGE_VERTEX, ShaderConstantType::Instance);
+		m_RenderAPI->SetConstantBuffer(m_ObjectBuffer, STAGE_PIXEL, ShaderConstantType::Instance);
+
 		m_RenderWorkflow->Submit(vBuff, iBuff, mat);
 		m_RenderAPI->SubmitRecording();
 	}

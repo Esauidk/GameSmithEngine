@@ -11,8 +11,19 @@
 
 #include "GameSmithEngine/Rendering/RenderAgnostics/Shaders/ShaderIncludeCache.h"
 
+#include "GameSmithEngine/Rendering/RenderAgnostics/Camera/CameraShaderData.h"
+#include "GameSmithEngine/Rendering/RenderAgnostics/LightingSystem/LightShaderData.h"
+
 
 namespace GameSmith {
+	struct ObjectData {
+		glm::mat4 Model;
+
+		bool operator==(const ObjectData& other) const {
+			return Model == other.Model;
+		}
+	};
+
 	// A class that can submit high level rendering commands (Taking a scene and drawing it to the screen)
 	// This can appear as handling some high level logic and then executing commands to perform low level logic related to Rendering
 	class GE_API RenderingManager
@@ -46,7 +57,7 @@ namespace GameSmith {
 		inline void SetForClear(Ref<RenderTexture> m_Tex) { m_ClearOnSwap.emplace(m_Tex); }
 
 		void ClearTextures();
-		void Submit(Ref<VertexBuffer> vBuff, Ref<IndexBuffer> iBuff, Ref<Material> mat);
+		void Submit(Ref<VertexBuffer> vBuff, Ref<IndexBuffer> iBuff, Ref<Material> mat, Transform objectTransform);
 		void SyncDataTransfer();
 
 		Ref<Shader> CompileOrRetrieveShader(const Stages stage, const char* shaderCode, unsigned int size, const ID& sourceAssetID);
@@ -75,10 +86,9 @@ namespace GameSmith {
 		Scope<RenderWorkflow> m_RenderWorkflow;
 
 		// Shared data to use for all submissions
-		GloablShaderData m_SceneData;
-
-		// GPU memory for shared data
-		Ref<ConstantBuffer> m_SceneDataGPU;
+		CameraShaderData m_CameraData;
+		LightShaderData m_LightData;
+		ObjectData m_ObjectData;
 
 		// The texture to render submissions to
 		Ref<RenderTexture> m_FrameTexture;
@@ -97,6 +107,10 @@ namespace GameSmith {
 
 		// List of dispatchers available
 		const std::vector<EventDispatcherBase*> m_Dispatchers = { &m_FrameEndDispatch};
+
+		Ref<ConstantBuffer> m_CameraBuffer;
+		Ref<ConstantBuffer> m_LightBuffer;
+		Ref<ConstantBuffer> m_ObjectBuffer;
 	};
 };
 

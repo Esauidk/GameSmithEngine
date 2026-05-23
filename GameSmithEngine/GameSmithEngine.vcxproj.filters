@@ -2127,6 +2127,8 @@
     <ClInclude Include="third-party\tinyobjloader\tiny_obj_loader.h">
       <Filter>third-party\tinyobjloader</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Camera\CameraShaderData.h" />
+    <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\LightingSystem\LightShaderData.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\GameSmithEngine\ContentLibrarySystem\ContentLibraryManager.cpp">

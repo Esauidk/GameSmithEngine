@@ -43,11 +43,13 @@ namespace GameSmith {
 		auto frameTex = renderMang->GetTextureForFrame();
 		renderMang->GetRenderAPI()->SetRenderTexture(frameTex, 0);
 
-		renderMang->BeginScene(m_MainCamera.cam, nullptr);
-		for (auto req : m_RenderRequests) {
-			renderMang->Submit(req.vBuf, req.iBuf, req.mat);
+		if (m_MainCamera.cam != nullptr) {
+			renderMang->BeginScene(m_MainCamera.cam, nullptr);
+			for (auto req : m_RenderRequests) {
+				renderMang->Submit(req.vBuf, req.iBuf, req.mat, req.objectTransform);
+			}
+			renderMang->EndScene();
 		}
-		renderMang->EndScene();
 
 
 		while (!m_AdditionalCameras.empty()) {
@@ -60,7 +62,7 @@ namespace GameSmith {
 
 			renderMang->BeginScene(cam.cam, nullptr);
 			for (auto req : m_RenderRequests) {
-				renderMang->Submit(req.vBuf, req.iBuf, req.mat);
+				renderMang->Submit(req.vBuf, req.iBuf, req.mat, req.objectTransform);
 			}
 			renderMang->EndScene();
 		}

@@ -101,14 +101,7 @@ namespace GameSmith {
 		view.m_View = descriptor;
 		view.m_GPUAdd = add;
 
-		UINT index;
-
-		if (constantType == ShaderConstantType::Global) {
-			index = 0;
-		}
-		else {
-			index = 1;
-		}
+		UINT index = (UINT)constantType;
 
 		context->GetStateManager().SetCBV(stage, view, index);
 	}

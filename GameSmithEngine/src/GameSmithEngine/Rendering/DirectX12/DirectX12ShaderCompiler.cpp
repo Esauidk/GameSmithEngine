@@ -7,7 +7,14 @@
 
 // TODO: Revisit optimization settings and make them configurable based on debug/release and other settings
 // Starting optimization flags
-#define SHADER_COMPILATION_FLAGS { DXC_ARG_ENABLE_STRICTNESS, DXC_ARG_OPTIMIZATION_LEVEL2 }
+#ifdef GE_DEBUG
+	#define EMBED_DEBUG_INFO L"-Qembed_debug"
+	#define SHADER_COMPILATION_FLAGS { DXC_ARG_ENABLE_STRICTNESS, DXC_ARG_OPTIMIZATION_LEVEL2, DXC_ARG_DEBUG, EMBED_DEBUG_INFO }
+#else
+	#define SHADER_COMPILATION_FLAGS { DXC_ARG_ENABLE_STRICTNESS, DXC_ARG_OPTIMIZATION_LEVEL2 }
+#endif
+
+
 
 namespace GameSmith {
 	DirectX12ShaderCompiler::DirectX12ShaderCompiler()

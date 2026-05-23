@@ -25,7 +25,7 @@ namespace GameSmith {
 
 		GE_CORE_ASSERT(renderManager != nullptr, "Render manager is not running! Required for material to be used");
 
-		m_GPULocation = renderManager->GetRenderAPI()->CreateConstantBuffer(m_ParameterByteTotal);
+		m_GPULocation = renderManager->GetRenderAPI()->CreateConstantBuffer(m_ParameterByteTotal, "Material");
 
 		m_PSOSettings.shaderSet = m_Shaders;
 		m_PSOSettings.toplopgyType = TopologyType::Triangle;
@@ -95,12 +95,12 @@ namespace GameSmith {
 
 		renderAPI->SetGraphicsPipelineState(m_PSO);
 
-		renderAPI->SetConstantBuffer(m_GPULocation, STAGE_VERTEX, ShaderConstantType::Instance);
-		renderAPI->SetConstantBuffer(m_GPULocation, STAGE_PIXEL, ShaderConstantType::Instance);
+		renderAPI->SetConstantBuffer(m_GPULocation, STAGE_VERTEX, ShaderConstantType::Material);
+		renderAPI->SetConstantBuffer(m_GPULocation, STAGE_PIXEL, ShaderConstantType::Material);
 
 		if (m_PSOSettings.tesselation) {
-			renderAPI->SetConstantBuffer(m_GPULocation, STAGE_HULL, ShaderConstantType::Instance);
-			renderAPI->SetConstantBuffer(m_GPULocation, STAGE_DOMAIN, ShaderConstantType::Instance);
+			renderAPI->SetConstantBuffer(m_GPULocation, STAGE_HULL, ShaderConstantType::Material);
+			renderAPI->SetConstantBuffer(m_GPULocation, STAGE_DOMAIN, ShaderConstantType::Material);
 		}
 
 		UINT slot = 0;

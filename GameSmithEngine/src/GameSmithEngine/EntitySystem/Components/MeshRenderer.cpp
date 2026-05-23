@@ -19,26 +19,32 @@ namespace GameSmith {
 
 		if (renderPrep != nullptr && m_Mesh != nullptr) {
 			auto transform = GetTransform();
-			glm::mat4 model = transform->GetModelMatrix();
-			bool changed = transform->HasChanged();
 			unsigned int size = m_Mesh->GetSubMeshSize();
 			for (unsigned int i = 0; i < size; i++) {
 				if (m_Materials[i].first == nullptr) {
 					continue;
 				}
-
-				if (changed) {
-					auto modelMatrix = m_Materials[i].first->GetParameter<MatrixContainor>("Model");
-					modelMatrix->SetData(model);
-				}
 				
-				renderPrep->AddRenderRequest({m_Mesh->GetVerticies(), m_Mesh->GetSubMesh(i).m_Index, m_Materials[i].first});
+				renderPrep->AddRenderRequest({m_Mesh->GetVerticies(), m_Mesh->GetSubMesh(i).m_Index, m_Materials[i].first, *transform});
 			}
 		}
 		else {
 			GE_CORE_INFO("Something went wrong updating");
 		}
 		
+	}
+
+	void MeshRenderer::SetMaterial(unsigned int index, Ref<MaterialAsset> mat)
+	{
+		if (index >= m_Materials.size()) {
+			GE_CORE_ERROR("Tried to set material at index {0} but mesh only has {1} submeshes", index, m_Materials.size());
+			return;
+		}
+
+		const auto& existingMat = m_Materials[index];
+		if (existingMat.second != mat) {
+			m_Materials[index] = { mat->CreateInstance(), mat };
+		}	
 	}
 
 	void MeshRenderer::PostRegistryBootstrap()

@@ -10,7 +10,7 @@ namespace GameSmith {
 	template <typename T>
 	class DirectX12Buffer {
 	public:
-		DirectX12Buffer(T* buffer, UINT count, std::string bufferName = "Personal Buffer") : m_BufferSize(sizeof(T)* count), m_Uploaded(true){
+		DirectX12Buffer(T* buffer, UINT count, std::string bufferName = "Personal Buffer") : m_BufferSize(sizeof(T)* count), m_Uploading(true){
 
 			auto& core = DirectX12Core::GetCore();
 			auto pDevice = core.GetDevice();
@@ -63,12 +63,12 @@ namespace GameSmith {
 
 			m_GpuBuffer = Ref<DirectX12Resource>(new DirectX12Resource(gpuBuffer.Get(), D3D12_RESOURCE_STATE_COPY_DEST));
 			m_CpuBuffer = Ref<DirectX12Resource>(new DirectX12Resource(cpuBuffer.Get(), D3D12_RESOURCE_STATE_GENERIC_READ));
-			m_Uploaded = true;
+			m_Uploading = true;
 
 			SetUploadGPUBlock();
 		}
 
-		DirectX12Buffer(UINT count, std::string bufferName = "Personal Buffer") : m_BufferSize(sizeof(T)* count), m_Uploaded(false) {
+		DirectX12Buffer(UINT count, std::string bufferName = "Personal Buffer") : m_BufferSize(sizeof(T)* count), m_Uploading(false) {
 
 			auto& core = DirectX12Core::GetCore();
 			auto pDevice = core.GetDevice();
@@ -109,7 +109,7 @@ namespace GameSmith {
 			GE_CORE_ASSERT(!res, "Failed to create CPU Buffer {0}", bufferName);
 			cpuBuffer->SetName(L"Upload Buffer");
 
-			m_GpuBuffer = Ref<DirectX12Resource>(new DirectX12Resource(gpuBuffer.Get(), D3D12_RESOURCE_STATE_COPY_DEST));
+			m_GpuBuffer = Ref<DirectX12Resource>(new DirectX12Resource(gpuBuffer.Get(), D3D12_RESOURCE_STATE_COMMON));
 			m_CpuBuffer = Ref<DirectX12Resource>(new DirectX12Resource(cpuBuffer.Get(), D3D12_RESOURCE_STATE_GENERIC_READ));
 
 			if (m_BufferSize < MIN_BUFF_SIZE) {
@@ -122,11 +122,11 @@ namespace GameSmith {
 		}
 
 		void SetUploadGPUBlock() {
-			if (m_Uploaded) {
+			if (m_Uploading) {
 				auto& core = DirectX12Core::GetCore();
 				core.InitializeQueueWait(DirectX12QueueType::Direct, DirectX12QueueType::Copy, core.GetDirectCommandContext()->GetLastSubmissionID());
 				core.GetCopyCommandContext()->RequestWait(DirectX12QueueType::Direct);
-				m_Uploaded = false;
+				m_Uploading = false;
 			}
 			
 		}
@@ -151,7 +151,7 @@ namespace GameSmith {
 
 			UpdateSubresources((&pCommandList), m_GpuBuffer->GetResource(), m_CpuBuffer->GetResource(), 0, 0, 1, &data);
 			copyContext->FinalizeCommandList();
-			m_Uploaded = true;
+			m_Uploading = true;
 		}
 
 		DirectX12Resource* GetResource() { return m_GpuBuffer.get(); }
@@ -159,6 +159,6 @@ namespace GameSmith {
 		Ref<DirectX12Resource> m_GpuBuffer;
 		Ref<DirectX12Resource> m_CpuBuffer;
 		UINT m_BufferSize;
-		bool m_Uploaded;
+		bool m_Uploading;
 	};
 };

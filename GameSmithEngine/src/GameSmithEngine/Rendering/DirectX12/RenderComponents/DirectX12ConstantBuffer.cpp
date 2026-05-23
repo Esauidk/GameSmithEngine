@@ -19,25 +19,33 @@ namespace GameSmith {
 	void DirectX12ConstantBuffer::UpdateData(BYTE* data, UINT byteSize)
 	{
 		auto& core = DirectX12Core::GetCore();
-		auto context = core.GetDirectCommandContext();
+		auto dirContext = core.GetDirectCommandContext();
+		auto copyContext = core.GetCopyCommandContext();
 		auto& stateTracker = m_Buffer->GetStateTracker();
-		D3D12_RESOURCE_STATES originalState = stateTracker.GetState();
+		auto originalState = stateTracker.GetState();
 
-		// Let the Direct queue know that this constant buffer is being used for writing coping commands
-		if (originalState != D3D12_RESOURCE_STATE_COPY_DEST && originalState != D3D12_RESOURCE_STATE_COMMON) {
-			stateTracker.TransitionBarrier(D3D12_RESOURCE_STATE_COPY_DEST, context);
-			context->FinalizeResourceBarriers();
+		// Let the Direct queue know that this constant buffer is no longer usable
+		if (stateTracker.TransitionBarrier(D3D12_RESOURCE_STATE_COMMON, dirContext)) {
+			dirContext->FinalizeResourceBarriers();
+			dirContext->FinalizeCommandList();
+			dirContext->SubmitCommandLists();
+		}
+
+		// Let the Copy queue know that this constant buffer is now a copy destination
+		if (stateTracker.TransitionBarrier(D3D12_RESOURCE_STATE_COPY_DEST, copyContext)) {
+			copyContext->FinalizeResourceBarriers();
 		}
 
 		m_Buffer->UpdateData(data, byteSize);
+		// Tell the Direct queue to wait for copying to finish before executing more command lists
+		m_Buffer->SetUploadGPUBlock();
+		// Tell the Direct queue this constant buffer is back to its old state
+		stateTracker.UndoTransition(copyContext);
+		copyContext->FinalizeCommandList();
+		copyContext->SubmitCommandLists();
 
-		if (m_Buffer->GetStateTracker().GetState() != originalState) {
-			// Tell the Direct queue to wait for copying to finish before executing more command lists
-			m_Buffer->SetUploadGPUBlock();
-			// Tell the Direct queue this constant buffer is back to its old state
-			m_Buffer->GetStateTracker().TransitionBarrier(originalState, context);
-			context->FinalizeResourceBarriers();
-		}
+		stateTracker.TransitionBarrier(originalState, dirContext);
+		dirContext->FinalizeResourceBarriers();
 
 	}
 
@@ -60,7 +68,10 @@ namespace GameSmith {
 
 		DirectX12Core::GetCore().GetDevice()->CreateConstantBufferView(&desc, m_TempDescriptor);
 
-		m_Buffer->GetStateTracker().AssumeState(D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER);
+		auto& core = DirectX12Core::GetCore();
+		auto dirContext = core.GetDirectCommandContext();
+		m_Buffer->GetStateTracker().TransitionBarrier(D3D12_RESOURCE_STATE_VERTEX_AND_CONSTANT_BUFFER, dirContext);
+		dirContext->FinalizeResourceBarriers();
 	}
 
 	DirectX12ConstantBuffer::DirectX12ConstantBuffer(BYTE* data, UINT size) : m_Buffer(Scope<DirectX12Buffer<BYTE>>(new DirectX12Buffer<BYTE>(data, AllignSize(size), "Constant Buffer")))

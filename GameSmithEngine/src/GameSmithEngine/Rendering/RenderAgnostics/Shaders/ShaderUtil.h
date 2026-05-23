@@ -5,8 +5,10 @@
 
 namespace GameSmith {
 	enum class ShaderConstantType {
-		Global,
-		Instance
+		Camera = 0,
+		Light = 1,
+		Material = 2,
+		Instance = 3
 	};
 
 

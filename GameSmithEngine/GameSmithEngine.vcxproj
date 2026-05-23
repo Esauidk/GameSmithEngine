@@ -262,8 +262,10 @@ cmd /c xcopy "..\bin\Dist-windows-x86_64\GameSmithEngine\*" "$(SolutionDir)\bin\
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\BasicStructs.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\BufferLayout.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Camera\Camera.h" />
+    <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Camera\CameraShaderData.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Camera\OrthoCamera.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Camera\PerspectiveCamera.h" />
+    <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\LightingSystem\LightShaderData.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\LightingSystem\LightSource.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\LightingSystem\Sources\DirectionalLight.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\LightingSystem\Sources\PointLight.h" />

@@ -19,7 +19,7 @@ TEST_F(EntityRenderPreparerTest, InitAndShutdown) {
 
 TEST_F(EntityRenderPreparerTest, AddRenderRequestNoCrash) {
 	auto* prep = GameSmith::EntityRenderPreparer::GetInstance();
-	GameSmith::RenderRequest req{nullptr, nullptr, nullptr};
+	GameSmith::RenderRequest req{nullptr, nullptr, nullptr, GameSmith::Transform()};
 	EXPECT_NO_THROW(prep->AddRenderRequest(req));
 }
 

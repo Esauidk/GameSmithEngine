@@ -10,6 +10,7 @@ namespace GameSmith {
 		Ref<VertexBuffer> vBuf;
 		Ref<IndexBuffer> iBuf;
 		Ref<Material> mat;
+		Transform objectTransform;
 	};
 
 	struct GE_API RenderableCamera {

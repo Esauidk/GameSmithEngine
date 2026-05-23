@@ -17,7 +17,7 @@ namespace GameSmith {
 		m_IsInit = true;
 	}
 
-	void DirectX12BarrierTracker::TransitionBarrier(D3D12_RESOURCE_STATES nextState, DirectX12CommandContextBase* context)
+	bool DirectX12BarrierTracker::TransitionBarrier(D3D12_RESOURCE_STATES nextState, DirectX12CommandContextBase* context)
 	{
 		GE_CORE_ASSERT(m_IsInit, "Transition Barrier Has Not Been Initialized Yet");
 
@@ -31,7 +31,11 @@ namespace GameSmith {
 			context->InsertBarrier(barrier);
 			m_LastState = m_CurrentState;
 			m_CurrentState = nextState;
+
+			return true;
 		}
+
+		return false;
 	}
 
 	void DirectX12BarrierTracker::UndoTransition(DirectX12CommandContextBase* context)
