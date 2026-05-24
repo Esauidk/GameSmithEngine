@@ -22,7 +22,7 @@ namespace GameSmith {
 		void SetIndexBuffer(Ref<IndexBuffer> ibuffer) override;
 		Ref<Shader> LoadShader(std::string path) override;
 		Ref<Shader> LoadShader(const char* byteCode, unsigned int length) override;
-		Ref<const char> CompileShader(const Stages stage, const char* rawCode, const unsigned int length, const char* entryPt, const ShaderIncludeCache* includeCache, unsigned int* outSize) override;
+		Ref<const char> CompileShader(const Stages stage, const char* rawCode, const unsigned int length, const char* entryPt, ShaderIncludeCache* includeCache, unsigned int* outSize) override;
 
 		Ref<ConstantBuffer> CreateConstantBuffer(UINT size, std::string name) override;
 		Ref<ConstantBuffer> CreateConstantBuffer(UINT size) override;

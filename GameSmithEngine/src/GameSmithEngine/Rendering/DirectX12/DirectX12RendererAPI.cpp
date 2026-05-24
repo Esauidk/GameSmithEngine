@@ -69,7 +69,7 @@ namespace GameSmith {
 		return Ref<Shader>(new DirectX12Shader(byteCode, length));
 	}
 
-	Ref<const char> DirectX12RendererAPI::CompileShader(const Stages stage, const char* rawCode, const unsigned int length, const char* entryPt, const ShaderIncludeCache* includeCache, unsigned int* outSize)
+	Ref<const char> DirectX12RendererAPI::CompileShader(const Stages stage, const char* rawCode, const unsigned int length, const char* entryPt, ShaderIncludeCache* includeCache, unsigned int* outSize)
 	{
 		const std::string model = TranslateStageToShaderModel(stage);
 		Ref<const char> compiledShader = m_ShaderCompiler.CompileShader(rawCode, length, entryPt, model.c_str(), includeCache, outSize);

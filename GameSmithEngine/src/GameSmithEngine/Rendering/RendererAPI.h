@@ -37,7 +37,7 @@ namespace GameSmith {
 
 		virtual Ref<Shader> LoadShader(std::string path) = 0;
 		virtual Ref<Shader> LoadShader(const char* byteCode, unsigned int length) = 0;
-		virtual Ref<const char> CompileShader(const Stages stage, const char* rawCode, const unsigned int length, const char* entryPt, const ShaderIncludeCache* includeCache, unsigned int* outSize) = 0;
+		virtual Ref<const char> CompileShader(const Stages stage, const char* rawCode, const unsigned int length, const char* entryPt, ShaderIncludeCache* includeCache, unsigned int* outSize) = 0;
 
 		virtual Ref<ConstantBuffer> CreateConstantBuffer(UINT size, std::string name) = 0;
 		virtual Ref<ConstantBuffer> CreateConstantBuffer(UINT size) = 0;

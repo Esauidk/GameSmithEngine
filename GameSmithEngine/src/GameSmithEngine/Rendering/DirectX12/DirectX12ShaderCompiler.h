@@ -19,7 +19,7 @@ namespace GameSmith {
 			const unsigned int sourceLength,
 			const std::string entryPoint,
 			const std::string profile,
-			const ShaderIncludeCache* cache,
+			ShaderIncludeCache* cache,
 			unsigned int* outSize
 		);
 	private:

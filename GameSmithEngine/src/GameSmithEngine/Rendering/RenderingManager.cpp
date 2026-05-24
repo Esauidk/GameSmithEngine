@@ -4,8 +4,18 @@
 
 #include "GameSmithEngine/Rendering/DirectX12/DirectX12RendererAPI.h"
 #include "GameSmithEngine/Rendering/Workflows/ForwardRender.h"
+#include "GameSmithEngine/Rendering/RenderAgnostics/Shaders/ShaderPresetsFactory.h"
 
 namespace GameSmith {
+	static_assert(static_cast<int>(ShaderConstantType::Instance) == 3);
+
+	GE_REGISTER_PRESET_SHADER(Instance, R"(
+cbuffer Instance : register(b3)
+{
+    matrix M;
+};
+	)")
+
 	RenderingManager* RenderingManager::s_Instance = nullptr;
 
 	RenderingManager::RenderingManager()

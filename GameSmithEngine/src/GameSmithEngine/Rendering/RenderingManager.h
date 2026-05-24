@@ -13,6 +13,7 @@
 
 #include "GameSmithEngine/Rendering/RenderAgnostics/Camera/CameraShaderData.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/LightingSystem/LightShaderData.h"
+#include "GameSmithEngine/Rendering/RenderAgnostics/Shaders/EngineShadersBuiltIn.h"
 
 
 namespace GameSmith {

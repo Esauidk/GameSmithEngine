@@ -12,4 +12,4 @@ namespace GameSmith {
 			return VP == other.VP && CameraWorldPos == other.CameraWorldPos;
 		}
 	};
-}
+};

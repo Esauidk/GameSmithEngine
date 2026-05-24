@@ -24,7 +24,7 @@ namespace {
 
 		virtual GameSmith::Ref<GameSmith::Shader> LoadShader(std::string path) override { return nullptr; }
 		virtual GameSmith::Ref<GameSmith::Shader> LoadShader(const char* byteCode, unsigned int length) override { return nullptr; }
-		virtual GameSmith::Ref<const char> CompileShader(const GameSmith::Stages stage, const char* rawCode, const unsigned int length, const char* entryPt, const GameSmith::ShaderIncludeCache* includeCache, unsigned int* outSize) override { return nullptr; }
+		virtual GameSmith::Ref<const char> CompileShader(const GameSmith::Stages stage, const char* rawCode, const unsigned int length, const char* entryPt, GameSmith::ShaderIncludeCache* includeCache, unsigned int* outSize) override { return nullptr; }
 
 		virtual GameSmith::Ref<GameSmith::ConstantBuffer> CreateConstantBuffer(UINT size, std::string name) override { return nullptr; }
 		virtual GameSmith::Ref<GameSmith::ConstantBuffer> CreateConstantBuffer(UINT size) override { return nullptr; }

@@ -12,7 +12,7 @@ namespace GameSmith {
 	public:
 		DirectX12ShaderIncludeResolver(ComPtr<IDxcUtils> utilInstance) : m_IncludeCache(nullptr), m_Utils(utilInstance) {}
 
-		inline void SetIncludeCache(const ShaderIncludeCache* cache) { m_IncludeCache = cache; }
+		inline void SetIncludeCache(ShaderIncludeCache* cache) { m_IncludeCache = cache; }
 
 		HRESULT LoadSource(LPCWSTR  pFilename, IDxcBlob** ppIncludeSource) override;
 
@@ -46,7 +46,7 @@ namespace GameSmith {
 			return m_RefCount;
 		}
 	private:
-		const ShaderIncludeCache* m_IncludeCache;
+		ShaderIncludeCache* m_IncludeCache;
 		ComPtr<IDxcUtils> m_Utils;
 
 		unsigned int m_RefCount = 0;

@@ -483,11 +483,17 @@
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Camera\Camera.h">
       <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\Camera</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Camera\CameraShaderData.h">
+      <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\Camera</Filter>
+    </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Camera\OrthoCamera.h">
       <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\Camera</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Camera\PerspectiveCamera.h">
       <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\LightingSystem\LightShaderData.h">
+      <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\LightingSystem</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\LightingSystem\LightSource.h">
       <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\LightingSystem</Filter>
@@ -528,6 +534,9 @@
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\RenderComponents\VertexBuffer.h">
       <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\RenderComponents</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\EngineShadersBuiltIn.h">
+      <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\Shaders</Filter>
+    </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\SLab\SLab.h">
       <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\SLab</Filter>
     </ClInclude>
@@ -535,6 +544,9 @@
       <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\SLab</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\ShaderIncludeCache.h">
+      <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\Shaders</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\ShaderPresetsFactory.h">
       <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\Shaders</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\ShaderUtil.h">
@@ -2312,11 +2324,17 @@
     <ClCompile Include="src\GameSmithEngine\Rendering\RenderAgnostics\Camera\Camera.cpp">
       <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\Camera</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\Rendering\RenderAgnostics\Camera\CameraShaderData.cpp">
+      <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\Camera</Filter>
+    </ClCompile>
     <ClCompile Include="src\GameSmithEngine\Rendering\RenderAgnostics\Camera\OrthoCamera.cpp">
       <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\Camera</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\Rendering\RenderAgnostics\Camera\PerspectiveCamera.cpp">
       <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\Rendering\RenderAgnostics\LightingSystem\LightShaderData.cpp">
+      <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\LightingSystem</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\Rendering\RenderAgnostics\MaterialSystem\Material.cpp">
       <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\MaterialSystem</Filter>
@@ -2324,10 +2342,16 @@
     <ClCompile Include="src\GameSmithEngine\Rendering\RenderAgnostics\RenderComponents\Shader.cpp">
       <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\RenderComponents</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\EngineShadersBuiltIn.cpp">
+      <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\Shaders</Filter>
+    </ClCompile>
     <ClCompile Include="src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\SLab\ShaderMetadata.cpp">
       <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\SLab</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\ShaderIncludeCache.cpp">
+      <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\Shaders</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\ShaderPresetsFactory.cpp">
       <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\Shaders</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\Rendering\RenderingManager.cpp">
