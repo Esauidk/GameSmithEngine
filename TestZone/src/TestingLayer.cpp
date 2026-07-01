@@ -85,7 +85,7 @@ TestingLayer::TestingLayer() : GameSmith::Layer("Testing Layer")
 	auto gm1 = GameSmith::GameObjectManager::GetInstance()->CreateGameObject();
 	gm1.lock()->GetTransform().lock()->SetPosition({ 6, 8, 1 });
 
-	auto assetManager = GameSmith::AssetManager::GetInstance();
+	/*auto assetManager = GameSmith::AssetManager::GetInstance();
 	assetManager->ImportResource("C:/Users/esaus/Documents/Coding Projects/GameSmithEngine/GameSmithEngine/src/GameSmithEngine/Rendering/SampleShaders/Core.hlsl");
 	auto importedAsset = assetManager->ImportResource("C:/Users/esaus/Documents/Coding Projects/GameSmithEngine/GameSmithEngine/src/GameSmithEngine/Rendering/SampleShaders/Vertex/BasicRenderVS.hlsl");
 
@@ -106,7 +106,12 @@ TestingLayer::TestingLayer() : GameSmith::Layer("Testing Layer")
 	GameSmith::HLSLSourceSet sourceSet;
 	sourceSet.sources[GameSmith::Stages::STAGE_VERTEX] = vertex;
 	GameSmith::ShaderAsset shader("Main", sourceSet);
-	shader.GetShader(GameSmith::Stages::STAGE_VERTEX);
+	shader.GetShader(GameSmith::Stages::STAGE_VERTEX);*/
+
+	auto renderManager = GameSmith::RenderingManager::GetInstance();
+	auto constantBuffer = renderManager->GetRenderAPI()->CreateConstantBuffer(sizeof(glm::mat4), "TestConstantBuffer", GameSmith::UpdateFrequency::OncePerFrame);
+	auto mat = glm::mat4(1.0f);
+	constantBuffer->UpdateData((BYTE*)&mat, sizeof(glm::mat4));
 
 	/*std::vector<GameSmith::Connection<GameSmith::GameObject>> objs;
 	objs.push_back(gm);
@@ -162,7 +167,7 @@ TestingLayer::TestingLayer() : GameSmith::Layer("Testing Layer")
 	auto loadedChunk = chunkMang->GetCurrentMainChunk();*/
 
 
-	auto renderManager = GameSmith::RenderingManager::GetInstance();
+	
 	float color[4] = { 0.07f, 0.0f, 0.12f, 1.0f };
 	m_RenderTex = renderManager->GetRenderAPI()->CreateRenderTexture(GameSmith::Application::Get().GetWindow()->GetWidth(), GameSmith::Application::Get().GetWindow()->GetHeight(), color);
 	GameSmith::RegisterEvent<GameSmith::WindowResizeEvent>(&GameSmith::Window::s_Resized, GE_BIND_EVENT_FN(GameSmith::RenderTexture::WindowResized, m_RenderTex.get()), false);

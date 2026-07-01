@@ -229,11 +229,12 @@ cmd /c xcopy "..\bin\Dist-windows-x86_64\GameSmithEngine\*" "$(SolutionDir)\bin\
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\DirectX12Core.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\DirectX12DepthBuffer.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\DirectX12RendererAPI.h" />
-    <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\DirectX12RendererHeaders.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\DirectX12ShaderCompiler.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\HeapStructures\DirectX12DescriptorLoaderHeapManager.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\HeapStructures\DirectX12HeapDatabase.h" />
-    <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12ConstantBuffer.h" />
+    <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\ConstantBuffers\DirectX12ConstantBuffer.h" />
+    <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\ConstantBuffers\DirectX12DirectConstantBuffer.h" />
+    <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\ConstantBuffers\DirectX12VRAMConstantBuffer.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12IndexBuffer.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12InputLayout.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12PipelineState.h" />
@@ -244,8 +245,9 @@ cmd /c xcopy "..\bin\Dist-windows-x86_64\GameSmithEngine\*" "$(SolutionDir)\bin\
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\Texture\DirectX12RenderTexture.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\Texture\DirectX12Texture.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\Texture\DirectX12Texture2D.h" />
-    <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\Resources\DirectX12Buffer.h" />
+    <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\Resources\DirectX12DedicatedBuffer.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\Resources\DirectX12Resource.h" />
+    <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\Resources\DirectX12RingUploadHeap.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\Resources\DirectX12TextureResource.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\Resources\DirectX12Views.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\Resources\Util\DirectX12BarrierTracker.h" />
@@ -858,7 +860,8 @@ cmd /c xcopy "..\bin\Dist-windows-x86_64\GameSmithEngine\*" "$(SolutionDir)\bin\
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\DirectX12ShaderCompiler.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\HeapStructures\DirectX12DescriptorLoaderHeapManager.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\HeapStructures\DirectX12HeapDatabase.cpp" />
-    <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12ConstantBuffer.cpp" />
+    <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\ConstantBuffers\DirectX12DirectConstantBuffer.cpp" />
+    <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\ConstantBuffers\DirectX12VRAMConstantBuffer.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12IndexBuffer.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12InputLayout.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12PipelineState.cpp" />
@@ -869,6 +872,7 @@ cmd /c xcopy "..\bin\Dist-windows-x86_64\GameSmithEngine\*" "$(SolutionDir)\bin\
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\Texture\DirectX12RenderTexture.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\Texture\DirectX12Texture2D.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\Resources\DirectX12Resource.cpp" />
+    <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\Resources\DirectX12RingUploadHeap.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\Resources\DirectX12TextureResource.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\Resources\Util\DirectX12BarrierTracker.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\State\DirectX12HeapDescriptorState.cpp" />

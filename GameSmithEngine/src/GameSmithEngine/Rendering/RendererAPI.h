@@ -24,9 +24,6 @@ namespace GameSmith {
 		};
 
 		virtual ~RendererAPI() {};
-		
-		virtual void Clear() = 0;
-		virtual void SetClearColor(const glm::vec4& color) = 0;
 
 		virtual void DrawIndexed(UINT indecies, UINT instances) = 0;
 
@@ -39,8 +36,8 @@ namespace GameSmith {
 		virtual Ref<Shader> LoadShader(const char* byteCode, unsigned int length) = 0;
 		virtual Ref<const char> CompileShader(const Stages stage, const char* rawCode, const unsigned int length, const char* entryPt, ShaderIncludeCache* includeCache, unsigned int* outSize) = 0;
 
-		virtual Ref<ConstantBuffer> CreateConstantBuffer(UINT size, std::string name) = 0;
-		virtual Ref<ConstantBuffer> CreateConstantBuffer(UINT size) = 0;
+		virtual Ref<ConstantBuffer> CreateConstantBuffer(UINT size, std::string name, UpdateFrequency frequency) = 0;
+		virtual Ref<ConstantBuffer> CreateConstantBuffer(UINT size, UpdateFrequency frequency) = 0;
 		virtual void SetConstantBuffer(Ref<ConstantBuffer> cbuffer, Stages stage, ShaderConstantType constantType) = 0;
 
 		virtual Ref<Texture2D> CreateTexture2D(char* data, UINT size) = 0;
@@ -61,7 +58,6 @@ namespace GameSmith {
 		virtual void SubmitRecording() = 0;
 		virtual void FlushDataTransfer() = 0;
 		virtual void CompleteFrameSubmissions() = 0;
-		virtual void ClearCachedAssets() = 0;
 
 		virtual API GetAPI() = 0;
 	};

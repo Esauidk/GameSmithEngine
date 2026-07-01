@@ -132,6 +132,10 @@ namespace GameSmith {
 				layer->OnImGuiRender();
 			}
 			m_ImGuiLayer->End();
+			
+			for (Layer* layer : m_LayerStack) {
+				layer->OnEndUpdate();
+			}
 		}
 	}
 

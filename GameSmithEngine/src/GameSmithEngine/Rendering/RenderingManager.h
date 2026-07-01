@@ -104,7 +104,7 @@ namespace GameSmith {
 		std::queue<Ref<RenderTexture>> m_ClearOnSwap;
 
 		// A dispatcher to notify that a frame has ended
-		EventDispatcher<EndFrameEvent> m_FrameEndDispatch;
+		EventDispatcher<EndFrameRecordEvent> m_FrameEndDispatch;
 
 		// List of dispatchers available
 		const std::vector<EventDispatcherBase*> m_Dispatchers = { &m_FrameEndDispatch};

@@ -1,5 +1,5 @@
 #include "gepch.h"
-#include "DirectX12ConstantBuffer.h"
+#include "DirectX12VRAMConstantBuffer.h"
 
 #define CBV_ALIGNMENT 256
 
@@ -16,7 +16,7 @@ namespace GameSmith {
 		return result;
 	}
 
-	void DirectX12ConstantBuffer::UpdateData(BYTE* data, UINT byteSize)
+	void DirectX12VRAMConstantBuffer::UpdateData(BYTE* data, UINT byteSize)
 	{
 		auto& core = DirectX12Core::GetCore();
 		auto dirContext = core.GetDirectCommandContext();
@@ -49,17 +49,17 @@ namespace GameSmith {
 
 	}
 
-	D3D12_GPU_VIRTUAL_ADDRESS& DirectX12ConstantBuffer::GetGPUReference()
+	D3D12_GPU_VIRTUAL_ADDRESS& DirectX12VRAMConstantBuffer::GetGPUReference()
 	{
 		return m_GPUAdd;
 	}
 
-	D3D12_CPU_DESCRIPTOR_HANDLE DirectX12ConstantBuffer::GetDescriptor()
+	D3D12_CPU_DESCRIPTOR_HANDLE DirectX12VRAMConstantBuffer::GetDescriptor()
 	{
 		return m_TempDescriptor;
 	}
 
-	void DirectX12ConstantBuffer::GenerateConstantBuffView()
+	void DirectX12VRAMConstantBuffer::GenerateConstantBuffView()
 	{
 
 		D3D12_CONSTANT_BUFFER_VIEW_DESC desc;
@@ -74,21 +74,21 @@ namespace GameSmith {
 		dirContext->FinalizeResourceBarriers();
 	}
 
-	DirectX12ConstantBuffer::DirectX12ConstantBuffer(BYTE* data, UINT size) : m_Buffer(Scope<DirectX12Buffer<BYTE>>(new DirectX12Buffer<BYTE>(data, AllignSize(size), "Constant Buffer")))
+	DirectX12VRAMConstantBuffer::DirectX12VRAMConstantBuffer(BYTE* data, UINT size) : m_Buffer(Scope<DirectX12DedicatedBuffer<BYTE>>(new DirectX12DedicatedBuffer<BYTE>(data, AllignSize(size), "Constant Buffer")))
 	{
 		m_GPUAdd = m_Buffer->GetGPUReference();
 		m_TempDescriptor = DirectX12Core::GetCore().GetDescriptorLoader(CBVSRVUAV).AllocateSlot();
 		GenerateConstantBuffView();
 	}
 
-	DirectX12ConstantBuffer::DirectX12ConstantBuffer(UINT size) : m_Buffer(Scope<DirectX12Buffer<BYTE>>(new DirectX12Buffer<BYTE>(AllignSize(size), "Constant Buffer")))
+	DirectX12VRAMConstantBuffer::DirectX12VRAMConstantBuffer(UINT size) : m_Buffer(Scope<DirectX12DedicatedBuffer<BYTE>>(new DirectX12DedicatedBuffer<BYTE>(AllignSize(size), "Constant Buffer")))
 	{
 		m_GPUAdd = m_Buffer->GetGPUReference();
 		m_TempDescriptor = DirectX12Core::GetCore().GetDescriptorLoader(CBVSRVUAV).AllocateSlot();
 		GenerateConstantBuffView();
 	}
 
-	DirectX12ConstantBuffer::DirectX12ConstantBuffer(UINT size, std::string name) : m_Buffer(Scope<DirectX12Buffer<BYTE>>(new DirectX12Buffer<BYTE>(AllignSize(size), name)))
+	DirectX12VRAMConstantBuffer::DirectX12VRAMConstantBuffer(UINT size, std::string name) : m_Buffer(Scope<DirectX12DedicatedBuffer<BYTE>>(new DirectX12DedicatedBuffer<BYTE>(AllignSize(size), name)))
 	{
 		m_GPUAdd = m_Buffer->GetGPUReference();
 		m_TempDescriptor = DirectX12Core::GetCore().GetDescriptorLoader(CBVSRVUAV).AllocateSlot();

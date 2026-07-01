@@ -9,6 +9,9 @@
 using Microsoft::WRL::ComPtr;
 
 namespace GameSmith {
+	// Wraps the DirectX Shader Compiler (DXC) for compiling HLSL source to shader
+	// bytecode. Supports include resolution via DirectX12ShaderIncludeResolver and
+	// configurable debug/optimization flags per build configuration.
 	class GE_API DirectX12ShaderCompiler
 	{
 	public:

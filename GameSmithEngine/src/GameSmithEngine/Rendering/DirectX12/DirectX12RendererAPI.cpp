@@ -3,6 +3,21 @@
 #include "GameSmithEngine/Rendering/DirectX12/Util/DirectX12Util.h"
 #include "GameSmithEngine/Rendering/DirectX12/Util/DirectX12ShaderUtils.h"
 
+#include "GameSmithEngine/Rendering/DirectX12/RenderComponents/DirectX12PipelineState.h"
+#include "GameSmithEngine/Rendering/DirectX12/RenderComponents/DirectX12RootSignature.h"
+
+#include "GameSmithEngine/Rendering/DirectX12/RenderComponents/DirectX12VertexBuffer.h"
+#include "GameSmithEngine/Rendering/DirectX12/RenderComponents/DirectX12IndexBuffer.h"
+#include "GameSmithEngine/Rendering/DirectX12/RenderComponents/ConstantBuffers/DirectX12VRAMConstantBuffer.h"
+#include "GameSmithEngine/Rendering/DirectX12/RenderComponents/ConstantBuffers/DirectX12DirectConstantBuffer.h"
+
+#include "GameSmithEngine/Rendering/DirectX12/RenderComponents/Texture/DirectX12Texture2D.h"
+#include "GameSmithEngine/Rendering/DirectX12/RenderComponents/Texture/DirectX12RenderTexture.h"
+#include "GameSmithEngine/Rendering/DirectX12/RenderComponents/DirectX12Sampler.h"
+
+#include "GameSmithEngine/Rendering/DirectX12/RenderComponents/DirectX12InputLayout.h"
+
+
 namespace GameSmith {
 	DirectX12RendererAPI::DirectX12RendererAPI(): m_Core(DirectX12Core::CreateCore())
 	{
@@ -11,14 +26,6 @@ namespace GameSmith {
 	DirectX12RendererAPI::~DirectX12RendererAPI()
 	{
 		m_Core.DestroyCore();
-	}
-
-	void DirectX12RendererAPI::SetClearColor(const glm::vec4& color)
-	{
-	}
-
-	void DirectX12RendererAPI::Clear()
-	{
 	}
 
 	void DirectX12RendererAPI::DrawIndexed(UINT indecies, UINT instances)
@@ -80,14 +87,36 @@ namespace GameSmith {
 		return compiledShader;
 	}
 
-	Ref<ConstantBuffer> DirectX12RendererAPI::CreateConstantBuffer(UINT size, std::string name)
+	Ref<ConstantBuffer> DirectX12RendererAPI::CreateConstantBuffer(UINT size, std::string name, UpdateFrequency frequency)
 	{
-		return Ref<ConstantBuffer>(new DirectX12ConstantBuffer(size, name));
+		switch (frequency)
+		{
+		case GameSmith::UpdateFrequency::Never:
+			return Ref<ConstantBuffer>(new DirectX12VRAMConstantBuffer(size, name));
+		case GameSmith::UpdateFrequency::OncePerFrame:
+			return Ref<ConstantBuffer>(new DirectX12DirectConstantBuffer(m_UploadHeap, size));
+		case GameSmith::UpdateFrequency::OncePerDrawCall:
+			return Ref<ConstantBuffer>(new DirectX12DirectConstantBuffer(m_UploadHeap, size));
+		default:
+			GE_CORE_ASSERT(false, "Unhandled update frequency");
+			return nullptr;
+		}
 	}
 
-	Ref<ConstantBuffer> DirectX12RendererAPI::CreateConstantBuffer(UINT size)
+	Ref<ConstantBuffer> DirectX12RendererAPI::CreateConstantBuffer(UINT size, UpdateFrequency frequency)
 	{
-		return Ref<ConstantBuffer>(new DirectX12ConstantBuffer(size));
+		switch (frequency)
+		{
+		case GameSmith::UpdateFrequency::Never:
+			return Ref<ConstantBuffer>(new DirectX12VRAMConstantBuffer(size));
+		case GameSmith::UpdateFrequency::OncePerFrame:
+			return Ref<ConstantBuffer>(new DirectX12DirectConstantBuffer(m_UploadHeap, size));
+		case GameSmith::UpdateFrequency::OncePerDrawCall:
+			return Ref<ConstantBuffer>(new DirectX12DirectConstantBuffer(m_UploadHeap, size));
+		default:
+			GE_CORE_ASSERT(false, "Unhandled update frequency");
+			return nullptr;
+		}
 	}
 
 	void DirectX12RendererAPI::SetConstantBuffer(Ref<ConstantBuffer> cbuffer, Stages stage, ShaderConstantType constantType)
@@ -253,6 +282,18 @@ namespace GameSmith {
 
 	void DirectX12RendererAPI::CompleteFrameSubmissions()
 	{
-		m_Core.FrameCompletedRecording();
+		unsigned int frameId = m_Core.FrameCompletedRecording();
+		m_FrameIdToLifeIndex[frameId] = m_UploadHeap.IncrementLifeIndex();
+
+		// Go through our life groups and clean up groups that have completed frames
+		for (auto it = m_FrameIdToLifeIndex.begin(); it != m_FrameIdToLifeIndex.end(); ) {
+			if (it->first < frameId && m_Core.GetNextFrameID() > it->first) {
+				m_UploadHeap.Flush(it->second);
+				it = m_FrameIdToLifeIndex.erase(it);
+			}
+			else {
+				++it;
+			}
+		}
 	}
 };

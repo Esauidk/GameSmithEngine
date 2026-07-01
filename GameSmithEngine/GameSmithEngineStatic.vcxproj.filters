@@ -61,6 +61,9 @@
     <Filter Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents">
       <UniqueIdentifier>{B88E6595-A463-AD48-CD12-ED44B946BB5F}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\ConstantBuffers">
+      <UniqueIdentifier>{DE7E00EC-CAAB-4C1D-F38C-EF2DDF18A0ED}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\Texture">
       <UniqueIdentifier>{18EC0C81-04ED-A0FB-2DB5-0D80191517B6}</UniqueIdentifier>
     </Filter>
@@ -384,9 +387,6 @@
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\DirectX12RendererAPI.h">
       <Filter>src\GameSmithEngine\Rendering\DirectX12</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\DirectX12RendererHeaders.h">
-      <Filter>src\GameSmithEngine\Rendering\DirectX12</Filter>
-    </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\DirectX12ShaderCompiler.h">
       <Filter>src\GameSmithEngine\Rendering\DirectX12</Filter>
     </ClInclude>
@@ -396,8 +396,14 @@
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\HeapStructures\DirectX12HeapDatabase.h">
       <Filter>src\GameSmithEngine\Rendering\DirectX12\HeapStructures</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12ConstantBuffer.h">
-      <Filter>src\GameSmithEngine\Rendering\DirectX12\RenderComponents</Filter>
+    <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\ConstantBuffers\DirectX12ConstantBuffer.h">
+      <Filter>src\GameSmithEngine\Rendering\DirectX12\RenderComponents\ConstantBuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\ConstantBuffers\DirectX12DirectConstantBuffer.h">
+      <Filter>src\GameSmithEngine\Rendering\DirectX12\RenderComponents\ConstantBuffers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\ConstantBuffers\DirectX12VRAMConstantBuffer.h">
+      <Filter>src\GameSmithEngine\Rendering\DirectX12\RenderComponents\ConstantBuffers</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12IndexBuffer.h">
       <Filter>src\GameSmithEngine\Rendering\DirectX12\RenderComponents</Filter>
@@ -429,10 +435,13 @@
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\Texture\DirectX12Texture2D.h">
       <Filter>src\GameSmithEngine\Rendering\DirectX12\RenderComponents\Texture</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\Resources\DirectX12Buffer.h">
+    <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\Resources\DirectX12DedicatedBuffer.h">
       <Filter>src\GameSmithEngine\Rendering\DirectX12\Resources</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\Resources\DirectX12Resource.h">
+      <Filter>src\GameSmithEngine\Rendering\DirectX12\Resources</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\Resources\DirectX12RingUploadHeap.h">
       <Filter>src\GameSmithEngine\Rendering\DirectX12\Resources</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\Resources\DirectX12TextureResource.h">
@@ -2267,8 +2276,11 @@
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\HeapStructures\DirectX12HeapDatabase.cpp">
       <Filter>src\GameSmithEngine\Rendering\DirectX12\HeapStructures</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12ConstantBuffer.cpp">
-      <Filter>src\GameSmithEngine\Rendering\DirectX12\RenderComponents</Filter>
+    <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\ConstantBuffers\DirectX12DirectConstantBuffer.cpp">
+      <Filter>src\GameSmithEngine\Rendering\DirectX12\RenderComponents\ConstantBuffers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\ConstantBuffers\DirectX12VRAMConstantBuffer.cpp">
+      <Filter>src\GameSmithEngine\Rendering\DirectX12\RenderComponents\ConstantBuffers</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\RenderComponents\DirectX12IndexBuffer.cpp">
       <Filter>src\GameSmithEngine\Rendering\DirectX12\RenderComponents</Filter>
@@ -2298,6 +2310,9 @@
       <Filter>src\GameSmithEngine\Rendering\DirectX12\RenderComponents\Texture</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\Resources\DirectX12Resource.cpp">
+      <Filter>src\GameSmithEngine\Rendering\DirectX12\Resources</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\Resources\DirectX12RingUploadHeap.cpp">
       <Filter>src\GameSmithEngine\Rendering\DirectX12\Resources</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\Rendering\DirectX12\Resources\DirectX12TextureResource.cpp">

@@ -23,9 +23,9 @@ cbuffer Instance : register(b3)
 		m_RenderAPI = Scope<RendererAPI>(new DirectX12RendererAPI());
 		m_RenderWorkflow = Scope<RenderWorkflow>(new ForwardRender(m_RenderAPI.get()));
 		m_PSOManager = Scope<PipelineStateObjectManager>(new PipelineStateObjectManager(m_RenderAPI.get()));
-		m_CameraBuffer = m_RenderAPI->CreateConstantBuffer(sizeof(CameraShaderData), "CameraData");
-		m_LightBuffer = m_RenderAPI->CreateConstantBuffer(sizeof(LightShaderData), "LightData");
-		m_ObjectBuffer = m_RenderAPI->CreateConstantBuffer(sizeof(ObjectData), "ObjectData");
+		m_CameraBuffer = m_RenderAPI->CreateConstantBuffer(sizeof(CameraShaderData), "CameraData", UpdateFrequency::OncePerDrawCall);
+		m_LightBuffer = m_RenderAPI->CreateConstantBuffer(sizeof(LightShaderData), "LightData", UpdateFrequency::OncePerDrawCall);
+		m_ObjectBuffer = m_RenderAPI->CreateConstantBuffer(sizeof(ObjectData), "ObjectData", UpdateFrequency::OncePerDrawCall);
 	}
 
 	void RenderingManager::Init()
@@ -63,10 +63,9 @@ cbuffer Instance : register(b3)
 			CameraShaderData camData;
 			camData.VP = cam->GetMatrix();
 			camData.CameraWorldPos = cam->GetTransform().GetPosition();
-			if (m_CameraData != camData) {
-				m_CameraData = camData;
-				m_CameraBuffer->UpdateData((BYTE*)&m_CameraData, sizeof(m_CameraData));
-			}
+
+			m_CameraData = camData;
+			m_CameraBuffer->UpdateData((BYTE*)&m_CameraData, sizeof(m_CameraData));
 		}
 
 		LightShaderData lightData;
@@ -79,10 +78,8 @@ cbuffer Instance : register(b3)
 			lightData.MainLightColor = glm::vec3(0, 0, 0);
 		}
 
-		if (m_LightData != lightData) {
-			m_LightData = lightData;
-			m_LightBuffer->UpdateData((BYTE*)&m_LightData, sizeof(m_LightData));
-		}
+		m_LightData = lightData;
+		m_LightBuffer->UpdateData((BYTE*)&m_LightData, sizeof(m_LightData));
 		
 		m_RenderAPI->SetConstantBuffer(m_CameraBuffer, STAGE_VERTEX, ShaderConstantType::Camera);
 		m_RenderAPI->SetConstantBuffer(m_LightBuffer, STAGE_VERTEX, ShaderConstantType::Light);
@@ -91,6 +88,7 @@ cbuffer Instance : register(b3)
 		m_RenderAPI->SetConstantBuffer(m_LightBuffer, STAGE_PIXEL, ShaderConstantType::Light);
 	}
 
+	// TODO: RE-EXAMINE HOW ENDSCENE AND ENDFRAME ARE BEING CALLED
 	void RenderingManager::EndScene()
 	{
 		m_RenderAPI->SubmitRecording();
@@ -102,7 +100,7 @@ cbuffer Instance : register(b3)
 		m_RenderAPI->CompleteFrameSubmissions();
 		m_PSOManager->CleanStateObjects();
 
-		EndFrameEvent e;
+		EndFrameRecordEvent e;
 		m_FrameEndDispatch.Dispatch(e);
 	}
 
@@ -121,10 +119,8 @@ cbuffer Instance : register(b3)
 		ObjectData objData;
 		objData.Model = objectTransform.GetModelMatrix();
 
-		if (m_ObjectData != objData) {
-			m_ObjectData = objData;
-			m_ObjectBuffer->UpdateData((BYTE*)&m_ObjectData, sizeof(m_ObjectData));
-		}
+		m_ObjectData = objData;
+		m_ObjectBuffer->UpdateData((BYTE*)&m_ObjectData, sizeof(m_ObjectData));
 
 		m_RenderAPI->SetConstantBuffer(m_ObjectBuffer, STAGE_VERTEX, ShaderConstantType::Instance);
 		m_RenderAPI->SetConstantBuffer(m_ObjectBuffer, STAGE_PIXEL, ShaderConstantType::Instance);

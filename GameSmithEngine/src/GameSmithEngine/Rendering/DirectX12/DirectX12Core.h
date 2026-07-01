@@ -21,9 +21,7 @@ namespace GameSmith {
 		inline ID3D12Device8* GetDevice() { return m_Device.Get(); }
 		inline IDXGIFactory5* GetFactory() { return m_Factory.Get(); }
 
-		inline void FrameCompletedRecording() { m_FrameIds.push(m_DirectContext->GetLastSubmissionID()); }
-
-		inline void FrameSkipped() { if (!m_FrameIds.empty()) { m_FrameIds.pop(); GE_CORE_INFO("Skipping this frame"); } }
+		inline unsigned int FrameCompletedRecording() { m_FrameIds.push(m_DirectContext->GetLastSubmissionID()); return m_FrameIds.back(); }
 
 		inline void SwappingFrame() { 
 			if (!m_FrameIds.empty()) { 
@@ -33,6 +31,7 @@ namespace GameSmith {
 		}
 
 		inline bool FrameReady() { return m_FrameIds.empty() || FindQueue(Direct).IsFenceComplete(m_FrameIds.front()); }
+		inline unsigned int GetNextFrameID() { return m_FrameIds.empty() ? 0 : m_FrameIds.front(); }
 		inline DirectX12CommandContextDirect* GetDirectCommandContext() { return m_DirectContext.get(); }
 		inline DirectX12CommandContextCopy* GetCopyCommandContext() { return m_CopyContext.get(); }
 		inline DirectX12HeapDatabase* GetHeapDatabase() { return m_HeapDB.get(); }
@@ -56,9 +55,11 @@ namespace GameSmith {
 		ComPtr<ID3D12InfoQueue> m_InfoQueue;
 		ComPtr<ID3D12Device8> m_Device;
 		ComPtr<IDXGIFactory5> m_Factory;
+
 		Scope<DirectX12CommandContextDirect> m_DirectContext;
 		Scope<DirectX12CommandContextCopy> m_CopyContext;
 		Scope<DirectX12HeapDatabase> m_HeapDB;
+
 		static Scope<DirectX12Core> m_Core;
 
 		std::vector<DirectX12DescriptorLoaderManager> m_DescriptorLoaders;

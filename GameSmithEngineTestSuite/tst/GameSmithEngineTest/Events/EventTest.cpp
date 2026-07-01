@@ -100,7 +100,7 @@ TEST(EventTypeTest, MouseButtonReleaseEvent) {
 }
 
 TEST(EventTypeTest, EndFrameEvent) {
-	GameSmith::EndFrameEvent e;
+	GameSmith::EndFrameRecordEvent e;
 	EXPECT_EQ(e.GetEventType(), GameSmith::EventType::FRAME_END);
 	EXPECT_TRUE(e.IsInCategory(GameSmith::EventCategory::RENDER_EVENT));
 }

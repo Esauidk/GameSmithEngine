@@ -13,8 +13,6 @@ namespace {
 		int nextPsoId = 0;
 		MockRendererAPI() {}
 
-		virtual void Clear() override {}
-		virtual void SetClearColor(const glm::vec4& color) override {}
 		virtual void DrawIndexed(UINT indecies, UINT instances) override {}
 
 		virtual GameSmith::Ref<GameSmith::VertexBuffer> CreateVertexBuffer(BYTE* data, int vertexByteSize, int vertexCount) override { return nullptr; }
@@ -26,8 +24,8 @@ namespace {
 		virtual GameSmith::Ref<GameSmith::Shader> LoadShader(const char* byteCode, unsigned int length) override { return nullptr; }
 		virtual GameSmith::Ref<const char> CompileShader(const GameSmith::Stages stage, const char* rawCode, const unsigned int length, const char* entryPt, GameSmith::ShaderIncludeCache* includeCache, unsigned int* outSize) override { return nullptr; }
 
-		virtual GameSmith::Ref<GameSmith::ConstantBuffer> CreateConstantBuffer(UINT size, std::string name) override { return nullptr; }
-		virtual GameSmith::Ref<GameSmith::ConstantBuffer> CreateConstantBuffer(UINT size) override { return nullptr; }
+		GameSmith::Ref<GameSmith::ConstantBuffer> CreateConstantBuffer(UINT size, std::string name, GameSmith::UpdateFrequency frequency) override { return nullptr; }
+		GameSmith::Ref<GameSmith::ConstantBuffer> CreateConstantBuffer(UINT size, GameSmith::UpdateFrequency frequency) override { return nullptr; }
 		virtual void SetConstantBuffer(GameSmith::Ref<GameSmith::ConstantBuffer> cbuffer, GameSmith::Stages stage, GameSmith::ShaderConstantType constantType) override {}
 
 		virtual GameSmith::Ref<GameSmith::Texture2D> CreateTexture2D(char* data, UINT size) override { return nullptr; }
@@ -49,7 +47,6 @@ namespace {
 		virtual void SubmitRecording() override {}
 		virtual void FlushDataTransfer() override {}
 		virtual void CompleteFrameSubmissions() override {}
-		virtual void ClearCachedAssets() override {}
 
 		virtual GameSmith::RendererAPI::API GetAPI() override { return GameSmith::RendererAPI::API::None; }
 	};

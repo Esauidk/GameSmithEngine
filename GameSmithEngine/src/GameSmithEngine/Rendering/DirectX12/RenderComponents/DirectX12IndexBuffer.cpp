@@ -2,7 +2,7 @@
 #include "DirectX12IndexBuffer.h"
 
 namespace GameSmith {
-	DirectX12IndexBuffer::DirectX12IndexBuffer(unsigned int* buffer, unsigned int count) : m_Buffer(Scope<DirectX12Buffer<unsigned int>>(new DirectX12Buffer<unsigned int>(buffer, count, "Index Buffer"))), m_Count(count) {}
+	DirectX12IndexBuffer::DirectX12IndexBuffer(unsigned int* buffer, unsigned int count) : m_Buffer(Scope<DirectX12DedicatedBuffer<unsigned int>>(new DirectX12DedicatedBuffer<unsigned int>(buffer, count, "Index Buffer"))), m_Count(count) {}
 
 	D3D12_INDEX_BUFFER_VIEW DirectX12IndexBuffer::GenerateView()
 	{

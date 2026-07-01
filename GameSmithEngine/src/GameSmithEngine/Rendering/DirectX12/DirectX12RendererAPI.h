@@ -1,18 +1,20 @@
 #pragma once
 
-#include "DirectX12RendererHeaders.h"
+#include "GameSmithEngine/Rendering/DirectX12/DirectX12Core.h"
+#include "GameSmithEngine/Rendering/DirectX12/DirectX12ShaderCompiler.h"
+#include "GameSmithEngine/Rendering/DirectX12/Resources/DirectX12RingUploadHeap.h"
 #include "GameSmithEngine/Rendering/RendererAPI.h"
 
 namespace GameSmith {
+	// DirectX12 implementation of the abstract RendererAPI. Creates and manages all
+	// GPU resources (buffers, textures, shaders, PSOs) and issues draw calls through
+	// the command context and state manager.
 	class DirectX12RendererAPI : public RendererAPI
 	{
 	public:
 		DirectX12RendererAPI();
 		~DirectX12RendererAPI() override;
 		inline API GetAPI() override { return API::DirectX12; }
-
-		void SetClearColor(const glm::vec4& color) override;
-		void Clear() override;
 
 		void DrawIndexed(UINT indecies, UINT instances) override;
 
@@ -24,13 +26,13 @@ namespace GameSmith {
 		Ref<Shader> LoadShader(const char* byteCode, unsigned int length) override;
 		Ref<const char> CompileShader(const Stages stage, const char* rawCode, const unsigned int length, const char* entryPt, ShaderIncludeCache* includeCache, unsigned int* outSize) override;
 
-		Ref<ConstantBuffer> CreateConstantBuffer(UINT size, std::string name) override;
-		Ref<ConstantBuffer> CreateConstantBuffer(UINT size) override;
+		Ref<ConstantBuffer> CreateConstantBuffer(UINT size, std::string name, UpdateFrequency frequency) override;
+		Ref<ConstantBuffer> CreateConstantBuffer(UINT size, UpdateFrequency frequency) override;
 		void SetConstantBuffer(Ref<ConstantBuffer> cbuffer, Stages stage, ShaderConstantType constantType) override;
 
 		Ref<Texture2D> CreateTexture2D(char* data, UINT size) override;
 		Ref<RenderTexture> CreateRenderTexture(unsigned int width, unsigned int height) override;
-		Ref<RenderTexture> CreateRenderTexture(unsigned int width, unsigned int height, float* clearColor) override;;
+		Ref<RenderTexture> CreateRenderTexture(unsigned int width, unsigned int height, float* clearColor) override;
 
 		void SetRenderTexture(Ref<RenderTexture> rt, UINT index) override;
 		void SetTexture2D(Ref<Texture2D> tex, UINT slot, Stages stage) override;
@@ -46,11 +48,12 @@ namespace GameSmith {
 		void SubmitRecording() override;
 		void FlushDataTransfer() override;
 		void CompleteFrameSubmissions() override;
-
-		inline void ClearCachedAssets() override {  }
 	private:
 		DirectX12Core& m_Core;
 		DirectX12ShaderCompiler m_ShaderCompiler;
+		DirectX12RingUploadHeap m_UploadHeap;
+
+		std::unordered_map<unsigned int, unsigned int> m_FrameIdToLifeIndex;
 	};
 };
 

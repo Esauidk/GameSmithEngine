@@ -8,9 +8,9 @@
 
 namespace GameSmith {
 	template <typename T>
-	class DirectX12Buffer {
+	class DirectX12DedicatedBuffer {
 	public:
-		DirectX12Buffer(T* buffer, UINT count, std::string bufferName = "Personal Buffer") : m_BufferSize(sizeof(T)* count), m_Uploading(true){
+		DirectX12DedicatedBuffer(T* buffer, UINT count, std::string bufferName = "Personal Buffer") : m_BufferSize(sizeof(T)* count), m_Uploading(true){
 
 			auto& core = DirectX12Core::GetCore();
 			auto pDevice = core.GetDevice();
@@ -68,7 +68,7 @@ namespace GameSmith {
 			SetUploadGPUBlock();
 		}
 
-		DirectX12Buffer(UINT count, std::string bufferName = "Personal Buffer") : m_BufferSize(sizeof(T)* count), m_Uploading(false) {
+		DirectX12DedicatedBuffer(UINT count, std::string bufferName = "Personal Buffer") : m_BufferSize(sizeof(T)* count), m_Uploading(false) {
 
 			auto& core = DirectX12Core::GetCore();
 			auto pDevice = core.GetDevice();

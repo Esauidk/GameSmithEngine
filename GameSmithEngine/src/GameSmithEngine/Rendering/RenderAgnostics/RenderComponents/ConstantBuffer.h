@@ -1,6 +1,12 @@
 #pragma once
 
-namespace GameSmith {
+namespace GameSmith
+{
+	enum class UpdateFrequency {
+		Never,
+		OncePerFrame,
+		OncePerDrawCall
+	};
 	class ConstantBuffer {
 	public:
 		virtual ~ConstantBuffer() = default;

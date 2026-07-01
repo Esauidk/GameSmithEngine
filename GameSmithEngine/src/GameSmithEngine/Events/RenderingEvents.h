@@ -2,13 +2,13 @@
 #include "Event.h"
 
 namespace GameSmith {
-	class GE_API EndFrameEvent : public Event {
+	class GE_API EndFrameRecordEvent : public Event {
 	public:
-		EndFrameEvent() {};
+		EndFrameRecordEvent() {};
 		std::string ToString() const override {
 			std::stringstream oss;
 
-			oss << "EndFrameEvent";
+			oss << "EndFrameRecordEvent";
 
 			return oss.str();
 		}

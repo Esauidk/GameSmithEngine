@@ -1,5 +1,5 @@
 #pragma once
-#include "GameSmithEngine/Rendering/DirectX12/Resources/DirectX12Buffer.h"
+#include "GameSmithEngine/Rendering/DirectX12/Resources/DirectX12DedicatedBuffer.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/RenderComponents/IndexBuffer.h"
 
 namespace GameSmith {
@@ -13,7 +13,7 @@ namespace GameSmith {
 
 		UINT GetCount() override;
 	private:
-		Scope<DirectX12Buffer<unsigned int>> m_Buffer;
+		Scope<DirectX12DedicatedBuffer<unsigned int>> m_Buffer;
 		UINT m_Count;
 	};
 };

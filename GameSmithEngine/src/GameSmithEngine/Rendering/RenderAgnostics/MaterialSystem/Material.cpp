@@ -25,7 +25,7 @@ namespace GameSmith {
 
 		GE_CORE_ASSERT(renderManager != nullptr, "Render manager is not running! Required for material to be used");
 
-		m_GPULocation = renderManager->GetRenderAPI()->CreateConstantBuffer(m_ParameterByteTotal, "Material");
+		m_GPULocation = renderManager->GetRenderAPI()->CreateConstantBuffer(m_ParameterByteTotal, "Material", UpdateFrequency::OncePerDrawCall);
 
 		m_PSOSettings.shaderSet = m_Shaders;
 		m_PSOSettings.toplopgyType = TopologyType::Triangle;
@@ -54,7 +54,7 @@ namespace GameSmith {
 
 		GE_CORE_ASSERT(renderManager != nullptr, "Render manager is not running! Required for material to be used");
 
-		m_GPULocation = renderManager->GetRenderAPI()->CreateConstantBuffer(m_ParameterByteTotal, "Material Copy");
+		m_GPULocation = renderManager->GetRenderAPI()->CreateConstantBuffer(m_ParameterByteTotal, "Material Copy", UpdateFrequency::OncePerDrawCall);
 
 		m_PSOSettings.shaderSet = m_Shaders;
 		m_PSOSettings.numRT = 2;
