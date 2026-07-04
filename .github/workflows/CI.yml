@@ -69,7 +69,7 @@ jobs:
 
     - name: Premake Config
       working-directory: ${{env.GITHUB_WORKSPACE}}
-      run: BuildProject.bat
+      run: ./BuildProject.bat
       
     - name: Build
       working-directory: ${{env.GITHUB_WORKSPACE}}
