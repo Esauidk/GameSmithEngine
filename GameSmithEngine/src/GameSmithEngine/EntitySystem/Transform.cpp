@@ -72,13 +72,18 @@ namespace GameSmith {
 
 	void Transform::UpdateMatrix()
 	{
-		glm::mat4 coordFrame = m_CoordinateFrame == nullptr ? glm::mat4(1) : m_CoordinateFrame->m_ModelMatrix;
+		glm::mat4 coordFrame = m_CoordinateFrame == nullptr ? glm::mat4(1) : m_CoordinateFrame->m_Frame;
+
+		m_Frame = glm::translate(glm::mat4(1.0f), m_Position) * glm::rotate(glm::mat4(1.0f), m_Rotation.z, glm::vec3(0, 0, 1)) *
+			glm::rotate(glm::mat4(1.0f), m_Rotation.x, glm::vec3(1, 0, 0)) *
+			glm::rotate(glm::mat4(1.0f), m_Rotation.y, glm::vec3(0, 1, 0)) * coordFrame;
+
 
 		m_ModelMatrix = coordFrame * glm::translate(glm::mat4(1.0f), m_Position) *
-			glm::scale(glm::mat4(1.0f), m_Scale) *
 			glm::rotate(glm::mat4(1.0f), m_Rotation.z, glm::vec3(0, 0, 1)) *
 			glm::rotate(glm::mat4(1.0f), m_Rotation.x, glm::vec3(1, 0, 0)) *
-			glm::rotate(glm::mat4(1.0f), m_Rotation.y, glm::vec3(0, 1, 0));
+			glm::rotate(glm::mat4(1.0f), m_Rotation.y, glm::vec3(0, 1, 0)) * 
+			glm::scale(glm::mat4(1.0f), m_Scale);
 
 		for (auto children : m_ChildrenFrames) {
 			children->UpdateMatrix();

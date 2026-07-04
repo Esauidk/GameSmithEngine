@@ -53,7 +53,7 @@ namespace GameSmith {
 
 	void PerspectiveCamera::UpdateProjectionMatrix()
 	{
-		m_Projection = glm::transpose(glm::perspectiveFovLH(m_FOV, m_Width, m_Height, m_ZNear, m_ZFar));
+		m_Projection = glm::perspectiveFovLH(m_FOV, m_Width, m_Height, m_ZNear, m_ZFar);
 		UpdateMatrix();
 	}
 };

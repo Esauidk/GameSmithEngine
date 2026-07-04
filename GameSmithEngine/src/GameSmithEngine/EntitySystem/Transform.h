@@ -21,7 +21,7 @@ namespace GameSmith {
 		inline void AddChildrenCoordinateFrame(Transform* newFrame) { m_ChildrenFrames.push_back(newFrame); }
 		void RemoveChildCoordinateFrame(Transform* oldFrame);
 
-		inline glm::mat4 GetModelMatrix() const { return glm::transpose(m_ModelMatrix); }
+		inline glm::mat4 GetModelMatrix() const { return m_ModelMatrix; }
 
 		virtual Ref<char> Serialize() override;
 		virtual void Serialize(char* byteStream, unsigned int availableBytes) override;
@@ -37,6 +37,7 @@ namespace GameSmith {
 		glm::vec3 m_Rotation;
 		glm::vec3 m_Scale;
 		glm::mat4 m_ModelMatrix;
+		glm::mat4 m_Frame;
 
 		struct TransformSerializeData {
 			glm::vec3 Position;

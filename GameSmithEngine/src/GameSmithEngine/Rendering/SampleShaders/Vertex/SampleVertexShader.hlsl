@@ -21,9 +21,10 @@ VertexShaderOutput main(DefaultVertexData input, uint id : SV_VertexID)
     VertexShaderOutput output;
     output.vert_Id = id;
     output.Normal = input.Normal;
-    output.WorldPos = mul(float4(input.Position, 1.0f), M).xyz;
-    output.WorldNormal = mul(float4(input.Normal, 0.0f), M).xyz;
-    output.Position = mul(float4(output.WorldPos, 1.0f), VP);
+    matrix MVP = mul(VP, M);
+    output.WorldPos = mul(M, float4(input.Position, 1.0f)).xyz;
+    output.WorldNormal = mul(M, float4(input.Normal, 0.0f)).xyz;
+    output.Position = mul(MVP, float4(input.Position, 1.0f));
     output.UV = input.UV;
 
     return output;

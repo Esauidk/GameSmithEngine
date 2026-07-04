@@ -31,21 +31,21 @@ TEST(OrthoCameraKAT, KnownAnswer) {
 	EXPECT_NEAR(m[0][0], 0.1f, TOL);
 	EXPECT_NEAR(m[0][1], 0.0f, TOL);
 	EXPECT_NEAR(m[0][2], 0.0f, TOL);
-	EXPECT_NEAR(m[0][3], -0.5f, TOL);
+	EXPECT_NEAR(m[0][3], 0.0f, TOL);
 
 	EXPECT_NEAR(m[1][0], 0.0f, TOL);
 	EXPECT_NEAR(m[1][1], 0.06666667f, TOL);
 	EXPECT_NEAR(m[1][2], 0.0f, TOL);
-	EXPECT_NEAR(m[1][3], -0.33333333f, TOL);
+	EXPECT_NEAR(m[1][3], 0.0f, TOL);
 
 	EXPECT_NEAR(m[2][0], 0.0f, TOL);
 	EXPECT_NEAR(m[2][1], 0.0f, TOL);
 	EXPECT_NEAR(m[2][2], 0.01f, TOL);
-	EXPECT_NEAR(m[2][3], -0.01f, TOL);
+	EXPECT_NEAR(m[2][3], 0.0f, TOL);
 
-	EXPECT_NEAR(m[3][0], 0.0f, TOL);
-	EXPECT_NEAR(m[3][1], 0.0f, TOL);
-	EXPECT_NEAR(m[3][2], 0.0f, TOL);
+	EXPECT_NEAR(m[3][0], -0.5f, TOL);
+	EXPECT_NEAR(m[3][1], -0.33333333f, TOL);
+	EXPECT_NEAR(m[3][2], -0.01f, TOL);
 	EXPECT_NEAR(m[3][3], 1.0f, TOL);
 }
 
@@ -118,11 +118,11 @@ TEST(PerspectiveCameraKAT, KnownAnswer) {
 	EXPECT_NEAR(m[2][0], 0.0f, TOL);
 	EXPECT_NEAR(m[2][1], 0.0f, TOL);
 	EXPECT_NEAR(m[2][2], 1.00040016f, TOL);
-	EXPECT_NEAR(m[2][3], -0.20008003f, TOL);
+	EXPECT_NEAR(m[2][3], 1.0f, TOL);
 
 	EXPECT_NEAR(m[3][0], 0.0f, TOL);
 	EXPECT_NEAR(m[3][1], 0.0f, TOL);
-	EXPECT_NEAR(m[3][2], 1.0f, TOL);
+	EXPECT_NEAR(m[3][2], -0.20008003f, TOL);
 	EXPECT_NEAR(m[3][3], 0.0f, TOL);
 }
 
@@ -150,12 +150,14 @@ TEST(PerspectiveCameraKAT, NinetyDegreeFOV) {
 	EXPECT_NEAR(m[1][3], 0.0f, TOL);
 
 	float zz = 100.0f / 99.0f;
+	EXPECT_NEAR(m[2][0], 0.0f, TOL);
+	EXPECT_NEAR(m[2][1], 0, TOL);
 	EXPECT_NEAR(m[2][2], zz, TOL);
-	EXPECT_NEAR(m[2][3], -zz, TOL);
+	EXPECT_NEAR(m[2][3], 1.0f, TOL);
 
 	EXPECT_NEAR(m[3][0], 0.0f, TOL);
 	EXPECT_NEAR(m[3][1], 0.0f, TOL);
-	EXPECT_NEAR(m[3][2], 1.0f, TOL);
+	EXPECT_NEAR(m[3][2], -zz, TOL);
 	EXPECT_NEAR(m[3][3], 0.0f, TOL);
 }
 
