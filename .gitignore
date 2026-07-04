@@ -1,7 +1,7 @@
 # Directories
 .vs/
-bin
-bin-int/
+/bin
+/bin-int/
 
 #Files
 *.user
@@ -13,7 +13,6 @@ bin-int/
 *.recipe
 *.res
 
-*.txt
 *.enc
 *.idb
 *.pdb
