@@ -1,17 +1,19 @@
 #pragma once
 #include "gepch.h"
 #include "Component.h"
+#include "GameSmithEngine/Utilities/Factory/Factory.h"
 
 #define GE_REGISTERCOMPONENT(ClassType) \
 	 static struct ClassType##RegisterAction { \
 		ClassType##RegisterAction() { \
-			GameSmith::ComponentRegistry::GetInstance()->RegisterComponent( \
+			GameSmith::ComponentFactory::GetInstance()->Register( \
 				#ClassType, [](GameSmith::GameObject* g, GameSmith::Transform* t) {return new ClassType(g, t); } \
 			); \
 		} \
 	}ClassType##Instance;
 
 namespace GameSmith {
+	using ComponentFactory = Factory<Component, GameObject, GameObject*, Transform*>;
 	class GE_API ComponentRegistry {
 	public:
 		ComponentRegistry();
@@ -31,18 +33,5 @@ namespace GameSmith {
 		static Scope<ComponentRegistry> s_Instance;
 
 		std::unordered_map<std::string, std::function<Component* (GameObject*, Transform*)>> m_Generators;
-
-		friend class ComponentFactory;
-	};
-
-	class ComponentFactory {
-	protected:
-		static inline Ref<Component> GenerateComponent(std::string className, GameObject* go, Transform* t) {
-			auto i = ComponentRegistry::GetInstance();
-			auto generator = ComponentRegistry::s_Instance->m_Generators.find(className);
-			return Ref<Component>(generator->second(go, t));
-		}
-
-		friend class GameObject;
 	};
 };

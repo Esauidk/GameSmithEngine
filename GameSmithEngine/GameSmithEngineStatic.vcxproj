@@ -231,8 +231,6 @@
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\Util\DirectX12Util.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\DirectX12\Util\third-party\d3dx12.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\PipelineStateObjectManager.h" />
-    <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\BasicStructs.h" />
-    <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\BufferLayout.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Camera\Camera.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Camera\CameraShaderData.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Camera\OrthoCamera.h" />
@@ -242,6 +240,9 @@
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\LightingSystem\Sources\DirectionalLight.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\LightingSystem\Sources\PointLight.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\MaterialSystem\Material.h" />
+    <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Mesh\BufferLayout.h" />
+    <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Mesh\Mesh.h" />
+    <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Mesh\MeshGenerator.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\RenderComponents\ConstantBuffer.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\RenderComponents\IndexBuffer.h" />
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\RenderComponents\PipelineStateInitializer.h" />
@@ -283,10 +284,13 @@
     <ClInclude Include="src\GameSmithEngine\ThirdPartySetups\GLM\GLMDefines.h" />
     <ClInclude Include="src\GameSmithEngine\ThirdPartySetups\TinyObj\TinyObjLoaderWrapper.h" />
     <ClInclude Include="src\GameSmithEngine\Utilities\ExposedVariableRegistry.h" />
+    <ClInclude Include="src\GameSmithEngine\Utilities\Factory\Factory.h" />
+    <ClInclude Include="src\GameSmithEngine\Utilities\Factory\FactoryImpl.h" />
     <ClInclude Include="src\GameSmithEngine\Utilities\GUIDGenerator.h" />
     <ClInclude Include="src\GameSmithEngine\Utilities\Locks\Spinlock.h" />
     <ClInclude Include="src\GameSmithEngine\Utilities\MiscellaneousUtilities.h" />
     <ClInclude Include="src\GameSmithEngine\Utilities\ParameterContainer.h" />
+    <ClInclude Include="src\GameSmithEngine\Utilities\PassKey.h" />
     <ClInclude Include="src\GameSmithEngine\Utilities\ThreadSafeQueue.h" />
     <ClInclude Include="src\GameSmithEngine\Utilities\ThreadSafeVector.h" />
     <ClInclude Include="src\GameSmithEngine\Utilities\UtilMacros.h" />
@@ -856,6 +860,8 @@
     <ClCompile Include="src\GameSmithEngine\Rendering\RenderAgnostics\Camera\PerspectiveCamera.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\RenderAgnostics\LightingSystem\LightShaderData.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\RenderAgnostics\MaterialSystem\Material.cpp" />
+    <ClCompile Include="src\GameSmithEngine\Rendering\RenderAgnostics\Mesh\Mesh.cpp" />
+    <ClCompile Include="src\GameSmithEngine\Rendering\RenderAgnostics\Mesh\MeshGenerator.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\RenderAgnostics\RenderComponents\Shader.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\EngineShadersBuiltIn.cpp" />
     <ClCompile Include="src\GameSmithEngine\Rendering\RenderAgnostics\Shaders\SLab\ShaderMetadata.cpp" />
@@ -878,6 +884,7 @@
     <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\TestResource.cpp" />
     <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\TextureAsset.cpp" />
     <ClCompile Include="src\GameSmithEngine\Utilities\ExposedVariableRegistry.cpp" />
+    <ClCompile Include="src\GameSmithEngine\Utilities\Factory\Factory.cpp" />
     <ClCompile Include="src\GameSmithEngine\Utilities\GUIDGenerator.cpp" />
     <ClCompile Include="src\GameSmithEngine\Utilities\Locks\Spinlock.cpp" />
     <ClCompile Include="src\GameSmithEngine\Utilities\MiscellaneousUtilities.cpp" />

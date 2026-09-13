@@ -1,17 +1,9 @@
 #pragma once
 #include "Asset.h"
 #include "GameSmithEngine/Core/Core.h"
+#include "GameSmithEngine/Rendering/RenderAgnostics/Mesh/Mesh.h"
 
 namespace GameSmith {
-
-	class VertexBuffer;
-	class IndexBuffer;
-
-	struct SubMesh {
-		std::string m_SubMeshName;
-		Ref<IndexBuffer> m_Index;
-	};
-
 	class GE_API MeshAsset : public Asset
 	{
 	public:
@@ -21,14 +13,11 @@ namespace GameSmith {
 		virtual unsigned int RequiredSpace() const override;
 		virtual void Deserialize(char* inData, unsigned int size) override;
 
-		inline Ref<VertexBuffer> GetVerticies() { return m_Vert; }
-		inline SubMesh GetSubMesh(unsigned int index) { return m_SubMeshes[index]; }
-		inline unsigned int GetSubMeshSize() { return (unsigned int)m_SubMeshes.size(); }
+		inline Ref<Mesh> GetMesh() { return m_Mesh; }
 
 		SERIAL_FILE(Mesh, obj) // Temporarily take obj only asset
 	private:
-		Ref<VertexBuffer> m_Vert;
-		std::vector<SubMesh> m_SubMeshes;
+		Ref<Mesh> m_Mesh;
 	};
 };
 

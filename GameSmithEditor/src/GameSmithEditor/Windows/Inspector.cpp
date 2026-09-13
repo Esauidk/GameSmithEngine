@@ -91,16 +91,15 @@ namespace GameSmithEditor {
 
 				if (ImGui::BeginPopupModal("Component Picker")) {
 					if (ImGui::BeginListBox("Component Options", ImVec2(ImGui::GetWindowWidth(), ImGui::GetWindowHeight() * 0.5f))) {
-						auto compRegistry = GameSmith::ComponentRegistry::GetInstance();
+						auto compFactory = GameSmith::ComponentFactory::GetInstance();
 						std::vector<std::string> availableComps;
-						compRegistry->ListRegisteredComponents(&availableComps);
+						compFactory->GetRegisteredKeys(&availableComps);
 
-						for (auto entry : availableComps) {
+						for (const auto& entry : availableComps) {
 							if (ImGui::Selectable(entry.c_str(), entry == m_CurCompSelection)) {
 								m_CurCompSelection = entry;
 							}
 						}
-
 
 						ImGui::EndListBox();
 					}
@@ -141,7 +140,7 @@ namespace GameSmithEditor {
 
 			if (s_SelectedObject.lock().get()) {
 				m_Object = s_SelectedObject;
-				m_Object.lock()->GetComponents<GameSmith::Component>(&m_Components);
+				m_Object.lock()->GetComponents<GameSmith::IComponent>(&m_Components);
 
 				for (auto comp : m_Components) {
 					std::unordered_map<std::string, GameSmith::Ref<GameSmith::ParameterContainer>> compMap;

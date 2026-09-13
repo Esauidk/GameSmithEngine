@@ -18,7 +18,7 @@ namespace GameSmith {
 		void SetName(std::string newName);
 		inline Connection<Transform> GetTransform() { return m_Transform; }
 
-		Connection<Component> AddComponent(std::string componentName);
+		Connection<IComponent> AddComponent(std::string componentName);
 
 		template<typename T>
 		Connection<T> AddComponent() {
@@ -40,7 +40,7 @@ namespace GameSmith {
 
 		template<typename T>
 		Connection<T> GetComponent() {
-			for (Ref<Component> comp : m_Components) {
+			for (Ref<IComponent> comp : m_Components) {
 				auto cast = CastPtr<T>(comp);
 				if (cast != nullptr) {
 					return cast;
@@ -67,7 +67,7 @@ namespace GameSmith {
 		template<typename T>
 		void GetComponents(std::vector<Connection<T>>* outContainer) {
 
-			for (Ref<Component> comp : m_Components) {
+			for (Ref<IComponent> comp : m_Components) {
 				auto cast = CastPtr<T>(comp);
 				if (cast != nullptr) {
 					outContainer->push_back(cast);
@@ -86,7 +86,7 @@ namespace GameSmith {
 	private:
 		std::string m_Name;
 		Ref<Transform> m_Transform;
-		std::vector<Ref<Component>> m_Components;
+		std::vector<Ref<IComponent>> m_Components;
 
 		struct GameObjectSerialMetadata {
 			unsigned int numComponents;

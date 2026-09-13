@@ -1,5 +1,6 @@
 #include <gepch.h>
 #include "AssetFactory.h"
+#include "GameSmithEngine/Utilities/Factory/FactoryImpl.h"
 #include "GameSmithEngine/Core/Log.h"
 
 namespace GameSmith {
@@ -22,14 +23,6 @@ namespace GameSmith {
 		}
 	}
 
-	Ref<IAsset> AssetFactory::GenerateAsset(std::string ext, std::string fileName)
-	{
-		auto registry = AssetRegistry::GetInstance();
-
-		GE_CORE_ASSERT(registry->m_ExtToAsset.contains(ext), std::format("No definition for requested extention: {0}", ext));
-
-		auto entry = registry->m_ExtToAsset.find(ext);
-		return Ref<IAsset>(entry->second(fileName));
-	}
+	template class GE_API Factory<IAsset, AssetManager, std::string>;
 };
 

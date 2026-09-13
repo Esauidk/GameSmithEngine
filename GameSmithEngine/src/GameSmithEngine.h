@@ -30,8 +30,6 @@
 #include "GameSmithEngine/Rendering/RenderAgnostics/RenderComponents/Topology.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/RenderComponents/PipelineStateInitializer.h"
 
-#include "GameSmithEngine/Rendering/RenderAgnostics/BasicStructs.h"
-
 #include "GameSmithEngine/Rendering/RenderAgnostics/Camera/Camera.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/Camera/OrthoCamera.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/Camera/PerspectiveCamera.h"

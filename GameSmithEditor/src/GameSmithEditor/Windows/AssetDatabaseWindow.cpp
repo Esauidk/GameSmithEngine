@@ -20,7 +20,7 @@ namespace GameSmithEditor {
 			m_CurrentPath = std::filesystem::path(GameProject::GetAssetFolder());
 		}
 
-		m_RegisteredAssets = GameSmith::AssetRegistry::GetInstance()->ListRegisteredAssets();
+		m_RegisteredAssets = GameSmith::AssetFactory::GetInstance()->GetLabels();
 	}
 
 	void AssetDatabaseWindow::OnAttach(const GameSmith::ApplicationSpecs& specs)

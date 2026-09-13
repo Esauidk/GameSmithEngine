@@ -9,7 +9,7 @@ namespace GameSmith {
 
 	MeshRenderer::MeshRenderer(GameObject* gameObject, Transform* transform) : Component(gameObject, transform)
 	{
-		m_Registry.AddExposedAsset<MeshAsset>("Mesh", (Ref<GameSmith::IAsset>*)&m_Mesh, CLASS_TO_STRING(MeshAsset));
+		m_Registry.AddExposedAsset<MeshAsset>("Mesh", (Ref<GameSmith::IAsset>*)&m_MeshAsset, CLASS_TO_STRING(MeshAsset));
 		m_Registry.AddExposedAsset<MaterialAsset>("TestMat", (Ref<GameSmith::IAsset>*) &m_TestAsset, CLASS_TO_STRING(MaterialAsset));
 	}
 
@@ -17,15 +17,22 @@ namespace GameSmith {
 	{
 		auto renderPrep = EntityRenderPreparer::GetInstance();
 
-		if (renderPrep != nullptr && m_Mesh != nullptr) {
+		if (renderPrep != nullptr && m_MeshAsset != nullptr) {
 			auto transform = GetTransform();
-			unsigned int size = m_Mesh->GetSubMeshSize();
+			unsigned int size = m_MeshAsset->GetMesh()->GetSubMeshSize();
 			for (unsigned int i = 0; i < size; i++) {
 				if (m_Materials[i].first == nullptr) {
 					continue;
 				}
 				
-				renderPrep->AddRenderRequest({m_Mesh->GetVerticies(), m_Mesh->GetSubMesh(i).m_Index, m_Materials[i].first, *transform});
+				renderPrep->AddRenderRequest(
+					{
+						m_MeshAsset->GetMesh()->GetVertexBuffer(),
+						m_MeshAsset->GetMesh()->GetIndexBuffer(i).m_Index,
+						m_Materials[i].first,
+						*transform
+					}
+				);
 			}
 		}
 		else {
@@ -49,8 +56,8 @@ namespace GameSmith {
 
 	void MeshRenderer::PostRegistryBootstrap()
 	{
-		if (m_Mesh != nullptr) {
-			unsigned subMeshSize = m_Mesh->GetSubMeshSize();
+		if (m_MeshAsset != nullptr) {
+			unsigned subMeshSize = m_MeshAsset->GetMesh()->GetSubMeshSize();
 			if (subMeshSize != m_Materials.size()) {
 				m_Materials.resize(subMeshSize);
 			}

@@ -156,7 +156,6 @@
     <ClCompile Include="tst\GameSmithEngineTest\EngineConfiguration\ConfigManagerTest.cpp" />
     <ClCompile Include="tst\GameSmithEngineTest\EngineConfiguration\ConfigTests.cpp" />
     <ClCompile Include="tst\GameSmithEngineTest\EntitySystem\Components\CameraComponentTest.cpp" />
-    <ClCompile Include="tst\GameSmithEngineTest\EntitySystem\Components\ComponentFactoryTest.cpp" />
     <ClCompile Include="tst\GameSmithEngineTest\EntitySystem\Components\MeshRendererTest.cpp" />
     <ClCompile Include="tst\GameSmithEngineTest\EntitySystem\Components\TransformTest.cpp" />
     <ClCompile Include="tst\GameSmithEngineTest\EntitySystem\EntityRenderPreparerTest.cpp" />
@@ -176,8 +175,8 @@
     <ClCompile Include="tst\GameSmithEngineTest\Rendering\RenderAgnostics\Shaders\ShaderIncludeCacheTest.cpp" />
     <ClCompile Include="tst\GameSmithEngineTest\ResourceAssets\ShaderAssetTest.cpp" />
     <ClCompile Include="tst\GameSmithEngineTest\ResourceManagement\BinaryStreamTest.cpp" />
-    <ClCompile Include="tst\GameSmithEngineTest\SerializeableFiles\AssetFactoryTest.cpp" />
     <ClCompile Include="tst\GameSmithEngineTest\Utilities\ExposedVariableRegistryTest.cpp" />
+    <ClCompile Include="tst\GameSmithEngineTest\Utilities\FactoryTest.cpp" />
     <ClCompile Include="tst\GameSmithEngineTest\Utilities\GUIDGeneratorTest.cpp" />
     <ClCompile Include="tst\GameSmithEngineTest\Utilities\MiscUtilitiesTest.cpp" />
     <ClCompile Include="tst\GameSmithEngineTest\Utilities\ParameterContainerTest.cpp" />

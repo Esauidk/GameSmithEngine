@@ -1,6 +1,5 @@
 #pragma once
 #include "GameSmithEngine/Core/Core.h"
-#include "GameSmithEngine/Rendering/RenderAgnostics/BufferLayout.h"
 
 
 

@@ -1,5 +1,5 @@
 #include "gtest/gtest.h"
-#include "GameSmithEngine/Rendering/RenderAgnostics/BufferLayout.h"
+#include "GameSmithEngine/Rendering/RenderAgnostics/Mesh/BufferLayout.h"
 
 TEST(BufferLayoutTest, EmptyInitializerList) {
 	GameSmith::BufferLayoutBuilder builder({});

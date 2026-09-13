@@ -1,5 +1,6 @@
 #include "gepch.h"
 #include "ComponentFactory.h"
+#include "GameSmithEngine/Utilities/Factory/FactoryImpl.h"
 
 
 namespace GameSmith {
@@ -24,5 +25,7 @@ namespace GameSmith {
 			outVec->push_back(entry.first);
 		}
 	}
+
+	template class GE_API Factory<Component, GameObject, GameObject*, Transform*>;
 };
 

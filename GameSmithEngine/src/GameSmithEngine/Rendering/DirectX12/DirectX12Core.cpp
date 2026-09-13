@@ -2,7 +2,6 @@
 #include "DirectX12Core.h"
 
 #include "GameSmithEngine/Core/Log.h"
-#include "GameSmithEngine/Rendering/RenderAgnostics/BufferLayout.h"
 
 #pragma comment(lib, "d3d12.lib")
 #pragma comment(lib, "dxguid.lib")

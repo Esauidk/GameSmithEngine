@@ -1,20 +1,27 @@
 #pragma once
 
 #include <gepch.h>
+#include "GameSmithEngine/Utilities/Factory/Factory.h"
 #include "GameSmithEngine/SerializeableFiles/ResourceAssets/Asset.h"
 
 #define GE_REGISTERASSET(ClassType) \
 	 static struct ClassType##RegisterAction { \
 		ClassType##RegisterAction() { \
-			GameSmith::AssetRegistry::GetInstance()->RegisterAsset( \
+			auto factory = GameSmith::AssetFactory::GetInstance(); \
+			factory->Register( \
 				ClassType::GetStaticFileExtension(), \
-				ClassType::GetStaticFileType(), \
 				[](std::string name) {return new ClassType(name); } \
+			); \
+			factory->AssignLabel( \
+				ClassType::GetStaticFileExtension(), \
+				ClassType::GetStaticFileType() \
 			); \
 		} \
 	}ClassType##Instance;
 
 namespace GameSmith {
+	class AssetManager;
+	using AssetFactory = Factory<IAsset, AssetManager, std::string>;
 
 	class GE_API AssetRegistry {
 	public:
@@ -28,15 +35,6 @@ namespace GameSmith {
 
 		std::unordered_map<std::string, std::function<IAsset* (std::string)>> m_ExtToAsset;
 		std::vector<std::pair<std::string, std::string>> m_RegisteredAssets;
-
-		friend class AssetFactory;
-	};
-
-	class AssetFactory {
-	protected:
-		static Ref<IAsset> GenerateAsset(std::string ext, std::string fileName);
-
-		friend class AssetManager;
 	};
 };
 

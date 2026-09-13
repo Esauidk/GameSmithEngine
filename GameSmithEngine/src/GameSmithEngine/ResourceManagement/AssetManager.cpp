@@ -100,7 +100,7 @@ namespace GameSmith {
 		const fs::path filePathObj(filePath);
 		const std::string ext = filePathObj.extension().string();
 		const std::string fileNameNoExt = filePathObj.stem().string();
-		Ref<IAsset> asset = AssetFactory::GenerateAsset(ext, fileNameNoExt);
+		Ref<IAsset> asset = AssetFactory::GetInstance()->Create(PassKey<AssetManager>{}, ext, fileNameNoExt);
 
 		return WriteResource(asset, destDir);
 	}
@@ -242,7 +242,7 @@ namespace GameSmith {
 
 
 		const std::string ext = filePath.extension().string();
-		const Ref<IAsset> resource = AssetFactory::GenerateAsset(ext, fileName);
+		const Ref<IAsset> resource = AssetFactory::GetInstance()->Create(PassKey<AssetManager>{}, ext, fileName);
 		resource->Deserialize(data, size);
 
 		const ResourceFileMetadata* metaPtr = (ResourceFileMetadata*)meta;
@@ -270,7 +270,7 @@ namespace GameSmith {
 		const fs::path filePath(asset);
 		const std::string fileName = filePath.stem().string();
 		const std::string ext = filePath.extension().string();
-		const Ref<IAsset> resource = AssetFactory::GenerateAsset(ext, fileName);
+		const Ref<IAsset> resource = AssetFactory::GetInstance()->Create(PassKey<AssetManager>{}, ext, fileName);
 		resource->Deserialize(data, size);
 
 		m_ResourceMaps->ActivePathResources.insert({ asset, resource });

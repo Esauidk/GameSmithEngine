@@ -16,6 +16,7 @@ namespace GameSmithEditor {
 			s_EditorScreenTexture = renderManager->GetRenderAPI()->CreateRenderTexture(app.GetWindow()->GetWidth(), app.GetWindow()->GetHeight(), color);
 			GameSmith::RegisterEvent<GameSmith::WindowResizeEvent>(&GameSmith::Window::s_Resized, GE_BIND_EVENT_FN(GameSmith::RenderTexture::WindowResized, s_EditorScreenTexture.get()), false);
 			s_PerpCamera = GameSmith::PerspectiveCamera();
+			m_ViewHandleRenderer.SetTargetScreen(s_EditorScreenTexture);
 		}
 		
 		m_EditorViewHandle = app.GetImGuiInstance()->GenerateTextureSpace(s_EditorScreenTexture);
@@ -23,7 +24,17 @@ namespace GameSmithEditor {
 
 	void EditorView::OnImGuiRender()
 	{
-		if (ImGui::Begin("Editor View", &m_Open)) {
+		if (ImGui::Begin("Editor View", &m_Open, ImGuiWindowFlags_MenuBar)) {
+			if (ImGui::BeginMenuBar()) {
+				if (ImGui::BeginMenu("Handles")) {
+					m_ViewHandleRenderer.DrawHandleMenu();
+					ImGui::EndMenu();
+				}
+				ImGui::EndMenuBar();
+			}
+
+			m_ViewHandleRenderer.OnImGuiRender();
+
 			ImTextureRef texRef = ImTextureRef((ImTextureID)m_EditorViewHandle->gpuSpot);
 			ImGui::Image(texRef, ImVec2(ImGui::GetWindowWidth(), ImGui::GetWindowHeight()));
 
@@ -51,6 +62,7 @@ namespace GameSmithEditor {
 		renderCam.targetTex = s_EditorScreenTexture;
 		entityPreparer->AddAdditionalCamera(renderCam);
 
+		m_ViewHandleRenderer.Update(dt);
 		if (m_Dragging) {
 			auto& perCamTrans = s_PerpCamera.GetTransform();
 			glm::vec3 curPosition = perCamTrans.GetPosition();

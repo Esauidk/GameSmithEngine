@@ -19,7 +19,7 @@ namespace GameSmithEditor {
 		std::string m_SelectedAsset = "";
 		bool m_Open = true;
 
-		std::vector<std::pair<std::string, std::string>> m_RegisteredAssets;
+		std::unordered_map<std::string, std::string> m_RegisteredAssets;
 	};
 }
 

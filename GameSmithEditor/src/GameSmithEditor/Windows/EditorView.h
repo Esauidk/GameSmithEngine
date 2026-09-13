@@ -1,6 +1,7 @@
 #pragma once
 #include "GameSmithEngine.h"
 #include "EditorWindow.h"
+#include "EditorView/Handle/ViewHandleRenderer.h"
 
 #define DEFAULT_SENSITIVITY 1
 namespace GameSmithEditor {
@@ -21,5 +22,6 @@ namespace GameSmithEditor {
 		glm::vec2 m_DragDir;
 
 		float m_DragSensitivity = DEFAULT_SENSITIVITY;
+		ViewHandleRenderer m_ViewHandleRenderer;
 	};
 };

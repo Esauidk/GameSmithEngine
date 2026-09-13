@@ -89,9 +89,6 @@
     <ClCompile Include="tst\GameSmithEngineTest\EntitySystem\Components\CameraComponentTest.cpp">
       <Filter>GameSmithEngineTest\EntitySystem\Components</Filter>
     </ClCompile>
-    <ClCompile Include="tst\GameSmithEngineTest\EntitySystem\Components\ComponentFactoryTest.cpp">
-      <Filter>GameSmithEngineTest\EntitySystem\Components</Filter>
-    </ClCompile>
     <ClCompile Include="tst\GameSmithEngineTest\EntitySystem\Components\MeshRendererTest.cpp">
       <Filter>GameSmithEngineTest\EntitySystem\Components</Filter>
     </ClCompile>
@@ -149,9 +146,6 @@
     <ClCompile Include="tst\GameSmithEngineTest\ResourceManagement\BinaryStreamTest.cpp">
       <Filter>GameSmithEngineTest\ResourceManagement</Filter>
     </ClCompile>
-    <ClCompile Include="tst\GameSmithEngineTest\SerializeableFiles\AssetFactoryTest.cpp">
-      <Filter>GameSmithEngineTest\SerializeableFiles</Filter>
-    </ClCompile>
     <ClCompile Include="tst\GameSmithEngineTest\Utilities\ExposedVariableRegistryTest.cpp">
       <Filter>GameSmithEngineTest\Utilities</Filter>
     </ClCompile>
@@ -174,5 +168,6 @@
       <Filter>GameSmithEngineTest\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="tst\TestEntry.cpp" />
+    <ClCompile Include="tst\GameSmithEngineTest\Utilities\FactoryTest.cpp" />
   </ItemGroup>
 </Project>

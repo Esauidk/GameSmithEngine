@@ -169,6 +169,10 @@ cmd /c robocopy "$(SolutionDir)\GameSmithEditor\ProjectPresets" "$(SolutionDir)\
     <ClInclude Include="src\GameSmithEditor\Windows\AssetDatabaseWindow.h" />
     <ClInclude Include="src\GameSmithEditor\Windows\ContentView.h" />
     <ClInclude Include="src\GameSmithEditor\Windows\EditorView.h" />
+    <ClInclude Include="src\GameSmithEditor\Windows\EditorView\Handle\HandleRegistry.h" />
+    <ClInclude Include="src\GameSmithEditor\Windows\EditorView\Handle\SampleHandle.h" />
+    <ClInclude Include="src\GameSmithEditor\Windows\EditorView\Handle\ViewHandle.h" />
+    <ClInclude Include="src\GameSmithEditor\Windows\EditorView\Handle\ViewHandleRenderer.h" />
     <ClInclude Include="src\GameSmithEditor\Windows\EditorWindow.h" />
     <ClInclude Include="src\GameSmithEditor\Windows\EditorWindowEvents.h" />
     <ClInclude Include="src\GameSmithEditor\Windows\GameViewLayer.h" />
@@ -191,6 +195,9 @@ cmd /c robocopy "$(SolutionDir)\GameSmithEditor\ProjectPresets" "$(SolutionDir)\
     <ClCompile Include="src\GameSmithEditor\Windows\AssetDatabaseWindow.cpp" />
     <ClCompile Include="src\GameSmithEditor\Windows\ContentView.cpp" />
     <ClCompile Include="src\GameSmithEditor\Windows\EditorView.cpp" />
+    <ClCompile Include="src\GameSmithEditor\Windows\EditorView\Handle\HandleRegistry.cpp" />
+    <ClCompile Include="src\GameSmithEditor\Windows\EditorView\Handle\SampleHandle.cpp" />
+    <ClCompile Include="src\GameSmithEditor\Windows\EditorView\Handle\ViewHandleRenderer.cpp" />
     <ClCompile Include="src\GameSmithEditor\Windows\GameViewLayer.cpp" />
     <ClCompile Include="src\GameSmithEditor\Windows\Inspector.cpp" />
     <ClCompile Include="src\GameSmithEditor\Windows\PrivateWindows\AssetInspector.cpp" />

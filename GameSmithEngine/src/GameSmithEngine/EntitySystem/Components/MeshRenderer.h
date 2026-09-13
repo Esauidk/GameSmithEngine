@@ -13,16 +13,14 @@ namespace GameSmith {
 		virtual int GetPriority() const override { return 0; };
 		virtual std::string GetName() const override { return "MeshRenderer"; };
 
-		void SetMesh(Ref<MeshAsset> newMesh) { m_Mesh = newMesh; m_Materials.resize(m_Mesh->GetSubMeshSize()); }
+		void SetMesh(Ref<MeshAsset> newMeshAsset) { m_MeshAsset = newMeshAsset; m_Materials.resize(m_MeshAsset->GetMesh()->GetSubMeshSize()); }
 		void SetMaterial(unsigned int index, Ref<MaterialAsset> mat);
-		unsigned int GetMaterialSlots() { return m_Mesh->GetSubMeshSize(); }
+		unsigned int GetMaterialSlots() { return m_MeshAsset->GetMesh()->GetSubMeshSize(); }
 		void PostRegistryBootstrap() override;
 
 	private:
-		Ref<MeshAsset> m_Mesh;
+		Ref<MeshAsset> m_MeshAsset;
 		Ref<MaterialAsset> m_TestAsset;
 		std::vector<std::pair<Ref<Material>, Ref<MaterialAsset>>> m_Materials;
 	};
-
-	
 };

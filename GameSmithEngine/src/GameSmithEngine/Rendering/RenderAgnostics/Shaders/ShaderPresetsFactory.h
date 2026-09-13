@@ -14,6 +14,7 @@
 	}ShaderName##Instance;
 
 namespace GameSmith {
+// TODO: Migrate this factory to factory template
 	class GE_API ShaderPresetFactory {
 	public:
 		static ShaderPresetFactory* GetInstance();

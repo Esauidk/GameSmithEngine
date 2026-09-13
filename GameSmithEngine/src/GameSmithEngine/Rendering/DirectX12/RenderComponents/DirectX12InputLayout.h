@@ -1,5 +1,5 @@
 #pragma once
-#include "GameSmithEngine/Rendering/RenderAgnostics/BufferLayout.h"
+#include "GameSmithEngine/Rendering/RenderAgnostics/Mesh/BufferLayout.h"
 #include "GameSmithEngine/Core/Core.h"
 #include <d3d12.h>
 

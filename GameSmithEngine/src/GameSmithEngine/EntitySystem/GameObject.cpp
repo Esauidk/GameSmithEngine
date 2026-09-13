@@ -18,9 +18,9 @@ namespace GameSmith {
 		m_Name = newName;
 	}
 
-	Connection<Component> GameObject::AddComponent(std::string componentName)
+	Connection<IComponent> GameObject::AddComponent(std::string componentName)
 	{
-		auto comp = ComponentFactory::GenerateComponent(componentName, this, m_Transform.get());
+		auto comp = ComponentFactory::GetInstance()->Create(PassKey<GameObject>{}, componentName, this, m_Transform.get());
 
 		auto updater = GameplayUpdater::GetInstance();
 

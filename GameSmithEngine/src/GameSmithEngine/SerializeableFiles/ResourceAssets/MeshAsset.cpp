@@ -1,7 +1,6 @@
 #include "gepch.h"
 #include "AssetFactory.h"
 #include "GameSmithEngine/Core/Log.h"
-#include "GameSmithEngine/Rendering/RenderAgnostics/BasicStructs.h"
 #include "GameSmithEngine/Rendering/RenderingManager.h"
 #include "GameSmithEngine/ThirdPartySetups/TinyObj/TinyObjLoaderWrapper.h"
 #include "MeshAsset.h"
@@ -36,12 +35,12 @@ namespace GameSmith {
 
 		GE_CORE_ASSERT(shapes[0].mesh.num_face_vertices[0] == 3, "This model does not use triangles");
 
-		std::vector<VertexStruct> verticies;
-		std::vector<unsigned int> indicies;
+		std::vector<VertexData> verticies;
+		std::vector<SubMesh> subMeshes;
 		std::unordered_set<unsigned int> viewedIndicies;
 
 		for (size_t i = 0; i < attrib.vertices.size() / 3; i++) {
-			VertexStruct vertex;
+			VertexData vertex;
 
 			vertex.pos = {
 				attrib.vertices[3 * i],
@@ -51,18 +50,15 @@ namespace GameSmith {
 			verticies.push_back(vertex);
 		}
 
-		auto rManager = RenderingManager::GetInstance();
-		GE_CORE_ASSERT(rManager != nullptr, "Cannot load mesh without render manager");
-
 		for (size_t s = 0; s < shapes.size(); s++) {
-			indicies.clear();
+			std::vector<unsigned int> indicies;
+
 			for (size_t i = 0; i < shapes[s].mesh.indices.size(); i++) {
 				tinyobj::index_t idx = shapes[s].mesh.indices[i];
 
 				bool newVert = (viewedIndicies.find(idx.vertex_index) == viewedIndicies.end());
-
 				if (newVert) {
-					VertexStruct& v = verticies[idx.vertex_index];
+					VertexData& v = verticies[idx.vertex_index];
 
 					if (attrib.normals.size() > 0) {
 						v.normal = {
@@ -92,19 +88,10 @@ namespace GameSmith {
 				indicies.push_back(idx.vertex_index);
 			}
 
-			auto index = rManager->GetRenderAPI()->CreateIndexBuffer(
-				indicies.data(),
-				(unsigned int)indicies.size()
-			);
-
-			m_SubMeshes.emplace_back(shapes[s].name, index);
+			subMeshes.emplace_back(shapes[s].name, indicies);
 		}
 
-		m_Vert = rManager->GetRenderAPI()->CreateVertexBuffer(
-			(BYTE*)verticies.data(),
-			sizeof(VertexStruct),
-			(int)verticies.size()
-		);
+		m_Mesh = Ref<Mesh>(new Mesh(verticies, subMeshes) );
 	}
 
 };

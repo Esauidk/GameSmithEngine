@@ -97,6 +97,9 @@
     <Filter Include="src\GameSmithEngine\Rendering\RenderAgnostics\MaterialSystem">
       <UniqueIdentifier>{1B6DBEBB-07D8-7EC7-B0F3-E32C9C3D42AA}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\GameSmithEngine\Rendering\RenderAgnostics\Mesh">
+      <UniqueIdentifier>{141CDF49-00B0-D4F1-6974-2EA655270FE4}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\GameSmithEngine\Rendering\RenderAgnostics\RenderComponents">
       <UniqueIdentifier>{AD7D9614-9953-1D12-82FD-37656E7250B3}</UniqueIdentifier>
     </Filter>
@@ -138,6 +141,9 @@
     </Filter>
     <Filter Include="src\GameSmithEngine\Utilities">
       <UniqueIdentifier>{DCE80E8F-4801-F6B8-11AE-85527D858A52}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GameSmithEngine\Utilities\Factory">
+      <UniqueIdentifier>{231970F4-8FDD-6EE4-5843-9FAEC4C60A1A}</UniqueIdentifier>
     </Filter>
     <Filter Include="src\GameSmithEngine\Utilities\Locks">
       <UniqueIdentifier>{276BE982-9324-542D-1C84-6E07883C0A9D}</UniqueIdentifier>
@@ -483,12 +489,6 @@
     <ClInclude Include="src\GameSmithEngine\Rendering\PipelineStateObjectManager.h">
       <Filter>src\GameSmithEngine\Rendering</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\BasicStructs.h">
-      <Filter>src\GameSmithEngine\Rendering\RenderAgnostics</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\BufferLayout.h">
-      <Filter>src\GameSmithEngine\Rendering\RenderAgnostics</Filter>
-    </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Camera\Camera.h">
       <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\Camera</Filter>
     </ClInclude>
@@ -515,6 +515,15 @@
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\MaterialSystem\Material.h">
       <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\MaterialSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Mesh\BufferLayout.h">
+      <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Mesh\Mesh.h">
+      <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\Mesh</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\Mesh\MeshGenerator.h">
+      <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\Mesh</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Rendering\RenderAgnostics\RenderComponents\ConstantBuffer.h">
       <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\RenderComponents</Filter>
@@ -639,6 +648,12 @@
     <ClInclude Include="src\GameSmithEngine\Utilities\ExposedVariableRegistry.h">
       <Filter>src\GameSmithEngine\Utilities</Filter>
     </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\Utilities\Factory\Factory.h">
+      <Filter>src\GameSmithEngine\Utilities\Factory</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\Utilities\Factory\FactoryImpl.h">
+      <Filter>src\GameSmithEngine\Utilities\Factory</Filter>
+    </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Utilities\GUIDGenerator.h">
       <Filter>src\GameSmithEngine\Utilities</Filter>
     </ClInclude>
@@ -649,6 +664,9 @@
       <Filter>src\GameSmithEngine\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Utilities\ParameterContainer.h">
+      <Filter>src\GameSmithEngine\Utilities</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\Utilities\PassKey.h">
       <Filter>src\GameSmithEngine\Utilities</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\Utilities\ThreadSafeQueue.h">
@@ -2354,6 +2372,12 @@
     <ClCompile Include="src\GameSmithEngine\Rendering\RenderAgnostics\MaterialSystem\Material.cpp">
       <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\MaterialSystem</Filter>
     </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\Rendering\RenderAgnostics\Mesh\Mesh.cpp">
+      <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\Mesh</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\Rendering\RenderAgnostics\Mesh\MeshGenerator.cpp">
+      <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\Mesh</Filter>
+    </ClCompile>
     <ClCompile Include="src\GameSmithEngine\Rendering\RenderAgnostics\RenderComponents\Shader.cpp">
       <Filter>src\GameSmithEngine\Rendering\RenderAgnostics\RenderComponents</Filter>
     </ClCompile>
@@ -2419,6 +2443,9 @@
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\Utilities\ExposedVariableRegistry.cpp">
       <Filter>src\GameSmithEngine\Utilities</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\Utilities\Factory\Factory.cpp">
+      <Filter>src\GameSmithEngine\Utilities\Factory</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\Utilities\GUIDGenerator.cpp">
       <Filter>src\GameSmithEngine\Utilities</Filter>

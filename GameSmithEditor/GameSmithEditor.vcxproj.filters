@@ -19,6 +19,12 @@
     <Filter Include="Windows">
       <UniqueIdentifier>{5032B729-BC11-36C5-C529-C19B31889C26}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Windows\EditorView">
+      <UniqueIdentifier>{41FDAB04-2DE1-6C5A-9641-67AD824457DC}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Windows\EditorView\Handle">
+      <UniqueIdentifier>{1C516293-8813-961D-D1C3-24AA3DC56EFB}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Windows\PrivateWindows">
       <UniqueIdentifier>{E5C83B5E-D1C2-64B0-BA2F-FBC0A6C8CA1C}</UniqueIdentifier>
     </Filter>
@@ -65,6 +71,18 @@
     </ClInclude>
     <ClInclude Include="src\GameSmithEditor\Windows\EditorView.h">
       <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEditor\Windows\EditorView\Handle\HandleRegistry.h">
+      <Filter>Windows\EditorView\Handle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEditor\Windows\EditorView\Handle\SampleHandle.h">
+      <Filter>Windows\EditorView\Handle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEditor\Windows\EditorView\Handle\ViewHandle.h">
+      <Filter>Windows\EditorView\Handle</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEditor\Windows\EditorView\Handle\ViewHandleRenderer.h">
+      <Filter>Windows\EditorView\Handle</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEditor\Windows\EditorWindow.h">
       <Filter>Windows</Filter>
@@ -127,6 +145,15 @@
     </ClCompile>
     <ClCompile Include="src\GameSmithEditor\Windows\EditorView.cpp">
       <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEditor\Windows\EditorView\Handle\HandleRegistry.cpp">
+      <Filter>Windows\EditorView\Handle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEditor\Windows\EditorView\Handle\SampleHandle.cpp">
+      <Filter>Windows\EditorView\Handle</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEditor\Windows\EditorView\Handle\ViewHandleRenderer.cpp">
+      <Filter>Windows\EditorView\Handle</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEditor\Windows\GameViewLayer.cpp">
       <Filter>Windows</Filter>
