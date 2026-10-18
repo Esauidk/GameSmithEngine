@@ -1,5 +1,6 @@
 #include "IconManager.h"
 #include "GameSmithEditor/Core/GameProject.h"
+#include "GameSmithEditor/Core/CoreMacros.h"
 
 #include <filesystem>
 
@@ -25,55 +26,49 @@ namespace GameSmithEditor {
 
 	GameSmith::Ref<GameSmith::Texture2D> IconManager::GetIcon(std::string fileExtention)
 	{
-		if (GameProject::IsLoaded()) {
+		if (m_IconMap.contains(fileExtention)) {
+			return m_IconMap.find(fileExtention)->second.assetRef->GetTexture();
+		}
+		else {
+			FindIcon(fileExtention);
+
 			if (m_IconMap.contains(fileExtention)) {
 				return m_IconMap.find(fileExtention)->second.assetRef->GetTexture();
 			}
-			else {
-				FindIcon(fileExtention);
-				
-				if (m_IconMap.contains(fileExtention)) {
-					return m_IconMap.find(fileExtention)->second.assetRef->GetTexture();
-				}
 
-				return GameSmith::Ref<GameSmith::Texture2D>();
-			}
-		}
-		else {
 			return GameSmith::Ref<GameSmith::Texture2D>();
 		}
 	}
 
 	const GameSmith::ImGuiTextureSpace* IconManager::GetImGuiIcon(std::string fileExtention)
 	{
-		if (GameProject::IsLoaded()) {
+		if (m_IconMap.contains(fileExtention)) {
+			return m_IconMap.find(fileExtention)->second.imguiRef;
+		}
+		else {
+			FindIcon(fileExtention);
+
 			if (m_IconMap.contains(fileExtention)) {
 				return m_IconMap.find(fileExtention)->second.imguiRef;
 			}
-			else {
-				FindIcon(fileExtention);
 
-				if (m_IconMap.contains(fileExtention)) {
-					return m_IconMap.find(fileExtention)->second.imguiRef;
-				}
-
-				return nullptr;
-			}
-		}
-		else {
 			return nullptr;
 		}
 	}
 
 	void IconManager::FindIcon(std::string fileExtention)
 	{
-		auto editorIconRoot = std::format("{0}/{1}", GameProject::GetEditorResourceFolder(), "/Icons");
+		auto assetManager = GameSmith::AssetManager::GetInstance();
+		const auto& resourceRegistry = assetManager->GetAssetDirectories();
+		
+		GE_APP_ASSERT(resourceRegistry.contains(EDITOR_BUILTIN_ASSETS_FOLDER), "No EditorResource database registered in the asset manager");
+		auto editorIconRoot = std::format("{0}\\{1}", resourceRegistry.at(EDITOR_BUILTIN_ASSETS_FOLDER), "Icons");
 		if (std::filesystem::exists(editorIconRoot)) {
 			for (const auto& dirEntry : recursive_directory_iterator(editorIconRoot)) {
 				auto fileName = dirEntry.path().filename().string();
 				if (fileName.starts_with(fileExtention)) {
-					auto resourceManager = GameSmith::AssetManager::GetInstance();
-					auto icon = resourceManager->GetResource<GameSmith::TextureAsset>(dirEntry.path().string());
+					const auto assetID = assetManager->GetAssetID(dirEntry.path().string());
+					auto icon = assetManager->GetResource<GameSmith::TextureAsset>(assetID);
 					auto imGUITex = GameSmith::Application::Get().GetImGuiInstance()->GenerateTextureSpace(icon->GetTexture());
 					m_IconMap.insert({ fileExtention, {imGUITex, icon } });
 					break;

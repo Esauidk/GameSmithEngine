@@ -78,7 +78,7 @@
     <ClCompile>
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
-      <PreprocessorDefinitions>GE_DYNAMIC_LINK;GE_PLATFORM_WINDOWS;GE_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
+      <PreprocessorDefinitions>GE_DYNAMIC_LINK;GE_PLATFORM_WINDOWS;GE_DEBUG;GE_EDITOR_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <AdditionalIncludeDirectories>src;..\GameSmithEngine\third-party\spdlog\include;..\GameSmithEngine\src;..\GameSmithEngine\third-party\glm;..\GameSmithEngine\third-party\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
@@ -94,7 +94,7 @@
     <ProjectReference>
     </ProjectReference>
     <PostBuildEvent>
-      <Command>cmd /c robocopy "$(SolutionDir)\GameSmithEditor\Icons" "$(SolutionDir)\bin\Debug-windows-x86_64\GameSmithEditor\Icons" /E ^&amp; if %ERRORLEVEL% LSS 2 exit /b 0 ^&amp; exit /b %ERRORLEVEL%
+      <Command>cmd /c robocopy "$(SolutionDir)\GameSmithEditor\EditorResources" "$(SolutionDir)\bin\Debug-windows-x86_64\GameSmithEditor\EditorResources" /E ^&amp; if %ERRORLEVEL% LSS 2 exit /b 0 ^&amp; exit /b %ERRORLEVEL%
 cmd /c robocopy "$(SolutionDir)\GameSmithEditor\ProjectPresets" "$(SolutionDir)\bin\Debug-windows-x86_64\GameSmithEditor\ProjectPresets" /E ^&amp; if %ERRORLEVEL% LSS 2 exit /b 0 ^&amp; exit /b %ERRORLEVEL%</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -122,7 +122,7 @@ cmd /c robocopy "$(SolutionDir)\GameSmithEditor\ProjectPresets" "$(SolutionDir)\
     <ProjectReference>
     </ProjectReference>
     <PostBuildEvent>
-      <Command>cmd /c robocopy "$(SolutionDir)\GameSmithEditor\Icons" "$(SolutionDir)\bin\Release-windows-x86_64\GameSmithEditor\Icons" /E ^&amp; if %ERRORLEVEL% LSS 2 exit /b 0 ^&amp; exit /b %ERRORLEVEL%
+      <Command>cmd /c robocopy "$(SolutionDir)\GameSmithEditor\EditorResources" "$(SolutionDir)\bin\Release-windows-x86_64\GameSmithEditor\EditorResources" /E ^&amp; if %ERRORLEVEL% LSS 2 exit /b 0 ^&amp; exit /b %ERRORLEVEL%
 cmd /c robocopy "$(SolutionDir)\GameSmithEditor\ProjectPresets" "$(SolutionDir)\bin\Release-windows-x86_64\GameSmithEditor\ProjectPresets" /E ^&amp; if %ERRORLEVEL% LSS 2 exit /b 0 ^&amp; exit /b %ERRORLEVEL%</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
@@ -150,11 +150,12 @@ cmd /c robocopy "$(SolutionDir)\GameSmithEditor\ProjectPresets" "$(SolutionDir)\
     <ProjectReference>
     </ProjectReference>
     <PostBuildEvent>
-      <Command>cmd /c robocopy "$(SolutionDir)\GameSmithEditor\Icons" "$(SolutionDir)\bin\Dist-windows-x86_64\GameSmithEditor\Icons" /E ^&amp; if %ERRORLEVEL% LSS 2 exit /b 0 ^&amp; exit /b %ERRORLEVEL%
+      <Command>cmd /c robocopy "$(SolutionDir)\GameSmithEditor\EditorResources" "$(SolutionDir)\bin\Dist-windows-x86_64\GameSmithEditor\EditorResources" /E ^&amp; if %ERRORLEVEL% LSS 2 exit /b 0 ^&amp; exit /b %ERRORLEVEL%
 cmd /c robocopy "$(SolutionDir)\GameSmithEditor\ProjectPresets" "$(SolutionDir)\bin\Dist-windows-x86_64\GameSmithEditor\ProjectPresets" /E ^&amp; if %ERRORLEVEL% LSS 2 exit /b 0 ^&amp; exit /b %ERRORLEVEL%</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\GameSmithEditor\Core\CoreMacros.h" />
     <ClInclude Include="src\GameSmithEditor\Core\EditorCoreLayer.h" />
     <ClInclude Include="src\GameSmithEditor\Core\EditorMenu.h" />
     <ClInclude Include="src\GameSmithEditor\Core\GameProject.h" />
@@ -168,6 +169,7 @@ cmd /c robocopy "$(SolutionDir)\GameSmithEditor\ProjectPresets" "$(SolutionDir)\
     <ClInclude Include="src\GameSmithEditor\Windows\AccessibleWindows.h" />
     <ClInclude Include="src\GameSmithEditor\Windows\AssetDatabaseWindow.h" />
     <ClInclude Include="src\GameSmithEditor\Windows\ContentView.h" />
+    <ClInclude Include="src\GameSmithEditor\Windows\Debug\PrimitiveCreatorWindow.h" />
     <ClInclude Include="src\GameSmithEditor\Windows\EditorView.h" />
     <ClInclude Include="src\GameSmithEditor\Windows\EditorView\Handle\HandleRegistry.h" />
     <ClInclude Include="src\GameSmithEditor\Windows\EditorView\Handle\SampleHandle.h" />
@@ -194,6 +196,7 @@ cmd /c robocopy "$(SolutionDir)\GameSmithEditor\ProjectPresets" "$(SolutionDir)\
     <ClCompile Include="src\GameSmithEditor\Utils\SystemCallUtils.cpp" />
     <ClCompile Include="src\GameSmithEditor\Windows\AssetDatabaseWindow.cpp" />
     <ClCompile Include="src\GameSmithEditor\Windows\ContentView.cpp" />
+    <ClCompile Include="src\GameSmithEditor\Windows\Debug\PrimitiveCreatorWindow.cpp" />
     <ClCompile Include="src\GameSmithEditor\Windows\EditorView.cpp" />
     <ClCompile Include="src\GameSmithEditor\Windows\EditorView\Handle\HandleRegistry.cpp" />
     <ClCompile Include="src\GameSmithEditor\Windows\EditorView\Handle\SampleHandle.cpp" />

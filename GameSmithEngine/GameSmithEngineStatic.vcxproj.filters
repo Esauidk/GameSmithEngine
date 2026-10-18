@@ -127,6 +127,12 @@
     <Filter Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets">
       <UniqueIdentifier>{79567AD4-E572-6CC5-AE4A-D9321A26D686}</UniqueIdentifier>
     </Filter>
+    <Filter Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\MeshFiles">
+      <UniqueIdentifier>{E80C37EC-54A0-989A-5D87-0851C9992F62}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\MeshFiles\MeshSerializers">
+      <UniqueIdentifier>{F1467BD5-5D32-8E36-660B-95AFD2758B74}</UniqueIdentifier>
+    </Filter>
     <Filter Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes">
       <UniqueIdentifier>{74095786-E027-6B53-29F5-70659552A65C}</UniqueIdentifier>
     </Filter>
@@ -618,8 +624,17 @@
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\MaterialAsset.h">
       <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\MeshAsset.h">
-      <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets</Filter>
+    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\MeshFiles\MeshAsset.h">
+      <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets\MeshFiles</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\MeshFiles\MeshSerializers\MeshSerializer.h">
+      <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets\MeshFiles\MeshSerializers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\MeshFiles\MeshSerializers\ObjMeshSerializer.h">
+      <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets\MeshFiles\MeshSerializers</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\MeshFiles\ObjMeshAsset.h">
+      <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets\MeshFiles</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes\HLSLAsset.h">
       <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes</Filter>
@@ -2423,8 +2438,14 @@
     <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\MaterialAsset.cpp">
       <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\MeshAsset.cpp">
-      <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets</Filter>
+    <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\MeshFiles\MeshAsset.cpp">
+      <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets\MeshFiles</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\MeshFiles\MeshSerializers\ObjMeshSerializer.cpp">
+      <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets\MeshFiles\MeshSerializers</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\MeshFiles\ObjMeshAsset.cpp">
+      <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets\MeshFiles</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes\HLSLAsset.cpp">
       <Filter>src\GameSmithEngine\SerializeableFiles\ResourceAssets\ShaderTypes</Filter>

@@ -15,7 +15,7 @@ namespace GameSmith {
 	void JsonFile::Serialize(char* byteStream, unsigned int availableBytes)
 	{
 		BinaryStreamWriter writer(byteStream, availableBytes);
-		writer.WriteString(m_JsonString);
+		writer.WriteStringNullTerm(m_JsonString);
 	}
 
 	unsigned int JsonFile::RequiredSpace() const

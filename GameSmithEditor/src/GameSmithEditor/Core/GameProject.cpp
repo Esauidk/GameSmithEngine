@@ -28,7 +28,8 @@ namespace GameSmithEditor {
 
 	static void SetupProjectResources() {
 		auto resourceManager = GameSmith::AssetManager::GetInstance();
-		resourceManager->SetAssetDirectory(GameProject::GetAssetFolder());
+		resourceManager->AddAssetDirectory(PROJECT_ASSET_FOLDER_NAME, GameProject::GetAssetFolder());
+		resourceManager->SetMainAssetDirectory(PROJECT_ASSET_FOLDER_NAME);
 		resourceManager->ScanResources();
 
 		auto contentLibraryManager = GameSmith::ContentLibraryManager::GetInstance();
@@ -126,7 +127,7 @@ namespace GameSmithEditor {
 		unsigned int size = RequiredSpace();
 		GE_CORE_ASSERT(availableBytes >= size, "Not enough bytes to serialize GameProject structure");
 		GameSmith::BinaryStreamWriter writer(byteStream, availableBytes);
-		writer.WriteString(m_ProjectName);
+		writer.WriteStringNullTerm(m_ProjectName);
 	}
 
 	unsigned int GameProject::RequiredSpace() const

@@ -3,6 +3,9 @@
 #include "GameSmithEditor/Core/GameProject.h"
 #include "GameSmithEditor/Windows/AccessibleWindows.h"
 #include "imgui.h"
+#include "GameSmithEditor/Core/CoreMacros.h"
+
+namespace fs = std::filesystem;
 
 namespace GameSmithEditor {
 	EditorCoreLayer* EditorCoreLayer::s_Instance = nullptr;
@@ -32,6 +35,11 @@ namespace GameSmithEditor {
 		ImGui::SetCurrentContext(ImGuiInstance->GetImGuiContext());
 
 		ImGuiInstance->SetDockspace(true);
+
+		auto resourceManager = GameSmith::AssetManager::GetInstance();
+		std::string editorAssetsPath = std::format("{}\\{}", fs::current_path().string(), EDITOR_BUILTIN_ASSETS_FOLDER);
+		resourceManager->AddAssetDirectory(EDITOR_BUILTIN_ASSETS_FOLDER, editorAssetsPath);
+		resourceManager->ScanResources();
 	}
 
 	void EditorCoreLayer::OnImGuiRender()

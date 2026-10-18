@@ -22,6 +22,7 @@
 // ------------Renderer---------------
 #include "GameSmithEngine/Rendering/RenderingManager.h"
 
+#include "GameSmithEngine/Rendering/RenderAgnostics/Mesh/MeshGenerator.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/RenderComponents/VertexBuffer.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/RenderComponents/IndexBuffer.h"
 #include "GameSmithEngine/Rendering/RenderAgnostics/RenderComponents/ConstantBuffer.h"
@@ -69,7 +70,7 @@
 #include "GameSmithEngine/SerializeableFiles/ResourceAssets/MaterialAsset.h"
 #include "GameSmithEngine/SerializeableFiles/ResourceAssets/ShaderTypes/ShaderAsset.h"
 #include "GameSmithEngine/SerializeableFiles/ResourceAssets/ShaderTypes/HLSLAsset.h"
-#include "GameSmithEngine/SerializeableFiles/ResourceAssets/MeshAsset.h"
+#include "GameSmithEngine/SerializeableFiles/ResourceAssets/MeshFiles/ObjMeshAsset.h"
 #include "GameSmithEngine/SerializeableFiles/ResourceAssets/GameChunkAsset.h"
 
 // -----------Content Library Management---------

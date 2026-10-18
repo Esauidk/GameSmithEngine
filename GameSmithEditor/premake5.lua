@@ -39,7 +39,7 @@ project "GameSmithEditor"
 		}
 
 		postbuildcommands{
-			("cmd /c robocopy %[%{wks.location}/GameSmithEditor/Icons] %[%{wks.location}/bin/" .. outputdir .. "/GameSmithEditor/Icons] /E ^& if %ERRORLEVEL% LSS 2 exit /b 0 ^& exit /b %ERRORLEVEL%"),
+			("cmd /c robocopy %[%{wks.location}/GameSmithEditor/EditorResources] %[%{wks.location}/bin/" .. outputdir .. "/GameSmithEditor/EditorResources] /E ^& if %ERRORLEVEL% LSS 2 exit /b 0 ^& exit /b %ERRORLEVEL%"),
 			("cmd /c robocopy %[%{wks.location}/GameSmithEditor/ProjectPresets] %[%{wks.location}/bin/" .. outputdir .. "/GameSmithEditor/ProjectPresets] /E ^& if %ERRORLEVEL% LSS 2 exit /b 0 ^& exit /b %ERRORLEVEL%")
 		}
 
@@ -48,7 +48,7 @@ project "GameSmithEditor"
 		}
 
 	filter "configurations:Debug"
-		defines "GE_DEBUG"
+		defines {"GE_DEBUG", "GE_EDITOR_DEBUG"}
 		runtime "Debug"
 		symbols "on"
 

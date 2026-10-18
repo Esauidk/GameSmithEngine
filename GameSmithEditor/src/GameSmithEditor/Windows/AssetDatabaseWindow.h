@@ -17,6 +17,7 @@ namespace GameSmithEditor {
 		static int s_Count;
 		std::filesystem::path m_CurrentPath;
 		std::string m_SelectedAsset = "";
+		std::string m_SelectedDirectory = "";
 		bool m_Open = true;
 
 		std::unordered_map<std::string, std::string> m_RegisteredAssets;

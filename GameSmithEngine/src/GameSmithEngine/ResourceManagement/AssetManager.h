@@ -189,6 +189,7 @@ namespace GameSmith {
 		/// <param name="path"> The file system source to import the resource from </param>
 		/// <returns> The ID associated with the imported resource </returns>
 		ID ImportResource(const std::string& path);
+		ID ImportResource(const std::string& path, const std::string& databaseLabel);
 		/// <summary>
 		/// Looks up the ID associated with the requested resource
 		/// </summary>
@@ -215,7 +216,10 @@ namespace GameSmith {
 		/// Sets the asset directory path used by the asset management system
 		/// </summary>
 		/// <param name="dir"> The directory path to use for locating assets </param>
-		void SetAssetDirectory(const std::string& dir) { m_AssetDirectory = dir; }
+		void AddAssetDirectory(const std::string& label, const std::string& dir) { m_AssetDirectories[label] = dir; }
+		void SetMainAssetDirectory(const std::string& label) { m_MainAssetDirLabel = m_AssetDirectories[label]; }
+
+		const std::map<std::string, std::string>& GetAssetDirectories() const { return m_AssetDirectories; }
 	private:
 		AssetManager();
 	private:
@@ -224,7 +228,9 @@ namespace GameSmith {
 		Scope<ResourceMaps> m_ResourceMaps;
 		Ref<ResourceLoader> m_Loader;
 
-		std::string m_AssetDirectory;
+		std::map<std::string, std::string> m_AssetDirectories;
+		std::string m_MainAssetDirLabel;
+
 	};
 };
 

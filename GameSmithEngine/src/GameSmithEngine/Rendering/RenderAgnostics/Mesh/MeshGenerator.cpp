@@ -38,22 +38,22 @@ namespace GameSmith {
 			if (vertexCounts[triangle.v1] > 1) {
 				unsigned int newIndex = verticies.size();
 				verticies.push_back(verticies[triangle.v1]);
-				triangle.v1 = newIndex;
 				vertexCounts[triangle.v1]--;
+				triangle.v1 = newIndex;
 			}
 
 			if (vertexCounts[triangle.v2] > 1) {
 				unsigned int newIndex = verticies.size();
 				verticies.push_back(verticies[triangle.v2]);
-				triangle.v2 = newIndex;
 				vertexCounts[triangle.v2]--;
+				triangle.v2 = newIndex;
 			}
 
 			if (vertexCounts[triangle.v3] > 1) {
 				unsigned int newIndex = verticies.size();
 				verticies.push_back(verticies[triangle.v3]);
-				triangle.v3 = newIndex;
 				vertexCounts[triangle.v3]--;
+				triangle.v3 = newIndex;
 			}
 		}
 	};
@@ -91,7 +91,7 @@ namespace GameSmith {
 		TriangleIndex t3 = { 4, 3, 0 };
 		triangles.push_back(t3);
 		// Triangle 4
-		TriangleIndex t4 = { 7, 3, 5 };
+		TriangleIndex t4 = { 7, 3, 4 };
 		triangles.push_back(t4);
 
 		// Face 3

@@ -49,10 +49,10 @@ namespace GameSmith {
 		m_Transform->Serialize(writer.GetCurPtr(), writer.GetRemainingSpace());
 		writer.MoveCurPtr(m_Transform->RequiredSpace());
 
-		writer.WriteString(GetName());
+		writer.WriteStringNullTerm(GetName());
 
 		for (auto comp : m_Components) {
-			writer.WriteString(comp->GetName());
+			writer.WriteStringNullTerm(comp->GetName());
 			idData data = comp->GetID().getData();
 			writer.WriteClass<idData>(&data);
 			comp->Serialize(writer.GetCurPtr(), writer.GetRemainingSpace());
@@ -77,10 +77,10 @@ namespace GameSmith {
 		m_Transform->Serialize(writer.GetCurPtr(), writer.GetRemainingSpace());
 		writer.MoveCurPtr(m_Transform->RequiredSpace());
 
-		writer.WriteString(GetName());
+		writer.WriteStringNullTerm(GetName());
 
 		for (auto comp : m_Components) {
-			writer.WriteString(comp->GetName());
+			writer.WriteStringNullTerm(comp->GetName());
 			idData data = comp->GetID().getData();
 			writer.WriteClass<idData>(&data);
 			comp->Serialize(writer.GetCurPtr(), writer.GetRemainingSpace());

@@ -37,11 +37,24 @@ namespace GameSmith {
 	{
 	}
 
-	void BinaryStreamWriter::WriteString(std::string str)
+	void BinaryStreamWriter::WriteStringNullTerm(std::string str)
 	{
 		size_t length = str.length() + 1;
 		memcpy(m_CurPtr, str.c_str(), length);
 		m_CurPtr += length;
+	}
+
+	void BinaryStreamWriter::WriteString(std::string str)
+	{
+		size_t length = str.length();
+		memcpy(m_CurPtr, str.c_str(), length);
+		m_CurPtr += length;
+	}
+
+	void BinaryStreamWriter::WriteChar(char c)
+	{
+		*m_CurPtr = c;
+		m_CurPtr++;
 	}
 
 	void BinaryStreamWriter::WriteUInt(unsigned int i)

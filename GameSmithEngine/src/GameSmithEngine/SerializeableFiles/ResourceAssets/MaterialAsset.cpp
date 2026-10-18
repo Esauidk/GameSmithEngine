@@ -34,7 +34,7 @@ namespace GameSmith {
 		// Parameters
 		for (const auto& parm : m_ParameterKeys) {
 			const auto& entry = m_Parameters.find(parm)->second;
-			writer.WriteString(parm);
+			writer.WriteStringNullTerm(parm);
 			auto type = entry->GetType();
 			writer.WriteClass<ContainerDataType>(&type);
 			writer.WriteByte(entry->GetCharData(), entry->GetSize());
@@ -43,7 +43,7 @@ namespace GameSmith {
 
 		for (const auto& texture : m_TextureKeys) {
 			const auto& entry = m_Textures.find(texture)->second;
-			writer.WriteString(texture);
+			writer.WriteStringNullTerm(texture);
 			idData texID = entry->asset->GetID().getData();
 			writer.WriteClass<idData>(&texID);
 		}

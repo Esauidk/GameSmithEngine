@@ -41,7 +41,9 @@ namespace GameSmith {
 	public:
 		BinaryStreamWriter(unsigned int byteSize);
 		BinaryStreamWriter(char* ptr, unsigned int bufferSize);
+		void WriteStringNullTerm(std::string str);
 		void WriteString(std::string str);
+		void WriteChar(char c);
 		void WriteUInt(unsigned int i);
 
 		template <typename T>

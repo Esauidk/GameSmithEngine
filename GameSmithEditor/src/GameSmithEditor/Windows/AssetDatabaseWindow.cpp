@@ -7,7 +7,7 @@
 #include "GameSmithEditor/Windows/PrivateWindows/AssetInspector.h"
 #include "imgui.h"
 
-using recursive_directory_iterator = std::filesystem::recursive_directory_iterator;
+using directory_iterator = std::filesystem::directory_iterator;
 
 namespace GameSmithEditor {
 	REGISTER_WINDOW_DEFAULT_CALLBACK(Windows_AssetDatabase, AssetDatabaseWindow);
@@ -41,7 +41,7 @@ namespace GameSmithEditor {
 
 	void AssetDatabaseWindow::OnImGuiRender()
 	{
-		if (ImGui::Begin("Asset Database", &m_Open)) {
+		if (ImGui::Begin("Asset Database", &m_Open, ImGuiWindowFlags_MenuBar)) {
 			static float padding = 16.0f;
 			static float thumbailSize = 256;
 			float cellSize = thumbailSize + padding;
@@ -51,19 +51,34 @@ namespace GameSmithEditor {
 			if (columnCount < 1) {
 				columnCount = 1;
 			}
+			
+			auto assetManager = GameSmith::AssetManager::GetInstance();
+			const auto& resourceRegistry = assetManager->GetAssetDirectories();
 
-			if (GameProject::IsLoaded()) {
-				if (m_CurrentPath == "") {
-					m_CurrentPath = std::filesystem::path(GameProject::GetAssetFolder());
+			bool directoryChanged = false;
+			if (ImGui::BeginMenuBar()) {
+				for (const auto& [key, value] : resourceRegistry) {
+					if (ImGui::MenuItem(key.c_str(), nullptr, !key.compare(m_SelectedDirectory))) {
+						m_SelectedDirectory = key;
+						directoryChanged = true;
+					}
+				}
+				ImGui::EndMenuBar();
+			}
+
+			if (resourceRegistry.contains(m_SelectedDirectory)) {
+				auto rootPath = std::filesystem::path(resourceRegistry.at(m_SelectedDirectory));
+				if (directoryChanged) {
+					m_CurrentPath = rootPath;
 				}
 
-				if (m_CurrentPath != std::filesystem::path(GameProject::GetAssetFolder())) {
+				if (m_CurrentPath != rootPath) {
 					if (ImGui::Button("Back")) {
 						m_CurrentPath = m_CurrentPath.parent_path();
 					}
 				}
 
-				ImGui::Text(m_CurrentPath.filename().string().c_str());
+				ImGui::SameLine();
 
 				if (ImGui::Button("+")) {
 					ImGui::OpenPopup("AssetDatabaseModMenu");
@@ -73,10 +88,9 @@ namespace GameSmithEditor {
 					if (ImGui::Button("ImportAsset")) {
 						std::string filePath;
 						FileSearchCriteria criteria;
-						criteria.filePath = GameProject::GetAssetFolder();
+						criteria.filePath = resourceRegistry.at(m_SelectedDirectory);
 						if (PickFileDialog(criteria, &filePath)) {
-							auto resourceManager = GameSmith::AssetManager::GetInstance();
-							resourceManager->ImportResource(filePath);
+							assetManager->ImportResource(filePath, m_SelectedDirectory);
 						}
 						
 					}
@@ -89,11 +103,10 @@ namespace GameSmithEditor {
 						for (const auto& entry : m_RegisteredAssets) {
 							const std::string menuLabel = std::format("{1} ({0})", entry.first, entry.second);
 							if (ImGui::MenuItem(menuLabel.c_str())) {
-								auto manager = GameSmith::AssetManager::GetInstance();
 
 								const std::string fileName = std::format("New {1}{0}", entry.first, entry.second);
 								const std::string path = m_CurrentPath.string();
-								manager->CreateResource(fileName, path);
+								assetManager->CreateResource(fileName, path);
 							}
 						}
 						ImGui::EndPopup();
@@ -111,7 +124,7 @@ namespace GameSmithEditor {
 					ImGuiStyle& style = ImGui::GetStyle();
 					auto oldFramePadding = style.FramePadding;
 					style.FramePadding = { 0,0 };
-					for (const auto& dirEntry : recursive_directory_iterator(m_CurrentPath)) {
+					for (const auto& dirEntry : directory_iterator(m_CurrentPath)) {
 						std::string fileName = dirEntry.path().filename().string();
 						if (fileName.ends_with(".meta")) {
 							continue;
@@ -122,7 +135,12 @@ namespace GameSmithEditor {
 						IconManager* iconManager = IconManager::GetInstance();
 						ImTextureID image;
 						if (isDir) {
-							void* spot = iconManager->GetImGuiIcon("folder")->gpuSpot;
+							const GameSmith::ImGuiTextureSpace* icon = iconManager->GetImGuiIcon("folder");
+							if (icon == nullptr) {
+								GE_APP_ERROR("No folder icon found in the icon manager, skipping rendering...");
+								continue;
+							}
+							void* spot = icon->gpuSpot;
 							image = reinterpret_cast<ImTextureID>(spot);
 						}
 						else {
@@ -132,6 +150,10 @@ namespace GameSmithEditor {
 							auto filePtr = iconManager->GetImGuiIcon(fileExtention);
 							if (filePtr == nullptr) {
 								filePtr = iconManager->GetImGuiIcon("file");
+								if (filePtr == nullptr) {
+									GE_APP_ERROR("No file icon found in the icon manager, skipping rendering...");
+									continue;
+								}
 							}
 
 							image = reinterpret_cast<ImTextureID>(filePtr->gpuSpot);
@@ -150,9 +172,8 @@ namespace GameSmithEditor {
 									m_SelectedAsset = "";
 								}
 								else {
-									GameSmith::AssetManager* rManager = GameSmith::AssetManager::GetInstance();
-									auto id = rManager->GetAssetID(path);
-									auto asset = rManager->GetResource(id);
+									auto id = assetManager->GetAssetID(path);
+									auto asset = assetManager->GetResource(id);
 									auto inspector = new AssetInspector(asset);
 									EditorCoreLayer::GetInstance()->AppendEditorWindow(inspector);
 								}
@@ -160,8 +181,7 @@ namespace GameSmithEditor {
 						}
 
 						if (ImGui::BeginDragDropSource(ImGuiDragDropFlags_None)) {
-							GameSmith::AssetManager* rManager = GameSmith::AssetManager::GetInstance();
-							auto id = rManager->GetAssetID(path);
+							auto id = assetManager->GetAssetID(path);
 							ImGui::SetDragDropPayload(IMGUI_PAYLOAD_TYPE_ASSET_REF, &id, sizeof(GameSmith::ID));
 							ImGui::EndDragDropSource();
 						}

@@ -137,20 +137,20 @@ namespace GameSmith {
 		writer.WriteClass<RegistrySerializeMetadata>(&meta);
 
 		for (auto& entry : m_ValueRegistry) {
-			writer.WriteString(entry.first);
+			writer.WriteStringNullTerm(entry.first);
 			writer.WriteClass<ContainerDataType>(&(entry.second.variableDataType));
 			writer.WriteByte((char*)entry.second.originalVariableRef, GetParameterSize(entry.second.variableDataType));
 		}
 
 		for (auto& entry : m_ConnectionsRegistry) {
-			writer.WriteString(entry.first);
+			writer.WriteStringNullTerm(entry.first);
 			idData rawId = entry.second.objectID.getData();
 			writer.WriteClass<idData>(&rawId);
 			writer.WriteUInt(entry.second.flag);
 		}
 
 		for (auto& entry : m_AssetRegistry) {
-			writer.WriteString(entry.first);
+			writer.WriteStringNullTerm(entry.first);
 			idData rawId = entry.second.objectID.getData();
 			writer.WriteClass<idData>(&rawId);
 			writer.WriteUInt(entry.second.flag);

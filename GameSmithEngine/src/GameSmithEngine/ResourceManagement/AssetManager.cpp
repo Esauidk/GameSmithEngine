@@ -23,7 +23,7 @@ namespace GameSmith {
 		}
 	}
 
-	AssetManager::AssetManager() : m_ResourceMaps(new ResourceMaps()), m_Loader(nullptr), m_AssetDirectory(fs::current_path().string())
+	AssetManager::AssetManager() : m_ResourceMaps(new ResourceMaps()), m_Loader(nullptr)
 	{
 		if (s_Instance == nullptr) {
 			s_Instance = this;
@@ -61,7 +61,7 @@ namespace GameSmith {
 		GE_CORE_ASSERT(metaFile.is_open(), std::format("Asset file {0} cannot be opened", destDir));
 
 		const auto serial = resource->Serialize();
-		const auto id = resource->GetID();
+		const auto& id = resource->GetID();
 
 		pFile.seekg(0, pFile.beg);
 		unsigned int size = resource->RequiredSpace();
@@ -107,11 +107,19 @@ namespace GameSmith {
 
 	ID AssetManager::ImportResource(const std::string& path)
 	{
+		return ImportResource(path, m_MainAssetDirLabel);
+	}
+
+	ID AssetManager::ImportResource(const std::string& path, const std::string& databaseLabel)
+	{
+		GE_CORE_ASSERT(m_AssetDirectories.contains(databaseLabel), std::format("No asset database with label {0} exists", databaseLabel));
 		const fs::path filePath(path);
 		const std::string fileNameWithExt = filePath.filename().string();
 		const std::string ext = filePath.extension().string();
 		const std::string fileName = filePath.filename().stem().string();
-		std::string destPath = std::format("{0}\\{1}", m_AssetDirectory, fileNameWithExt);
+
+		const std::string& assetDir = m_AssetDirectories[databaseLabel];
+		std::string destPath = std::format("{0}\\{1}", assetDir, fileNameWithExt);
 		if (!fs::copy_file(filePath.string(), destPath)) {
 			GE_CORE_ERROR("Failed to import resource");
 			return ID();
@@ -133,10 +141,11 @@ namespace GameSmith {
 		m_ResourceMaps->ReverseResourceRegistry.insert({ destPath, meta.ID });
 		if (m_ResourceMaps->ExtensionToFilePaths.contains(ext)) {
 			m_ResourceMaps->ExtensionToFilePaths[ext].push_back(destPath);
-		} else {
+		}
+		else {
 			m_ResourceMaps->ExtensionToFilePaths.insert({ ext, { destPath } });
 		}
-		
+
 
 		return newID;
 	}
@@ -161,34 +170,37 @@ namespace GameSmith {
 
 	void AssetManager::ScanResources()
 	{
-		if (m_AssetDirectory != "") {
-			for (const auto& dirEntry : recursive_directory_iterator(m_AssetDirectory)) {
-				if (dirEntry.is_regular_file()) {
-					const fs::path filePath = dirEntry.path();
-					const std::string fileName = filePath.filename().stem().string();
-					const std::string ext = filePath.extension().string();
-					const std::string path = filePath.string();
+		if (!m_AssetDirectories.empty()) {
+			for (const auto& [key, value] : m_AssetDirectories) {
+				GE_CORE_INFO("Scanning directory: {0}", value);
+				for (const auto& dirEntry : recursive_directory_iterator(value)) {
+					if (dirEntry.is_regular_file()) {
+						const fs::path filePath = dirEntry.path();
+						const std::string fileName = filePath.filename().stem().string();
+						const std::string ext = filePath.extension().string();
+						const std::string path = filePath.string();
 
-					if (std::filesystem::exists(path + META_FILE_EXTENSION)) {
-						unsigned int metaSize;
+						if (std::filesystem::exists(path + META_FILE_EXTENSION)) {
+							unsigned int metaSize;
 
-						char* meta = m_Loader->LoadResource(path + META_FILE_EXTENSION, &metaSize);
-						const ResourceFileMetadata* metaPtr = (ResourceFileMetadata*)meta;
-						const ID metaId(metaPtr->ID);
+							char* meta = m_Loader->LoadResource(path + META_FILE_EXTENSION, &metaSize);
+							const ResourceFileMetadata* metaPtr = (ResourceFileMetadata*)meta;
+							const ID metaId(metaPtr->ID);
 
-						if (!m_ResourceMaps->ResourceRegistry.contains(metaId)) {
-							m_ResourceMaps->ResourceRegistry.insert({ metaId, path });
-							m_ResourceMaps->ReverseResourceRegistry.insert({ path, metaId });
+							if (!m_ResourceMaps->ResourceRegistry.contains(metaId)) {
+								m_ResourceMaps->ResourceRegistry.insert({ metaId, path });
+								m_ResourceMaps->ReverseResourceRegistry.insert({ path, metaId });
 
-							if (m_ResourceMaps->ExtensionToFilePaths.contains(ext)) {
-								m_ResourceMaps->ExtensionToFilePaths[ext].push_back(path);
+								if (m_ResourceMaps->ExtensionToFilePaths.contains(ext)) {
+									m_ResourceMaps->ExtensionToFilePaths[ext].push_back(path);
+								}
+								else {
+									m_ResourceMaps->ExtensionToFilePaths.insert({ ext, { path } });
+								}
 							}
-							else {
-								m_ResourceMaps->ExtensionToFilePaths.insert({ ext, { path } });
-							}
+
+							m_Loader->CleanResource(meta);
 						}
-
-						m_Loader->CleanResource(meta);
 					}
 				}
 			}

@@ -63,7 +63,7 @@ namespace GameSmithEditor {
 
 		// Create the file open dialog
 		bool res = FAILED(CoCreateInstance(CLSID_FileOpenDialog, NULL, CLSCTX_INPROC_SERVER, IID_PPV_ARGS(&pFileDialog)));
-		GE_APP_ASSERT(!res, "Failed to create folder selection dialog box");
+		GE_APP_ASSERT(!res, "Failed to create file selection dialog box");
 
 		
 		pFileDialog->SetOptions(FOS_STRICTFILETYPES);

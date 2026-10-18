@@ -55,9 +55,6 @@
     <Filter Include="GameSmithEngineTest\ResourceManagement">
       <UniqueIdentifier>{CEF98A8A-BA4B-627A-A36A-9F8A8F5B7B63}</UniqueIdentifier>
     </Filter>
-    <Filter Include="GameSmithEngineTest\SerializeableFiles">
-      <UniqueIdentifier>{98979AC7-84E9-71B7-6D08-AFC759F98AA0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="GameSmithEngineTest\Utilities">
       <UniqueIdentifier>{C532292E-314B-1058-FAF7-9FF166CFA4F1}</UniqueIdentifier>
     </Filter>
@@ -149,6 +146,9 @@
     <ClCompile Include="tst\GameSmithEngineTest\Utilities\ExposedVariableRegistryTest.cpp">
       <Filter>GameSmithEngineTest\Utilities</Filter>
     </ClCompile>
+    <ClCompile Include="tst\GameSmithEngineTest\Utilities\FactoryTest.cpp">
+      <Filter>GameSmithEngineTest\Utilities</Filter>
+    </ClCompile>
     <ClCompile Include="tst\GameSmithEngineTest\Utilities\GUIDGeneratorTest.cpp">
       <Filter>GameSmithEngineTest\Utilities</Filter>
     </ClCompile>
@@ -168,6 +168,5 @@
       <Filter>GameSmithEngineTest\Utilities</Filter>
     </ClCompile>
     <ClCompile Include="tst\TestEntry.cpp" />
-    <ClCompile Include="tst\GameSmithEngineTest\Utilities\FactoryTest.cpp" />
   </ItemGroup>
 </Project>

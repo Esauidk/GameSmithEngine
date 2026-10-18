@@ -25,7 +25,8 @@ namespace GameSmith {
 		}
 
 		if (assetDir != "") {
-			AssetManager::GetInstance()->SetAssetDirectory(assetDir);
+			AssetManager::GetInstance()->AddAssetDirectory("Main", assetDir);
+			AssetManager::GetInstance()->SetMainAssetDirectory("Main");
 		}
 
 		ContentLibraryManager::Init();

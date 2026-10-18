@@ -17,7 +17,7 @@ TEST(BinaryStreamWriterTest, WriteUInt) {
 TEST(BinaryStreamWriterTest, WriteString) {
 	std::string input = "hello";
 	GameSmith::BinaryStreamWriter writer(128);
-	writer.WriteString(input);
+	writer.WriteStringNullTerm(input);
 	EXPECT_STREQ(writer.GetBuffer().get(), input.c_str());
 }
 
@@ -126,7 +126,7 @@ TEST(BinaryStreamRoundTripTest, WriteThenReadUInt) {
 
 TEST(BinaryStreamRoundTripTest, WriteThenReadString) {
 	GameSmith::BinaryStreamWriter writer(64);
-	writer.WriteString("GameSmith");
+	writer.WriteStringNullTerm("GameSmith");
 	
 	char* buf = writer.GetBuffer().get();
 	GameSmith::BinaryStreamReader reader(buf, writer.GetBufferSize());
@@ -151,7 +151,7 @@ TEST(BinaryStreamRoundTripTest, WriteThenReadClass) {
 TEST(BinaryStreamRoundTripTest, WriteThenReadMultipleTypes) {
 	GameSmith::BinaryStreamWriter writer(128);
 	writer.WriteUInt(1);
-	writer.WriteString("test");
+	writer.WriteStringNullTerm("test");
 	writer.WriteUInt(2);
 	
 	char* buf = writer.GetBuffer().get();

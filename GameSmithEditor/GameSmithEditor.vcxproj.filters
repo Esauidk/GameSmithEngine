@@ -19,6 +19,9 @@
     <Filter Include="Windows">
       <UniqueIdentifier>{5032B729-BC11-36C5-C529-C19B31889C26}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Windows\Debug">
+      <UniqueIdentifier>{C6B8B1B7-3279-2DEE-FBB3-766B673372CA}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Windows\EditorView">
       <UniqueIdentifier>{41FDAB04-2DE1-6C5A-9641-67AD824457DC}</UniqueIdentifier>
     </Filter>
@@ -30,6 +33,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\GameSmithEditor\Core\CoreMacros.h">
+      <Filter>Core</Filter>
+    </ClInclude>
     <ClInclude Include="src\GameSmithEditor\Core\EditorCoreLayer.h">
       <Filter>Core</Filter>
     </ClInclude>
@@ -68,6 +74,9 @@
     </ClInclude>
     <ClInclude Include="src\GameSmithEditor\Windows\ContentView.h">
       <Filter>Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="src\GameSmithEditor\Windows\Debug\PrimitiveCreatorWindow.h">
+      <Filter>Windows\Debug</Filter>
     </ClInclude>
     <ClInclude Include="src\GameSmithEditor\Windows\EditorView.h">
       <Filter>Windows</Filter>
@@ -142,6 +151,9 @@
     </ClCompile>
     <ClCompile Include="src\GameSmithEditor\Windows\ContentView.cpp">
       <Filter>Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="src\GameSmithEditor\Windows\Debug\PrimitiveCreatorWindow.cpp">
+      <Filter>Windows\Debug</Filter>
     </ClCompile>
     <ClCompile Include="src\GameSmithEditor\Windows\EditorView.cpp">
       <Filter>Windows</Filter>
