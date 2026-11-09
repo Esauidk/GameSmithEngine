@@ -142,7 +142,6 @@ namespace GameSmith {
 
 	void WorkerThreadFunction()
 	{
-		GE_CORE_INFO("Starting Job Worker Thread");
 		// Convert this worker thread into a fiber and save information about it in thread storage
 		g_WorkerFiber = JobFiber::ConvertThreadToJobFiber();
 
@@ -174,8 +173,6 @@ namespace GameSmith {
 				// Mark that we no longer have a job on this thread
 				g_CurJob = Job{};
 			}
-
-			GE_CORE_INFO("Finished processing a job");
 		}
 	}
 

@@ -104,38 +104,49 @@ namespace GameSmith {
 
 		// Face 4
 		// Triangle 7
-		TriangleIndex t7 = { 5, 2, 1 };
+		TriangleIndex t7 = { 1, 6, 5 };
 		triangles.push_back(t7);
 		//Triangle 8
-		TriangleIndex t8 = { 6, 2, 5 };
+		TriangleIndex t8 = { 2, 6, 1 };
 		triangles.push_back(t8);
 
 		// Face 5
 		// Triangle 9
-		TriangleIndex t9 = { 2, 7, 3 };
+		TriangleIndex t9 = { 3, 6, 2 };
 		triangles.push_back(t9);
 		// Triangle 10
-		TriangleIndex t10 = { 6, 7, 2 };
+		TriangleIndex t10 = { 7, 6, 3 };
 		triangles.push_back(t10);
 
 		// Face 6
 		// Triangle 11
-		TriangleIndex t11 = { 1, 4, 0 };
+		TriangleIndex t11 = { 4, 1, 5 };
 		triangles.push_back(t11);
 		// Trangle 12
-		TriangleIndex t12 = { 5, 4, 1 };
+		TriangleIndex t12 = { 0, 1, 4 };
 		triangles.push_back(t12);
 
 		RemoveSharedVerticies(triangles, verticies);
 
 		// UVs
 		for (size_t i = 0; i < triangles.size(); i+=2) {
-			verticies[triangles[i].v1].uv = glm::vec2(0.0f, 0.0f);
-			verticies[triangles[i].v2].uv = glm::vec2(1.0f, 1.0f);
-			verticies[triangles[i].v3].uv = glm::vec2(1.0f, 0.0f);
-			verticies[triangles[i+1].v1].uv = glm::vec2(0.0f, 1.0f);
-			verticies[triangles[i+1].v2].uv = glm::vec2(1.0f, 1.0f);
-			verticies[triangles[i+1].v3].uv = glm::vec2(0.0f, 0.0f);
+			if (i >= 10) {
+				verticies[triangles[i].v1].uv = glm::vec2(0.0f, 1.0f);
+				verticies[triangles[i].v2].uv = glm::vec2(1.0f, 0.0f);
+				verticies[triangles[i].v3].uv = glm::vec2(1.0f, 1.0f);
+				verticies[triangles[i + 1].v1].uv = glm::vec2(0.0f, 0.0f);
+				verticies[triangles[i + 1].v2].uv = glm::vec2(1.0f, 0.0f);
+				verticies[triangles[i + 1].v3].uv = glm::vec2(0.0f, 1.0f);
+			}
+			else {
+				verticies[triangles[i].v1].uv = glm::vec2(0.0f, 0.0f);
+				verticies[triangles[i].v2].uv = glm::vec2(1.0f, 1.0f);
+				verticies[triangles[i].v3].uv = glm::vec2(1.0f, 0.0f);
+				verticies[triangles[i + 1].v1].uv = glm::vec2(0.0f, 1.0f);
+				verticies[triangles[i + 1].v2].uv = glm::vec2(1.0f, 1.0f);
+				verticies[triangles[i + 1].v3].uv = glm::vec2(0.0f, 0.0f);
+			}
+			
 		}
 		
 		std::vector<unsigned int> indicies;
